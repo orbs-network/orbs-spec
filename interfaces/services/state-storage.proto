@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service StateStorage {
+  rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+}
+
+message ReadKeysInput {
+  bytes contractAddress = 1;
+  repeated string keys = 2;
+}
+
+message ReadKeysOutput {
+  map<string,string> values = 1;
+}

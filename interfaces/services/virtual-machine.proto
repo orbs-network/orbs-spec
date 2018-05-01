@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "primitives/transactions.proto";
+import "primitives/blocks.proto";
+import "call-contract.proto";
+
+service VirtualMachine {
+  rpc CallContract (CallContractInput) returns (CallContractOutput);
+  rpc ProcessTransactionSet(ProcessTransactionSetInput) returns (ProcessTransactionSetOutput);
+}
+
+message ProcessTransactionSetInput {
+  repeated TransactionEntry orderedTransactions = 1;
+}
+
+message ProcessTransactionSetOutput {
+  repeated TransactionReceipt transactionReceipts = 1;
+  repeated ModifiedStateKey stateDiff = 2;
+}

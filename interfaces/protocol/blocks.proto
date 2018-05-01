@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "transactions.proto";
+
+message BlockHeader {
+  uint32 version = 1;
+  bytes prevBlockHash = 2;
+  uint32 height = 3;
+}
+
+message BlockBody {
+  repeated Transaction transactions = 1;
+  repeated TransactionReceipt transactionReceipts = 2;
+  repeated ModifiedStateKey stateDiff = 3;
+}
+
+message ModifiedStateKey {
+  bytes contractAddress = 1;
+  string key = 2;
+  string value = 3;
+}
+
+message Block {
+  BlockHeader header = 1;
+  BlockBody body = 2;
+}

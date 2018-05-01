@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service SubscriptionManager {
+  rpc GetSubscriptionStatus (GetSubscriptionStatusInput) returns (GetSubscriptionStatusOutput);
+}
+
+message GetSubscriptionStatusInput {
+  string subscriptionKey = 1;
+}
+
+message GetSubscriptionStatusOutput {
+  bool active = 1;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "primitives/blocks.proto";
+import "primitives/gossip-listener.proto";
+
+service Consensus {
+  rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+}
+
+message ConsensusMessage {
+  Block block = 1;
+}
+

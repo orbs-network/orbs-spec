@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "primitives/transactions.proto";
+import "primitives/gossip-listener.proto";
+
+service TransactionPool {
+  rpc AddNewPendingTransaction (AddNewPendingTransactionInput) returns (AddNewPendingTransactionOutput);
+  rpc GetAllPendingTransactions (GetAllPendingTransactionsInput) returns (GetAllPendingTransactionsOutput);
+  rpc MarkCommittedTransactions (MarkCommittedTransactionsInput) returns (MarkCommittedTransactionsOutput);
+  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+}
+
+message NewTransactionBroadcastMessage {
+  Transaction transaction = 1;
+}
+
+message AddNewPendingTransactionInput {
+  Transaction transaction = 1;
+}
+
+message AddNewPendingTransactionOutput {
+  string txid = 1;
+}
+
+message GetAllPendingTransactionsInput {
+}
+
+message GetAllPendingTransactionsOutput {
+  repeated TransactionEntry transactionEntries = 1;
+}
+
+message GetTransactionStatusInput {
+  string txid = 1;
+}
+
+enum TransactionStatus {
+  NOT_FOUND = 0;
+  PENDING = 1;
+  COMMITTED = 2;
+}
+
+message GetTransactionStatusOutput {
+  TransactionStatus status = 1;
+  TransactionReceipt receipt = 2;
+}
+
+message MarkCommittedTransactionsInput {
+  repeated TransactionReceipt transactionReceipts  = 1;
+}
+
+message MarkCommittedTransactionsOutput {
+}

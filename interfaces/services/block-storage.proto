@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import "primitives/transactions.proto";
+import "primitives/gossip-listener.proto";
+import "primitives/blocks.proto";
+
+service BlockStorage {
+  rpc AddBlock (AddBlockInput) returns (AddBlockOutput);
+  rpc GetBlocks (GetBlocksInput) returns (GetBlocksOutput);
+  rpc GetLastBlock (GetLastBlockInput) returns (GetLastBlockOutput);
+  rpc HasNewBlocks (HasNewBlocksInput) returns (HasNewBlocksOutput);
+  rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+}
+
+message AddBlockInput {
+  Block block = 1;
+}
+
+message AddBlockOutput {
+}
+
+message GetBlocksInput {
+  uint32 lastBlockHeight = 1;
+}
+
+message GetBlocksOutput {
+  repeated Block blocks = 1;
+}
+
+message GetLastBlockInput {
+}
+
+message GetLastBlockOutput {
+  Block block = 1;
+}
+
+message HasNewBlocksInput {
+  uint32 blockHeight = 1;
+}
+
+message HasNewBlocksOutput {
+  bool hasNewBlocks = 1;
+}

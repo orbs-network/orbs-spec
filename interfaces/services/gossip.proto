@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "primitives/transactions.proto";
+
+service Gossip {
+  rpc BroadcastMessage (BroadcastMessageInput) returns (BroadcastMessageOutput);
+  rpc UnicastMessage (UnicastMessageInput) returns (UnicastMessageOutput);
+}
+
+message BroadcastMessageInput {
+  string broadcastGroup = 1;
+  string messageType = 2;
+  bytes buffer = 3;
+  bool immediate = 4;
+}
+
+message BroadcastMessageOutput {
+  // empty
+}
+
+message UnicastMessageInput {
+  string recipient = 1;
+  string broadcastGroup = 2;
+  string messageType = 3;
+  bytes buffer = 4;
+  bool immediate = 5;
+}
+message UnicastMessageOutput {
+  // empty
+}

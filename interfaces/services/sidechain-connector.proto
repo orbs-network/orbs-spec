@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "primitives/transactions.proto";
+
+service SidechainConnector {
+  rpc CallEthereumContract (CallEthereumContractInput) returns (CallEthereumContractOutput);
+}
+
+message EthereumFunctionParameter {
+  string name = 1;
+  string type = 2;
+}
+
+message EthereumFunctionInterface {
+  string name = 1;
+  repeated EthereumFunctionParameter inputs = 2;
+  repeated EthereumFunctionParameter outputs = 3;
+}
+
+message CallEthereumContractInput {
+  string contractAddress = 1;
+  EthereumFunctionInterface functionInterface = 2;
+  repeated string parameters = 3;
+// string blockNumber = 5;
+}
+
+message CallEthereumContractOutput {
+  string resultJson = 1;
+  string blockNumber = 2;
+  uint32 timestamp = 3;
+}
