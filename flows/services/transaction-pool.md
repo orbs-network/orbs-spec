@@ -2,6 +2,7 @@
 
 Holds pending transactions and remembers committed transactions.
 
+&nbsp;
 ## `Data Structures`
 
 #### Pending transaction pool
@@ -16,8 +17,8 @@ Holds pending transactions and remembers committed transactions.
 * No limit on max size.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 
-
-## `AddNewPendingTransaction` (rpc)
+&nbsp;
+## `AddNewPendingTransaction`
 
 #### Check transaction validity
 * Correct protocol version.
@@ -34,24 +35,25 @@ Holds pending transactions and remembers committed transactions.
 * Add transaction to pending transaction pool if pool is not full.
 * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
 
-
-## `GetAllPendingTransactions` (rpc)
+&nbsp;
+## `GetAllPendingTransactions`
 
 * Return all transaction ids and transactions from pending transaction pool.
 
-
-## `MarkCommittedTransactions` (rpc)
+&nbsp;
+## `MarkCommittedTransactions`
 
 * Add all receipts to committed transaction pool.
 * Delete all the receipts' transactions from the pending transaction pool.
 
-  
-## `GetTransactionStatus` (rpc)
+&nbsp;
+## `GetTransactionStatus`
 
 * If the transaction is in the committed transaction pool return COMMITTED and its receipt.
 * If the transaction is in the pending transaction pool return PENDING.
 
-## `GossipMessageReceived` (rpc)
+&nbsp;
+## `GossipMessageReceived`
 
 ### On "newTransaction" message
 * Make sure transaction isn't in the committed or pending transaction pools.
