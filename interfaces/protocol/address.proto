@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+message Sender {
+    uint32 scheme = 1;
+    oneof content {
+        SenderScheme01 sender_data = 2;
+    }
+}
+
+message SenderScheme01 {
+    uint32 virtual_chain = 1;
+    bytes public_key = 2;
+    bytes signature = 3;
+}
+
+message Address {
+    uint32 scheme = 1;
+    oneof content {
+        AddressScheme01 sender_data = 2;
+    }
+}
+
+message AddressScheme01 {
+    uint32 virtual_chain = 1;
+    uint32 network_id = 2;
+    bytes address_id = 3;
+}
+
