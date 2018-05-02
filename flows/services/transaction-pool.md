@@ -5,15 +5,15 @@ Holds pending transactions and remembers committed transactions.
 ## Data Structures
 
 #### Pending transaction pool
-* Holds transactions until they are added to a block and helps preventing transaction duplication. 
+* Holds transactions until they are added to a block and helps preventing transaction duplication.
 * No need to be persistent.
 * Configurable max size.
 
-## Initialization
+## `Initialization`
 
 * Complete later.
 
-## rpc `AddNewPendingTransaction`
+## `AddNewPendingTransaction` (rpc)
 
 #### Check transaction validity
 * Correct protocol version.
