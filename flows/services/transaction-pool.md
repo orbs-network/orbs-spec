@@ -2,16 +2,20 @@
 
 Holds pending transactions and remembers committed transactions.
 
-## Data Structures
+## `Data Structures`
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
 * No need to be persistent.
 * Configurable max size.
+* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 
-## `Initialization`
+#### Committed transaction pool
+* Holds transactions after they are added to the blockchain to avoid transaction duplication and return their result.
+* No need to be persistent.
+* No limit on max size.
+* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 
-* TODO
 
 ## `AddNewPendingTransaction` (rpc)
 
@@ -30,15 +34,18 @@ Holds pending transactions and remembers committed transactions.
 * Add transaction to pending transaction pool if pool is not full.
 * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
 
+
 ## `GetAllPendingTransactions` (rpc)
 
 * Return all transaction ids and transactions from pending transaction pool.
+
 
 ## `MarkCommittedTransactions` (rpc)
 
 * Add all receipts to committed transaction pool.
 * Delete all the receipts' transactions from the pending transaction pool.
 
+  
 ## `GetTransactionStatus` (rpc)
 
 * If the transaction is in the committed transaction pool return COMMITTED and its receipt.
