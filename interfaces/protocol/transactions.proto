@@ -1,30 +1,35 @@
 syntax = "proto3";
 
+import "./address.proto";
+
 message Transaction {
   TransactionHeader header = 1;
-  string payload = 2;
+  bytes payload = 2;
+}
+
+message TransactionReceipt {
+  bytes tx_id = 1; // not really needed, cam be part of the bloom filter hard coded fileds 
+  uint32 version = 2;
+  TransactionStatus transaction_status = 3;
+  string status_message = 4;
+  ReceiptBloomFilter bloom_filter = 5;
 }
 
 message TransactionHeader {
   uint32 version = 1;
-  bytes sender = 2;
+  Sender sender = 2;
   uint64 timestamp = 3;
-  bytes contractAddress = 4;
+  Address contract_address = 4;
 }
 
-message TransactionReceipt {
-  bytes txHash = 1;
-  bool success = 2; // TODO: This is just a temporary field to distinguish between successful and failed transactions
+enum TransactionStatus {
+  RESERVED = 0;
+  EXECUTED_SUCCESSFULLY = 1;
+  EXECUTED_WITH_SMART_CONTRACT_ERROR = 2;
+  UNEXPECTED_FAILURE = 3; 
 }
 
-message TransactionEntry {
-  bytes txHash = 1;
-  Transaction transaction = 2;
-}
-
-message SendTransactionInput {
-  Transaction transaction = 1;
-}
-
-message SendTransactionOutput {
+message ReceiptBloomFilter {
+  bytes filter = 1;
+  // Events bloom filter: (Hard coded indices: 0 - tx_id, 1 - Sender address, 2 - Smart contract address)
 }

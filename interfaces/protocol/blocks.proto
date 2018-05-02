@@ -1,26 +1,70 @@
 syntax = "proto3";
 
-import "transactions.proto";
+import "./transactions.proto";
 
-message BlockHeader {
+message OrderingBlock {
+  OrderingBlockHeader header = 1;
+  OrderingBlockMetaData meta_data = 2;
+  OrderingBlockBody body = 3;
+  OrderingBlockProof block_proof = 4;
+}
+
+message ValidationBlock {
+  ValidationBlockHeader header = 1;
+  ValidationBlockBody body = 2;
+  ValidationBlockProof block_proof = 3;
+}
+
+message OrderingBlockHeader {
   uint32 version = 1;
-  bytes prevBlockHash = 2;
-  uint32 height = 3;
+  uint32 virtual_chain = 2;
+  uint64 height = 3;
+  bytes prev_block_hash_ptr = 4;
+  uint64 time_stamp = 5;
+  bytes transactions_root_hash = 6;
+  bytes meta_data_hash = 7;
 }
 
-message BlockBody {
+message OrderingBlockMetaData {
+  uint32 version = 1;
+  repeated uint32 nodes_reputaion = 2;
+}
+
+message OrderingBlockBody {
   repeated Transaction transactions = 1;
-  repeated TransactionReceipt transactionReceipts = 2;
-  repeated ModifiedStateKey stateDiff = 3;
 }
 
-message ModifiedStateKey {
-  bytes contractAddress = 1;
-  string key = 2;
-  string value = 3;
+message OrderingBlockProof {
+  repeated bytes block_signature = 1;
 }
 
-message Block {
-  BlockHeader header = 1;
-  BlockBody body = 2;
+message ValidationBlockHeader {
+  uint32 version = 1;
+  uint32 virtual_chain = 2;
+  uint64 height = 3;
+  bytes prev_block_hash_ptr = 4;
+  uint64 time_stamp = 5;
+  bytes receipts_root_hash = 6;
+  bytes state_diff_hash = 7;
+  byets ordering_block_hash_ptr = 8;
+  bytes state_root_hash = 9;
 }
+
+message ValidationBlockBody {
+  repeated TransactionReceipt transaction_receipts = 1;
+  repeated SCStateDiff sc_state_diff = 2;
+}
+
+message ValidationBlockProof {
+  repeated bytes block_signature = 1;
+}
+
+message SCStateDiff {
+  bytes sc_address = 1;
+  repeated StateDiff state_diff = 2;
+}
+message StateDiff {
+  byets key = 1;
+  bytes value = 2;
+}
+
