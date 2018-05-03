@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-import "./transactions.proto";
+import "protocol/primitives.proto";
+import "protocol/address.proto";
+import "protocol/transactions.proto";
 
 message OrderingBlock {
   OrderingBlockHeader header = 1;
@@ -16,18 +18,18 @@ message ValidationBlock {
 }
 
 message OrderingBlockHeader {
-  uint32 version = 1;
-  uint32 virtual_chain = 2;
-  uint64 height = 3;
-  bytes prev_block_hash_ptr = 4;
-  uint64 time_stamp = 5;
-  bytes transactions_root_hash = 6;
-  bytes meta_data_hash = 7;
+  Uint32 version = 1;
+  Uint32 virtual_chain = 2;
+  Uint64 height = 3;
+  SHA256 prev_block_hash_ptr = 4;
+  Uint64 time_stamp = 5;
+  SHA256 transactions_root_hash = 6;
+  SHA256 meta_data_hash = 7;
 }
 
 message OrderingBlockMetaData {
-  uint32 version = 1;
-  repeated uint32 nodes_reputaion = 2;
+  Uint32 version = 1;
+  repeated Uint32 nodes_reputaion = 2;
 }
 
 message OrderingBlockBody {
@@ -35,19 +37,24 @@ message OrderingBlockBody {
 }
 
 message OrderingBlockProof {
-  repeated bytes block_signature = 1;
+  repeated Ed25519Proof block_signature = 1;
+}
+
+message Ed25519Proof {
+  Ed25519PKey public_key = 1;
+  Ed25519Sig signature = 2;
 }
 
 message ValidationBlockHeader {
-  uint32 version = 1;
-  uint32 virtual_chain = 2;
-  uint64 height = 3;
-  bytes prev_block_hash_ptr = 4;
-  uint64 time_stamp = 5;
-  bytes receipts_root_hash = 6;
-  bytes state_diff_hash = 7;
-  byets ordering_block_hash_ptr = 8;
-  bytes state_root_hash = 9;
+  Uint32 version = 1;
+  Uint32 virtual_chain = 2;
+  Uint64 height = 3;
+  SHA256 prev_block_hash_ptr = 4;
+  Uint64 time_stamp = 5;
+  SHA256 receipts_root_hash = 6;
+  SHA256 state_diff_hash = 7;
+  SHA256 ordering_block_hash_ptr = 8;
+  SHA256 state_root_hash = 9;
 }
 
 message ValidationBlockBody {
@@ -56,15 +63,16 @@ message ValidationBlockBody {
 }
 
 message ValidationBlockProof {
-  repeated bytes block_signature = 1;
+  repeated Ed25519Proof block_signature = 1;
 }
 
 message SCStateDiff {
-  bytes sc_address = 1;
+  Address sc_address = 1;
   repeated StateDiff state_diff = 2;
 }
+
 message StateDiff {
-  byets key = 1;
-  bytes value = 2;
+  RIP160SHA256 state_key = 1;
+  Bytes state_value = 2;
 }
 

@@ -1,24 +1,25 @@
 syntax = "proto3";
 
-import "./address.proto";
+import "protocol/primitives.proto";
+import "protocol/address.proto";
 
 message Transaction {
   TransactionHeader header = 1;
-  bytes payload = 2;
+  Bytes payload = 2;
 }
 
 message TransactionReceipt {
-  bytes tx_id = 1; // not really needed, cam be part of the bloom filter hard coded fileds 
-  uint32 version = 2;
+  Uint256 tx_id = 1; // not really needed, cam be part of the bloom filter hard coded fileds 
+  Uint32 version = 2;
   TransactionStatus transaction_status = 3;
-  string status_message = 4;
+  String status_message = 4;
   ReceiptBloomFilter bloom_filter = 5;
 }
 
 message TransactionHeader {
-  uint32 version = 1;
+  Uint32 version = 1;
   Sender sender = 2;
-  uint64 timestamp = 3;
+  Uint64 timestamp = 3;
   Address contract_address = 4;
 }
 
@@ -30,6 +31,6 @@ enum TransactionStatus {
 }
 
 message ReceiptBloomFilter {
-  bytes filter = 1;
+  Bytes filter = 1;
   // Events bloom filter: (Hard coded indices: 0 - tx_id, 1 - Sender address, 2 - Smart contract address)
 }
