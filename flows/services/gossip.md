@@ -21,11 +21,11 @@ Connects different nodes over the network with efficient message broadcast and u
 * Call `Target.GossipMessageReceived` with message content.
 
 &nbsp;
-## `BroadcastMessage` RPC
+## `BroadcastMessage` (rpc)
 
 * Send message to each of the nodes.
 
 &nbsp;
-## `UnicastMessage` RPC
+## `UnicastMessage` (rpc)
 
 * Send message to the specific recipient node.

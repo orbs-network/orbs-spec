@@ -17,7 +17,7 @@ Holds the latest state under consensus, meaning the state variables for all cont
   * When new block found, its state diff is merged into the state.
 
 &nbsp;
-## `ReadKeys` RPC
+## `ReadKeys` (rpc)
 
 #### Make sure state is fully synced
 * Current state block height is equal to block storage latest block (by calling `BlockStorage.GetLastBlock`).

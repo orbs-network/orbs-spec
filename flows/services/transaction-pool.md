@@ -18,7 +18,7 @@ Holds pending transactions and remembers committed transactions.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 
 &nbsp;
-## `AddNewPendingTransaction` RPC
+## `AddNewPendingTransaction` (rpc)
 
 #### Check transaction validity
 * Correct protocol version.
@@ -36,24 +36,24 @@ Holds pending transactions and remembers committed transactions.
 * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
 
 &nbsp;
-## `GetAllPendingTransactions` RPC
+## `GetAllPendingTransactions` (rpc)
 
 * Return all transaction ids and transactions from pending transaction pool.
 
 &nbsp;
-## `MarkCommittedTransactions` RPC
+## `MarkCommittedTransactions` (rpc)
 
 * Add all receipts to committed transaction pool.
 * Delete all the receipts' transactions from the pending transaction pool.
 
 &nbsp;
-## `GetTransactionStatus` RPC
+## `GetTransactionStatus` (rpc)
 
 * If the transaction is in the committed transaction pool return COMMITTED and its receipt.
 * If the transaction is in the pending transaction pool return PENDING.
 
 &nbsp;
-## `GossipMessageReceived` RPC
+## `GossipMessageReceived` (rpc)
 
 ### On "newTransaction" message
 * Make sure transaction isn't in the committed or pending transaction pools.
