@@ -14,6 +14,7 @@ Connects different nodes over the network with efficient message broadcast and u
 * All messages should be signed by nodes and authenticated upon reception.
 * Reconnect to topology peers when disconnected with a configurable polling interval.
 * Call `OnMessageReceived` when a gossip message is received.
+* See inter node message [encoding](../../interfaces/protocol/gossip/json-over-websocket.md).
 
 &nbsp;
 ## `OnMessageReceived` (method)
