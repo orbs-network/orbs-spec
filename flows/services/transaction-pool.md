@@ -18,7 +18,8 @@ Holds pending transactions and remembers committed transactions.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 
 &nbsp;
-## `AddNewPendingTransaction` (rpc)
+## `AddNewPendingTransaction` (method)
+> Add a new transaction from a client to the network
 
 #### Check transaction validity
 * Correct protocol version.
@@ -36,26 +37,29 @@ Holds pending transactions and remembers committed transactions.
 * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
 
 &nbsp;
-## `GetAllPendingTransactions` (rpc)
+## `GetAllPendingTransactions` (method)
+> Return all currently pending transactions
 
 * Return all transaction ids and transactions from pending transaction pool.
 
 &nbsp;
-## `MarkCommittedTransactions` (rpc)
+## `MarkCommittedTransactions` (method)
+> Take a group of transactions that were committed and mark them as so
 
 * Add all receipts to committed transaction pool.
 * Delete all the receipts' transactions from the pending transaction pool.
 
 &nbsp;
-## `GetTransactionStatus` (rpc)
+## `GetTransactionStatus` (method)
+> Return the status of a transaction
 
 * If the transaction is in the committed transaction pool return COMMITTED and its receipt.
 * If the transaction is in the pending transaction pool return PENDING.
 
 &nbsp;
-## `GossipMessageReceived` (rpc)
+## `AddForwardedTransaction` (method)
+> Handle a transaction forwarded by gossip by another node
 
-### On "newTransaction" message
 * Make sure transaction isn't in the committed or pending transaction pools.
 
 #### Check transaction validity
@@ -71,3 +75,10 @@ Holds pending transactions and remembers committed transactions.
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
+
+&nbsp;
+## `GossipMessageReceived` (method)
+> Handle a gossip message from another node
+
+#### On "newTransaction" message
+* Call `AddForwardedTransaction`.

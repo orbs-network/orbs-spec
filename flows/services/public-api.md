@@ -11,7 +11,8 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 * See request and response [encoding](../../interfaces/protocol/public-api.md).
 
 &nbsp;
-## `SendTransaction` (rpc)
+## `SendTransaction` (method)
+> Execute a transaction that changes state (write)
 
 #### Check request validity
 * Correct protocol version.
@@ -20,7 +21,8 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 * Forward call to `TransactionPool.AddNewPendingTransaction`.
 
 &nbsp;
-## `CallContract` (rpc)
+## `CallContract` (method)
+> Run a read only contract that returns data
 
 #### Check request validity
 * todo.
@@ -29,7 +31,8 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 * Forward call to `VirtualMachine.CallContract`.
 
 &nbsp;
-## `GetTransactionStatus` (rpc)
+## `GetTransactionStatus` (method)
+> Check the status of previously sent transaction
 
 #### Check request validity
 * todo.

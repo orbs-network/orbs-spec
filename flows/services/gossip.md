@@ -13,19 +13,23 @@ Connects different nodes over the network with efficient message broadcast and u
 * No special support for retransmission except standard TCP stack.
 * All messages should be signed by nodes and authenticated upon reception.
 * Reconnect to topology peers when disconnected with a configurable polling interval.
+* Call `OnMessageReceived` when a gossip message is received.
 
 &nbsp;
-## `On Message Received`
+## `OnMessageReceived` (method)
+> Called when a gossip message is received from another node
 
 * Identify target service according to the message broadcast group.
 * Call `Target.GossipMessageReceived` with message content.
 
 &nbsp;
-## `BroadcastMessage` (rpc)
+## `BroadcastMessage` (method)
+> Broadcasts a message to all nodes
 
 * Send message to each of the nodes.
 
 &nbsp;
-## `UnicastMessage` (rpc)
+## `UnicastMessage` (method)
+> Sends a message to a single nodes
 
 * Send message to the specific recipient node.
