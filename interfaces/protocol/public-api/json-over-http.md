@@ -25,6 +25,9 @@
 }
 ```
 
+#### Implementation
+* Calls `PublicApi.SendTransaction`.
+
 &nbsp;
 ### `/public/callContract`
 
@@ -43,6 +46,9 @@
 
 }
 ```
+
+#### Implementation
+* Calls `PublicApi.CallContract`.
 
 &nbsp;
 ### `/public/getTransactionStatus`
@@ -63,3 +69,6 @@
   }
 }
 ```
+
+#### Implementation
+* Calls `PublicApi.GetTransactionStatus`.

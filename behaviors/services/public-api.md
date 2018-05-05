@@ -8,7 +8,7 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 #### JSON over HTTP
 * All requests are HTTP POST with JSON body and JSON response.
 * Binary fields such as addresses are encoded with Base58.
-* See request and response [encoding](../../interfaces/protocol/public-api.md).
+* See request and response [encoding](../../interfaces/protocol/public-api/json-over-http.md).
 
 &nbsp;
 ## `SendTransaction` (method)
