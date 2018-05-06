@@ -1,1 +1,3 @@
-# orbs-spec
+# Orbs Core Specification
+
+V1 release
