@@ -1,26 +1,73 @@
 syntax = "proto3";
 
-import "transactions.proto";
+import "protocol/primitives.proto";
+import "protocol/address.proto";
+import "protocol/transactions.proto";
 
-message BlockHeader {
-  uint32 version = 1;
-  bytes prevBlockHash = 2;
-  uint32 height = 3;
+message OrderingBlock {
+  OrderingBlockHeader header = 1;
+  OrderingBlockMetaData meta_data = 2;
+  OrderingBlockBody body = 3;
+  OrderingBlockProof block_proof = 4;
 }
 
-message BlockBody {
+message ValidationBlock {
+  ValidationBlockHeader header = 1;
+  ValidationBlockBody body = 2;
+  ValidationBlockProof block_proof = 3;
+}
+
+message OrderingBlockHeader {
+  Uint32 version = 1;
+  Uint32 virtual_chain = 2;
+  Uint64 height = 3;
+  SHA256 prev_block_hash_ptr = 4;
+  Uint64 time_stamp = 5;
+  SHA256 transactions_root_hash = 6;
+  SHA256 meta_data_hash = 7;
+}
+
+message OrderingBlockMetaData {
+  Uint32 version = 1;
+  repeated Uint32 nodes_reputaion = 2;
+}
+
+message OrderingBlockBody {
   repeated Transaction transactions = 1;
-  repeated TransactionReceipt transactionReceipts = 2;
-  repeated ModifiedStateKey stateDiff = 3;
 }
 
-message ModifiedStateKey {
-  bytes contractAddress = 1;
-  string key = 2;
-  string value = 3;
+message OrderingBlockProof {
+  repeated Ed25519Proof block_signature = 1;
 }
 
-message Block {
-  BlockHeader header = 1;
-  BlockBody body = 2;
+message ValidationBlockHeader {
+  Uint32 version = 1;
+  Uint32 virtual_chain = 2;
+  Uint64 height = 3;
+  SHA256 prev_block_hash_ptr = 4;
+  Uint64 time_stamp = 5;
+  SHA256 receipts_root_hash = 6;
+  SHA256 state_diff_hash = 7;
+  SHA256 ordering_block_hash_ptr = 8;
+  SHA256 state_root_hash = 9;
 }
+
+message ValidationBlockBody {
+  repeated TransactionReceipt transaction_receipts = 1;
+  repeated SCStateDiff sc_state_diff = 2;
+}
+
+message ValidationBlockProof {
+  repeated Ed25519Proof block_signature = 1;
+}
+
+message SCStateDiff {
+  Address sc_address = 1;
+  repeated StateDiff state_diff = 2;
+}
+
+message StateDiff {
+  RIP160SHA256 state_key = 1;
+  Bytes state_value = 2;
+}
+

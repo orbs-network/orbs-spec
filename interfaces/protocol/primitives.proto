@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+message Uint8 {
+    uint32 value = 1;
+}
+
+message Uint16 {
+    uint32 value = 1;
+}
+
+message Uint32 {
+    uint32 value = 1;
+}
+
+message Uint64 {
+    uint64 value = 1;
+}
+
+message Uint128 {
+    bytes value = 1;
+}
+
+message Uint256 {
+    bytes value = 1;
+}
+
+message SHA256 {
+    bytes value = 1;
+}
+
+message SHA3_256 {
+    bytes value = 1;
+}
+
+message Bytes {
+    bytes value = 1;
+}
+
+message String {
+    string value = 1;
+}
+
+message Ed25519Sig { 
+    bytes value = 1; //Fixed size 64B 
+}
+
+message Ed25519PKey {
+    bytes value = 1; //Fixed size 32B
+}
+
+message Ed25519Proof {
+    Ed25519PKey public_key = 1;
+    Ed25519Sig signature = 2;
+}
+
+message RIP160SHA256 {
+    bytes value = 1; //Fixed size 20B
+}
+
+message NodeID {
+    Uint32 node_idx = 1;
+    Ed25519PKey public_key = 2;
+    Ed25519Sig signature = 3;
+}
+

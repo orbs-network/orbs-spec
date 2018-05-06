@@ -1,43 +1,63 @@
 syntax = "proto3";
 
-import "primitives/transactions.proto";
-import "primitives/gossip-listener.proto";
-import "primitives/blocks.proto";
+import "protocol/primitives.proto";
+import "protocol/gossip.proto";
+import "protocol/blocks.proto";
 
 service BlockStorage {
-  rpc AddBlock (AddBlockInput) returns (AddBlockOutput);
-  rpc GetBlocks (GetBlocksInput) returns (GetBlocksOutput);
-  rpc GetLastBlock (GetLastBlockInput) returns (GetLastBlockOutput);
-  rpc HasNewBlocks (HasNewBlocksInput) returns (HasNewBlocksOutput);
-  rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+  rpc CommitOrderingBlock (CommitOrderingBlockInput) returns (CommitOrderingBlockOutput);
+  rpc CommitValidationBlock (CommitValidationBlockInput) returns (CommitValidationBlockOutput);
+  rpc GetOrderingBlockByHeight (GetBlockByHeightInput) returns (GetOrderingBlockOutput);
+  rpc GetValidationBlockByHeight (GetBlockByHeightInput) returns (GetValidationBlockOutput);
+  rpc GetOrderingBlockByID (GetBlockByIDInput) returns (GetOrderingBlockOutput);
+  rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
+  rpc GetTopBlock(GetTopBlockInput) returns (GetTopBlockOutput);
+  rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
 }
 
-message AddBlockInput {
-  Block block = 1;
+message CommitOrderingBlockInput {
+  OrderingBlock ordering_block = 1;
 }
 
-message AddBlockOutput {
+message CommitOrderingBlockOutput {
+ 
 }
 
-message GetBlocksInput {
-  uint32 lastBlockHeight = 1;
+message CommitValidationBlockInput {
+  ValidationBlock validation_block = 1;
 }
 
-message GetBlocksOutput {
-  repeated Block blocks = 1;
+message CommitValidationBlockOutput {
+
 }
 
-message GetLastBlockInput {
+message GetBlockByHeightInput {
+  Uint64 block_heigt = 1;
+  BlockFormat format = 2;
 }
 
-message GetLastBlockOutput {
-  Block block = 1;
+enum BlockFormat {
+  STRUCT = 1;
+  BINARY = 2;
 }
 
-message HasNewBlocksInput {
-  uint32 blockHeight = 1;
+message GetOrderingBlockOutput {
+  OrderingBlock ordering_block = 1;
 }
 
-message HasNewBlocksOutput {
-  bool hasNewBlocks = 1;
+message GetValidationBlockOutput {
+  ValidationBlock validation_block = 1;
+}
+
+message GetBlockByIDInput {
+  SHA256 block_id = 1;
+}
+
+message GetTopBlockInput { 
+  // empty 
+}
+
+message GetTopBlockOutput {
+  Uint64 block_heigt = 1;
+  SHA256 block_id = 1;
 }

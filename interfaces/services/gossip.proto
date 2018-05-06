@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-import "primitives/transactions.proto";
+import "protocol/primitives.proto";
+import "protocol/transactions.proto";
 
 service Gossip {
   rpc BroadcastMessage (BroadcastMessageInput) returns (BroadcastMessageOutput);
@@ -8,10 +9,7 @@ service Gossip {
 }
 
 message BroadcastMessageInput {
-  string broadcastGroup = 1;
-  string messageType = 2;
-  bytes buffer = 3;
-  bool immediate = 4;
+  GossipMessage gossip_message = 1;
 }
 
 message BroadcastMessageOutput {
@@ -19,12 +17,44 @@ message BroadcastMessageOutput {
 }
 
 message UnicastMessageInput {
-  string recipient = 1;
-  string broadcastGroup = 2;
-  string messageType = 3;
-  bytes buffer = 4;
-  bool immediate = 5;
+  GossipMessage gossip_message = 1;
 }
+
 message UnicastMessageOutput {
   // empty
+}
+
+message P2PEnvelope {
+  repeated GossipMessage message = 1;
+  Ed25519Proof signature = 2;
+}
+
+message GossipMessage {
+  Uint32 version = 1;
+  TargetType target_type = 2;
+  String target = 3;
+  Uint32 virtual_chain = 4;
+  MessageGroup message_group = 5;
+  Bytes payload = 6;
+//  uint32 qos = 7;
+}
+
+enum MessageGroup {
+  MANAGEMENT = 0;
+  CONSENSUS = 1;
+  TRANSACTIONS_GOSSIP = 2;
+  NODE_SYNC = 3;
+}
+
+enum TargetType {
+  BROADCAST = 0;
+  UNICAST = 1;
+}
+
+message GossipMessageReceivedInput {
+  GossipMessage gossip_message = 1;
+}
+
+message GossipMessageReceivedOutput {
+// empty
 }
