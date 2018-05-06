@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-message AddressData {
-    uint32 virtual_chain = 1;
-    bytes address_token = 2;
-    bool valid = 3;
-}

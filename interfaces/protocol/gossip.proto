@@ -1,1 +1,11 @@
-// place gossip message format here
+syntax = "proto3";
+
+message GossipListenerInput {
+  string fromAddress = 1;
+  string broadcastGroup = 2; // null for unicast messages
+  string messageType = 3;
+  bytes buffer = 4;
+}
+
+message GossipListenerOutput {
+}

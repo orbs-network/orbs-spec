@@ -41,11 +41,8 @@ enum TransactionStatus {
 }
 
 message GetTransactionStatusOutput {
-  uint32 version = 1;
-  oneof payload {
-    TransactionStatus status = 1;
-    TransactionReceipt receipt = 2;
-  }
+  TransactionStatus status = 1;
+  TransactionReceipt receipt = 2;
 }
 
 message MarkCommittedTransactionsInput {
@@ -53,9 +50,4 @@ message MarkCommittedTransactionsInput {
 }
 
 message MarkCommittedTransactionsOutput {
-}
-
-message TransactionPoolMesssage {
-  TRANSACTIONS_BATCH = 21;
-  TRANSACTION_REQUEST = 22;
 }
