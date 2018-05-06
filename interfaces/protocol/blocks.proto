@@ -40,11 +40,6 @@ message OrderingBlockProof {
   repeated Ed25519Proof block_signature = 1;
 }
 
-message Ed25519Proof {
-  Ed25519PKey public_key = 1;
-  Ed25519Sig signature = 2;
-}
-
 message ValidationBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;
