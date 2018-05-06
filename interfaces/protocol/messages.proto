@@ -54,6 +54,8 @@ message NewView {
   //TBC
 }
 
+// Add .. 
+
 // NodeSync Messages
 message NODE_SYNC {
   Uint32 version = 1;
