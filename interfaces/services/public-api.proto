@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "../protocol/transactions.proto";
+import "../internal/call-contract.proto";
+
+service PublicApi {
+  rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
+  rpc CallContract (CallContractInput) returns (CallContractOutput);
+  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+}
+
+message SendTransactionInput {
+  Transaction transaction = 1;
+}
+
+message SendTransactionOutput {
+  string result = 1;
+}
+
+message GetTransactionStatusInput {
+  string txid = 1;
+}
+
+message GetTransactionStatusOutput {
+  TransactionReceipt receipt = 1;
+}
