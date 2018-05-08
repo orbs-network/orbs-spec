@@ -11,3 +11,17 @@ message GetSubscriptionStatusInput {
 message GetSubscriptionStatusOutput {
   bool active = 1;
 }
+
+message UpdateSubscriptionStatusInput {
+  Uint32 virtual_chain = 1;
+  SubscriptionTier subscription = 2;
+}
+
+message UpdateSubscriptionStatusOutput {
+  //
+}
+
+enum SubscriptionTier {
+  NOT_SUBSCRIBED = 0;
+  SUBSCRIBED = 1;
+}
