@@ -48,11 +48,6 @@ message Ed25519PKey {
     bytes value = 1; //Fixed size 32B
 }
 
-message Ed25519Proof {
-    Ed25519PKey public_key = 1;
-    Ed25519Sig signature = 2;
-}
-
 message RIP160SHA256 {
     bytes value = 1; //Fixed size 20B
 }

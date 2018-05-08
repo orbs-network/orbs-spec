@@ -32,7 +32,7 @@ message CommitValidationBlockOutput {
 }
 
 message GetBlockByHeightInput {
-  Uint64 block_heigt = 1;
+  Uint64 block_height = 1;
   BlockFormat format = 2;
 }
 
@@ -58,6 +58,6 @@ message GetTopBlockInput {
 }
 
 message GetTopBlockOutput {
-  Uint64 block_heigt = 1;
+  Uint64 block_height = 1;
   SHA256 block_id = 1;
 }

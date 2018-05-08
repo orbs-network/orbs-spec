@@ -10,10 +10,13 @@ service VirtualMachine {
 }
 
 message ProcessTransactionSetInput {
-  repeated TransactionEntry orderedTransactions = 1;
+  Uint64 block_height = 1;
+  repeated TransactionEntry orderedTransactions = 2;
 }
 
 message ProcessTransactionSetOutput {
   repeated TransactionReceipt transactionReceipts = 1;
   repeated ModifiedStateKey stateDiff = 2;
+  ValidationBlockBloomFilter bloom_filter = 3;
 }
+

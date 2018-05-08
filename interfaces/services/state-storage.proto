@@ -5,10 +5,11 @@ service StateStorage {
 }
 
 message ReadKeysInput {
-  bytes contractAddress = 1;
-  repeated string keys = 2;
+  Uint64 block_height = 1;
+  Address contract_address = 2;
+  repeated RIP160SHA256 keys = 3;
 }
 
 message ReadKeysOutput {
-  map<string,string> values = 1;
+  map<RIP160SHA253def,Bytes> values = 1;
 }

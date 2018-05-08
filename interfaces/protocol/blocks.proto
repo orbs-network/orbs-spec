@@ -20,7 +20,7 @@ message ValidationBlock {
 message OrderingBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;
-  Uint64 height = 3;
+  Uint64 block_height = 3;
   SHA256 prev_block_hash_ptr = 4;
   Uint64 time_stamp = 5;
   SHA256 transactions_root_hash = 6;
@@ -37,19 +37,33 @@ message OrderingBlockBody {
 }
 
 message OrderingBlockProof {
-  repeated Ed25519Proof block_signature = 1;
+  repeated PBFTBlockProof block_signature = 1;
+}
+
+message PBFTBlockProof {
+  Uint64 view = 1;
+  Uint64 term_number = 2;
+  SHA256 message_digest = 3;
+  Ed25519PKey public_key = 4;
+  Ed25519Sig signature = 5;
 }
 
 message ValidationBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;
-  Uint64 height = 3;
+  Uint64 block_height = 3;
   SHA256 prev_block_hash_ptr = 4;
   Uint64 time_stamp = 5;
   SHA256 receipts_root_hash = 6;
   SHA256 state_diff_hash = 7;
   SHA256 ordering_block_hash_ptr = 8;
-  SHA256 state_root_hash = 9;
+  SHA256 pre_execution_state_root_hash = 9;
+  ValidationBlockBloomFilter bloom_filter = 10;
+}
+
+message ValidationBlockBloomFilter {
+  Bytes filter = 1;
+  // Events bloom filter: (Hard coded indices: 0 - tx_id, 1 - Sender address, 2 - Smart contract address)
 }
 
 message ValidationBlockBody {
@@ -58,11 +72,11 @@ message ValidationBlockBody {
 }
 
 message ValidationBlockProof {
-  repeated Ed25519Proof block_signature = 1;
+  repeated PBFTBlockProof block_signature = 1;
 }
 
 message SCStateDiff {
-  Address sc_address = 1;
+  Address contract_address = 1;
   repeated StateDiff state_diff = 2;
 }
 
