@@ -11,16 +11,12 @@ service TransactionPool {
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
 }
 
-message NewTransactionBroadcastMessage {
-  Transaction transaction = 1;
-}
-
 message AddNewPendingTransactionInput {
   Transaction transaction = 1;
 }
 
 message AddNewPendingTransactionOutput {
-  string txid = 1;
+  Bytes txid = 1;
 }
 
 message GetAllPendingTransactionsInput {

@@ -13,6 +13,8 @@ service BlockStorage {
   rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
   rpc GetTopBlock(GetTopBlockInput) returns (GetTopBlockOutput);
   rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
+  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
+  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
 }
 
 message CommitOrderingBlockInput {
@@ -37,8 +39,8 @@ message GetBlockByHeightInput {
 }
 
 enum BlockFormat {
-  STRUCT = 1;
-  BINARY = 2;
+  STRUCT = 0;
+  BINARY = 1;
 }
 
 message GetOrderingBlockOutput {
@@ -60,4 +62,38 @@ message GetTopBlockInput {
 message GetTopBlockOutput {
   Uint64 block_height = 1;
   SHA256 block_id = 1;
+}
+
+message SubscribeEventsInput {
+  Ed25519PKey subscriber_id = 1;
+  repeated Event events = 2;
+}
+
+message SubscribeEventsOutput {
+  Uint64 token = 1;
+}
+
+message Event {
+  Address contract_address = 1; // Valid only for per SC events - index > 10.
+  Uint32 event_index = 2;
+  Uint256 event_id = 3;
+  //Uint32 exeperation = 3;
+}
+
+message UnSubscribeEventsInput {
+  Uint64 token = 1;
+}
+
+message UnSubscribeEventsOutput {
+  // empty
+}
+
+message EventData {
+  Uint32 event_index = 1;
+  Uint256 event_id = 2;
+}
+
+
+{
+
 }

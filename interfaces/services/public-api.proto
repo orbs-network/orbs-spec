@@ -2,11 +2,13 @@ syntax = "proto3";
 
 import "../protocol/transactions.proto";
 import "../internal/call-contract.proto";
+import "services/configuration-manager.proto";
 
 service PublicApi {
   rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
   rpc CallContract (CallContractInput) returns (CallContractOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput)
 }
 
 message SendTransactionInput {
@@ -24,3 +26,4 @@ message GetTransactionStatusInput {
 message GetTransactionStatusOutput {
   TransactionReceipt receipt = 1;
 }
+

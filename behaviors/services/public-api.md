@@ -1,7 +1,7 @@
 # Public Api
-
 Provides external public gateway interface (like JSON over HTTP) to the network (normally used by clients).
-
+Verifies transactions validity for ordering, batch and signs them
+Maintains a state for clients session and 
 &nbsp;
 ## `Public Interfaces`
 
@@ -39,3 +39,8 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 
 #### Forward call
 * Forward call to `TransactionPool.GetTransactionStatus`.
+
+&nbsp;
+## `UpdateSubscriptionStatus` (method)
+Called by the configuaration manager per virtual chain, updates the virtual chain's subscription level.
+
