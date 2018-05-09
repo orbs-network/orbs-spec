@@ -9,37 +9,45 @@ Holds pending transactions and remembers committed transactions.
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
 * No need to be persistent.
 * Configurable max size.
-* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
+* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
+* Send the transaction receipt to the local relay_gw upon committment of a new block.
 
 #### Committed transaction pool
-* Holds transactions after they are added to the blockchain to avoid transaction duplication and return their result.
-* No need to be persistent.
-* No limit on max size.
-* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
+* Holds the ID of transactionss after they are added to the blockchain to avoid transaction duplication and return their result.
+* No need to be persistent, consistency with the commited block is achived as part of the node sync.
+* No limit on max size, max_size is determined by the exeperation window x maximum transaction rate. (on full committed pool - fatal error, drop all new committed blocks until not full)
+* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
 
 &nbsp;
 ## `AddNewPendingTransaction` (method)
-> Add a new transaction from a client to the network
+> Add a new transaction from a client to the network (pending transaction pool)
 
 #### Check transaction validity
 * Correct protocol version.
 * Valid fields (sender address, contract address).
 * Sender virtual chain matches contract virtual chain.
+* Check transaction time_stamp, accept only transactions with last block.timestamp -2sec  < time_stamp < block.timestamp expiration window. 
 * Valid transaction signature.
+
+If a transaction fails the validation, update the Public API by calling `PublicAPI.UpdateTransactionsResponse`.
 
 #### Approve transaction for processing
 * Not expired. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
-* Subscription status is active. Get the virtual chain subscription status by calling `SubscriptionManager.GetSubscriptionStatus`.
-* Transaction doesn't already exist in the pending pool (duplicate).
+* Check that the Subscription status is active. The virtual chain subscription status is updated periodically by the through the Consensus service, calling the `UpdateSubscriptionStatus` method.
+* Transaction doesn't already exist in the pending pool or committed pool (duplicated).
+
+If a transaction fails the approval, update the Public API by calling `PublicAPI.UpdateTransactionsResponse`.
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
-* Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
+// * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
+// * Remove the relay_gw signature and maintain for each transaction the associated relay_gw id.
+TBD Gossip model vs direct model
+
 
 &nbsp;
 ## `GetAllPendingTransactions` (method)
 > Return all currently pending transactions
-
 * Return all transaction ids and transactions from pending transaction pool.
 
 &nbsp;

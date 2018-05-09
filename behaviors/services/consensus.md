@@ -6,6 +6,16 @@ The consensus microservice is built from 3 main components:
 * Consensus algorithm - achives consensus on a block, uses lite-helix, a PBFT based algorithm.
 * Transactions pool - implemented as a child service.
 
+
+&nbsp;
+## `SendTransaction` (method)
+Add transaction to pending pool by calling `TransactionPool.AddNewPendingTransaction`.
+> if succeeded add transcation to the SendTransactionCache.
+
+### SendTransactionCache
+Temporarly delays transactions transmission in order to batch them. (optimization)
+If not empty and X=100 ms have passed since the last batch was sent or cache has more than Y=10 messages, create batch with up to Y transactions, sign and boradcast batch using `Gossip.BroadcastMessage`.
+
 &nbsp;
 ## `Block Creation`
 * Process performed by the leader only, initiated by the complition of the previous block round (block committed)
@@ -13,7 +23,7 @@ The consensus microservice is built from 3 main components:
   * if there are no transactions to append, continue with #of transaction = 0.
 * Build ordered transactions set based on the ordering policy (in order).
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
-* Build Ordering block.
+* Build Ordering block
   * Current protocol version (0x1)
   * Virtual chain 
   * Block height is incremented from previous block (the latest).
@@ -69,19 +79,34 @@ The consensus microservice is built from 3 main components:
 
 &nbsp;
 ## `Lite-Helix Messages`
-
 * When Lite-Helix sends a broadcast message call `Gossip.BroadcastMessage` with the Lite-Helix message, send message to the Ordering_Nodes group.
 * When Lite-Helix sends a unicast message call `Gossip.UnicastMessage` with the Lite-Helix message.
 
 &nbsp;
 ## `BlockCommitted` (method)
-> Initiated on lite-helix block commit. Adds the commited block to the block storage by calling:
+> Initiated on lite-helix block commit. Updates the top_block value and adds the commited block to the block storage and updates the transaction pool by calling:
 * `BlockStorage.CommitOrderingBlock`
 * `BlockStorage.CommitValidationBlock`
+* `TransactionPool.MarkCommittedTransactions`
 
 &nbsp;
 ## `GossipMessageReceived` (method)
-> Handle a gossip message from another node. If a lite-helix message, pass to Lite-Helix message callback.
+> Handles messages received from another node. 
+* If the message is a consensus allgorithm message, pass to algorithm.
+* If the message is a transaction batch
+  * Validate batch signature, if mismatch log for reputation calculation.
+  * Add transactions to pending pool by calling `TransactionPool.AddNewPendingTransaction`.
+
+
+&nbsp;
+## `Node Sync Flow`
+Node sync is initiated upon reception of f+1 consensus mesasge (PrePrepare+Prepare / Commit) with term larger than the expected term. (likely to be called on node init)
+
+`Sync flow`
+* Randomly select one of the other nodes and send it a BLOCK_SYNC_REQUEST message using `Gossip.UnicastMessage` with block_height = top_block + 1.
+  * If a response does not arrive within X=5sec, resend to another node.
+* Upon receiption of a BLOCK_SYNC_RESPONSE message, perfom regular `BlockCommitted` flow.
+* Repeat sending requests until receiving a valid PrePrepare message (including block_height = top_block + 1)
 
 &nbsp;
 ## `Lite-Helix Flow`

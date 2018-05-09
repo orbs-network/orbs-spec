@@ -1,31 +1,42 @@
 # Public Api
 Provides external public gateway interface (like JSON over HTTP) to the network (normally used by clients).
-Verifies transactions validity for ordering, batch and signs them
-Maintains a state for clients session and 
+Maintains a state for clients sessions and send a response to the client.
+
 &nbsp;
 ## `Public Interfaces`
 
 #### JSON over HTTP
-* All requests are HTTP POST with JSON body and JSON response.
+* All requests are HTTPPOST with JSON body and JSON response.
 * Binary fields such as addresses are encoded with Base58.
 * See request and response [encoding](../../interfaces/protocol/public-api/json-over-http.md).
 
 &nbsp;
 ## `SendTransaction` (method)
-> Execute a transaction that changes state (write)
+> Execute a transaction that changes state (write) and returns a response to the client
 
 #### Check request validity
 * Correct protocol version.
+* Correct virtual chain.
+
+#### Subscribe to message response
+* Log the client session along with the tx_id = SHA(Transaction serialization)
 
 #### Forward call
-* Forward call to `TransactionPool.AddNewPendingTransaction`.
+* Send transaction to the network by calling `Consensus.SendTransaction`.
+
+## `UpdateTransactionsResponse` (method)
+* Called by the Consensus service upon commiting a new block, provides a list of receipts, each identified by a tx_id.
+* Upon reception, match to the open sessions and send response back to the client.
+
 
 &nbsp;
 ## `CallContract` (method)
 > Run a read only contract that returns data
 
 #### Check request validity
-* todo.
+* Check protocol version
+* Check signature
+* todo
 
 #### Forward call
 * Forward call to `VirtualMachine.CallContract`.
@@ -37,8 +48,9 @@ Maintains a state for clients session and
 #### Check request validity
 * todo.
 
-#### Forward call
-* Forward call to `TransactionPool.GetTransactionStatus`.
+#### Process
+* If the transaction has an open session, return PENDING
+* Else call `BlockStorage.GetTransactionReceipt`. // throttling mechanism.
 
 &nbsp;
 ## `UpdateSubscriptionStatus` (method)
