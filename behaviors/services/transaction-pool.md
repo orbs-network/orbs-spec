@@ -34,7 +34,7 @@ Holds pending transactions and remembers committed transactions.
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
-* Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
+* Call `Gossip.BroadcastMessage` to broadcast transaction to all transaction pool nodes as "newTransaction" message.
 
 &nbsp;
 ## `GetAllPendingTransactions` (method)
