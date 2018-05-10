@@ -39,7 +39,8 @@ If not empty and X=100 ms have passed since the last batch was sent or cache has
   * Hash pointer to the previous (latest) block - SHA256(Block header)
   * 64b unix time stamp 
   * The merkle root hash of the block's transactions receipts
-  * The merkle root of the state diff
+  * The merkle root of the state diff, retrived by calling `StateStroage.GetStateHash`
+    * If returns NOT_UPDATED, retry in X=100ms, doubling the wait time for each NOT_UPDATED response.
   * Hash pointer to the Ordering block of the same height - SHA256(Block header)
   * Merkle root of the state prior to the block execution
   * Bloom filter of the block's receipts
@@ -84,7 +85,8 @@ If not empty and X=100 ms have passed since the last batch was sent or cache has
 
 &nbsp;
 ## `BlockCommitted` (method)
-> Initiated on lite-helix block commit. Updates the top_block value and adds the commited block to the block storage and updates the transaction pool by calling:
+> Initiated on lite-helix block commit. Updates the top_block value and adds the commited block to the block storage, commit state diff to the storage and updates the transaction pool by calling:
+* `StateStroage.CommitStateDiff`
 * `BlockStorage.CommitOrderingBlock`
 * `BlockStorage.CommitValidationBlock`
 * `TransactionPool.MarkCommittedTransactions`

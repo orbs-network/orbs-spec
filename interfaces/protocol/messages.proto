@@ -154,6 +154,18 @@ message TransactionsBatch {
 
 message P2PEnvelope {
   Uint32 version = 1; // version of the P2P message format and algorithm
-  repeated GossipMessage message = 2;
-//  Ed25519Proof signature = 2;
+  Ed25519PKey source_node = 2;
+  Ed25519PKey dest_node = 3;
+  repeated GossipMessage message = 4;
+  Ed25519Sig signature = 5;
+}
+
+message ClientResponse { // move to JSON description
+  Uint32 version = 1;
+  Uint256 tx_id = 2;
+  TransactionStatus transaction_status = 3;
+  String status_message = 4;
+  Uint64 block_height = 5;
+  Uint32 virtual_chain = 6;
+  Uint64 time_stamp = 7;
 }

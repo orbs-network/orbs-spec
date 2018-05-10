@@ -7,14 +7,22 @@ Holds the latest state under consensus, meaning the state variables for all cont
 
 #### State store
 * Stores state data for all contracts by key (key-value store).
+* Data structure:
+  * For each smart contract keep a hash table of address, value. 
 * Value stored per key is a free-form string.
-* Each contract has its own isolated key address space.
 * No need to be persistent.
-* Constantly synchronizing with block storage to reflect latest state.
-  * Synchronization by continuously polling block storage for new blocks.
-  * Poll interval is configurable.
-  * New blocks fetched by calling `BlockStorage.GetBlocks`.
-  * When new block found, its state diff is merged into the state.
+* Updated with the state diff and top block height by the Consensus. TBD - block storage.
+
+## `CommitStateDiff`
+
+#### Consistency check
+* Check block height = top block height + 1. If not - fatal error. (Need to revert to a checkpoint)
+
+#### Commit state
+* Update all the state_diff.
+  * Update the state merkle tree.
+* When done update the top block height
+
 
 &nbsp;
 ## `ReadKeys` (method)
@@ -26,3 +34,13 @@ Holds the latest state under consensus, meaning the state variables for all cont
 
 #### Read the state
 * Directly from key value store.
+
+
+&nbsp;
+## `GetStateHash` (method) //TBD - return to Consensus in CommitStateDiff (guarantees consistency)
+
+#### Check State Storage is updated to the latest block
+Check that block_height is consistent with current block_height, otherwise return status = NOT_UPDATED.
+
+#### Return the state root
+Return the state merkle tree root hash.

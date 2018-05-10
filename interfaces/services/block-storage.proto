@@ -13,8 +13,10 @@ service BlockStorage {
   rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
   rpc GetTopBlock(GetTopBlockInput) returns (GetTopBlockOutput);
   rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
-  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
-  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
+//  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
+//  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
+//  rpc SubscribeRecipt(SubscribeReciptInput) returns (SubscribeReciptOutput);
+  rpc GetTransactionReceipt(GetTransactionReceiptInput) returns (GetTransactionReceipt);
 }
 
 message CommitOrderingBlockInput {
@@ -34,13 +36,7 @@ message CommitValidationBlockOutput {
 }
 
 message GetBlockByHeightInput {
-  Uint64 block_height = 1;
-  BlockFormat format = 2;
-}
 
-enum BlockFormat {
-  STRUCT = 0;
-  BINARY = 1;
 }
 
 message GetOrderingBlockOutput {
@@ -66,20 +62,25 @@ message GetTopBlockOutput {
 
 message SubscribeEventsInput {
   Ed25519PKey subscriber_id = 1;
-  repeated Event events = 2;
+  repeated EventSubscription events = 2;
 }
 
 message SubscribeEventsOutput {
   Uint64 token = 1;
 }
 
-message Event {
-  Address contract_address = 1; // Valid only for per SC events - index > 10.
-  Uint32 event_index = 2;
-  Uint256 event_id = 3;
-  //Uint32 exeperation = 3;
+message EventSubscription {
+  EventType event_type = 1;
+  Address contract_address = 2; // Valid only for per smart contract events.
+  Uint32 event_index = 3;
+  Uint256 event_id = 4;
+  //Uint32 exeperation = 5;
 }
 
+enum EventType {
+  GLOBAL = 0;
+  SMART_CONTRACT = 1;
+}
 message UnSubscribeEventsInput {
   Uint64 token = 1;
 }
@@ -89,11 +90,26 @@ message UnSubscribeEventsOutput {
 }
 
 message EventData {
-  Uint32 event_index = 1;
-  Uint256 event_id = 2;
+  EventType event_type = 1;
+  Address contract_address = 2; 
+  Uint32 event_index = 3;
+  Uint256 event_id = 4;
+  String Event = 5;
 }
 
+message SubscribeReciptInput {
+  SHA256 tx_id = 1;  
+}
 
-{
+message SubscribeReciptOutput {
+  Bool success = 1;
+}
 
+message GetTransactionReceiptInput {
+  Uint256 tx_id = 1;
+  Uint64 time_stamp = 2;
+}
+
+message GetTransactionReceiptOutput {
+  TransactionReceipt = 1;
 }

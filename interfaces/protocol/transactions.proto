@@ -9,7 +9,7 @@ message Transaction {
 }
 
 message TransactionReceipt {
-  Uint256 tx_id = 1; // not really needed, cam be part of the bloom filter hard coded fileds 
+  Uint256 tx_id = 1; // not really needed, can be part of the bloom filter hard coded fileds 
   Uint32 version = 2;
   TransactionStatus transaction_status = 3;
   String status_message = 4;

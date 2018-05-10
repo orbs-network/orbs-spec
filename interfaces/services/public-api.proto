@@ -6,9 +6,10 @@ import "services/configuration-manager.proto";
 
 service PublicApi {
   rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
-  rpc CallContract (CallContractInput) returns (CallContractOutput);
-  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput)
+  //rpc CallContract (CallContractInput) returns (CallContractOutput);
+  //rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
+  rpc UpdateTransactionsResponse(UpdateTransactionsResponseInput) returns (UpdateTransactionsResponseOutput);
 }
 
 message SendTransactionInput {
@@ -27,3 +28,12 @@ message GetTransactionStatusOutput {
   TransactionReceipt receipt = 1;
 }
 
+message UpdateTransactionsResponseInput {
+  Uint64 block_height = 1;
+  Uint64 time_stamp = 2;
+  repeated TransactionReceipt transaction_receipts = 3;
+}
+
+message UpdateTransactionsResponseOutput {
+  // empty
+}

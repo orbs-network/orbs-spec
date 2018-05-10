@@ -2,6 +2,8 @@ syntax = "proto3";
 
 service StateStorage {
   rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+  rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
+  rpc GetStateHash(GetStateHashInput) returns (GetStateHash);
 }
 
 message ReadKeysInput {
@@ -11,5 +13,28 @@ message ReadKeysInput {
 }
 
 message ReadKeysOutput {
-  map<RIP160SHA253def,Bytes> values = 1;
+  map<RIP160SHA256,String> values = 1;
+}
+
+message CommitStateDiffInput {
+  Uint64 block_height = 1;
+  repeated SCStateDiff sc_state_diff = 2;
+}
+
+message CommitStateDiffOutput {
+
+}
+
+message GetStateHashInput {
+  Uint64 block_height = 1;
+}
+
+message GetStateHashOutput {
+  StateHashStatus status = 1;
+  SHA256 state_root_hash = 2;
+}
+
+enum StateHashStatus {
+  VALID = 0;
+  NOT_UPDATED = 1;
 }

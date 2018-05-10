@@ -57,4 +57,3 @@ message NodeID {
     Ed25519PKey public_key = 2;
     Ed25519Sig signature = 3;
 }
-

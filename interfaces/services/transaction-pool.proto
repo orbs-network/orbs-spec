@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "primitives/transactions.proto";
 import "primitives/gossip-listener.proto";
+import "services/configuration-manager.proto";
 
 service TransactionPool {
   rpc AddNewPendingTransaction (AddNewPendingTransactionInput) returns (AddNewPendingTransactionOutput);
@@ -9,10 +10,12 @@ service TransactionPool {
   rpc MarkCommittedTransactions (MarkCommittedTransactionsInput) returns (MarkCommittedTransactionsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
 }
 
 message AddNewPendingTransactionInput {
   Transaction transaction = 1;
+  Ed25519PKey originator = 2;  
 }
 
 message AddNewPendingTransactionOutput {
@@ -24,7 +27,13 @@ message GetAllPendingTransactionsInput {
 }
 
 message GetAllPendingTransactionsOutput {
-  repeated TransactionEntry transactionEntries = 1;
+  TransactionPoolStatus status = 1;
+  repeated TransactionEntry transactionEntries = 2;
+}
+
+enum TransactionPoolStatus {
+  UPDATED = 0;
+  NOT_UPDATED = 1;
 }
 
 message GetTransactionStatusInput {
@@ -43,7 +52,8 @@ message GetTransactionStatusOutput {
 }
 
 message MarkCommittedTransactionsInput {
-  repeated TransactionReceipt transactionReceipts  = 1;
+  Uint64 block_height = 1;
+  repeated TransactionReceipt transactionReceipts  = 2;
 }
 
 message MarkCommittedTransactionsOutput {

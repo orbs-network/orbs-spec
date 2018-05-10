@@ -47,6 +47,9 @@ TBD Gossip model vs direct model
 
 &nbsp;
 ## `GetAllPendingTransactions` (method)
+
+### Check that the pools are up to date
+Check that the requested block_height equal to the block_height the pools are updated to, otherwise initiate Node Sync and return NOT UPDATED.
 > Return all currently pending transactions
 * Return all transaction ids and transactions from pending transaction pool.
 
