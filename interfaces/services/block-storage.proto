@@ -5,61 +5,88 @@ import "protocol/gossip.proto";
 import "protocol/blocks.proto";
 
 service BlockStorage {
-  rpc CommitOrderingBlock (CommitOrderingBlockInput) returns (CommitOrderingBlockOutput);
-  rpc CommitValidationBlock (CommitValidationBlockInput) returns (CommitValidationBlockOutput);
-  rpc GetOrderingBlockByHeight (GetBlockByHeightInput) returns (GetOrderingBlockOutput);
-  rpc GetValidationBlockByHeight (GetBlockByHeightInput) returns (GetValidationBlockOutput);
-  rpc GetOrderingBlockByID (GetBlockByIDInput) returns (GetOrderingBlockOutput);
-  rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
-  rpc GetTopBlock(GetTopBlockInput) returns (GetTopBlockOutput);
-  rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
+  rpc AddBlock (AddBlockInput) returns (AddBlockOutput);
+  rpc GetBlocksByHeight (GetBlocksByHeight) returns (GetBlocksByHeightOutput);
+  rpc GetOrderingBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
+  rpc GetValidationBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
+  rpc GetLastBlockHeight(GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
+  rpc ProcessGossipMessage(ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
+  rpc GetTransactionReceipt(GetTransactionReceiptInput) returns (GetTransactionReceipt);
+  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
+  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);
+  
+//  rpc GetOrderingBlockByID (GetBlockByIDInput) returns (GetOrderingBlockOutput);
+//  rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
 //  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
 //  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
 //  rpc SubscribeRecipt(SubscribeReciptInput) returns (SubscribeReciptOutput);
-  rpc GetTransactionReceipt(GetTransactionReceiptInput) returns (GetTransactionReceipt);
 }
 
-message CommitOrderingBlockInput {
+message AddBlockInput {
   OrderingBlock ordering_block = 1;
+  ValidationBlock validation_block = 2;
 }
 
-message CommitOrderingBlockOutput {
- 
+message AddBlockOutput {
+  // empty
 }
 
-message CommitValidationBlockInput {
-  ValidationBlock validation_block = 1;
+message GetBlocksByHeightInput {
+  Uint64 first_block_height = 1;
+  Uint64 last_block_height = 2;
 }
 
-message CommitValidationBlockOutput {
-
+message GetBlocksByHeightOutput {
+  Uint64 top_block = 1;
+  Uint64 last_added_block = 2;
+  repeated OrderingBlock ordering_block = 3;
+  repeated ValidationBlock validation_block = 4;
 }
 
-message GetBlockByHeightInput {
-
+message GetLastBlockInput {
+  // empty
 }
 
-message GetOrderingBlockOutput {
-  OrderingBlock ordering_block = 1;
+message GetLastBlockOutput {
+  Uint64 last_committed_block_height = 1;
+  Uint64 last_added_block_height = 2;
 }
 
-message GetValidationBlockOutput {
-  ValidationBlock validation_block = 1;
+message GetTransactionReceiptInput {
+  Uint256 tx_id = 1;
+  Uint64 timestamp = 2;
 }
 
-message GetBlockByIDInput {
-  SHA256 block_id = 1;
+message GetTransactionReceiptOutput {
+  TransactionReceipt receipt = 1;
+  Uint64 block_height = 2;
+  Uint64 block_timestamp = 3;
 }
 
-message GetTopBlockInput { 
-  // empty 
+
+message GetReceiptsInput {
+  Uint64 first_block_height = 1;
+  Uint64 last_block_height = 2;
 }
 
-message GetTopBlockOutput {
-  Uint64 block_height = 1;
-  SHA256 block_id = 1;
+message GetReceiptsOutput {
+  Uint64 top_block = 1;
+  Uint64 last_added_block = 2;
+  ValidationBlock validation_block = 3; // Nullify sc_state_diff
 }
 
+message GetStateDiffFromHeightInput {
+  Uint64 first_block_height = 1;
+  Uint64 last_block_height = 2;
+}
+
+message GetStateDiffFromHeightOutput {
+  Uint64 top_block = 1;
+  Uint64 last_added_block = 2;
+  ValidationBlock validation_block = 3; // Nullify transaction_receipts
+}
+
+/*
 message SubscribeEventsInput {
   Ed25519PKey subscriber_id = 1;
   repeated EventSubscription events = 2;
@@ -104,12 +131,4 @@ message SubscribeReciptInput {
 message SubscribeReciptOutput {
   Bool success = 1;
 }
-
-message GetTransactionReceiptInput {
-  Uint256 tx_id = 1;
-  Uint64 time_stamp = 2;
-}
-
-message GetTransactionReceiptOutput {
-  TransactionReceipt = 1;
-}
+*/

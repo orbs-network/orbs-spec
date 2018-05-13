@@ -18,8 +18,8 @@ Maintains a state for clients sessions and send a response to the client.
 * Correct protocol version.
 * Correct virtual chain.
 
-#### Subscribe to message response
-* Log the client session along with the tx_id = SHA(Transaction serialization)
+#### Maintain sessions context
+* Maintain session context in order to return a response and associate a 
 
 #### Forward call
 * Send transaction to the network by calling `Consensus.SendTransaction`.

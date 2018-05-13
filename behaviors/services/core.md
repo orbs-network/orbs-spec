@@ -1,20 +1,13 @@
-# Consensus
-
-Implements the consensus algorithm, controlling the flow of transactions across nodes for ordering, execution, and validation until they are committed to block storage and their state effects are committed to state storage.
-The consensus microservice is built from 3 main components:
-* Consensus core - achives consesus on the transaction ordering and validation, uses a consesus algorithm
-* Consensus algorithm - achives consensus on a block, uses lite-helix, a PBFT based algorithm.
-* Transactions pool - implemented as a child service.
-
+# Core
+Responsible for controlling the flow of transactions across nodes for ordering, execution, and validation until they are committed to block storage and their state effects are committed to state storage.
+The core maintains the consistency state (block_height) and is responsible for the consistency of the rest of the services.
+The core utilizes 2 child services:
+* Consensus algorithm - achieves consensus on a block, uses lite-helix, a PBFT based algorithm.
+* Transactions pool - manages the pending and committed transaction pools
 
 &nbsp;
-## `SendTransaction` (method)
+## `AddPendingTransaction` (method)
 Add transaction to pending pool by calling `TransactionPool.AddNewPendingTransaction`.
-> if succeeded add transcation to the SendTransactionCache.
-
-### SendTransactionCache
-Temporarly delays transactions transmission in order to batch them. (optimization)
-If not empty and X=100 ms have passed since the last batch was sent or cache has more than Y=10 messages, create batch with up to Y transactions, sign and boradcast batch using `Gossip.BroadcastMessage`.
 
 &nbsp;
 ## `Block Creation`
@@ -109,30 +102,4 @@ Node sync is initiated upon reception of f+1 consensus mesasge (PrePrepare+Prepa
   * If a response does not arrive within X=5sec, resend to another node.
 * Upon receiption of a BLOCK_SYNC_RESPONSE message, perfom regular `BlockCommitted` flow.
 * Repeat sending requests until receiving a valid PrePrepare message (including block_height = top_block + 1)
-
-&nbsp;
-## `Lite-Helix Flow`
-Init() - View = 0, Term = 0, Leader = first node.
-
-`Append(Block)`
-* If leader, Broadcast[PrePrepare, view, term, Block, H(Block), NodeID, Sig]
-  * NodeID = Node Public Key
-  * H(Block) = SHA256(Execution Validation Block Header)
-* Upon reception of PrePrepare message:
-  * Check PrePrepare message: view, term, hash, signature
-  * Validate Ordering Block 
-  * Validate Execution Validation Block
-  * If all valid, Broadcast[Prepare, view, term, H(Block), NodeID, Sig]
-* Upon reception of Prepare message:
-  * Check Prepare message: view, term, hash, signature
-  * If valid, mark prepare received from nodeID 
-  * Upon reception of valid Prepare messages from 2f-1 (+1 for PrePrepare, +1 for the node) Broadcast[Commit, view, term, H(Block), NodeID, Sig]
-* Upon reception of Commit message:
-  * Check Commit message: view, term, hash, signature
-  * If valid, mark prepare received from nodeID 
-  * Upon reception of valid Commit messages from 2f+1 nodes:
-    * Call `BlockCommitted(Block)`
-    * If leader, create a new block
-* Upon timer experation 
-  * ...
 

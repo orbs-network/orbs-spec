@@ -5,28 +5,29 @@ import "primitives/gossip-listener.proto";
 import "services/configuration-manager.proto";
 
 service TransactionPool {
-  rpc AddNewPendingTransaction (AddNewPendingTransactionInput) returns (AddNewPendingTransactionOutput);
-  rpc GetAllPendingTransactions (GetAllPendingTransactionsInput) returns (GetAllPendingTransactionsOutput);
+  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
+  rpc GetPendingTransactions (GetPendingTransactionsInput) returns (GetPendingTransactionsOutput);
   rpc MarkCommittedTransactions (MarkCommittedTransactionsInput) returns (MarkCommittedTransactionsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
   rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
 }
 
-message AddNewPendingTransactionInput {
+message AddNewTransactionInput {
   Transaction transaction = 1;
-  Ed25519PKey originator = 2;  
 }
 
-message AddNewPendingTransactionOutput {
-  Bytes txid = 1;
+message AddNewTransactionOutput {
+  Bytes tx_id = 1;
 }
 
 message GetAllPendingTransactionsInput {
   Uint64 block_height = 1;
+  Uint32 number_of_transactions = 2;
+  
 }
 
-message GetAllPendingTransactionsOutput {
+message GetPendingTransactionsOutput {
   TransactionPoolStatus status = 1;
   repeated TransactionEntry transactionEntries = 2;
 }
@@ -40,20 +41,12 @@ message GetTransactionStatusInput {
   string txid = 1;
 }
 
-enum TransactionStatus {
-  NOT_FOUND = 0;
-  PENDING = 1;
-  COMMITTED = 2;
-}
-
 message GetTransactionStatusOutput {
-  TransactionStatus status = 1;
-  TransactionReceipt receipt = 2;
+  TransactionReceipt receipt = 1;
 }
 
 message MarkCommittedTransactionsInput {
-  Uint64 block_height = 1;
-  repeated TransactionReceipt transactionReceipts  = 2;
+  ValidationBlock validation_block = 1; // Nullify sc_state_diff
 }
 
 message MarkCommittedTransactionsOutput {

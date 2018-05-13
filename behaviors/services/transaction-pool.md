@@ -7,10 +7,10 @@ Holds pending transactions and remembers committed transactions.
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
-* No need to be persistent.
+* No need to be persistent. Syncs from the block stroage upon loss of sync.
 * Configurable max size.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
-* Send the transaction receipt to the local relay_gw upon committment of a new block.
+* Sends the transaction receipt to the local relay_gw upon committment of a new block.
 
 #### Committed transaction pool
 * Holds the ID of transactionss after they are added to the blockchain to avoid transaction duplication and return their result.
@@ -19,7 +19,7 @@ Holds pending transactions and remembers committed transactions.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
 
 &nbsp;
-## `AddNewPendingTransaction` (method)
+## `AddNewTransaction` (method)
 > Add a new transaction from a client to the network (pending transaction pool)
 
 #### Check transaction validity
@@ -39,11 +39,12 @@ If a transaction fails the validation, update the Public API by calling `PublicA
 If a transaction fails the approval, update the Public API by calling `PublicAPI.UpdateTransactionsResponse`.
 
 #### Add transaction to pending pool
-* Add transaction to pending transaction pool if pool is not full.
-// * Call `Gossip.BroadcastMessage` to broadcast transaction to all nodes as "newTransaction" message.
-// * Remove the relay_gw signature and maintain for each transaction the associated relay_gw id.
-TBD Gossip model vs direct model
+* Add transaction to pending transaction pool if pool is not full. //TODO full considerations
+* Add transcation to the SendTransactionCache.
 
+### SendTransactionCache
+Temporarly delays transactions transmission in order to batch them. (optimization)
+If not empty and X = 100 ms have passed since the last batch was sent or cache has more than Y = 100 messages, create batch with up to Y transactions, sign and boradcast the batch to all the other trasnaction pools by calling `Gossip.BroadcastMessage`.
 
 &nbsp;
 ## `GetAllPendingTransactions` (method)
