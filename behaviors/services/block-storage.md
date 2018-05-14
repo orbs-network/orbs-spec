@@ -87,6 +87,13 @@ Syncs with other nodes when missing blocks are required.
 #### On "SendNewBlocksResponse" message
 * Make sure sync process with the sending node is active.
 * Add blocks to database sorted by block height by calling `AddBlock`.
+
+`Sync flow`
+* Randomly select one of the other nodes and send it a BLOCK_SYNC_REQUEST message using `Gossip.UnicastMessage` with block_height = top_block + 1.
+  * If a response does not arrive within X=5sec, resend to another node.
+* Upon receiption of a BLOCK_SYNC_RESPONSE message, perfom regular `BlockCommitted` flow.
+* Repeat sending requests until receiving a valid PrePrepare message (including block_height = top_block + 1)
+
 */
 
 ## `GetTransactionReceipt` (method)

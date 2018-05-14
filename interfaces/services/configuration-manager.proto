@@ -1,20 +1,13 @@
 syntax = "proto3";
 
 service SubscriptionManager {
-  rpc GetSubscriptionStatus (GetSubscriptionStatusInput) returns (GetSubscriptionStatusOutput);
-}
-
-message GetSubscriptionStatusInput {
-  string subscriptionKey = 1;
-}
-
-message GetSubscriptionStatusOutput {
-  bool active = 1;
+//  rpc GetSubscriptionStatus (GetSubscriptionStatusInput) returns (GetSubscriptionStatusOutput);
 }
 
 message UpdateSubscriptionStatusInput {
   Uint32 virtual_chain = 1;
   SubscriptionTier subscription = 2;
+  Uint64 block_height = 3;
 }
 
 message UpdateSubscriptionStatusOutput {

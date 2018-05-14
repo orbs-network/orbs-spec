@@ -11,12 +11,19 @@ service VirtualMachine {
 
 message ProcessTransactionSetInput {
   Uint64 block_height = 1;
-  repeated TransactionEntry orderedTransactions = 2;
+  repeated TransactionEntry ordered_transactions = 2;
 }
 
 message ProcessTransactionSetOutput {
-  repeated TransactionReceipt transactionReceipts = 1;
+  repeated TransactionReceipt transaction_receipts = 1;
   repeated ModifiedStateKey stateDiff = 2;
-  ValidationBlockBloomFilter bloom_filter = 3;
 }
 
+message CallContractInput {
+  Uint64 block_height = 1;
+  repeated TransactionEntry orderedTransactions = 2;
+}
+
+message CallContractOutput {
+  repeated TransactionReceipt transaction_receipts = 1;
+}

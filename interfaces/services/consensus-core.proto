@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import "primitives/blocks.proto";
+import "services/configuration-manager.proto";
+
+service TransactionPool {
+  rpc RequestNewBlock (RequestNewBlockInput) returns (RequestNewBlockOutput);
+  rpc ValidateBlock (ValidateBlockInput) returns (ValidateBlockOutput);
+  rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
+  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
+}
+
+message RequestNewBlockInput {
+    // empty, TODO should block_height come from the algo or perhaps a token.
+}
+
+message RequestNewBlockOutput {
+    OrderingBlock ordering_block = 1;
+    ValidationBlock validation_block = 2;
+}
+
+message ValidateBlockInput {
+    OrderingBlock ordering_block = 1;
+    ValidationBlock validation_block = 2;
+}
+
+message ValidateBlockOutput {
+    BlockStatus status = 1;
+}
+
+message CommitBlockInput {
+    OrderingBlock ordering_block = 1;
+    ValidationBlock validation_block = 2;
+}
+
+message CommitBlockOutput {
+    // empty
+}
+
+enum BlockStatus {
+    VALID = 0;
+    INVALID = 1;
+}

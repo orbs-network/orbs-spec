@@ -1,4 +1,8 @@
 &nbsp;
+## `Lite-Helix Messages`
+* When Lite-Helix sends a broadcast message call `Gossip.BroadcastMessage` with the Lite-Helix message, send message to the Ordering_Nodes group.
+* When Lite-Helix sends a unicast message call `Gossip.UnicastMessage` with the Lite-Helix message.
+
 ## `Lite-Helix Flow`
 Init() - View = 0, Term = 0, Leader = first node.
 
@@ -23,4 +27,13 @@ Init() - View = 0, Term = 0, Leader = first node.
     * If leader, create a new block
 * Upon timer experation 
   * ...
+
+
+&nbsp;
+## `GossipMessageReceived` (method)
+> Handles messages received from another node. 
+* If the message is a consensus allgorithm message, pass to algorithm.
+* If the message is a transaction batch
+  * Validate batch signature, if mismatch log for reputation calculation.
+  * Add transactions to pending pool by calling `TransactionPool.AddNewPendingTransaction`.
 

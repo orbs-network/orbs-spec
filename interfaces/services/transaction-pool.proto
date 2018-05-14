@@ -7,6 +7,7 @@ import "services/configuration-manager.proto";
 service TransactionPool {
   rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
   rpc GetPendingTransactions (GetPendingTransactionsInput) returns (GetPendingTransactionsOutput);
+  rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
   rpc MarkCommittedTransactions (MarkCommittedTransactionsInput) returns (MarkCommittedTransactionsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
@@ -21,20 +22,20 @@ message AddNewTransactionOutput {
   Bytes tx_id = 1;
 }
 
-message GetAllPendingTransactionsInput {
+message GetPendingTransactionsInput {
   Uint64 block_height = 1;
   Uint32 number_of_transactions = 2;
-  
 }
 
 message GetPendingTransactionsOutput {
-  TransactionPoolStatus status = 1;
-  repeated TransactionEntry transactionEntries = 2;
+  TransactionPoolStatus tx_pool_status = 1;
+  repeated Transaction transactions = 2;
 }
 
 enum TransactionPoolStatus {
-  UPDATED = 0;
-  NOT_UPDATED = 1;
+  VALID = 0;
+  OUT_OF_SYNC = 1;
+  UNEXEPCETED_BLOCK_HEIGHT = 2;
 }
 
 message GetTransactionStatusInput {
@@ -50,4 +51,18 @@ message MarkCommittedTransactionsInput {
 }
 
 message MarkCommittedTransactionsOutput {
+}
+
+message ValidateTransactionsForOrderingInput {
+  repeated Transaction transactions = 1;
+}
+
+message ValidateTransactionsForOrderingOutput {
+  TransactionPoolStatus tx_pool_status = 1;
+  TransactionsOrderingStatus status = 2;
+}
+
+enum TransactionsOrderingStatus {
+  VALID = 0;
+  INVALID = 1;
 }

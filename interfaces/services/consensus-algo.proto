@@ -6,17 +6,7 @@ import "protocol/blocks.proto";
 import "services/configuration-manager.proto";
 
 service Consensus {
-  rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
   rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
-  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
-}
-
-message SendTransactionInput {
-  Transaction transaction = 1;
-}
-
-message SendTransactionOutput {
-  
 }
 
 message ProcessGossipMessageInput {
