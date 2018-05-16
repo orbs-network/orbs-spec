@@ -24,16 +24,17 @@
 * The transaction is now waiting until one of the nodes adds it to a block.
 * `PublicApi` waits for transaction response from the `Transaction pool` in order to send response to client.
 
-/* TO BE UPDATED 
+
 &nbsp;
 ## Client calls a contract (read)
-
+TO BE UPDATED
+<!--
 * Assuming state storage and block storage are synchronized to latest block.
 * Client request arrives to `PublicApi` through a public protocol.
 * Contract call is forwarded to `VirtualMachine` for execution.
   * State needed for execution is read from `StateStorage`.
 * Response is returned to client.
-*/
+-->
 
 &nbsp;
 ## Continuous block creation
