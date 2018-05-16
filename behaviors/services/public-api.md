@@ -18,16 +18,44 @@ Maintains a state for clients sessions and send a response to the client.
 * Correct protocol version.
 * Correct virtual chain.
 
-#### Maintain sessions context
-* Maintain session context in order to return a response and associate a 
-
 #### Forward call
-* Send transaction to the network by calling `Consensus.SendTransaction`.
+* Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
+
+#### Maintain sessions context
+* Maintain session context in order to return a response and associate a tx_id = SHA256(Transaction).
+* TODO: seession timeout (should be ~ 1min)
 
 ## `UpdateTransactionsResponse` (method)
 * Called by the Consensus service upon commiting a new block, provides a list of receipts, each identified by a tx_id.
 * Upon reception, match to the open sessions and send response back to the client.
 
+
+&nbsp;
+## `GetTransactionStatus` (method)
+> Check the status of previously sent transaction
+
+#### Check request validity
+* Chcek time_stamp is within valid window: < last_block_time + 2sec, else return:
+    * tx_id 
+    * status = INVALID_REQUEST
+    * last block time_stamp
+    (All other fields are don't care)
+
+#### Check local sessions database
+* If tx_id is present in the local sessions database, return:
+    * tx_id 
+    * status = PENDING
+    * last block time_stamp
+    (All other fields are don't care)
+
+#### Check transaction pool
+* Call `TransactionPool.GetTransactionStatus` 
+    * If status = PENDING, return the response. //TBD hold committed status in transaction pool.
+
+#### Check block storage
+* Call `BlockStorage.GetTransactionReceipt`, return the response.
+
+// TODO rate limiter.
 
 &nbsp;
 ## `CallContract` (method)
@@ -41,18 +69,8 @@ Maintains a state for clients sessions and send a response to the client.
 #### Forward call
 * Forward call to `VirtualMachine.CallContract`.
 
-&nbsp;
-## `GetTransactionStatus` (method)
-> Check the status of previously sent transaction
 
-#### Check request validity
-* todo.
 
 #### Process
 * If the transaction has an open session, return PENDING
 * Else call `BlockStorage.GetTransactionReceipt`. // throttling mechanism.
-
-&nbsp;
-## `UpdateSubscriptionStatus` (method)
-Called by the configuaration manager per virtual chain, updates the virtual chain's subscription level.
-

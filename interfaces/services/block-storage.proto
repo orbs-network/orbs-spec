@@ -9,12 +9,13 @@ service BlockStorage {
   rpc GetBlocksByHeight (GetBlocksByHeight) returns (GetBlocksByHeightOutput);
   rpc GetOrderingBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
   rpc GetValidationBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
-  rpc GetLastBlockHeight(GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
-  rpc ProcessGossipMessage(ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
-  rpc GetTransactionReceipt(GetTransactionReceiptInput) returns (GetTransactionReceipt);
-  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
-  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);
-  
+  rpc GetLastBlockHeight (GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
+  rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
+  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
+//  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
+//  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);
+  rpc RequestReceiptsUpdate (RequestReceiptsUpdateInput) returns (RequestReceiptsUpdateOutput);
+  rpc RequestStateDiffUpdate (RequestStateDiffUpdateInput) returns (RequestStateDiffUpdateOutput);
 //  rpc GetOrderingBlockByID (GetBlockByIDInput) returns (GetOrderingBlockOutput);
 //  rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
 //  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
@@ -70,20 +71,40 @@ message GetReceiptsInput {
 }
 
 message GetReceiptsOutput {
-  Uint64 top_block = 1;
+  Uint64 last_committed_block = 1;
   Uint64 last_added_block = 2;
   ValidationBlock validation_block = 3; // Nullify sc_state_diff
 }
 
-message GetStateDiffFromHeightInput {
+message GetStateDiffInput {
   Uint64 first_block_height = 1;
   Uint64 last_block_height = 2;
 }
 
-message GetStateDiffFromHeightOutput {
-  Uint64 top_block = 1;
+message GetStateDiffOutput {
+  Uint64 last_committed_block = 1;
   Uint64 last_added_block = 2;
   ValidationBlock validation_block = 3; // Nullify transaction_receipts
+}
+
+message RequestReceiptsUpdateInput {
+  Ed25519PKey consumer_id = 1;
+  Unit64 consumer_block_height = 2;
+  Uint64 target_block_height = 3;
+}
+
+message RequestReceiptsUpdateOutput {
+  // empty
+}
+
+message RequestStateDiffUpdateInput {
+  Ed25519PKey consumer_id = 1;
+  Unit64 consumer_block_height = 2;
+  Uint64 target_block_height = 3;
+}
+
+message RequestStateDiffUpdateOutput {
+  // empty
 }
 
 /*

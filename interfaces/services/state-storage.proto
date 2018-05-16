@@ -3,7 +3,7 @@ syntax = "proto3";
 service StateStorage {
   rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
   rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
-  rpc GetStateHash(GetStateHashInput) returns (GetStateHash);
+  rpc GetStateHash(GetStateHashInput) returns (GetStateHashOutput);
 }
 
 message ReadKeysInput {
@@ -27,7 +27,8 @@ message CommitStateDiffInput {
 }
 
 message CommitStateDiffOutput {
-  // empty
+  Unit64 consumer_block_height = 1;
+  Uint64 target_block_height = 2;
 }
 
 message GetStateHashInput {

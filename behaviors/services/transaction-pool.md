@@ -3,22 +3,22 @@
 Performs pre-order validation, holds pending transactions, and committed transactions it, propose transactions for new block and validates the transactions order in a propsoed block.
 &nbsp;
 
-![alt text][ledger] <br/><br/>
+![alt text][transaction_preorder_validation_flow] <br/><br/>
 
-[ledger]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
+[transaction_preorder_validation_flow]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
 
 ## `Data Structures`
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
-* No need to be persistent. Syncs from the block stroage upon loss of sync.
+* No need to be persistent.
 * Configurable max size.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
 * Sends the transaction receipt to the local relay_gw upon committment of a new block.
 
 #### Committed transaction pool
 * Holds the ID of transactionss after they are added to the blockchain to avoid transaction duplication and return their result.
-* No need to be persistent, consistency with the commited block is achived as part of the node sync.
+* No need to be persistent, re-sync from the block storage.
 * No limit on max size, max_size is determined by the exeperation window x maximum transaction rate. (on full committed pool - fatal error, drop all new committed blocks until not full)
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
 
@@ -26,30 +26,25 @@ Performs pre-order validation, holds pending transactions, and committed transac
 > Checks a transaction's validity and approves it for ordering.
 > Performed on transactions received both from a local Public API before signing and broadcasting them and as part of the ordering block construction and validation.
 
-#### Check transaction validity
+#### Check transaction ordering validity
 * Correct protocol version.
 * Valid fields (sender address, contract address).
 * Sender virtual chain matches contract virtual chain matches instance virtual chain.
-* Check transaction time_stamp, accept only transactions with last block.timestamp -5 sec < time_stamp < block.timestamp expiration window. 
-* Valid transaction signature.
-
-#### Approve transaction for processing
-* Not expired. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
-* Check that the Subscription status is active.
-    * The virtual chain subscription status is updated periodically by the ConfigurationManager calling the `UpdateSubscriptionStatus` method.
+* Check transaction time_stamp, accept only transactions with last block.timestamp -5 sec < time_stamp < block.timestamp + expiration window. 
 * Transaction doesn't already exist in the pending pool or committed pool (duplicated).
-
+* Verify the tarnsaction signature and subscription and calling `VirtualMachine.TransactionSetPreOrder`.
+    * Note: `TransactionSetPreOrder` does not require ordered trasnactions and can be paralelized. 
 
 &nbsp;
 ## `AddNewTransaction` (method)
 > Add a new transaction from a client to the network (pending transaction pool)
-* If out of sync, hold execution until regain sync.
+* If OUT_OF_SYNC, hold execution until regain sync.
     * Note: AddNewTransaction is an a-sync event as such it's not consistent across nodes. However gossiping duplicate trunsactions can damage the node's reputation.
 * Check that the trasnaction is valid and approved for ordering by calling `CheckPreOrder`.
 * If a transaction fails the approval, update the Public API by calling `PublicAPI.UpdateTransactionsResponse` with:
     * tx_id 
     * status
-    * current time_stamp
+    * last block time_stamp
     (All other fields are don't care)
 
 #### Add transaction to pending pool
@@ -65,9 +60,15 @@ If not empty and X = 100 ms have passed since the last batch was sent or cache h
 ## `GetPendingTransactions` (method)
 > Returns a set of N trasnactions for block building based on the block building policy (first come first served)
 
-### Check that the pools are up to date
-* Check block height = last_commited_block height + 1. 
-* If block height > last_commited_block + 1 initate sync flow and return OUT_OF_SYNC status.
+#### Make sure the transaction pool is in sync
+* Update last_requested_block = block height.
+* Check block height = last_commited_block height + 1.  
+  * If equal reset OUT_OF_SYNC, stop the `Sync flow`.
+* If block height = last_commited_block height + 1
+  * hold response for up to X = 2 sec waiting for potential receipts commit from the block storage.
+  * Upon timeout set OUT_OF_SYNC, return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
+* If block height > last_commited_block height + 1:
+  * set OUT_OF_SYNC, return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
 * If block height < last_commited_block + 1 return UNEXEPCETED_BLOCK_HEIGHT.
 
 ### Returns a list of trasnactions
@@ -103,8 +104,18 @@ If not empty and X = 100 ms have passed since the last batch was sent or cache h
 ## `GetTransactionStatus` (method)
 > Return the status of a transaction
 
-* If the transaction is in the committed transaction pool return COMMITTED and its receipt.
-* If the transaction is in the pending transaction pool return PENDING.
+#### Check pending transactions pool
+* If tx_id is present in the pending transaction pool, return:
+    * tx_id 
+    * status = PENDING
+    * last block time_stamp
+    (All other fields are don't care)
+
+Else retun:
+    * tx_id 
+    * status = NO_RECORD_FOUND
+    * last block time_stamp
+    (All other fields are don't care)
 
 &nbsp;
 ## `GossipMessageReceived` (method)
@@ -122,3 +133,8 @@ If not empty and X = 100 ms have passed since the last batch was sent or cache h
 ## `UpdateSubscriptionStatus` (method)
 > Updates the transaction pool Subscription status.
 * Update the local subscription status for the virtual chain, takes effect starting from the indicated block.
+
+&nbsp;
+## `Sync Flow`
+> Syncs the state storage based on the block storage state diff.
+* Call `BlockStorage.RequestReceiptsUpdate` with consumer_block_height = last_commited_block + 1, target_block_height = MAX_UINT64.

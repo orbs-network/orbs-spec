@@ -8,7 +8,7 @@ service TransactionPool {
   rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
   rpc GetPendingTransactions (GetPendingTransactionsInput) returns (GetPendingTransactionsOutput);
   rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
-  rpc MarkCommittedTransactions (MarkCommittedTransactionsInput) returns (MarkCommittedTransactionsOutput);
+  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
   rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
@@ -46,11 +46,13 @@ message GetTransactionStatusOutput {
   TransactionReceipt receipt = 1;
 }
 
-message MarkCommittedTransactionsInput {
+message CommitTransactionReceiptsInput {
   ValidationBlock validation_block = 1; // Nullify sc_state_diff
 }
 
-message MarkCommittedTransactionsOutput {
+message CommitTransactionReceiptsOutput {
+  Unit64 consumer_block_height = 1;
+  Uint64 target_block_height = 2;
 }
 
 message ValidateTransactionsForOrderingInput {
@@ -65,4 +67,13 @@ message ValidateTransactionsForOrderingOutput {
 enum TransactionsOrderingStatus {
   VALID = 0;
   INVALID = 1;
+}
+
+message GetTransactionStatusInput {
+  SHA256 txid = 1;
+  Uint64 time_stamp = 2;
+}
+
+message GetTransactionStatusOutput {
+  TransactionReceipt receipt = 1;
 }

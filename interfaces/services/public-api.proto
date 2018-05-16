@@ -7,7 +7,7 @@ import "services/configuration-manager.proto";
 service PublicApi {
   rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
   //rpc CallContract (CallContractInput) returns (CallContractOutput);
-  //rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
   rpc UpdateTransactionsResponse(UpdateTransactionsResponseInput) returns (UpdateTransactionsResponseOutput);
 }
@@ -21,11 +21,14 @@ message SendTransactionOutput {
 }
 
 message GetTransactionStatusInput {
-  string txid = 1;
+  SHA256 txid = 1;
+  Uint64 time_stamp = 2;
 }
 
 message GetTransactionStatusOutput {
   TransactionReceipt receipt = 1;
+  Uint64 block_height = 2;
+  Uint64 block_timestamp = 3;
 }
 
 message UpdateTransactionsResponseInput {

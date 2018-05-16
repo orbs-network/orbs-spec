@@ -1,43 +1,77 @@
 syntax = "proto3";
 
-import "primitives/blocks.proto";
-import "services/configuration-manager.proto";
+import "protocol/blocks.proto";
+import "protocol/primitives.proto";
 
 service TransactionPool {
-  rpc RequestNewBlock (RequestNewBlockInput) returns (RequestNewBlockOutput);
-  rpc ValidateBlock (ValidateBlockInput) returns (ValidateBlockOutput);
-  rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
-  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
+  rpc RequestNewOrderingBlock (RequestNewOrderingBlockInput) returns (RequestNewOrderingBlockOutput);
+  rpc RequestNewValidationBlock (RequestNewValidationBlockInput) returns (RequestNewValidationBlockOutput);
+  rpc ValidateOrderingBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
+  rpc ValidateValidationBlock (ValidateValidationBlockInput) returns (ValidateValidationBlockOutput);
+  rpc CommitOrderingBlock (CommitOrderingBlocknput) returns (CommitOrderingBlockOutput);
+  rpc CommitValidationBlock (CommitValidationBlockInput) returns (CommitValidationBlockOutput);
+  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 }
 
-message RequestNewBlockInput {
-    // empty, TODO should block_height come from the algo or perhaps a token.
+message RequestNewOrderingBlockInput {
+
 }
 
-message RequestNewBlockOutput {
+message RequestNewOrderingBlockOutput {
     OrderingBlock ordering_block = 1;
-    ValidationBlock validation_block = 2;
 }
 
-message ValidateBlockInput {
+message RequestNewValidationBlockInput {
+
+}
+
+message RequestNewValidationBlockOutput {
+    ValidationBlock validation_block = 1;
+}
+
+message ValidateOrderingBlockInput {
     OrderingBlock ordering_block = 1;
-    ValidationBlock validation_block = 2;
 }
 
-message ValidateBlockOutput {
+message ValidateOrderingBlockOutput {
     BlockStatus status = 1;
 }
 
-message CommitBlockInput {
-    OrderingBlock ordering_block = 1;
-    ValidationBlock validation_block = 2;
+message ValidateValidationBlockInput {
+    ValidationBlock validation_block = 1;
 }
 
-message CommitBlockOutput {
+message ValidateValidationBlockOutput {
+    BlockStatus status = 1;
+}
+
+message CommitOrderingBlockInput {
+    OrderingBlockProof block_proof = 1;
+}
+
+message CommitOrderingBlockOutput {
+    // empty
+}
+
+message CommitValidationBlockInput {
+    ValidationBlockProof block_proof = 1;
+};
+
+message CommitValidationBlockOutput {
     // empty
 }
 
 enum BlockStatus {
     VALID = 0;
     INVALID = 1;
+}
+
+message RequestCommitteeInput {
+    Uint64 random_seed = 1;
+    Uint32 committee_size = 2;
+}
+
+message RequestCommitteeOutput {
+    repeated Ed25519PKey node_id = 1;
 }

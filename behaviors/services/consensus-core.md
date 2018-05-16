@@ -1,5 +1,5 @@
 # Consensus-Core
-Respomsible for the producing and valdiation of ordering and validation blocks.
+Responsible for the producing and valdiation of ordering and validation blocks.
 The consensus core maintains the consistency state (latest block_height) and is responsible for the consistency of the rest of the services.
 The consensus core interacts with the follwoing services as part of the consensus process:
 * Consensus algorithm - achieves consensus on a block, uses lite-helix, a PBFT based algorithm.
@@ -7,15 +7,21 @@ The consensus core interacts with the follwoing services as part of the consensu
 * VM - used to execute the transactions.
 * Block storage - called to commit new blocks upon consensus.
 
+![alt text][consensus_core_interfaces] <br/><br/>
+
+[consensus_core_interfaces]: consensus_core_interfaces.png "Consensus - Core Interfaces"
+
+
 &nbsp;
-## `Create Block` (method)
-* Process performed by the leader only, initiated by the complition of the previous block round (block committed)
-* Get the pending transactions calling `TransactionPool.GetAllPendingTransactions`.
-  * if there are no transactions to append, continue with #of transaction = 0.
-* Build ordered transactions set based on the ordering policy (in order).
-* Perform `Validate PreOrder` check on each transaction.
-* Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
-  * If returns OUT_OF_SYNC retry, until timeout = 10 sec.
+## `RequestNewOrderingBlock` (method)
+> Performed by the leader only, upon request from the algorithm.
+
+### Ordering Block Creation
+* Get the pending transactions by calling `TransactionPool.GetPendingTransactions`.
+  * If returns OUT_OF_SYNC retry, until timeout = 10 sec, on timeout return NULL.
+  * if there are no transactions to append:
+    * Wait empty_block_wait = 0.5sec and retry.
+    * If still empty continue with an empty block (# of transaction = 0).
 * Build Ordering block
   * Current protocol version (0x1)
   * Virtual chain 
@@ -25,6 +31,14 @@ The consensus core interacts with the follwoing services as part of the consensu
   * The merkle root hash of the block's transactions
   * Metadata - holds reputaion / algorithm data
   * SHA256 of the block metadata.
+* Cache the ordering block for the Validation part. 
+
+&nbsp;
+## `RequestNewValidationBlock` (method)
+> Performed by the leader only, upon request from the algorithm.
+> The Consensus core receives the Ordering block directly from the Ordering Consensus (Same nodes/cores in V1)
+* Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
+  * If returns OUT_OF_SYNC retry, until timeout = 10 sec, on timeout return NULL.
 * Build Execution Validation Block
   * Current protocol version (0x1)
   * Virtual chain 
@@ -36,27 +50,26 @@ The consensus core interacts with the follwoing services as part of the consensu
     * If returns OUT_OF_SYNC retry, until timeout = 10 sec.
   * Hash pointer to the Ordering block of the same height - SHA256(Block header)
   * Merkle root of the state prior to the block execution
-  * Bloom filter of the block's receipts
+  * Bloom filter
+    * Set H(1,tx_id) for each transaction's tx_id // TBD sender_address, smart_contract_address.
 
-* Block = {Ordering Block, Execution Validation Block}
-* Initiate a lite-helix consensus round, appending(block)
+## `ValidateOrderingBlock` (method)
+> Performed upon request from the algorithm recieving a block proposal. 
 
-## `Validate PreOrder` (method)
+### PreOrder checks
 > Performs on each transaction in the proposed OrderingBlock similar checks as the ones done in the transaction pool to verify them under consensus.
 
 #### Check transaction validity
-* Correct protocol version.
-* Valid fields (sender address, contract address).
-* Sender virtual chain matches contract virtual chain.
-* Check transaction time_stamp, accept only transactions with last block.timestamp -2sec  < time_stamp < block.timestamp expiration window. 
-* Valid transaction signature.
+// Moved to transaction pool.
 
 #### Approve transaction for processing
 * Not expired. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
 * Check that the Subscription status is active.
 * Transaction doesn't already exist in the committed pool (duplicated). Validating by calling `TransactionPool.ValidateTransactionsForOrdering`.
 
-## `Validate Ordering Block` (method)
+If one of the PreOrder checks fails, return INVALID status.
+
+### Ordering Block Checks
 * Check block proof
 * Check protocol verison
 * Check that virtual chain matches consensus virtual chain 
@@ -68,6 +81,8 @@ The consensus core interacts with the follwoing services as part of the consensu
 * Check ordering policy (not verified)
 * Check no previously committed transactions
 * Check no duplicated transactions
+
+If one of the Oredring Block checks fails, return INVALID status.
 
 ## `Validate Execution Validation Block` (method)
 * Check block proof
@@ -88,23 +103,28 @@ The consensus core interacts with the follwoing services as part of the consensu
 * Check receipts root hash equal local receipts root hash 
   * Supports only determistic execution 
 
-&nbsp;
-## `RequestNewBlock` (method)
-Calls `Create Block` return {Ordering Block, Validation Block}
+If one of the Oredring Block checks fails, return INVALID status.
 
 &nbsp;
-## `ValidateBlock` (method)
-Calls `Validate PreOrder`
-Calls `Validate Ordering Block`
-Calls `Validate Execution Validation Block`
-returns Valid if all are valid.
+## `CommitOrderingBlock` (method)
+> Commits the ordering block to the block storage.
+* Update the last commited ordering block height. 
+* Commit the block to the block storage by calling `BlockStorage.CommitOrderingBlock`.
 
 &nbsp;
-## `CommitBlock` (method)
-> Initiated on lite-helix block commit. Updates the top_block value and adds the commited block to the block storage by calling:
-* `BlockStorage.CommitOrderingBlock`
-* `BlockStorage.CommitValidationBlock`
+## `CommitValidationBlock` (method)
+> Commits the validation block to the block storage.
+* Update the last commited validation block height. 
+* Commit the block to the block storage by calling `BlockStorage.CommitValidationBlock`.
 
-## `UpdateSubscriptionStatus` (method)
-> Updates the transaction pool Subscription status.
-* Update the local subscription status for the virtual chain, takes effect starting from the indicated block. Used for the subscription validation as part of the 
+&nbsp;
+## `RequestOrderingCommittee` (method)
+> Reurns a list of nodes to participate in the ordering consensus round.
+* Return a list of all the nodes' ids (Public Key)
+  * To be updated to random committies.
+
+&nbsp;
+## `RequestValidationCommittee` (method)
+> Reurns a list of nodes to participate in the validation consensus round.
+* Return a list of all the nodes' ids (Public Key)
+  * To be updated to random committies.

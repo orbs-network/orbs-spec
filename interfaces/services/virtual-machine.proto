@@ -1,12 +1,15 @@
 syntax = "proto3";
 
-import "primitives/transactions.proto";
-import "primitives/blocks.proto";
-import "call-contract.proto";
+import "protocol/transactions.proto";
+import "protocol/blocks.proto";
+import "internal/call-contract.proto";
+import "internal/address_data";
+import "services/configuration-manager.proto";
 
 service VirtualMachine {
   rpc CallContract (CallContractInput) returns (CallContractOutput);
   rpc ProcessTransactionSet(ProcessTransactionSetInput) returns (ProcessTransactionSetOutput);
+  rpc TransactionSetPreOrder(TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput);
 }
 
 message ProcessTransactionSetInput {
@@ -26,4 +29,26 @@ message CallContractInput {
 
 message CallContractOutput {
   repeated TransactionReceipt transaction_receipts = 1;
+}
+
+message TransactionSetPreOrderInput {
+  Uint64 block_height = 1;
+  Uint32 virtual_chain = 2;
+  SubscriptionTier subscription = 3;
+  repeated TransactionEntry ordered_transactions = 4; 
+}
+
+message TransactionSetPreOrderOutput {
+  repeated PreOrderResult pre_order_result = 1;
+}
+
+message PreOrderStatus {
+  PreOrderStatus status = 1;
+  AddressData address_data = 2;
+}
+
+enum PreOrderStatus {
+  VALID = 0;
+  INVALID_SIGNATURE = 1;
+  SUBSCRIPTION_ERROR = 2;
 }

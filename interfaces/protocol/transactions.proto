@@ -13,7 +13,7 @@ message TransactionReceipt {
   Uint32 version = 2;
   TransactionStatus transaction_status = 3;
   String status_message = 4;
-  ReceiptBloomFilter bloom_filter = 5;
+//  ReceiptBloomFilter bloom_filter = 5;
 }
 
 message TransactionHeader {
@@ -44,5 +44,4 @@ enum TransactionStatus {
 
 message ReceiptBloomFilter {
   Bytes filter = 1;
-  // Events bloom filter: (Hard coded indices: 0 - tx_id, 1 - Sender address, 2 - Smart contract address)
 }

@@ -51,3 +51,28 @@ Executes smart contracts using various processors (languages) and produces state
 #### Prepare combined state diff
 * Retrieve the changes between the transient state cache and the original state.
 * Encode changes as state diff.
+
+&nbsp;
+## `TransactionSetPreOrder` (method)
+> Executes pre-order related checks and returns status, address_data. May require to execute smart contracts for advanced signatrue schemes and subscription tier management. (Not in V1)
+
+### Transaction sender proccessing
+> checks the sender signature and generates address data
+
+Classify address scecme:
+#### Address Scheme 01
+* Check signature(transaction header, Sender.Public Key, Ed25519 signature).
+  * If mismatch return: status = INVALID_SIGNATRUE.
+* Virtual chain: copied from the sender data.
+* Address token: RIPMD160(SHA(Public Key)) - TODO, research feedback.
+* ApprovalTier: VALID.
+
+#### Other Scheme
+* If scheme <> 01, return status = INVALID_ADDRESS_SCHEME.
+
+### Check Subscription
+> Calls the virtual chain smart contract - TODO
+* If the subscription status is not valid, return: SUBSCRIPTION_ERROR.
+
+### Valid transaction
+* Set status = VALID and return response.

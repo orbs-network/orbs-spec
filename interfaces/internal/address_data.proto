@@ -3,10 +3,10 @@ syntax = "proto3";
 message AddressData {
     uint32 virtual_chain = 1;
     bytes address_token = 2;
-    ApprovalLevel approval_level = 3;
+    ApprovalTier approval_level = 3;
 }
 
-enum ApprovalLevel {
+enum ApprovalTier {
     INVALID = 0;
-    VALID_LEVEL1 = 1;
+    VALID = 1;
 }

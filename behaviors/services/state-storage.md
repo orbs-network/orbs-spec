@@ -29,14 +29,22 @@ Holds the latest state under consensus, meaning the state variables for all cont
 * When done update the last_committed_block height
 
 &nbsp;
+## `Check in-sync` 
+
 ## `ReadKeys` (method)
 > Retrieve the values from a set of keys belonging to one contract.
+* Update last_requested_block = block height.
+* Check block height = last_commited_block height.  
+  * If equal reset OUT_OF_SYNC, stop the `Sync flow`.
+* If block height = last_commited_block height + 1
+  * hold response for up to X = 2 sec waiting for potential StateDiff commit from the block storage.
+  * Upon timeout return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
+* If block height > last_commited_block height + 1:
+  * return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
+* If block height < last_commited_block + 1 return UNEXEPCETED_BLOCK_HEIGHT.
 
-#### Make sure state is fully synced
-* Check block height = last_commited_block height.
-  * If block height = last_commited_block height + 1
-    hold response for up to X = 2 sec waiting for potential StateDiff commit from the block storage.
-  * If block height > last_commited_block height + 1 or upon timeout, return OUT_OF_SYNC response and initiate a `Sync Flow`
+#### Make sure state is in sync
+* Performs `Check in-sync` flow.
 
 #### Read the state
 * Return the ordered list of values read from the state store.
@@ -45,8 +53,14 @@ Holds the latest state under consensus, meaning the state variables for all cont
 ## `GetStateHash` (method)
 > Returns the state hash (merkle tree root)
 
-#### Check State Storage is updated to the latest block
-Check that block_height is consistent with current block_height, otherwise return status = NOT_UPDATED.
+#### Make sure state is in sync
+* Performs `Check in-sync` flow.
 
 #### Return the state root
-Return the state merkle tree root.
+* Return the state merkle tree root.
+
+
+&nbsp;
+## `Sync Flow`
+> Syncs the state storage based on the block storage state diff.
+* Call `BlockStorage.RequestStateDiffUpdate` with consumer_block_height = last_commited_block + 1, target_block_height = MAX_UINT64.

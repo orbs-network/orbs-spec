@@ -94,19 +94,51 @@ Syncs with other nodes when missing blocks are required.
 * Upon receiption of a BLOCK_SYNC_RESPONSE message, perfom regular `BlockCommitted` flow.
 * Repeat sending requests until receiving a valid PrePrepare message (including block_height = top_block + 1)
 
-*/
-
+&nbsp;
 ## `GetTransactionReceipt` (method)
-> returns a transaction receipt for a given transaction ID and timestamp.
-* May use the block header blloom filter for transaction_id search.
-* TODO return also a proof.
+> Returns the transaction receipt for a transaction based on its tx_id and time_stamp.
+* Fetch all relevant block headers based on the time_stamp
+  * Block headers / bloom filters should be stored such they can be fetched as a bulk. 
+  * For 30min time window, with average block time of 2sec, need to fetch ~900 headers ~8MB //TBD final bloom filter size.
+* Search for the tx_id in the bloom filter
+  * If hit, fetch the Valdiation Block receipts and search for the tx_id.
+* If tx_id found, return receipt //TBD proof (block proof + merkle leaf).
+* if tx_id wasn't found return status = NO_RECORD_FOUND.
+
+
+![alt text][block_state_pool_flow] <br/><br/>
+
+[block_state_pool_flow]: block_state_pool_flow.png "Block Storage - State Storage / Transaction Pool"
+
+## `RequestReceiptsUpdate` (method)
+> Used by a transaction pool to subscribe for receipts update and re-sync.
+* TODO Checkpoints.
+* Check consumer_id, if not exist add to database, else if exist update.
+* If target_block_height = MAX_UINT64, continue to commit until notified otherwise (subscribed to commits)
+* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
+* // TODO checkpoint handling
+* As a result of the a request the block storage continuasly sends Commit
+
+## `RequestStateDiffUpdate` (method)
+> Used by a state storage to subscribe for receipts update and re-sync.
+* TODO Checkpoints.
+* Check consumer_id, if not exist add to database, else if exist update.
+* If target_block_height = MAX_UINT64, continue to commit until notified otherwise (subscribed to commits)
+* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
+* // TODO checkpoint handling
+
+
+
+
+
+/* Ignore
 
 ## `GetReceipts` (method)
 > Return an array of Validation Blocks with the receipts, header and proof of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync). Used by the the tarnsaction-pool for sync.
 * If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
 
-#### Verify  
-
 ## `GetStateDiff` (method)
 > Return an array of Validation Blocks with the state_diff, header and proof of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync). Used by the the tarnsaction-pool for sync.
 * If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
+
+*/
