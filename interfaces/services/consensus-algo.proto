@@ -6,13 +6,5 @@ import "protocol/blocks.proto";
 import "services/configuration-manager.proto";
 
 service Consensus {
-  rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
-}
-
-message ProcessGossipMessageInput {
-  GossipMessage gossip_message = 1;
-}
-
-message ProcessGossipMessageOutput {
-  
+  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
 }
