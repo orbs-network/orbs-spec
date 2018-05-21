@@ -18,19 +18,26 @@ Connects different nodes over the network with efficient message broadcast and u
 
 &nbsp;
 ## `OnMessageReceived` (method)
-> Called when a gossip message is received from another node
-
-* Identify target service according to the message target broadcast group.
+> Called when a gossip message is received from another node, forwarded to the services that are subscribed to the message.
 * Call `Target.GossipMessageReceived` with message content.
+* The target service is responsible to identify the topic and message type and process the message accordingly.
 
 &nbsp;
-## `BroadcastMessage` (method)
-> Broadcasts a message to all nodes
-
-* Send message to each of the nodes.
+## `BroadcastMessage` (rpc)
+> Broadcasts a message to all the services that are subscribed to the message topic.
+* Sends a message to each of the nodes' gossip. (pruning will be added at a later stage)
 
 &nbsp;
-## `UnicastMessage` (method)
-> Sends a message to a single nodes
-
+## `UnicastMessage` (rpc)
+> Sends a message to a single node and service.
 * Send message to the specific recipient node.
+
+&nbsp;
+## `TopicSubscribe` (rpc)
+> Used by services to subscribe to a specific topic. 
+Returns a token that can be used in order to unsubscribe.
+
+&nbsp;
+## `TopicUnsubscribe` (rpc)
+> Used by services to unsubscribe from a specific topic. 
+

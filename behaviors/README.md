@@ -27,6 +27,15 @@
 
 &nbsp;
 ## Client calls a contract (read)
+> Enables to perform Read Only contract calls. Perfromed on the latest state.
+* Client request arrives to `PublicApi` through a public protocol.
+* `PublicApi` 
+  * Performs checks on the transaction:
+    * Version, Transaction format, virtual chain.
+  * Maintain session info.
+  * Send transaction to VM by calling 
+
+
 TO BE UPDATED
 <!--
 * Assuming state storage and block storage are synchronized to latest block.

@@ -12,6 +12,7 @@ service TransactionPool {
   rpc CommitValidationBlock (CommitValidationBlockInput) returns (CommitValidationBlockOutput);
   rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
   rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+  rpc GetTopBlockHeight (GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
 }
 
 message RequestNewOrderingBlockInput {
@@ -74,4 +75,12 @@ message RequestCommitteeInput {
 
 message RequestCommitteeOutput {
     repeated Ed25519PKey node_id = 1;
+}
+
+message GetTopBlockHeightInput {
+    //empty
+}
+
+message GetTopBlockHeightOutput {
+    Uint64 top_block_hieght = 1;
 }

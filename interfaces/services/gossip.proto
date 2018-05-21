@@ -8,6 +8,8 @@ import "protocol/messages.proto";
 service Gossip {
   rpc BroadcastMessage (BroadcastMessageInput) returns (BroadcastMessageOutput);
   rpc UnicastMessage (UnicastMessageInput) returns (UnicastMessageOutput);
+  rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
+  rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
 }
 
 message BroadcastMessageInput {
@@ -32,4 +34,29 @@ message GossipMessageReceivedInput {
 
 message GossipMessageReceivedOutput {
 // empty
+}
+
+message TopicSubscribeInput {
+  String topic = 1;
+  ServiceID service_id = 2; 
+// Uint32 qos = 3;
+}
+
+message TopicSubscribeOutput {
+  Uint64 subscription_token = 2;
+}
+
+message TopicUnsubscribeInput {
+  Uint64 subscription_token = 1;
+}
+
+message TopicUnsubscribeOutput {
+// empty
+}
+
+enum ServiceID {
+  CONSENSUS_ALGO = 0;
+  BLOCK_STORAGE = 1;
+  TRANSACTION_POOL = 2;
+  GOSSIP = 3;
 }

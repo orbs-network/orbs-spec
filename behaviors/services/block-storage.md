@@ -23,6 +23,7 @@ Syncs with other nodes when missing blocks are required.
 * The synchronization process is initialled upon either:
   * Receving CommitBlock block with height <> last_commited_block block + 1.
   * Receving a request to fetch data from blocks that are unavailable to the block storage. (from the state storage or transactions pool)
+  * K = 8 sec have passe since the last block commit.
 
 ## `Block Synchronization Flow`
 # TODO redefine flow, do we want to optmize consensus operation? Seperate headers from data? Set designated node algorithmically ?
@@ -57,8 +58,9 @@ Syncs with other nodes when missing blocks are required.
 &nbsp;
 ## `GetBlocksByHeight` (method)
 > Return an array of blocks of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync).
-* If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
+* If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlockHeight`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
 * TODO - Checkpoints
+* TODO - Currently not used in any V1 flow (may be needed for future contract calls)
 
 &nbsp;
 ## `GetOrderingBlockByHeight / GetValidationBlockByHeight` (method)

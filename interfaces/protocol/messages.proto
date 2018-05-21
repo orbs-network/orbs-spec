@@ -9,14 +9,13 @@ import "protocol/blocks.proto";
 message GossipMessage {
   Uint32 version = 1;
   TargetType target_type = 2;
-  String target = 3;
+  MessageTopic topic = 3;
   Uint32 virtual_chain = 4;
-  MessageGroup message_group = 5;
-  Bytes payload = 6;
-//  uint32 qos_param = 7;
+  Bytes payload = 5;
+//  uint32 qos_param = 6;
 }
 
-enum MessageGroup {
+enum MessageTopic {
   MANAGEMENT = 0;
   LITE_HELIX_CONSEMSUS = 1;
   TRANSACTIONS_GOSSIP = 2;

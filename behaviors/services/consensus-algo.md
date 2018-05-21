@@ -1,3 +1,11 @@
+# Consensus-Algo
+> Performs the consensus algorithm. 
+> Requests the requiered data from the Consensus-Core and provides commit indication.
+
+## INIT() Flow
+* Subscribe to consensus messages.
+* Init view, term to 0.
+
 &nbsp;
 ## `Lite-Helix Messages`
 * When Lite-Helix sends a broadcast message call `Gossip.BroadcastMessage` with the Lite-Helix message, send message to the Ordering_Nodes group.

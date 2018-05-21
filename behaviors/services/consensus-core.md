@@ -1,4 +1,4 @@
-# Consensus-Core
+# Consensus-Core / Block Generator
 Responsible for the producing and valdiation of ordering and validation blocks.
 The consensus core maintains the consistency state (latest block_height) and is responsible for the consistency of the rest of the services.
 The consensus core interacts with the follwoing services as part of the consensus process:

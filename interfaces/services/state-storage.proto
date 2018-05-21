@@ -7,7 +7,7 @@ service StateStorage {
 }
 
 message ReadKeysInput {
-  Uint64 block_height = 1;
+  Uint64 requested_block_height = 1;
   Address contract_address = 2;
   repeated RIP160SHA256 keys = 3;
 }
@@ -24,15 +24,16 @@ enum StateStatus {
 
 message CommitStateDiffInput {
   ValidationBlock validation_block = 1; // Nullify transaction_receipts
+  Uint64 top_block_height = 2;
 }
 
 message CommitStateDiffOutput {
   Unit64 consumer_block_height = 1;
-  Uint64 target_block_height = 2;
+//  Uint64 target_block_height = 2;
 }
 
 message GetStateHashInput {
-  Uint64 block_height = 1;
+  Uint64 requested_block_height = 1;
 }
 
 message GetStateHashOutput {
