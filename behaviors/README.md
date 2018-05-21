@@ -33,17 +33,15 @@
   * Performs checks on the transaction:
     * Version, Transaction format, virtual chain.
   * Maintain session info.
-  * Send transaction to VM by calling 
+  * Batch up to 100ms or 10 transactions. 
+  * Get the latest block height by calling `ConsensusCore.GetTopBlockHeight`.
+  * Send the transactions to VM for execution by calling `VirtualMachine.CallContract` with the latest block height. 
+  * `VirtualMachine`
+    * Checks the Sender and Signatrue (if present: <> 0). If signature isn't present assume sender = 0.
+    * Executes the smart contract
+    * Returns the result
+  * `PublicApi` sends a response to the client.
 
-
-TO BE UPDATED
-<!--
-* Assuming state storage and block storage are synchronized to latest block.
-* Client request arrives to `PublicApi` through a public protocol.
-* Contract call is forwarded to `VirtualMachine` for execution.
-  * State needed for execution is read from `StateStorage`.
-* Response is returned to client.
--->
 
 &nbsp;
 ## Continuous block creation

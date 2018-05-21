@@ -11,6 +11,12 @@ The consensus core interacts with the follwoing services as part of the consensu
 
 [consensus_core_interfaces]: consensus_core_interfaces.png "Consensus - Core Interfaces"
 
+&nbsp;
+## Init Flow
+* Read configuration file:
+  * Federation nodes (public keys)
+  * Empty_block_wait
+  * Out of sync timeout
 
 &nbsp;
 ## `RequestNewOrderingBlock` (method)

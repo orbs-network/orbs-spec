@@ -44,7 +44,6 @@ message TransactionSetPreOrderOutput {
 
 message PreOrderStatus {
   PreOrderStatus status = 1;
-  AddressData address_data = 2;
 }
 
 enum PreOrderStatus {

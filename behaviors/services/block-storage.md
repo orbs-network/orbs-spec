@@ -4,6 +4,12 @@ Provides the state stroage with the state diff and the trasnaction pool with the
 Syncs with other nodes when missing blocks are required.
 
 &nbsp;
+## Init Flow
+* Subscribe to node sync messages.
+* Read persistent data
+* 
+
+&nbsp;
 ## `Data Structures`
 
 #### Block database

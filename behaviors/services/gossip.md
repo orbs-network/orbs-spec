@@ -17,7 +17,12 @@ Connects different nodes over the network with efficient message broadcast and u
 * See inter node message [encoding](../../interfaces/protocol/gossip/json-over-websocket.md).
 
 &nbsp;
-## `OnMessageReceived` (method)
+## Init Flow
+* Read configuration file:
+  * Federation nodes data (map of public keys to network address)
+
+&nbsp;
+## `OnMessageReceived`
 > Called when a gossip message is received from another node, forwarded to the services that are subscribed to the message.
 * Call `Target.GossipMessageReceived` with message content.
 * The target service is responsible to identify the topic and message type and process the message accordingly.

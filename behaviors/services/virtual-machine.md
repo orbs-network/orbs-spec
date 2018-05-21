@@ -32,8 +32,9 @@ Executes smart contracts using various processors (languages) and produces state
 * Validate that the method exists and has appropriate permissions for execution.
 
 #### Execute
-* Contract code cannot update state (state writes must throw an error).
+* Validate the transaction signature by performing: `Sender and Signature Validation`.
 * Execute the contract method and return its result.
+* Contract code cannot update state (state writes must throw an error).
 
 &nbsp;
 ## `ProcessTransactionSet` (method)
@@ -54,25 +55,26 @@ Executes smart contracts using various processors (languages) and produces state
 
 &nbsp;
 ## `TransactionSetPreOrder` (method)
-> Executes pre-order related checks and returns status, address_data. May require to execute smart contracts for advanced signatrue schemes and subscription tier management. (Not in V1)
+> Executes pre-order related checks and returns status. 
+> Calls the L1PreOrder smart contract to validate the subscription status. 
 
 ### Transaction sender proccessing
-> checks the sender signature and generates address data
+> Validate the transaction signature by performing: `Sender and Signature Validation`.
+
+### Check Subscription
+> Calls the L1PreOrder smart contract.
+  * If the subscription status is not valid, return: SUBSCRIPTION_ERROR.
+
+### Valid transaction
+* Set status = VALID and return response.
+
+## `Sender and Signature Validation`
+> Checks the sender signature
 
 Classify address scecme:
 #### Address Scheme 01
 * Check signature(transaction header, Sender.Public Key, Ed25519 signature).
   * If mismatch return: status = INVALID_SIGNATRUE.
-* Virtual chain: copied from the sender data.
-* Address token: RIPMD160(SHA(Public Key)) - TODO, research feedback.
-* ApprovalTier: VALID.
 
 #### Other Scheme
 * If scheme <> 01, return status = INVALID_ADDRESS_SCHEME.
-
-### Check Subscription
-> Calls the virtual chain smart contract - TODO
-* If the subscription status is not valid, return: SUBSCRIPTION_ERROR.
-
-### Valid transaction
-* Set status = VALID and return response.

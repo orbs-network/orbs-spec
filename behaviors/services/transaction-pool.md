@@ -7,6 +7,11 @@ Performs pre-order validation, holds pending transactions, and committed transac
 
 [transaction_preorder_validation_flow]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
 
+&nbsp;
+## Init Flow
+* Subscribe to transactions messages.
+
+
 ## `Data Structures`
 
 #### Pending transaction pool
@@ -32,7 +37,7 @@ Performs pre-order validation, holds pending transactions, and committed transac
 * Sender virtual chain matches contract virtual chain matches instance virtual chain.
 * Check transaction time_stamp, accept only transactions with last block.timestamp -5 sec < time_stamp < block.timestamp + expiration window. 
 * Transaction doesn't already exist in the pending pool or committed pool (duplicated).
-* Verify the tarnsaction signature and subscription and calling `VirtualMachine.TransactionSetPreOrder`.
+* Verify the tarnsaction signature and subscription by calling `VirtualMachine.TransactionSetPreOrder`.
     * Note: `TransactionSetPreOrder` does not require ordered trasnactions and can be paralelized. 
 
 &nbsp;

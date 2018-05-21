@@ -10,7 +10,7 @@ service BlockStorage {
   rpc GetOrderingBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
   rpc GetValidationBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
   rpc GetLastBlockHeight (GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
-  rpc ProcessGossipMessage (ProcessGossipMessageInput) returns (ProcessGossipMessageOutput);
+  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
 //  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
 //  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);

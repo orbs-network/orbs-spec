@@ -2,7 +2,7 @@
 > Performs the consensus algorithm. 
 > Requests the requiered data from the Consensus-Core and provides commit indication.
 
-## INIT() Flow
+## Init Flow
 * Subscribe to consensus messages.
 * Init view, term to 0.
 
@@ -39,9 +39,5 @@ Init() - View = 0, Term = 0, Leader = first node.
 
 &nbsp;
 ## `GossipMessageReceived` (method)
-> Handles messages received from another node. 
-* If the message is a consensus allgorithm message, pass to algorithm.
-* If the message is a transaction batch
-  * Validate batch signature, if mismatch log for reputation calculation.
-  * Add transactions to pending pool by calling `TransactionPool.AddNewPendingTransaction`.
+> Handles messages received from another node, expect to receive only Consensus messages that cosnesus-algo have subscribed to.
 
