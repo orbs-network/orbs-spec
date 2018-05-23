@@ -2,17 +2,12 @@
 
 Executes smart contracts using various processors (languages) and produces state difference as a result.
 
+Currently a single instance per virtual chain per node.
+
 &nbsp;
 ## `Processors`
 
-#### Native processor
-* Native set of smart contracts included in node core.
-* Hard coded in code base and updated through node version updates.
-* Implemented in native language of the node for efficiency and performance.
-* Contracts are stored in a registry which is loaded on initialization.
-* Every contract and method contain configuration for execution.
-  * Permission on who can execute the contract externally.
-* See contract API [specification](../smart-contracts/native.md).
+* Native Go - set of native smart contracts included in node core.
 
 &nbsp;
 ## `Data Structures`
@@ -22,6 +17,12 @@ Executes smart contracts using various processors (languages) and produces state
 * Format is identical to the state store data structure in `StateStorage`.
 * No need to be persistent since a new instance is created per execution.
 * No limit on max size.
+
+&nbsp;
+## `Signature Schemes`
+
+#### Address Scheme 01
+* Check Ed25519 signature over the transaction header.
 
 &nbsp;
 ## `CallContract` (method)
@@ -55,26 +56,13 @@ Executes smart contracts using various processors (languages) and produces state
 
 &nbsp;
 ## `TransactionSetPreOrder` (method)
-> Executes pre-order related checks and returns status. 
-> Calls the L1PreOrder smart contract to validate the subscription status. 
 
-### Transaction sender proccessing
-> Validate the transaction signature by performing: `Sender and Signature Validation`.
+> Approve transactions before allowing them to go through ordering
 
-### Check Subscription
-> Calls the L1PreOrder smart contract.
-  * If the subscription status is not valid, return: SUBSCRIPTION_ERROR.
+#### Check transaction signature
+* Check the signature according to supported signature schemes, return `INVALID_SIGNATURE` on mismatch.
+* Return `INVALID_ADDRESS_SCHEME` for unsupported signature schemes.
 
-### Valid transaction
-* Set status = VALID and return response.
-
-## `Sender and Signature Validation`
-> Checks the sender signature
-
-Classify address scecme:
-#### Address Scheme 01
-* Check signature(transaction header, Sender.Public Key, Ed25519 signature).
-  * If mismatch return: status = INVALID_SIGNATRUE.
-
-#### Other Scheme
-* If scheme <> 01, return status = INVALID_ADDRESS_SCHEME.
+#### Check subscription
+* Execute the platform pre order smart contract on the native processor.
+* If the contract fails, return `NOT_APPROVED` and the return string from the contract (like `SUBSCRIPTION_ERROR`).
