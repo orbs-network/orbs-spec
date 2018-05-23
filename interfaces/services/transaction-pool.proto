@@ -11,7 +11,6 @@ service TransactionPool {
   rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
-  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
 }
 
 message AddNewTransactionInput {
@@ -19,7 +18,7 @@ message AddNewTransactionInput {
 }
 
 message AddNewTransactionOutput {
-  Bytes tx_id = 1;
+  SHA256 tx_id = 1;
 }
 
 message GetPendingTransactionsInput {
@@ -39,15 +38,16 @@ enum TransactionPoolStatus {
 }
 
 message GetTransactionStatusInput {
-  string txid = 1;
+  SHA256 txid = 1;
 }
 
 message GetTransactionStatusOutput {
-  TransactionReceipt receipt = 1;
+  TransactionStatus transaction_status = 1;
+  
 }
 
 message CommitTransactionReceiptsInput {
-  ValidationBlock validation_block = 1; // Nullify sc_state_diff
+  ResultsBlock validation_block = 1; // Nullify sc_state_diff
 }
 
 message CommitTransactionReceiptsOutput {

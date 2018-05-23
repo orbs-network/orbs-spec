@@ -4,20 +4,20 @@ import "protocol/primitives.proto";
 import "protocol/address.proto";
 import "protocol/transactions.proto";
 
-message OrderingBlock {
-  OrderingBlockHeader header = 1;
-  OrderingBlockMetaData meta_data = 2;
-  OrderingBlockBody body = 3;
-  OrderingBlockProof block_proof = 4;
+message TransactionsBlock {
+  TransactionsBlockHeader header = 1;
+  TransactionsBlockMetaData meta_data = 2;
+  TransactionsBlockBody body = 3;
+  TransactionsBlockProof block_proof = 4;
 }
 
-message ValidationBlock {
-  ValidationBlockHeader header = 1;
-  ValidationBlockBody body = 2;
-  ValidationBlockProof block_proof = 3;
+message ResultsBlock {
+  ResultsBlockHeader header = 1;
+  ResultsBlockBody body = 2;
+  ResultsBlockProof block_proof = 3;
 }
 
-message OrderingBlockHeader {
+message TransactionsBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;
   Uint64 block_height = 3;
@@ -27,17 +27,18 @@ message OrderingBlockHeader {
   SHA256 meta_data_hash = 7;
 }
 
-message OrderingBlockMetaData {
+message TransactionsBlockMetaData {
   Uint32 version = 1;
   repeated Uint32 nodes_reputaion = 2;
 }
 
-message OrderingBlockBody {
+message TransactionsBlockBody {
   repeated Transaction transactions = 1;
 }
 
-message OrderingBlockProof {
-  repeated PBFTBlockProof block_signature = 1;
+message TransactionsBlockProof {
+  Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
+  repeated PBFTBlockProof block_signature = 2;
 }
 
 message PBFTBlockProof {
@@ -48,7 +49,7 @@ message PBFTBlockProof {
   Ed25519Sig signature = 5;
 }
 
-message ValidationBlockHeader {
+message ResultsBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;
   Uint64 block_height = 3;
@@ -58,20 +59,20 @@ message ValidationBlockHeader {
   SHA256 state_diff_hash = 7;
   SHA256 ordering_block_hash_ptr = 8;
   SHA256 pre_execution_state_root_hash = 9;
-  ValidationBlockBloomFilter bloom_filter = 10;
+  ResultsBlockBloomFilter bloom_filter = 10;
 }
 
-message ValidationBlockBloomFilter {
+message ResultsBlockBloomFilter {
   Bytes filter = 1;
   // Events bloom filter: (Hard coded indices: 1 - tx_id, 2 - Sender address, 3 - Smart contract address)
 }
 
-message ValidationBlockBody {
+message ResultsBlockBody {
   repeated TransactionReceipt transaction_receipts = 1;
   repeated SCStateDiff sc_state_diff = 2;
 }
 
-message ValidationBlockProof {
+message ResultsBlockProof {
   repeated PBFTBlockProof block_signature = 1;
 }
 

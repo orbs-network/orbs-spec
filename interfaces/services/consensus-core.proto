@@ -4,62 +4,53 @@ import "protocol/blocks.proto";
 import "protocol/primitives.proto";
 
 service TransactionPool {
-  rpc RequestNewOrderingBlock (RequestNewOrderingBlockInput) returns (RequestNewOrderingBlockOutput);
-  rpc RequestNewValidationBlock (RequestNewValidationBlockInput) returns (RequestNewValidationBlockOutput);
-  rpc ValidateOrderingBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
-  rpc ValidateValidationBlock (ValidateValidationBlockInput) returns (ValidateValidationBlockOutput);
-  rpc CommitOrderingBlock (CommitOrderingBlocknput) returns (CommitOrderingBlockOutput);
-  rpc CommitValidationBlock (CommitValidationBlockInput) returns (CommitValidationBlockOutput);
-  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-  rpc GetTopBlockHeight (GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
+  rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
+  rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
+  rpc ValidateTransactionsBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
+  rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
+  rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
+//  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+//  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+  rpc GetCommittedBlockHeight (GetCommittedBlockHeightInput) returns (GetCommittedBlockHeightOutput);
 }
 
-message RequestNewOrderingBlockInput {
-
-}
-
-message RequestNewOrderingBlockOutput {
-    OrderingBlock ordering_block = 1;
-}
-
-message RequestNewValidationBlockInput {
+message RequestNewTransactionsBlockInput {
 
 }
 
-message RequestNewValidationBlockOutput {
-    ValidationBlock validation_block = 1;
+message RequestNewTransactionsBlockOutput {
+    TransactionsBlock ordering_block = 1;
 }
 
-message ValidateOrderingBlockInput {
-    OrderingBlock ordering_block = 1;
+message RequestNewResultsBlockInput {
+
 }
 
-message ValidateOrderingBlockOutput {
+message RequestNewResultsBlockOutput {
+    ResultsBlock validation_block = 1;
+}
+
+message ValidateTransactionsBlockInput {
+    TransactionsBlock ordering_block = 1;
+}
+
+message ValidateTransactionsBlockOutput {
     BlockStatus status = 1;
 }
 
-message ValidateValidationBlockInput {
-    ValidationBlock validation_block = 1;
+message ValidateResultsBlockInput {
+    ResultsBlock validation_block = 1;
 }
 
-message ValidateValidationBlockOutput {
+message ValidateResultsBlockOutput {
     BlockStatus status = 1;
 }
 
-message CommitOrderingBlockInput {
-    OrderingBlockProof block_proof = 1;
+message CommitBlockInput {
+    TransactionsBlockProof block_proof = 1;
 }
 
-message CommitOrderingBlockOutput {
-    // empty
-}
-
-message CommitValidationBlockInput {
-    ValidationBlockProof block_proof = 1;
-};
-
-message CommitValidationBlockOutput {
+message CommitBlockOutput {
     // empty
 }
 
@@ -68,6 +59,7 @@ enum BlockStatus {
     INVALID = 1;
 }
 
+/*
 message RequestCommitteeInput {
     Uint64 random_seed = 1;
     Uint32 committee_size = 2;
@@ -76,11 +68,12 @@ message RequestCommitteeInput {
 message RequestCommitteeOutput {
     repeated Ed25519PKey node_id = 1;
 }
+*/
 
-message GetTopBlockHeightInput {
+message GetCommittedBlockHeightInput {
     //empty
 }
 
-message GetTopBlockHeightOutput {
-    Uint64 top_block_hieght = 1;
+message GetCommittedBlockHeightOutput {
+    Uint64 committed_block_height = 1; // 
 }

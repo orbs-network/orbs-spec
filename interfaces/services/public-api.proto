@@ -5,11 +5,12 @@ import "../internal/call-contract.proto";
 import "services/configuration-manager.proto";
 
 service PublicApi {
+  // From Client SDK
   rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
-  //rpc CallContract (CallContractInput) returns (CallContractOutput);
+  rpc CallContract (CallContractInput) returns (CallContractOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-  rpc UpdateSubscriptionStatus (UpdateSubscriptionStatusInput) returns (UpdateSubscriptionStatusOutput);
-  rpc UpdateTransactionsResponse(UpdateTransactionsResponseInput) returns (UpdateTransactionsResponseOutput);
+  // From Transaction Pool
+  rpc HandleTransactionsResult(UpdateTransactionsResultInput) returns (UpdateTransactionsResultOutput);
 }
 
 message SendTransactionInput {
@@ -17,6 +18,14 @@ message SendTransactionInput {
 }
 
 message SendTransactionOutput {
+  string result = 1;
+}
+
+message CallContractInput {
+  Transaction transaction = 1;
+}
+
+message CallContractOutput {
   string result = 1;
 }
 
@@ -31,12 +40,12 @@ message GetTransactionStatusOutput {
   Uint64 block_timestamp = 3;
 }
 
-message UpdateTransactionsResponseInput {
-  Uint64 block_height = 1;
-  Uint64 time_stamp = 2;
-  repeated TransactionReceipt transaction_receipts = 3;
+message HandleTransactionsResultInput {
+  repeated TransactionReceipt transaction_receipts = 1;
+  Uint64 block_height = 2;
+  Uint64 time_stamp = 3;
 }
 
-message UpdateTransactionsResponseOutput {
+message HandleTransactionsResultOutput {
   // empty
 }

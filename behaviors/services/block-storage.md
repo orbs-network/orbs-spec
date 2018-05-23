@@ -1,13 +1,11 @@
 # Block Storage
-Holds the long term journal of all confirmed blocks, used to reconstruct the state. 
-Provides the state stroage with the state diff and the trasnaction pool with the transaction receipts.
-Syncs with other nodes when missing blocks are required.
+Holds the long term journal of all confirmed blocks. Provides the state stroage with the state diff and the trasnaction pool with the transaction receipts. Syncs with other nodes when missing blocks are required.
 
 &nbsp;
 ## Init Flow
-* Subscribe to node sync messages.
+* Subscribe to node sync gossip messages.
 * Read persistent data
-* 
+  * Start updating the state storage and transaction pool once they request to.
 
 &nbsp;
 ## `Data Structures`
@@ -16,8 +14,9 @@ Syncs with other nodes when missing blocks are required.
 * Holds all blocks with ability to query efficiently by block height or block ID.
 * Able to store blocks out of order (upon sync lost) and verify the headers when receiving the missing blocks / block headers.
 * Able to return efficiently the last_commited_block - was verified (by validationing the headers hash chain) block height in sync in the database.
+* Able to efficiently fetch the headers, receipts and state diff independently.
 * Needs to be persistent.
-* When empty, initialized with the genesis block (empty block with no transactions, no previous block hash).
+* When empty, initialized with the genesis block.
 * Data is not sharded, all blocks are stored locally on all machines.
 * Recommended implementation: LevelDB
   * Fast key-value storage library written at Google.
@@ -29,81 +28,63 @@ Syncs with other nodes when missing blocks are required.
 * The synchronization process is initialled upon either:
   * Receving CommitBlock block with height <> last_commited_block block + 1.
   * Receving a request to fetch data from blocks that are unavailable to the block storage. (from the state storage or transactions pool)
-  * K = 8 sec have passe since the last block commit.
+  * block_timeout = 8 sec has passed since the last block commit.
 
-## `Block Synchronization Flow`
-# TODO redefine flow, do we want to optmize consensus operation? Seperate headers from data? Set designated node algorithmically ?
+### `Block Synchronization Flow`
+* Identify ndoes that have the desired blocks by broadcasting a BLOCK_AVAILABILITY_REQUEST messsage to all nodes using `Gossip.UnicastMessage`.
+  * If the last block is unknown, set the lsat_block to MAX_UINT64.
+  * The receiving nodes respond with a BLOCK_AVAILABILITY_RESPONSE message indicating the range out of the desired blocks that is available to them and their current top block.
+* Randomly select one of the nodes that responsded and request a batch of blocks avilable at this node.
+  * Request the blocks in order
+  * Request up to max_block_sync_batch = 100 in each request.
+  * The receiving node responds with a BLOCK_SYNC_RESPONSE message that include the requested blocks. In addition, the message includes the node's top block height. 
+* Upon reception of a response, add the blocks in order by performing `AddBlock`.
+* If the node attempt to sync to the latest block and the received top block is not already available to the node, update the requested last block to the received top block.
+* Repeat requesting until receiving all the desired blocks.
+  * It is recommanded to shuffle the requests among the nodes that have the block avialable in order not to put too much burden on a single node.
 
-* Ask all block storage nodes if they have the required blocks.
-* newer blocks than mine by calling `Gossip.BroadcastMessage` with "HasNewBlocksMessage" message.
-* Choose one of the nodes that replies with new blocks and start a sync process to get all of its new blocks:
-  * "HasNewBlocks" message to signify that there are new blocks.
-  * "HasNewBlocksResponse" message to signify which node was chosen for sync.
-  * "SendNewBlocks" message to request the batch of new blocks.
-  * "SendNewBlocksResponse" message to contain the batch of blocks as a response.
 
 &nbsp;
-## `AddBlock` (method)
+## `AddBlock` (rpc)
 > Add a new block to the database
 
 #### Verify block before adding to database
 * Check the block protocol version.
 * If the block already exist (block height < last_commited_block block + 1) - sligntly discrad. (may occur during node sync)
-* If block height = last_commited_block block + 1, check hash pointer if matches `Commit block` else discard block.
-* If block height > last_commited_block block + 1 - out_of_sync, add the to the storage without committing it, initiate `Block Synchronization`.
-  * The should be storaed in order to commit it once regain sync.
+* If block height > last_commited_block block + 1 indicates that the block storage is out of sync, add the to the storage without committing it and initiate `Block Synchronization Flow`.
+  * The block should be stored such that it can be committed once the previous blocks were committed.
 
 #### Add block to storage
 * Store block in database indexed by block height.
 
 #### Commit block 
-* Update last_commited_block block = block height.
-* Send StateDiff update to state stroage by calling `StateStorage.CommitStateDiff`.
-* Send transactions receipts update to the trasnaction pool by calling `TransactionPool.MarkCommittedTransactions`.
+* If block height = last_commited_block block + 1, check hash pointer, if doesn't match then discard block. 
+  * Update last_commited_block = block height.
+  * Update the subscribed state storage
+    * If the state storage consumer_block_height + 1 = last_commited_block, send StateDiff update to state stroage by calling `StateStorage.CommitStateDiff`.
+  * Update the subscribed transaction pool
+    * If the transaction pool consumer_block_height + 1 = last_commited_block, send the tarsanctions receipt update to the transaction pool by calling `TransactionPool.MarkCommittedTransactions`.
 
 &nbsp;
-## `GetBlocksByHeight` (method)
+## `GetBlocksByHeight` (rpc)
 > Return an array of blocks of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync).
 * If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlockHeight`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
-* TODO - Checkpoints
 * TODO - Currently not used in any V1 flow (may be needed for future contract calls)
 
 &nbsp;
-## `GetOrderingBlockByHeight / GetValidationBlockByHeight` (method)
-> Similar to `GetBlocksByHeight`, returns only the ordering block / validation block parts.
+## `GetTransactionsBlockByHeight / GetResultsBlockByHeight` (rpc)
+> Similar to `GetBlocksByHeight`, returns only the transactions block / results block parts.
 
 &nbsp;
-## `GetLastBlockHeight` (method)
+## `GetLastBlockHeight` (rpc)
 > Returns the latest committed and addeded block heigths.
 
 &nbsp;
-## `ProcessGossipMessage` (method)
+## `GossipMessageReceived` (rpc)
 > Handles a gossip message from another node. Relevant messages include node sync messages.
-/* TODO Block synchonizatiob flow
-#### On "HasNewBlocksMessage" message
-* Call `HasNewBlocks` to generate a response.
-* Respond by calling `Gossip.UnicastMessage` with "HasNewBlocksResponse" message.
-
-#### On "HasNewBlocksResponse" message
-* Start a sync process with one of the nodes that has new blocks (only one concurrent process allowed).
-* When a new sync process starts, send the node "SendNewBlocks" message by calling `Gossip.UnicastMessage`.
-
-#### On "SendNewBlocks" message
-* Call `GetBlocks` to generate a response.
-* Respond by calling `Gossip.UnicastMessage` with "SendNewBlocksResponse" message.
-
-#### On "SendNewBlocksResponse" message
-* Make sure sync process with the sending node is active.
-* Add blocks to database sorted by block height by calling `AddBlock`.
-
-`Sync flow`
-* Randomly select one of the other nodes and send it a BLOCK_SYNC_REQUEST message using `Gossip.UnicastMessage` with block_height = top_block + 1.
-  * If a response does not arrive within X=5sec, resend to another node.
-* Upon receiption of a BLOCK_SYNC_RESPONSE message, perfom regular `BlockCommitted` flow.
-* Repeat sending requests until receiving a valid PrePrepare message (including block_height = top_block + 1)
 
 &nbsp;
-## `GetTransactionReceipt` (method)
+## `GetTransactionReceipt` (rpc)
 > Returns the transaction receipt for a transaction based on its tx_id and time_stamp.
 * Fetch all relevant block headers based on the time_stamp
   * Block headers / bloom filters should be stored such they can be fetched as a bulk. 
@@ -111,42 +92,32 @@ Syncs with other nodes when missing blocks are required.
 * Search for the tx_id in the bloom filter
   * If hit, fetch the Valdiation Block receipts and search for the tx_id.
 * If tx_id found, return receipt //TBD proof (block proof + merkle leaf).
-* if tx_id wasn't found return status = NO_RECORD_FOUND.
+* if tx_id wasn't found return receipt = NULL.
 
 
 ![alt text][block_state_pool_flow] <br/><br/>
 
 [block_state_pool_flow]: block_state_pool_flow.png "Block Storage - State Storage / Transaction Pool"
 
-## `RequestReceiptsUpdate` (method)
+## `RequestReceiptsUpdate` (rpc)
 > Used by a transaction pool to subscribe for receipts update and re-sync.
 * TODO Checkpoints.
-* Check consumer_id, if not exist add to database, else if exist update.
+* Check consumer_id, if not exist add to database, if exist update.
 * If target_block_height = MAX_UINT64, continue to commit until notified otherwise (subscribed to commits)
-* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
-* // TODO checkpoint handling
-* As a result of the a request the block storage continuasly sends Commit
+* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating `Block Synchronization Flow`. 
+* Update the consumer_block_height.
+* If consumer_block_height block was committed, send the tarsanctions receipt update to the transaction pool by calling `TransactionPool.MarkCommittedTransactions`.
+  * Wait for the response and update the consumer_block_height. 
+* Repeat until consumer_block_height isn't committed.
+* 
 
-## `RequestStateDiffUpdate` (method)
+## `RequestStateDiffUpdate` (rpc)
 > Used by a state storage to subscribe for receipts update and re-sync.
 * TODO Checkpoints.
-* Check consumer_id, if not exist add to database, else if exist update.
+* Check consumer_id, if not exist add to database, if exist update.
 * If target_block_height = MAX_UINT64, continue to commit until notified otherwise (subscribed to commits)
-* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
-* // TODO checkpoint handling
-
-
-
-
-
-/* Ignore
-
-## `GetReceipts` (method)
-> Return an array of Validation Blocks with the receipts, header and proof of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync). Used by the the tarnsaction-pool for sync.
-* If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
-
-## `GetStateDiff` (method)
-> Return an array of Validation Blocks with the state_diff, header and proof of a range of heights along with the last_commited_block and the last_added_block. (last_commited_block <> last_added_block indicates out of sync). Used by the the tarnsaction-pool for sync.
-* If the block range is not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating Block Synchronization Flow. 
-
-*/
+* Check the requested range (consumer_block_height - target_block_height), if not present, check that it within the added range by calling `ConsensusCore.GetTopBlock`, if it is, fetch the missing blocks by initiating `Block Synchronization Flow`. 
+Update the consumer_block_height.
+* If consumer_block_height block was committed, send StateDiff update to state stroage by calling `StateStorage.CommitStateDiff`.
+  * Wait for the response and update the consumer_block_height. 
+* Repeat until consumer_block_height isn't committed.

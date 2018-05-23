@@ -29,7 +29,7 @@ Performs pre-order validation, holds pending transactions, and committed transac
 
 ## `CheckPreOrder` (method) // TODO move to VM
 > Checks a transaction's validity and approves it for ordering.
-> Performed on transactions received both from a local Public API before signing and broadcasting them and as part of the ordering block construction and validation.
+> Performed on transactions received both from a local Public API before signing and broadcasting them and as part of the transactions block construction and validation.
 
 #### Check transaction ordering validity
 * Correct protocol version.
@@ -110,17 +110,7 @@ If not empty and X = 100 ms have passed since the last batch was sent or cache h
 > Return the status of a transaction
 
 #### Check pending transactions pool
-* If tx_id is present in the pending transaction pool, return:
-    * tx_id 
-    * status = PENDING
-    * last block time_stamp
-    (All other fields are don't care)
-
-Else retun:
-    * tx_id 
-    * status = NO_RECORD_FOUND
-    * last block time_stamp
-    (All other fields are don't care)
+* If tx_id is present in the pending transaction pool, return status = PENDING else retun status = NO_RECORD_FOUND.
 
 &nbsp;
 ## `GossipMessageReceived` (method)

@@ -6,51 +6,29 @@ import "protocol/blocks.proto";
 
 service BlockStorage {
   rpc AddBlock (AddBlockInput) returns (AddBlockOutput);
-  rpc GetBlocksByHeight (GetBlocksByHeight) returns (GetBlocksByHeightOutput);
-  rpc GetOrderingBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
-  rpc GetValidationBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
-  rpc GetLastBlockHeight (GetTopBlockHeightInput) returns (GetTopBlockHeightOutput);
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
+  rpc SubscribeReceipts (SubscribeReceiptsInput) returns (SubscribeReceiptsOutput);
+  rpc RequestStateDiff (SubscribeStateDiffInput) returns (SubscribeStateDiffOutput);
+//  rpc GetBlockPairsByHeight (GetBlockPairsByHeightInput) returns (GetBlockPairsByHeightOutput);
+//  rpc GetTransactionsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
+//  rpc GetResultsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
 //  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
 //  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);
-  rpc RequestReceiptsUpdate (RequestReceiptsUpdateInput) returns (RequestReceiptsUpdateOutput);
-  rpc RequestStateDiffUpdate (RequestStateDiffUpdateInput) returns (RequestStateDiffUpdateOutput);
-//  rpc GetOrderingBlockByID (GetBlockByIDInput) returns (GetOrderingBlockOutput);
-//  rpc GetValidationBlockByID (GetBlockByIDInput) returns (GetValidationBlockOutput);
+//  rpc GetTransactionsBlockByID (GetBlockByIDInput) returns (GetTransactionsBlockOutput);
+//  rpc GetResultsBlockByID (GetBlockByIDInput) returns (GetResultsBlockOutput);
 //  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
 //  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
 //  rpc SubscribeRecipt(SubscribeReciptInput) returns (SubscribeReciptOutput);
 }
 
 message AddBlockInput {
-  OrderingBlock ordering_block = 1;
-  ValidationBlock validation_block = 2;
+  TransactionsBlock transactions_block = 1;
+  ResultsBlock results_block = 2;
 }
 
 message AddBlockOutput {
   // empty
-}
-
-message GetBlocksByHeightInput {
-  Uint64 first_block_height = 1;
-  Uint64 last_block_height = 2;
-}
-
-message GetBlocksByHeightOutput {
-  Uint64 top_block = 1;
-  Uint64 last_added_block = 2;
-  repeated OrderingBlock ordering_block = 3;
-  repeated ValidationBlock validation_block = 4;
-}
-
-message GetLastBlockInput {
-  // empty
-}
-
-message GetLastBlockOutput {
-  Uint64 last_committed_block_height = 1;
-  Uint64 last_added_block_height = 2;
 }
 
 message GetTransactionReceiptInput {
@@ -64,48 +42,34 @@ message GetTransactionReceiptOutput {
   Uint64 block_timestamp = 3;
 }
 
-
-message GetReceiptsInput {
-  Uint64 first_block_height = 1;
-  Uint64 last_block_height = 2;
+message GetTransactionReceiptResponse {
+  TransactionReceipt receipt = 1;
+  Uint64 receipt_block_height = 2;
+  Uint64 receipt_block_timestamp = 3;
 }
 
-message GetReceiptsOutput {
-  Uint64 last_committed_block = 1;
-  Uint64 last_added_block = 2;
-  ValidationBlock validation_block = 3; // Nullify sc_state_diff
+message SubscribeReceiptsInput {
+//  Ed25519PKey consumer_id = 1; - remove, only local service
+  Uint64 consumer_block_height = 2;
+//  Uint64 target_block_height = 3 - remove, not needed in V1
 }
 
-message GetStateDiffInput {
-  Uint64 first_block_height = 1;
-  Uint64 last_block_height = 2;
-}
-
-message GetStateDiffOutput {
-  Uint64 last_committed_block = 1;
-  Uint64 last_added_block = 2;
-  ValidationBlock validation_block = 3; // Nullify transaction_receipts
-}
-
-message RequestReceiptsUpdateInput {
-  Ed25519PKey consumer_id = 1;
-  Unit64 consumer_block_height = 2;
-  Uint64 target_block_height = 3;
-}
-
-message RequestReceiptsUpdateOutput {
+message SubscribeReceiptsOutput {
   // empty
 }
 
-message RequestStateDiffUpdateInput {
-  Ed25519PKey consumer_id = 1;
-  Unit64 consumer_block_height = 2;
-  Uint64 target_block_height = 3;
+message SubscribeStateDiffInput {
+//  Ed25519PKey consumer_id = 1; - remove, only local service
+  Uint64 consumer_block_height = 2;
+//  Uint64 target_block_height = 3 - remove, not needed in V1
 }
 
-message RequestStateDiffUpdateOutput {
+message SubscribeStateDiffOutput {
   // empty
 }
+
+
+
 
 /*
 message SubscribeEventsInput {

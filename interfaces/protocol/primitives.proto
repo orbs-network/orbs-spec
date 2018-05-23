@@ -52,10 +52,6 @@ message RIP160SHA256 {
     bytes value = 1; //Fixed size 20B
 }
 
-/* 
 message NodeID {
-    Uint32 node_idx = 1;
-    Ed25519PKey public_key = 2;
+    Ed25519PKey public_key = 1;
 }
-
-*/

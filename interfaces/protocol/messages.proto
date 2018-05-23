@@ -7,24 +7,25 @@ import "protocol/blocks.proto";
 
 
 message GossipMessage {
-  Uint32 version = 1;
-  TargetType target_type = 2;
+  Uint32 version = 1; // protocol version
+  MessageDestination message_destination = 2;
   MessageTopic topic = 3;
   Uint32 virtual_chain = 4;
   Bytes payload = 5;
-//  uint32 qos_param = 6;
+//  Uint32 qos_param = 6;
+//  Ed25519PKey sender_public_key = 7;
+//  Ed25519Sig signature = 8;
+}
+
+message MessageDestination {
+  repeated Ed25519PKey node_public_key = 1;
 }
 
 enum MessageTopic {
-  MANAGEMENT = 0;
+  RESERVED = 0;
   LITE_HELIX_CONSEMSUS = 1;
   TRANSACTIONS_GOSSIP = 2;
   NODE_SYNC = 3;
-}
-
-enum TargetType {
-  BROADCAST = 0;
-  UNICAST = 1;
 }
 
 // Lite Helix Consensus Messages
@@ -77,7 +78,7 @@ message ViewChange {
   Uint64 view = 1;
   Uint64 term_number = 2;
   //TBC
-  // Block height, hash_ptr, current block prooves
+  // Block height, hash_ptr, current block proofs
 }
 
 message NewView {
@@ -98,41 +99,39 @@ message NODE_SYNC {
   }
 }
 
-enum NodeSyncTopic {
-  BLOCK_SYNC_REQUEST = 0;
-  BLOCK_SYNC_RESPONSE = 1; 
-}
-
-enum BlockSyncRequestCode {
-  REQUEST_ORDERING_BLOCK = 0;
-  REQUEST_VALIDATION_BLOCK = 1;
-}
-
-enum BlockSyncResponseCode {
-  ORDERING_BLOCK_RESPONSE = 0;
-  VALIDATION_BLOCK_RESPONSE = 1;
-  TOP_BLOCK_IS_EQUAL_OR_HIGHER = 2;
-}
-
 message BlockSyncRequest {
-  Ed25519PKey public_key = 1;
-  BlockSyncRequest request_code = 2;
-  Uint64 block_id = 3;
-  Uint64 top_block_id = 4;
-  Ed25519Sig signature = 5;
+  Ed25519PKey sender_public_key = 1;
+  BlockSyncRequestCode request_code = 2;
+  Uint64 first_block_height = 3;
+  Uint64 last_block_height = 4;
+  Ed25519Sig signature = 6;
 }
 
 message BlockSyncResponse {
-  Ed25519PKey public_key = 1;
-  Uint64 block_id = 2;
-  Uint64 top_block_id = 3;
-  BlockSyncResponseCode response_code = 4;
-  repeated OrderingBlock ordering_block = 5;
-  repeated ValidationBlock validation_block = 6;
+  Ed25519PKey sender_public_key = 1;
+  BlockSyncRequestCode request_code = 2;
+  Uint64 first_available_block_height = 3;
+  Uint64 last_available_block_height = 4;
+  Uint64 top_block_height = 5;
+  repeated TransactionsBlock ordering_block = 5;
+  repeated ResultsBlock validation_block = 6;
   Ed25519Sig signature = 7;
 }
 
-// Transaciom Relay messages
+enum NodeSyncTopic {  
+  BLOCK_SYNC_REQUEST = 0;
+  BLOCK_SYNC_RESPONSE = 1; 
+  BLOCK_AVAILABILITY_REQUEST = 2;
+  BLOCK_AVAILABILITY_RESPONSE = 3; 
+}
+
+enum BlockSyncRequestCode {
+  TRANSACTIONS_AND_RESULTS_BLOCK_REQUEST = 0;
+  TRANSACTIONS_BLOCK_REQUEST = 1;
+  RESULTS_BLOCK_REQUEST = 2;
+}
+
+// Transaction Relay messages
 message TransactionRelay {
   uint32 version = 1;
   TransactionRelayTopic message_topic = 2; 
@@ -149,14 +148,6 @@ message TransactionsBatch {
   Ed25519PKey public_key = 1;
   repeated Transaction transaction = 2;
   Ed25519Sig signature = 3;
-}
-
-message P2PEnvelope {
-  Uint32 version = 1; // version of the P2P message format and algorithm
-  Ed25519PKey source_node = 2;
-  Ed25519PKey dest_node = 3;
-  repeated GossipMessage message = 4;
-  Ed25519Sig signature = 5;
 }
 
 message ClientResponse { // move to JSON description

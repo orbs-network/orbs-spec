@@ -6,17 +6,16 @@ import "protocol/messages.proto";
 
 
 service Gossip {
-  rpc BroadcastMessage (BroadcastMessageInput) returns (BroadcastMessageOutput);
-  rpc UnicastMessage (UnicastMessageInput) returns (UnicastMessageOutput);
+  rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
   rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
   rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
 }
 
-message BroadcastMessageInput {
+message SendMessageInput {
   GossipMessage gossip_message = 1;
 }
 
-message BroadcastMessageOutput {
+message SendMessageOutput {
   // empty
 }
 
@@ -30,6 +29,7 @@ message UnicastMessageOutput {
 
 message GossipMessageReceivedInput {
   GossipMessage gossip_message = 1;
+  Uint64 subscription_token = 2;
 }
 
 message GossipMessageReceivedOutput {
@@ -43,7 +43,7 @@ message TopicSubscribeInput {
 }
 
 message TopicSubscribeOutput {
-  Uint64 subscription_token = 2;
+  Uint64 subscription_token = 1;
 }
 
 message TopicUnsubscribeInput {
