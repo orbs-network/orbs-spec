@@ -112,3 +112,9 @@
 * If out of sync, the `Block Storage` sends a request for sync to a random peer node using `Gossip`.
 * 
 * To be completed.
+
+&nbsp;
+## Client Queries Transaction Status
+
+&nbsp;
+## System Init
