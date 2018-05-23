@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+service oded {
+    rpc test (testinput) returns (stream testoutput);
+}
+
+message testinput {
+    uint64 oded = 1;
+}
+
+message testoutput {
+    oneof message { 
+        uint64 oded = 1;
+        outouto outout = 2;
+    }
+}
+
+message outouto {
+    uint64 oded = 1;
+}
