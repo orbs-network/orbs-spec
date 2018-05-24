@@ -10,7 +10,7 @@ service PublicApi {
   rpc CallContract (CallContractInput) returns (CallContractOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   // From Transaction Pool
-  rpc HandleTransactionsResult(UpdateTransactionsResultInput) returns (UpdateTransactionsResultOutput);
+  rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
 }
 
 message SendTransactionInput {
@@ -18,7 +18,9 @@ message SendTransactionInput {
 }
 
 message SendTransactionOutput {
-  string result = 1;
+  TransactionReceipt receipt = 1;
+  Uint64 block_height = 2;
+  Uint64 block_timestamp = 3;
 }
 
 message CallContractInput {
@@ -27,6 +29,8 @@ message CallContractInput {
 
 message CallContractOutput {
   string result = 1;
+  Uint64 block_height = 2;
+  Uint64 block_timestamp = 3;
 }
 
 message GetTransactionStatusInput {
@@ -40,12 +44,12 @@ message GetTransactionStatusOutput {
   Uint64 block_timestamp = 3;
 }
 
-message HandleTransactionsResultInput {
+message ReturnTransactionResultsInput {
   repeated TransactionReceipt transaction_receipts = 1;
   Uint64 block_height = 2;
   Uint64 time_stamp = 3;
 }
 
-message HandleTransactionsResultOutput {
+message ReturnTransactionResultsOutput {
   // empty
 }

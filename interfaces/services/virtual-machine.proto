@@ -8,8 +8,10 @@ import "services/configuration-manager.proto";
 
 service VirtualMachine {
   rpc CallContract (CallContractInput) returns (CallContractOutput);
-  rpc ProcessTransactionSet(ProcessTransactionSetInput) returns (ProcessTransactionSetOutput);
-  rpc TransactionSetPreOrder(TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput);
+  rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput);
+  rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput);
+  rpc RunContractSdk (RunContractSdkInput) returns (RunContractSdkOutput);
+  rpc GetContractCode (GetContractCodeInput) returns (GetContractCodeOutput);
 }
 
 message ProcessTransactionSetInput {
@@ -50,4 +52,24 @@ enum PreOrderStatus {
   VALID = 0;
   INVALID_SIGNATURE = 1;
   SUBSCRIPTION_ERROR = 2;
+  INVALID_ADDRESS_SCHEME = 3;
+}
+
+message RunContractSdkInput {
+  Uint64 context_token = 1;
+  String namespace = 2;
+  String function = 3;
+  repeated SdkArgument input_argument = 4;
+}
+
+message RunContractSdkOutput {
+  repeated SdkArgument output_argument = 1;
+}
+
+message SdkArgument {
+  oneof type {
+    Uint32 uint32 = 1;
+    Uint64 uint64 = 2;
+    String string = 3;
+  }
 }

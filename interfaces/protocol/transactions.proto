@@ -8,8 +8,10 @@ message Transaction {
   Bytes payload = 2;
 }
 
+// The transaction tx_id is caluclated by SHA256 over a canonical transaction format - TODO.
+
 message TransactionReceipt {
-  Uint256 tx_id = 1; // not really needed, can be part of the bloom filter hard coded fileds 
+  SHA256 tx_id = 1; 
   Uint32 version = 2;
   TransactionStatus transaction_status = 3;
   String status_message = 4;

@@ -11,7 +11,7 @@ service TransactionPool {
   rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
 //  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 //  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-  rpc GetCommittedBlockHeight (GetCommittedBlockHeightInput) returns (GetCommittedBlockHeightOutput);
+  rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
 }
 
 message RequestNewTransactionsBlockInput {
@@ -70,10 +70,11 @@ message RequestCommitteeOutput {
 }
 */
 
-message GetCommittedBlockHeightInput {
+message GetLastCommittedBlockHeightInput {
     //empty
 }
 
-message GetCommittedBlockHeightOutput {
-    Uint64 committed_block_height = 1; // 
+message GetLastCommittedBlockHeightOutput {
+    Uint64 committed_block_height = 1;
+    Uint64 committed_block_timestamp = 2;
 }

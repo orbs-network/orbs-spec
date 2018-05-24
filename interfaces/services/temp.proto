@@ -1,7 +1,9 @@
 syntax = "proto3";
 
 service oded {
-    rpc test (testinput) returns (stream testoutput);
+    rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
+    rpc GetReceiptsStream (GetReceiptsStreamInput) returns (stream Receipts);
+    rpc GetStateDiffStream (GetStateDiffStreamInput) returns (stream StateDiff);
 }
 
 message testinput {
@@ -18,3 +20,13 @@ message testoutput {
 message outouto {
     uint64 oded = 1;
 }
+
+message BlockComponent {
+    oneof component {
+        TransactionsBlockHeader header = 1;
+        TransactionsBlockMetaData meta_data = 2;
+        Transaction transactions = 3;
+        TransactionsBlockProof block_proof = 4;
+    }
+}
+

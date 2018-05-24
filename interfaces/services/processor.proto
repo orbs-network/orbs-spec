@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "protocol/primitives.proto";
+
+service ProcessorNativeGo {
+    rpc ProcessCallSet (stream ProcessCallInput) returns (stream ProcessCallOutput);
+}
+  
+message ProcessCallInput {
+    Uint32 context_id = 1;
+    ContractAddress code_address = 2; // TODO 
+    AddressToken address_token = 3; // TODO
+    
+// function
+// arguments
+}
+  
+message ProcessCallOutput {
+// StateDiff
+// Status
+// Status message / result
+}

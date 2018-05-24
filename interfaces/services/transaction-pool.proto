@@ -6,8 +6,8 @@ import "services/configuration-manager.proto";
 
 service TransactionPool {
   rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
-  rpc CollectTransactions (CollectTransactionsInput) returns (stream Transaction);
-  rpc ValidateTransactionsCollection (ValidateTransactionsCollectionInput) returns (ValidateTransactionsCollectionOutput);
+  rpc CollectTransactions (CollectTransactionsInput) returns (CollectTransactionsOutput);
+  rpc ValidateTransactionsCollection (ValidateTransactionsCollectionInput) returns (ValidateTransactionsCollectionOutput);  
   rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
@@ -18,7 +18,8 @@ message AddNewTransactionInput {
 }
 
 message AddNewTransactionOutput {
-  SHA256 tx_id = 1;
+  TransactionStatus transaction_status = 1;
+  SHA256 tx_id = 2;
 }
 
 message CollectTransactionsInput {
@@ -26,7 +27,6 @@ message CollectTransactionsInput {
   Uint32 number_of_transactions = 2;
 }
 
-/*
 message CollectTransactionsOutput {
   TransactionPoolStatus tx_pool_status = 1;
   repeated Transaction transactions = 2;
@@ -37,7 +37,7 @@ enum TransactionPoolStatus {
   OUT_OF_SYNC = 1;
   UNEXEPCETED_BLOCK_HEIGHT = 2;
 }
-*/
+
 
 message ValidateTransactionsCollectionInput {
   repeated Transaction transactions = 1;

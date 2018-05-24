@@ -38,15 +38,12 @@ message TransactionsBlockBody {
 
 message TransactionsBlockProof {
   Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
-  repeated PBFTBlockProof block_signature = 2;
+  repeated BlockProof block_signature = 2;
 }
 
-message PBFTBlockProof {
-  Uint64 view = 1;
-  Uint64 term_number = 2;
-  SHA256 message_digest = 3;
-  Ed25519PKey public_key = 4;
-  Ed25519Sig signature = 5;
+message BlockProof {
+  Ed25519PKey public_key = 1;
+  Ed25519Sig signature = 2;
 }
 
 message ResultsBlockHeader {
@@ -73,7 +70,8 @@ message ResultsBlockBody {
 }
 
 message ResultsBlockProof {
-  repeated PBFTBlockProof block_signature = 1;
+  Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
+  repeated BlockProof block_signature = 2;
 }
 
 message SCStateDiff {
