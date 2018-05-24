@@ -2,6 +2,8 @@
 
 Holds the latest state under consensus, meaning the state variables for all contracts in a virtual chain.
 
+Currently a single instance per virtual chain per node.
+
 &nbsp;
 ## `Data Structures`
 
@@ -37,7 +39,7 @@ Holds the latest state under consensus, meaning the state variables for all cont
 * Update the top_block_height
 
 &nbsp;
-## `Check in-sync` 
+## `Check in-sync`
 > Verify that the state storage has the available block_height.
   * If block height > last_commited_block height
     * hold response for up to X = 2 sec waiting for potential StateDiff commit from the block storage.
@@ -47,7 +49,7 @@ Holds the latest state under consensus, meaning the state variables for all cont
 Note: OUT_OF_SYNC state is triggered only by the block storage updates and isn't triggered by a block height > last_commited_block.
 
 ## `ReadKeys` (method)
-> Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract. 
+> Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract.
 > If the requested block height is unavailable returns BLOCK_HEIGHT_UNAVIABLE.
 
 #### Make sure state is in sync
