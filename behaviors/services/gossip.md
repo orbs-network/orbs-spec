@@ -1,6 +1,8 @@
 # Gossip
 
-Connects different nodes over the network with efficient message broadcast and unicast.
+Connects different nodes over the network with efficient message broadcast and unicast. This is the main method nodes in the network use to communicate among themselves.
+
+Currently a single instance per virtual chain per node.
 
 &nbsp;
 ## `Network Requirements`
@@ -17,7 +19,7 @@ Connects different nodes over the network with efficient message broadcast and u
 * See inter node message [encoding](../../interfaces/protocol/gossip/json-over-websocket.md).
 
 &nbsp;
-## Init Flow
+## `Init Flow`
 * Read configuration file:
   * Federation nodes data (map of public keys to network address)
 

@@ -1,4 +1,4 @@
-# Processor: Native Go
+# Processor
 
 TODO
 

@@ -9,7 +9,7 @@ Currently a single instance per virtual chain per node.
 [transaction_preorder_validation_flow]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
 
 &nbsp;
-## Init Flow
+## `Init Flow`
 * Subscribe to transactions messages.
 
 &nbsp;
