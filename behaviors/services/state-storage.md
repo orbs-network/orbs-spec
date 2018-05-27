@@ -1,6 +1,6 @@
 # State Storage
 
-Holds the latest state under consensus, meaning the state variables for all contracts in a virtual chain.
+Holds the latest state under consensus, meaning all of the state variables for all services in a virtual chain.
 
 Currently a single instance per virtual chain per node.
 

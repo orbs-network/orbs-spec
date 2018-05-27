@@ -14,7 +14,7 @@ Currently a single instance per virtual chain per node.
 * See request and response [encoding](../../interfaces/protocol/public-api/json-over-http.md).
 
 &nbsp;
-## `SendTransaction` (method)
+## `SendTransaction` (method) <!-- pass 1 -->
 
 > Execute a transaction under consensus that may change state (write)
 
@@ -29,9 +29,9 @@ Currently a single instance per virtual chain per node.
 * If session resets or timeouts, clear session context.
 
 &nbsp;
-## `ReturnTransactionResults` (method)
+## `ReturnTransactionResults` (method) <!-- pass 1 -->
 
-> Called by TransactionPool on committed blocks to let PublicApi respond to waiting clients
+> Called by TransactionPool on committed blocks to let PublicApi respond to their waiting clients
 
 * Locate the relevant session contexts based on `tx_id` of every transaction.
 * Respond to client using data from the transaction receipt.

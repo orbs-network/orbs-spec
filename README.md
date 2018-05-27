@@ -4,9 +4,24 @@ V1 release
 
 ## Services
 
-* []
+* [PublicApi](behaviors/services/public-api.md)
+* [TransactionPool](behaviors/services/transaction-pool.md)
+* [Gossip](behaviors/services/gossip.md)
+* [ConsensusCore](behaviors/services/consensus-core.md)
+* [ConsensusAlgo](behaviors/services/consensus-algo.md)
+* [VirtualMachine](behaviors/services/virtual-machine.md)
+* [Processor](behaviors/services/processor.md)
+* [BlockStorage](behaviors/services/block-storage.md)
+* [StateStorage](behaviors/services/state-storage.md)
+* [SidechainConnector](behaviors/services/sidechain-connector.md)
 
 ## High level flows
 
-* [Call contract](behaviors/flows/call-contract.md)
-* [Send transaction](behaviors/flows/send-transaction.md)
+* [System Init](behaviors/flows/system-init.md)
+* [Call Method](behaviors/flows/call-method.md)
+* [Send Transaction](behaviors/flows/send-transaction.md)
+* [Transaction Status](behaviors/flows/transaction-status.md)
+* [Block Creation](behaviors/flows/block-creation.md)
+* [BlockStorage Sync](behaviors/flows/block-storage-sync.md)
+* [StateStorage Sync](behaviors/flows/state-storage-sync.md)
+* [TransactionPool Sync](behaviors/flows/transaction-pool-sync.md)

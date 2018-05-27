@@ -1,6 +1,6 @@
 # Send Transaction Flow
 
-The client sends a transaction that requires consensus and may write to state. The transaction is limited in execution to a time window. This is to avoid duplication (will not execute twice) and to kill transactions that are pending execution for too long.
+The client sends a transaction on a service that requires consensus and may write to state. The transaction is limited in execution to a time window. This is to avoid duplication (will not execute twice) and to kill transactions that are pending execution for too long.
 
 The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. Processing requires an active subscription on the virtual chain.
 

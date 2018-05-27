@@ -1,13 +1,8 @@
 # Virtual Machine
 
-Executes smart contracts using various processors (languages) and produces state difference as a result.
+Executes service methods (smart contracts) using various processors (languages) and produces state difference as a result.
 
 Currently a single instance per virtual chain per node.
-
-&nbsp;
-## `Processors`
-
-* Native Go - set of native smart contracts included in node core.
 
 &nbsp;
 ## `Data Structures`

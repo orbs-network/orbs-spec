@@ -9,7 +9,7 @@ Currently a single instance per virtual chain per node.
 [transaction_preorder_validation_flow]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
 
 &nbsp;
-## Init Flow
+## `Init Flow`
 * Subscribe to transactions messages.
 
 &nbsp;
@@ -29,7 +29,7 @@ Currently a single instance per virtual chain per node.
 * Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
 
 &nbsp;
-## `AddNewTransaction` (method)
+## `AddNewTransaction` (method) <!-- pass 1 -->
 
 > Add a new transaction from a client to the network (propagate to all pending transaction pools)
 
@@ -51,7 +51,7 @@ Currently a single instance per virtual chain per node.
 * Broadcast the batch to all other transaction pools by calling `Gossip.SendMessage`.
 
 &nbsp;
-## `AddForwardedTransactionBatch` (method)
+## `AddForwardedTransactionBatch` (method) <!-- pass 1 -->
 
 > Add a transaction batch forwarded from another node to the pending transaction pool
 
@@ -123,8 +123,8 @@ Currently a single instance per virtual chain per node.
 
 > Handle a gossip message from another node.
 
-#### `TransactionsBatch` message
-* Call `AddForwardedTransaction`.
+#### `TransactionsBatch` message <!-- pass 1 -->
+* Call `AddForwardedTransactionBatch`.
 
 &nbsp;
 ## `UpdateSubscriptionStatus` (method)

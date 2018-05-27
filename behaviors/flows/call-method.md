@@ -1,6 +1,6 @@
 # Call Method Flow
 
-The client performs a read only method call. This returns the result based on a somewhat latest block (might miss by a couple of blocks). Nevertheless, the block this is based upon is returned in the result.
+The client performs a read only method call on a service. This returns the result based on a somewhat latest block (might miss by a couple of blocks). Nevertheless, the block this is based upon is returned in the result.
 
 The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. This read does not require an active subscription on the virtual chain.
 
