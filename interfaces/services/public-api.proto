@@ -7,7 +7,8 @@ import "services/configuration-manager.proto";
 service PublicApi {
   // From Client SDK
   rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
-  rpc CallContract (CallContractInput) returns (CallContractOutput);
+  rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
+//  rpc CallContract (CallContractInput) returns (CallContractOutput); , replaced by CallMethod
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
   // From Transaction Pool
   rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
@@ -28,9 +29,10 @@ message CallContractInput {
 }
 
 message CallContractOutput {
-  string result = 1;
-  Uint64 block_height = 2;
-  Uint64 block_timestamp = 3;
+  TODO status = 1;
+  String result = 2;
+  Uint64 block_height = 3;
+  Uint64 block_timestamp = 4;
 }
 
 message GetTransactionStatusInput {

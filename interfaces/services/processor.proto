@@ -1,22 +1,21 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
+import "protocol/virtual-machine.proto";
 
-service ProcessorNativeGo {
+
+service Processor {
     rpc ProcessCallSet (stream ProcessCallInput) returns (stream ProcessCallOutput);
 }
   
 message ProcessCallInput {
     Uint32 context_id = 1;
-    ContractAddress code_address = 2; // TODO 
-    AddressToken address_token = 3; // TODO
-    
-// function
-// arguments
+    NameSpace name_space = 2;
+    MethodAddress method = 3;
+    repeated MethodCallArguments input_argument = 4;
+    AddressToken sender = 5;
 }
   
 message ProcessCallOutput {
-// StateDiff
-// Status
-// Status message / result
+    repeated MethodCallArguments output_argument = 1;
 }

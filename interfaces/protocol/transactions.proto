@@ -14,7 +14,7 @@ message TransactionReceipt {
   SHA256 tx_id = 1; 
   Uint32 version = 2;
   TransactionStatus transaction_status = 3;
-  String status_message = 4;
+  String status_message = 4; // replace with canonical output arguments.
 //  ReceiptBloomFilter bloom_filter = 5;
 }
 

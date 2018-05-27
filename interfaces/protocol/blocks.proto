@@ -66,7 +66,7 @@ message ResultsBlockBloomFilter {
 
 message ResultsBlockBody {
   repeated TransactionReceipt transaction_receipts = 1;
-  repeated SCStateDiff sc_state_diff = 2;
+  repeated ServiceStateDiff service_state_diff = 2;
 }
 
 message ResultsBlockProof {
@@ -74,13 +74,16 @@ message ResultsBlockProof {
   repeated BlockProof block_signature = 2;
 }
 
-message SCStateDiff {
+message ServiceStateDiff {
   Address contract_address = 1;
   repeated StateDiff state_diff = 2;
 }
 
+/* moved to protocol_primitives
 message StateDiff {
   RIP160SHA256 state_key = 1;
   Bytes state_value = 2;
 }
+
+*/
 

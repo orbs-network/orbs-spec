@@ -7,62 +7,89 @@ import "internal/address_data";
 import "services/configuration-manager.proto";
 
 service VirtualMachine {
-  rpc CallContract (CallContractInput) returns (CallContractOutput);
-  rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput);
-  rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput);
-  rpc RunContractSdk (RunContractSdkInput) returns (RunContractSdkOutput);
-  rpc GetContractCode (GetContractCodeInput) returns (GetContractCodeOutput);
+  // Called by Consensus Core
+  rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
+  // Called by Public API
+  rpc RunLocalMethod (RunLocalMethodInput) returns ();
+  // Called by Transaction Pool
+  rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
+  // Called by Processor
+  rpc ServiceMethodCall (MethodCallInput) returns (MethodCallOutput);
+  rpc LibraryMethodCall (MethodCallInput) returns (MethodCallOutput);
+  rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
+  rpc GetNameSpaceCode (GetNameSpaceCodeInput) returns (GetNameSpaceCodeOutput);
 }
+
 
 message ProcessTransactionSetInput {
   Uint64 block_height = 1;
-  repeated TransactionEntry ordered_transactions = 2;
+  repeated Transaction transaction_set = 2;
 }
 
 message ProcessTransactionSetOutput {
   repeated TransactionReceipt transaction_receipts = 1;
-  repeated ModifiedStateKey stateDiff = 2;
+  repeated ServiceStateDiff service_state_diff = 2;
 }
 
-message CallContractInput {
+message RunLocalMethodInput {
   Uint64 block_height = 1;
-  repeated TransactionEntry orderedTransactions = 2;
+  Transaction transaction = 2; //TODO Local method format
 }
 
-message CallContractOutput {
-  repeated TransactionReceipt transaction_receipts = 1;
+message RunLocalMethodOutput {
+  TODO status = 1;
+  String result = 2;
 }
 
 message TransactionSetPreOrderInput {
   Uint64 block_height = 1;
   Uint32 virtual_chain = 2;
-  SubscriptionTier subscription = 3;
-  repeated TransactionEntry ordered_transactions = 4; 
+  repeated Transaction transaction_set = 3; 
 }
 
 message TransactionSetPreOrderOutput {
   repeated PreOrderResult pre_order_result = 1;
 }
 
-message PreOrderStatus {
+message PreOrderResult {
   PreOrderStatus status = 1;
 }
 
 enum PreOrderStatus {
   VALID = 0;
   INVALID_SIGNATURE = 1;
-  SUBSCRIPTION_ERROR = 2;
-  INVALID_ADDRESS_SCHEME = 3;
+  INVALID_ADDRESS_SCHEME = 2;
+  PRE_ORDER_NOT_APPROVED = 3;
 }
 
-message RunContractSdkInput {
-  Uint64 context_token = 1;
-  String namespace = 2;
-  String function = 3;
+message MethodCallInput {
+  Uint32 context_id = 1;
+  NameSpace name_space = 2;
+  MethodAddress method = 3;
+  repeated CallArguments arguments = 4;
+}
+
+message MethodCallOutput {
+  repeated CallArguments output_argument = 1;
+}
+
+message MethodCallArguments { //TODO binary / unify with Sdk.
+  oneof type {
+    Uint32 uint32 = 1;
+    Uint64 uint64 = 2;
+    String string = 3;
+    // ...
+  }
+}
+
+message SdkCallInput {
+  Uint32 context_id = 1;
+  NameSpace name_space = 2;
+  MethodAddress method = 3;
   repeated SdkArgument input_argument = 4;
 }
 
-message RunContractSdkOutput {
+message SdkCallOutput {
   repeated SdkArgument output_argument = 1;
 }
 
@@ -71,5 +98,16 @@ message SdkArgument {
     Uint32 uint32 = 1;
     Uint64 uint64 = 2;
     String string = 3;
+    // ...    
   }
+}
+
+message GetNameSpaceCodeInput {
+  // Virtual Chain
+  Uint32 context_id = 1;
+  NameSpace name_space = 2;
+}
+
+message GetNameSpaceCodeOutput {
+  Bytes code = 1;
 }

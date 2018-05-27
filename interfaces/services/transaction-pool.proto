@@ -5,11 +5,15 @@ import "primitives/gossip-listener.proto";
 import "services/configuration-manager.proto";
 
 service TransactionPool {
-  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
-  rpc CollectTransactions (CollectTransactionsInput) returns (CollectTransactionsOutput);
-  rpc ValidateTransactionsCollection (ValidateTransactionsCollectionInput) returns (ValidateTransactionsCollectionOutput);  
-  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
+  // Called by Public API
+  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutputWithException);
   rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  // Called by Consensus Core
+  rpc CollectTransactions (CollectTransactionsInput) returns (CollectTransactionsOutput); // Transactions Streaming 
+  rpc ValidateTransactionsCollection (ValidateTransactionsCollectionInput) returns (ValidateTransactionsCollectionOutput); // Transactions Streaming
+  // Called by Block Storage
+  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput); // Receipts Streaming
+  // Called by Gossip
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
 }
 
@@ -17,9 +21,25 @@ message AddNewTransactionInput {
   Transaction transaction = 1;
 }
 
+message AddNewTransactionOutputWithException {
+  oneof result {
+    AddNewTransactionOutput output = 1;
+    AddNewTransactionException exception = 2;
+  }
+}
+
 message AddNewTransactionOutput {
+  oneof result {
+    AddNewTransactionException exception = 1;
+  }
+}
+
+message GetTransactionStatusInput {
+  SHA256 txid = 1;
+}
+
+message GetTransactionStatusOutput {
   TransactionStatus transaction_status = 1;
-  SHA256 tx_id = 2;
 }
 
 message CollectTransactionsInput {
@@ -28,16 +48,16 @@ message CollectTransactionsInput {
 }
 
 message CollectTransactionsOutput {
-  TransactionPoolStatus tx_pool_status = 1;
-  repeated Transaction transactions = 2;
+  oneof result {
+    CollectTransactionsException exception = 1;
+    repeated Transaction transactions = 2;
+  }
 }
 
-enum TransactionPoolStatus {
-  VALID = 0;
+enum CollectTransactionsException {
+  RESERVED = 0;
   OUT_OF_SYNC = 1;
-  UNEXEPCETED_BLOCK_HEIGHT = 2;
 }
-
 
 message ValidateTransactionsCollectionInput {
   repeated Transaction transactions = 1;
@@ -51,15 +71,7 @@ message ValidateTransactionsCollectionOutput {
 enum TransactionsOrderingStatus {
   VALID = 0;
   INVALID = 1;
-}
-
-message GetTransactionStatusInput {
-  SHA256 txid = 1;
-}
-
-message GetTransactionStatusOutput {
-  TransactionStatus transaction_status = 1;
-
+  FAILURE_OUT_OF_SYNC = 1;
 }
 
 message CommitTransactionReceiptsInput {

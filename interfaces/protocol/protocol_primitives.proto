@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "protocol/primitives.proto";
+
+// Protocol Primitives are protocol data types that are frequantly used and may be updated. The messages are defined based on primitives.proto
+
+message StateDiff {
+    RIP160SHA256 state_key = 1;
+    Bytes state_value = 2;
+}
+
+message GetTransactionsStreamInput {
+    Uint64 stream_token = 1;
+}
+
+message GetReceiptsStreamInput {
+    Uint64 stream_token = 1;
+}
+
+message GetStateDiffStreamInput {
+    Uint64 stream_token = 1;
+}
+
+message NameSpace {
+    String value = 1;
+}
+
+message MethodAddress {
+    String value = 1;
+}
+
+message AddressToken {
+    String value = 1;
+}

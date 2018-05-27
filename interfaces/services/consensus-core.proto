@@ -4,6 +4,7 @@ import "protocol/blocks.proto";
 import "protocol/primitives.proto";
 
 service TransactionPool {
+    // Called by Consensus-Algo
   rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
   rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
   rpc ValidateTransactionsBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
@@ -11,7 +12,10 @@ service TransactionPool {
   rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
 //  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 //  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+    // Called by Virtual Machine
+  // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
+  
 }
 
 message RequestNewTransactionsBlockInput {
