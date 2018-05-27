@@ -25,29 +25,41 @@ Currently a single instance per virtual chain per node.
   * Out of sync timeout
 
 &nbsp;
-## `RequestNewOrderingBlock` (method)
-> Performed by the leader only, upon request from the algorithm.
+## `RequestCommittee` (method)
 
-### Ordering Block Creation
+> Returns a sorted list of nodes that participate in the approval committee for a given block height.
+
+* Return a list of all the nodes' ids (Public Key)
+* TODO
+
+&nbsp;
+## `RequestNewTransactionsBlock` (method)
+
+> Performed by the leader only, upon request from the algorithm to perform the ordering phase.
+
+#### Ordering Block Creation
 * Get the pending transactions by calling `TransactionPool.GetPendingTransactions`.
-  * If returns OUT_OF_SYNC retry, until timeout = 10 sec, on timeout return NULL.
   * if there are no transactions to append:
-    * Wait empty_block_wait = 0.5sec and retry.
+    * Wait configurable empty_block_wait = 0.5sec and retry once.
     * If still empty continue with an empty block (# of transaction = 0).
 * Build Ordering block
   * Current protocol version (0x1)
   * Virtual chain
-  * Block height is incremented from previous block (the latest).
-  * Hash pointer to the previous (latest) block - SHA256(Block header)
+  * Block height is given, confirm it's incremented from previous block (the latest).
+  * Hash pointer to the previous (latest) block: SHA256(Block header)
   * 64b unix time stamp
-  * The merkle root hash of the block's transactions
-  * Metadata - holds reputaion / algorithm data
+  * The merkle root hash of the transactions in the block
+  * Placeholder: Metadata - holds reputaion / algorithm data
   * SHA256 of the block metadata.
+
 * Cache the transactions block for the execution validation part.
+* You can optimize warm up by running the logic in `RequestNewResultsBlock` right now.
 
 &nbsp;
 ## `RequestNewResultsBlock` (method)
+
 > Performed by the leader only, upon request from the algorithm.
+
 > The Consensus core receives the transactions block directly from the Ordering Consensus (Same nodes/cores in V1)
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
   * If returns OUT_OF_SYNC retry, until timeout = 10 sec, on timeout return NULL.
@@ -132,11 +144,5 @@ If one of the Oredring Block checks fails, return INVALID status.
 &nbsp;
 ## `RequestOrderingCommittee` (method)
 > Reurns a list of nodes to participate in the ordering consensus round.
-* Return a list of all the nodes' ids (Public Key)
-  * To be updated to random committies.
-
-&nbsp;
-## `RequestResultsCommittee` (method)
-> Reurns a list of nodes to participate in the execution validation consensus round.
 * Return a list of all the nodes' ids (Public Key)
   * To be updated to random committies.

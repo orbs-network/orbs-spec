@@ -2,11 +2,28 @@
 
 The purpose of consensus is to continuously commit new blocks. Blocks are populated with transactions waiting in TransactionPool.
 
+We currently support leader-based consensus algorithms, meaning a leader node is elected and creates a block proposal which is then passed to validator nodes (members of the block committee) for approval.
+
 ## Participants in this flow
+
+* Committee nodes
+  * `ConsensusAlgo`
+  * `ConsensusCore`
+  * `TransactionPool`
+  * `VirtualMachine`
+  * `Processor`
+  * `StateStorage`
+  * `SidechainConnector`
+  * `Gossip`
+  * `BlockStorage`
+
+## Assumptions for successful flow
+
+* `ConsensusCore` is synchronized to latest block.
 
 ## Flow
 
-* `Consensus Algorithm` intiates a new consensus round.
+* `Consensus Algorithm` intiates a new consensus round (block height is decided, random seed for committee is decided).
   * The `Consensus Algorithm` queries the `Consensus Core` on the participating committee (all nodes)
   * The `Consensus Algorithm` identifies if it's a leader or a valdiator in the current term.
 * Leader node.
@@ -41,6 +58,7 @@ The purpose of consensus is to continuously commit new blocks. Blocks are popula
       * The `VirtualMachine` generates transaction receipts and state diff and the `Consens core` matches their root hash with the one of the proposed valdiation block.
     * Requests the `State Storage` for the root hash before the current block execution and matches it with the proposed validation block.
   * The `Consensus Core` maintains a copy of the ordering and validation blocks and returns a valid indicaion to the `Consensus Algo` taht broadcast it to all nodes using `Gossip` (Prepare)
+
 * The `Consensus Algo` complites the consensus round (Commit) and once a block is Committed, indicates it to the `Consensus Core` and forward the committed block proofs.
 * The `Consensus Core` attach the block proofs to the ordering and validation blocks, commits them to the `Block Storage` and updates its last_commited_block indications.
 * The `Block storage` commits the new validation block state diff to the `State Storage`.
