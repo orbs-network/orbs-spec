@@ -25,14 +25,15 @@ Currently a single instance per virtual chain per node.
   * Out of sync timeout
 
 &nbsp;
-## `RequestCommittee` (method)
+## `RequestCommittee` (method) <!-- tal can finish -->
 
 > Returns a sorted list of nodes that participate in the approval committee for a given block height.
+
 * Committee members = all nodes' ids (Public Key).
 * Order the nodes' ids based on the sorting algorithm.
 
 &nbsp;
-## `RequestNewTransactionsBlock` (method)
+## `RequestNewTransactionsBlock` (method) <!-- tal can finish -->
 
 > Performed by the leader only, upon request from the algorithm to perform the ordering phase.
 
@@ -44,8 +45,8 @@ Currently a single instance per virtual chain per node.
 * Build Ordering block
   * Current protocol version (0x1)
   * Virtual chain
-  * Block height is given, confirm it's incremented from previous block (the latest).
-  * Hash pointer to the previous (latest) block: SHA256(Block header)
+  * Block height is given, panic if it's not incremented from previous block (the latest).
+  * Hash pointer to the previous (latest) transactions block: SHA256(Block header)
   * 64b unix time stamp
   * The merkle root hash of the transactions in the block
   * Placeholder: Metadata - holds reputaion / algorithm data
@@ -55,24 +56,24 @@ Currently a single instance per virtual chain per node.
 * You can optimize warm up by running the logic in `RequestNewResultsBlock` right now.
 
 &nbsp;
-## `RequestNewResultsBlock` (method)
+## `RequestNewResultsBlock` (method) <!-- tal can finish -->
 
-> Performed by the leader only, upon request from the algorithm.
+> Performed by the leader only, upon request from the algorithm to perform the execution phase.
 
-> The Consensus core receives the transactions block directly from the Ordering Consensus (Same nodes/cores in V1)
+* The transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
 * Build Results Block
   * Current protocol version (0x1)
   * Virtual chain
-  * Block height is incremented from previous block (the latest).
-  * Hash pointer to the previous (latest) block - SHA256(Block header)
+  * Block height is given, panic if not it's incremented from previous block (the latest).
+  * Hash pointer to the previous (latest) results block: SHA256(Block header)
   * 64b unix time stamp
-  * The merkle root hash of the block's transactions receipts
-  * The merkle root of the state diff
-  * Hash pointer to the transactions block of the same height - SHA256(Block header)
+  * The merkle root hash of the transactions receipts in the block
+  * The hash of the state diff in the block
+  * Hash pointer to the transactions block of the same height: SHA256(Block header)
   * Merkle root of the state prior to the block execution, retrived by calling `StateStroage.GetStateHash`
   * Bloom filter
-    * Set H(1,tx_id) for each transaction's tx_id // TBD sender_address, smart_contract_address.
+    * Set H(1,tx_id) for each transaction's tx_id (concat byte with value 0x01 with tx_id and insert)
 
 ## `ValidateTransactionsBlock` (method)
 > Performed upon request from the algorithm recieving a block proposal.
