@@ -27,7 +27,6 @@ message RequestNewTransactionsBlockOutput {
 
 message RequestNewResultsBlockInput {
     Uint64 block_height = 1;
-    SHA256 transactions_block_hash_ptr = 1;
 }
 
 message RequestNewResultsBlockOutput {
@@ -51,10 +50,9 @@ message ValidateResultsBlockOutput {
 }
 
 message CommitBlockInput {
-    TransactionsBlockProof transactions_block_proof = 1;
-    SHA256 transactions_block_hash_ptr = 2;
+    Uint64 block_height = 1;
+    TransactionsBlockProof transactions_block_proof = 2;
     ResultsBlockProof results_block_proof = 3;
-    SHA256 results_block_hash_ptr = 4;    
 }
 
 message CommitBlockOutput {

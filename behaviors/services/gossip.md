@@ -12,6 +12,7 @@ Currently a single instance per virtual chain per node.
   * Assume all services are found on all nodes.
   * Assume single instance of a service on a node.
 * All communication is direct.
+  * TODO forwarding scheme for large (PrePrepare) messages.
 * No special support for retransmission except standard TCP stack.
 * All messages should be signed by nodes and authenticated upon reception. (Peer2Peer)
 * Reconnect to topology peers when disconnected with a configurable polling interval.
@@ -22,6 +23,7 @@ Currently a single instance per virtual chain per node.
 ## `Init Flow`
 * Read configuration file:
   * Federation nodes data (map of public keys to network address)
+  * Broadcast group list for each virtual chain.
 
 &nbsp;
 ## `OnMessageReceived`
@@ -30,19 +32,17 @@ Currently a single instance per virtual chain per node.
 * The target service is responsible to identify the topic and message type and process the message accordingly.
 
 &nbsp;
-## `BroadcastMessage` (method)
-> Broadcasts a message to all the services that are subscribed to the message topic.
-* Sends a message to each of the nodes' gossip. (pruning will be added at a later stage)
-
-&nbsp;
-## `UnicastMessage` (method)
-> Sends a message to a single node and service.
-* Send message to the specific recipient node.
+## `SendMessage` (method)
+> Sends a message to a group a nodes, the message is forwarded to the services subscribed to the topic. Used fro Boradcast, Multicast and Unicast communication.
+* The gossip message holds the list of destination nodes.
+  * On broadcast indicatation, forward the message to all the nodes of the virtual chain.
+* The list of nodes to forward the message to is indicated as part of the gossip message.
+* Sends a message to each of the nodes' gossip.
 
 &nbsp;
 ## `TopicSubscribe` (method)
 > Used by services to subscribe to a specific topic.
-Returns a token that can be used in order to unsubscribe.
+Returns a token that identifies the subscription and can be used in order to identify the message's subscription within the receving service.
 
 &nbsp;
 ## `TopicUnsubscribe` (method)
