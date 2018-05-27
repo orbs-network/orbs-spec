@@ -21,7 +21,7 @@ We currently support leader-based consensus algorithms, meaning a leader node is
 
 * `ConsensusCore` is synchronized to latest block.
 
-## Flow
+## Flow <!-- tal can finish --> <!-- move VM->processor->state flow to a different flow -->
 
 * `Consensus Algorithm` intiates a new consensus round (block height is decided, random seed for committee is decided).
   * The `Consensus Algorithm` queries the `Consensus Core` on the participating committee (all nodes)

@@ -25,10 +25,16 @@ Currently a single instance per virtual chain per node.
   * Out of sync timeout
 
 &nbsp;
+## `Data Structures` <!-- tal can finish -->
+
+* Last committed block header
+
+&nbsp;
 ## `RequestCommittee` (method) <!-- tal can finish -->
 
 > Returns a sorted list of nodes that participate in the approval committee for a given block height.
 
+* If not synchronized with block height (has the last block header), don't participate and fail.
 * Committee members = all nodes' ids (Public Key).
 * Order the nodes' ids based on the sorting algorithm.
 
@@ -37,8 +43,10 @@ Currently a single instance per virtual chain per node.
 
 > Performed by the leader only, upon request from the algorithm to perform the ordering phase.
 
+* If not synchronized with block height (has the last block header), don't participate and fail.
+
 #### Ordering Block Creation
-* Get the pending transactions by calling `TransactionPool.GetPendingTransactions`.
+* Get the pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
   * if there are no transactions to append:
     * Wait configurable empty_block_wait = 0.5sec and retry once.
     * If still empty continue with an empty block (# of transaction = 0).
@@ -60,6 +68,8 @@ Currently a single instance per virtual chain per node.
 
 > Performed by the leader only, upon request from the algorithm to perform the execution phase.
 
+* If not synchronized with block height (has the last block header), don't participate and fail.
+
 * The transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
 * Build Results Block
@@ -75,8 +85,11 @@ Currently a single instance per virtual chain per node.
   * Bloom filter
     * Set H(1,tx_id) for each transaction's tx_id (concat byte with value 0x01 with tx_id and insert)
 
-## `ValidateTransactionsBlock` (method)
+## `ValidateTransactionsBlock` (method) <!-- tal can finish -->
+
 > Performed upon request from the algorithm recieving a block proposal.
+
+* If not synchronized with block height (has the last block header), don't participate and fail.
 
 #### Approve transactions for processing
 * Check that the transactions were not expired. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
@@ -88,30 +101,33 @@ Currently a single instance per virtual chain per node.
 * Check block_height = previous block_height + 1
 * Check prev_block_hash = SHA256(Block header(previously committed block))
 * Check time_stamp within +/-2sec of local timestamp, and time_stamp > previous commited block.time_stamp
-* Check transaction root hash
+* Check transaction merkle root hash
 * Check Metadata hash
-* Check ordering policy (not verified)
-* Check no previously committed transactions
-* Check no duplicated transactions
 
-If one of the Transactions Block checks fails, return INVALID status.
+* If one of the Transactions Block checks fails, return INVALID status, else return VALID.
 
-## `Validate Results Block` (method)
+## `Validate Results Block` (method) <!-- tal can finish -->
+
+* If not synchronized with block height (has the last block header), don't participate and fail.
+
 * Check protocol verison
 * Execute the trasnactions in the transactions Block by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
-  * Compare the receipts root and state diff hash. (Supports only determistic execution)
+  * Compare the receipts merkle root and state diff hash. (Supports only determistic execution)
 * Check that virtual chain matches consensus virtual chain
 * Check block_height = previous block_height + 1
 * Check prev_block_hash = SHA256(Block header(previously committed block))
 * Check time_stamp within +/-2sec of local timestamp, and time_stamp > previous commited block.time_stamp
 * Check ordering block hash.
-* Check state root hash equal local state root hash (before executing the block). Get the state hash by calling `StateStroage.GetStateHash`
+* Check state merkle root hash equal local state merkle root hash (before executing the block). Get the state hash by calling `StateStroage.GetStateHash`
 
-If one of the Results Block checks fails, return INVALID status.
+* If one of the Results Block checks fails, return INVALID status, else return VALID.
 
 &nbsp;
-## `CommitBlock` (method)
+## `CommitBlock` (method) <!-- tal can finish -->
+
 > Commits the transactions and resutls block to the block storage.
-* Match the commit to the block pair by verifying the blocks hash.
-* Update the last commited transactions block height.
+
+* No checks since we trust algo not to pass invalid committed blocks.
+* If this block height is newer than the last we know, use this to be the new synchronization point.
+* Update the last commited transactions block height. (this is the synchronization point)
 * Commit the block to the block storage by calling `BlockStorage.CommitTransactionsBlock`.

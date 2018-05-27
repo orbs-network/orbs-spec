@@ -12,39 +12,9 @@ Currently a single instance per virtual chain per node.
 * Init view, term to 0.
 
 &nbsp;
-## `Lite-Helix Messages`
-* When Lite-Helix sends a broadcast message call `Gossip.BroadcastMessage` with the Lite-Helix message, send message to the Ordering_Nodes group.
-* When Lite-Helix sends a unicast message call `Gossip.UnicastMessage` with the Lite-Helix message.
+## `OnNewConsensusRound` (method) <!-- tal can finish -->
 
-## `Lite-Helix Flow`
-Init() - View = 0, Term = 0, Leader = first node.
-
-`Append(Block)`
-* If leader, Broadcast[PrePrepare, view, term, Block, H(Block), NodeID, Sig]
-  * NodeID = Node Public Key
-  * H(Block) = SHA256(Execution Validation Block Header)
-* Upon reception of PrePrepare message:
-  * Check PrePrepare message: view, term, hash, signature
-  * Validate Ordering Block
-  * Validate Execution Validation Block
-  * If all valid, Broadcast[Prepare, view, term, H(Block), NodeID, Sig]
-* Upon reception of Prepare message:
-  * Check Prepare message: view, term, hash, signature
-  * If valid, mark prepare received from nodeID
-  * Upon reception of valid Prepare messages from 2f-1 (+1 for PrePrepare, +1 for the node) Broadcast[Commit, view, term, H(Block), NodeID, Sig]
-* Upon reception of Commit message:
-  * Check Commit message: view, term, hash, signature
-  * If valid, mark prepare received from nodeID
-  * Upon reception of valid Commit messages from 2f+1 nodes:
-    * Call `BlockCommitted(Block)`
-    * If leader, create a new block
-* Upon timer experation
-  * ...
-
-&nbsp;
-## `OnNewConsensusRound` (method) <!-- tal can fix -->
-
-> A new term (block height) starts, probably after the last block was committed.
+> The consensus algorithm decides a new term (block height) starts, probably after the last block was committed.
 
 * Assumes the block height for the upcoming round is known.
 * Calculate the shared `random_seed` for the upcoming block.
@@ -57,27 +27,27 @@ Init() - View = 0, Term = 0, Leader = first node.
 * Send signed proposals with gossip to the algo of all committee nodes (according to the algo spec).
 
 &nbsp;
-## `OnBlockProposalReceived` (method) <!-- tal can fix -->
+## `OnBlockProposalReceived` (method) <!-- tal can finish -->
 
-> Non-leader node receives a proposal for a new block by the leader.
+> Through the consensus algorithm, a non-leader node receives a proposal for a new block by the leader.
 
-* Make sure the block height matches the current round, if don't actively participate.
-* Perform algorithm related checks on the propsal, signature included.
+* Make sure the block height matches the current round, if not, don't actively participate.
+* Perform algorithm related checks on the proposal, signature included.
 * Validate the transactions block (ordering phase) by calling `ConsenusCore.ValidateTransactionsBlock`.
 * Validate the results block (execution phase) by calling `ConsenusCore.ValidateResultsBlock`.
 * Sign both approvals (according to the algo spec) - on hash of the header.
 * Send signed approvals with gossip to the algo of all committee nodes (according to the algo spec).
 
 &nbsp;
-## `OnCommitBlock` (method) <!-- tal can fix -->
+## `OnCommitBlock` (method) <!-- tal can finish -->
 
 > The consensus algorithm has decided a block proposal can be committed (all nodes, not just committee).
 
 * Ignore whether the block height matches the current round, follow the steps anyways.
 * Assumes the transactions block and results block were already propagated.
-* Pass the block to committed by calling `ConsensusCore.CommitBlock`.
-
+* Pass the committed block's proofs by calling `ConsensusCore.CommitBlock`.
 
 &nbsp;
 ## `GossipMessageReceived` (method)
+
 > Handles messages received from another node, expect to receive only Consensus messages that cosnesus-algo have subscribed to.

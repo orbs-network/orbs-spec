@@ -18,10 +18,29 @@ V1 release
 ## High level flows
 
 * [System Init](behaviors/flows/system-init.md)
+
+>
+
 * [Call Method](behaviors/flows/call-method.md)
+
+>
+
 * [Send Transaction](behaviors/flows/send-transaction.md)
+
+>
+
 * [Transaction Status](behaviors/flows/transaction-status.md)
+
+>
+
 * [Block Creation](behaviors/flows/block-creation.md)
-* [BlockStorage Sync](behaviors/flows/block-storage-sync.md)
-* [StateStorage Sync](behaviors/flows/state-storage-sync.md)
-* [TransactionPool Sync](behaviors/flows/transaction-pool-sync.md)
+
+>
+
+* [Inter Node Sync](behaviors/flows/inter-node-sync.md)
+
+>
+
+* [Intra Node Sync](behaviors/flows/intra-node-sync.md)
+
+>

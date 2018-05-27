@@ -62,13 +62,9 @@ Currently a single instance per virtual chain per node.
 * Add transaction to pending transaction pool if pool is not full.
 * Associate the transaction in the pool with the batch node id (public key).
 
-
-
-
-
-
 &nbsp;
-## `GetPendingTransactions` (method)
+## `GetTransactionsForOrdering` (method) <!-- tal can finish -->
+
 > Returns a set of N trasnactions for block building based on the block building policy (first come first served)
 
 #### Make sure the transaction pool is in sync
@@ -125,11 +121,6 @@ Currently a single instance per virtual chain per node.
 
 #### `TransactionsBatch` message <!-- pass 1 -->
 * Call `AddForwardedTransactionBatch`.
-
-&nbsp;
-## `UpdateSubscriptionStatus` (method)
-> Updates the transaction pool Subscription status.
-* Update the local subscription status for the virtual chain, takes effect starting from the indicated block.
 
 &nbsp;
 ## `Sync Flow`
