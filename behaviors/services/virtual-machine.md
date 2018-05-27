@@ -16,7 +16,7 @@ Currently a single instance per virtual chain per node.
   * Indicates the current address space for the context. The context address space is a function of the service.
 
 #### Transient state diff cache
-> Maintains the trasient state diff
+> Maintains the transient state diff
 * Allocated only for RW process trasnaction operations.
 * Stores temporary state changes during transaction set execution (until state diff is committed).
 * Format is identical to the state store data structure in `StateStorage`.
