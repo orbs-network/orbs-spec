@@ -70,7 +70,8 @@ message MethodCallInput {
 }
 
 message MethodCallOutput {
-  repeated CallArguments output_argument = 1;
+  Bool same_processor_execution = 1;
+  repeated CallArguments output_argument = 2;  
 }
 
 message MethodCallArguments { //TODO binary / unify with Sdk.

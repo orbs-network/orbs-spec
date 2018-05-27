@@ -9,7 +9,7 @@ service BlockStorage {
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
   rpc SubscribeReceipts (SubscribeReceiptsInput) returns (SubscribeReceiptsOutput);
-  rpc RequestStateDiff (SubscribeStateDiffInput) returns (SubscribeStateDiffOutput);
+  rpc SubscribeStateDiff (SubscribeStateDiffInput) returns (SubscribeStateDiffOutput);
 //  rpc GetBlockPairsByHeight (GetBlockPairsByHeightInput) returns (GetBlockPairsByHeightOutput);
 //  rpc GetTransactionsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
 //  rpc GetResultsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);

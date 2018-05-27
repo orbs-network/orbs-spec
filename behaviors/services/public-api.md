@@ -37,9 +37,6 @@ Currently a single instance per virtual chain per node.
 * Respond to client using data from the transaction receipt.
 
 
-
-
-
 &nbsp;
 ## `GetTransactionStatus` (method)
 
@@ -69,20 +66,18 @@ Currently a single instance per virtual chain per node.
 // TODO rate limiter.
 
 &nbsp;
-## `CallContract` (method)
+## `CallMethod` (method)
 
-> Run a read only contract that returns data
+> Run a read only method based on the current block height and returns the output arguments.
+
+#### Retrains session info
+  * Retains session info so the response will eventually arrive to this client.
 
 #### Check request validity
-* Check protocol version
-* Check signature
-* todo
+* Performs checks on the transaction:
+    * Version, Transaction format, virtual chain.
+* Batch tarnsactions and queries the Consensus core on the latest block height by calling `ConsensusCore.GetLatestBlockHeight`.
+    * Note that the method call is executed asynchronous to the block creation and the block height on which the execution is perfrormed may vary up to few blocks from the latest block.
 
 #### Forward call
-* Forward call to `VirtualMachine.CallContract`.
-
-
-
-#### Process
-* If the transaction has an open session, return PENDING
-* Else call `BlockStorage.GetTransactionReceipt`. // throttling mechanism.
+* Sends the trasnactions to the VM for execution by calling `VirtualMachine.RunLocalMethod` with the latest block height.
