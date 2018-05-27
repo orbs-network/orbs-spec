@@ -10,8 +10,7 @@ service TransactionPool {
   rpc ValidateTransactionsBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
   rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
   rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
-//  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-//  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+  rpc RequestCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
     // Called by Virtual Machine
   // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
@@ -19,23 +18,24 @@ service TransactionPool {
 }
 
 message RequestNewTransactionsBlockInput {
-
+    Uint64 block_height = 1;
 }
 
 message RequestNewTransactionsBlockOutput {
-    TransactionsBlock ordering_block = 1;
+    TransactionsBlock transactions_block = 1;
 }
 
 message RequestNewResultsBlockInput {
-
+    Uint64 block_height = 1;
+    SHA256 transactions_block_hash_ptr = 1;
 }
 
 message RequestNewResultsBlockOutput {
-    ResultsBlock validation_block = 1;
+    ResultsBlock results_block = 1;
 }
 
 message ValidateTransactionsBlockInput {
-    TransactionsBlock ordering_block = 1;
+    TransactionsBlock transactions_block = 1;
 }
 
 message ValidateTransactionsBlockOutput {
@@ -43,7 +43,7 @@ message ValidateTransactionsBlockOutput {
 }
 
 message ValidateResultsBlockInput {
-    ResultsBlock validation_block = 1;
+    ResultsBlock results_block = 1;
 }
 
 message ValidateResultsBlockOutput {
@@ -51,7 +51,10 @@ message ValidateResultsBlockOutput {
 }
 
 message CommitBlockInput {
-    TransactionsBlockProof block_proof = 1;
+    TransactionsBlockProof transactions_block_proof = 1;
+    SHA256 transactions_block_hash_ptr = 2;
+    ResultsBlockProof results_block_proof = 3;
+    SHA256 results_block_hash_ptr = 4;    
 }
 
 message CommitBlockOutput {
@@ -63,7 +66,7 @@ enum BlockStatus {
     INVALID = 1;
 }
 
-/*
+
 message RequestCommitteeInput {
     Uint64 random_seed = 1;
     Uint32 committee_size = 2;
@@ -72,7 +75,6 @@ message RequestCommitteeInput {
 message RequestCommitteeOutput {
     repeated Ed25519PKey node_id = 1;
 }
-*/
 
 message GetLastCommittedBlockHeightInput {
     //empty

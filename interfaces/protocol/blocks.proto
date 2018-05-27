@@ -54,7 +54,7 @@ message ResultsBlockHeader {
   Uint64 time_stamp = 5;
   SHA256 receipts_root_hash = 6;
   SHA256 state_diff_hash = 7;
-  SHA256 ordering_block_hash_ptr = 8;
+  SHA256 transactions_block_hash_ptr = 8;
   SHA256 pre_execution_state_root_hash = 9;
   ResultsBlockBloomFilter bloom_filter = 10;
 }
@@ -84,6 +84,5 @@ message StateDiff {
   RIP160SHA256 state_key = 1;
   Bytes state_value = 2;
 }
-
 */
 
