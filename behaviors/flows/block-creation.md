@@ -1,10 +1,10 @@
-DELETE THIS FILE
+# Continuous Block Creation Flow
 
-# High Level Flows
+The purpose of consensus is to continuously commit new blocks. Blocks are populated with transactions waiting in TransactionPool.
 
+## Participants in this flow
 
-&nbsp;
-## Continuous block creation
+## Flow
 
 * `Consensus Algorithm` intiates a new consensus round.
   * The `Consensus Algorithm` queries the `Consensus Core` on the participating committee (all nodes)
@@ -47,34 +47,3 @@ DELETE THIS FILE
     * The `Public API` reuturns a respond to the Client.
   * Removes the transactions from the pending transction pool.
   * Add the transaction IDs to the commmitted pool.
-
-&nbsp;
-## Continuous state synchronization
-* The `State Storage` subscribes for state diff commits from the `Block Storage`.
-* Any query that is initiated by the `Consensus Core` refers to a block height.
-* The `State Storage` verifies that it is synced with the block height in the query.
-* If the `State Storage` identifies that it is out of sync, it updates its request subscription and requests blocks starting after its last synched height.
-* The `Block Storage` commits the required state diff up to the latest block and continues to commit the state diff on each new block commit.
-
-&nbsp;
-## Continuous transaction pool synchronization
-* The `Transaction Pool` subscribes for receipts commits from the `Block Storage`.
-* Any query that is initiated by the `Consensus Core` refers to a block height.
-* The `Transaction Pool` verifies that it is synced with the block height in the query.
-* If the `Transaction Pool` identifies that it is out of sync, it updates its request subscription and requests blocks starting after its last synched height.
-* The `Block Storage` commits the required receipts up to the latest block and continues to commit receipts on each new block commit.
-
-&nbsp;
-## Continuous block synchronization
-* Block sync is performed by the `Block Storage`.
-* The `Block Storage` identifies out of sync when an out of sync commit it received from the `Consensus Core` or when a subscription request is received from the `State Storage` or `Transaction Pool` to a block that isn't present.
-* The `Block Storage` verfies the laetst block height by quering the `Consensus Core`.
-* If out of sync, the `Block Storage` sends a request for sync to a random peer node using `Gossip`.
-*
-* To be completed.
-
-&nbsp;
-## Client Queries Transaction Status
-
-&nbsp;
-## System Init
