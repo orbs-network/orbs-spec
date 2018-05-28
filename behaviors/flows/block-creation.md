@@ -1,4 +1,4 @@
-# Continuous Block Creation Flow
+# Continuous Block Creation Flow <!-- tal will finish -->
 
 The purpose of consensus is to continuously commit new blocks. Blocks are populated with transactions waiting in TransactionPool.
 

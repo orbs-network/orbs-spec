@@ -1,4 +1,4 @@
-# State Storage
+# State Storage <!-- tal will finish -->
 
 Holds the latest state under consensus, meaning all of the state variables for all services in a virtual chain.
 
@@ -8,70 +8,60 @@ Currently a single instance per virtual chain per node.
 ## `Data Structures`
 
 #### State store
-* Stores state data for all contracts by key (key-value store).
-* Maintains a snapshot of up to K=5 blocks
-  * Potential datastructure: Maintaine by a State Diff Cache in size of X blocks, which is looked up on first on ReadKeys calls.
-    * last_committed_block indicates the last block committed to the cache.
-    * When block N is committed (to the cache), the state is updated woth block N-K state diff. The atomicity of the state diff cache enables the update of the state not to be atomic.
+* Stores state data per service by key (key-value store).
+* Up to date for a specific block height.
+* Maintains a snapshot history of configurable number of blocks (eg. 5).
 * Data structure:
-  * For each smart contract keep a merkle tree of address, value.
-  * Value stored per key is a free-form string. // TODO serialized form.
-  * A non exist address returns a 0 value. //TODO
-* No need to be persistent.
-* Updated with the state diff and top block height by the block storage.
-* Upon loosing sync, re-syncs with the block storage.
+  * For each service keep a merkle tree of address, value.
+  * Keys and values are blobs (byte arrays).
+  * A non exist address returns a 0 value.
+* Can be persistent to optimize service bootstrap (be careful of partial writes).
+
+#### Sync state
+* `last_committed_block`
+* `next_desired_block_height`
 
 &nbsp;
-## `CommitStateDiff`
-> Commits the state diff of a new block
+## `Init` <!-- oded will finish -->
+
+TODO
+
+&nbsp;
+## `CommitStateDiff` <!-- tal will finish -->
+
+> Commits a new block (the state diff from it is what we care about).
 
 #### Consistency check
-* Update local top_block_height = CommitStateDiff.top_block_height
-* Check block height:
-  * If block height > last_commited_block height + 1, Set OUT_OF_SYNC, initate sync flow.
-  * If block height < last_commited_block height + 1 silently discard.
-  * If (block height = last_commited_block height + 1) AND (block height = top_block_height), reset OUT_OF_SYNC.
+* If given block_height != `next_desired_block_height` discard and return `next_desired_block_height`
 
 #### Commit state
 * Update the state_diff.
   * Update the state merkle tree while updating each state.
-* Update the last_committed_block height
-* Update the top_block_height
+* Update the `last_committed_block` height
+* Increment the `next_desired_block_height` and return it
 
 &nbsp;
-## `Check in-sync`
-> Verify that the state storage has the available block_height.
-  * If block height > last_commited_block height
-    * hold response for up to X = 2 sec waiting for potential StateDiff commit from the block storage.
-    * Upon timeout return BLOCK_HEIGHT_UNAVIABLE.
-  * If block_height < min_available_block_height
-    * return BLOCK_HEIGHT_UNAVIABLE.
-Note: OUT_OF_SYNC state is triggered only by the block storage updates and isn't triggered by a block height > last_commited_block.
+## `ReadKeys` (method) <!-- tal will finish -->
 
-## `ReadKeys` (method)
 > Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract.
-> If the requested block height is unavailable returns BLOCK_HEIGHT_UNAVIABLE.
 
-#### Make sure state is in sync
-* Performs `Check in-sync` flow.
+#### Check synchronization status
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the past and beyond the snapshot history, fail
 
-#### Read the state
-* Return the ordered list of values read from the state store.
+#### Return the values
+* Respond with the values
 
 &nbsp;
-## `GetStateHash` (method)
-> Returns the state hash (merkle tree root)
+## `GetStateHash` (method) <!-- tal will finish -->
 
-#### Make sure state is in sync
-* Performs `Check in-sync` flow.
+> Returns the state hash (merkle tree root) updated to a certain block height.
+
+#### Check synchronization status
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the past and beyond the snapshot history, fail
 
 #### Return the state root
 * Return the state merkle tree root.
-
-&nbsp;
-## `GetStateHash` (method)
-
-&nbsp;
-## `Sync Flow`
-> Syncs the state storage based on the block storage state diff.
-* Call `BlockStorage.RequestStateDiffUpdate` with consumer_block_height = last_commited_block + 1, target_block_height = MAX_UINT64.

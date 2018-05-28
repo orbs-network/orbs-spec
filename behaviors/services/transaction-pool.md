@@ -9,27 +9,35 @@ Currently a single instance per virtual chain per node.
 [transaction_preorder_validation_flow]: transaction_preorder_validation_flow.png "PreOrder Validation Flow"
 
 &nbsp;
-## `Init Flow`
-* Subscribe to transactions messages.
+## `Init` <!-- oded will finish -->
+
+TODO
 
 &nbsp;
-## `Data Structures`
+## `Data Structures` <!-- tal can finish -->
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
+* Needs to support efficient query by tx_id.
+* Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
-* No need to be persistent.
+* No need to be persistent, re-sync from the block storage.
 * Configurable max size.
 * Configurable interval to clear expired transactions by comparing `time_stamp` to a configurable time window (relative to current time).
 
 #### Committed transaction pool
-* Holds the ID of transactionss after they are added to the blockchain to avoid transaction duplication and return their result.
+* Holds the receipts of committed transactions to return their result and avoid transaction duplication.
+* Needs to support efficient query by tx_id.
 * No need to be persistent, re-sync from the block storage.
-* No limit on max size, max_size is determined by the exeperation window x maximum transaction rate. (on full committed pool - fatal error, drop all new committed blocks until not full)
-* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + expiration window.
+* No limit on max size (depends on expiration window).
+* Configurable interval to clear expired transactions. Transaction is considered expired if transaction timestamp > last block.timestamp + configurable expiration window.
+
+#### Sync state
+* `last_committed_block`
+* `next_desired_block_height`
 
 &nbsp;
-## `AddNewTransaction` (method) <!-- pass 1 -->
+## `AddNewTransaction` (method) <!-- tal can finish -->
 
 > Add a new transaction from a client to the network (propagate to all pending transaction pools)
 
@@ -51,9 +59,9 @@ Currently a single instance per virtual chain per node.
 * Broadcast the batch to all other transaction pools by calling `Gossip.SendMessage`.
 
 &nbsp;
-## `AddForwardedTransactionBatch` (method) <!-- pass 1 -->
+## `OnForwardedTransactions` (method) <!-- tal can finish -->
 
-> Add a transaction batch forwarded from another node to the pending transaction pool
+> Add a transaction batch forwarded from another node to the pending transaction pool.
 
 #### Check batch validity
 * Check the batch signature, discard on error.
@@ -67,62 +75,72 @@ Currently a single instance per virtual chain per node.
 
 > Returns a set of N trasnactions for block building based on the block building policy (first come first served)
 
-#### Make sure the transaction pool is in sync
-* Update last_requested_block = block height.
-* Check block height = last_commited_block height + 1.  
-  * If equal reset OUT_OF_SYNC, stop the `Sync flow`.
-* If block height = last_commited_block height + 1
-  * hold response for up to X = 2 sec waiting for potential receipts commit from the block storage.
-  * Upon timeout set OUT_OF_SYNC, return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
-* If block height > last_commited_block height + 1:
-  * set OUT_OF_SYNC, return OUT_OF_SYNC response and initiate a `Sync Flow` starting with last_commited_block height + 1.
-* If block height < last_commited_block + 1 return UNEXEPCETED_BLOCK_HEIGHT.
+#### Check synchronization status
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the past, panic
 
-### Returns a list of trasnactions
-* Prepare a transactions list proposal, verify that the trasnactions are valid for ordering by calling `CheckPreOrder`.
-* Return an ordered list of transactions from the pending transaction pool.
-  (Notice that the transactions are not evicted from the pool until `MarkCommittedTransactions`)
+#### Create proposal
+* Prepare a transactions list proposal (policy is first come first serve).
+
+#### Check transactions validity
+* For each transaction:
+  * Correct protocol version.
+  * Valid fields (sender address, contract address).
+  * Sender virtual chain matches contract virtual chain and matches the pool's virtual chain.
+  * Check transaction `time_stamp`, accept only transactions with configurable time window (relative to current time).
+  * Transaction doesn't already exist in the pending pool or committed pool (duplicate).
+* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
 
 &nbsp;
-## `ValidateTransactionsForOrdering` (method)
+## `ValidateTransactionsForOrdering` (method) <!-- tal can finish -->
+
 > Verifies that an ordered list of transactions complies with the ordering rules, called by the consensus-core when validating a new block proposal:
 
-### Check that the pools are up to date
-* Check block height = last_commited_block height + 1.
-* If block height > last_commited_block + 1 initate sync flow and return OUT_OF_SYNC status.
-* If block height < last_commited_block + 1 return UNEXEPCETED_BLOCK_HEIGHT.
+#### Check synchronization status
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the past, panic
 
-### Check transaction list
-* Verify that the trasnactions are valid for ordering by calling `CheckPreOrder`.
-* TODO handle non-full blocks and pending transactions check.
-
-### Return status
-* Return a valid / invalid status.
+#### Check transactions validity
+* For each transaction:
+  * Correct protocol version.
+  * Valid fields (sender address, contract address).
+  * Sender virtual chain matches contract virtual chain and matches the pool's virtual chain.
+  * Check transaction `time_stamp`, accept only transactions with configurable time window (relative to current time).
+  * Transaction doesn't already exist in the pending pool or committed pool (duplicate).
+* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+* TODO handle non-full blocks and pending transactions check (check "fairness").
 
 &nbsp;
-## `MarkCommittedTransactions` (method)
+## `CommitTransactionsReceipts` (method) <!-- tal can finish -->
+
 > Mark committed transactions as committed, removes them from the pending pool and notify the PublicAPI on local transactions that were committed.
+
+#### Consistency check
+* If given block_height != `next_desired_block_height` discard and return `next_desired_block_height`
+
+#### Commit Receipts
 * For each transaction receipt:
-    * Add the tx_id to the committed pool
-    * Lookup the the corresponding transaction in the pending pool, if local (originated by the node's Public API), update the local PublicAPI using `PublicAPI.UpdateTransactionsResponse`.
-    * Remove the corresponding transactions (based on their tx_id) from the pending pool.
+  * Add the receipt, block height and block timestamp to the committed pool.
+  * Lookup the the corresponding transaction in the pending pool, if local (originated by the node's Public API), update the local PublicAPI using `PublicAPI.ReturnTransactionResults`.
+  * Remove the corresponding transactions (based on their tx_id) from the pending pool.
+* Update the `last_committed_block` height
+* Increment the `next_desired_block_height` and return it
 
 &nbsp;
-## `GetTransactionStatus` (method)
+## `GetTransactionReceipt` (method) <!-- tal can finish -->
+
 > Return the status of a transaction
 
-#### Check pending transactions pool
-* If tx_id is present in the pending transaction pool, return status = PENDING else retun status = NO_RECORD_FOUND.
+* If tx_id is present in the pending transaction pool, return status = PENDING
+* If tx_id is present in the committed transaction pool, return status = COMMITTED and the receipt
+* else retun status = NO_RECORD_FOUND.
 
 &nbsp;
 ## `GossipMessageReceived` (method)
 
 > Handle a gossip message from another node.
 
-#### `TransactionsBatch` message <!-- pass 1 -->
-* Call `AddForwardedTransactionBatch`.
-
-&nbsp;
-## `Sync Flow`
-> Syncs the state storage based on the block storage state diff.
-* Call `BlockStorage.RequestReceiptsUpdate` with consumer_block_height = last_commited_block + 1, target_block_height = MAX_UINT64.
+#### `ForwardedTransactions` message <!-- pass 1 -->
+* Call `OnForwardedTransactions`.

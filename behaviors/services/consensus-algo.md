@@ -7,9 +7,9 @@ Communicates with the system through the ConsensusCore service. Controls all the
 Currently a single instance per virtual chain per node.
 
 &nbsp;
-## `Init Flow`
-* Subscribe to consensus messages.
-* Init view, term to 0.
+## `Init` <!-- oded will finish -->
+
+TODO
 
 &nbsp;
 ## `OnNewConsensusRound` (method) <!-- tal can finish -->
@@ -51,3 +51,5 @@ Currently a single instance per virtual chain per node.
 ## `GossipMessageReceived` (method)
 
 > Handles messages received from another node, expect to receive only Consensus messages that cosnesus-algo have subscribed to.
+
+* Depends on consensus algorithm.

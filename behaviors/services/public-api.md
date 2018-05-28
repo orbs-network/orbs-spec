@@ -36,34 +36,19 @@ Currently a single instance per virtual chain per node.
 * Locate the relevant session contexts based on `tx_id` of every transaction.
 * Respond to client using data from the transaction receipt.
 
-
 &nbsp;
 ## `GetTransactionStatus` (method)
 
 > Check the status of previously sent transaction
 
 #### Check request validity
-* Chcek time_stamp is within valid window: < last_block_time + 2sec, else return:
-    * tx_id
-    * status = INVALID_REQUEST
-    * last block time_stamp
-    (All other fields are don't care)
+* Check the transaction timestamp, verifying that it's not a future transaction plus grace (eg. 5 seconds).
 
-#### Check local sessions database
-* If tx_id is present in the local sessions database, return:
-    * tx_id
-    * status = PENDING
-    * last block time_stamp
-    (All other fields are don't care)
-
-#### Check transaction pool
-* Call `TransactionPool.GetTransactionStatus`
-    * If status = PENDING, return the response. //TBD hold committed status in transaction pool.
-
-#### Check block storage
-* Call `BlockStorage.GetTransactionReceipt`, return the response.
-
-// TODO rate limiter.
+#### Query transaction status
+* Queries the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
+  * If found returns PENDING, if committed return COMMITTED with the receipt.
+* Queries the block storage by calling `BlockStorage.GetTransactionReceipt`.
+  * If found returns COMMITTED with the receipt, else returns NO_RECORD_FOUND.
 
 &nbsp;
 ## `CallMethod` (method)
@@ -75,9 +60,9 @@ Currently a single instance per virtual chain per node.
 
 #### Check request validity
 * Performs checks on the transaction:
-    * Version, Transaction format, virtual chain.
+  * Version, Transaction format, virtual chain.
 * Batch tarnsactions and queries the Consensus core on the latest block height by calling `ConsensusCore.GetLatestBlockHeight`.
-    * Note that the method call is executed asynchronous to the block creation and the block height on which the execution is perfrormed may vary up to few blocks from the latest block.
+  * Note that the method call is executed asynchronous to the block creation and the block height on which the execution is perfrormed may vary up to few blocks from the latest block.
 
 #### Forward call
 * Sends the trasnactions to the VM for execution by calling `VirtualMachine.RunLocalMethod` with the latest block height.

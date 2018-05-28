@@ -2,7 +2,7 @@
 
 Provides the interface to the system for ConsensusAlgo. Responsible primarily for the creation of new blocks (populating the proposed block with transactions from TransactionPool) and for the validation of proposed blocks (like transaction results).
 
-Holds the source of truth for the latest block height in the virtual chain.
+Holds the source of truth for the latest block height in the virtual chain. Until the BlockStorage is fully synchronized to the latest block, ConsensusCore does not actively participate in the consensus process and does not help close blocks.
 
 Currently a single instance per virtual chain per node.
 
@@ -18,16 +18,13 @@ Currently a single instance per virtual chain per node.
 [consensus_core_interfaces]: consensus_core_interfaces.png "Consensus - Core Interfaces"
 
 &nbsp;
-## `Init Flow`
-* Read configuration file:
-  * Federation nodes (public keys)
-  * Empty_block_wait
-  * Out of sync timeout
+## `Init` <!-- oded will finish -->
 
 &nbsp;
 ## `Data Structures` <!-- tal can finish -->
 
-* Last committed block header
+#### Sync state
+* `last_committed_block`
 
 &nbsp;
 ## `RequestCommittee` (method) <!-- tal can finish -->
@@ -130,4 +127,4 @@ Currently a single instance per virtual chain per node.
 * No checks since we trust algo not to pass invalid committed blocks.
 * If this block height is newer than the last we know, use this to be the new synchronization point.
 * Update the last commited transactions block height. (this is the synchronization point)
-* Commit the block to the block storage by calling `BlockStorage.CommitTransactionsBlock`.
+* Commit the block to the block storage by calling `BlockStorage.AddBlock`.
