@@ -33,3 +33,7 @@
 ## Send old commits attack
 
 ## Attack of byzantine committee of an a-sync node.
+
+## Block storage re-sync, discard hash mismatch.
+## Request committee as a condition to paritciapte.
+## Check hash for the 2 block pairs.
