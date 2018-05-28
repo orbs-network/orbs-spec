@@ -6,30 +6,13 @@ import "protocol/messages.proto";
 
 
 service Gossip {
-  rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
   rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
   rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
-}
-
-message SendMessageInput {
-  GossipMessage gossip_message = 1;
-}
-
-message SendMessageOutput {
-  // empty
-}
-
-message UnicastMessageInput {
-  GossipMessage gossip_message = 1;
-}
-
-message UnicastMessageOutput {
-  // empty
+  rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
 }
 
 message GossipMessageReceivedInput {
   GossipMessage gossip_message = 1;
-  Uint64 subscription_token = 2;
 }
 
 message GossipMessageReceivedOutput {
@@ -59,4 +42,12 @@ enum ServiceID {
   BLOCK_STORAGE = 1;
   TRANSACTION_POOL = 2;
   GOSSIP = 3;
+}
+
+message SendMessageInput {
+  GossipMessage gossip_message = 1;
+}
+
+message SendMessageOutput {
+  // empty
 }

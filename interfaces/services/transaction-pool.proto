@@ -6,32 +6,25 @@ import "services/configuration-manager.proto";
 
 service TransactionPool {
   // Called by Public API
-  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutputWithException);
-  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
+  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
   // Called by Consensus Core
-  rpc CollectTransactions (CollectTransactionsInput) returns (CollectTransactionsOutput); // Transactions Streaming 
-  rpc ValidateTransactionsCollection (ValidateTransactionsCollectionInput) returns (ValidateTransactionsCollectionOutput); // Transactions Streaming
+  rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput); // Transactions Streaming 
+  rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput); // Transactions Streaming
   // Called by Block Storage
   rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput); // Receipts Streaming
-  // Called by Gossip
+  
+  // Gossip
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+  rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
 }
 
 message AddNewTransactionInput {
   Transaction transaction = 1;
 }
 
-message AddNewTransactionOutputWithException {
-  oneof result {
-    AddNewTransactionOutput output = 1;
-    AddNewTransactionException exception = 2;
-  }
-}
-
 message AddNewTransactionOutput {
-  oneof result {
-    AddNewTransactionException exception = 1;
-  }
+
 }
 
 message GetTransactionStatusInput {
@@ -42,12 +35,12 @@ message GetTransactionStatusOutput {
   TransactionStatus transaction_status = 1;
 }
 
-message CollectTransactionsInput {
+message GetTransactionsForOrderingInput {
   Uint64 block_height = 1;
   Uint32 number_of_transactions = 2;
 }
 
-message CollectTransactionsOutput {
+message GetTransactionsForOrderingOutput {
   oneof result {
     CollectTransactionsException exception = 1;
     repeated Transaction transactions = 2;
@@ -59,11 +52,11 @@ enum CollectTransactionsException {
   OUT_OF_SYNC = 1;
 }
 
-message ValidateTransactionsCollectionInput {
+message ValidateTransactionsForOrderingInput {
   repeated Transaction transactions = 1;
 }
 
-message ValidateTransactionsCollectionOutput {
+message ValidateTransactionsForOrderingOutput {
   TransactionPoolStatus tx_pool_status = 1;
   TransactionsOrderingStatus status = 2;
 }
@@ -76,19 +69,31 @@ enum TransactionsOrderingStatus {
 
 message CommitTransactionReceiptsInput {
   ResultsBlock validation_block = 1; // Nullify sc_state_diff
+  Uint64 last_committed_block_height = 2;
 }
 
 message CommitTransactionReceiptsOutput {
-  Unit64 consumer_block_height = 1;
-  Uint64 target_block_height = 2;
+  Unit64 next_desired_block_height = 1;
+  Uint64 last_committed_block_height = 2;
 }
 
 
-message GetTransactionStatusInput {
+message GetTransactionReceiptInput {
   SHA256 txid = 1;
   Uint64 time_stamp = 2;
 }
 
-message GetTransactionStatusOutput {
-  TransactionReceipt receipt = 1;
+message GetTransactionReceiptOutput {
+  TransactionStatus transaction_status = 1;
+  TransactionReceipt transaction_receipt = 2;
+  Uint64 block_height = 3;
+  Uint64 block_timestamp = 4;
+}
+
+message OnForwardedTransactionsInput {
+  TransactionBatch transaction_batch = 1;
+}
+
+message OnForwardedTransactionsOutput {
+  
 }

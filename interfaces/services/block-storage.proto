@@ -5,11 +5,20 @@ import "protocol/gossip.proto";
 import "protocol/blocks.proto";
 
 service BlockStorage {
+  // Called by Consensus Core
   rpc AddBlock (AddBlockInput) returns (AddBlockOutput);
-  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+  rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
+  
+  // Called by Public API
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
-  rpc SubscribeReceipts (SubscribeReceiptsInput) returns (SubscribeReceiptsOutput);
-  rpc SubscribeStateDiff (SubscribeStateDiffInput) returns (SubscribeStateDiffOutput);
+  
+  //Gossip
+  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+  rpc OnBlockAvailabilityRequest (OnBlockAvailabilityRequestInput) returns (OnBlockAvailabilityRequestOutput);
+  rpc OnBlockAvailabilityResponse (OnBlockAvailabilityResponseInput) returns (OnBlockAvailabilityResponseOutput);
+  rpc OnBlockSyncRequest (OnBlockSyncRequestInput) returns (OnBlockSyncRequestOutput);
+  rpc OnBlockSyncResponse (OnBlockSyncResponseInput) returns (OnBlockSyncResponseOutput);
+
 //  rpc GetBlockPairsByHeight (GetBlockPairsByHeightInput) returns (GetBlockPairsByHeightOutput);
 //  rpc GetTransactionsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
 //  rpc GetResultsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
@@ -28,7 +37,21 @@ message AddBlockInput {
 }
 
 message AddBlockOutput {
+  AddBlockStatus add_block_status = 1;
+}
+
+enum AddBlockStatus {
+  VALID_BLOCK = 0;
+  INVALID_BLOCLK_HASH_MISMATCH = 1;
+  OUT_OF_ORDER_ADD = 2;
+}
+
+message GetLastCommittedBlockHeightInput {
   // empty
+}
+
+message GetLastCommittedBlockHeightOutput {
+  Uint64 last_committed_block_height = 1;
 }
 
 message GetTransactionReceiptInput {
@@ -42,78 +65,34 @@ message GetTransactionReceiptOutput {
   Uint64 block_timestamp = 3;
 }
 
-message GetTransactionReceiptResponse {
-  TransactionReceipt receipt = 1;
-  Uint64 receipt_block_height = 2;
-  Uint64 receipt_block_timestamp = 3;
+message OnBlockAvailabilityRequestInput {
+  BlockAvailabilityRequest block_availability_request = 1;
 }
 
-message SubscribeReceiptsInput {
-//  Ed25519PKey consumer_id = 1; - remove, only local service
-  Uint64 consumer_block_height = 2;
-//  Uint64 target_block_height = 3 - remove, not needed in V1
+message OnBlockAvailabilityRequestOutput {
+
 }
 
-message SubscribeReceiptsOutput {
-  // empty
+message OnBlockAvailabilityResponseInput {
+  BlockAvailabilityRequest block_availability_response = 2;
 }
 
-message SubscribeStateDiffInput {
-//  Ed25519PKey consumer_id = 1; - remove, only local service
-  Uint64 consumer_block_height = 2;
-//  Uint64 target_block_height = 3 - remove, not needed in V1
+message OnBlockAvailabilityResponseOutput {
+
 }
 
-message SubscribeStateDiffOutput {
-  // empty
+message OnBlockSyncRequestInput {
+  BlockSyncRequest block_sync_request = 3;
 }
 
+message OnBlockSyncRequestOutput {
 
-
-
-/*
-message SubscribeEventsInput {
-  Ed25519PKey subscriber_id = 1;
-  repeated EventSubscription events = 2;
 }
 
-message SubscribeEventsOutput {
-  Uint64 token = 1;
+message OnBlockSyncResponseInput {
+  BlockSyncResponse block_sync_response = 4;
 }
 
-message EventSubscription {
-  EventType event_type = 1;
-  Address contract_address = 2; // Valid only for per smart contract events.
-  Uint32 event_index = 3;
-  Uint256 event_id = 4;
-  //Uint32 exeperation = 5;
-}
+message OnBlockSyncResponseOutput {
 
-enum EventType {
-  GLOBAL = 0;
-  SMART_CONTRACT = 1;
 }
-message UnSubscribeEventsInput {
-  Uint64 token = 1;
-}
-
-message UnSubscribeEventsOutput {
-  // empty
-}
-
-message EventData {
-  EventType event_type = 1;
-  Address contract_address = 2; 
-  Uint32 event_index = 3;
-  Uint256 event_id = 4;
-  String Event = 5;
-}
-
-message SubscribeReciptInput {
-  SHA256 tx_id = 1;  
-}
-
-message SubscribeReciptOutput {
-  Bool success = 1;
-}
-*/

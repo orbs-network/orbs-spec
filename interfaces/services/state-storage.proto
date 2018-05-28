@@ -24,12 +24,12 @@ enum StateStatus {
 
 message CommitStateDiffInput {
   ResultsBlock validation_block = 1; // Nullify transaction_receipts
-  Uint64 top_block_height = 2;
+  Uint64 last_committed_block_height = 2;
 }
 
 message CommitStateDiffOutput {
-  Unit64 consumer_block_height = 1;
-  Uint64 target_block_height = 2;
+  Unit64 next_desired_block_height = 1;
+  Uint64 last_committed_block_height = 2;
 }
 
 message GetStateHashInput {
