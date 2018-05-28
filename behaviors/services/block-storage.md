@@ -39,7 +39,7 @@ Currently a single instance per virtual chain per node.
   * block_timeout = 8 sec has passed since the last block commit.
 
 ### `Block Synchronization Flow`
-* Identify ndoes that have the desired blocks by broadcasting a BLOCK_AVAILABILITY_REQUEST messsage to all nodes using `Gossip.UnicastMessage`.
+* Identify ndoes that have the desired blocks by broadcasting a BLOCK_AVAILABILITY_REQUEST messsage to all nodes using `Gossip.SendMessage`.
   * If the last block is unknown, set the lsat_block to MAX_UINT64.
   * The receiving nodes respond with a BLOCK_AVAILABILITY_RESPONSE message indicating the range out of the desired blocks that is available to them and their current top block.
 * Randomly select one of the nodes that responsded and request a batch of blocks avilable at this node.

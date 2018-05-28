@@ -25,3 +25,11 @@
 * Protocol version
 
 ## Init
+
+## SW Upgrade flow 
+
+## How to sync the algo
+
+## Send old commits attack
+
+## Attack of byzantine committee of an a-sync node.
