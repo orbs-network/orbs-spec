@@ -2,6 +2,8 @@
 
 Connects different nodes over the network with efficient message broadcast and unicast. This is the main method nodes in the network use to communicate among themselves.
 
+Intra node: A pub/sub model where any service subscribes with Gossip to a specific topic (group of messages, all topics are described [here](../../interfaces/protocol/messages.proto)).
+
 Currently a single instance per virtual chain per node.
 
 &nbsp;
@@ -12,38 +14,65 @@ Currently a single instance per virtual chain per node.
   * Assume all services are found on all nodes.
   * Assume single instance of a service on a node.
 * All communication is direct.
-  * TODO forwarding scheme for large (PrePrepare) messages.
+  * TODO Possible exception: forwarding scheme for large (PrePrepare) messages.
 * No special support for retransmission except standard TCP stack.
-* All messages should be signed by nodes and authenticated upon reception. (Peer2Peer)
+* Recommended: All messages should be signed by nodes and authenticated upon reception (via TLS).
 * Reconnect to topology peers when disconnected with a configurable polling interval.
 * Call `OnMessageReceived` when a gossip message is received.
-* See inter node message [encoding](../../interfaces/protocol/gossip/json-over-websocket.md).
+* Wire format encoding is [Protobuf over TCP](../../interfaces/protocol/encoding/gossip/protobuf-over-tcp.md).
 
 &nbsp;
-## `Init Flow`
-* Read configuration file:
-  * Federation nodes data (map of public keys to network address)
-  * Broadcast group list for each virtual chain.
+## `Data Structures`
+
+#### Network Address Map
+* Maps between NodeID (Public Key) to an active socket to the Gossip service of this node.
+* Used for inter node communication.
+* Assumes every node has a single gossip instance.
+* Initialized based on the public gossip endpoints from node topology configuration.
+
+#### Topic Subscriptions Table
+* Map between topic to list of service ids that are subscribed to this topic.
+* Used for intra node communication.
+* Assumes a single instance of every service on every node.
+* Generated dynamically by calls to `TopicSubscribe`.
 
 &nbsp;
-## `OnMessageReceived`
-> Called when a gossip message is received from another node, forwarded to the services that are subscribed to the message.
-* Call `Target.GossipMessageReceived` with message content.
-* The target service is responsible to identify the topic and message type and process the message accordingly.
+## `Init` <!-- oded will finish -->
 
-&nbsp;
-## `SendMessage` (method)
-> Sends a message to a group a nodes, the message is forwarded to the services subscribed to the topic. Used fro Boradcast, Multicast and Unicast communication.
-* The gossip message holds the list of destination nodes.
-  * On broadcast indicatation, forward the message to all the nodes of the virtual chain.
-* The list of nodes to forward the message to is indicated as part of the gossip message.
-* Sends a message to each of the nodes' gossip.
+TODO
 
 &nbsp;
 ## `TopicSubscribe` (method)
+
 > Used by services to subscribe to a specific topic.
-Returns a token that identifies the subscription and can be used in order to identify the message's subscription within the receving service.
+
+* Add this service id to the the topic subscription table for the requested topic.
 
 &nbsp;
 ## `TopicUnsubscribe` (method)
+
 > Used by services to unsubscribe from a specific topic.
+
+* Remove this service id from the the topic subscription table for the requested topic.
+
+&nbsp;
+## `OnMessageReceived` (method)
+
+> Called when a gossip message is received from another node (inter-node)
+
+* Look up the the list of subscribed services for this topic in the topic subscription table.
+* For each service id:
+  * Rely on service topology configuration to locate the service endpoint by service id.
+  * Call `Target.GossipMessageReceived` with message content.
+  * The target service is responsible to identify the message type and process the message accordingly.
+
+&nbsp;
+## `SendMessage` (method)
+
+> Sends an inter node message, the message will be forwarded to the services subscribed to the topic.
+
+* The gossip message holds the list of destination nodes ids (node ids = public keys).
+  * NULL value for the list means broadcast to all nodes in the virtual chain.
+* For each node id:
+  * Rely on Network Address Map to locate the relevant socket.
+  * Sends the message on the socket.

@@ -11,7 +11,7 @@ Currently a single instance per virtual chain per node.
 #### JSON over HTTP
 * Requests are HTTP POST with JSON body and JSON response.
 * TODO: Binary fields such as addresses are encoded with Base58.
-* See request and response [encoding](../../interfaces/protocol/public-api/json-over-http.md).
+* See request and response [encoding](../../interfaces/protocol/encoding/public-api/json-over-http.md).
 
 &nbsp;
 ## `SendTransaction` (method) <!-- pass 1 -->
