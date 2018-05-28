@@ -4,7 +4,7 @@
 
 ```json
 {
-  
+  "virtual-chain-id": "0x803E2207"
 }
 ```
 
