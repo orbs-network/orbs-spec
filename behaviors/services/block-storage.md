@@ -27,25 +27,42 @@ TODO
 * Data is not sharded, all blocks are stored locally on all machines.
 
 &nbsp;
-## `Inter Node Block Synchronization` <!-- oded will finish -->
+## `Inter Node Block Synchronization`
 
-* The synchronization process is initialled upon either:
-  * Receving CommitBlock block with height <> last_commited_block block + 1.
-  * Receving a request to fetch data from blocks that are unavailable to the block storage. (from the state storage or transactions pool)
-  * block_timeout = 8 sec has passed since the last block commit.
+* The synchronization flow is initialled upon either:
+  * Receving a request from the `Consensus Algo` to fetch blocks block with height > last_commited_block block + 1.
+  * block_timeout = configurable block_commit_timeout (default 8 sec) has passed without block commit.
 
-### `Inter Node Block Synchronization` <!-- oded will finish, combine -->
-* Identify ndoes that have the desired blocks by broadcasting a BLOCK_AVAILABILITY_REQUEST messsage to all nodes using `Gossip.SendMessage`.
-  * If the last block is unknown, set the lsat_block to MAX_UINT64.
-  * The receiving nodes respond with a BLOCK_AVAILABILITY_RESPONSE message indicating the range out of the desired blocks that is available to them and their current top block.
-* Randomly select one of the nodes that responsded and request a batch of blocks avilable at this node.
-  * Request the blocks in order
-  * Request up to max_block_sync_batch = 100 in each request.
-  * The receiving node responds with a BLOCK_SYNC_RESPONSE message that include the requested blocks. In addition, the message includes the node's top block height.
-* Upon reception of a response, add the blocks in order by performing `AddBlock`.
-* If the node attempt to sync to the latest block and the received top block is not already available to the node, update the requested last block to the received top block.
+* Identify nodes that have the desired blocks by broadcasting a `BLOCK_AVAILABILITY_REQUEST` messsage to all nodes using `Gossip.SendMessage`.
+  * Request the blocks from the last_committed_block to the highest known block height. (if unknown set to MAX_UINT64)
+  * The receiving nodes respond with a `BLOCK_AVAILABILITY_RESPONSE` message
+    * Indicating the range out of the desired blocks that is available to them and their current top block.
+* Randomly select one of the responding nodes and request a batch of blocks avilable to this node by sending a unicast `BLOCK_SYNC_REQUEST`.
+  * The receiving node responds with a `BLOCK_SYNC_RESPONSE` message
+    * The message includes the requested blocks and the node's last_committed block height.
+  * Upon reception of a response
+    * Validate the blocks for commit by performing `Validate Block for Commit`
+      * If valid commit the block by calling `Commit Block`.
+    * If the responder last_committed block is larger than the maximum known block height, update the following requests accordingly.
 * Repeat requesting until receiving all the desired blocks.
   * It is recommanded to shuffle the requests among the nodes that have the block avialable in order not to put too much burden on a single node.
+
+#### `Validate Block for Commit`
+> Adds a block received during inter-node sync  
+
+#### Check the Transactions Block Header (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height
+  * If the block already exist (block height < last_commited_block block + 1) discard.
+* Check transactions_root_hash 
+  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
+* Check metadata hash
+  * Calculate the hash of the block's metadata and verify the hash in the header.
+
+#### Validate that the block is under consensus and can be committed.
+* Validate that the block can be commited under consensus by calling `ConsensusAlgo.ValidateTransactionsBlockConsensus`.
+
 
 &nbsp;
 ## `Intra Node Block Synchronization` <!-- oded will finish -->
@@ -59,7 +76,23 @@ TODO
 * Important: When everything is synchronized (common case), `AddBlock` should immediately trigger the commit to the service without waiting (this is the critical path).
 
 &nbsp;
-## `AddBlock` (method) <!-- tal can finish -->
+## `CommitBlock` (method)
+> Commit a new block pair after it was approved for commit.
+
+#### Verify block before adding to database
+* Check the block protocol version.
+* If the block already exist (block height < last_commited_block block + 1) - sligntly discard.
+* If block height > last_commited_block block + 1, panic.
+
+#### Commit the block
+* Store block in database indexed by block height.
+* Update last_commited_block = block height.
+* If intra block sync of StateStorage is blocking and waiting, wake it up.
+* If intra block sync of TransactionPool is blocking and waiting, wake it up.
+
+<!--
+&nbsp;
+## `AddBlock` (method) 
 
 > Add a new block pair (transactions block and results block) to the database.
 
@@ -77,6 +110,8 @@ TODO
 * Update last_commited_block = block height.
 * If intra block sync of StateStorage is blocking and waiting, wake it up.
 * If intra block sync of TransactionPool is blocking and waiting, wake it up.
+
+-->
 
 &nbsp;
 ## `GetTransactionReceipt` (method) <!-- tal will finish -->
@@ -96,6 +131,16 @@ TODO
 > Handles a gossip message from another node. Relevant messages include node sync messages.
 
 TODO - add sync flow messages
+
+## `GetTransactionsHeaderAndProof` (method)
+> Returns a committed transactions block header and proof.
+* If the requested block height is not committed fail
+* Return the block header, metadata and proof.
+
+## `GetResultsHeaderAndProof` (method)
+> Returns a committed results block header and proof.
+* If the requested block height is not committed fail
+* Return the block header and proof.
 
 ![alt text][block_state_pool_flow] <br/><br/>
 

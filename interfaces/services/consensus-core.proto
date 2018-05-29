@@ -9,7 +9,6 @@ service TransactionPool {
   rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
   rpc ValidateTransactionsBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
   rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
-  rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
   rpc RequestCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
     // Called by Virtual Machine
   // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
@@ -49,16 +48,6 @@ message ValidateResultsBlockOutput {
     BlockStatus status = 1;
 }
 
-message CommitBlockInput {
-    Uint64 block_height = 1;
-    TransactionsBlockProof transactions_block_proof = 2;
-    ResultsBlockProof results_block_proof = 3;
-}
-
-message CommitBlockOutput {
-    // empty
-}
-
 enum BlockStatus {
     VALID = 0;
     INVALID = 1;
@@ -72,6 +61,7 @@ message RequestCommitteeInput {
 
 message RequestCommitteeOutput {
     repeated Ed25519PKey node_id = 1;
+    Uint32 max_valid_block_height = 2;
 }
 
 message GetLastCommittedBlockHeightInput {

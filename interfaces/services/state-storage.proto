@@ -8,13 +8,13 @@ service StateStorage {
 
 message ReadKeysInput {
   Uint64 requested_block_height = 1;
-  Address contract_address = 2;
+  NameSpace service = 2;
   repeated RIP160SHA256 keys = 3;
 }
 
 message ReadKeysOutput {
   StateStatus status = 1;
-  map<RIP160SHA256,String> values = 2;
+  map<RIP160SHA256,Blob> values = 2;
 }
 
 enum StateStatus {

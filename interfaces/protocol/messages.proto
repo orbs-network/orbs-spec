@@ -103,7 +103,7 @@ message BlockSyncRequest {
   Ed25519PKey sender_public_key = 1;
   BlockSyncRequestCode request_code = 2;
   Uint64 first_block_height = 3;
-  Uint64 last_block_height = 4;
+  Uint64 max_block_height = 4;
   Ed25519Sig signature = 6;
 }
 

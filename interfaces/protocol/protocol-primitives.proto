@@ -6,7 +6,7 @@ import "protocol/primitives.proto";
 
 message StateDiff {
     RIP160SHA256 state_key = 1;
-    Bytes state_value = 2;
+    Blob state_value = 2;
 }
 
 message GetTransactionsStreamInput {

@@ -52,12 +52,6 @@ message RIP160SHA256 {
     bytes value = 1; //Fixed size 20B
 }
 
-/*
-message NodeID {
-    Ed25519PKey public_key = 1;
+message Blob {
+    bytes value = 1;
 }
-
-message TXID {
-    SHA256 value = 1;
-}
-*/

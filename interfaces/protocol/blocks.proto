@@ -39,6 +39,7 @@ message TransactionsBlockBody {
 message TransactionsBlockProof {
   Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
   repeated BlockProof block_signature = 2;
+  //SHA256 transactions_header_hash = 3; - TBD clarifies the validation.
 }
 
 message BlockProof {
@@ -75,14 +76,6 @@ message ResultsBlockProof {
 }
 
 message ServiceStateDiff {
-  Address contract_address = 1;
+  NameSpace service = 1;
   repeated StateDiff state_diff = 2;
 }
-
-/* moved to protocol_primitives
-message StateDiff {
-  RIP160SHA256 state_key = 1;
-  Bytes state_value = 2;
-}
-*/
-

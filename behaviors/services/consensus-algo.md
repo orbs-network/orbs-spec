@@ -18,7 +18,9 @@ TODO
 
 * Assumes the block height for the upcoming round is known.
 * Calculate the shared `random_seed` for the upcoming block.
-* Get a sorted list of committee members for the upcoming block by calling `ConsensusCore.RequestCommittee`.
+* Get a sorted list of committee members for the upcoming block by calling `ConsensusCore.RequestCommittee`. 
+  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
+
 
 #### If Leader
 * Request new transactions block proposal (ordering phase) by calling `ConsensusCore.RequestNewTransactionsBlock`.
@@ -53,3 +55,45 @@ TODO
 > Handles messages received from another node, expect to receive only Consensus messages that cosnesus-algo have subscribed to.
 
 * Depends on consensus algorithm.
+
+&nbsp;
+## `ValidateTransactionsBlockCommit` (method)
+> Validates that a tarnsactions block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
+
+#### Get the previously commited block data
+* Fetch the previous committed tarnsactions block data by calling `BlockStorage.GetTransactionsHeaderAndProof`.
+  * It is recommanded to cache the previous block data in order to prevent fetching teh data when possible.
+
+#### Verify the block committee
+* Calualte the previous block random seed.
+* Fetch the committee members by calling `ConsensusCore.RequestOrderingCommittee`.
+  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
+
+#### Verify the block proof
+* Verify the blook proof based on the committee members.
+
+#### Verify previous block hash pointer
+* Calcualte the hash of the previously commited block header.
+
+If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TODO timeout)
+
+&nbsp;
+## `ValidateResultsBlockCommit` (method)
+> Validates that a results block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
+
+#### Get the previously commited block data
+* Fetch the previous committed tarnsactions block data by calling `BlockStorage.GetResultsHeaderAndProof`.
+  * It is recommanded to cache the previous block data in order to prevent fetching teh data when possible.
+
+#### Verify the block committee
+* Calualte the previous block random seed.
+* Fetch the committee members by calling `ConsensusCore.RequestValidationCommittee`.
+  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
+
+#### Verify the block proof
+* Verify the blook proof based on the committee members.
+
+#### Verify previous block hash pointer
+* Calcualte the hash of the previously commited block header. (TODO transactions hash pointer)
+
+If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TBD timeout)
