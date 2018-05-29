@@ -5,7 +5,8 @@ import "protocol/virtual-machine.proto";
 
 
 service Processor {
-    rpc ProcessCallSet (stream ProcessCallInput) returns (stream ProcessCallOutput);
+    rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
+    rpc DeployService (DeployServiceInput) returns (DeployServiceOutput);
 }
   
 message ProcessCallInput {
@@ -25,4 +26,14 @@ message ProcessCallOutput {
 enum AccessScope {
     READ_ONLY = 0;
     READ_WRITE = 1;
+}
+
+message DeployServiceInput {
+    Uint32 context_id = 1;
+    NameSpace service = 2;
+    AddressToken sender = 3;
+}
+
+message DeployServiceOutput {
+    
 }

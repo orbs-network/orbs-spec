@@ -2,22 +2,23 @@
 
 On system Init, the node sychronizes to its local persistant database and the network.
 
-## Participants in this flow
-
+## Participants in this flow:
+<!--
 * Persistent services
-  * `Block Storage`
   * `Consensus Algo`
+  * `Block Storage`
   * `State Storage`
 
-* Stateful services
-  * `State Storage`
+* Non-persistent services
   * `Transaction Pool`
-  * `SideChain Connector` 
-  * `Consensus Core`
-
-* Configuration files
-  * `Consensus Core`
   * `Gossip`
+
+* Stateless services
+  * `Consensus Builder`
+  * `Virtual Machine` 
+  * `Processors`
+  * `Public API`
+-->
 
 ## Assumptions
 * 2f+1 of the network are synched to the latest configurations.
@@ -27,35 +28,62 @@ On system Init, the node sychronizes to its local persistant database and the ne
 * Configuration changes take effect starting on block N.
  
 
-## `Consensus Core`
-* Priodically query the `Block Storage` until receiving 
-
-
 ## `Consensus Algo`
 
 #### Persistent database
-* Maintains a persistent database of algorithm required persistent data: Prepare database of latest term.
+* Maintains a persistent database of the algorithm required persistent data.
 
 #### Init Flow
+* Read configuration
+* Loads persistent data.
 * Subscribe to Consensus `Gossip` messages.
-* Read Consnesus persistent data.
-
-
-
-* Attempts to receive Consensus Commit messages.
-  * Upon reception commits block to block storage
-* Wait configurable max 
+* Start consensus algorithm
 
 
 ## `Block Storage`
 
 #### Persistent database
 * Maintains a persistent database of:
-  * Blocks (in-order and out-of-order committs)
+  * Committed blocks
   * Last committed height 
 
 #### Init Flow
-* Subscribe to Node Sync `Gossip` messages.
-* Initiste inter-node sync flow 
-  * Until no CommitBlock was received, set `max_block_height` = MAX_UINT64, indicating all valid blocks.
-* 
+* Read configuration
+* Loads persistent data.
+* Subscribe to Block Sync `Gossip` messages.
+* Set max_known_block_height to unknown (MAX_UINT64)
+  * Once Commit Block is received update the max_known_block_height to the committed block height.
+* Initiate `Inter Node Block Synchronization` (treat as block_timeout expired)
+  * Requesting the required blocks up to the max_known_block_height.
+
+
+## `State Storage`
+
+#### Persistent database
+* Maintains a persistent database of:
+  * Committed state
+  * Last committed block height
+
+#### Init Flow
+* Read configuration
+* Loads persistent data.
+* Set next_desired_block_height = last_committed_block_height + 1.
+
+
+## `Tramsaction pool`
+
+#### Init Flow
+* Read configuration
+* Init with empty pending and committed pools.
+* Set last_committed_block_height = 0, next_desired_block_height = 1.
+    * The `next_desired_block_height` will be updated according to the block storage commits.
+* Subscribe to Transaction Batch `Gossip` messages.
+
+
+## `Gossip`
+
+#### Init Flow
+* Read configuration.
+* Set sessions with the requried nodes
+    * All other nodes' gossip endpoint.
+* Set last_committed_block = 0.

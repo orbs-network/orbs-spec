@@ -17,12 +17,13 @@ TODO
 > The consensus algorithm decides a new term (block height) starts, probably after the last block was committed.
 
 * Assumes the block height for the upcoming round is known.
-* Get the previous committed block pair data by calling `BlockStorage.GetTransactionsBlockHeader` and `BlockStorage.GetResultsBlockHeader`.
+* Get the previously committed block pair data by calling `BlockStorage.GetTransactionsBlockHeader` and `BlockStorage.GetResultsBlockHeader`.
   * It is recommanded to cache the previously committed block data in order to prevent fetching the data.
-* Calculate the shared `random_seed` for the upcoming block. Use the same `random_seed` for both committees.
+  * If fails or times out, skip this round.
+* Calculate the `random_seed` for the upcoming block.
 * Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusBuilder.RequestOrderingCommittee`.
 * Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusBuilder.RequestValidationCommittee`.
-* Note: If the consensus algorithm relies on a single committee for both, call `RequestValidationCommittee` only.
+* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusBuilder.RequestValidationCommittee` only based on the results block random seed.
 
 #### If Leader
 * Request new transactions block proposal (ordering phase) by calling `ConsensusBuilder.RequestNewTransactionsBlock`.
@@ -33,28 +34,57 @@ TODO
 &nbsp;
 ## `OnBlockProposalReceived` (method) <!-- tal can finish -->
 
-> Through the consensus algorithm, a non-leader node receives a proposal for a new block by the leader.
+> Through the consensus algorithm, a non-leader node in the committee receives a proposal for a new block by the leader.
 
-* Make sure the block height matches the current round, if not, don't actively participate.
-* Perform algorithm related checks on the proposal, signature included.
-* Validate the transactions block (ordering phase) by calling `ConsenusCore.ValidateTransactionsBlock`.
-* Validate the results block (execution phase) by calling `ConsenusCore.ValidateResultsBlock`.
+* Wait until deceided if participating in this round or not (`OnNewConsensusRound`).
+* Perform algorithm related checks on the proposal
+  * Signature, block height, previous block pair hash pointers.
+* Validate the transactions block (ordering phase) by calling `ConsensusBuilder.ValidateTransactionsBlock`.
+* Validate the results block (execution phase) by calling `ConsensusBuilder.ValidateResultsBlock`.
 * Sign both approvals (according to the algo spec) - on hash of the header.
 * Send signed approvals with gossip to the algo of all committee nodes (according to the algo spec).
 
 &nbsp;
-## `Verifying that a block can commmitted`
+## `OnCommitBlockInsideCommittee` (method) <!-- tal can finish -->
 
-#### Validate that the block pair can be committed
-* Call `ValidateTransactionsBlockConsensus`
-* Call `ValidateResultsBlockConsensus`
+> The consensus algorithm has decided a block proposal can be committed (performed by committee members)
 
-&nbsp;
-## `OnCommitBlock` (method) <!-- tal can finish -->
+* Pass the committed block (including the block proofs) to the block storage by calling `BlockStorage.CommitBlock`.
 
-> The consensus algorithm has decided a block proposal can be committed (all nodes, not just committee).
 
-* Pass the committed block to the block storage by calling `BlockStorage.CommitBlock`.
+## `OnCommitBlockOutsideCommittee` (method) <!-- tal can finish -->
+> Performed by non-committee members that received a block in order to validate that it was committed under consensus.
+
+#### Check the Transactions Block Header (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height
+  * If the block already exist (block height != last_commited_block block + 1) discard.
+* Check transactions_root_hash 
+  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
+* Check metadata hash
+  * Calculate the hash of the block's metadata and verify the hash in the header.
+
+#### Check the Results Block Header (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height
+  * If the block already exist (block height != last_commited_block block + 1) discard.
+* Check receipts_root_hash
+  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
+* Check state_diff_hash
+  * Calculate the hash of the block's metadata and verify the hash in the header.
+
+#### Get previously committed block data
+* Get the previously committed block pair data by calling `BlockStorage.GetTransactionsBlockHeader` and `BlockStorage.GetResultsBlockHeader`.
+  * It is recommanded to cache the previously committed block data in order to prevent fetching the data.
+  * If fails or times out, skip this round. - TODOD
+
+#### Validate that the block is under consensus and can be committed.
+* Validate that the block can be commited under consensus by calling: `AcknowledgeTransactionsBlockConsensus` and `AcknowledgeResultsBlockConsensus`.
+
+* Pass the committed block (including the block proofs) to the block storage by calling `BlockStorage.CommitBlock`.
+
 
 &nbsp;
 ## `GossipMessageReceived` (method)
@@ -64,11 +94,31 @@ TODO
 * Depends on consensus algorithm.
 
 &nbsp;
-## `ValidateTransactionsBlockConsensus` (method)
+## `AcknowledgeTransactionsBlockConsensus` (method)
 > Validates that a tarnsactions block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
 
 #### Verify the block committee
-* Calualte the previous block random seed (based on the results block proof - for both transactions and results blocks)
+* Calualte the previous block random seed.
+* Get the committee members by calling `ConsensusBuilder.RequestTransactionCommittee`.
+* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusBuilder.RequestValidationCommittee` only based on the results block random seed.
+
+#### Verify the block proof
+* Verify the blook proof based on the committee members.
+
+#### Verify previous block hash pointer
+* Calcualte the hash of the previously commited block header.
+
+* If All are valid:
+  * Update the consensus algorithm of the block commit (Committed block height, consensus dependent data).
+  * return VALID_FOR_COMMIT 
+* else return NOT_VALID_FOR_COMMIT.
+
+&nbsp;
+## `AcknowledgeResultsBlockConsensus` (method)
+> Validates that a results block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
+
+#### Verify the block committee
+* Calualte the previous block random seed.
 * Get the committee members by calling `ConsensusBuilder.RequestValidationCommittee`.
 
 #### Verify the block proof
@@ -77,20 +127,7 @@ TODO
 #### Verify previous block hash pointer
 * Calcualte the hash of the previously commited block header.
 
-If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TODO timeout)
-
-&nbsp;
-## `ValidateResultsBlockConsensus` (method)
-> Validates that a results block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
-
-#### Verify the block committee
-* Calualte the previous block random seed (based on the results block proof)
-* Get the committee members by calling `ConsensusBuilder.RequestValidationCommittee`.
-
-#### Verify the block proof
-* Verify the blook proof based on the committee members.
-
-#### Verify previous block hash pointer
-* Calcualte the hash of the previously commited block header. (TODO transactions hash pointer)
-
-If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TBD timeout)
+* If All are valid:
+  * Update the consensus algorithm of the block commit (Committed block height, consensus dependent data).
+  * return VALID_FOR_COMMIT 
+* else return NOT_VALID_FOR_COMMIT.

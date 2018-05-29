@@ -37,3 +37,6 @@
 ## Block storage re-sync, discard hash mismatch.
 ## Request committee as a condition to paritciapte.
 ## Check hash for the 2 block pairs.
+## Move state sync to 
+
+## types / versions that don't depend on the protocol version.

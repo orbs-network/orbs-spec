@@ -117,16 +117,24 @@ TODO
 
 > Mark committed transactions as committed, removes them from the pending pool and notify the PublicAPI on local transactions that were committed.
 
-#### Consistency check
-* If given block_height != `next_desired_block_height` discard and return `next_desired_block_height`
+#### Block Height
+* If given block_height != `next_desired_block_height`:
+  * Discard the commit
+  * If `next_desired_block_height` is smaller than the first reqruied block height, set it to the first reqruied block height.
+    * The first reqruied block height is derived from and the Block Storage's last_committed_block_height and de-duplication configurable time window.
+  * Return the `next_desired_block_height`.
 
 #### Commit Receipts
 * For each transaction receipt:
   * Add the receipt, block height and block timestamp to the committed pool.
   * Lookup the the corresponding transaction in the pending pool, if local (originated by the node's Public API), update the local PublicAPI using `PublicAPI.ReturnTransactionResults`.
   * Remove the corresponding transactions (based on their tx_id) from the pending pool.
-* Update the `last_committed_block` height
-* Increment the `next_desired_block_height` and return it
+* Update the `last_committed_block_height`.
+* Increment `next_desired_block_height`.
+* If `next_desired_block_height` is smaller than the first reqruied block height, set it to the first reqruied block height.
+  * The first reqruied block height is derived from and the Block Storage's last_committed_block_height and de-duplication configurable time window.
+* Return the `next_desired_block_height`.
+
 
 &nbsp;
 ## `GetTransactionReceipt` (method) <!-- tal can finish -->

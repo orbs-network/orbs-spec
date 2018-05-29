@@ -17,6 +17,7 @@ message GossipMessage {
 
 message MessageDestination {
   repeated Ed25519PKey node_public_key = 1;
+  Bool inverse_recipients = 2;
 }
 
 enum MessageTopic {
@@ -88,7 +89,7 @@ message NewView {
 
 
 // BlockSync Messages
-message NodeSync {
+message BlockSync {
   Uint32 version = 1;
   NodeSyncTopic message_topic = 2;
   oneof node_sync_message {
@@ -118,7 +119,7 @@ message BlockSyncResponse {
   Ed25519Sig signature = 7;
 }
 
-enum NodeSyncTopic {  
+enum BlockSyncTopic {  
   BLOCK_SYNC_REQUEST = 0;
   BLOCK_SYNC_RESPONSE = 1; 
   BLOCK_AVAILABILITY_REQUEST = 2;

@@ -21,6 +21,6 @@ BlockStorage is also charged with synchronizing StateStorage and TransactionPool
 * Randomly selects a node.
 * Requests the batch with message block sync request through Gossip (unicast).
 * The node sends a batch of blocks.
-* `BlockStorage` validates for each block that it can be committed by querying `ConsensusAlgo`.
+* `BlockStorage` validates for each block that it was committted by consensus by querying `ConsensusAlgo`.
 * `BlockStorage` commits the block and updates the subscribed services (one flow)
 * This continues in endless loop until synchronized.

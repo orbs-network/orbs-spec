@@ -48,22 +48,32 @@ TODO
   * It is recommanded to shuffle the requests among the nodes that have the block avialable in order not to put too much burden on a single node.
 
 #### `Validate Block for Commit`
-> Adds a block received during inter-node sync  
+> Validates a block received during inter-node sync  
 
 #### Check the Transactions Block Header (stateless)
 * Check the block protocol version.
 * Check the virtual chain.
 * Check block height
-  * If the block already exist (block height < last_commited_block block + 1) discard.
+  * If the block already exist (block height != last_commited_block block + 1) discard.
 * Check transactions_root_hash 
   * Calculate the merkle root hash of the block's transactions verify the hash in the header.
 * Check metadata hash
   * Calculate the hash of the block's metadata and verify the hash in the header.
 
+#### Check the Results Block Header (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height
+  * If the block already exist (block height != last_commited_block block + 1) discard.
+* Check receipts_root_hash
+  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
+* Check state_diff_hash
+  * Calculate the hash of the block's metadata and verify the hash in the header.
+
 #### Validate that the block is under consensus and can be committed.
 * Validate that the block can be commited under consensus by calling:
-  *  `ConsensusAlgo.ValidateTransactionsBlockConsensus`. 
-  *  `ConsensusAlgo.ValidateResultsBlockConsensus`.
+  *  `ConsensusAlgo.AcknowledgeTransactionsBlockConsensus`. 
+  *  `ConsensusAlgo.AcknowledgeResultsBlockConsensus`.
 
 &nbsp;
 ## `Intra Node Block Synchronization` <!-- oded will finish -->
@@ -74,7 +84,7 @@ TODO
   * Commit `next_desired_block_height` to the service by calling `StateStorage.CommitStateDiff` or `TransactionPool.CommitTransactionsReceipts`.
   * Update `next_desired_block_height` according to the call response.
   * Continue iterating.
-* Important: When everything is synchronized (common case), `AddBlock` should immediately trigger the commit to the service without waiting (this is the critical path).
+* Important: When everything is synchronized (common case), `CommitBlock` should immediately trigger the commit to the service without waiting (this is the critical path).
 
 &nbsp;
 ## `CommitBlock` (method)
@@ -82,7 +92,7 @@ TODO
 
 #### Verify block before adding to database
 * Check the block protocol version.
-* If the block already exist (block height < last_commited_block block + 1) - sligntly discard.
+* If the block already exist (block height < last_commited_block block + 1) - silently discard.
 * If block height > last_commited_block block + 1, panic.
 
 #### Commit the block
@@ -112,13 +122,15 @@ TODO - add sync flow messages
 
 ## `GetTransactionsBlockHeader` (method)
 > Returns a committed transactions block header and proof.
-* If the requested block height is not committed fail
-* Return the block header, metadata and proof.
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* Return the transactions block header, metadata, the transactions block proof and the results block proof.
 
 ## `GetResultsBlockHeader` (method)
 > Returns a committed results block header and proof.
-* If the requested block height is not committed fail
-* Return the block header and proof.
+* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* Return the results block header, metadata, the transactions block proof and the results block proof.
 
 ![alt text][block_state_pool_flow] <br/><br/>
 

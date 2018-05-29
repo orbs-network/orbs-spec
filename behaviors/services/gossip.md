@@ -72,6 +72,7 @@ TODO
 > Sends an inter node message, the message will be forwarded to the services subscribed to the topic.
 
 * The gossip message holds the list of destination nodes ids (node ids = public keys).
+  * Setting inverse_recipients sends to all nodes in the virtual chain except the destinatination node ids.
   * NULL value for the list means broadcast to all nodes in the virtual chain.
 * For each node id:
   * Rely on Network Address Map to locate the relevant socket.

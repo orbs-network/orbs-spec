@@ -39,7 +39,7 @@ TODO
 
 > Commits a new block (the state diff from it is what we care about).
 
-#### Consistency check
+#### Block Height check
 * If given block_height != `next_desired_block_height` discard and return `next_desired_block_height`
 
 #### Commit state

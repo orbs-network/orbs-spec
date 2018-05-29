@@ -22,9 +22,9 @@
 * See API [specification](../smart-contracts/native.md).
 
 &nbsp;
-## `ProcessCallSet` (method)
+## `ProcessCall` (method)
 
-> Executes an ordered stream of transactions of a single context and generates output arguments for each transaction.
+> Executes a transactions and generates output arguments.
 
 * Receives a namespace and a method to execute along with a list of input arguments.
 * Retrieves the method code and permissions, if not found, fail.
@@ -35,3 +35,11 @@
   * On mismatch fail.
 * Execute the code on the processor.
   * SDK calls are done by blocking execution and calling `VirtualMachine.SdkCall`.
+
+
+&nbsp;
+## `DeployService` (method)
+> Deploys a native service, relevant only for native processor.
+
+* Check if a native contract exist with the service name. If not, return.
+* Sdk

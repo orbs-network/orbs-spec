@@ -21,9 +21,6 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Data Structures` <!-- tal can finish -->
 
-#### Sync state
-* `last_committed_block`
-
 &nbsp;
 ## `RequestOrderingCommittee` (method) <!-- tal can finish -->
 

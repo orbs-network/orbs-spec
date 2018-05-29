@@ -13,8 +13,8 @@ service Consensus {
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   
   // Block storage / Internal 
-  rpc ValidateTransactionsBlockConsensus (ValidateTransactionsBlockConsensusInput) returns (ValidateTransactionsBlockConsensusOutput);
-  rpc ValidateResultsBlockConsensus (ValidateResultsBlockConsensusInput) returns (ValidateResultsBlockConsensusOutput);
+  rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
+  rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
 }
 
 message OnNewConsensusRoundInput { 
@@ -29,7 +29,7 @@ message OnNewConsensusRoundOutput {
 
 }
 
-message ValidateTransactionsBlockConsensusInput {
+message AcknowledgeTransactionsBlockConsensusInput {
   TransactionsBlockHeader transactions_block_header = 1;
   TransactionsBlockMetaData transactions_block_meta_data = 2;
   TransactionsBlockProof transactions_block_proof = 3;
@@ -40,11 +40,11 @@ message ValidateTransactionsBlockConsensusInput {
   ResultsBlockProof previous_committed_results_block_proof = 7;
 }
 
-message ValidateTransactionsBlockConsensusOutput {
+message AcknowledgeTransactionsBlockConsensusOutput {
   ValidateBlockConsensus status = 1;
 }
 
-message ValidateResultsBlockConsensusInput {
+message AcknowledgeResultsBlockConsensusInput {
   ResultsBlockHeader results_block_header = 1;
   ResultsBlockProof results_block_proof = 2;
   // Previous block data
@@ -55,7 +55,7 @@ message ValidateResultsBlockConsensusInput {
 }
 
 
-message ValidateResultsBlockConsensusOutput {
+message AcknowledgeResultsBlockConsensusOutput {
   ValidateBlockConsensus status = 1;
 }
 
