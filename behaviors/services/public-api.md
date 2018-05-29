@@ -61,7 +61,7 @@ Currently a single instance per virtual chain per node.
 #### Check request validity
 * Performs checks on the transaction:
   * Version, Transaction format, virtual chain.
-* Batch tarnsactions and queries the Consensus core on the latest block height by calling `ConsensusCore.GetLatestBlockHeight`.
+* Batch tarnsactions and queries the Consensus core on the latest block height by calling `ConsensusBuilder.GetLatestBlockHeight`.
   * Note that the method call is executed asynchronous to the block creation and the block height on which the execution is perfrormed may vary up to few blocks from the latest block.
 
 #### Forward call

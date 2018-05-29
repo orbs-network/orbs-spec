@@ -8,7 +8,7 @@ We currently support leader-based consensus algorithms, meaning a leader node is
 
 * Committee nodes
   * `ConsensusAlgo`
-  * `ConsensusCore`
+  * `ConsensusBuilder`
   * `TransactionPool`
   * `VirtualMachine`
   * `Processor`
@@ -19,11 +19,12 @@ We currently support leader-based consensus algorithms, meaning a leader node is
 
 ## Assumptions for successful flow
 
-* `ConsensusCore` is synchronized to latest block.
+* `BlockStorage` is synchronized to latest committed block.
 
 ## Flow <!-- tal can finish --> <!-- move VM->processor->state flow to a different flow -->
 
-* `Consensus Algorithm` intiates a new consensus round (block height is decided, random seed for committee is decided).
+* `Consensus Algorithm` starts a new consensus round (block height is decided).
+  * Gets the previously committed block
   * The `Consensus Algorithm` queries the `Consensus Core` on the participating committee (all nodes)
   * The `Consensus Algorithm` identifies if it's a leader or a valdiator in the current term.
 * Leader node.

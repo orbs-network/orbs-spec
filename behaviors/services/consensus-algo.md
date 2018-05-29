@@ -18,13 +18,13 @@ TODO
 
 * Assumes the block height for the upcoming round is known.
 * Calculate the shared `random_seed` for the upcoming block. Use the same `random_seed` for both committees.
-* Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusCore.RequestOrderingCommittee`. 
-* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusCore.RequestValidationCommittee`. 
-Note: both committee
+* Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusBuilder.RequestOrderingCommittee`.
+* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusBuilder.RequestValidationCommittee`.
+* Note: If the consensus algorithm relies on a single committee for both, call `RequestValidationCommittee` only.
 
 #### If Leader
-* Request new transactions block proposal (ordering phase) by calling `ConsensusCore.RequestNewTransactionsBlock`.
-* Request new results block proposal (execution phase) by calling `ConsensusCore.RequestNewResultsBlock`.
+* Request new transactions block proposal (ordering phase) by calling `ConsensusBuilder.RequestNewTransactionsBlock`.
+* Request new results block proposal (execution phase) by calling `ConsensusBuilder.RequestNewResultsBlock`.
 * Sign both proposals (according to the algo spec) - on hash of the header.
 * Send signed proposals with gossip to the algo of all committee nodes (according to the algo spec).
 
@@ -45,7 +45,7 @@ Note: both committee
 
 #### Get the previously commited block data
 * Get the previous committed block pair data by calling `BlockStorage.GetTransactionsHeaderAndProof` and `BlockStorage.GetResultsHeaderAndProof`.
-  * It is recommanded to cache the previously committed block data in order to prevent fetching the data. 
+  * It is recommanded to cache the previously committed block data in order to prevent fetching the data.
 
 #### Validate that the block pair can be committed
 * Call `ValidateTransactionsBlockConsensus`
@@ -71,7 +71,7 @@ Note: both committee
 
 #### Verify the block committee
 * Calualte the previous block random seed (based on the results block proof - for both transactions and results blocks)
-* Get the committee members by calling `ConsensusCore.RequestValidationCommittee`.
+* Get the committee members by calling `ConsensusBuilder.RequestValidationCommittee`.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.
@@ -87,7 +87,7 @@ If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TODO
 
 #### Verify the block committee
 * Calualte the previous block random seed (based on the results block proof)
-* Get the committee members by calling `ConsensusCore.RequestValidationCommittee`.
+* Get the committee members by calling `ConsensusBuilder.RequestValidationCommittee`.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.

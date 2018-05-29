@@ -88,6 +88,7 @@ Currently a single instance per virtual chain per node.
   * Bloom filter
     * Set H(1,tx_id) for each transaction's tx_id (concat byte with value 0x01 with tx_id and insert)
 
+&nbsp;
 ## `ValidateTransactionsBlock` (method) <!-- tal can finish -->
 
 > Performed upon request from the algorithm recieving a block proposal.
@@ -109,7 +110,8 @@ Currently a single instance per virtual chain per node.
 
 * If one of the Transactions Block checks fails, return INVALID status, else return VALID.
 
-## `Validate Results Block` (method) <!-- tal can finish -->
+&nbsp;
+## `ValidateResultsBlock` (method) <!-- tal can finish -->
 
 * If not synchronized with block height (has the last block header), don't participate and fail.
 

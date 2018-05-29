@@ -10,7 +10,7 @@ BlockStorage is also charged with synchronizing StateStorage and TransactionPool
 
 ## Assumptions for successful flow
 
-* `ConsensusCore` is synchronized to latest block (and is the source of truth for block height).
+* `ConsensusBuilder` is synchronized to latest block (and is the source of truth for block height).
 
 ## Flow
 
