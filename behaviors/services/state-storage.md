@@ -11,10 +11,18 @@ Currently a single instance per virtual chain per node.
 * Stores state data per service by key (key-value store).
 * Up to date for a specific block height.
 * Maintains a snapshot history of configurable number of blocks (eg. 5).
-* Data structure:
-  * For each service keep a merkle tree of address, value.
-  * Keys and values are blobs (byte arrays).
-  * A non exist address returns a 0 value.
+* Separated into services, for each one:
+  * Keep a merkle tree of all state variables (keys and values) under it.
+  * Keys are hashes, values are blobs (byte arrays).
+  * A non exist key returns a 0 value.
+* Default system services:
+  * `_Deployments`
+    * Contains metadata about every service and library that were deployed on the system.
+    * Key: hash(`<namespace>.Processor`), Value: processor for this namespace
+      * Meta example: `_Deployments.Processor = Native`
+* All service merkle trees are held inside a parent merkle tree
+  * Key: hash(service name), Value: merkle tree of the service state variables.
+* State root hash is the merkle root of the parent merkle tree.
 * Can be persistent to optimize service bootstrap (be careful of partial writes).
 
 #### Sync state

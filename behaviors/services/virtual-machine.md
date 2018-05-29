@@ -5,24 +5,20 @@ Executes service methods (smart contracts) using various processors (languages) 
 Currently a single instance per virtual chain per node.
 
 &nbsp;
-## `Data Structures`
+## `Data Structures` <!-- tal will finish -->
 
-### Context
-> Allocated for each TransactionSet or Method execution. Holds a transient state cache & address space.
+#### Context
+* Allocated for each TransactionSet or LocalMethod execution.
 * ReadOnly / ReadWrite
-  * RO context can not modify state, allocated for callMethod execution.
+  * RO context can not modify state, allocated for LocalMethod execution.
   * RW context incldues a transient state cache.
-* Address space
-  * Indicates the current address space for the context. The context address space is a function of the service.
-
-#### Transient state diff cache
-> Maintains the transient state diff
-* Allocated only for RW process trasnaction operations.
-* Stores temporary state changes during transaction set execution (until state diff is committed).
-* Format is identical to the state store data structure in `StateStorage`.
-* No need to be persistent since a new instance is created per execution.
-* No limit on max size.
-
+* Transient state
+  * Stores temporary state changes during transaction set execution (until state diff is committed).
+  * Relevant for ReadWrite methods only.
+  * Contains state diff (possibly for multiple services).
+  * Format is identical to the state store data structure in `StateStorage`.
+* Service stack
+  * Top of the stack indicates the current service address space for the context.
 
 &nbsp;
 ## `Signature Schemes`
@@ -32,25 +28,44 @@ Currently a single instance per virtual chain per node.
 
 &nbsp;
 ## `RunLocalMethod` (method)
-> Execute a read only method its result.
+
+> Execute a read only method and return its result (not under consensus).
 
 #### Prepare for execution
-* Validate the transaction signature by performing: `Sender and Signature Validation`.
-* Retrieve the service (NameSpace) code and metadata by calling `StateStorage.ReadKeys`
-  * TODO cache/pre-fetch state variables (part of the contarct meta-data)
-* Validate that the method exists and has appropriate permissions for execution: Read only, external.
-* Allocate a RO context. (CallMethod cannot update state, state writes must throw an error).
+* Validate the call signature according to signature scheme.
+* Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
+  * The key is hash(`<service-name>.Processor`).
+  * If the service processor is not found, fail.
+* Allocate a context:
+  * ReadOnly (RunLocalMethod cannot update state)
+  * No transient state.
 
 #### Execute
-* Execute the service method by calling `Processor.ProcessCallSet`
-* Provide the processor with the requried services (`GetNameSpaceCode`,`SdkCall`,`ServiceMethodCall`,`LibraryMethodCall`)
-* Return result arguments to `Public API`.
+* Push service to the context service stack.
+* Execute the service method on the correct processor by calling `Processor.ProcessCallSet`.
+  * Execution permissions are checked by the processor.
+* Pop service from the content service stack.
+* Return result.
 
 &nbsp;
 ## `ProcessTransactionSet` (method)
-> Process a group of transactions together that update state and return the combined state diff
+
+> Process a group of transactions together that update state and return the combined state diff.
 
 #### Prepare for execution
+* Allocate a context:
+  * ReadWrite
+  * Initialize transient state.
+* Go over all transactions in the set and for each one:
+  * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
+    * The key is hash(`<service-name>.Processor`).
+    * If the service is not found, try to deploy it (only relevant for native services):
+      * Check if it's a native service by calling the `Native` processor's `Processor.DeployService`.
+  *
+
+
+
+
 * Group transactions and allcoate a context:
   * Trasnactions of the same TransactionSet must be exectuted on the same context (executed in order, same state cache)
     * Allocate a RW context with a transient state cache that will hold updated state temporarily (across all transactions).
@@ -81,12 +96,13 @@ Currently a single instance per virtual chain per node.
 
 &nbsp;
 ## `SdkCall` (method)
-> Calls an Sdk method executed by the VM. The supported Sdk calls are described in [VM Sdk calls](native.md)
-* Validate that the method has the appropriate permissions for execution.
-* Execute and return the output arguments.
 
-#### `ServiceMethodCall`
+> Calls an Sdk method executed by the VM. The supported Sdk calls are described in [VM Sdk calls](native.md)
+
+#### `CallServiceMethod`
+
 > Calls a method of another service for execution.
+
 * Retrieve the services (NameSpace) code and metadata by calling `StateStorage.ReadKeys`
 * Validate that the called methods exist and have appropriate permissions for execution.
 * If the called method is executed by the same processor
@@ -94,7 +110,7 @@ Currently a single instance per virtual chain per node.
 * If the called method is executed by a different processor
   * Call a `Processor.ProcessCallSet` with the relevant method and retrun the output arguments.
 
-#### `LibraryMethodCall`
+#### `CallLibraryMethod`
 > Calls a method of another service for execution.
 * Retrieve the services (NameSpace) code and metadata by calling `StateStorage.ReadKeys`
 * Validate that the called methods exist and have appropriate permissions for execution.
