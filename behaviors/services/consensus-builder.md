@@ -1,8 +1,6 @@
-# Consensus Core
+# Consensus Builder
 
-Provides the interface to the system for ConsensusAlgo. Responsible primarily for the creation of new blocks (populating the proposed block with transactions from TransactionPool) and for the validation of proposed blocks (like transaction results).
-
-Holds the source of truth for the latest block height in the virtual chain. Until the BlockStorage is fully synchronized to the latest block, ConsensusCore does not actively participate in the consensus process and does not help close blocks.
+Builds and validates the actual content of blocks for the consensus process. Responsible primarily for the creation of new blocks (populating with transactions from the pool) and for content validation of proposed blocks (verifying transaction results).
 
 Currently a single instance per virtual chain per node.
 
