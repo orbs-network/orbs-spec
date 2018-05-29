@@ -1,10 +1,10 @@
 # Consensus Algo
 
-Implements a raw consensus algorithm. The system supports pluggable consensus, meaning multiple consensus algorithms running side by side on different virtual chains. The ConsensusAlgo abstracts away the details of how the consensus algorithm works and provides the system with a single unified interface.
+Implements a raw consensus algorithm. The system supports pluggable consensus, meaning multiple consensus algorithms running side by side on different virtual chains. Abstracts away the details of how the consensus algorithm works and provides the system with a single unified interface.
 
-Communicates with the system through the ConsensusCore service. Controls all the timing of consensus, for example when new blocks are committed or when new blocks need to be proposed and populated with transaction from TransactionPool.
+Controls and drives the timing of consensus, for example when new blocks are committed or when new blocks need to be proposed and populated with transaction from the pool.
 
-Currently a single instance per virtual chain per node.
+Currently a single instance per virtual chain per node (per supported algorithm).
 
 &nbsp;
 ## `Init` <!-- oded will finish -->

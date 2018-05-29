@@ -3,7 +3,7 @@ syntax = "proto3";
 import "protocol/blocks.proto";
 import "protocol/primitives.proto";
 
-service TransactionPool {
+service ConsensusBuilder {
     // Called by Consensus-Algo
   rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
   rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
@@ -14,7 +14,7 @@ service TransactionPool {
     // Called by Virtual Machine
   // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
-  
+
 }
 
 message RequestNewTransactionsBlockInput {

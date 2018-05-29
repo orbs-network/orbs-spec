@@ -5,6 +5,6 @@ import "protocol/gossip.proto";
 import "protocol/blocks.proto";
 import "services/configuration-manager.proto";
 
-service Consensus {
+service ConsensusAlgo {
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
 }

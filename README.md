@@ -16,13 +16,13 @@ V1 release
 
   Connects different nodes over the network with efficient message broadcast and unicast
 
-* [ConsensusCore](behaviors/services/consensus-core.md)
-
-  Interfaces the consensus algorithm to the rest of the system
-
 * [ConsensusAlgo](behaviors/services/consensus-algo.md)
 
   Pluggable consensus algorithm (multiple algorithms supported side by side)
+
+* [ConsensusBuilder](behaviors/services/consensus-builder.md)
+
+  Builds and validates the actual content of blocks for the consensus process
 
 * [VirtualMachine](behaviors/services/virtual-machine.md)
 
