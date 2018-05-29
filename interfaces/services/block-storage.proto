@@ -13,8 +13,8 @@ service BlockStorage {
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
 
   //Called by Consnesus Algo
-  rpc GetTransactionsHeaderAndProof (GetTransactionsHeaderAndProofInput) returns (GetTransactionsHeaderAndProofOutput);
-  rpc GetResultsHeaderAndProof (GetResultsHeaderAndProofInput) returns (GetResultsHeaderAndProofOutput);
+  rpc GetTransactionsBlockHeader (GetTransactionsBlockHeaderInput) returns (GetTransactionsBlockHeaderOutput);
+  rpc GetResultsBlockHeader (GetResultsBlockHeaderInput) returns (GetResultsBlockHeaderOutput);
 
   //Gossip
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
@@ -65,21 +65,21 @@ message GetTransactionReceiptOutput {
   Uint64 block_timestamp = 3;
 }
 
-message GetTransactionsHeaderAndProofInput {
+message GetTransactionsBlockHeaderInput {
   Uint64 block_height = 1;
 }
 
-message GetTransactionsHeaderAndProofOutput {
+message GetTransactionsBlockHeaderOutput {
   TransactionsBlockHeader transactions_block_header = 1;
   TransactionsBlockMetaData transactions_block_meta_data = 2;
   TransactionsBlockProof transactions_block_proof = 3;
 }
 
-message GetResultsHeaderAndProofInput {
+message GetResultsBlockHeaderInput {
   Uint64 block_height = 1;
 }
 
-message GetResultsHeaderAndProofOutput {
+message GetResultsBlockHeaderOutput {
   ResultsBlockHeader results_block_header = 1;
   ResultsBlockProof results_block_proof = 2;
 }

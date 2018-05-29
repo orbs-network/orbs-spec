@@ -110,12 +110,12 @@ TODO
 
 TODO - add sync flow messages
 
-## `GetTransactionsHeaderAndProof` (method)
+## `GetTransactionsBlockHeader` (method)
 > Returns a committed transactions block header and proof.
 * If the requested block height is not committed fail
 * Return the block header, metadata and proof.
 
-## `GetResultsHeaderAndProof` (method)
+## `GetResultsBlockHeader` (method)
 > Returns a committed results block header and proof.
 * If the requested block height is not committed fail
 * Return the block header and proof.
