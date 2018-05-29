@@ -29,9 +29,9 @@ TODO
 &nbsp;
 ## `Inter Node Block Synchronization`
 
-* The synchronization flow is initialled upon either:
-  * Receving a request from the `Consensus Algo` to fetch blocks block with height > last_commited_block block + 1.
-  * block_timeout = configurable block_commit_timeout (default 8 sec) has passed without block commit.
+* The synchronization flow is initialled upon:
+  * block_timeout = configurable block_commit_timeout (default 8 sec) has passed without a block commit.
+  * Init flow.
 
 * Identify nodes that have the desired blocks by broadcasting a `BLOCK_AVAILABILITY_REQUEST` messsage to all nodes using `Gossip.SendMessage`.
   * Request the blocks from the last_committed_block to the highest known block height. (if unknown set to MAX_UINT64)
@@ -61,8 +61,9 @@ TODO
   * Calculate the hash of the block's metadata and verify the hash in the header.
 
 #### Validate that the block is under consensus and can be committed.
-* Validate that the block can be commited under consensus by calling `ConsensusAlgo.ValidateTransactionsBlockConsensus`.
-
+* Validate that the block can be commited under consensus by calling:
+  *  `ConsensusAlgo.ValidateTransactionsBlockConsensus`. 
+  *  `ConsensusAlgo.ValidateResultsBlockConsensus`.
 
 &nbsp;
 ## `Intra Node Block Synchronization` <!-- oded will finish -->
@@ -89,29 +90,6 @@ TODO
 * Update last_commited_block = block height.
 * If intra block sync of StateStorage is blocking and waiting, wake it up.
 * If intra block sync of TransactionPool is blocking and waiting, wake it up.
-
-<!--
-&nbsp;
-## `AddBlock` (method) 
-
-> Add a new block pair (transactions block and results block) to the database.
-
-#### Verify block before adding to database
-* Check the block protocol version.
-* If the block already exist (block height < last_commited_block block + 1) - sligntly discrad. (may occur during node sync)
-* If block height > last_commited_block block + 1 indicates that the block storage is possibly out of sync, add the to the storage without committing it and initiate `Block Synchronization Flow`.
-  * The block should be stored such that it can be committed once the previous blocks were committed.
-
-#### Add block to storage
-* Store block in database indexed by block height.
-
-#### Commit block
-* If block height = last_commited_block block + 1, check hash pointer, if doesn't match then discard block.
-* Update last_commited_block = block height.
-* If intra block sync of StateStorage is blocking and waiting, wake it up.
-* If intra block sync of TransactionPool is blocking and waiting, wake it up.
-
--->
 
 &nbsp;
 ## `GetTransactionReceipt` (method) <!-- tal will finish -->

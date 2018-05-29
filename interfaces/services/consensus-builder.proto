@@ -9,8 +9,9 @@ service ConsensusBuilder {
   rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
   rpc ValidateTransactionsBlock (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
   rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
-  rpc RequestCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-    // Called by Virtual Machine
+  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+
   // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
 
@@ -61,7 +62,6 @@ message RequestCommitteeInput {
 
 message RequestCommitteeOutput {
     repeated Ed25519PKey node_id = 1;
-    Uint32 max_valid_block_height = 2;
 }
 
 message GetLastCommittedBlockHeightInput {

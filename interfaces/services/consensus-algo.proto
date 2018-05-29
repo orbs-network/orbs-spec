@@ -33,6 +33,11 @@ message ValidateTransactionsBlockConsensusInput {
   TransactionsBlockHeader transactions_block_header = 1;
   TransactionsBlockMetaData transactions_block_meta_data = 2;
   TransactionsBlockProof transactions_block_proof = 3;
+  // Previous block data
+  TransactionsBlockHeader previous_committed_transactions_block_header = 4;
+  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
+  TransactionsBlockProof previous_committed_transactions_block_proof = 6;
+  ResultsBlockProof previous_committed_results_block_proof = 7;
 }
 
 message ValidateTransactionsBlockConsensusOutput {
@@ -42,6 +47,11 @@ message ValidateTransactionsBlockConsensusOutput {
 message ValidateResultsBlockConsensusInput {
   ResultsBlockHeader results_block_header = 1;
   ResultsBlockProof results_block_proof = 2;
+  // Previous block data
+  ResultsBlockHeader results_block_header = 4;
+  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
+  TransactionsBlockProof previous_committed_transactions_block_proof = 6;
+  ResultsBlockProof previous_committed_results_block_proof = 7;
 }
 
 

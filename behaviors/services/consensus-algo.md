@@ -17,10 +17,10 @@ TODO
 > The consensus algorithm decides a new term (block height) starts, probably after the last block was committed.
 
 * Assumes the block height for the upcoming round is known.
-* Calculate the shared `random_seed` for the upcoming block.
-* Get a sorted list of committee members for the upcoming block by calling `ConsensusCore.RequestCommittee`. 
-  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
-
+* Calculate the shared `random_seed` for the upcoming block. Use the same `random_seed` for both committees.
+* Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusCore.RequestOrderingCommittee`. 
+* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusCore.RequestValidationCommittee`. 
+Note: both committee
 
 #### If Leader
 * Request new transactions block proposal (ordering phase) by calling `ConsensusCore.RequestNewTransactionsBlock`.
@@ -41,13 +41,22 @@ TODO
 * Send signed approvals with gossip to the algo of all committee nodes (according to the algo spec).
 
 &nbsp;
+## `Verifying that a block can commmitted`
+
+#### Get the previously commited block data
+* Get the previous committed block pair data by calling `BlockStorage.GetTransactionsHeaderAndProof` and `BlockStorage.GetResultsHeaderAndProof`.
+  * It is recommanded to cache the previously committed block data in order to prevent fetching the data. 
+
+#### Validate that the block pair can be committed
+* Call `ValidateTransactionsBlockConsensus`
+* Call `ValidateResultsBlockConsensus`
+
+&nbsp;
 ## `OnCommitBlock` (method) <!-- tal can finish -->
 
 > The consensus algorithm has decided a block proposal can be committed (all nodes, not just committee).
 
-* Ignore whether the block height matches the current round, follow the steps anyways.
-* Assumes the transactions block and results block were already propagated.
-* Pass the committed block's proofs by calling `ConsensusCore.CommitBlock`.
+* Pass the committed block to the block storage by calling `BlockStorage.CommitBlock`.
 
 &nbsp;
 ## `GossipMessageReceived` (method)
@@ -57,17 +66,12 @@ TODO
 * Depends on consensus algorithm.
 
 &nbsp;
-## `ValidateTransactionsBlockCommit` (method)
+## `ValidateTransactionsBlockConsensus` (method)
 > Validates that a tarnsactions block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
 
-#### Get the previously commited block data
-* Fetch the previous committed tarnsactions block data by calling `BlockStorage.GetTransactionsHeaderAndProof`.
-  * It is recommanded to cache the previous block data in order to prevent fetching teh data when possible.
-
 #### Verify the block committee
-* Calualte the previous block random seed.
-* Fetch the committee members by calling `ConsensusCore.RequestOrderingCommittee`.
-  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
+* Calualte the previous block random seed (based on the results block proof - for both transactions and results blocks)
+* Get the committee members by calling `ConsensusCore.RequestValidationCommittee`.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.
@@ -78,17 +82,12 @@ TODO
 If All are valid return VALID_FOR_COMMIT else return NOT_VALID_FOR_COMMIT. (TODO timeout)
 
 &nbsp;
-## `ValidateResultsBlockCommit` (method)
+## `ValidateResultsBlockConsensus` (method)
 > Validates that a results block header can be committed assuming that the block body (content) is valid and its relevant hash values match the ones in the header and that the previous block was successfully committed.
 
-#### Get the previously commited block data
-* Fetch the previous committed tarnsactions block data by calling `BlockStorage.GetResultsHeaderAndProof`.
-  * It is recommanded to cache the previous block data in order to prevent fetching teh data when possible.
-
 #### Verify the block committee
-* Calualte the previous block random seed.
-* Fetch the committee members by calling `ConsensusCore.RequestValidationCommittee`.
-  * It is recommanded to cache the committee members based up to the valid block as indicated in the response.
+* Calualte the previous block random seed (based on the results block proof)
+* Get the committee members by calling `ConsensusCore.RequestValidationCommittee`.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.

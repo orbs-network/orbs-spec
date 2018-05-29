@@ -25,13 +25,21 @@ Currently a single instance per virtual chain per node.
 * `last_committed_block`
 
 &nbsp;
-## `RequestCommittee` (method) <!-- tal can finish -->
+## `RequestOrderingCommittee` (method) <!-- tal can finish -->
 
-> Returns a sorted list of nodes that participate in the approval committee for a given block height.
+> Returns a sorted list of nodes that participate in the approval committee for the ordering of a given block height.
 
-* If not synchronized with block height (has the last block header), don't participate and fail.
 * Committee members = all nodes' ids (Public Key).
 * Order the nodes' ids based on the sorting algorithm.
+
+&nbsp;
+## `RequestValidationCommittee` (method) <!-- tal can finish -->
+
+> Returns a sorted list of nodes that participate in the approval committee for the execution validation of a given block height.
+
+* Committee members = all nodes' ids (Public Key).
+* Order the nodes' ids based on the sorting algorithm.
+
 
 &nbsp;
 ## `RequestNewTransactionsBlock` (method) <!-- tal can finish -->
@@ -116,13 +124,3 @@ Currently a single instance per virtual chain per node.
 * Check state merkle root hash equal local state merkle root hash (before executing the block). Get the state hash by calling `StateStroage.GetStateHash`
 
 * If one of the Results Block checks fails, return INVALID status, else return VALID.
-
-&nbsp;
-## `CommitBlock` (method) <!-- tal can finish -->
-
-> Commits the transactions and resutls block to the block storage.
-
-* No checks since we trust algo not to pass invalid committed blocks.
-* If this block height is newer than the last we know, use this to be the new synchronization point.
-* Update the last commited transactions block height. (this is the synchronization point)
-* Commit the block to the block storage by calling `BlockStorage.AddBlock`.
