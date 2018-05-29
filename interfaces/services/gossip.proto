@@ -21,7 +21,7 @@ message GossipMessageReceivedOutput {
 
 message TopicSubscribeInput {
   String topic = 1;
-  ServiceID service_id = 2; 
+  String service_id = 2; 
 // Uint32 qos = 3;
 }
 
@@ -34,14 +34,8 @@ message TopicUnsubscribeInput {
 }
 
 message TopicUnsubscribeOutput {
-// empty
-}
-
-enum ServiceID {
-  CONSENSUS_ALGO = 0;
-  BLOCK_STORAGE = 1;
-  TRANSACTION_POOL = 2;
-  GOSSIP = 3;
+  String topic = 1;
+  String service_id = 2; 
 }
 
 message SendMessageInput {
