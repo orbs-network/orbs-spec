@@ -14,10 +14,7 @@ service VirtualMachine {
   // Called by Transaction Pool
   rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
   // Called by Processor
-  rpc ServiceMethodCall (MethodCallInput) returns (MethodCallOutput);
-  rpc LibraryMethodCall (MethodCallInput) returns (MethodCallOutput);
   rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
-  rpc GetNameSpaceCode (GetNameSpaceCodeInput) returns (GetNameSpaceCodeOutput);
 }
 
 
@@ -62,27 +59,6 @@ enum PreOrderStatus {
   PRE_ORDER_NOT_APPROVED = 3;
 }
 
-message MethodCallInput {
-  Uint32 context_id = 1;
-  NameSpace name_space = 2;
-  MethodAddress method = 3;
-  repeated CallArguments arguments = 4;
-}
-
-message MethodCallOutput {
-  Bool same_processor_execution = 1;
-  repeated CallArguments output_argument = 2;  
-}
-
-message MethodCallArguments { //TODO binary / unify with Sdk.
-  oneof type {
-    Uint32 uint32 = 1;
-    Uint64 uint64 = 2;
-    String string = 3;
-    // ...
-  }
-}
-
 message SdkCallInput {
   Uint32 context_id = 1;
   NameSpace name_space = 2;
@@ -101,14 +77,4 @@ message SdkArgument {
     String string = 3;
     // ...    
   }
-}
-
-message GetNameSpaceCodeInput {
-  // Virtual Chain
-  Uint32 context_id = 1;
-  NameSpace name_space = 2;
-}
-
-message GetNameSpaceCodeOutput {
-  Bytes code = 1;
 }

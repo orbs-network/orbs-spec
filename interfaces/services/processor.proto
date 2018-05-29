@@ -10,12 +10,19 @@ service Processor {
   
 message ProcessCallInput {
     Uint32 context_id = 1;
-    NameSpace name_space = 2;
-    MethodAddress method = 3;
-    repeated MethodCallArguments input_argument = 4;
-    AddressToken sender = 5;
+    AccessScope access_scope = 2;
+    NameSpace namespace = 3;
+    MethodAddress method = 4;
+    NameSpace calling_namespace = 5;
+    repeated MethodCallArguments input_argument = 6;
+    AddressToken sender = 7;
 }
   
 message ProcessCallOutput {
     repeated MethodCallArguments output_argument = 1;
+}
+
+enum AccessScope {
+    READ_ONLY = 0;
+    READ_WRITE = 1;
 }
