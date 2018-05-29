@@ -17,6 +17,8 @@ TODO
 > The consensus algorithm decides a new term (block height) starts, probably after the last block was committed.
 
 * Assumes the block height for the upcoming round is known.
+* Get the previous committed block pair data by calling `BlockStorage.GetTransactionsHeaderAndProof` and `BlockStorage.GetResultsHeaderAndProof`.
+  * It is recommanded to cache the previously committed block data in order to prevent fetching the data. 
 * Calculate the shared `random_seed` for the upcoming block. Use the same `random_seed` for both committees.
 * Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusBuilder.RequestOrderingCommittee`.
 * Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusBuilder.RequestValidationCommittee`.
@@ -42,10 +44,6 @@ TODO
 
 &nbsp;
 ## `Verifying that a block can commmitted`
-
-#### Get the previously commited block data
-* Get the previous committed block pair data by calling `BlockStorage.GetTransactionsHeaderAndProof` and `BlockStorage.GetResultsHeaderAndProof`.
-  * It is recommanded to cache the previously committed block data in order to prevent fetching the data.
 
 #### Validate that the block pair can be committed
 * Call `ValidateTransactionsBlockConsensus`
