@@ -11,16 +11,18 @@ Transaction is processed under consensus (this is part of the [continuous block 
 * Client
   * `ClientSdk`
 
-* Receiving node
+* Gateway node
   * `PublicApi`
-
-* All nodes
   * `TransactionPool`
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
   * `SidechainConnector`
   * `Gossip`
+
+* All other nodes
+  * `Gossip`
+  * `TransactionPool`
 
 ## Assumptions for successful flow
 
@@ -59,6 +61,8 @@ Transaction is processed under consensus (this is part of the [continuous block 
 
 * `PublicApi` of receiving node responds to the client.
 
-## Flow diagram
+## Send Transaction Flow Diagram
 
-TODO
+![alt text][send_transaction_flow] <br/><br/>
+
+[send_transaction_flow]: ../_img/send_transaction_flow.png "Send transction"
