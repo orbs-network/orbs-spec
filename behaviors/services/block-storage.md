@@ -119,7 +119,7 @@ Currently a single instance per virtual chain per node.
 * Check the block's `state_diff_hash`:
   * Calculate the hash of the block's state diff and verify the hash in the header.
 
-* Note: The logic up to here appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.
+*Note: The logic up to here also appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.*
 
 #### Check the block consensus
 * Check consensus of the Transactions block header by calling `ConsensusAlgo.AcknowledgeTransactionsBlockConsensus`.
