@@ -1,26 +1,30 @@
-# Continuous Inter Node Block Synchronization Flow <!-- tal can finish -->
+# Continuous Inter Node Block Synchronization Flow
 
-BlockStorage needs to always be synchronized to the latest block in the virtual chain (latest committed block height). It can identify when it is potentially out of sync when another notifies it of a later block.
+`BlockStorage` always needs be synchronized to the latest block in the virtual chain (latest committed block height). As long as it's synchronized, the node will be able to participate in consensus and the `ConsensusAlgo` will keep committing blocks to it.
 
-When BlockStorage is out of sync, it attempts to synchronize with other BlockStorage instances of other nodes.
-
-BlockStorage is also charged with synchronizing StateStorage and TransactionPool to the latest block. Whenever they go out of sync, they attempt to synchronize with BlockStorage inside the node.
+`BlockStorage` can identify when it is potentially out of sync if no new blocks are committed successfully for some time. When this happens, it attempts to synchronize from other `BlockStorage` instances of other nodes. Note that these instances aren't necessarily trusted, so full block validations need to happen on every block they provide.
 
 ## Participants in this flow
 
+* Primary
+  * `BlockStorage`
+
+* Helpers
+  * `Gossip`
+  * `ConsensusAlgo`
+
 ## Assumptions for successful flow
 
-* `ConsensusBuilder` is synchronized to latest block (and is the source of truth for block height).
+* Other nodes in the network are more advanced and have consensus over later blocks.
 
 ## Flow
 
-* `BlockStorage` identifies that it out of sync by the fact that no blocks were committed for over the defined time window.
-    * Note: May add indications from the Consensus Algo.
-* `BlockStorage` sends block availablity request message to all nodes with Gossip with desired block range and block type (one configurable batch).
-* Any node willing to help synchronize responds.
-* Randomly selects a node.
-* Requests the batch with message block sync request through Gossip (unicast).
-* The node sends a batch of blocks.
-* `BlockStorage` validates for each block that it was committted by consensus by querying `ConsensusAlgo`.
-* `BlockStorage` commits the block and updates the subscribed services (one flow)
-* This continues in endless loop until synchronized.
+* `BlockStorage` identifies that it out of sync (no blocks are committed for some time).
+  * Broadcasts a sync request to all nodes with `Gossip`.
+
+* `BlockStorage` of all nodes willing to help respond if they have missing blocks.
+
+* `BlockStorage` of the original node:
+  * Chooses randomly one of the nodes to synchronize with.
+  * Starts a batched synchronization process with it through `Gossip`.
+  * Validates the consensus of every untrusted block it receives with `ConsensusAlgo`.

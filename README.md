@@ -73,8 +73,8 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Inter Node Sync](behaviors/flows/inter-node-sync.md)
 
-  Block synchronization between nodes
+  Block synchronization between nodes.
 
 * [Intra Node Sync](behaviors/flows/intra-node-sync.md)
 
-  Block synchronization between services inside a node
+  Block synchronization between services inside a node.
