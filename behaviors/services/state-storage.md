@@ -1,8 +1,12 @@
 # State Storage
 
-Holds the latest state under consensus, meaning all of the state variables for all [deployed services](../../terminology.md) in a virtual chain.
+Holds the latest state under consensus, meaning all of the state variables for all [deployed services](../../terminology.md) in a virtual chain. Provides the source of truth inside the node for the state snapshot.
 
 Currently a single instance per virtual chain per node.
+
+#### Interacts with services
+
+* None - Passive, just provides services to others upon request.
 
 &nbsp;
 ## `Data Structures`
@@ -26,10 +30,10 @@ Currently a single instance per virtual chain per node.
 * Can be persistent to optimize service bootstrap (be careful of partial writes).
 
 #### Synchronization state
-* `last_committed_block` - The last valid committed block that the state storage is synchronized to.
+* `last_committed_block` - The last valid committed block that the state storage is synchronized to (can be persistent).
 
 &nbsp;
-## `Init`
+## `Init` (flow)
 
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.

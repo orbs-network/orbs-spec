@@ -42,20 +42,9 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 ## `Block Storage`
 
-#### Persistent database
-* Maintains a persistent database of:
-  * Committed blocks
-  * Last committed height
-
-#### Init Flow
-* Read configuration
-* Loads persistent data.
-* Subscribe to Block Sync `Gossip` messages.
-* Set max_known_block_height to unknown (MAX_UINT64)
-  * Once Commit Block is received update the max_known_block_height to the committed block height.
-* Initiate `Inter Node Block Synchronization` (treat as block_timeout expired)
-  * Requesting the required blocks up to the max_known_block_height.
-
+* Initialize configuration and persistent data.
+* Subscribe to relevant gossip topics.
+* Attempt block synchronization process from other nodes to see if anyone has new blocks.
 
 ## `State Storage`
 

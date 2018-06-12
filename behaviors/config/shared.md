@@ -2,7 +2,7 @@
 
 Configuration is an in-memory object given to every service on initialization. The object can be created based on static configuration files but will ultimately transition to being controlled by the management virtual chain via smart contracts.
 
-#### Virtual Chain
+#### Virtual chain
 
 ```json
 {
@@ -36,3 +36,11 @@ Configuration is an in-memory object given to every service on initialization. T
 ```
 
 * Node IDs are node public keys encoded in hex
+
+#### Transaction expiration
+
+```json
+{
+  "transaction-expiration-window-sec": "1800"
+}
+```

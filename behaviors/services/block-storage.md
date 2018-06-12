@@ -1,137 +1,186 @@
 # Block Storage
 
-Holds the long term journal of all confirmed blocks. Continuously synchronizes with other nodes when missing blocks are required.
+Holds the long term journal of all confirmed blocks. Provides the source of truth inside the node for the current [block height](../../terminology.md). When synchronized with the rest of the network, newly committed blocks arrive internally from the consensus algo. When not, manually synchronizes the missing blocks from other nodes.
 
 Currently a single instance per virtual chain per node.
 
 #### Interacts with services
 
-* StateStorage - state diffs
-* TransactionPool - transaction receipts.
+* `StateStorage` - Provides it with state diffs when new blocks are committed (also synchronizes it).
+* `TransactionPool` - Provides it with transaction receipts when new blocks are committed (also synchronizes it).
+* `ConsensusAlgo` - Asks it whether untrusted blocks (given by other nodes) are indeed approved and valid.
 
 &nbsp;
-## `Init` <!-- oded will finish -->
-
-TODO
-
-&nbsp;
-## `Data Structures` <!-- tal will finish -->
+## `Data Structures`
 
 #### Block database
-* Holds all blocks with ability to query efficiently by block height.
-* Able to store blocks out of order (upon sync lost).
-  * These blocks are not yet marked as committed.
-  * They will be verified and committed after receiving the missing blocks before them.
-* Needs to be persistent.
-* When empty, initialized with the genesis block.
-* Data is not sharded, all blocks are stored locally on all machines.
+* Holds all blocks with ability to query efficiently by [block height](../../terminology.md).
+* Able to store blocks out of order (when sync is lost but future blocks keep arriving).
+  * These blocks are not yet marked as committed and cannot be considered valid.
+  * They will be verified and committed after receiving the chain of missing blocks before them.
+* When empty, initialized with the genesis block which is empty for virtual chains.
+* The database needs to be persistent.
+* Data is not sharded, currently all blocks are stored locally on all machines.
+
+#### Synchronization state
+* `last_committed_block` - The last valid committed block that the block storage is synchronized to (persistent).
 
 &nbsp;
-## `Inter Node Block Synchronization`
+## `Init` (flow)
 
-* The synchronization flow is initialled upon:
-  * block_timeout = configurable block_commit_timeout (default 8 sec) has passed without a block commit.
-  * Init flow.
-
-* Identify nodes that have the desired blocks by broadcasting a `BLOCK_AVAILABILITY_REQUEST` messsage to all nodes using `Gossip.SendMessage`.
-  * Request the blocks from the last_committed_block to the highest known block height. (if unknown set to MAX_UINT64)
-  * The receiving nodes respond with a `BLOCK_AVAILABILITY_RESPONSE` message
-    * Indicating the range out of the desired blocks that is available to them and their current top block.
-* Randomly select one of the responding nodes and request a batch of blocks avilable to this node by sending a unicast `BLOCK_SYNC_REQUEST`.
-  * The receiving node responds with a `BLOCK_SYNC_RESPONSE` message
-    * The message includes the requested blocks and the node's last_committed block height.
-  * Upon reception of a response
-    * Validate the blocks for commit by performing `Validate Block for Commit`
-      * If valid commit the block by calling `Commit Block`.
-    * If the responder last_committed block is larger than the maximum known block height, update the following requests accordingly.
-* Repeat requesting until receiving all the desired blocks.
-  * It is recommanded to shuffle the requests among the nodes that have the block avialable in order not to put too much burden on a single node.
-
-#### `Validate Block for Commit`
-> Validates a block received during inter-node sync  
-
-#### Check the Transactions Block Header (stateless)
-* Check the block protocol version.
-* Check the virtual chain.
-* Check block height
-  * If the block already exist (block height != last_commited_block block + 1) discard.
-* Check transactions_root_hash 
-  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
-* Check metadata hash
-  * Calculate the hash of the block's metadata and verify the hash in the header.
-
-#### Check the Results Block Header (stateless)
-* Check the block protocol version.
-* Check the virtual chain.
-* Check block height
-  * If the block already exist (block height != last_commited_block block + 1) discard.
-* Check receipts_root_hash
-  * Calculate the merkle root hash of the block's transactions verify the hash in the header.
-* Check state_diff_hash
-  * Calculate the hash of the block's metadata and verify the hash in the header.
-
-#### Validate that the block is under consensus and can be committed.
-* Validate that the block can be commited under consensus by calling:
-  *  `ConsensusAlgo.AcknowledgeTransactionsBlockConsensus`. 
-  *  `ConsensusAlgo.AcknowledgeResultsBlockConsensus`.
+* Initialize the [configuration](../config/services.md).
+* Load persistent data.
+* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the database to empty.
+* Subscribe to gossip messages in topic `NODE_SYNC` by calling `Gossip.TopicSubscribe`.
+* Trigger the block synchronization process in the `Inter Node Block Sync` flow.
 
 &nbsp;
-## `Intra Node Block Synchronization` <!-- oded will finish -->
+## `Inter Node Block Sync` (flow)
 
-* This flow should be implemented twice - one instance for service TransactionPool and one instance for service StateStorage
-* Endless loop which is continuously synchronizing the service with committed blocks based on the service's `next_desired_block_height`
-* If `last_commited_block` < `next_desired_block_height` block and wait (without polling), else:
-  * Commit `next_desired_block_height` to the service by calling `StateStorage.CommitStateDiff` or `TransactionPool.CommitTransactionsReceipts`.
-  * Update `next_desired_block_height` according to the call response.
+> Continuous flow where block storage (the source of truth for committed blocks) is synchronizing itself from other nodes when it discovers it is out of sync.
+
+#### Trigger
+* Endless loop which is continuously waiting for a trigger marking the node as out of sync.
+* The synchronization process is triggered upon:
+  * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) timeout (eg. 8 sec).
+  * During the Init flow.
+* Make sure no more than one synchronization process is active at any given time.
+
+#### Synchronization process
+* Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.SendMessage`.
+  * Request blocks starting from `last_committed_block`.
+  * Since the highest missing block height is probably unknown, set it to `MAX_UINT64`.
+  * Nodes will respond with a `BLOCK_AVAILABILITY_RESPONSE` message.
+    * Indicating the range from the desired blocks that is available to them and their current top block.
+* Randomly select one of the responding nodes and request a batch of blocks from them.
+  * If some of the responders are significantly behind and can't fulfill one batch, avoid them in the random selection.
+  * Request the block batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.SendMessage`.
+  * The receiving node will respond with a `BLOCK_SYNC_RESPONSE` message.
+    * The response includes a steam of the requested blocks and the node's `last_committed_block` height.
+    * The receiving node may limit the number of blocks it is willing to stream in a batch to a [configurable](../config/services.md) amount.
+  * Upon reception of the response:
+    * Since the blocks are untrusted, validate each of them for commit by calling `ValidateBlockForCommit`.
+    * If valid, commit each block by calling `CommitBlock`.
+* Repeat the process until received all desired blocks.
+  * It is recommended to shuffle the requests among nodes to avoid putting too much burden on a single node.
+
+&nbsp;
+## `Intra Node Block Sync` (flow)
+
+> Continuous flow where block storage (the source of truth for committed blocks) is updating the rest of the services in the node on newly committed blocks.
+
+* This flow is instantiated twice:
+  * One instance for the service `TransactionPool` and one for `StateStorage`.
+* Endless loop which is continuously synchronizing the service with committed blocks based on the service's next desired block height.
+* If `last_commited_block` is lower than the service's next desired block height, block and wait (without polling), else:
+  * Push the next desired block to the service by calling `TransactionPool.CommitTransactionsReceipts` or `StateStorage.CommitStateDiff`.
+  * Remember the service's next desired block height according to the call response.
   * Continue iterating.
-* Important: When everything is synchronized (common case), `CommitBlock` should immediately trigger the commit to the service without waiting (this is the critical path).
+* Important: When everything is synchronized (common case), `CommitBlock` should immediately trigger the commit to the service without waiting (this is in the critical path).
 
 &nbsp;
 ## `CommitBlock` (method)
-> Commit a new block pair after it was approved for commit.
 
-#### Verify block before adding to database
+> Commit a new trusted block (pair, Transactions and Results) after it was approved for commit. Used by the critical path in the consensus algo to commit verified blocks.
+
+#### Final checks before adding
+* We assume here that the caller of this method inside the node is trusted and has already done the tests specified by `ValidateBlockForCommit`.
 * Check the block protocol version.
-* If the block already exist (block height < last_commited_block block + 1) - silently discard.
-* If block height > last_commited_block block + 1, panic.
+* Silently discard the given block if it already exists in the database (panic if it's different from ours under this block height).
+* If it doesn't exist, panic if the given block height isn't the next of `last_committed_block`.
 
 #### Commit the block
 * Store block in database indexed by block height.
-* Update last_commited_block = block height.
-* If intra block sync of StateStorage is blocking and waiting, wake it up.
-* If intra block sync of TransactionPool is blocking and waiting, wake it up.
+* Update `last_committed_block` to match the given block.
+* If any of the intra block syncs (`StateStorage`, `TransactionPool`) is blocking and waiting, wake it up.
 
 &nbsp;
-## `GetTransactionReceipt` (method) <!-- tal will finish -->
+## `ValidateBlockForCommit` (method)
 
-> Returns the transaction receipt for a transaction based on its tx_id and time_stamp.
+> Validates an untrusted block (pair, Transactions and Results) received during inter node sync before it can be committed.
 
-* Go over all the bloom filters in the blocks where the transaction could be:
-  * Starting where block timestamp is transaction timestamp minus small grace (eg. 5 seconds)
-  * Finishing where block timestamp is transaction timestamp plus configurable time_window plus small grace (eg. 5 seconds)
-* For each block, lookup the transaction timestamp in the block header timestamp bloom filter and the tx_id in the block header tx_id bloom filter.
-  * On match, fetchs the block and search the tx_id in the block receipts.
-      * If found, returns the receipt
-* If not found on all relevant blocks, returns NULL.
+#### Check the Transactions block (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height:
+  * If the block isn't the next of `last_commited_block` according to height, discard.
+* Check the block's `transactions_root_hash`:
+  * Calculate the merkle root hash of the block's transactions and verify the hash in the header.
+* Check the block's metadata hash:
+  * Calculate the hash of the block's metadata and verify the hash in the header.
+
+#### Check the Results block (stateless)
+* Check the block protocol version.
+* Check the virtual chain.
+* Check block height:
+  * If the block isn't the next of `last_commited_block` according to height, discard.
+* Check the block's `receipts_root_hash`:
+  * Calculate the merkle root hash of the block's receipts and verify the hash in the header.
+* Check the block's `state_diff_hash`:
+  * Calculate the hash of the block's state diff and verify the hash in the header.
+
+* Note: The logic up to here appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.
+
+#### Check the block consensus
+* Check consensus of the Transactions block header by calling `ConsensusAlgo.AcknowledgeTransactionsBlockConsensus`.
+* Check consensus of the Results block header by calling `ConsensusAlgo.AcknowledgeResultsBlockConsensus`.
+
+&nbsp;
+## `GetTransactionReceipt` (method)
+
+> Returns the transaction receipt for a past transaction based on its id and time stamp. Used when a client asks to query transaction status.
+
+* Go over all the blocks where the transaction could be found:
+  * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).
+  * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window plus small grace (eg. 5 sec).
+* For each relevant block, look for the transaction in the block header's bloom filters:
+  * The transaction timestamp in the timestamp bloom filter.
+  * The transaction `tx_id` in the id bloom filter.
+  * On match, fetch the block and search for the `tx_id` in the block receipts.
+      * If found, returns the receipt.
+* If not found on all relevant blocks, return an empty result.
+
+&nbsp;
+## `GetTransactionsBlockHeader` (method)
+
+> Returns a committed Transactions block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
+
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is far, fail
+* Return the transactions block header, metadata and the transactions block proof.
+
+&nbsp;
+## `GetResultsBlockHeader` (method)
+
+> Returns a committed Results block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
+
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) distance) block and wait
+* If requested block height is in the future but `last_committed_block` is far, fail
+* Return the results block header, metadata and the results block proof.
 
 &nbsp;
 ## `GossipMessageReceived` (method)
-> Handles a gossip message from another node. Relevant messages include node sync messages.
 
-TODO - add sync flow messages
+> Handles a gossip message from another node. Relevant messages include block sync messages.
 
-## `GetTransactionsBlockHeader` (method)
-> Returns a committed transactions block header and proof.
-* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
-* If requested block height is in the future but `last_committed_block` is far, fail
-* Return the transactions block header, metadata, the transactions block proof and the results block proof.
+#### `BLOCK_AVAILABILITY_REQUEST` message
+* See `Inter Node Block Sync` flow.
 
-## `GetResultsBlockHeader` (method)
-> Returns a committed results block header and proof.
-* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
-* If requested block height is in the future but `last_committed_block` is far, fail
-* Return the results block header, metadata, the transactions block proof and the results block proof.
+#### `BLOCK_AVAILABILITY_RESPONSE` message
+* See `Inter Node Block Sync` flow.
+
+#### `BLOCK_SYNC_REQUEST` message
+* See `Inter Node Block Sync` flow.
+
+#### `BLOCK_SYNC_RESPONSE` message
+* See `Inter Node Block Sync` flow.
+
+
+<!--
+
+TODO: oded, add the diagrams again
 
 ![alt text][block_state_pool_flow] <br/><br/>
 
 [block_state_pool_flow]: block_state_pool_flow.png "Block Storage - State Storage / Transaction Pool"
+-->
