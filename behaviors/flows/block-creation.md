@@ -24,7 +24,8 @@ We currently support leader-based consensus algorithms, meaning a leader node is
 ## Flow <!-- tal can finish --> <!-- move VM->processor->state flow to a different flow -->
 
 * `Consensus Algorithm` starts a new consensus round (block height is decided).
-  * Gets the previously committed block
+  * Gets the previously committed block from `BlockStorage` (or have it from cache).
+  
   * The `Consensus Algorithm` queries the `Consensus Core` on the participating committee (all nodes)
   * The `Consensus Algorithm` identifies if it's a leader or a valdiator in the current term.
 * Leader node.
