@@ -1,6 +1,6 @@
 # Block Storage
 
-Holds the long term journal of all confirmed blocks. Provides the source of truth inside the node for the current [block height](../../terminology.md). When synchronized with the rest of the network, newly committed blocks arrive internally from the consensus algo. When not, manually synchronizes the missing blocks from other nodes.
+Holds the long term journal of all confirmed blocks. Provides the source of truth inside the node for the current [block height](../../terminology.md). When the node is synchronized with the rest of the network, newly committed blocks arrive internally from the consensus algo. When not, the service manually synchronizes the missing blocks from other nodes.
 
 Currently a single instance per virtual chain per node.
 

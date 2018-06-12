@@ -40,7 +40,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Block Storage](behaviors/services/block-storage.md)
 
-  Holds the long term journal of all confirmed blocks (the actual chain of blocks)
+  Holds the long term journal of all confirmed blocks (the actual chain of blocks) and performs block sync between nodes.
 
 * [State Storage](behaviors/services/state-storage.md)
 
