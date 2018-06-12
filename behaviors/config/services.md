@@ -17,3 +17,13 @@ Configuration is an in-memory object given to every service on initialization. T
 {
   "pending-pool-max-size-mb": "20480"
 }
+```
+
+#### State Storage
+
+```json
+{
+  "recent-block-snapshot-num": "5",
+  "query-sync-grace-block-num": "0"
+}
+```

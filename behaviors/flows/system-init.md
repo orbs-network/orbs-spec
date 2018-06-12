@@ -15,7 +15,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 * Stateless services
   * `Consensus Builder`
-  * `Virtual Machine` 
+  * `Virtual Machine`
   * `Processors`
   * `Public API`
 -->
@@ -26,7 +26,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 ## General
 * Configuration changes take effect starting on block N.
- 
+
 
 ## `Consensus Algo`
 
@@ -45,7 +45,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
 #### Persistent database
 * Maintains a persistent database of:
   * Committed blocks
-  * Last committed height 
+  * Last committed height
 
 #### Init Flow
 * Read configuration
@@ -59,16 +59,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 ## `State Storage`
 
-#### Persistent database
-* Maintains a persistent database of:
-  * Committed state
-  * Last committed block height
-
-#### Init Flow
-* Read configuration
-* Loads persistent data.
-* Set next_desired_block_height = last_committed_block_height + 1.
-
+* Initialize configuration and persistent data.
 
 ## `Tramsaction pool`
 

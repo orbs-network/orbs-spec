@@ -2,13 +2,19 @@
 
 V1 release
 
+&nbsp;
+## Terminology
+
+Definitions of terms like `node`, `service`, `committee`. Available [here](terminology.md).
+
+&nbsp;
 ## Services
 
-* [PublicApi](behaviors/services/public-api.md)
+* [Public Api](behaviors/services/public-api.md)
 
   Provides external public gateway interface for clients
 
-* [TransactionPool](behaviors/services/transaction-pool.md)
+* [Transaction Pool](behaviors/services/transaction-pool.md)
 
   Holds pending and committed transactions that are propagated between nodes
 
@@ -16,15 +22,15 @@ V1 release
 
   Connects different nodes over the network with efficient message broadcast and unicast
 
-* [ConsensusAlgo](behaviors/services/consensus-algo.md)
+* [Consensus Algo](behaviors/services/consensus-algo.md)
 
   Pluggable consensus algorithm (multiple algorithms supported side by side)
 
-* [ConsensusBuilder](behaviors/services/consensus-builder.md)
+* [Consensus Builder](behaviors/services/consensus-builder.md)
 
   Builds and validates the actual content of blocks for the consensus process
 
-* [VirtualMachine](behaviors/services/virtual-machine.md)
+* [Virtual Machine](behaviors/services/virtual-machine.md)
 
   Executes service methods (smart contracts) using various processors
 
@@ -32,16 +38,17 @@ V1 release
 
   Executes a stream of transactions in an isolated environment (in a specific language)
 
-* [BlockStorage](behaviors/services/block-storage.md)
+* [Block Storage](behaviors/services/block-storage.md)
 
   Holds the long term journal of all confirmed blocks (the actual chain of blocks)
 
-* [StateStorage](behaviors/services/state-storage.md)
+* [State Storage](behaviors/services/state-storage.md)
 
-  Holds the latest state under consensus meaning all of the state variables for all services in a virtual chain
+  Holds the latest state under consensus meaning all of the state variables for all deployed services in a virtual chain.
 
-* [SidechainConnector](behaviors/services/sidechain-connector.md)
+* [Sidechain Connector](behaviors/services/sidechain-connector.md)
 
+&nbsp;
 ## High level flows
 
 * [System Init](behaviors/flows/system-init.md)

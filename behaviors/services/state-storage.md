@@ -1,6 +1,6 @@
-# State Storage <!-- tal will finish -->
+# State Storage
 
-Holds the latest state under consensus, meaning all of the state variables for all services in a virtual chain.
+Holds the latest state under consensus, meaning all of the state variables for all [deployed services](../../terminology.md) in a virtual chain.
 
 Currently a single instance per virtual chain per node.
 
@@ -8,68 +8,70 @@ Currently a single instance per virtual chain per node.
 ## `Data Structures`
 
 #### State store
-* Stores state data per service by key (key-value store).
-* Up to date for a specific block height.
-* Maintains a snapshot history of configurable number of blocks (eg. 5).
-* Separated into services, for each one:
+* Stores state data per [deployed service](../../terminology.md) by key (key-value store).
+* Up to date for a specific [block height](../../terminology.md).
+* Maintains an efficient snapshot history of [configurable](../config/services.md) number of past blocks (eg. 5).
+* Separated into deployed services, for each one:
   * Keep a merkle tree of all state variables (keys and values) under it.
   * Keys are hashes, values are blobs (byte arrays).
-  * A non exist key returns a 0 value.
+  * A non existent key returns the number `0` as its value.
 * Default system services:
   * `_Deployments`
-    * Contains metadata about every service and library that were deployed on the system.
-    * Key: hash(`<namespace>.Processor`), Value: processor for this namespace
-      * Meta example: `_Deployments.Processor = Native`
-* All service merkle trees are held inside a parent merkle tree
+    * Contains metadata about every [service](../../terminology.md) and [library](../../terminology.md) smart contracts that were deployed on the system.
+    * The format is Key: hash(`<name>.Processor`), Value: processor for this smart contract (service or library).
+      * Meta example: `_Deployments.Processor = Native`.
+* All service merkle trees are held inside a parent merkle tree.
   * Key: hash(service name), Value: merkle tree of the service state variables.
-* State root hash is the merkle root of the parent merkle tree.
+* The state root hash is the merkle root of the parent merkle tree.
 * Can be persistent to optimize service bootstrap (be careful of partial writes).
 
-#### Sync state
-* `last_committed_block`
-* `next_desired_block_height`
+#### Synchronization state
+* `last_committed_block` - The last valid committed block that the state storage is synchronized to.
 
 &nbsp;
-## `Init` <!-- oded will finish -->
+## `Init`
 
-TODO
+* Initialize the [configuration](../config/services.md).
+* Load persistent data.
+* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the state store to empty.
 
 &nbsp;
-## `CommitStateDiff` <!-- tal will finish -->
+## `CommitStateDiff` (method)
 
-> Commits a new block (the state diff from it is what we care about).
+> Commits a new approved block (the state diff from it is what we care about). This is the main way to update the current state snapshot as new blocks are generated and approved in the system.
 
-#### Block Height check
-* If given block_height != `next_desired_block_height` discard and return `next_desired_block_height`
+#### Check block height
+* We assume here that the caller of this method inside the node is trusted and has already verified the block.
+* We can only commit blocks in sequence, so make sure the given [block height](../../terminology.md) is the next of `last_committed_block`.
+* If not, discard the commit and return the next desired block height (which is the next of `last_committed_block`).
 
 #### Commit state
-* Update the state_diff.
-  * Update the state merkle tree while updating each state.
-* Update the `last_committed_block` height
-* Increment the `next_desired_block_height` and return it
+* Update the state store according to the block's `state_diff`.
+  * Also update the state merkle tree while updating each state value.
+* Update `last_committed_block` to match the given block.
 
 &nbsp;
-## `ReadKeys` (method) <!-- tal will finish -->
+## `ReadKeys` (method)
 
-> Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract.
+> Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract. This is the main way for other services to query state in the node.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
-* If requested block height is in the future but `last_committed_block` is far, fail
-* If requested block height is in the past and beyond the snapshot history, fail
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is far, fail.
+* If requested block height is in the past and beyond the snapshot history, fail.
 
 #### Return the values
-* Respond with the values
+* Respond with the values from the state store.
 
 &nbsp;
-## `GetStateHash` (method) <!-- tal will finish -->
+## `GetStateHash` (method)
 
-> Returns the state hash (merkle tree root) updated to a certain block height.
+> Returns the state hash (merkle tree root) updated to a certain block height. The latest hash is always written inside blocks so this is needed by block creators.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it (configurable distance) block and wait
-* If requested block height is in the future but `last_committed_block` is far, fail
-* If requested block height is in the past and beyond the snapshot history, fail
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is far, fail.
+* If requested block height is in the past and beyond the snapshot history, fail.
 
 #### Return the state root
-* Return the state merkle tree root.
+* Respond with the merkle root from the state store.
