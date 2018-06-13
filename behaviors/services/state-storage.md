@@ -46,7 +46,7 @@ Currently a single instance per virtual chain per node.
 
 #### Check block height
 * We assume here that the caller of this method inside the node is trusted and has already verified the block.
-* We can only commit blocks in sequence, so make sure the given [block height](../../terminology.md) is the next of `last_committed_block`.
+* We want to commit blocks in sequence, so make sure the given [block height](../../terminology.md) is the next of `last_committed_block`.
 * If not, discard the commit and return the next desired block height (which is the next of `last_committed_block`).
 
 #### Commit state

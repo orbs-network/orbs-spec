@@ -16,7 +16,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Transaction Pool](behaviors/services/transaction-pool.md)
 
-  Holds pending and committed transactions that are propagated between nodes
+  Holds pending and committed transactions that are propagated between nodes. Helps avoid transaction duplication.
 
 * [Gossip](behaviors/services/gossip.md)
 

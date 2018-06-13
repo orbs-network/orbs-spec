@@ -39,7 +39,6 @@ On system Init, the node sychronizes to its local persistant database and the ne
 * Subscribe to Consensus `Gossip` messages.
 * Start consensus algorithm
 
-
 ## `Block Storage`
 
 * Initialize configuration and persistent data.
@@ -50,15 +49,10 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 * Initialize configuration and persistent data.
 
-## `Tramsaction pool`
+## `Transaction Pool`
 
-#### Init Flow
-* Read configuration
-* Init with empty pending and committed pools.
-* Set last_committed_block_height = 0, next_desired_block_height = 1.
-    * The `next_desired_block_height` will be updated according to the block storage commits.
-* Subscribe to Transaction Batch `Gossip` messages.
-
+* Initialize configuration and persistent data.
+* Subscribe to relevant gossip topics.
 
 ## `Gossip`
 

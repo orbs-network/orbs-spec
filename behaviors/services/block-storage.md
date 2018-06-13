@@ -9,6 +9,7 @@ Currently a single instance per virtual chain per node.
 * `StateStorage` - Provides it with state diffs when new blocks are committed (also synchronizes it).
 * `TransactionPool` - Provides it with transaction receipts when new blocks are committed (also synchronizes it).
 * `ConsensusAlgo` - Asks it whether untrusted blocks (given by other nodes) are indeed approved and valid.
+* `Gossip` - Uses it to communicate with other nodes.
 
 &nbsp;
 ## `Data Structures`
@@ -73,7 +74,9 @@ Currently a single instance per virtual chain per node.
   * One instance for the service `TransactionPool` and one for `StateStorage`.
 * Endless loop which is continuously synchronizing the service with committed blocks based on the service's next desired block height.
 * If `last_commited_block` is lower than the service's next desired block height, block and wait (without polling), else:
-  * Push the next desired block to the service by calling `TransactionPool.CommitTransactionsReceipts` or `StateStorage.CommitStateDiff`.
+  * Push the next desired block to the service:
+    * To transaction pool by calling `TransactionPool.CommitTransactionsReceipts`.
+    * To state storage by calling `StateStorage.CommitStateDiff`.
   * Remember the service's next desired block height according to the call response.
   * Continue iterating.
 * Important: When everything is synchronized (common case), `CommitBlock` should immediately trigger the commit to the service without waiting (this is in the critical path).
@@ -139,7 +142,7 @@ Currently a single instance per virtual chain per node.
 
 * Go over all the blocks where the transaction could be found:
   * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).
-  * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window plus small grace (eg. 5 sec).
+  * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window (eg. 30 min) plus small grace (eg. 5 sec).
 * For each relevant block, look for the transaction in the block header's bloom filters:
   * The transaction timestamp in the timestamp bloom filter.
   * The transaction `tx_id` in the id bloom filter.
@@ -152,8 +155,8 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Transactions block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) grace distance) block and wait.
-* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the transactions block header, metadata and the transactions block proof.
 
 &nbsp;
@@ -161,8 +164,8 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Results block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) distance) block and wait
-* If requested block height is in the future but `last_committed_block` is far, fail
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the results block header, metadata and the results block proof.
 
 &nbsp;
