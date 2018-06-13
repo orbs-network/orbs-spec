@@ -24,7 +24,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Consensus Algo](behaviors/services/consensus-algo.md)
 
-  Pluggable consensus algorithm (multiple algorithms supported side by side)
+  Pluggable consensus algorithm (multiple algorithms supported side by side).
 
 * [Consensus Context](behaviors/services/consensus-context.md)
 

@@ -30,14 +30,9 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 ## `Consensus Algo`
 
-#### Persistent database
-* Maintains a persistent database of the algorithm required persistent data.
-
-#### Init Flow
-* Read configuration
-* Loads persistent data.
-* Subscribe to Consensus `Gossip` messages.
-* Start consensus algorithm
+* Initialize configuration and persistent data.
+* Subscribe to relevant gossip topics.
+* Start the consensus algorithm.
 
 ## `Block Storage`
 

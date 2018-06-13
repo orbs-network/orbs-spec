@@ -43,6 +43,15 @@ Since the system must remain backwards compatible forever (able to audit the old
 }
 ```
 
+#### Consensus Algo (per algorithm)
+
+```json
+{
+  "committee-size": "21",
+  "block-content-max-size-kb": "1024"
+}
+```
+
 #### Consensus Context
 
 ```json
