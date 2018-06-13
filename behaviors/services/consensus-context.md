@@ -1,4 +1,4 @@
-# Consensus Builder
+# Consensus Context
 
 Builds and validates the actual content of blocks for the consensus process. Responsible primarily for the creation of new blocks (populating with transactions from the pool) and for content validation of proposed blocks (verifying transaction results).
 

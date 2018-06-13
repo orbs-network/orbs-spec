@@ -14,7 +14,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
   * `Gossip`
 
 * Stateless services
-  * `Consensus Builder`
+  * `Consensus Context`
   * `Virtual Machine`
   * `Processors`
   * `Public API`

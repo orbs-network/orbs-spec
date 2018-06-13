@@ -26,7 +26,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
   Pluggable consensus algorithm (multiple algorithms supported side by side)
 
-* [Consensus Builder](behaviors/services/consensus-builder.md)
+* [Consensus Context](behaviors/services/consensus-context.md)
 
   Builds and validates the actual content of blocks for the consensus process
 

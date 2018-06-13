@@ -21,13 +21,13 @@ TODO
   * It is recommanded to cache the previously committed block data in order to prevent fetching the data.
   * If fails or times out, skip this round.
 * Calculate the `random_seed` for the upcoming block.
-* Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusBuilder.RequestOrderingCommittee`.
-* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusBuilder.RequestValidationCommittee`.
-* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusBuilder.RequestValidationCommittee` only based on the results block random seed.
+* Get a sorted list of committee members for the upcoming transaction block (ordering phase) by calling `ConsensusContext.RequestOrderingCommittee`.
+* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusContext.RequestValidationCommittee`.
+* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the results block random seed.
 
 #### If Leader
-* Request new transactions block proposal (ordering phase) by calling `ConsensusBuilder.RequestNewTransactionsBlock`.
-* Request new results block proposal (execution phase) by calling `ConsensusBuilder.RequestNewResultsBlock`.
+* Request new transactions block proposal (ordering phase) by calling `ConsensusContext.RequestNewTransactionsBlock`.
+* Request new results block proposal (execution phase) by calling `ConsensusContext.RequestNewResultsBlock`.
 * Sign both proposals (according to the algo spec) - on hash of the header.
 * Send signed proposals with gossip to the algo of all committee nodes (according to the algo spec).
 
@@ -39,8 +39,8 @@ TODO
 * Wait until deceided if participating in this round or not (`OnNewConsensusRound`).
 * Perform algorithm related checks on the proposal
   * Signature, block height, previous block pair hash pointers.
-* Validate the transactions block (ordering phase) by calling `ConsensusBuilder.ValidateTransactionsBlock`.
-* Validate the results block (execution phase) by calling `ConsensusBuilder.ValidateResultsBlock`.
+* Validate the transactions block (ordering phase) by calling `ConsensusContext.ValidateTransactionsBlock`.
+* Validate the results block (execution phase) by calling `ConsensusContext.ValidateResultsBlock`.
 * Sign both approvals (according to the algo spec) - on hash of the header.
 * Send signed approvals with gossip to the algo of all committee nodes (according to the algo spec).
 
@@ -60,7 +60,7 @@ TODO
 * Check the virtual chain.
 * Check block height
   * If the block already exist (block height != last_commited_block block + 1) discard.
-* Check transactions_root_hash 
+* Check transactions_root_hash
   * Calculate the merkle root hash of the block's transactions verify the hash in the header.
 * Check metadata hash
   * Calculate the hash of the block's metadata and verify the hash in the header.
@@ -99,8 +99,8 @@ TODO
 
 #### Verify the block committee
 * Calualte the previous block random seed.
-* Get the committee members by calling `ConsensusBuilder.RequestTransactionCommittee`.
-* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusBuilder.RequestValidationCommittee` only based on the results block random seed.
+* Get the committee members by calling `ConsensusContext.RequestTransactionCommittee`.
+* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the results block random seed.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.
@@ -110,7 +110,7 @@ TODO
 
 * If All are valid:
   * Update the consensus algorithm of the block commit (Committed block height, consensus dependent data).
-  * return VALID_FOR_COMMIT 
+  * return VALID_FOR_COMMIT
 * else return NOT_VALID_FOR_COMMIT.
 
 &nbsp;
@@ -119,7 +119,7 @@ TODO
 
 #### Verify the block committee
 * Calualte the previous block random seed.
-* Get the committee members by calling `ConsensusBuilder.RequestValidationCommittee`.
+* Get the committee members by calling `ConsensusContext.RequestValidationCommittee`.
 
 #### Verify the block proof
 * Verify the blook proof based on the committee members.
@@ -129,5 +129,5 @@ TODO
 
 * If All are valid:
   * Update the consensus algorithm of the block commit (Committed block height, consensus dependent data).
-  * return VALID_FOR_COMMIT 
+  * return VALID_FOR_COMMIT
 * else return NOT_VALID_FOR_COMMIT.

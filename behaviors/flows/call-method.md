@@ -13,7 +13,7 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 * Receiving node
   * `PublicApi`
-  * `ConsensusBuilder`
+  * `ConsensusContext`
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
@@ -21,7 +21,7 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 ## Assumptions for successful flow
 
-* `ConsensusBuilder` is synchronized to somewhat latest block.
+* `ConsensusContext` is synchronized to somewhat latest block.
 
 ## Flow
 
@@ -31,7 +31,7 @@ This read is not under consensus. Multiple reads can take place at the same time
   * Retains session info so the response will eventually arrive to this client.
   * Performs inexpensive checks on the call.
   * Prepares a batch of some calls for execution.
-  * Marks the batch with the latest block height by calling `ConsensusBuilder.GetTopBlockHeight`.
+  * Marks the batch with the latest block height by calling `ConsensusContext.GetTopBlockHeight`.
   * Sends the transactions for execution by calling `VirtualMachine.CallContract`.
 
 * `VirtualMachine` of receiving node:
