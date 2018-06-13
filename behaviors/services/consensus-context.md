@@ -1,6 +1,6 @@
 # Consensus Context
 
-Provides the system context for the consensus algorithm and deals with the actual content of blocks. Responsible primarily for the creation of new blocks (populating with transactions from the pool) and for content validation of proposed blocks (verifying transaction results).
+Provides the system context for the consensus algorithm and deals with the actual content of blocks. Responsible primarily for the creation of new blocks (populated with transactions from `TransactionPool`) and for content validation of proposed blocks (verifying transaction results).
 
 Currently a single instance per virtual chain per node.
 

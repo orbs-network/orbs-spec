@@ -4,7 +4,7 @@ Implements a raw consensus algorithm. The system supports pluggable consensus, m
 
 Controls and drives the timing of consensus, for example when new blocks are committed or when new blocks need to be proposed and populated with transaction from the pool.
 
-Note: Consensus algo is not in charge of block sync (block storage is) and it does not deal with block content (consensus context does).
+Note: `ConsensusAlgo` is not in charge of block sync (`BlockStorage` is) and it does not deal with block content (`ConsensusContext` does).
 
 Currently a single instance per virtual chain per node (per supported algorithm).
 

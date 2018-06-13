@@ -1,59 +1,32 @@
 # System Init Flow
 
-On system Init, the node sychronizes to its local persistant database and the network.
+General node initialization, all [services](../../terminology.md) are initialized.
 
-## Participants in this flow:
-<!--
-* Persistent services
-  * `Consensus Algo`
-  * `Block Storage`
-  * `State Storage`
+## Participants in this flow
 
-* Non-persistent services
-  * `Transaction Pool`
-  * `Gossip`
+* All services.
 
-* Stateless services
-  * `Consensus Context`
-  * `Virtual Machine`
-  * `Processors`
-  * `Public API`
--->
+## Assumptions for successful flow
 
-## Assumptions
-* 2f+1 of the network are synched to the latest configurations.
-  * Multiple configuration changes require to commit blocks between them such that it's gurnteed that 2f+1 nodes have applied the new configuration.
+* Majority of the nodes (2f+1) are updated to the latest configuration.
+* Configuration changes take effect starting from a future block N, majority needs to update before it's reached.
 
-## General
-* Configuration changes take effect starting on block N.
+## Flow
 
+* All services:
+  * Initialize configuration and persistent data.
 
-## `Consensus Algo`
+* Services that gossip (`ConsensusAlgo`, `BlockStorage`, `TransactionPool`):
+  * Subscribe to relevant gossip topics.
 
-* Initialize configuration and persistent data.
-* Subscribe to relevant gossip topics.
-* Start the consensus algorithm.
+* `ConsensusAlgo`:
+  * Start the consensus algorithm.
 
-## `Block Storage`
+* `BlockStorage`:
+  * Attempt block synchronization process from other nodes to see if anyone has new blocks.
 
-* Initialize configuration and persistent data.
-* Subscribe to relevant gossip topics.
-* Attempt block synchronization process from other nodes to see if anyone has new blocks.
+* `Gossip`:
+  * Connect to the gossip endpoints of all relevant peer nodes.
 
-## `State Storage`
-
-* Initialize configuration and persistent data.
-
-## `Transaction Pool`
-
-* Initialize configuration and persistent data.
-* Subscribe to relevant gossip topics.
-
-## `Gossip`
-
-* Initialize configuration and persistent data.
-* Connect to the gossip endpoints of all relevant peer nodes.
-
-## `Cross-chain Connector`
-
-* Start the relevant node.
+* `CrosschainConnector`:
+  * Start the relevant node.

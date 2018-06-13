@@ -1,7 +1,6 @@
 # Public Api
 
-Provides external public gateway interface (like JSON over HTTP) to the network which is normally used by clients.
-Since responses are synchronous, maintains a list of all active client sessions.
+Provides external public gateway interface (like JSON over HTTP) to the network which is normally used by clients. Since responses are synchronous, maintains a list of all active client sessions.
 
 Currently a single instance per virtual chain per node.
 
