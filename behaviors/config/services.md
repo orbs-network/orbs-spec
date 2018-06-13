@@ -22,7 +22,6 @@ Since the system must remain backwards compatible forever (able to audit the old
 }
 ```
 
-
 #### Transaction Pool
 
 ```json
@@ -36,6 +35,14 @@ Since the system must remain backwards compatible forever (able to audit the old
 }
 ```
 
+#### Gossip
+
+```json
+{
+  "reconnection-polling-interval-sec": "10"
+}
+```
+
 #### Consensus Context
 
 ```json
@@ -45,7 +52,6 @@ Since the system must remain backwards compatible forever (able to audit the old
   "system-timestamp-allowed-jitter-sec": "2"
 }
 ```
-
 
 #### State Storage
 

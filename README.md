@@ -20,7 +20,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Gossip](behaviors/services/gossip.md)
 
-  Connects different nodes over the network with efficient message broadcast and unicast
+  Connects different nodes over the network with efficient message broadcast and unicast.
 
 * [Consensus Algo](behaviors/services/consensus-algo.md)
 

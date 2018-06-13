@@ -56,8 +56,5 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 ## `Gossip`
 
-#### Init Flow
-* Read configuration.
-* Set sessions with the requried nodes
-    * All other nodes' gossip endpoint.
-* Set last_committed_block = 0.
+* Initialize configuration and persistent data.
+* Connect to the gossip endpoints of all relevant peer nodes.
