@@ -46,7 +46,9 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
   Holds the latest state under consensus meaning all of the state variables for all deployed services in a virtual chain.
 
-* [Sidechain Connector](behaviors/services/sidechain-connector.md)
+* [Cross-chain Connector](behaviors/services/crosschain-connector.md)
+
+  Runs nodes for other blockchains like Ethereum and provides read access to them.
 
 &nbsp;
 ## High level flows

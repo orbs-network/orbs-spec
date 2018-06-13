@@ -13,7 +13,7 @@ We currently support leader-based consensus algorithms, meaning a leader node is
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
-  * `SidechainConnector`
+  * `CrosschainConnector`
   * `Gossip`
   * `BlockStorage`
 

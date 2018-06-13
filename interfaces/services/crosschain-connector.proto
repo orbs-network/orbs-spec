@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "primitives/transactions.proto";
 
-service SidechainConnector {
+service CrosschainConnector {
   rpc CallEthereumContract (CallEthereumContractInput) returns (CallEthereumContractOutput);
 }
 
@@ -29,4 +29,3 @@ message EthereumFunctionInterface {
   repeated EthereumFunctionParameter inputs = 2;
   repeated EthereumFunctionParameter outputs = 3;
 }
-

@@ -17,7 +17,7 @@ This read is not under consensus. Multiple reads can take place at the same time
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
-  * `SidechainConnector`
+  * `CrosschainConnector`
 
 ## Assumptions for successful flow
 
@@ -37,7 +37,7 @@ This read is not under consensus. Multiple reads can take place at the same time
 * `VirtualMachine` of receiving node:
   * Checks the sender signature.
   * Executes the smart contract on the relevant `Processor`.
-  * Reads relevant state for execution from `StateStorage` or `SidechainConnector`.
+  * Reads relevant state for execution from `StateStorage` or `CrosschainConnector`.
   * Returns the batch results to `PublicApi`.
 
 * `PublicApi` of receiving node responds to the client.

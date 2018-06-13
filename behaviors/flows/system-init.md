@@ -53,3 +53,7 @@ On system Init, the node sychronizes to its local persistant database and the ne
 
 * Initialize configuration and persistent data.
 * Connect to the gossip endpoints of all relevant peer nodes.
+
+## `Cross-chain Connector`
+
+* Start the relevant node.

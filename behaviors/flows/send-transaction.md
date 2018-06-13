@@ -17,7 +17,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
-  * `SidechainConnector`
+  * `CrosschainConnector`
   * `Gossip`
 
 * All other nodes
@@ -44,7 +44,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
 * `VirtualMachine` of receiving node:
   * Checks the sender signature.
   * Executes the subscription check smart contract on the native `Processor`.
-  * Reads relevant state for execution from `StateStorage` or `SidechainConnector`.
+  * Reads relevant state for execution from `StateStorage` or `CrosschainConnector`.
 
 * `TransactionPool` of receiving node:
   * Adds transactions to pending transaction pool.
