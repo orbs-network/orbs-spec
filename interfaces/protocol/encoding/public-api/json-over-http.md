@@ -1,11 +1,29 @@
-TODO
-
-# Public Api
-
-## JSON over HTTP Encoding
+# Public Api JSON over HTTP Encoding
 
 &nbsp;
-### `/public/sendTransaction`
+## `/v1/call-method`
+
+#### Request
+```json
+{
+  "contractAddressBase58": "todo",
+  "senderAddressBase58": "todo",
+  "payload": "todo"
+}
+```
+
+#### Response
+```json
+{
+
+}
+```
+
+#### Implementation
+* Calls `PublicApi.CallMethod`.
+
+&nbsp;
+## `/v1/send-transaction`
 
 #### Request
 ```json
@@ -31,29 +49,7 @@ TODO
 * Calls `PublicApi.SendTransaction`.
 
 &nbsp;
-### `/public/callContract`
-
-#### Request
-```json
-{
-  "contractAddressBase58": "todo",
-  "senderAddressBase58": "todo",
-  "payload": "todo"
-}
-```
-
-#### Response
-```json
-{
-
-}
-```
-
-#### Implementation
-* Calls `PublicApi.CallContract`.
-
-&nbsp;
-### `/public/getTransactionStatus`
+### `/v1/get-transaction-status`
 
 #### Request
 ```json

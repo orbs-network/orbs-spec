@@ -11,6 +11,16 @@ Configuration is an in-memory object given to every service on initialization. T
 }
 ```
 
+#### Public Api
+
+```json
+{
+  "send-transaction-timeout-sec": "300",
+  "get-transaction-status-grace-sec": "5"
+}
+```
+
+
 #### Transaction Pool
 
 ```json

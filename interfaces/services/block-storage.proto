@@ -8,7 +8,7 @@ service BlockStorage {
   // Called by Consensus Core
   rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
-  
+
   // Called by Public API
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
 

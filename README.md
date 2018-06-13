@@ -12,7 +12,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Public Api](behaviors/services/public-api.md)
 
-  Provides external public gateway interface for clients
+  Provides external public gateway interface (like JSON over HTTP) for clients.
 
 * [Transaction Pool](behaviors/services/transaction-pool.md)
 

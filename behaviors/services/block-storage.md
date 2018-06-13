@@ -85,7 +85,7 @@ Currently a single instance per virtual chain per node.
 
 #### Final checks before adding
 * We assume here that the caller of this method inside the node is trusted and has already done the tests specified by `ValidateBlockForCommit`.
-* Check the block protocol version.
+* Correct block protocol version.
 * Silently discard the given block if it already exists in the database (panic if it's different from ours under this block height).
 * If it doesn't exist, panic if the given block height isn't the next of `last_committed_block`.
 
@@ -100,8 +100,8 @@ Currently a single instance per virtual chain per node.
 > Validates an untrusted block (pair, Transactions and Results) received during inter node sync before it can be committed.
 
 #### Check the Transactions block (stateless)
-* Check the block protocol version.
-* Check the virtual chain.
+* Correct block protocol version.
+* Correct virtual chain.
 * Check block height:
   * If the block isn't the next of `last_commited_block` according to height, discard.
 * Check the block's `transactions_root_hash`:
@@ -110,8 +110,8 @@ Currently a single instance per virtual chain per node.
   * Calculate the hash of the block's metadata and verify the hash in the header.
 
 #### Check the Results block (stateless)
-* Check the block protocol version.
-* Check the virtual chain.
+* Correct block protocol version.
+* Correct virtual chain.
 * Check block height:
   * If the block isn't the next of `last_commited_block` according to height, discard.
 * Check the block's `receipts_root_hash`:
@@ -126,9 +126,16 @@ Currently a single instance per virtual chain per node.
 * Check consensus of the Results block header by calling `ConsensusAlgo.AcknowledgeResultsBlockConsensus`.
 
 &nbsp;
+## `GetLastCommittedBlockHeight` (method)
+
+> As the source of truth in the node, returns the height of last committed block.
+
+* Return the height of `last_committed_block`.
+
+&nbsp;
 ## `GetTransactionReceipt` (method)
 
-> Returns the transaction receipt for a past transaction based on its id and time stamp. Used when a client asks to query transaction status.
+> Returns the transaction receipt for a past transaction based on its id and time stamp. Used when a client asks to query transaction status for an older transaction.
 
 * Go over all the blocks where the transaction could be found:
   * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).

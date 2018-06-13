@@ -1,68 +1,85 @@
 # Public Api
 
-Provides external public gateway interface (like JSON over HTTP) to the network (which is normally used by clients).
+Provides external public gateway interface (like JSON over HTTP) to the network which is normally used by clients.
 Since responses are synchronous, maintains a list of all active client sessions.
 
 Currently a single instance per virtual chain per node.
+
+#### Interacts with services
+
+* `BlockStorage` - Gets the latest committed block height from it and queries old transactions from it.
+* `VirtualMachine` - Uses it to execute methods.
+* `TransactionPool` - Provides it with new transactions.
 
 &nbsp;
 ## `Public Interfaces`
 
 #### JSON over HTTP
 * Requests are HTTP POST with JSON body and JSON response.
-* TODO: Binary fields such as addresses are encoded with Base58.
 * See request and response [encoding](../../interfaces/protocol/encoding/public-api/json-over-http.md).
 
-&nbsp;
-## `SendTransaction` (method) <!-- pass 1 -->
+#### HTTP GET
+* Requests are HTTP GET with all parameters encoded on the URL.
+* See request and response [encoding](../../interfaces/protocol/encoding/public-api/http-get.md).
+* Limited to `CallMethod` requests.
 
-> Execute a transaction under consensus that may change state (write)
+&nbsp;
+## `CallMethod` (method)
+
+> Public interface: Run a read only service method without consensus based on the current block height. The call is synchronous.
 
 #### Check request validity
+* Correct request format.
+* Correct protocol version.
+* Correct virtual chain.
+
+#### Forward call
+* Set [block height](../../terminology.md) for the call by calling `BlockStorage.GetLastCommittedBlockHeight`.
+  * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind the last.
+  * Optimization: The call to `BlockStorage.GetLastCommittedBlockHeight` can be cached based on time.
+* Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod`.
+* Return the result.
+
+&nbsp;
+## `SendTransaction` (method)
+
+> Public interface: Execute a transaction on a service under consensus that may change state (write). The call is synchronous.
+
+#### Check request validity
+* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
 
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format).
-* Maintain session context in order to eventually return a response and associate it with the `tx_id`.
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
-* If session resets or timeouts, clear session context.
+* Block until `ReturnTransactionResults` is called with the relevant `tx_id`.
+* If a [configurable](../config/services.md) timeout expires during the block, fail.
+  * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `ReturnTransactionResults`.
 
 &nbsp;
-## `ReturnTransactionResults` (method) <!-- pass 1 -->
+## `ReturnTransactionResults` (method)
 
-> Called by TransactionPool on committed blocks to let PublicApi respond to their waiting clients
+> Called by transaction pool on committed blocks to let public api respond to their waiting clients.
 
-* Locate the relevant session contexts based on `tx_id` of every transaction.
-* Respond to client using data from the transaction receipt.
+* For every transaction:
+  * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
+  * Unblock them to respond to the client using the data from the transaction receipt.
 
 &nbsp;
 ## `GetTransactionStatus` (method)
 
-> Check the status of previously sent transaction
+> Public interface: Query the status of previously sent transaction.
 
 #### Check request validity
-* Check the transaction timestamp, verifying that it's not a future transaction plus grace (eg. 5 seconds).
+* Correct request format.
+* Correct protocol version.
+* Correct virtual chain.
+* Check the transaction timestamp, verifying that it's not a future transaction plus [configurable](../config/services.md) grace (eg. 5 sec).
 
 #### Query transaction status
-* Queries the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
-  * If found returns PENDING, if committed return COMMITTED with the receipt.
-* Queries the block storage by calling `BlockStorage.GetTransactionReceipt`.
-  * If found returns COMMITTED with the receipt, else returns NO_RECORD_FOUND.
-
-&nbsp;
-## `CallMethod` (method)
-
-> Run a read only method based on the current block height and returns the output arguments.
-
-#### Retrains session info
-  * Retains session info so the response will eventually arrive to this client.
-
-#### Check request validity
-* Performs checks on the transaction:
-  * Version, Transaction format, virtual chain.
-* Batch tarnsactions and queries the Consensus core on the latest block height by calling `ConsensusBuilder.GetLatestBlockHeight`.
-  * Note that the method call is executed asynchronous to the block creation and the block height on which the execution is perfrormed may vary up to few blocks from the latest block.
-
-#### Forward call
-* Sends the trasnactions to the VM for execution by calling `VirtualMachine.RunLocalMethod` with the latest block height.
+* Query the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
+  * If found return status `PENDING`, if committed return status `COMMITTED` with the receipt.
+* If not found in transaction pool, it might be an older transaction, widen our search.
+* Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
+  * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND`.
