@@ -28,7 +28,7 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Consensus Context](behaviors/services/consensus-context.md)
 
-  Builds and validates the actual content of blocks for the consensus process
+  Provides the system context for the consensus algorithm and deals with the actual content of blocks.
 
 * [Virtual Machine](behaviors/services/virtual-machine.md)
 

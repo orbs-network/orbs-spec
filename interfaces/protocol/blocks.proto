@@ -60,6 +60,13 @@ message ResultsBlockHeader {
   ResultsBlockBloomFilter bloom_filter = 10;
 }
 
+// Transaction id bloom filter format:
+// Set H(1, `tx_id`) for each transaction `tx_id` (concat byte with value 0x01 with `tx_id` and insert).
+
+// Transaction timestamp bloom filter format:
+// TODO
+
+
 message ResultsBlockBloomFilter {
   Bytes filter = 1;
   // Events bloom filter: (Hard coded indices: 1 - tx_id, 2 - Sender address, 3 - Smart contract address)

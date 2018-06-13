@@ -1,6 +1,8 @@
 # Per-Service Configuration
 
-Configuration is an in-memory object given to every service on initialization. The object can be created based on static configuration files but will ultimately transition to being controlled by the management virtual chain via smart contracts.
+Configuration is an in-memory object given to every service on initialization. The object can be created based on static configuration files but will ultimately be controlled by the management virtual chain via smart contracts.
+
+Since the system must remain backwards compatible forever (able to audit the old blocks in the chain), changes in configuration can only take place from a certain block height. Until that block height is reached, the original configuration must remain in the system. One way to implement this is place the entire configuration dictionary as a key of a parent map containing block ranges.
 
 #### Common fields (relevant to all services)
 
@@ -33,6 +35,17 @@ Configuration is an in-memory object given to every service on initialization. T
   "query-sync-grace-block-num": "0"
 }
 ```
+
+#### Consensus Context
+
+```json
+{
+  "minimal-block-transaction-num": "0",
+  "minimal-block-delay-sec": "0.5",
+  "system-timestamp-allowed-jitter-sec": "2"
+}
+```
+
 
 #### State Storage
 

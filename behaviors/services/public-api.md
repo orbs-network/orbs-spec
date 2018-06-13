@@ -51,7 +51,7 @@ Currently a single instance per virtual chain per node.
 * Correct virtual chain.
 
 #### Forward transaction
-* Calculate the transaction `tx_id` (see transaction format).
+* Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
 * Block until `ReturnTransactionResults` is called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.

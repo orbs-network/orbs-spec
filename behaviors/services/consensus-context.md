@@ -1,125 +1,131 @@
 # Consensus Context
 
-Builds and validates the actual content of blocks for the consensus process. Responsible primarily for the creation of new blocks (populating with transactions from the pool) and for content validation of proposed blocks (verifying transaction results).
+Provides the system context for the consensus algorithm and deals with the actual content of blocks. Responsible primarily for the creation of new blocks (populating with transactions from the pool) and for content validation of proposed blocks (verifying transaction results).
 
 Currently a single instance per virtual chain per node.
 
-### Interacts with services
+#### Interacts with services
 
-* ConsensusAlgo - achieves consensus on a block, uses lite-helix, a PBFT based algorithm.
-* TransactionsPool - manages the pending and committed transaction pools, proposes and validates the trasnactions mixture of new blocks.
-* VirtualMachine - used to execute the transactions.
-* BlockStorage - called to commit new blocks upon consensus.
+* `TransactionPool` - Uses it to populate transactions in proposed blocks and validate ordering of others' proposed blocks.
+* `VirtualMachine` - Uses it to execute transactions and generate receipts and state diffs.
+* `StateStorage` - Queries the merkle root of the state for writing in proposed blocks and validating others' proposed ones.
+* Passive towards `ConsensusAlgo` and just provides services to it upon request.
+
+&nbsp;
+## `Init` (flow)
+
+* Initialize the [configuration](../config/services.md).
+
+&nbsp;
+## `RequestOrderingCommittee` (method)
+
+> Returns a sorted list of nodes (public keys) that participate in the approval committee for the ordering of a given block height. Called by consensus algo.
+
+* The current list of nodes (per [block height](../../terminology.md)) is managed by the [configuration](../config/shared.md).
+* If the size of requested committee is larger than total nodes, select all nodes as the committee.
+* Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
+
+&nbsp;
+## `RequestValidationCommittee` (method)
+
+> Returns a sorted list of nodes (public keys) that participate in the approval committee for the execution validation of a given block height. Called by consensus algo.
+
+* The current list of nodes (per [block height](../../terminology.md)) is managed by the [configuration](../config/shared.md).
+* If the size of requested committee is larger than total nodes, select all nodes as the committee.
+* Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
+
+&nbsp;
+## `RequestNewTransactionsBlock` (method)
+
+> Performed by consensus leader only, upon request from consensus algo to perform the ordering phase of the consensus during a live round.
+
+#### Choose pending transactions
+* Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
+  * If there are too little transactions to append (minimal block according to a [configurable](../config/services.md) amount):
+    * Wait [configurable](../config/services.md) time (eg. 0.5 sec) and retry once.
+    * If no transactions continue with an empty block (number of transactions is 0).
+
+#### Build Transactions block
+* Current protocol version (`0x1`).
+* Current virtual chain.
+* Block height is given.
+* Hash pointer to the previous (latest) Transactions block is given.
+* 64b unix timestamp.
+* The merkle root hash of the transactions in the block.
+* Placeholder: metadata - holds reputation / algorithm data.
+* Hash of the block metadata.
+
+#### Prepare for Results block
+* Cache the Transactions block for execution (Results block).
+* Optimization: Warm up by running the logic in `RequestNewResultsBlock` right now.
+
+&nbsp;
+## `RequestNewResultsBlock` (method)
+
+> Performed by the leader only, upon request from consensus algo to perform the execution phase of the consensus during a live round.
+
+#### Execute transactions
+* The Transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
+* Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
+
+#### Build Results block
+* Current protocol version (`0x1`).
+* Current virtual chain.
+* Block height is given.
+* Hash pointer to the previous (latest) Results block is given.
+* 64b unix timestamp.
+* The merkle root hash of the transaction receipts in the block.
+* The hash of the state diff in the block.
+* Hash pointer to the Transactions block of the same height.
+* Merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
+* Transaction id bloom filter (see block format for structure).
+* Transaction timestamp bloom filter (see block format for structure).
+
+&nbsp;
+## `ValidateTransactionsBlock` (method)
+
+> Validates another node's proposed block. Performed upon request from consensus algo when receiving a proposal during a live consensus round.
+
+#### Check Transactions block
+* Check protocol version.
+* Check virtual chain.
+* Check block height is the next of the previous block's height.
+* Check hash pointer indeed points to previous block.
+* Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
+* Check transaction merkle root hash.
+* Check metadata hash.
+
+#### Validate transaction choice
+* Call `TransactionPool.ValidateTransactionsForOrdering` to validate pre order checks, expiration and no duplication.
+
+&nbsp;
+## `ValidateResultsBlock` (method)
+
+> Validates another node's proposed block. Performed upon request from consensus algo when receiving a proposal during a live consensus round.
+
+#### Check Results block
+* Check protocol version.
+* Check virtual chain.
+* Check block height is the next of the previous block's height.
+* Check hash pointer indeed points to previous block.
+* Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
+* Check transaction receipts merkle root hash.
+* Check the hash of the state diff in the block.
+* Check hash pointer to the Transactions block of the same height.
+* Check merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
+* Check transaction id bloom filter (see block format for structure).
+* Check transaction timestamp bloom filter (see block format for structure).
+
+#### Validate transaction execution
+* Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
+* Compare the receipts merkle root hash to the one in the block.
+* Compare the state diff hash to the one in the block (supports only deterministic execution).
+
+
+<!--
+TODO: oded, add the diagrams again
 
 ![alt text][consensus_core_interfaces] <br/><br/>
 
 [consensus_core_interfaces]: consensus_core_interfaces.png "Consensus - Core Interfaces"
-
-&nbsp;
-## `Init` <!-- oded will finish -->
-
-&nbsp;
-## `Data Structures` <!-- tal can finish -->
-
-&nbsp;
-## `RequestOrderingCommittee` (method) <!-- tal can finish -->
-
-> Returns a sorted list of nodes that participate in the approval committee for the ordering of a given block height.
-
-* Committee members = all nodes' ids (Public Key).
-* Order the nodes' ids based on the sorting algorithm.
-
-&nbsp;
-## `RequestValidationCommittee` (method) <!-- tal can finish -->
-
-> Returns a sorted list of nodes that participate in the approval committee for the execution validation of a given block height.
-
-* Committee members = all nodes' ids (Public Key).
-* Order the nodes' ids based on the sorting algorithm.
-
-
-&nbsp;
-## `RequestNewTransactionsBlock` (method) <!-- tal can finish -->
-
-> Performed by the leader only, upon request from the algorithm to perform the ordering phase.
-
-* If not synchronized with block height (has the last block header), don't participate and fail.
-
-#### Ordering Block Creation
-* Get the pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
-  * if there are no transactions to append:
-    * Wait configurable empty_block_wait = 0.5sec and retry once.
-    * If still empty continue with an empty block (# of transaction = 0).
-* Build Ordering block
-  * Current protocol version (0x1)
-  * Virtual chain
-  * Block height is given, panic if it's not incremented from previous block (the latest).
-  * Hash pointer to the previous (latest) transactions block: SHA256(Block header)
-  * 64b unix time stamp
-  * The merkle root hash of the transactions in the block
-  * Placeholder: Metadata - holds reputaion / algorithm data
-  * SHA256 of the block metadata.
-
-* Cache the transactions block for the execution validation part.
-* You can optimize warm up by running the logic in `RequestNewResultsBlock` right now.
-
-&nbsp;
-## `RequestNewResultsBlock` (method) <!-- tal can finish -->
-
-> Performed by the leader only, upon request from the algorithm to perform the execution phase.
-
-* If not synchronized with block height (has the last block header), don't participate and fail.
-
-* The transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
-* Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
-* Build Results Block
-  * Current protocol version (0x1)
-  * Virtual chain
-  * Block height is given, panic if not it's incremented from previous block (the latest).
-  * Hash pointer to the previous (latest) results block: SHA256(Block header)
-  * 64b unix time stamp
-  * The merkle root hash of the transactions receipts in the block
-  * The hash of the state diff in the block
-  * Hash pointer to the transactions block of the same height: SHA256(Block header)
-  * Merkle root of the state prior to the block execution, retrived by calling `StateStroage.GetStateHash`
-  * Bloom filter
-    * Set H(1,tx_id) for each transaction's tx_id (concat byte with value 0x01 with tx_id and insert)
-
-&nbsp;
-## `ValidateTransactionsBlock` (method) <!-- tal can finish -->
-
-> Performed upon request from the algorithm recieving a block proposal.
-
-* If not synchronized with block height (has the last block header), don't participate and fail.
-
-#### Approve transactions for processing
-* Check that the transactions were not expired. Transaction is considered expired if transaction timestamp > current timestamp + expiration window.
-* Call `TransactionPool.ValidateTransactionsForOrdering` to validate PreOrder checks and no duplication.
-
-### Ordering Block Checks
-* Check protocol verison
-* Check that virtual chain matches consensus virtual chain
-* Check block_height = previous block_height + 1
-* Check prev_block_hash = SHA256(Block header(previously committed block))
-* Check time_stamp within +/-2sec of local timestamp, and time_stamp > previous commited block.time_stamp
-* Check transaction merkle root hash
-* Check Metadata hash
-
-* If one of the Transactions Block checks fails, return INVALID status, else return VALID.
-
-&nbsp;
-## `ValidateResultsBlock` (method) <!-- tal can finish -->
-
-* If not synchronized with block height (has the last block header), don't participate and fail.
-
-* Check protocol verison
-* Execute the trasnactions in the transactions Block by calling `VirtualMachine.ProcessTransactionSet`, creating receipts and a state diff.
-  * Compare the receipts merkle root and state diff hash. (Supports only determistic execution)
-* Check that virtual chain matches consensus virtual chain
-* Check block_height = previous block_height + 1
-* Check prev_block_hash = SHA256(Block header(previously committed block))
-* Check time_stamp within +/-2sec of local timestamp, and time_stamp > previous commited block.time_stamp
-* Check ordering block hash.
-* Check state merkle root hash equal local state merkle root hash (before executing the block). Get the state hash by calling `StateStroage.GetStateHash`
-
-* If one of the Results Block checks fails, return INVALID status, else return VALID.
+-->

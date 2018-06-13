@@ -1,5 +1,7 @@
 # Consensus Algo
 
+<!-- TODO has configuration for block size and for committee size -->
+
 Implements a raw consensus algorithm. The system supports pluggable consensus, meaning multiple consensus algorithms running side by side on different virtual chains. Abstracts away the details of how the consensus algorithm works and provides the system with a single unified interface.
 
 Controls and drives the timing of consensus, for example when new blocks are committed or when new blocks need to be proposed and populated with transaction from the pool.

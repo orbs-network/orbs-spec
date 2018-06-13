@@ -144,8 +144,8 @@ Currently a single instance per virtual chain per node.
   * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).
   * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window (eg. 30 min) plus small grace (eg. 5 sec).
 * For each relevant block, look for the transaction in the block header's bloom filters:
-  * The transaction timestamp in the timestamp bloom filter.
-  * The transaction `tx_id` in the id bloom filter.
+  * The transaction timestamp in the timestamp bloom filter (see block format for structure).
+  * The transaction `tx_id` in the id bloom filter (see block format for structure).
   * On match, fetch the block and search for the `tx_id` in the block receipts.
       * If found, returns the receipt.
 * If not found on all relevant blocks, return an empty result.

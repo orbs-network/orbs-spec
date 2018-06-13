@@ -1,6 +1,8 @@
 # Shared Configuration
 
-Configuration is an in-memory object given to every service on initialization. The object can be created based on static configuration files but will ultimately transition to being controlled by the management virtual chain via smart contracts.
+Configuration is an in-memory object given to every service on initialization. The object can be created based on static configuration files but will ultimately be controlled by the management virtual chain via smart contracts.
+
+Since the system must remain backwards compatible forever (able to audit the old blocks in the chain), changes in configuration can only take place from a certain block height. Until that block height is reached, the original configuration must remain in the system. One way to implement this is place the entire configuration dictionary as a key of a parent map containing block ranges.
 
 #### Virtual chain
 
@@ -9,6 +11,23 @@ Configuration is an in-memory object given to every service on initialization. T
   "virtual-chain-id": "0x803E2207"
 }
 ```
+
+#### Federation nodes
+
+```json
+{
+  "nodes": {
+    "0x20F082AA2BC5": {
+      "reputation": 10
+    },
+    "0x81CC82AA2BC5": {
+      "reputation": 10
+    }
+  }
+}
+```
+
+* Keys are node ids (node public keys) encoded in hex.
 
 #### Topology
 
@@ -35,7 +54,7 @@ Configuration is an in-memory object given to every service on initialization. T
 }
 ```
 
-* Node IDs are node public keys encoded in hex
+* Node topology keys are node ids (node public keys) encoded in hex.
 
 #### Transaction expiration
 
