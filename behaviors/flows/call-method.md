@@ -11,9 +11,9 @@ This read is not under consensus. Multiple reads can take place at the same time
 * Client
   * `ClientSdk`
 
-* Receiving node
+* Gateway node
   * `PublicApi`
-  * `ConsensusContext`
+  * `BlockStorage`
   * `VirtualMachine`
   * `Processor`
   * `StateStorage`
@@ -21,27 +21,18 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 ## Assumptions for successful flow
 
-* `ConsensusContext` is synchronized to somewhat latest block.
+* `BlockStorage` is synchronized to somewhat latest block.
 
 ## Flow
 
 * `ClientSdk` sends request to `PublicApi`.
 
-* `PublicApi` of receiving node:
-  * Retains session info so the response will eventually arrive to this client.
-  * Performs inexpensive checks on the call.
-  * Prepares a batch of some calls for execution.
-  * Marks the batch with the latest block height by calling `ConsensusContext.GetTopBlockHeight`.
-  * Sends the transactions for execution by calling `VirtualMachine.CallContract`.
+* `PublicApi` of gateway node:
+  * Gets the block height for the call from `BlockStorage`.
+  * Sends the call for execution in `VirtualMachine`.
 
-* `VirtualMachine` of receiving node:
-  * Checks the sender signature.
-  * Executes the smart contract on the relevant `Processor`.
-  * Reads relevant state for execution from `StateStorage` or `CrosschainConnector`.
-  * Returns the batch results to `PublicApi`.
+  * `VirtualMachine` of gateway node:
+    * Executes the smart contract on the relevant `Processor`.
+    * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
 
-* `PublicApi` of receiving node responds to the client.
-
-## Flow diagram
-
-TODO
+  * Responds to the client.

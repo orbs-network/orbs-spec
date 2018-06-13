@@ -55,23 +55,23 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [System Init](behaviors/flows/system-init.md)
 
-  Node and all services init (fresh start or after a restart)
+  Node and all services init (fresh start or after a restart).
 
 * [Call Method](behaviors/flows/call-method.md)
 
-  Client calls a read-only method of a service (not under consensus)
+  Client calls a read-only method of a service (not under consensus).
 
 * [Send Transaction](behaviors/flows/send-transaction.md)
 
-  Client sends a transaction that may write to state of a service (under consensus)
+  Client sends a transaction that may write to state of a service (under consensus).
 
-* [Transaction Status](behaviors/flows/transaction-status.md)
+* [Get Transaction Status](behaviors/flows/transaction-status.md)
 
-  Client queries regarding the status and receipt of an old transaction
+  Client queries regarding the status and receipt of an old transaction.
 
 * [Block Creation](behaviors/flows/block-creation.md)
 
-  The main continuous flow of consensus where blocks are created from pooled transactions
+  The main continuous flow of consensus where blocks are created from pooled transactions.
 
 * [Inter Node Sync](behaviors/flows/inter-node-sync.md)
 

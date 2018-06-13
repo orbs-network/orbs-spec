@@ -19,7 +19,8 @@
 
 ## Flow
 
-* `BlockStorage` identifies that it out of sync (no blocks are committed for some time).
+* `BlockStorage` of the original node:
+  * Identifies that it out of sync (no blocks are committed for some time).
   * Broadcasts a sync request to all nodes with `Gossip`.
 
 * `BlockStorage` of all nodes willing to help respond if they have missing blocks.

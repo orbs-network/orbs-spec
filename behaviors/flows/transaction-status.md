@@ -1,40 +1,36 @@
-# Transaction Status Flow <!-- tal will finish -->
+# Get Transaction Status Flow
 
-The client queries the status for a transaction. (tx_id and timestamp)
+The client queries the status for a previously sent transaction by providing its `tx_id` and timestamp (that was found inside the transaction itself).
 
 The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. This read does not require an active subscription on the virtual chain.
 
-This query is performed on the receiving node and does not requrie a consensus or communication with other nodes.
-
-Returns the tarnsaction receipt for committed transactions, otherwise returns the transaction status.
+This read is not under consensus. Multiple queries can take place at the same time as this is fully parallel.
 
 ## Participants in this flow
 
 * Client
   * `ClientSdk`
 
-* Receiving node
+* Gateway node
   * `PublicApi`
-  * `Transaction Pool`
-  * `Block Storage`
+  * `TransactionPool`
+  * `BlockStorage`
 
 ## Assumptions for successful flow
+
+* `BlockStorage` is synchronized to latest committed block.
 
 ## Flow
 
 * `ClientSdk` sends query to `PublicApi`.
 
-* `PublicApi` of receiving node:
-  * Retains session info so the response will eventually arrive to this client.
-  * Check the transaction timestamp, verifying that it's not a future transaction plus grace (eg. 5 seconds).
-  * Queries the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
-    * If found returns PENDING, if committed return COMMITTED with the receipt.
-  * Queries the block storage by calling `BlockStorage.GetTransactionReceipt`.
-    * If found returns COMMITTED with the receipt, else returns NO_RECORD_FOUND.
+* `PublicApi` of gateway node:
+  * Looks for the transaction in `TransactionPool`.
+  * If not found, looks for transaction in `BlockStorage`.
 
-* `BlockStorage`
-  * Go over all the bloom filters in the blocks where the transaction could be, based on its timestamp and the configurable time_window.
-    * Lookup the transaction timestamp in the block header timestamp bloom filter and the tx_id in the block header tx_id bloom filter.
-    * On match, fetchs the block and search the tx_id in the block receipts.
-        * If found, returns the receipt
-  * If not found on all relevant blocks, returns NULL.
+  * `BlockStorage` of gateway node:
+    * Goes over all the blocks where the transaction could be found according to timestamp (and expiration window).
+    * For each block looks for the transaction in the timestamp and id bloom filters.
+    * If found, searches for the `tx_id` in the block receipts.
+
+  * Responds to the client.

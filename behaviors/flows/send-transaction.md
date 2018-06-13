@@ -32,37 +32,35 @@ Transaction is processed under consensus (this is part of the [continuous block 
 
 * `ClientSdk` sends request to `PublicApi`.
 
-* `PublicApi` of receiving node:
-  * Retains session info so the response will eventually arrive to this client.
-  * Performs inexpensive checks on the transaction.
-  * Sends the transaction to `TransactionPool`.
+* `PublicApi` of gateway node:
+  * Adds the transaction as pending to `TransactionPool`.
 
-* `TransactionPool` of receiving node:
-  * Performs inexpensive checks on the transaction.
-  * Executes pre order checks by calling `VirtualMachine.TransactionSetPreOrder`.
+  * `TransactionPool` of gateway node:
+    * Executes pre order checks by calling `VirtualMachine`.
 
-* `VirtualMachine` of receiving node:
-  * Checks the sender signature.
-  * Executes the subscription check smart contract on the native `Processor`.
-  * Reads relevant state for execution from `StateStorage` or `CrosschainConnector`.
+    * `VirtualMachine` of gateway node:
+      * Executes the subscription check smart contract on the native `Processor`.
+      * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
 
-* `TransactionPool` of receiving node:
-  * Adds transactions to pending transaction pool.
-  * Prepares a batch of transactions for gossip and signs them as their gateway.
-  * Broadcasts the batch to all nodes with `Gossip`.
+    * Adds transaction to pending transaction pool.
+    * Prepares a batch of transactions for gossip and signs them as their gateway.
+    * Broadcasts the batch to all nodes with `Gossip`.
 
-* `Gossip` of all nodes:
-  * Checks the batch signature of the gateway.
-  * Adds transactions to pending `TransactionPool` and affiliates them with their gateway.
+    * `TransactionPool` of all nodes:
+      * Checks the batch signature of the gateway and adds transactions to pending pool.
+      * The transaction is now waiting to be added to a block ([continuous block creation flow](block-creation.md)).
+      * After it was added, it's deleted from pending pool of all nodes.
 
-* The transaction is now waiting to be added to a block ([continuous block creation flow](block-creation.md)).
-  * After it was added, it's deleted from pending `TransactionPool` of all nodes.
-  * The `TransactionPool` of receiving node returns the result to `PublicApi`.
+    * Returns the result to `PublicApi`.
 
-* `PublicApi` of receiving node responds to the client.
+  * Responds to the client.
 
+
+<!--
+TODO: oded add the diagrams again
 ## Send Transaction Flow Diagram
 
 ![alt text][send_transaction_flow] <br/><br/>
 
 [send_transaction_flow]: ../_img/send_transaction_flow.png "Send transction"
+-->
