@@ -1,0 +1,38 @@
+# flows/send-transaction.md
+
+title Send transaction
+participant GW Client SDK
+participant GW Public API
+participant GW Transaction Pool
+participant GW Virtual Machine
+participant GW Gossip
+participant Nodes Gossip
+participant Nodes Transaction Pool
+
+GW Client SDK->GW Public API: Send Transaction
+note over GW Public API
+    Basic transaction checks
+    Maintain Session Info
+end note
+GW Public API->GW Transaction Pool: Send Transaction
+note over GW Transaction Pool
+    Perfroms Transaction Checks
+end note
+GW Transaction Pool->+GW Virtual Machine: Execute Pre-Order
+note over GW Virtual Machine
+    Executes PreOrder
+    Reads state as needed
+end note
+GW Virtual Machine-->-GW Transaction Pool: Valid
+note over GW Transaction Pool
+    Add to pending pool
+    Batch transactions for gossip and sign
+end note
+GW Transaction Pool->GW Gossip: SendMessage (broadcast)
+GW Gossip-->Nodes Gossip: ForwardedTransactions
+
+Nodes Gossip->Nodes Transaction Pool: MessageReceived
+note over Nodes Transaction Pool
+    Checks originator signature
+    Add to pending pool
+end note
