@@ -14,11 +14,17 @@ We currently support leader-based consensus algorithms, meaning a leader [node](
   * `Processor`
   * `StateStorage`
   * `CrosschainConnector`
-  * `Gossip`
   * `BlockStorage`
+  * `Gossip`
 
 * All nodes
   * `ConsensusAlgo`
+  * `ConsensusContext`
+  * `BlockStorage`
+  * `StateStorage`
+  * `TransactionPool`
+  * `Gossip`
+  * `PublicApi`
 
 ## Assumptions for successful flow
 
