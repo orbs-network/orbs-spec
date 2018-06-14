@@ -37,12 +37,23 @@ message TransactionsBlockBody {
 }
 
 message TransactionsBlockProof {
-  Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
-  repeated BlockProof block_signature = 2;
+  Bytes block_proof = 1;
+  //Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
+  //repeated BlockProof block_signature = 2;
   //SHA256 transactions_header_hash = 3; - TBD clarifies the validation.
 }
 
-message BlockProof {
+message LiteHelixBlockProof { // move to Lite-Helix file
+  Uint8 opaque_message_type = 1; // COMMIT
+  Uint64 block_height = 2;
+  Uint64 view = 3;
+  Uint256 block_hash_mask = 4;
+  Uint256 block_hash = 5;
+  repeated BlockSiganture block_signatures = 6;
+  BLSAggregatedSignature random_seed_signature = 7;
+} 
+
+message BlockSiganture {
   Ed25519PKey public_key = 1;
   Ed25519Sig signature = 2;
 }
