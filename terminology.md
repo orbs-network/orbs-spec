@@ -4,6 +4,8 @@
 
 * `virtual chain` - An isolated virtual blockchain that can hold multiple deployed services (smart contracts) and their entire persistent state. Different virtual chains are isolated from one another, rely on different resources and thus can be scaled horizontally. A single node participates in the consensus process of multiple virtual chains (ideally all of them).
 
+* `committee` - In the context of consensus, a committee is a group of nodes chosen to work together on closing a specific block in the chain. The committee is normally smaller than the total number of nodes in the network. Consensus algorithms such as Helix change committees on every block. Helix even randomizes the committee in an unpredictable way.
+
 * `service` - This term is used in two contexts:
 
   * `micro service` - An architectural unit of software used to split a node to its basic building blocks. Each service has a clear responsibility over some part of node operation. The node code base is divided into independent sub projects implementing each of the services. Different services inside a node trust each other. If the node is compromised, we can assume all of its services are compromised. The public methods of a micro service can only be called by other micro services inside the node, they are not exposed externally to entities outside the node.

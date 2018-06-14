@@ -12,6 +12,7 @@
 * Helpers
   * `Gossip`
   * `ConsensusAlgo`
+  * `ConsensusContext`
 
 ## Assumptions for successful flow
 
@@ -19,13 +20,16 @@
 
 ## Flow
 
-* `BlockStorage` of the original node:
+* `BlockStorage` of the out of sync node:
   * Identifies that it out of sync (no blocks are committed for some time).
   * Broadcasts a sync request to all nodes with `Gossip`.
 
 * `BlockStorage` of all nodes willing to help respond if they have missing blocks.
 
-* `BlockStorage` of the original node:
+* `BlockStorage` of the out of sync node:
   * Chooses randomly one of the nodes to synchronize with.
   * Starts a batched synchronization process with it through `Gossip`.
   * Validates the consensus of every untrusted block it receives with `ConsensusAlgo`.
+
+  * `ConsensusAlgo` of the out of sync node:
+    * Gets the block's committee from `ConsensusContext` and verifies the block proofs.
