@@ -1,4 +1,4 @@
-# Orbs Core Specification
+# Orbs Core Protocol Specification
 
 V1 release
 
