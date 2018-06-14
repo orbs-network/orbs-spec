@@ -1,3 +1,3 @@
-# Orbs Core Specification
+# Orbs Core Protocol Specification
 
 Alpha release
