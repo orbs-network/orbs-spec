@@ -8,6 +8,37 @@ V1 release
 Definitions of terms like `node`, `service`, `committee`. Available [here](terminology.md).
 
 &nbsp;
+## High level flows
+
+* [System Init](behaviors/flows/system-init.md)
+
+  Node and all services init (fresh start or after a restart).
+
+* [Call Method](behaviors/flows/call-method.md)
+
+  Client calls a read-only method of a service (not under consensus).
+
+* [Send Transaction](behaviors/flows/send-transaction.md)
+
+  Client sends a transaction that may write to state of a service (under consensus).
+
+* [Get Transaction Status](behaviors/flows/transaction-status.md)
+
+  Client queries regarding the status and receipt of an old transaction.
+
+* [Block Creation](behaviors/flows/block-creation.md)
+
+  The main continuous flow of consensus where blocks are created from pooled transactions.
+
+* [Inter Node Sync](behaviors/flows/inter-node-sync.md)
+
+  Block synchronization between nodes.
+
+* [Intra Node Sync](behaviors/flows/intra-node-sync.md)
+
+  Block synchronization between services inside a node.
+
+&nbsp;
 ## Services
 
 * [Public Api](behaviors/services/public-api.md)
@@ -49,34 +80,3 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 * [Cross-chain Connector](behaviors/services/crosschain-connector.md)
 
   Runs nodes for other blockchains like Ethereum and provides read access to them.
-
-&nbsp;
-## High level flows
-
-* [System Init](behaviors/flows/system-init.md)
-
-  Node and all services init (fresh start or after a restart).
-
-* [Call Method](behaviors/flows/call-method.md)
-
-  Client calls a read-only method of a service (not under consensus).
-
-* [Send Transaction](behaviors/flows/send-transaction.md)
-
-  Client sends a transaction that may write to state of a service (under consensus).
-
-* [Get Transaction Status](behaviors/flows/transaction-status.md)
-
-  Client queries regarding the status and receipt of an old transaction.
-
-* [Block Creation](behaviors/flows/block-creation.md)
-
-  The main continuous flow of consensus where blocks are created from pooled transactions.
-
-* [Inter Node Sync](behaviors/flows/inter-node-sync.md)
-
-  Block synchronization between nodes.
-
-* [Intra Node Sync](behaviors/flows/intra-node-sync.md)
-
-  Block synchronization between services inside a node.
