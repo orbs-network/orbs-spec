@@ -1,130 +1,138 @@
 # Virtual Machine
 
-Executes service methods (smart contracts) using various processors (languages) and produces state difference as a result.
+Executes [deployed service](../../terminology.md) methods (smart contracts) using various processors (languages) and produces state difference as a result.
 
 Currently a single instance per virtual chain per node.
 
+#### Interacts with services
+
+* `Processor` - Uses it to actually execute the smart contract method calls.
+* `StateStorage` - Reads deployments from state and provides API for contracts to read from state.
+
 &nbsp;
-## `Data Structures` <!-- tal will finish -->
+## `Data Structures`
 
-#### Transient State
-  * Stores temporary state changes during transaction set execution (until state diff is committed).
-  * Relevant for ReadWrite methods only.
-  * Contains state diff (possibly for multiple services).
-  * Format is identical to the state store data structure in `StateStorage`.
+#### Transient state
+* Stores temporary state changes during transaction set execution (until state diff is committed).
+* Relevant for `ReadWrite` methods only.
+* Contains state diff (possibly for multiple services).
+* Format is identical to the state store data structure in `StateStorage`.
 
-#### Transaction Context
-* Allocated for each Transaction or LocalMethod execution.
-* ReadOnly / ReadWrite
-  * RO context can not modify state, allocated for LocalMethod execution.
-  * RW context incldues a transient state cache.
-* Service stack
+#### Execution context
+* Allocated for each Transaction or LocalMethod execution in the `VirtualMachine`.
+* Specified as `ReadOnly` or `ReadWrite`.
+  * `ReadOnly` context cannot modify state, allocated for LocalMethod execution.
+  * `ReadWrite` context can modify state, includes a transient state cache.
+* Service stack.
   * Top of the stack indicates the current service address space for the context.
-* Transaction transaient state.
-  * Relevant for ReadWrite methods only.
-* Batch Transient state pointer.
-  * Relevant for ReadWrite methods only.
-
-&nbsp;
-## `Signature Schemes`
-
-#### Address Scheme 01
-* Check Ed25519 signature over the transaction header.
-
-&nbsp;
-## Init
-
-* deploy the native `_Deployments` service
+  * When we nest service calls, the address space changes.
+* Transaction transient state.
+  * Every transaction must maintain its own temporary transient state since it can fail (and then rollback its writes).
+  * Relevant for `ReadWrite` execution contexts only.
+* Batch transient state pointer (points to the batch transient state which is defined outside the execution context).
+  * The combined transient state of the entire batch (normally an entire block of transactions).
+  * Relevant for `ReadWrite` execution contexts only.
 
 &nbsp;
 ## `RunLocalMethod` (method)
 
-> Execute a read only method and return its result (not under consensus).
+> Executes a read only method of a deployed service and returns its result (not under consensus).
 
 #### Prepare for execution
-* Validate the call signature according to signature scheme.
+* If signed, validate the call signature according to the signature scheme (see transaction format for structure).
 * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
   * The key is hash(`<service-name>.Processor`).
-  * If the service processor is not found, fail.
-* Allocate a Transaction Context:
-  * ReadOnly (RunLocalMethod cannot update state)
-  * No transient state.
+  * If the service is not found, fail.
+* Allocate an execution context:
+  * `ReadOnly` (cannot update state since not under consensus).
+  * No transient state (no transaction transient state and no batch transient state).
 
-#### Execute
-* Push service to the context service stack.
+#### Execute method call
+* Push service to the execution context's service stack.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
-  * Execution permissions are checked by the processor.
-* Pop service from the content service stack.
+  * Note: Execution permissions are checked by the processor.
+* Pop service from the execution context's service stack.
 * Return result.
 
 &nbsp;
 ## `ProcessTransactionSet` (method)
 
-> Process a group of transactions together that update state and return the combined state diff.
+> Processes a batch of transactions on deployed services together. The transactions may update state so returns the combined state diff.
 
-### Prepare for execution
-* Allocate a ReadWrite batch transient state that will hold updated state temporarily (across all transactions).
+### Prepare for the batch
+* Allocate a batch transient state that will hold updated state (across all transactions in the batch).
 
-### Execute transactions
+### Execute all transactions
 * Go over all transactions in the set (in order) and for each one:  
 
-#### Identify Processor
+#### Prepare for execution (each transaction)
 * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
   * The key is hash(`<service-name>.Processor`).
   * If the service is not found, try to deploy it (only relevant for native services):
-    * Check if it's a native service by calling the `Native` processor's `Processor.DeployService`.
+    * Check if it's a native service by calling the `Native` processor's `Processor.DeployNativeService`.
+* Allocate an execution context:
+  * `ReadWrite` (can update state since under consensus).
+  * New transaction transient state and pointer to the batch transient state.
 
-#### Allocate transaction context
-* Allocate a RW transaction context with a transient state cache that will hold the transaction speculative state diff.
+#### Execute method call (each transaction)
+* Push service to the execution context's service stack.
+* Execute the service method on the correct processor by calling `Processor.ProcessCall`.
+  * Note: Execution permissions are checked by the processor.
+* Pop service from the execution context's service stack.
+* If the transaction was successful, apply the transaction transient state to the batch transient state.
+* Remember the result of the method call and generate a transaction receipt.
 
-#### Execute transaction
-* Execute the service methods by calling `Processor.ProcessCall`
-* If the execution was completed successfuly, apply the transaction transient state to the batch transient state.
-* Maintain the result of the call method and generate a transaction receipt.
-
-#### Prepare combined state diff - TODO.
-* Retrieve the changes between the transient state cache and the original state.
+#### Prepare combined state diff
+* Retrieve the changes between the batch transient state and the original state.
 * Encode changes as state diff.
 
 &nbsp;
 ## `TransactionSetPreOrder` (method)
-> Approve transactions before allowing them to go through ordering
 
-#### Check transaction signature
-* Check the signature according to supported signature schemes, return `INVALID_SIGNATURE` on mismatch.
-* Return `INVALID_ADDRESS_SCHEME` for unsupported signature schemes.
+> Approves transactions before allowing them to go through ordering (the virtual chain subscription is checked here for example).
 
-#### Check subscription
-* Execute the platform pre order smart contract on the native processor.
-* If the contract fails, return `NOT_APPROVED` and the return string from the contract (like `SUBSCRIPTION_ERROR`).
+#### Check transaction signatures
+* Check the transaction signatures according to the supported signature schemes (see transaction format for list).
+* Fail if unsupported signature scheme.
+
+#### Run system contract
+* Approve the transaction execution on a global system level (level 1/3).
+  * Approval on the virtual chain level (level 2/3) not supported yet.
+  * Approval on the smart contract level (level 3/3) not supported yet.
+* Run system smart contract `_GlobalPreOrder.Approve` by calling the `Native` processor's `Processor.ProcessCall`.
 
 &nbsp;
 ## `SdkCall` (method)
 
-> Calls an Sdk method executed by the VM. The supported Sdk calls are described in [VM Sdk calls](native.md)
+> Implements a smart contract SDK method. Called by the processor whenever it is unable to implement the SDK method itself and requires data from the system. Supported SDK calls are described [here](../smart-contracts/sdk/api.md).
 
-#### `CallServiceMethod`
+#### `Service.CallMethod`
 
-> Calls a method of another service for execution.
+> Calls a method of another service on the virtual chain.
 
-* Retrieve the services (NameSpace) code and metadata by calling `StateStorage.ReadKeys`
-* Validate that the called methods exist and have appropriate permissions for execution.
-* If the called method is executed by the same processor
-  * Return same_processor_execution = TRUE, output_argument = NULL.
-* If the called method is executed by a different processor
-  * Call a `Processor.ProcessCallSet` with the relevant method and retrun the output arguments.
+* Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
+  * The key is hash(`<service-name>.Processor`).
+  * If the service is not found, try to deploy it (only relevant for native services):
+    * Check if it's a native service by calling the `Native` processor's `Processor.DeployNativeService`.
+* Push service to the execution context's service stack.
+* Execute the service method on the correct processor by calling `Processor.ProcessCall`.
+  * Note: Execution permissions are checked by the processor.
+* Pop service from the execution context's service stack.
+* Return result.
 
-#### `CallLibraryMethod`
-> Calls a method of another service for execution.
-* Retrieve the services (NameSpace) code and metadata by calling `StateStorage.ReadKeys`
-* Validate that the called methods exist and have appropriate permissions for execution.
-* If the called method is executed by the same processor
-  * Return same_processor_execution = TRUE, output_argument = NULL.
-* If the called method is executed by a different processor
-  * Call a `Processor.ProcessCallSet` with the relevant method and retrun the output arguments.
+#### `State.Read`
 
-#### `StateReadKeys`
-TODO, check transaction transient state first, if not present, check the batch transient state.
+> Reads a variable from the state of the service.
 
-#### `StateWriteKeys`
-TODO, write to the transaction transient state.
+* Identify the service we're reading from, it's the top of the execution context's service stack.
+* Try to read the variable from the transaction transient state (if found there).
+* If not found, try to read the variable from the batch transient state (if found there).
+* If not found, read the variable from state storage by calling `StateStorage.ReadKeys`.
+
+#### `State.Write`
+
+> Writes a variable to (transient) state of the service.
+
+* Make sure the execution context is `ReadWrite` and we have a transient state.
+* Identify the service we're writing to, it's the top of the execution context's service stack.
+* Write the variable to the transaction transient state.

@@ -32,11 +32,11 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 
 * [Virtual Machine](behaviors/services/virtual-machine.md)
 
-  Executes service methods (smart contracts) using various processors
+  Executes service methods (smart contracts) using various processors and produces state difference as a result.
 
 * [Processor](behaviors/services/processor.md)
 
-  Executes a stream of transactions in an isolated environment (in a specific language)
+  Stateless execution engine for smart contract methods in an isolated environment (multiple languages supported).
 
 * [Block Storage](behaviors/services/block-storage.md)
 

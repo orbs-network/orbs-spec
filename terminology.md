@@ -14,6 +14,6 @@
 
 * `smart contract` - Code that is deployed by an app developer and executes on the virtual machine of the node. The main purpose of the network is to execute these smart contracts under consensus. Made of multiple methods. Smart contract can be a service (self contained app) or a library (utility code that has no address space of its own).
 
-* `library` - A smart contract (deployed code which contains multiple methods) that does not have an address space of its own and provides shared utilities to other smart contracts who can execute it.
+* `library` - A smart contract (deployed code which contains multiple methods) that does not have an address space of its own and provides shared utilities to other smart contracts who can execute it. If it manipulates state, it will change the state of the deployed service calling it.
 
 * `block height` - The block number in the blockchain. Since the blockchain is made of a linked list of blocks, each block has a sequence number. The genesis block on virtual chains is empty, its block height is `0`. This means the first meaningful block is numbered `1`.
