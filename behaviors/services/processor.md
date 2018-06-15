@@ -68,6 +68,7 @@ Currently a single instance per virtual chain per node.
 #### Native smart contracts
 * Make sure a native smart contract exists with the service name.
 * Run system smart contract `_Deployments.Deploy` by calling the `Native` processor's `Processor.ProcessCall`.
+  * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md).
 
 
 <!-- TODO: oded add the diagrams again
