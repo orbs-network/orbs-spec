@@ -56,6 +56,10 @@ message Blob {
     bytes value = 1;
 }
 
+message BLSSignature {
+    bytes value = 1;
+}
+
 message BLSAggregatedSignature {
     bytes value = 1;
 }

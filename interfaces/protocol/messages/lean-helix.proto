@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/blocks.proto";
+
+message LeanHelixMessage {
+  //TODO, include topic and protocol version in signature?
+  LeanHelixHeader header = 1;
+  Ed25519Sig header_signature = 2;
+  oneof payload {
+    PrePreparePayload pre_prepare_payload = 3;
+    PreparePayload prepare_payload = 4;
+    CommitPayload commit_payload = 5;
+    ViewChangePayload viewchange_payload = 6;
+    NewViewPayload newview_payload = 7;
+  }
+}
+
+message LeanHelixHeader {
+  LeanHelixMessageType message_type = 1;
+  Uint64 block_height = 2;
+  Uint64 view = 3;
+  SHA256 data_hash = 4; 
+  /* data_hash values:
+  PRE_PREPARE: block_hash
+  PREPARE: block_hash
+  COMMIT: block_hash
+  VIEW_CHANGE: prepared_proof_hash
+  NEW_VIEW: SHA256({New_view_proof, nvpp_signature})
+  */
+  Ed25519PKey sender_public_key = 5;
+}
+
+enum LeanHelixMessageType {
+  PRE_PREPARE = 0;
+  PREPARE = 1;
+  COMMIT = 2;
+  VIEW_CHANGE = 3;  
+  NEW_VIEW = 4;
+}
+
+message PrePreparePayload {
+  Bytes block_pair = 1;
+}
+    
+message PreparePayload {
+  // empty
+}
+  
+message CommitPayload {
+  BLSSignature random_seed_share = 1;
+}
+
+message ViewChangePayload
+  PreparedProof prepared_proof = 1;
+  Bytes block_pair = 2;
+}
+
+message PreparedProof {
+  repeated LeanHelixHeader prepre_pp_headers = 1;
+  repeated Ed25519Sig prepre_pp_signature = 2;  
+}
+
+message NewViewPayload {
+  NewViewProof new_view_proof = 1;
+  LeanHelixMessage nv_pre_preprepare = 2;
+}
+  
+message NewViewProof {
+  repeated LeanHelixHeader view_change_header = 1;
+  repeated Ed25519Sig view_change_header_signature = 2;
+}
+  
+/*
+// Lean Helix Consensus Messages
+message LeanHelixMessage {
+  // TOOO, move message_type, including it in the signature
+  oneof lean_helix_message {
+    PrePrepare pre_prepare = 1;
+    Prepare prepare = 2;
+    Commit commit = 3;
+    ViewChange view_change = 4;
+    NewView new_view = 5;
+  }
+}
+
+enum LeanHelixMessageType {
+  PRE_PREPARE = 0;
+  PREPARE = 1;
+  COMMIT = 2;
+  NEW_VIEW = 3;
+  VIEW_CHANGE = 4;  
+}
+
+message PrePrepare {
+  CommitPreparePPMessageHeader pre_prepare_header = 1;
+  Ed25519Sig header_signature = 1;
+  Bytes block_pair = 3;
+}
+  
+message Prepare {
+  CommitPreparePPMessageHeader prepare_header = 1;
+  Ed25519Sig header_signature = 2;
+}
+
+message Commit {
+  CommitPreparePPMessageHeader commit_header = 1;
+  Ed25519Sig header_signature = 2;
+  BLSSignature random_seed_share = 3;
+}
+
+message ViewChange {
+  ViewChangeHeader view_change_header = 1;
+  Ed25519Sig header_signature = 2;
+  Bytes block_pair = 3;
+}
+
+message NewView {
+  NewViewProof new_view_header = 1;
+  Ed25519Sig header_signature = 2;
+  Bytes block_pair = 3;
+}
+
+message CommitPreparePPMessageHeader {
+  LeanHelixMessageType message_type = 1;
+  Uint64 block_height = 2;
+  Uint64 view = 3;
+  SHA256 block_hash = 4;
+  Ed25519PKey sender_public_key = 5;
+}
+
+message ViewChangeHeader {
+  LeanHelixMessageType message_type = 1;
+  Uint64 block_height = 2;
+  Uint64 view = 3;
+  PreparedProof prepared_proof = 4;
+  Ed25519PKey sender_public_key = 5;
+}
+
+message NewViewHeader {
+  LeanHelixMessageType message_type = 1;
+  Uint64 block_height = 2;
+  Uint64 view = 3;
+  NewViewProof new_view_proof = 4;
+  Ed25519PKey sender_public_key = 5;
+}
+
+message PreparedProof {
+  repeated CommitPreparePPMessageHeader prepre_pp_headers = 1;
+  repeated Ed25519Sig view_change_header_signature = 2;  
+}
+
+message NewViewProof {
+  repeated ViewChangeHeader view_change_header = 1;
+  repeated Ed25519Sig view_change_header_signature = 2;
+}
+
+*/

@@ -1,22 +1,19 @@
 # Lean Helix Spec
 > PBFT absed algorithm with rotating leader randomly selected for each term based on a verifiable random function.
 
-## Assumptions
-* PRE_PREPARE and COMMIT messages are broadcasted all nodes.
+## Design details
 * All nodes particiapte in every committee, no `OnCommitBlockOutsideCommittee` flow.
+* PRE_PREPARE and COMMIT messages are broadcasted all nodes.
 * A random seed for a block / round is calcualted by a hash on the aggregated threshold signature of the previous block random seed.
-  * The threshold signatrues are passed as part of the commit messaage.
+  * The threshold signatrues are passed as part of the COMMIT messaage.
   * The threshold is set to 2f+1.
-* The consensus algo only keeps PBFT logs of the present {block_height, view}, a sync of the blockchain history is perfromed by node sync. 
+* The consensus algo only keeps PBFT logs of the current block_height, a sync of the blockchain history is perfromed by node sync. 
 * View Change of prepared node incldus the candidate block
   * May add a request / response emssage as optimization
-* New View includes all the view change proofs
+* New View includes all the view change proofs and a signed NV_PRE_PREPARE
   * May add an optimization to avoid n^2 signatures in new view
-* New View includes the block => PrePrepare is only received in View 0.
 * COMMIT messages are accepted even if not in Prepared state, Commit_locally requires to be in Prepared state.
-* COMMIT of earlier views are not be accepted. - TBD accepted only of committed database valid
-* The threshold signature is included in the COMMIT message
-* Log COMMIT messages of any view, participate in the highest valid view.
+* Accept COMMIT of earlier views. Accept other messages and participate only in the highest valid view.
 
 ## Messages
 * PRE_PREPARE - sent by the leader, incldues a block proposal, view, term, sig{message type, hash, view, term}
@@ -66,7 +63,13 @@
 
 &nbsp;
 ## `OnInit`
-TODO
+> Perfromed upon the service init
+* Read persistent data:
+  * my_state.Block_height
+  * my_state.View
+  * Candidate_block
+  * Candidate_block_hash
+  * Prepared_proof
 
 
 &nbsp;
@@ -85,6 +88,7 @@ TODO
 * my_state.Block_height = my_state.Block_height + 1
 * my_state.view = 0
 * my_state.Prepared_proof = {}
+* my_state.Prepared_block = {}
 * my_state.Candidate_block = {}
 
 #### `OnNewConsensusRound - Leader Only`
@@ -209,6 +213,7 @@ TODO
   * PP_proof = {PRE_PREPARE message.Sender, PRE_PREPARE message.Signature}
   * For each PREPARE
     * Prepare_proofs.add({PREPARE message.Sender, PREPARE message.Signature})
+* Prepared_block = PRE_PREPARE message.BlockPair.
 
 #### Check if Commited_localy
 * Check the log(View = message.view)
@@ -485,16 +490,28 @@ Note: a node may receive COMMIT messages of earlier views.
     * Call `OnPrepared`
 
 
-##
+&nbsp;
+## `AcknowledgeTransactionsBlockConsensus` and `AcknowledgeResultsBlockConsensus`
+<!-- TODO Consider to unify to a single function to prevent races -->
+> See consensus-algo.md, upon valid block
 
+#### Check Block_height
+* Ignore if recevied block_height <= my_state.block_height
 
-## Good Flow
+#### Triger the next block height round
+* Update my_state.Block_height = recevied block_height.
+* Cache the required fields from the block headers for the next round.
+* Clear all messages with block_height <= my_state.block_height from the log.
+* Initiate the next block height round by triggering `OnNewConsensusRound`.
 
-#### View Change
+&nbsp;
+## `GetCurrentLeader(ordered_committee, message.view)`
+> Returns the leader for the view
+* Return ordered_committee[View MOD ordered_committee size]
 
 
 ## Oded Questions
-1. What happens if my view < received view, should I drop or cache and process later ?
-2. "rpc" `GetCurrentLeader(ordered_committee, message.view)`.
-3. avoid sending blocks in VIEW_CHANGE, for example by V
-4. TODO - Remove pointers validation from Consensus Context
+1. avoid sending blocks in VIEW_CHANGE, for example by V
+2. TODO - Remove pointers validation from Consensus Context
+3. TODO - out of sync flow, reducing the amount of "zevel" transactions
+
