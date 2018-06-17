@@ -1,4 +1,4 @@
-# flows/send-transaction.md
+# 1. flows/send-transaction.md, Send transaction
 
 title Send transaction
 participant GW Client SDK
@@ -36,3 +36,114 @@ note over Nodes Transaction Pool
     Checks originator signature
     Add to pending pool
 end note
+
+
+# 2. flows/block-creation.md, Leader flow
+
+title Continuous Block Creation Flow - Leader node
+participant ConsensusAlgo
+participant ConsensusContext
+participant BlockStorage
+participant TransactionPool
+participant VirtualMachine
+participant StateStorage
+participant Gossip
+
+
+ConsensusAlgo-->+BlockStorage:GetBlockHeader
+BlockStorage-->-ConsensusAlgo:block header
+ConsensusAlgo->+ConsensusContext:RequestCommittee
+ConsensusContext->-ConsensusAlgo:ordered committee
+
+note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, VirtualMachine, StateStorage, Gossip
+  Leader node - Ordering Phase
+end note
+
+ConsensusAlgo->+ConsensusContext:RequestNewTransactionsBlock
+ConsensusContext->+TransactionPool:GetTransactionsForOrdering
+note over TransactionPool
+  Fetch transctions from pending
+  transactions pool
+end note 
+TransactionPool->+VirtualMachine:TransactionSetPreOrder
+note over VirtualMachine
+  Verifies signatrues and calls 
+  PreOrder smart contarct
+end note 
+VirtualMachine-->-TransactionPool:valid for ordering
+TransactionPool-->-ConsensusContext: transactions set
+note over ConsensusContext
+  Caches TransactionsBlock
+  for validation
+end note
+ConsensusContext-->-ConsensusAlgo:TransactionsBlock
+
+note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, VirtualMachine, StateStorage, Gossip
+  Leader node - Validation Phase
+end note
+
+ConsensusAlgo->+ConsensusContext:RequestNewResultsBlock\n(may be called before complition of ordering phase)
+ConsensusContext->+VirtualMachine:ProcessTransactionSet
+note over VirtualMachine
+  Executes the transactions
+end note 
+VirtualMachine-->-ConsensusContext:transaction receipts
+ConsensusContext->+StateStorage:GetStateHash
+StateStorage-->-ConsensusContext:state hash
+ConsensusContext-->-ConsensusAlgo:ResultsBlock
+ConsensusAlgo->Gossip:Boradcast message to all other nodes (LeanHelix PrePrepare)
+
+
+# 3. flows/block-creation.md, Non-leader flow
+
+title Continuous Block Creation Flow - Non-leader committee node
+participant ConsensusAlgo
+participant ConsensusContext
+participant BlockStorage
+participant TransactionPool
+participant VirtualMachine
+participant StateStorage
+participant Gossip
+
+
+ConsensusAlgo-->+BlockStorage:GetBlockHeader
+BlockStorage-->-ConsensusAlgo:block header
+ConsensusAlgo->+ConsensusContext:RequestCommittee
+ConsensusContext->-ConsensusAlgo:ordered committee
+
+note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, VirtualMachine, StateStorage, Gossip
+  Non-leader committee node - Ordering Phase
+end note
+
+ConsensusAlgo->+ConsensusContext:ValidateTransactionsForOrdering
+ConsensusContext->+TransactionPool:ValidateTransactionsForOrdering
+TransactionPool->+VirtualMachine:TransactionSetPreOrder
+note over VirtualMachine
+  Verifies signatrues and calls 
+  PreOrder smart contarct
+end note 
+VirtualMachine-->-TransactionPool:valid for ordering
+TransactionPool-->-ConsensusContext: valid
+note over ConsensusContext
+  Caches TransactionsBlock
+  for validation
+end note
+ConsensusContext-->-ConsensusAlgo:valid
+
+note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, VirtualMachine, StateStorage, Gossip
+  Non-leader committee node - Validation Phase
+end note
+
+ConsensusAlgo->+ConsensusContext:ValidateResultsBlock\n(may be called before complition of ordering phase)
+ConsensusContext->+VirtualMachine:ProcessTransactionSet
+note over VirtualMachine
+  Executes the transactions
+end note 
+VirtualMachine-->-ConsensusContext:transaction receipts
+ConsensusContext->+StateStorage:GetStateHash
+StateStorage-->-ConsensusContext:state hash
+note over VirtualMachine
+  Compares to received block proposal
+end note 
+ConsensusContext-->-ConsensusAlgo:valid
+ConsensusAlgo->Gossip:Boradcast message to all other nodes (LeanHelix Prepare)
