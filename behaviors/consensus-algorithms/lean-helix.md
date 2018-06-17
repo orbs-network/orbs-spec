@@ -1,7 +1,7 @@
 # Lean Helix Spec
 > PBFT absed algorithm with rotating leader randomly selected for each term based on a verifiable random function.
 
-## Design details
+## Design notes
 * All nodes particiapte in every committee, no `OnCommitBlockOutsideCommittee` flow.
 * PRE_PREPARE and COMMIT messages are broadcasted all nodes.
 * A random seed for a block / round is calcualted by a hash on the aggregated threshold signature of the previous block random seed.
@@ -13,7 +13,7 @@
 * New View includes all the view change proofs and a signed NV_PRE_PREPARE
   * May add an optimization to avoid n^2 signatures in new view
 * COMMIT messages are accepted even if not in Prepared state, Commit_locally requires to be in Prepared state.
-* Accept COMMIT of earlier views. Accept other messages and participate only in the highest valid view.
+* COMMIT messages of earlier views are accepted.
 
 ## Messages
 * PRE_PREPARE - sent by the leader, incldues a block proposal, view, term, sig{message type, hash, view, term}
@@ -38,18 +38,17 @@
   * Should avoid storing duplciates which may be sent as part of an attack.
 
 #### Messages Log
-> Stores the current term messages that were accepted.
+> Stores the current block_height messages that were accepted.
 * Accessed by (View, Sender, Message_type)
 * Persistent
 
 #### State
-> Stores the current term state variables, persistent
+> Stores the current block_height state variables, persistent
 * Persistent
 
 * State variables:
   * Block_height (Term)
   * Last block headers pair cache
-  * Block_height 
   * View
   * Candidate_block
   * Candidate_block_hash
