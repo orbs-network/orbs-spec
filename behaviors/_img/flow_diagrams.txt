@@ -38,9 +38,8 @@ note over Nodes Transaction Pool
 end note
 
 
-# 2. flows/block-creation.md, Leader flow
+# 2. flows/block-creation-before-commit.md, Leader flow
 
-title Continuous Block Creation Flow - Leader node
 participant ConsensusAlgo
 participant ConsensusContext
 participant BlockStorage
@@ -82,7 +81,7 @@ note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, Virtua
   Leader node - Validation Phase
 end note
 
-ConsensusAlgo->+ConsensusContext:RequestNewResultsBlock\n(may be called before complition of ordering phase)
+ConsensusAlgo->+ConsensusContext:RequestNewResultsBlock\n(may be called before complition of the ordering phase)
 ConsensusContext->+VirtualMachine:ProcessTransactionSet
 note over VirtualMachine
   Executes the transactions
@@ -94,16 +93,15 @@ ConsensusContext-->-ConsensusAlgo:ResultsBlock
 ConsensusAlgo->Gossip:Boradcast message to all other nodes (LeanHelix PrePrepare)
 
 
-# 3. flows/block-creation.md, Non-leader flow
+# 3. flows/block-creation-before-commit.md, Non-leader flow
 
-title Continuous Block Creation Flow - Non-leader committee node
+participant Gossip
 participant ConsensusAlgo
 participant ConsensusContext
 participant BlockStorage
 participant TransactionPool
 participant VirtualMachine
 participant StateStorage
-participant Gossip
 
 
 ConsensusAlgo-->+BlockStorage:GetBlockHeader
@@ -115,6 +113,7 @@ note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, Virtua
   Non-leader committee node - Ordering Phase
 end note
 
+Gossip->ConsensusAlgo: GossipMessageReceived\n(Lean Helix PrePrepare)
 ConsensusAlgo->+ConsensusContext:ValidateTransactionsForOrdering
 ConsensusContext->+TransactionPool:ValidateTransactionsForOrdering
 TransactionPool->+VirtualMachine:TransactionSetPreOrder
@@ -134,7 +133,7 @@ note over ConsensusAlgo, ConsensusContext, BlockStorage, TransactionPool, Virtua
   Non-leader committee node - Validation Phase
 end note
 
-ConsensusAlgo->+ConsensusContext:ValidateResultsBlock\n(may be called before complition of ordering phase)
+ConsensusAlgo->+ConsensusContext:ValidateResultsBlock\n(may be called before the complition of the ordering phase)
 ConsensusContext->+VirtualMachine:ProcessTransactionSet
 note over VirtualMachine
   Executes the transactions
@@ -146,4 +145,23 @@ note over VirtualMachine
   Compares to received block proposal
 end note 
 ConsensusContext-->-ConsensusAlgo:valid
-ConsensusAlgo->Gossip:Boradcast message to all other nodes (LeanHelix Prepare)
+ConsensusAlgo->Gossip:Boradcast message to all other nodes
+
+
+# 4. flows/block-creation-after-commit.md
+
+participant ConsensusAlgo
+participant BlockStorage
+participant StateStorage
+participant TransactionPool
+participant GW PublicAPI
+participant GW Client SDK
+
+
+ConsensusAlgo->BlockStorage:CommitBlock
+BlockStorage->+StateStorage:CommitStateDiff
+StateStorage-->-BlockStorage:next desired block height
+BlockStorage->+TransactionPool:CommitTransactionReceipts
+TransactionPool-->-BlockStorage:next desired block height
+TransactionPool->GW PublicAPI:ReturnTransactionResults
+GW PublicAPI->GW Client SDK: SendTransaction response

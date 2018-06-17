@@ -73,3 +73,18 @@
       * `VirtualMachine` of non-leader committee member:
         * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
         * Generates transaction receipts and state diff for comparison.
+
+
+&nbsp;
+## Block Creation Flow Before Commit, Leader Node
+
+![alt text][block_creation_before_commit_leader] <br/><br/>
+
+[block_creation_before_commit_leader]: ../_img/block_creation_before_commit_leader.png "block_creation_before_commit_leader"
+
+&nbsp;
+## Block Creation Flow Before Commit, Non-leader Node
+
+![alt text][block_creation_before_commit_non_leader] <br/><br/>
+
+[block_creation_before_commit_non_leader]: ../_img/block_creation_before_commit_non_leader.png "block_creation_before_commit_non_leader"
