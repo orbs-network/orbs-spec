@@ -17,3 +17,7 @@
 * `library` - A smart contract (deployed code which contains multiple methods) that does not have an address space of its own and provides shared utilities to other smart contracts who can execute it. If it manipulates state, it will change the state of the deployed service calling it.
 
 * `block height` - The block number in the blockchain. Since the blockchain is made of a linked list of blocks, each block has a sequence number. The genesis block on virtual chains is empty, its block height is `0`. This means the first meaningful block is numbered `1`.
+
+* `ordering and validation` - The consensus process is separated into two phases - ordering and validation. During the ordering phase, transactions are chosen for the block and ordered. During the validation phase, transactions are executed and marked as valid/invalid with their results.
+  * `Transactions block` - The output of the ordering phase, a block of ordered transactions that is committed to the blockchain in a specific height.
+  * `Results block` - The output of the validation phase, a block of transaction execution results that is committed to the blockchain in a specific height (matching its Transactions block).

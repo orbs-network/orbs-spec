@@ -22,6 +22,8 @@
 
 #### Step 5: non committee members commit the block
 
+*Note: This step only takes place if we have more nodes in the network than the committee size.*
+
 `ConsensusAlgo` of non committee member:
   * Validates the consensus of this untrusted block.
   * Gets the block's committee from `ConsensusContext` and verifies the block proofs.

@@ -21,7 +21,7 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 ## Assumptions for successful flow
 
-* `BlockStorage` is synchronized to somewhat latest block.
+* `BlockStorage` is synchronized to latest committed block.
 
 ## Flow
 
