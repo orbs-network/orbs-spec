@@ -33,7 +33,7 @@ Currently a single instance per virtual chain per node.
 * Correct virtual chain.
 
 #### Forward call
-* Set [block height](../../terminology.md) for the call by calling `BlockStorage.GetLastCommittedBlockHeight`.
+* Get [block height](../../terminology.md) for the call by calling `BlockStorage.GetLastCommittedBlockHeight`.
   * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind the last.
   * Optimization: The call to `BlockStorage.GetLastCommittedBlockHeight` can be cached based on time.
 * Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod`.

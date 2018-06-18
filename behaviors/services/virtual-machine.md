@@ -40,6 +40,7 @@ Currently a single instance per virtual chain per node.
 
 #### Prepare for execution
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
+  * Currently `PublicApi.CallMethod` calls are not signed.
 * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
   * The key is hash(`<service-name>.Processor`).
   * If the service is not found, fail.

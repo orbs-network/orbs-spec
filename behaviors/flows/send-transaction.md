@@ -49,7 +49,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
     * `TransactionPool` of all nodes:
       * Checks the batch signature of the gateway and adds transactions to pending pool.
       * Waits until the transaction is committed to the blockchain under consensus (added to a new block).
-        * This is part of the [continuous block creation flow](block-creation.md)).
+        * This is part of the [continuous block creation flow](block-creation.md).
         * This process may take a few seconds.
       * After it is committed, it's moved from the pending pool to the committed pool in all nodes.
 

@@ -20,4 +20,6 @@
 
 * `ordering and validation` - The consensus process is separated into two phases - ordering and validation. During the ordering phase, transactions are chosen for the block and ordered. During the validation phase, transactions are executed and marked as valid/invalid with their results.
   * `Transactions block` - The output of the ordering phase, a block of ordered transactions that is committed to the blockchain in a specific height.
-  * `Results block` - The output of the validation phase, a block of transaction execution results that is committed to the blockchain in a specific height (matching its Transactions block).
+  * `Results block` - The output of the validation phase, a block of transaction execution results that is committed to the blockchain in a specific height (matching its Transactions block, but a different block nevertheless).
+
+* `gateway node` - The node in the network that a client communicated with. If the client sends a transaction, this is the node that first introduces this transaction to the network (all other nodes). Gateway nodes are accountable for their clients and should prevent them from spamming the virtual chain.

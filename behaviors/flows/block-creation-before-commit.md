@@ -8,7 +8,8 @@
 
 #### Step 1: round starts
 
-* `ConsensusAlgo` of all nodes starts a new consensus round (its [block height](../../terminology.md) is known).
+* `ConsensusAlgo` of all nodes:
+  * Starts a new consensus round (its [block height](../../terminology.md) is known).
   * The previously committed block is known from the previous round or read from `BlockStorage`.
   * Gets the block's committee from `ConsensusContext`.
   * Learns if they are a leader, non-leader committee member or not a committee member.
