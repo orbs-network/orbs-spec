@@ -44,9 +44,10 @@
       * Moves the transactions from pending to committed pool.
       * If this was the gateway node that added a transaction to the network, notify `PublicApi` to respond to the client.
 
-
 &nbsp;
-## Block Creation Flow After Commit
+## Diagrams
+
+#### Block Creation Flow After Commit
 
 ![alt text][block_creation_after_commit] <br/><br/>
 

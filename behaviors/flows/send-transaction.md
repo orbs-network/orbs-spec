@@ -58,8 +58,10 @@ Transaction is processed under consensus (this is part of the [continuous block 
   * Responds to the client.
 
 &nbsp;
-## Send Transaction Flow Diagram
+## Diagrams
+
+#### Send Transaction Flow Diagram
 
 ![alt text][send_transaction_flow] <br/><br/>
 
-[send_transaction_flow]: ../_img/send_transaction_flow.png "Send transction"
+[send_transaction_flow]: ../_img/send_transaction_flow.png "Send transaction"
