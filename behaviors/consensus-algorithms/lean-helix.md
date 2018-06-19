@@ -79,9 +79,8 @@
 * Calculate the `random_seed` for the upcoming block:
   * Aggregate the threshold signatrues of the previous results block
   * `random_seed` = SHA256(aggregated signatrue).
-* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusBuilder.RequestValidationCommittee`.
+* Get a sorted list of committee members for the upcoming results block (execution validation phase) by calling `ConsensusContext.RequestValidationCommittee`.
 * Determine the current leader using `CurrentLeader(ordered_committee, view)`.
-* Update the my_state.block_height to the next block_height.
 
 #### `Init my_state for the next round`
 * my_state.Block_height = my_state.Block_height + 1
