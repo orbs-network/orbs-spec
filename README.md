@@ -10,11 +10,11 @@ Definitions of terms like `node`, `service`, `committee`. Available [here](termi
 &nbsp;
 ## System Overview
 
-![alt text][system_overview] <br/><br/>
+![alt text][system_overview]
 
 [system_overview]: behaviors/_img/system-overview.png "system_overview"
 
-Available [here](overview.md).
+Overview of the entire system with brief introduction to all services is available [here](overview.md).
 
 &nbsp;
 ## High level flows
