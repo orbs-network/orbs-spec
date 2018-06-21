@@ -8,6 +8,15 @@ V1 release
 Definitions of terms like `node`, `service`, `committee`. Available [here](terminology.md).
 
 &nbsp;
+## System Overview
+
+![alt text][system_overview] <br/><br/>
+
+[system_overview]: behaviors/_img/system-overview.png "system_overview"
+
+Available [here](overview.md).
+
+&nbsp;
 ## High level flows
 
 * [System Init](behaviors/flows/system-init.md)
