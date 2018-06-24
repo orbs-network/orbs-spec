@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/messages/lean-helix.proto";
+import "protocol/messages/node-sync.proto";
+import "protocol/messages/transaction-relay.proto";
+
+
+message GossipMessage {
+  Uint32 protocol_version = 1;
+  repeated Ed25519PKey receipients_list = 2; // TODO should the receipts list be covered by the signature or handle in gossip layer.
+  Bool inverse_recipients_list = 3;
+  MessageTopic topic = 3;
+  Uint32 virtual_chain = 4;
+  oneof message_topic {
+    LeanHelixMessage lean_helix_message = 1;
+    BlockSyncMessage block_sync_message = 2;
+    TransactionsRelayMessage transactions_relay_message = 3;
+  }
+}
+
+message MessageDestination {
+}
+
+enum MessageTopic {
+  RESERVED = 0;
+  LITE_HELIX_CONSEMSUS = 1;
+  TRANSACTION_RELAY = 2;
+  NODE_SYNC = 3;
+}
+
+
+
+/*
+message ClientResponse {
+  Uint32 version = 1;
+  Uint256 tx_id = 2;
+  TransactionStatus transaction_status = 3;
+  String status_message = 4;
+  Uint64 block_height = 5;
+  Uint32 virtual_chain = 6;
+  Uint64 time_stamp = 7;
+}
+*/

@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+
+// Lean Helix Consensus Messages
+message BlockSyncMessage {
+  oneof block_sync_message {
+    BlockAvailabilityRequest block_availability_request = 1;
+    BlockAvailabilityRequest block_availability_response = 2;
+    BlockSyncRequest block_sync_request = 3;
+    BlockSyncResponse block_sync_response = 4;
+  }
+}
+
+enum BlockSyncMessageType {  
+  BLOCK_SYNC_REQUEST = 0;
+  BLOCK_SYNC_RESPONSE = 1; 
+  BLOCK_AVAILABILITY_REQUEST = 2;
+  BLOCK_AVAILABILITY_RESPONSE = 3; 
+}
+
+message BlockSyncRequest {
+  BlockRequestSignedFields block_sync_request_signed_fields = 1;
+  Ed25519Sig signature = 2;  
+}
+
+message BlockRequestSignedFields {
+    BlockSyncMessageType message_type = 1;
+    BlockType block_type = 2;
+    Ed25519PKey sender_public_key = 3;
+    Uint64 first_requested_block_height = 4;
+    Uint64 last_requested_block_height = 5;
+    Uint64 last_committed_block_height = 6;
+}
+
+message BlockSyncResponse {
+  BlockSyncSignedFields block_sync_response_signed_fields = 1;
+  Ed25519Sig signature = 2; 
+  repeated Bytes block_data = 3;
+}
+
+message BlockSyncResponseSignedFields {
+    BlockSyncMessageType message_type = 1;
+    BlockType block_type = 2;
+    Ed25519PKey sender_public_key = 3;
+    Uint64 first_block_height = 4;
+    Uint64 last_block_height = 5;
+    Uint64 last_committed_block_height = 6;
+    repeated SHA256 block_hash = 7;
+}
+
+message BlockAvailabilityRequest {
+    BlockRequestSignedFields block_availability_request_signed_fields = 1;
+    Ed25519Sig signature = 2;  
+}
+
+message BlockAvailabilityResponse {
+    BlockSyncAvailabilitySignedFields block_availability_response_signed_fields = 1;
+    Ed25519Sig signature = 2;  
+}
+
+message BlockSyncAvailabilitySignedFields {
+    BlockSyncMessageType message_type = 1;
+    BlockType block_type = 2;
+    Ed25519PKey sender_public_key = 3;
+    Uint64 first_available_block_height = 4;
+    Uint64 last_available_block_height = 5;
+    Uint64 last_committed_block_height = 6;
+}
+
+ enum BlockType {
+    BLOCK_PAIR = 0;
+    TRANSACTIONS_BLOCK = 1;
+    RESULTS_BLOCK = 2;
+  }
+  
