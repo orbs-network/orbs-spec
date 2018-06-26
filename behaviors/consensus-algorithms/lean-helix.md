@@ -1,25 +1,25 @@
 # Lean Helix Spec
-> PBFT absed algorithm with rotating leader randomly selected for each term based on a verifiable random function.
+> PBFT based algorithm with rotating leader, randomly selected for each block height based on a verifiable random function.
 
 ## Design notes
 * All nodes particiapte in every committee, no `OnCommitBlockOutsideCommittee` flow.
-* PRE_PREPARE and COMMIT messages are broadcasted all nodes.
+* PREPARE and COMMIT messages are broadcasted to all nodes.
 * A random seed for a block / round is calcualted by a hash on the aggregated threshold signature of the previous block random seed.
   * The threshold signatrues are passed as part of the COMMIT messaage.
   * The threshold is set to 2f+1.
-* The consensus algo only keeps PBFT logs of the current block_height, a sync of the blockchain history is perfromed by node sync. 
-* View Change of prepared node incldus the candidate block
-  * May add a request / response emssage as optimization
+* The consensus algo doesn't keep PBFT logs of past block_height (erased on commit). A sync of the blockchain history is perfromed by block sync.
+* View Change message sent by a prepared node includes the candidate block
+  * May add a request / response message as optimization
 * New View includes all the view change proofs and a signed NV_PRE_PREPARE
   * May add an optimization to avoid n^2 signatures in new view
-* COMMIT messages are accepted even if not in Prepared state, Commit_locally requires to be in Prepared state.
+* A block can be committed (Commit_locally) even if not in Prepared state. (The block was received in PRE_PREPARE or NV_PRE_PREPARE).
 * COMMIT messages of earlier views are accepted.
 
 ## Messages
-* PRE_PREPARE - sent by the leader, incldues a block proposal, view, term, sig{message type, hash, view, term}
-* PREPARE - sent by the validators, incldues the block hash, view, term, sig{message type, hash, view, term}
-* COMMIT - sent by all nodes, incldues the block hash, view, term, sig{message type, hash, view, term}, sig_share{message type, hash, view, term}
-* VIEW_CHANGE - sent upon timeout to the next elader candidate
+* PRE_PREPARE - sent by the leader
+* PREPARE - sent by the validators
+* COMMIT - sent by all nodes, incldues also the random seed signature.
+* VIEW_CHANGE - sent upon timeout to the next leader candidate
 * NEW_VIEW - sent by the newly elected leader (upon view change)
 
 ## Configuration
@@ -106,7 +106,7 @@
   * Candidate_block = PRE_PREPARE message.BlockPair
 
 #### `OnNewConsensusRound - All nodes`
-* Set timer with timeout = configurable base_round_timeout x 2^(my_state.view).
+* Set timer with timeout = configurable base_round_timeout.
 
 
 &nbsp;
@@ -157,7 +157,7 @@
 
 #### Check if Prepared
 * Check the log(View = message.view)
-  * If a PRE_PREPARE message AND 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
+  * If a PRE_PREPARE message AND exactly (trigger once) 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
     * Set my_state.Prepared
     * Call `OnPrepared`
 
@@ -185,7 +185,7 @@
 
 #### Check if Prepared
 * Check the log(View = message.view)
-  * If a PRE_PREPARE message AND 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
+  * If a PRE_PREPARE message AND exactly (trigger once) 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
     * Set my_state.Prepared
     * Call `OnPrepared`
 
@@ -288,8 +288,9 @@ Note: a node may receive COMMIT messages of earlier views.
 > Timeout of the PBFT timer.
 > Reset conditions: on new consensus round, on timeout.
 
-#### Init State for a View Change
+#### Init State for next view
 * my_state.view = my_state.view + 1.
+* Clear my_state.NewViewTriggered.
 * Reset the timer to configurable base_round_timeout x 2^(my_state.view).
 * Determine the current leader using `GetCurrentLeader(ordered_committee, message.view)`.
 
@@ -357,7 +358,7 @@ Note: a node may receive COMMIT messages of earlier views.
 #### Check if new view
 * Check the log(View = message.view)
   * If 2xf+1 VIEW_CHANGE messages are logged:
-    * Call `LocalNewView`
+    * If not my_state.NewViewTriggered call `LocalNewView`
 
 
 &nbsp;
@@ -365,6 +366,7 @@ Note: a node may receive COMMIT messages of earlier views.
 
 #### `Init State for a New View`
 * my_state.view = message.View.
+* Set my_state.NewViewTriggered
 * Reset the timer to configurable base_round_timeout x 2^(my_state.view).
 
 #### Determine the next candidate block
@@ -483,7 +485,7 @@ Note: a node may receive COMMIT messages of earlier views.
 
 #### Check if Prepared
 * Check the log(View = message.view)
-  * If a PRE_PREPARE message AND 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
+  * If a PRE_PREPARE message AND exactly (trigger once) 2xf PRPARE messages are logged with Block_hash equal to the PRE_PREPARE message.Block_hash. 
     * Set my_state.Prepared
     * Call `OnPrepared`
 
