@@ -4,9 +4,14 @@ import "protocol/primitives.proto";
 import "protocol/address.proto";
 import "protocol/transactions.proto";
 
+message BlockPair { 
+  TransactionsBlock transactions_block = 1;
+  ResultsBlock results_block = 2;
+}
+
 message TransactionsBlock {
   TransactionsBlockHeader header = 1;
-  TransactionsBlockMetaData meta_data = 2;
+  TransactionsBlockMetaData meta_data = 2; 
   TransactionsBlockBody body = 3;
   TransactionsBlockProof block_proof = 4;
 }
@@ -33,7 +38,7 @@ message TransactionsBlockMetaData {
 }
 
 message TransactionsBlockBody {
-  repeated Transaction transactions = 1;
+  repeated SignedTransaction transactions = 1;
 }
 
 message TransactionsBlockProof {

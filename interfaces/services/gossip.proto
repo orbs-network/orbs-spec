@@ -1,8 +1,8 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/transactions.proto";
-import "protocol/messages.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/messages/messages.proto";
 
 
 service Gossip {
@@ -22,7 +22,6 @@ message GossipMessageReceivedOutput {
 message TopicSubscribeInput {
   String topic = 1;
   String service_id = 2; 
-// Uint32 qos = 3;
 }
 
 message TopicSubscribeOutput {
@@ -30,12 +29,13 @@ message TopicSubscribeOutput {
 }
 
 message TopicUnsubscribeInput {
-  Uint64 subscription_token = 1;
+  String topic = 1;
+  String service_id = 2; 
 }
 
 message TopicUnsubscribeOutput {
   String topic = 1;
-  String service_id = 2; 
+  String service_id = 2;
 }
 
 message SendMessageInput {

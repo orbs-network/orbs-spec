@@ -1,29 +1,30 @@
 syntax = "proto3";
 
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+
 service StateStorage {
+  // Called by Block Storage
   rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
+  // Called by Virtual Machine
   rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+  // Called by Consensus Context
   rpc GetStateHash(GetStateHashInput) returns (GetStateHashOutput);
 }
 
 message ReadKeysInput {
-  Uint64 requested_block_height = 1;
-  NameSpace service = 2;
-  repeated RIP160SHA256 keys = 3;
+  Uint64 block_height = 1;
+  ContractAddress contract = 2;
+  repeated RIPMD160SHA256 keys = 3;
 }
 
 message ReadKeysOutput {
-  StateStatus status = 1;
-  map<RIP160SHA256,Blob> values = 2;
-}
-
-enum StateStatus {
-  VALID = 0;
-  OUT_OF_SYNC = 1;
+  RequestStatus status = 1;
+  map<RIPMD160SHA256,Blob> values = 2;
 }
 
 message CommitStateDiffInput {
-  ResultsBlock validation_block = 1; // Nullify transaction_receipts
+  ResultsBlock validation_block = 1; // Nullify transaction_receipts - TODO
   Uint64 last_committed_block_height = 2;
 }
 
@@ -33,10 +34,10 @@ message CommitStateDiffOutput {
 }
 
 message GetStateHashInput {
-  Uint64 requested_block_height = 1;
+  Uint64 block_height = 1;
 }
 
 message GetStateHashOutput {
-  StateStatus status = 1;
+  RequestStatus status = 1;
   SHA256 state_root_hash = 2;
 }

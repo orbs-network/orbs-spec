@@ -1,51 +1,50 @@
 syntax = "proto3";
 
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/address.proto";
 import "protocol/transactions.proto";
-import "protocol/blocks.proto";
-import "internal/call-contract.proto";
-import "internal/address_data";
-import "services/configuration-manager.proto";
 
 service VirtualMachine {
-  // Called by Consensus Core
+  // Called by Consensus Context
   rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
   // Called by Public API
-  rpc RunLocalMethod (RunLocalMethodInput) returns ();
+  rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
   // Called by Transaction Pool
   rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
   // Called by Processor
   rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
 }
 
-
 message ProcessTransactionSetInput {
   Uint64 block_height = 1;
-  repeated Transaction transaction_set = 2;
+  repeated SignedTransaction signed_transaction = 2;
 }
 
 message ProcessTransactionSetOutput {
-  repeated TransactionReceipt transaction_receipts = 1;
+  RequestStatus status = 1;
+  repeated TransactionReceipt transaction_receipt = 1;
   repeated ServiceStateDiff service_state_diff = 2;
 }
 
 message RunLocalMethodInput {
   Uint64 block_height = 1;
-  Transaction transaction = 2; //TODO Local method format
+  Transaction transaction = 2;
 }
 
 message RunLocalMethodOutput {
-  TODO status = 1;
-  String result = 2;
+  CallMethodStatus status = 1;
+  repeated MethodArguments output_argument = 2;
 }
 
 message TransactionSetPreOrderInput {
   Uint64 block_height = 1;
-  Uint32 virtual_chain = 2;
-  repeated Transaction transaction_set = 3; 
+  repeated SignedTransaction signed_transaction = 2; 
 }
 
 message TransactionSetPreOrderOutput {
-  repeated PreOrderResult pre_order_result = 1;
+  RequestStatus status = 1;
+  repeated PreOrderResult pre_order_result = 2; //TBD transaction result
 }
 
 message PreOrderResult {
@@ -61,20 +60,12 @@ enum PreOrderStatus {
 
 message SdkCallInput {
   Uint32 context_id = 1;
-  NameSpace name_space = 2;
+  ContractAddress contract = 2;
   MethodAddress method = 3;
-  repeated SdkArgument input_argument = 4;
+  repeated MethodArgument input_argument = 4;
 }
 
 message SdkCallOutput {
-  repeated SdkArgument output_argument = 1;
-}
-
-message SdkArgument {
-  oneof type {
-    Uint32 uint32 = 1;
-    Uint64 uint64 = 2;
-    String string = 3;
-    // ...    
-  }
+  repeated MethodArgument output_argument = 1;
+  // TBD error handling, return error
 }

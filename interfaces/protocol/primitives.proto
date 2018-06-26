@@ -48,7 +48,7 @@ message Ed25519PKey {
     bytes value = 1; //Fixed size 32B
 }
 
-message RIP160SHA256 {
+message RIPMD160SHA256 {
     bytes value = 1; //Fixed size 20B
 }
 
@@ -62,4 +62,8 @@ message BLSSignature {
 
 message BLSAggregatedSignature {
     bytes value = 1;
+}
+
+message BLSPKey {
+    bytes value = 1; 
 }

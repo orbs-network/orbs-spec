@@ -3,27 +3,36 @@ syntax = "proto3";
 import "protocol/primitives.proto";
 
 message Sender {
-    Uint8 scheme = 1;
-    oneof content {
-        SenderScheme01 sender_data = 2;
+    AddressScheme address_scheme = 1;
+    oneof sender_data {
+        EdDSA01Sender eddsa_sender = 2;
+        SmartContractSender smart_contract_sender = 3;
     }
 }
 
-message SenderScheme01 {
-    Uint32 virtual_chain = 1;
-    Ed25519PKey public_key = 2;
-    Ed25519Sig signature = 3;
+enum AddressScheme {
+    RESERVED_SCHEME = 0;
+    EDDSA_20B = 1;
+    SMART_CONTRACT_ADDRESS = 2;
 }
 
-message Address {
-    Uint8 scheme = 1;
-    oneof content {
-        AddressScheme01 sender_data = 2;
-    }
+message EdDSA01Sender {
+    NetworkType network_type = 1;
+    Ed25519PKey sender_public_key = 2;
+    // Signature = Ed25519 Signature(Transaction)
+    // Address = RIPMD160(SHA(EdDSA01Sender))
 }
 
-message AddressScheme01 {
-    Uint32 virtual_chain = 1;
-    Uint8 network_id = 2;
-    RIP160SHA256 address_id = 3;
+message SmartContractSender {
+    NetworkType network_type = 1;
+    String contract_name = 2; 
+    repeated MethodArguments sender_input_argument = 3; // For example account_name
+    // Signature = signature_input_arguments
+    // Address = RIPMD160(SHA(SmartContractSender))
+}
+
+enum NetworkType {
+    RESERVED_NETWORK = 0;
+    MAIN_NET = 77;
+    TEST_NET = 84;
 }

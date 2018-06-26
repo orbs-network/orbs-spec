@@ -1,48 +1,36 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
 import "protocol/address.proto";
 
-message Transaction {
-  TransactionHeader header = 1;
-  Bytes payload = 2;
+message SignedTransaction {
+  Transaction transaction_content = 1;
+  repeated Bytes signature_data = 3;
 }
 
-// The transaction tx_id is caluclated by SHA256 over a canonical transaction format - TODO.
+message Transaction {
+  Uint32 protocol_version = 1;
+  Uint64 virtual_chain = 2;
+  Sender transaction_sender = 3;
+  Uint64 timestamp = 4;
+  String contract_name = 5;
+  String method_name = 6;
+  repeated MethodArgument input_arguments = 7;
+}
 
 message TransactionReceipt {
   SHA256 tx_id = 1; 
   Uint32 version = 2;
-  TransactionStatus transaction_status = 3;
-  String status_message = 4; // replace with canonical output arguments.
-//  ReceiptBloomFilter bloom_filter = 5;
+  ExecutionStatus transaction_status = 3;
+  repeated MethodArgument output_arguments = 4;
 }
 
-message TransactionHeader {
-  Uint32 version = 1;
-  Sender sender = 2;
-  Uint64 timestamp = 3;
-  Address contract_address = 4;
-}
-
-enum TransactionStatus {
+enum ExecutionStatus {
   RESERVED = 0;
   EXECUTED_SUCCESSFULLY = 1;
   EXECUTED_WITH_SMART_CONTRACT_ERROR = 2;
-  EXECUTED_UNEXPECTED_FAILURE = 3; 
-  // Status unordered transactions.
-  PENDING = 128;
-  NO_RECORD_FOUND = 129;
-  REJECTED_UNSUPPORTED_VERSION = 130;
-  REJECTED_VIRTUAL_CHAIN_MISMATCH = 131;
-  REJECTED_TIME_STAMP_WINDOW_EXCEEDED = 132;
-  REJECTED_SIGNATURE_MISMATCH = 133;
-  REJECTED_VIRTUAL_CHAIN_SUBSCRIPTION = 134;
-  REJECTED_VIRTUAL_CHAIN_PRE_ORDER = 135;
-  REJECTED_SMART_CONTRACT_PRE_ORDER = 136;
-  REJECTED_DUPLICATED = 137;
+  EXECUTED_WITH_UNEXPECTED_ERROR = 3; 
 }
 
-message ReceiptBloomFilter {
-  Bytes filter = 1;
-}
+

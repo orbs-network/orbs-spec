@@ -1,18 +1,22 @@
 syntax = "proto3";
 
-import "primitives/transactions.proto";
-import "primitives/gossip-listener.proto";
-import "services/configuration-manager.proto";
+import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/messages/messages.proto";
+import "protocol/transactions.proto";
+import "protocol/blocks.proto";
+import "services/gossip.proto";
+import "services/blocks.proto";
 
 service TransactionPool {
   // Called by Public API
   rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
   rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
   // Called by Consensus Core
-  rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput); // Transactions Streaming 
-  rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput); // Transactions Streaming
+  rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput); 
+  rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput); 
   // Called by Block Storage
-  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput); // Receipts Streaming
+  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
   
   // Gossip
   rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
@@ -20,7 +24,7 @@ service TransactionPool {
 }
 
 message AddNewTransactionInput {
-  Transaction transaction = 1;
+  SignedTransaction signed_transaction = 1;
 }
 
 message AddNewTransactionOutput {
@@ -29,6 +33,7 @@ message AddNewTransactionOutput {
 
 message GetTransactionStatusInput {
   SHA256 txid = 1;
+  Uint64 timestamp = 2;
 }
 
 message GetTransactionStatusOutput {
@@ -37,34 +42,22 @@ message GetTransactionStatusOutput {
 
 message GetTransactionsForOrderingInput {
   Uint64 block_height = 1;
-  Uint32 number_of_transactions = 2;
+  Uint32 max_transactions_set_size_kb = 2;
+  Uint32 max_number_of_transactions = 3;
 }
 
 message GetTransactionsForOrderingOutput {
-  oneof result {
-    CollectTransactionsException exception = 1;
-    repeated Transaction transactions = 2;
-  }
-}
-
-enum CollectTransactionsException {
-  RESERVED = 0;
-  OUT_OF_SYNC = 1;
+  RequestStatus status = 1;
+  repeated SignedTransaction signed_transaction = 2;
 }
 
 message ValidateTransactionsForOrderingInput {
-  repeated Transaction transactions = 1;
+  Uint64 block_height = 1;
+  repeated SignedTransaction transaction = 2;
 }
 
 message ValidateTransactionsForOrderingOutput {
-  TransactionPoolStatus tx_pool_status = 1;
-  TransactionsOrderingStatus status = 2;
-}
-
-enum TransactionsOrderingStatus {
-  VALID = 0;
-  INVALID = 1;
-  FAILURE_OUT_OF_SYNC = 1;
+  RequestStatus status = 1;
 }
 
 message CommitTransactionReceiptsInput {
@@ -91,7 +84,7 @@ message GetTransactionReceiptOutput {
 }
 
 message OnForwardedTransactionsInput {
-  TransactionBatch transaction_batch = 1;
+  ForwardedTransactionsMessage transaction_batch = 1;
 }
 
 message OnForwardedTransactionsOutput {

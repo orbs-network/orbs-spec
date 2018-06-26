@@ -21,7 +21,7 @@ message GetStateDiffStreamInput {
     Uint64 stream_token = 1;
 }
 
-message NameSpace {
+message ContractAddress {
     String value = 1;
 }
 
@@ -32,3 +32,26 @@ message MethodAddress {
 message AddressToken {
     String value = 1;
 }
+
+message MethodArgument {
+    string argument_name = 1;
+    oneof type {
+      uint32 uint32 = 2;
+      uint64 uint64 = 3;
+      string string = 4;
+      bytes bytes = 5;
+      // ...
+    }
+  }
+
+  enum CallMethodStatus {
+      SUCCESS = 0;
+      ERROR_CALL_EXCEPTION = 1;
+      REQUEST_FAILED_OUT_OF_SYNC = 2;
+  }
+
+  enum RequestStatus {
+    VALID = 0;
+    INVALID = 1;
+    REQUEST_FAILED_OUT_OF_SYNC = 2;
+  }

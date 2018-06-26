@@ -1,68 +1,39 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/gossip.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/messages/messages.proto";
 import "protocol/blocks.proto";
+import "services/gossip.proto";
+
 
 service BlockStorage {
-  // Called by Consensus Core
+  // Called by Consensus-Algo
   rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
-  rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
-
-  // Called by Public API
-  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
-
-  //Called by Consnesus Algo
   rpc GetTransactionsBlockHeader (GetTransactionsBlockHeaderInput) returns (GetTransactionsBlockHeaderOutput);
   rpc GetResultsBlockHeader (GetResultsBlockHeaderInput) returns (GetResultsBlockHeaderOutput);
 
-  //Gossip
+  // Called by Public API
+  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
+  rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
+
+  // Gossip
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   rpc OnBlockAvailabilityRequest (OnBlockAvailabilityRequestInput) returns (OnBlockAvailabilityRequestOutput);
   rpc OnBlockAvailabilityResponse (OnBlockAvailabilityResponseInput) returns (OnBlockAvailabilityResponseOutput);
   rpc OnBlockSyncRequest (OnBlockSyncRequestInput) returns (OnBlockSyncRequestOutput);
   rpc OnBlockSyncResponse (OnBlockSyncResponseInput) returns (OnBlockSyncResponseOutput);
 
-
-
-//  rpc GetBlockPairsByHeight (GetBlockPairsByHeightInput) returns (GetBlockPairsByHeightOutput);
-//  rpc GetTransactionsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
-//  rpc GetResultsBlockByHeight (GetBlocksByHeightInput) returns (GetBlocksByHeightOutput);
-//  rpc GetReceipts(GetBlockReceiptsInput) returns (GetBlockReceiptsOutput);
-//  rpc GetStateDiff(GetStateDiffInput) returns (GetStateDiffOutput);
-//  rpc GetTransactionsBlockByID (GetBlockByIDInput) returns (GetTransactionsBlockOutput);
-//  rpc GetResultsBlockByID (GetBlockByIDInput) returns (GetResultsBlockOutput);
-//  rpc SubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
-//  rpc UnSubscribeEvents(SubscribeEventsInput) returns (SubscribeEventsOutput);
-//  rpc SubscribeRecipt(SubscribeReciptInput) returns (SubscribeReciptOutput);
+  // Internal call
+  rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
 }
 
 message CommitBlockInput {
-  TransactionsBlock transactions_block = 1;
-  ResultsBlock results_block = 2;
+  BlockPair block_pair = 1;
 }
 
 message CommitBlockOutput {
-
-}
-
-message GetLastCommittedBlockHeightInput {
   // empty
-}
-
-message GetLastCommittedBlockHeightOutput {
-  Uint64 last_committed_block_height = 1;
-}
-
-message GetTransactionReceiptInput {
-  Uint256 tx_id = 1;
-  Uint64 timestamp = 2;
-}
-
-message GetTransactionReceiptOutput {
-  TransactionReceipt receipt = 1;
-  Uint64 block_height = 2;
-  Uint64 block_timestamp = 3;
 }
 
 message GetTransactionsBlockHeaderInput {
@@ -84,34 +55,53 @@ message GetResultsBlockHeaderOutput {
   ResultsBlockProof results_block_proof = 2;
 }
 
+message GetTransactionReceiptInput {
+  Uint256 tx_id = 1;
+  Uint64 timestamp = 2;
+}
+
+message GetTransactionReceiptOutput {
+  TransactionReceipt receipt = 1;
+  Uint64 block_height = 2;
+  Uint64 block_timestamp = 3;
+}
+
+message GetLastCommittedBlockHeightInput {
+  // empty
+}
+
+message GetLastCommittedBlockHeightOutput {
+  Uint64 last_committed_block_height = 1;
+}
+
 message OnBlockAvailabilityRequestInput {
-  BlockAvailabilityRequest block_availability_request = 1;
+  BlockAvailabilityRequestMessage block_availability_request = 1;
 }
 
 message OnBlockAvailabilityRequestOutput {
-
+  // empty
 }
 
 message OnBlockAvailabilityResponseInput {
-  BlockAvailabilityRequest block_availability_response = 1;
+  BlockAvailabilityRequestMessage block_availability_response = 1;
 }
 
 message OnBlockAvailabilityResponseOutput {
-
+  // empty
 }
 
 message OnBlockSyncRequestInput {
-  BlockSyncRequest block_sync_request = 1;
+  BlockSyncRequestMessage block_sync_request = 1;
 }
 
 message OnBlockSyncRequestOutput {
-
+  // empty
 }
 
 message OnBlockSyncResponseInput {
-  BlockSyncResponse block_sync_response = 1;
+  BlockSyncResponseMessage block_sync_response = 1;
 }
 
 message OnBlockSyncResponseOutput {
-
+  // empty
 }

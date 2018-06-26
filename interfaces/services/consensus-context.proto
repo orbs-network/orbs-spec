@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-import "protocol/blocks.proto";
 import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/blocks.proto";
 
 service ConsensusContext {
     // Called by Consensus-Algo
@@ -12,17 +13,17 @@ service ConsensusContext {
   rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
   rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 
-  // rpc GetTransactionsStream (GetTransactionsStreamInput) returns (stream Transaction);
-  // rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
-
 }
 
 message RequestNewTransactionsBlockInput {
     Uint64 block_height = 1;
+    Uint32 max_block_size_kb = 2;
+    Uint32 max_number_of_transactions = 3;
 }
 
 message RequestNewTransactionsBlockOutput {
-    TransactionsBlock transactions_block = 1;
+    RequestStatus status = 1;
+    TransactionsBlock transactions_block = 2;
 }
 
 message RequestNewResultsBlockInput {
@@ -30,7 +31,8 @@ message RequestNewResultsBlockInput {
 }
 
 message RequestNewResultsBlockOutput {
-    ResultsBlock results_block = 1;
+    RequestStatus status = 1;
+    ResultsBlock results_block = 2;
 }
 
 message ValidateTransactionsBlockInput {
@@ -38,7 +40,7 @@ message ValidateTransactionsBlockInput {
 }
 
 message ValidateTransactionsBlockOutput {
-    BlockStatus status = 1;
+    RequestStatus status = 1;
 }
 
 message ValidateResultsBlockInput {
@@ -46,29 +48,21 @@ message ValidateResultsBlockInput {
 }
 
 message ValidateResultsBlockOutput {
-    BlockStatus status = 1;
+    RequestStatus status = 1;
 }
-
-enum BlockStatus {
-    VALID = 0;
-    INVALID = 1;
-}
-
 
 message RequestCommitteeInput {
-    Uint64 random_seed = 1;
-    Uint32 committee_size = 2;
+    Uint64 block_height = 1;
+    Uint64 random_seed = 2;
+    Uint32 max_committee_size = 3;
 }
 
 message RequestCommitteeOutput {
-    repeated Ed25519PKey node_id = 1;
+    RequestStatus status = 1;
+    repeated NodeData node_data = 2;
 }
 
-message GetLastCommittedBlockHeightInput {
-    //empty
-}
-
-message GetLastCommittedBlockHeightOutput {
-    Uint64 committed_block_height = 1;
-    Uint64 committed_block_timestamp = 2;
+message NodeData {
+    Ed25519PKey node_pkey = 1;
+    BLSPKey node_random_seed_pkey = 2;
 }

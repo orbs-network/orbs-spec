@@ -6,10 +6,10 @@ import "protocol/protocol-primitives.proto";
 // Lean Helix Consensus Messages
 message BlockSyncMessage {
   oneof block_sync_message {
-    BlockAvailabilityRequest block_availability_request = 1;
-    BlockAvailabilityRequest block_availability_response = 2;
-    BlockSyncRequest block_sync_request = 3;
-    BlockSyncResponse block_sync_response = 4;
+    BlockAvailabilityRequestMessage block_availability_request = 1;
+    BlockAvailabilityRequestMessage block_availability_response = 2;
+    BlockSyncRequestMessage block_sync_request = 3;
+    BlockSyncResponseMessage block_sync_response = 4;
   }
 }
 
@@ -20,7 +20,7 @@ enum BlockSyncMessageType {
   BLOCK_AVAILABILITY_RESPONSE = 3; 
 }
 
-message BlockSyncRequest {
+message BlockSyncRequestMessage {
   BlockRequestSignedFields block_sync_request_signed_fields = 1;
   Ed25519Sig signature = 2;  
 }
@@ -34,7 +34,7 @@ message BlockRequestSignedFields {
     Uint64 last_committed_block_height = 6;
 }
 
-message BlockSyncResponse {
+message BlockSyncResponseMessage {
   BlockSyncSignedFields block_sync_response_signed_fields = 1;
   Ed25519Sig signature = 2; 
   repeated Bytes block_data = 3;
@@ -50,12 +50,12 @@ message BlockSyncResponseSignedFields {
     repeated SHA256 block_hash = 7;
 }
 
-message BlockAvailabilityRequest {
+message BlockAvailabilityRequestMessage {
     BlockRequestSignedFields block_availability_request_signed_fields = 1;
     Ed25519Sig signature = 2;  
 }
 
-message BlockAvailabilityResponse {
+message BlockAvailabilityResponseMessage {
     BlockSyncAvailabilitySignedFields block_availability_response_signed_fields = 1;
     Ed25519Sig signature = 2;  
 }

@@ -6,11 +6,11 @@ import "protocol/protocol-primitives.proto";
 // Lean Helix Consensus Messages
 message LeanHelixMessage {
   oneof lean_helix_message {
-    PrePrepare pre_prepare = 1;
-    Prepare prepare = 2;
-    Commit commit = 3;
-    ViewChange view_change = 4;
-    NewView new_view = 5;
+    PrePrepareMessage pre_prepare = 1;
+    PrepareMessage prepare = 2;
+    CommitMessage commit = 3;
+    ViewChangeMessage view_change = 4;
+    NewViewMessage new_view = 5;
   }
 }
 
@@ -22,30 +22,30 @@ enum LeanHelixMessageType {
   VIEW_CHANGE = 4;  
 }
 
-message PrePrepare {
+message PrePrepareMessage {
   CommitPreparePPMessageSignedFields pre_prepare_signed_fields = 1;
   Ed25519Sig signature = 2;
   Bytes block_pair_data = 3;
 }
   
-message Prepare {
+message PrepareMessage {
   CommitPreparePPMessageSignedFields prepare_signed_fields = 1;
   Ed25519Sig signature = 2;
 }
 
-message Commit {
+message CommitMessage {
   CommitPreparePPMessageSignedFields commit_signed_fields = 1;
   Ed25519Sig signature = 2;
   BLSSignature random_seed_share = 3;
 }
 
-message ViewChange {
+message ViewChangeMessage {
   ViewChangeSignedFields view_change_signed_fields = 1;
   Ed25519Sig signature = 2;
   Bytes block_pair_data = 3;
 }
 
-message NewView {
+message NewViewMessage {
   NewViewProof new_view_signed_fields = 1;
   Ed25519Sig header_signature = 2;
   Bytes block_pair_data = 3;

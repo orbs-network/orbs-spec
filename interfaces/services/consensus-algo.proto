@@ -1,32 +1,81 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/gossip.proto";
+import "protocol/protocol-primitives.proto";
+import "protocol/messages/messages.proto";
 import "protocol/blocks.proto";
-import "services/configuration-manager.proto";
+import "services/gossip.proto";
+
 
 service Consensus {
   // Internally called on block commit.
   rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
+  rpc GetCurrentLeader (GetCurrentLeaderInput) returns (GetCurrentLeaderOutput);
   
-  //Gossip
+  // Gossip
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+  rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
+  rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);
+  rpc OnCommitReceived (OnCommitReceivedInput) returns (OnCommitReceivedOutput);
+  rpc OnViewChangeReceived (OnViewChangeReceivedInput) returns (OnViewChangeReceivedOutput);
+  rpc OnNewViewReceived (OnNewViewReceivedInput) returns (OnNewViewReceivedOutput);
   
-  // Block storage / Internal 
+  // Called by block storage / Internal 
   rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
   rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
 }
 
 message OnNewConsensusRoundInput { 
-  TransactionsBlockHeader previous_committed_transactions_block_header = 1;
-  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 2;
-  TransactionsBlockProof previous_committed_transactions_block_proof = 3;
-  ResultsBlockHeader previous_committed_results_block_header = 4;
-  ResultsBlockProof previous_committed_results_block_proof = 5;
+
 }
 
 message OnNewConsensusRoundOutput { 
 
+}
+
+message OnPrePrepareReceivedInput {
+  PrePrepareMessage pre_prepare = 1;
+}
+
+message OnPrePrepareReceivedOutput { 
+
+}
+
+message OnPrepareReceivedInput {
+  PrepareMessage prepare = 1;
+}
+
+message OnPrepareReceivedOutput { 
+
+}
+
+message OnCommitReceivedInput {
+  CommitMessage commit = 1;
+}
+
+message OnCommitReceivedOutput { 
+
+} 
+
+message OnViewChangeReceivedInput {
+  ViewChangeMessage view_change = 1;
+}
+
+message OnViewChangeReceivedOutput { 
+
+} 
+
+message OnNewViewReceivedInput {
+  NewViewMessage new_view = 1;
+}
+
+message OnNewViewReceivedOutput { 
+
+} 
+
+message GetCurrentLeaderInput {
+  repeated Ed25519PKey node_id = 1;
+  Uint32 view = 2;
 }
 
 message AcknowledgeTransactionsBlockConsensusInput {
@@ -48,10 +97,10 @@ message AcknowledgeResultsBlockConsensusInput {
   ResultsBlockHeader results_block_header = 1;
   ResultsBlockProof results_block_proof = 2;
   // Previous block data
-  ResultsBlockHeader results_block_header = 4;
-  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
-  TransactionsBlockProof previous_committed_transactions_block_proof = 6;
-  ResultsBlockProof previous_committed_results_block_proof = 7;
+  ResultsBlockHeader results_block_header = 3;
+  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 4;
+  TransactionsBlockProof previous_committed_transactions_block_proof = 5;
+  ResultsBlockProof previous_committed_results_block_proof = 6;
 }
 
 
