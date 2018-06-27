@@ -23,3 +23,10 @@ Persistency in the node and storage of the actual blockchain state is done by `B
 The `VirtualMachine` is charged with executing transactions. It wraps the various `Processors`, uses them for the actual code execution and interfaces between the code running in them and the outside world (for example providing state access).
 
 While `ConsensusAlgo` implements the actual consensus algorithm (like Helix) that relies on multiple different nodes to reach agreement over the next approved block, it is oblivious to the block content (it can do consensus over any content). The `ConsensusContext` service is its counterpart and used to give the actual content of blocks the relevant system context (like holding transactions inside blocks).
+
+&nbsp;
+## Hexagonal Architecture
+
+![alt text][hexagonal_architecture] <br/><br/>
+
+[hexagonal_architecture]: behaviors/_img/hexagonal-architecture.png "hexagonal_architecture"
