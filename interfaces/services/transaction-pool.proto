@@ -67,7 +67,7 @@ message ValidateTransactionsForOrderingOutput {
 
 message CommitTransactionReceiptsInput {
   ResultsBlockHeader results_block_header = 1;
-  repeated ContractStateDiff contract_state_diff = 2;
+  repeated TransactionReceipt transaction_receipt = 2;
   Uint64 last_committed_block_height = 3;
 }
 
