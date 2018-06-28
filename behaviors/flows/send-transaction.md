@@ -33,7 +33,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
 * `ClientSdk` sends request to `PublicApi`.
 
 * `PublicApi` of gateway node:
-  * Adds the transaction as pending to `TransactionPool`.
+  * Send the transaction to `TransactionPool`.
 
   * `TransactionPool` of gateway node:
     * Executes pre order checks by calling `VirtualMachine`.
