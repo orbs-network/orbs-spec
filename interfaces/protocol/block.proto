@@ -27,7 +27,7 @@ message TransactionsBlockHeader {
   Uint32 virtual_chain = 2;
   Uint64 block_height = 3;
   SHA256 prev_block_hash_ptr = 4;
-  Uint64 time_stamp = 5;
+  Uint64 timestamp = 5;
   SHA256 transactions_root_hash = 6;
   SHA256 meta_data_hash = 7;
 }
@@ -42,10 +42,7 @@ message TransactionsBlockBody {
 }
 
 message TransactionsBlockProof {
-  Bytes block_proof = 1;
-  //Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
-  //repeated BlockProof block_signature = 2;
-  //SHA256 transactions_header_hash = 3; - TBD clarifies the validation.
+  Bytes block_proof = 1; // see lean-helix.proto
 }
 
 message ResultsBlockHeader {
@@ -53,24 +50,13 @@ message ResultsBlockHeader {
   Uint32 virtual_chain = 2;
   Uint64 block_height = 3;
   SHA256 prev_block_hash_ptr = 4;
-  Uint64 time_stamp = 5;
+  Uint64 timestamp = 5;
   SHA256 receipts_root_hash = 6;
   SHA256 state_diff_hash = 7;
   SHA256 transactions_block_hash_ptr = 8;
   SHA256 pre_execution_state_root_hash = 9;
-  ResultsBlockBloomFilter bloom_filter = 10;
-}
-
-// Transaction id bloom filter format:
-// Set H(1, `tx_id`) for each transaction `tx_id` (concat byte with value 0x01 with `tx_id` and insert).
-
-// Transaction timestamp bloom filter format:
-// TODO
-
-
-message ResultsBlockBloomFilter {
-  Bytes filter = 1;
-  // Events bloom filter: (Hard coded indices: 1 - tx_id, 2 - Sender address, 3 - Smart contract address)
+  Bytes txid_bloom_filter = 10;
+  Bytes timestamp_bloom_filter = 11;
 }
 
 message ResultsBlockBody {
@@ -79,7 +65,5 @@ message ResultsBlockBody {
 }
 
 message ResultsBlockProof {
-  Bytes block_proof = 1;
-//  Bytes consensus_dependent_data = 1; // part of the signature, opaque to the protocol.
-//  repeated BlockProof block_signature = 2;
+  Bytes block_proof = 1; // see lean-helix.proto
 }

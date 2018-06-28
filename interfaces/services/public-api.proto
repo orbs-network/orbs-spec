@@ -38,7 +38,7 @@ message CallMethodOutput {
 
 message GetTransactionStatusInput {
   SHA256 txid = 1;
-  Uint64 time_stamp = 2;
+  Uint64 timestamp = 2;
 }
 
 message GetTransactionStatusOutput {
@@ -51,7 +51,7 @@ message GetTransactionStatusOutput {
 message ReturnTransactionResultsInput {
   repeated TransactionReceipt transaction_receipt = 1;
   Uint64 block_height = 2;
-  Uint64 time_stamp = 3;
+  Uint64 timestamp = 3;
 }
 
 message ReturnTransactionResultsOutput {

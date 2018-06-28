@@ -35,7 +35,7 @@ message AddNewTransactionOutput {
 
 message GetCommittedTransactionReceiptInput {
   SHA256 txid = 1;
-  Uint64 time_stamp = 2;
+  Uint64 timestamp = 2;
 }
 
 message GetCommittedTransactionReceiptOutput {
@@ -66,8 +66,9 @@ message ValidateTransactionsForOrderingOutput {
 }
 
 message CommitTransactionReceiptsInput {
-  ResultsBlock validation_block = 1; // Nullify sc_state_diff
-  Uint64 last_committed_block_height = 2;
+  ResultsBlockHeader results_block_header = 1;
+  repeated ContractStateDiff contract_state_diff = 2;
+  Uint64 last_committed_block_height = 3;
 }
 
 message CommitTransactionReceiptsOutput {

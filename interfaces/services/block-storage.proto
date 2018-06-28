@@ -56,7 +56,7 @@ message GetResultsBlockHeaderOutput {
 }
 
 message GetTransactionReceiptInput {
-  Uint256 tx_id = 1;
+  Uint256 txid = 1;
   Uint64 timestamp = 2;
 }
 

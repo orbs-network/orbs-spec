@@ -20,7 +20,7 @@ message Transaction {
 }
 
 message TransactionReceipt {
-  SHA256 tx_id = 1; // Concatenate the timestamp.
+  SHA256 txid = 1; // Concatenate the timestamp.
   Uint32 version = 2;
   ExecutionStatus transaction_status = 3;
   repeated MethodArgument output_argument = 4;

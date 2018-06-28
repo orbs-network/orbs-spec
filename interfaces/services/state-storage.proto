@@ -22,8 +22,8 @@ message ReadKeysInput {
 
 message ReadKeysOutput {
   RequestStatus status = 1;
-//  map<RIPMD160SHA256,Blob> values = 2; // TODO , change to Map<160b,blob> once supported 
-repeated Blob blob = 2;
+//  map<RIPMD160SHA256,Blob> values = 2; 
+  repeated Blob blob = 2;
 }
 
 message GetStateStorageBlockHeightInput {
@@ -36,8 +36,9 @@ message GetStateStorageBlockHeightOutput {
 }
 
 message CommitStateDiffInput {
-  ResultsBlock validation_block = 1; // Nullify transaction_receipts - TODO
-  Uint64 last_committed_block_height = 2;
+  ResultsBlockHeader results_block_header = 1;
+  repeated ContractStateDiff contract_state_diff = 2;
+  Uint64 last_committed_block_height = 3;
 }
 
 message CommitStateDiffOutput {
