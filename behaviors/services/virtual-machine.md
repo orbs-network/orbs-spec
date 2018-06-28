@@ -40,6 +40,8 @@ Currently a single instance per virtual chain per node.
 > Executes a read only method of a deployed service and returns its result (not under consensus).
 
 #### Prepare for execution
+* Get the block height and timestamp for the local method processing by calling `StateStorage.GetStateStorageBlockHeight`.
+  * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
   * Currently `PublicApi.CallMethod` calls are not signed.
 * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
@@ -54,7 +56,7 @@ Currently a single instance per virtual chain per node.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
   * Note: Execution permissions are checked by the processor.
 * Pop service from the execution context's service stack.
-* Return result.
+* Return result along with the reference block height and timestamp.
 
 &nbsp;
 ## `ProcessTransactionSet` (method)

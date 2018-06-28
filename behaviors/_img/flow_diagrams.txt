@@ -1,47 +1,47 @@
 # 1. flows/send-transaction.md, Send transaction
 
-participant GW Client SDK
-participant GW Public API
-participant GW Transaction Pool
-participant GW Virtual Machine
+participant GW ClientSDK
+participant GW PublicAPI
+participant GW TransactionPool
+participant GW VirtualMachine
 participant GW Gossip
 participant Nodes Gossip
-participant Nodes Transaction Pool
+participant Nodes TransactionPool
 
-GW Client SDK->GW Public API:Send Transaction
-note over GW Public API
+GW ClientSDK->GW PublicAPI:SendTransaction
+note over GW PublicAPI
     Performs basic transaction checks
     Maintains session info
 end note
-GW Public API->GW Transaction Pool:AddNewTransaction
-note over GW Transaction Pool
+GW PublicAPI->GW TransactionPool:AddNewTransaction
+note over GW TransactionPool
     Perfroms Transaction Checks
 end note
-GW Transaction Pool->+GW Virtual Machine:TransactionSetPreOrder
-note over GW Virtual Machine
+GW TransactionPool->+GW VirtualMachine:TransactionSetPreOrder
+note over GW VirtualMachine
     Verifies Signatures and calls
     PreOrder smart contract
 end note
-GW Virtual Machine-->-GW Transaction Pool:valid
-note over GW Transaction Pool
+GW VirtualMachine-->-GW TransactionPool:valid
+note over GW TransactionPool
     Adds to pending pool
     Batches transactions for gossip and signs
 end note
-GW Transaction Pool->GW Gossip: Broadcast message
+GW TransactionPool->GW Gossip: Broadcast message
 GW Gossip-->Nodes Gossip: Gossip message
 
-Nodes Gossip->Nodes Transaction Pool:MessageReceived
-note over Nodes Transaction Pool
+Nodes Gossip->Nodes TransactionPool:MessageReceived
+note over Nodes TransactionPool
     Checks GW node signature
     Adds to pending pool
 end note
 
-note over GW Transaction Pool
+note over GW TransactionPool
     Waits for block commit
 end note
 
-GW Transaction Pool->GW Public API:ReturnTransactionResults
-GW Public API->GW Client SDK:SendTransaction response
+GW TransactionPool->GW PublicAPI:ReturnTransactionResults
+GW PublicAPI->GW ClientSDK:SendTransaction response
 
 
 # 2. flows/block-creation-before-commit.md, Leader flow
@@ -161,7 +161,7 @@ participant BlockStorage
 participant StateStorage
 participant TransactionPool
 participant GW PublicAPI
-participant GW Client SDK
+participant GW ClientSDK
 
 
 ConsensusAlgo->BlockStorage:CommitBlock
@@ -170,7 +170,7 @@ StateStorage-->-BlockStorage:next desired block height
 BlockStorage->+TransactionPool:CommitTransactionReceipts
 TransactionPool-->-BlockStorage:next desired block height
 TransactionPool->GW PublicAPI:ReturnTransactionResults
-GW PublicAPI->GW Client SDK: SendTransaction response
+GW PublicAPI->GW ClientSDK: SendTransaction response
 
 
 #5. flows/process_call.md
@@ -226,23 +226,24 @@ end note
 
 #6. flows/call-method.md
 
-participant Client SDK
-participant Public API
-participant Block Storage
-participant Virtual Machine
+participant ClientSDK
+participant PublicAPI
+participant VirtualMachine
+participant StateStorage
 
-Client SDK->Public API:CallMethod
-note over Public API
+ClientSDK->PublicAPI:CallMethod
+note over PublicAPI
     Basic transaction checks
-    Maintain Session Info
+    Maintains Session Info
 end note
-Public API->Block Storage:GetLastCommittedBlockHeight
-Public API->+Virtual Machine:RunLocalMethod
+PublicAPI->+VirtualMachine:RunLocalMethod
+VirtualMachine->+StateStorage:GetStateStorageBlockHeight
+StateStorage->-VirtualMachine:block height, timestamp
 note over VirtualMachine
   Checks permissions
   Executes the method
 end note 
-Virtual Machine-->-Public API:output
-Public API->Client SDK:CallMethod response
+VirtualMachine-->-PublicAPI:output
+PublicAPI->ClientSDK:CallMethod response
 
 

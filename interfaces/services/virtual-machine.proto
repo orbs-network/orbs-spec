@@ -28,13 +28,15 @@ message ProcessTransactionSetOutput {
 }
 
 message RunLocalMethodInput {
-  Uint64 block_height = 1;
+  Uint64 block_height = 1; // block_height = 0, indicates using the default (latest) block height.
   Transaction transaction = 2;
 }
 
 message RunLocalMethodOutput {
   CallMethodStatus status = 1;
   repeated MethodArguments output_argument = 2;
+  Uint64 reference_block_height = 3; 
+  Uint64 reference_block_timestamp = 4;
 }
 
 message TransactionSetPreOrderInput {

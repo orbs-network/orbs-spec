@@ -8,6 +8,7 @@ service StateStorage {
   rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
   // Called by Virtual Machine
   rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+  rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput)
   // Called by Consensus Context
   rpc GetStateHash(GetStateHashInput) returns (GetStateHashOutput);
 }
@@ -21,6 +22,15 @@ message ReadKeysInput {
 message ReadKeysOutput {
   RequestStatus status = 1;
   map<RIPMD160SHA256,Blob> values = 2;
+}
+
+message GetStateStorageBlockHeightInput {
+  // empty
+}
+
+message GetStateStorageBlockHeightOutput {
+  Uint64 last_committed_block_height = 1;
+  Uint64 last_committed_block_timestamp = 2;
 }
 
 message CommitStateDiffInput {

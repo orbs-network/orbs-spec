@@ -28,11 +28,18 @@ This read is not under consensus. Multiple reads can take place at the same time
 * `ClientSdk` sends request to `PublicApi`.
 
 * `PublicApi` of gateway node:
-  * Gets the block height for the call from `BlockStorage`.
   * Sends the call for execution in `VirtualMachine`.
 
   * `VirtualMachine` of gateway node:
+    * Gets the block height for the call from `StateStorage`.
     * Executes the smart contract on the relevant `Processor`.
     * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
 
   * Responds to the client.
+
+&nbsp;
+## Call Method Flow Diagram
+
+![alt text][run_local_method_flow] <br/><br/>
+
+[run_local_method_flow]: ../_img/run_local_method_flow.png "Call Method"
