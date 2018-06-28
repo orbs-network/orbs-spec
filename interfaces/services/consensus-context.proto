@@ -19,6 +19,7 @@ message RequestNewTransactionsBlockInput {
     Uint64 block_height = 1;
     Uint32 max_block_size_kb = 2;
     Uint32 max_number_of_transactions = 3;
+    SHA256 prev_block_hash = 4;
 }
 
 message RequestNewTransactionsBlockOutput {
@@ -28,6 +29,7 @@ message RequestNewTransactionsBlockOutput {
 
 message RequestNewResultsBlockInput {
     Uint64 block_height = 1;
+    SHA256 prev_block_hash = 2;
 }
 
 message RequestNewResultsBlockOutput {
@@ -37,6 +39,7 @@ message RequestNewResultsBlockOutput {
 
 message ValidateTransactionsBlockInput {
     TransactionsBlock transactions_block = 1;
+    SHA256 prev_block_hash = 2;
 }
 
 message ValidateTransactionsBlockOutput {
@@ -45,6 +48,7 @@ message ValidateTransactionsBlockOutput {
 
 message ValidateResultsBlockInput {
     ResultsBlock results_block = 1;
+    SHA256 prev_block_hash = 2;
 }
 
 message ValidateResultsBlockOutput {
