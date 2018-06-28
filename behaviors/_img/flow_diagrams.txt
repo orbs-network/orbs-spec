@@ -1,6 +1,5 @@
 # 1. flows/send-transaction.md, Send transaction
 
-title Send transaction
 participant GW Client SDK
 participant GW Public API
 participant GW Transaction Pool
@@ -9,33 +8,40 @@ participant GW Gossip
 participant Nodes Gossip
 participant Nodes Transaction Pool
 
-GW Client SDK->GW Public API: Send Transaction
+GW Client SDK->GW Public API:Send Transaction
 note over GW Public API
-    Basic transaction checks
-    Maintain Session Info
+    Performs basic transaction checks
+    Maintains session info
 end note
-GW Public API->GW Transaction Pool: Send Transaction
+GW Public API->GW Transaction Pool:AddNewTransaction
 note over GW Transaction Pool
     Perfroms Transaction Checks
 end note
-GW Transaction Pool->+GW Virtual Machine: Execute Pre-Order
+GW Transaction Pool->+GW Virtual Machine:TransactionSetPreOrder
 note over GW Virtual Machine
-    Executes PreOrder
-    Reads state as needed
+    Verifies Signatures and calls
+    PreOrder smart contract
 end note
-GW Virtual Machine-->-GW Transaction Pool: Valid
+GW Virtual Machine-->-GW Transaction Pool:valid
 note over GW Transaction Pool
-    Add to pending pool
-    Batch transactions for gossip and sign
+    Adds to pending pool
+    Batches transactions for gossip and signs
 end note
-GW Transaction Pool->GW Gossip: SendMessage (broadcast)
-GW Gossip-->Nodes Gossip: ForwardedTransactions
+GW Transaction Pool->GW Gossip: Broadcast message
+GW Gossip-->Nodes Gossip: Gossip message
 
-Nodes Gossip->Nodes Transaction Pool: MessageReceived
+Nodes Gossip->Nodes Transaction Pool:MessageReceived
 note over Nodes Transaction Pool
-    Checks originator signature
-    Add to pending pool
+    Checks GW node signature
+    Adds to pending pool
 end note
+
+note over GW Transaction Pool
+    Waits for block commit
+end note
+
+GW Transaction Pool->GW Public API:ReturnTransactionResults
+GW Public API->GW Client SDK:SendTransaction response
 
 
 # 2. flows/block-creation-before-commit.md, Leader flow
@@ -165,3 +171,78 @@ BlockStorage->+TransactionPool:CommitTransactionReceipts
 TransactionPool-->-BlockStorage:next desired block height
 TransactionPool->GW PublicAPI:ReturnTransactionResults
 GW PublicAPI->GW Client SDK: SendTransaction response
+
+
+#5. flows/process_call.md
+
+participant VirtualMachine
+participant StateStorage
+participant ProcessorA
+participant ProcessorB
+participant CrosschainConnector
+
+
+VirtualMachine->+StateStorage:Get processor (ReadKeys)
+StateStorage-->-VirtualMachine: processor / not found
+opt Deploy
+    VirtualMachine->StateStorage: DeployService
+end
+note over VirtualMachine
+  allocate execution context
+  and batch transient state
+end note
+
+loop For each transaction
+  note over VirtualMachine
+    Prepare transction context
+  end note
+  VirtualMachine->+ProcessorA:ProcessCall
+
+  ProcessorA->+VirtualMachine:SdkCall(ReadKeys)
+  VirtualMachine->+StateStorage:ReadKeys
+  StateStorage-->-VirtualMachine:values
+  VirtualMachine-->-ProcessorA:values
+
+  ProcessorA->+VirtualMachine:SdkCall(Call contract)
+  VirtualMachine->+ProcessorB:ProcessCall
+  ProcessorB-->-VirtualMachine:output
+  VirtualMachine-->-ProcessorA:output
+ 
+  ProcessorA->+VirtualMachine:SdkCall(CallEthereumContract)
+  VirtualMachine->+CrosschainConnector:CallEthereumContract
+  CrosschainConnector-->-VirtualMachine:values
+  VirtualMachine-->-ProcessorA:values
+
+  ProcessorA-->-VirtualMachine:output
+
+  note over VirtualMachine
+    Update batch transient state
+  end note
+end
+note over VirtualMachine
+  Prepare combined StateDiff
+end note
+
+
+#6. flows/call-method.md
+
+participant Client SDK
+participant Public API
+participant Block Storage
+participant Virtual Machine
+
+Client SDK->Public API:CallMethod
+note over Public API
+    Basic transaction checks
+    Maintain Session Info
+end note
+Public API->Block Storage:GetLastCommittedBlockHeight
+Public API->+Virtual Machine:RunLocalMethod
+note over VirtualMachine
+  Checks permissions
+  Executes the method
+end note 
+Virtual Machine-->-Public API:output
+Public API->Client SDK:CallMethod response
+
+

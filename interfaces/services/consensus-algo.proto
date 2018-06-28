@@ -7,7 +7,7 @@ import "protocol/blocks.proto";
 import "services/gossip.proto";
 
 
-service Consensus {
+service ConsensusAlgo {
   // Internally called on block commit.
   rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
   rpc GetCurrentLeader (GetCurrentLeaderInput) returns (GetCurrentLeaderOutput);
