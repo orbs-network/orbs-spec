@@ -28,7 +28,10 @@ message AddNewTransactionInput {
 }
 
 message AddNewTransactionOutput {
-
+  TransactionStatus transaction_status = 1;
+  TransactionReceipt transaction_receipt = 2;
+  Uint64 block_height = 3;
+  Uint64 block_timestamp = 4;
 }
 
 message GetTransactionStatusInput {
