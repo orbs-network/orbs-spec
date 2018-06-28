@@ -37,6 +37,11 @@ message MethodArgument {
     }
   }
 
+message Ed25519PKeySignature {
+  Ed25519PKey public_key = 1;
+  Ed25519Sig signature = 2;
+}
+
   enum CallMethodStatus {
       SUCCESS = 0;
       ERROR_CALL_EXCEPTION = 1;

@@ -48,21 +48,6 @@ message TransactionsBlockProof {
   //SHA256 transactions_header_hash = 3; - TBD clarifies the validation.
 }
 
-message LiteHelixBlockProof { // move to Lite-Helix file
-  Uint8 opaque_message_type = 1; // COMMIT
-  Uint64 block_height = 2;
-  Uint64 view = 3;
-  Uint256 block_hash_mask = 4;
-  Uint256 block_hash = 5;
-  repeated BlockSiganture block_signature = 6;
-  BLSAggregatedSignature random_seed_signature = 7;
-} 
-
-message BlockSiganture {
-  Ed25519PKey public_key = 1;
-  Ed25519Sig signature = 2;
-}
-
 message ResultsBlockHeader {
   Uint32 version = 1;
   Uint32 virtual_chain = 2;

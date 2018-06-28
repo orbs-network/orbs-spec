@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
 
 // Lean Helix Consensus Messages
 message LeanHelixMessage {
@@ -53,7 +54,7 @@ message NewViewMessage {
 message CommitPreparePPMessageSignedFields {
   LeanHelixMessageType message_type = 1;
   Uint64 block_height = 2;
-  Uint64 view = 3;
+  Uint32 view = 3;
   SHA256 block_hash = 4; // SHA256(TransactionBlockHeader) XOR SHA256(ResultsBlockHeader).
   Ed25519PKey sender_public_key = 5;
 }
@@ -61,7 +62,7 @@ message CommitPreparePPMessageSignedFields {
 message ViewChangeSignedFields {
   LeanHelixMessageType message_type = 1;
   Uint64 block_height = 2;
-  Uint64 view = 3;
+  Uint32 view = 3;
   PreparedProof prepared_proof = 4;
   Ed25519PKey sender_public_key = 5;
 }
@@ -74,7 +75,7 @@ message PreparedProof {
 message NewViewSignedFields {
   LeanHelixMessageType message_type = 1;
   Uint64 block_height = 2;
-  Uint64 view = 3;
+  Uint32 view = 3;
   NewViewProof new_view_proof = 4;
   CommitPreparePPMessageSignedFields nv_pp_signed_fields = 5;
   Ed25519Sig nv_pp_signature = 6;
@@ -86,3 +87,12 @@ message NewViewProof {
   repeated Ed25519Sig view_change_header_signature = 2;
 }
 
+message LeanHelixBlockProof { 
+  LeanHelixMessageType commit_message_type = 1;
+  Uint64 block_height = 2;
+  Uint32 view = 3;
+  Uint256 block_hash_mask = 4;
+  Uint256 block_hash = 5;
+  repeated Ed25519PKeySignature pkey_signature = 6;
+  BLSSignature random_seed_signature = 7;
+}
