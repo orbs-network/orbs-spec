@@ -1,9 +1,9 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/messages/messages.proto";
-import "protocol/blocks.proto";
+import "protocol/transaction.proto";
+import "protocol/block.proto";
+import "protocol/messages/block-sync.proto";
 import "services/gossip.proto";
 
 
@@ -14,7 +14,7 @@ service BlockStorage {
   rpc GetResultsBlockHeader (GetResultsBlockHeaderInput) returns (GetResultsBlockHeaderOutput);
 
   // Called by Public API
-  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceipt);
+  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
   rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
 
   // Gossip
@@ -105,4 +105,12 @@ message OnBlockSyncResponseInput {
 
 message OnBlockSyncResponseOutput {
   // empty
+}
+
+message ValidateBlockForCommitInput {
+  
+}
+
+message ValidateBlockForCommitOutput {
+ 
 }

@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
 
 // Lean Helix Consensus Messages
 message BlockSyncMessage {
@@ -35,7 +34,7 @@ message BlockRequestSignedFields {
 }
 
 message BlockSyncResponseMessage {
-  BlockSyncSignedFields block_sync_response_signed_fields = 1;
+  BlockSyncResponseSignedFields block_sync_response_signed_fields = 1;
   Ed25519Sig signature = 2; 
   repeated Bytes block_data = 3;
 }

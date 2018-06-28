@@ -2,8 +2,7 @@ syntax = "proto3";
 
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
-import "protocol/address.proto";
-import "protocol/transactions.proto";
+import "protocol/transaction.proto";
 
 service PublicApi {
   // Called by Client SDK
@@ -26,12 +25,12 @@ message SendTransactionOutput {
   Uint64 block_timestamp = 4;
 }
 
-message CallContractInput {
+message CallMethodInput {
   Transaction transaction = 1;
 }
 
-message CallContractOutput {
-  repeated MethodArguments output_argument = 1;
+message CallMethodOutput {
+  repeated MethodArgument output_argument = 1;
   CallMethodStatus call_status = 2;
   Uint64 block_height = 3;
   Uint64 block_timestamp = 4;
@@ -50,26 +49,11 @@ message GetTransactionStatusOutput {
 }
 
 message ReturnTransactionResultsInput {
-  repeated TransactionReceipt transaction_receipts = 1;
+  repeated TransactionReceipt transaction_receipt = 1;
   Uint64 block_height = 2;
   Uint64 time_stamp = 3;
 }
 
 message ReturnTransactionResultsOutput {
   // empty
-}
-
-enum TransactionStatus {
-  RESERVED = 0;
-  COMMITED = 1; // Valid receipt
-  PENDING = 16;
-  NO_RECORD_FOUND = 17;
-  REJECTED_UNSUPPORTED_VERSION = 18;
-  REJECTED_VIRTUAL_CHAIN_MISMATCH = 19;
-  REJECTED_TIME_STAMP_WINDOW_EXCEEDED = 20;
-  REJECTED_SIGNATURE_MISMATCH = 21;
-  REJECTED_VIRTUAL_CHAIN_SUBSCRIPTION = 22;
-  REJECTED_VIRTUAL_CHAIN_PRE_ORDER = 23;
-  REJECTED_SMART_CONTRACT_PRE_ORDER = 24;
-  REJECTED_DUPLCIATE_PENDING_TRANSACTION = 25;
 }

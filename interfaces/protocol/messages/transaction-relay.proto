@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
 
 // Lean Helix Consensus Messages
 message TransactionsRelayMessage {

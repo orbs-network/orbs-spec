@@ -3,13 +3,12 @@ syntax = "proto3";
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
 import "protocol/address.proto";
-import "services/virtual-machine.proto";
 
 
 service Processor {
     // Called by Virtual-machine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
-    rpc DeployService (DeployServiceInput) returns (DeployServiceOutput);
+    rpc DeployNativeService (DeployNativeServiceInput) returns (DeployNativeServiceOutput);
 }
   
 message ProcessCallInput {
@@ -24,7 +23,7 @@ message ProcessCallInput {
 }
 
 message ProcessCallOutput {
-    repeated MethodArguments output_argument = 1;
+    repeated MethodArgument output_argument = 1;
     CallMethodStatus call_status = 2; 
 }
 
@@ -38,7 +37,7 @@ enum PermissionScope {
     SERVICE_PERMISSION = 1;
 }
 
-message DeployNativeService {
+message DeployNativeServiceInput {
     Uint32 context_id = 1;
     ContractAddress contract = 2;
     AccessScope access_scope = 3; 
@@ -47,7 +46,7 @@ message DeployNativeService {
     Sender transaction_sender = 6; // TBD - move to SDK
 }
 
-message DeployServiceOutput {
+message DeployNativeServiceOutput {
     DeployServiceStatus status = 1;       
 }
 

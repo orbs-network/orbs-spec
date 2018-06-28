@@ -2,8 +2,7 @@ syntax = "proto3";
 
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
-import "protocol/address.proto";
-import "protocol/transactions.proto";
+import "protocol/transaction.proto";
 
 service VirtualMachine {
   // Called by Consensus Context
@@ -23,8 +22,8 @@ message ProcessTransactionSetInput {
 
 message ProcessTransactionSetOutput {
   RequestStatus status = 1;
-  repeated TransactionReceipt transaction_receipt = 1;
-  repeated ServiceStateDiff service_state_diff = 2;
+  repeated TransactionReceipt transaction_receipt = 2;
+  repeated ContractStateDiff contract_state_diff = 3;
 }
 
 message RunLocalMethodInput {
@@ -34,7 +33,7 @@ message RunLocalMethodInput {
 
 message RunLocalMethodOutput {
   CallMethodStatus status = 1;
-  repeated MethodArguments output_argument = 2;
+  repeated MethodArgument output_argument = 2;
   Uint64 reference_block_height = 3; 
   Uint64 reference_block_timestamp = 4;
 }
@@ -54,9 +53,9 @@ message PreOrderResult {
 }
 
 enum PreOrderStatus {
-  VALID = 0;
-  INVALID_SIGNATURE = 1;
-  INVALID_ADDRESS_SCHEME = 2;
+  PRE_ORDER_VALID = 0;
+  PRE_ORDER_INVALID_SIGNATURE = 1;
+  PRE_ORDER_INVALID_ADDRESS_SCHEME = 2;
   PRE_ORDER_NOT_APPROVED = 3;
 }
 

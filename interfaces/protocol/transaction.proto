@@ -16,21 +16,14 @@ message Transaction {
   Uint64 timestamp = 4;
   String contract_name = 5;
   String method_name = 6;
-  repeated MethodArgument input_arguments = 7;
+  repeated MethodArgument input_argument = 7;
 }
 
 message TransactionReceipt {
-  SHA256 tx_id = 1; 
+  SHA256 tx_id = 1; // Concatenate the timestamp.
   Uint32 version = 2;
   ExecutionStatus transaction_status = 3;
-  repeated MethodArgument output_arguments = 4;
-}
-
-enum ExecutionStatus {
-  RESERVED = 0;
-  EXECUTED_SUCCESSFULLY = 1;
-  EXECUTED_WITH_SMART_CONTRACT_ERROR = 2;
-  EXECUTED_WITH_UNEXPECTED_ERROR = 3; 
+  repeated MethodArgument output_argument = 4;
 }
 
 

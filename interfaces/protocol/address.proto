@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
+import "protocol/protocol-primitives.proto";
 
 message Sender {
     AddressScheme address_scheme = 1;
@@ -26,7 +27,7 @@ message EdDSA01Sender {
 message SmartContractSender {
     NetworkType network_type = 1;
     String contract_name = 2; 
-    repeated MethodArguments sender_input_argument = 3; // For example account_name
+    repeated MethodArgument sender_input_argument = 3; // For example account_name
     // Signature = signature_input_arguments
     // Address = RIPMD160(SHA(SmartContractSender))
 }

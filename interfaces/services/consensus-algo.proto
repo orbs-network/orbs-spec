@@ -1,16 +1,13 @@
 syntax = "proto3";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/messages/messages.proto";
-import "protocol/blocks.proto";
+import "protocol/block.proto";
+import "protocol/messages/lean-helix.proto";
 import "services/gossip.proto";
 
 
 service ConsensusAlgo {
   // Internally called on block commit.
   rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
-  rpc GetCurrentLeader (GetCurrentLeaderInput) returns (GetCurrentLeaderOutput);
   
   // Gossip
   rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
@@ -73,11 +70,6 @@ message OnNewViewReceivedOutput {
 
 } 
 
-message GetCurrentLeaderInput {
-  repeated Ed25519PKey node_id = 1;
-  Uint32 view = 2;
-}
-
 message AcknowledgeTransactionsBlockConsensusInput {
   TransactionsBlockHeader transactions_block_header = 1;
   TransactionsBlockMetaData transactions_block_meta_data = 2;
@@ -97,7 +89,7 @@ message AcknowledgeResultsBlockConsensusInput {
   ResultsBlockHeader results_block_header = 1;
   ResultsBlockProof results_block_proof = 2;
   // Previous block data
-  ResultsBlockHeader results_block_header = 3;
+  ResultsBlockHeader previous_results_block_header = 3;
   TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 4;
   TransactionsBlockProof previous_committed_transactions_block_proof = 5;
   ResultsBlockProof previous_committed_results_block_proof = 6;
@@ -108,7 +100,7 @@ message AcknowledgeResultsBlockConsensusOutput {
   ValidateBlockConsensus status = 1;
 }
 
-message ValidateBlockConsensus {
+enum ValidateBlockConsensus {
   VALID_FOR_COMMIT = 0;
   NOT_VALID_FOR_COMMIT = 1;
 }

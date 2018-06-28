@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
 
 // Lean Helix Consensus Messages
 message LeanHelixMessage {
@@ -78,8 +77,8 @@ message NewViewSignedFields {
   Uint64 view = 3;
   NewViewProof new_view_proof = 4;
   CommitPreparePPMessageSignedFields nv_pp_signed_fields = 5;
-  Ed25519Sig nv_pp_signature = 2;
-  Ed25519PKey sender_public_key = 5;
+  Ed25519Sig nv_pp_signature = 6;
+  Ed25519PKey sender_public_key = 7;
 }
 
 message NewViewProof {

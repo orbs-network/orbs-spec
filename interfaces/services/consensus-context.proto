@@ -2,13 +2,13 @@ syntax = "proto3";
 
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
-import "protocol/blocks.proto";
+import "protocol/block.proto";
 
 service ConsensusContext {
     // Called by Consensus-Algo
   rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
   rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
-  rpc ValidateTransactionsForOrdering (ValidateBlockOrderingInput) returns (ValidateBlockOrderingOutput);
+  rpc ValidateTransactionsBlock (ValidateTransactionsBlockInput) returns (ValidateTransactionsBlockOutput);
   rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
   rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
   rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);

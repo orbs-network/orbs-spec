@@ -2,16 +2,15 @@ syntax = "proto3";
 
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
-import "protocol/messages/messages.proto";
-import "protocol/transactions.proto";
-import "protocol/blocks.proto";
+import "protocol/transaction.proto";
+import "protocol/block.proto";
+import "protocol/messages/transaction-relay.proto";
 import "services/gossip.proto";
-import "services/blocks.proto";
 
 service TransactionPool {
   // Called by Public API
   rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
-  rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
+  rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
   // Called by Consensus Core
   rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput); 
   rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput); 
@@ -19,7 +18,7 @@ service TransactionPool {
   rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
   
   // Gossip
-  rpc GossipMessageReceived (GossipListenerInput) returns (GossipListenerOutput);
+  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
   rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
 }
 
@@ -34,13 +33,16 @@ message AddNewTransactionOutput {
   Uint64 block_timestamp = 4;
 }
 
-message GetTransactionStatusInput {
+message GetCommittedTransactionReceiptInput {
   SHA256 txid = 1;
-  Uint64 timestamp = 2;
+  Uint64 time_stamp = 2;
 }
 
-message GetTransactionStatusOutput {
+message GetCommittedTransactionReceiptOutput {
   TransactionStatus transaction_status = 1;
+  TransactionReceipt transaction_receipt = 2;
+  Uint64 block_height = 3;
+  Uint64 block_timestamp = 4;
 }
 
 message GetTransactionsForOrderingInput {
@@ -69,21 +71,8 @@ message CommitTransactionReceiptsInput {
 }
 
 message CommitTransactionReceiptsOutput {
-  Unit64 next_desired_block_height = 1;
+  Uint64 next_desired_block_height = 1;
   Uint64 last_committed_block_height = 2;
-}
-
-
-message GetTransactionReceiptInput {
-  SHA256 txid = 1;
-  Uint64 time_stamp = 2;
-}
-
-message GetTransactionReceiptOutput {
-  TransactionStatus transaction_status = 1;
-  TransactionReceipt transaction_receipt = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
 }
 
 message OnForwardedTransactionsInput {

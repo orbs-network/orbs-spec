@@ -1,30 +1,33 @@
 syntax = "proto3";
 
 import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
 import "protocol/messages/lean-helix.proto";
-import "protocol/messages/node-sync.proto";
+import "protocol/messages/block-sync.proto";
 import "protocol/messages/transaction-relay.proto";
 
 
 message GossipMessage {
   Uint32 protocol_version = 1;
-  repeated Ed25519PKey receipients_list = 2; // TODO should the receipts list be covered by the signature or handle in gossip layer.
-  Bool inverse_recipients_list = 3;
-  MessageTopic topic = 3;
-  Uint32 virtual_chain = 4;
+  repeated Ed25519PKey recipients_list = 2;
+  RecipientsListMode inverse_recipients_list = 3;
+  MessageTopic topic = 4;
+  Uint32 virtual_chain = 5;
   oneof message_topic {
-    LeanHelixMessage lean_helix_message = 1;
-    BlockSyncMessage block_sync_message = 2;
-    TransactionsRelayMessage transactions_relay_message = 3;
+    LeanHelixMessage lean_helix_message = 6;
+    BlockSyncMessage block_sync_message = 7;
+    TransactionsRelayMessage transactions_relay_message = 8;
   }
 }
 
+enum RecipientsListMode {
+  SEND_TO_RECIPIENT_LIST = 0;
+  SEND_TO_ALL_BUT_RECIPIENT_LIST = 1;
+}
+
 enum MessageTopic {
-  RESERVED = 0;
-  LITE_HELIX_CONSEMSUS = 1;
-  TRANSACTION_RELAY = 2;
-  NODE_SYNC = 3;
+  LITE_HELIX_CONSEMSUS = 0;
+  TRANSACTION_RELAY = 1;
+  NODE_SYNC = 2;
 }
 
 

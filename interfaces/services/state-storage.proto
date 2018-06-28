@@ -2,26 +2,28 @@ syntax = "proto3";
 
 import "protocol/primitives.proto";
 import "protocol/protocol-primitives.proto";
+import "protocol/block.proto";
 
 service StateStorage {
   // Called by Block Storage
   rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
   // Called by Virtual Machine
   rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
-  rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput)
+  rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
   // Called by Consensus Context
-  rpc GetStateHash(GetStateHashInput) returns (GetStateHashOutput);
+  rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
 }
 
 message ReadKeysInput {
   Uint64 block_height = 1;
   ContractAddress contract = 2;
-  repeated RIPMD160SHA256 keys = 3;
+  repeated RIPMD160SHA256 key = 3;
 }
 
 message ReadKeysOutput {
   RequestStatus status = 1;
-  map<RIPMD160SHA256,Blob> values = 2;
+//  map<RIPMD160SHA256,Blob> values = 2; // TODO , change to Map<160b,blob> once supported 
+repeated Blob blob = 2;
 }
 
 message GetStateStorageBlockHeightInput {
@@ -39,7 +41,7 @@ message CommitStateDiffInput {
 }
 
 message CommitStateDiffOutput {
-  Unit64 next_desired_block_height = 1;
+  Uint64 next_desired_block_height = 1;
   Uint64 last_committed_block_height = 2;
 }
 
