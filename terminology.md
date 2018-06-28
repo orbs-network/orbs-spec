@@ -1,6 +1,6 @@
 # Terminology
 
-* `node` - Self contained entity in the network. Usually belongs to a single company or organization. Shares a private key and represented by a public key. The number of nodes in the network is the number of known public keys in the network. A node is made of multiple services potentially running on multiple machines. A node is a trust boundary. Different nodes do not trust each other. Different components inside a node do trust each other.
+* `node` - Self contained entity in the network. Usually belongs to a single company or organization. Shares a private key and represented by a public key. The number of active nodes in the network is the number of active known public keys in the network. A node is made of multiple services potentially running on multiple machines. A node is a trust boundary. Different nodes do not trust each other. Different components inside a node do trust each other.
 
 * `virtual chain` - An isolated virtual blockchain that can hold multiple deployed services (smart contracts) and their entire persistent state. Different virtual chains are isolated from one another, rely on different resources and thus can be scaled horizontally. A single node participates in the consensus process of multiple virtual chains (ideally all of them).
 
