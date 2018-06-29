@@ -147,8 +147,8 @@ Currently a single instance per virtual chain per node.
   * The transaction timestamp in the timestamp bloom filter (see block format for structure).
   * The transaction `tx_id` in the id bloom filter (see block format for structure).
   * On match, fetch the block and search for the `tx_id` in the block receipts.
-    * If found, returns the receipt.
-* If not found on all relevant blocks, return an empty result.
+    * If found, returns the receipt along with its block height and timestamp.
+* If not found on all relevant blocks, returns an empty receipt along with the last committed block height and timestamp.
 
 &nbsp;
 ## `GetTransactionsBlockHeader` (method)

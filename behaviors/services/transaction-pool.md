@@ -26,6 +26,7 @@ Currently a single instance per virtual chain per node.
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
     * If indeed local, update the local public api by calling `PublicApi.ReturnTransactionResults`.
+      * Set block height and timestamp according to the last committed block.
 
 #### Committed transaction pool
 * Holds the receipts of committed transactions to return their result and avoid transaction duplication.
@@ -56,13 +57,15 @@ Currently a single instance per virtual chain per node.
 * Correct protocol version.
 * Valid fields (sender address, contract address).
 * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-* Check transaction timestamp, accept only transactions that haven't expired.
-  * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+* Check Transaction Timestamp:
+  * Accept only transactions that haven't expired.
+    * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+  * Accept only transactions with timestamp in sync with the node.
+    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/shared.md) sync grace window (eg. 3 min).
+    * Note: A transaction may be rejected due to either future timestamp or node's loss of sync.
+* Transaction (`tx_id`) doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
-
-#### Check if a duplicate transaction
-* If transaction (`tx_id`) already exist in the committed pool, discard and respond with the transaction receipt, status = COMMITTED.
-* If the transaction (`tx_id`) already exist in the pending pool, discard and respond with status = REJECTED_DUPLCIATE_TRANSACTION.
+If the transaction fails one the checks and is not accepted, return the right error status and an empty receipt. (For an already committed transaction, return the receipt)
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
@@ -161,9 +164,9 @@ Currently a single instance per virtual chain per node.
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
 
-* If `tx_id` is present in the pending transaction pool, return status `PENDING`.
+* If `tx_id` is present in the pending transaction pool, return status `PENDING` along with the last commited block height nad timestamp.
 * If `tx_id` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
-* else return status `NO_RECORD_FOUND`.
+* else return status `NO_RECORD_FOUND` along with the last commited block height nad timestamp.
 
 &nbsp;
 ## `GossipMessageReceived` (method)

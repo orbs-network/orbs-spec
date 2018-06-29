@@ -49,6 +49,7 @@ Currently a single instance per virtual chain per node.
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
+  * If the response indicates a failure, send a response to the client along with the refrence block height and timestamp.
 * Block until `ReturnTransactionResults` is called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `ReturnTransactionResults`.
@@ -78,4 +79,4 @@ Currently a single instance per virtual chain per node.
   * If found return status `PENDING`, if committed return status `COMMITTED` with the receipt.
 * If not found in transaction pool, it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
-  * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND`.
+  * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along the reference block_height and timestamp.

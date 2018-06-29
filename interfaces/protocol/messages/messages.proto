@@ -40,8 +40,8 @@ message ClientResponse {
   Uint64 block_height = 5;
   Uint32 virtual_chain = 6;
   Uint64 timestamp = 7; 
-  // For committed trasnactions - the block height amd time stamp, 
-  // For uncommitted trasnactions - the height amd timestamp of the transaction pool's last committed block
+  // For committed trasnactions - the block height amd time stamp. 
+  // For uncommitted trasnactions - the height amd timestamp of the last committed block
 }
 */
 
