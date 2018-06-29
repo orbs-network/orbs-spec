@@ -15,6 +15,7 @@ Currently a single instance per virtual chain per node.
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
+* The pending pool must only hold a single copy of a transaction (`tx_id`) regardless of its associated GW node.
 * Needs to support efficient query by `tx_id`.
 * Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
@@ -60,8 +61,8 @@ Currently a single instance per virtual chain per node.
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
 
 #### Check if a duplicate transaction
-* If transaction already exist in the committed pool, discard and respond with the transaction receipt, status = COMMITTED.
-* If the transaction already exist in the pending pool, discard and respond with status = REJECTED_DUPLCIATE_TRANSACTION.
+* If transaction (`tx_id`) already exist in the committed pool, discard and respond with the transaction receipt, status = COMMITTED.
+* If the transaction (`tx_id`) already exist in the pending pool, discard and respond with status = REJECTED_DUPLCIATE_TRANSACTION.
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
