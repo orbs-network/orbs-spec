@@ -25,7 +25,7 @@ Currently a single instance per virtual chain per node.
   * Not a hard requirement because all communication is signed in the application level.
 * Reconnect to topology peers when disconnected with a [configurable](../config/services.md) polling interval.
 * Calls `OnMessageReceived` when a gossip message is received.
-* Wire format encoding is [Protobuf over TCP](../../interfaces/protocol/encoding/gossip/protobuf-over-tcp.md).
+* Wire format encoding is [Protobuf over TCP](../../encoding/gossip/protobuf-over-tcp.md).
 
 &nbsp;
 ## `Data Structures`

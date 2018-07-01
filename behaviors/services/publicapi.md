@@ -13,13 +13,17 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Public Interfaces`
 
+#### Binary HTTP POST
+* Requests are HTTP POST with binary data of the serialized types.
+* See request and response [encoding](../../encoding/publicapi/binary-over-http.md).
+
 #### JSON over HTTP
-* Requests are HTTP POST with JSON body and JSON response.
-* See request and response [encoding](../../interfaces/protocol/encoding/public-api/json-over-http.md).
+* Requests are HTTP POST with textual JSON body and JSON response.
+* See request and response [encoding](../../encoding/publicapi/json-over-http.md).
 
 #### HTTP GET
 * Requests are HTTP GET with all parameters encoded on the URL.
-* See request and response [encoding](../../interfaces/protocol/encoding/public-api/http-get.md).
+* See request and response [encoding](../../encoding/publicapi/http-get.md).
 * Limited to `CallMethod` requests.
 
 &nbsp;
