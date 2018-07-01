@@ -50,11 +50,11 @@ Overview of the entire system with brief introduction to all services is availab
 &nbsp;
 ## Services
 
-* [Public Api](behaviors/services/public-api.md)
+* [Public Api](behaviors/services/publicapi.md)
 
   Provides external public gateway interface (like JSON over HTTP) for clients.
 
-* [Transaction Pool](behaviors/services/transaction-pool.md)
+* [Transaction Pool](behaviors/services/transactionpool.md)
 
   Holds pending and committed transactions that are propagated between nodes. Helps avoid transaction duplication.
 
@@ -62,15 +62,15 @@ Overview of the entire system with brief introduction to all services is availab
 
   Connects different nodes over the network with efficient message broadcast and unicast.
 
-* [Consensus Algo](behaviors/services/consensus-algo.md)
+* [Consensus Algo](behaviors/services/consensusalgo.md)
 
   Pluggable consensus algorithm (multiple algorithms supported side by side).
 
-* [Consensus Context](behaviors/services/consensus-context.md)
+* [Consensus Context](behaviors/services/consensuscontext.md)
 
   Provides the system context for the consensus algorithm and deals with the actual content of blocks.
 
-* [Virtual Machine](behaviors/services/virtual-machine.md)
+* [Virtual Machine](behaviors/services/virtualmachine.md)
 
   Executes service methods (smart contracts) using various processors and produces state difference as a result.
 
@@ -78,14 +78,14 @@ Overview of the entire system with brief introduction to all services is availab
 
   Stateless execution engine for smart contract methods in an isolated environment (multiple languages supported).
 
-* [Block Storage](behaviors/services/block-storage.md)
+* [Block Storage](behaviors/services/blockstorage.md)
 
   Holds the long term journal of all confirmed blocks (the actual chain of blocks), performs block sync between nodes.
 
-* [State Storage](behaviors/services/state-storage.md)
+* [State Storage](behaviors/services/statestorage.md)
 
   Holds the latest state under consensus meaning all of the state variables for all deployed services in a virtual chain.
 
-* [Cross-chain Connector](behaviors/services/crosschain-connector.md)
+* [Cross-chain Connector](behaviors/services/crosschainconnector.md)
 
   Runs nodes for other blockchains like Ethereum and provides read access to them.
