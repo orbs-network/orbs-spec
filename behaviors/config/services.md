@@ -31,7 +31,8 @@ Since the system must remain backwards compatible forever (able to audit the old
   "committed-pool-clear-expired-interval-sec": "30",
   "propagation-batching-transaction-num": "1000",
   "propagation-batching-timeout-sec": "5",
-  "query-sync-grace-block-num": "0"
+  "query-sync-grace-block-num": "0",
+  "future-timestamp-grace-sec": "180"
 }
 ```
 

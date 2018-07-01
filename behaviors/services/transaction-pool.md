@@ -15,10 +15,10 @@ Currently a single instance per virtual chain per node.
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
-* The pending pool must only hold a single copy of a transaction (`tx_id`) regardless of its associated GW node.
 * Needs to support efficient query by `tx_id`.
 * Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
+  * Must only hold a single copy of a transaction (`tx_id`) regardless of its associated gateway node (the first that added it).
 * No need to be persistent, can re-sync from block storage.
 * [Configurable](../config/services.md) max size.
 * [Configurable](../config/services.md) interval to clear expired transactions.
@@ -26,7 +26,7 @@ Currently a single instance per virtual chain per node.
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
     * If indeed local, update the local public api by calling `PublicApi.ReturnTransactionResults`.
-      * Set block height and timestamp according to the last committed block.
+      * Provide block height and timestamp according to the last committed block.
 
 #### Committed transaction pool
 * Holds the receipts of committed transactions to return their result and avoid transaction duplication.
@@ -57,15 +57,16 @@ Currently a single instance per virtual chain per node.
 * Correct protocol version.
 * Valid fields (sender address, contract address).
 * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-* Check Transaction Timestamp:
-  * Accept only transactions that haven't expired.
+* Check Transaction timestamp:
+  * Only accept transactions that haven't expired.
     * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-  * Accept only transactions with timestamp in sync with the node.
-    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/shared.md) sync grace window (eg. 3 min).
-    * Note: A transaction may be rejected due to either future timestamp or node's loss of sync.
+  * Only accept transactions with timestamp in sync with the node (that aren't in the future).
+    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min).
+    * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
 * Transaction (`tx_id`) doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
-If the transaction fails one the checks and is not accepted, return the right error status and an empty receipt. (For an already committed transaction, return the receipt)
+* On any failure, return the relevant error status and an empty receipt.
+  * For an already committed transaction, return the receipt.
 
 #### Add transaction to pending pool
 * Add transaction to pending transaction pool if pool is not full.
@@ -164,9 +165,9 @@ If the transaction fails one the checks and is not accepted, return the right er
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
 
-* If `tx_id` is present in the pending transaction pool, return status `PENDING` along with the last commited block height nad timestamp.
+* If `tx_id` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
 * If `tx_id` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
-* else return status `NO_RECORD_FOUND` along with the last commited block height nad timestamp.
+* else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
 
 &nbsp;
 ## `GossipMessageReceived` (method)

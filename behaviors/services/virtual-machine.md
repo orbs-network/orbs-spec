@@ -42,7 +42,7 @@ Currently a single instance per virtual chain per node.
 #### Prepare for execution
 * Get the block height and timestamp for the local method processing by calling `StateStorage.GetStateStorageBlockHeight`.
   * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind.
-  * Note the reference block height and timestamp are returned to the caller on successful execution and on failure.
+  * Note that the reference block height and timestamp are returned to the caller on successful execution and on failure.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
   * Currently `PublicApi.CallMethod` calls are not signed.
 * Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
