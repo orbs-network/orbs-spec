@@ -1,85 +1,86 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/transaction.proto";
-import "protocol/block.proto";
-import "protocol/messages/transaction-relay.proto";
+import "primitives/types.proto";
+import "protocol/results.proto";
+import "protocol/transactions.proto";
+import "protocol/blocks.proto";
+import "protocol/gossip/transactionrelay/messages.proto";
 import "services/gossip.proto";
 
 service TransactionPool {
-  // Called by Public API
-  rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
-  rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
-  // Called by Consensus Core
-  rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput); 
-  rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput); 
-  // Called by Block Storage
-  rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
-  
-  // Gossip
-  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
-  rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
+    // called by PublicApi
+    rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
+    rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
+    // called by ConsensusContext
+    rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput);
+    rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
+    // called by BlockStorage
+    rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
+    // called by Gossip
+    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+    // internal gossip handlers
+    rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
 }
 
 message AddNewTransactionInput {
-  SignedTransaction signed_transaction = 1;
+    protocol.SignedTransaction signed_transaction = 1;
 }
 
 message AddNewTransactionOutput {
-  TransactionStatus transaction_status = 1;
-  TransactionReceipt transaction_receipt = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
+    protocol.TransactionStatus transaction_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
 }
 
 message GetCommittedTransactionReceiptInput {
-  SHA256 txid = 1;
-  Uint64 timestamp = 2;
+    primitives.sha256 txid = 1;
+    uint64 timestamp = 2;
 }
 
 message GetCommittedTransactionReceiptOutput {
-  TransactionStatus transaction_status = 1;
-  TransactionReceipt transaction_receipt = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
+    protocol.TransactionStatus transaction_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
 }
 
 message GetTransactionsForOrderingInput {
-  Uint64 block_height = 1;
-  Uint32 max_transactions_set_size_kb = 2;
-  Uint32 max_number_of_transactions = 3;
+    uint64 block_height = 1;
+    uint32 max_transactions_set_size_kb = 2;
+    uint32 max_number_of_transactions = 3;
 }
 
 message GetTransactionsForOrderingOutput {
-  RequestStatus status = 1;
-  repeated SignedTransaction signed_transaction = 2;
+    protocol.RequestStatus status = 1;
+    repeated protocol.SignedTransaction signed_transaction = 2;
 }
 
 message ValidateTransactionsForOrderingInput {
-  Uint64 block_height = 1;
-  repeated SignedTransaction transaction = 2;
+    uint64 block_height = 1;
+    repeated protocol.SignedTransaction transaction = 2;
 }
 
 message ValidateTransactionsForOrderingOutput {
-  RequestStatus status = 1;
+    protocol.RequestStatus status = 1;
 }
 
 message CommitTransactionReceiptsInput {
-  ResultsBlockHeader results_block_header = 1;
-  repeated TransactionReceipt transaction_receipt = 2;
-  Uint64 last_committed_block_height = 3;
+    protocol.ResultsBlockHeader results_block_header = 1;
+    repeated protocol.TransactionReceipt transaction_receipt = 2;
+    uint64 last_committed_block_height = 3;
 }
 
 message CommitTransactionReceiptsOutput {
-  Uint64 next_desired_block_height = 1;
-  Uint64 last_committed_block_height = 2;
+    uint64 next_desired_block_height = 1;
+    uint64 last_committed_block_height = 2;
 }
 
 message OnForwardedTransactionsInput {
-  ForwardedTransactionsMessage transaction_batch = 1;
+    transactionrelay.ForwardedTransactionsMessage transaction_batch = 1;
 }
 
 message OnForwardedTransactionsOutput {
-  
 }

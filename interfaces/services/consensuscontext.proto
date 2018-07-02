@@ -1,72 +1,73 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/block.proto";
+import "primitives/types.proto";
+import "protocol/results.proto";
+import "protocol/blocks.proto";
 
 service ConsensusContext {
-    // Called by Consensus-Algo
-  rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
-  rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
-  rpc ValidateTransactionsBlock (ValidateTransactionsBlockInput) returns (ValidateTransactionsBlockOutput);
-  rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
-  rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-  rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-
+    // called by ConsensusAlgo
+    rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
+    rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
+    rpc ValidateTransactionsBlock (ValidateTransactionsBlockInput) returns (ValidateTransactionsBlockOutput);
+    rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
+    rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+    rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 }
 
 message RequestNewTransactionsBlockInput {
-    Uint64 block_height = 1;
-    Uint32 max_block_size_kb = 2;
-    Uint32 max_number_of_transactions = 3;
-    SHA256 prev_block_hash = 4;
+    uint64 block_height = 1;
+    uint32 max_block_size_kb = 2;
+    uint32 max_number_of_transactions = 3;
+    primitives.sha256 prev_block_hash = 4;
 }
 
 message RequestNewTransactionsBlockOutput {
-    RequestStatus status = 1;
-    TransactionsBlock transactions_block = 2;
+    protocol.RequestStatus status = 1;
+    protocol.TransactionsBlock transactions_block = 2;
 }
 
 message RequestNewResultsBlockInput {
-    Uint64 block_height = 1;
-    SHA256 prev_block_hash = 2;
+    uint64 block_height = 1;
+    primitives.sha256 prev_block_hash = 2;
 }
 
 message RequestNewResultsBlockOutput {
-    RequestStatus status = 1;
-    ResultsBlock results_block = 2;
+    protocol.RequestStatus status = 1;
+    protocol.ResultsBlock results_block = 2;
 }
 
 message ValidateTransactionsBlockInput {
-    TransactionsBlock transactions_block = 1;
-    SHA256 prev_block_hash = 2;
+    protocol.TransactionsBlock transactions_block = 1;
+    primitives.sha256 prev_block_hash = 2;
 }
 
 message ValidateTransactionsBlockOutput {
-    RequestStatus status = 1;
+    protocol.RequestStatus status = 1;
 }
 
 message ValidateResultsBlockInput {
-    ResultsBlock results_block = 1;
-    SHA256 prev_block_hash = 2;
+    protocol.ResultsBlock results_block = 1;
+    primitives.sha256 prev_block_hash = 2;
 }
 
 message ValidateResultsBlockOutput {
-    RequestStatus status = 1;
+    protocol.RequestStatus status = 1;
 }
 
 message RequestCommitteeInput {
-    Uint64 block_height = 1;
-    Uint64 random_seed = 2;
-    Uint32 max_committee_size = 3;
+    uint64 block_height = 1;
+    uint64 random_seed = 2;
+    uint32 max_committee_size = 3;
 }
 
 message RequestCommitteeOutput {
-    RequestStatus status = 1;
+    protocol.RequestStatus status = 1;
     repeated NodeData node_data = 2;
 }
 
 message NodeData {
-    Ed25519PKey node_pkey = 1;
-    BLSPKey node_random_seed_pkey = 2;
+    primitives.ed25519_pkey node_pkey = 1;
+    primitives.bls1_pkey node_random_seed_pkey = 2;
 }

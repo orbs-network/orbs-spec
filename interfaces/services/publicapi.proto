@@ -1,59 +1,60 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/transaction.proto";
+import "primitives/types.proto";
+import "protocol/transactions.proto";
+import "protocol/results.proto";
+import "protocol/contracts.proto";
 
 service PublicApi {
-  // Called by Client SDK
-  rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
-  rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
-  rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-
-  // Called by Transaction Pool
-  rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
+    // called by ClientSdk
+    rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
+    rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
+    rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+    // called by TransactionPool
+    rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
 }
 
 message SendTransactionInput {
-  SignedTransaction signed_transaction = 1;
+    protocol.SignedTransaction signed_transaction = 1;
 }
 
 message SendTransactionOutput {
-  TransactionReceipt receipt = 1;
-  TransactionStatus transaction_status = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
+    protocol.TransactionReceipt receipt = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
 }
 
 message CallMethodInput {
-  Transaction transaction = 1;
+    protocol.Transaction transaction = 1;
 }
 
 message CallMethodOutput {
-  repeated MethodArgument output_argument = 1;
-  CallMethodStatus call_status = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
+    repeated protocol.MethodArgument output_argument = 1;
+    protocol.CallMethodStatus call_status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
 }
 
 message GetTransactionStatusInput {
-  SHA256 txid = 1;
-  Uint64 timestamp = 2;
+    primitives.sha256 txid = 1;
+    uint64 timestamp = 2;
 }
 
 message GetTransactionStatusOutput {
-  TransactionReceipt receipt = 1;
-  TransactionStatus status = 2;
-  Uint64 block_height = 3;
-  Uint64 block_timestamp = 4;
+    protocol.TransactionReceipt receipt = 1;
+    protocol.TransactionStatus status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
 }
 
 message ReturnTransactionResultsInput {
-  repeated TransactionReceipt transaction_receipt = 1;
-  Uint64 block_height = 2;
-  Uint64 timestamp = 3;
+    repeated protocol.TransactionReceipt transaction_receipt = 1;
+    uint64 block_height = 2;
+    uint64 timestamp = 3;
 }
 
 message ReturnTransactionResultsOutput {
-  // empty
 }

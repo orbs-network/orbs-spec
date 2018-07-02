@@ -37,7 +37,7 @@ Currently a single instance per virtual chain per node.
 * Correct virtual chain.
 
 #### Forward call
-* Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod` indicating default [block height](../../terminology.md).
+* Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod` indicating recent [block height](../../terminology.md).
 * Return the result along with the reference block height and timestamp.
 
 &nbsp;

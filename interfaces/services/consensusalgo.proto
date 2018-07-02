@@ -1,106 +1,100 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/block.proto";
-import "protocol/messages/lean-helix.proto";
+import "protocol/blocks.proto";
+import "protocol/gossip/leanhelixconsensus/messages.proto";
 import "services/gossip.proto";
 
-
 service ConsensusAlgo {
-  // Internally called on block commit.
-  rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
-  
-  // Gossip
-  rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
-  rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
-  rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);
-  rpc OnCommitReceived (OnCommitReceivedInput) returns (OnCommitReceivedOutput);
-  rpc OnViewChangeReceived (OnViewChangeReceivedInput) returns (OnViewChangeReceivedOutput);
-  rpc OnNewViewReceived (OnNewViewReceivedInput) returns (OnNewViewReceivedOutput);
-  
-  // Called by block storage / Internal 
-  rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
-  rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
+    // internal call
+    rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
+    // called by Gossip
+    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+    // internal gossip handlers
+    rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
+    rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);
+    rpc OnCommitReceived (OnCommitReceivedInput) returns (OnCommitReceivedOutput);
+    rpc OnViewChangeReceived (OnViewChangeReceivedInput) returns (OnViewChangeReceivedOutput);
+    rpc OnNewViewReceived (OnNewViewReceivedInput) returns (OnNewViewReceivedOutput);
+    // called by BlockStorage
+    rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
+    rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
 }
 
-message OnNewConsensusRoundInput { 
-
+message OnNewConsensusRoundInput {
 }
 
-message OnNewConsensusRoundOutput { 
-
+message OnNewConsensusRoundOutput {
 }
 
 message OnPrePrepareReceivedInput {
-  PrePrepareMessage pre_prepare = 1;
+    leanhelixconsensus.PrePrepareMessage pre_prepare = 1;
 }
 
-message OnPrePrepareReceivedOutput { 
-
+message OnPrePrepareReceivedOutput {
 }
 
 message OnPrepareReceivedInput {
-  PrepareMessage prepare = 1;
+    leanhelixconsensus.PrepareMessage prepare = 1;
 }
 
-message OnPrepareReceivedOutput { 
-
+message OnPrepareReceivedOutput {
 }
 
 message OnCommitReceivedInput {
-  CommitMessage commit = 1;
+    leanhelixconsensus.CommitMessage commit = 1;
 }
 
-message OnCommitReceivedOutput { 
-
+message OnCommitReceivedOutput {
 } 
 
 message OnViewChangeReceivedInput {
-  ViewChangeMessage view_change = 1;
+    leanhelixconsensus.ViewChangeMessage view_change = 1;
 }
 
-message OnViewChangeReceivedOutput { 
-
+message OnViewChangeReceivedOutput {
 } 
 
 message OnNewViewReceivedInput {
-  NewViewMessage new_view = 1;
+    leanhelixconsensus.NewViewMessage new_view = 1;
 }
 
-message OnNewViewReceivedOutput { 
-
-} 
+message OnNewViewReceivedOutput {
+}
 
 message AcknowledgeTransactionsBlockConsensusInput {
-  TransactionsBlockHeader transactions_block_header = 1;
-  TransactionsBlockMetaData transactions_block_meta_data = 2;
-  TransactionsBlockProof transactions_block_proof = 3;
-  // Previous block data
-  TransactionsBlockHeader previous_committed_transactions_block_header = 4;
-  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
-  TransactionsBlockProof previous_committed_transactions_block_proof = 6;
-  ResultsBlockProof previous_committed_results_block_proof = 7;
+    protocol.TransactionsBlockHeader transactions_block_header = 1;
+    protocol.TransactionsBlockMetaData transactions_block_meta_data = 2;
+    protocol.TransactionsBlockProof transactions_block_proof = 3;
+    // previous block data
+    protocol.TransactionsBlockHeader previous_committed_transactions_block_header = 4;
+    protocol.TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
+    protocol.TransactionsBlockProof previous_committed_transactions_block_proof = 6;
+    protocol.ResultsBlockProof previous_committed_results_block_proof = 7;
 }
 
 message AcknowledgeTransactionsBlockConsensusOutput {
-  ValidateBlockConsensus status = 1;
+    ValidateBlockConsensus status = 1;
 }
 
 message AcknowledgeResultsBlockConsensusInput {
-  ResultsBlockHeader results_block_header = 1;
-  ResultsBlockProof results_block_proof = 2;
-  // Previous block data
-  ResultsBlockHeader previous_results_block_header = 3;
-  TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 4;
-  TransactionsBlockProof previous_committed_transactions_block_proof = 5;
-  ResultsBlockProof previous_committed_results_block_proof = 6;
+    protocol.ResultsBlockHeader results_block_header = 1;
+    protocol.ResultsBlockProof results_block_proof = 2;
+    // previous block data
+    protocol.ResultsBlockHeader previous_results_block_header = 3;
+    protocol.TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 4;
+    protocol.TransactionsBlockProof previous_committed_transactions_block_proof = 5;
+    protocol.ResultsBlockProof previous_committed_results_block_proof = 6;
 }
-
 
 message AcknowledgeResultsBlockConsensusOutput {
-  ValidateBlockConsensus status = 1;
+    ValidateBlockConsensus status = 1;
 }
 
+// TODO: should this be moved to protocol/results.proto?
 enum ValidateBlockConsensus {
-  VALID_FOR_COMMIT = 0;
-  NOT_VALID_FOR_COMMIT = 1;
+    RESERVED = 0;
+    VALID_FOR_COMMIT = 1;
+    INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
 }

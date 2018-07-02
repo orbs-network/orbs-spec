@@ -1,0 +1,28 @@
+syntax = "proto3";
+package transactionrelay;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages/transactionrelay";
+
+import "../../primitives/types.proto";
+
+message Message {
+    oneof transactions_relay_message {
+        ForwardedTransactionsMessage forwarded_transactions = 1;
+    }
+}
+
+// TODO isn't this redundant with oneof?
+enum TransactionsRelayMessageType {  
+    RESERVED = 0;
+    FORWARDED_TRANSACTIONS = 1;
+}
+
+message ForwardedTransactionsMessage {
+    ForwardedTransactionsSignedFields forwarded_transactions_signed_fields = 1;
+    primitives.ed25519_sig signature = 2;
+}
+    
+message ForwardedTransactionsSignedFields {
+    ForwardedTransactionsSignedFields message_type = 1;
+    primitives.ed25519_pkey gw_node_public_key = 2;
+    repeated bytes transaction_data = 3;
+}

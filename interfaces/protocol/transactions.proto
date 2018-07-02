@@ -1,0 +1,29 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/types.proto";
+import "protocol/addresses.proto";
+import "protocol/results.proto";
+
+message Transaction {
+    uint32 protocol_version = 1;
+    uint64 virtual_chain = 2;
+    Sender sender = 3;
+    uint64 timestamp = 4;
+    string contract_name = 5;
+    string method_name = 6;
+    repeated MethodArgument input_argument = 7;
+}
+
+message SignedTransaction {
+    Transaction transaction_content = 1;
+    repeated bytes signature_data = 2; // TODO why repeated?
+}
+
+message TransactionReceipt {
+    primitives.sha256 txid = 1; // TODO Concatenate the timestamp, didn't we change this?
+    uint32 version = 2;
+    ExecutionStatus transaction_status = 3;
+    repeated MethodArgument output_argument = 4;
+}

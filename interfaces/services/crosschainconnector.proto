@@ -1,29 +1,33 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
+import "protocol/results.proto";
+import "protocol/contracts.proto";
 
 service CrosschainConnector {
-  // Called by Virtual-Machine
-  rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
+    // called by VirtualMachine
+    rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput); // TODO: don't we need implementation per connector
 }
 
 message EthereumCallContractInput {
-  String ethereum_contract_address = 1;  
-  String ethereum_function_canonical_form = 2;
-  repeated MethodArgument input_argument = 3;
-  Uint64 ethereum_block_height = 4;
-  BlockHeightMode ethereum_block_height_mode = 5;
+    string ethereum_contract_address = 1;
+    string ethereum_function_canonical_form = 2;
+    repeated protocol.MethodArgument input_argument = 3;
+    uint64 ethereum_block_height = 4;
+    BlockHeightMode ethereum_block_height_mode = 5;
 }
 
 message EthereumCallContractOutput {
-  repeated MethodArgument output_argument = 1;
-  CallMethodStatus call_status = 2; 
-  Uint64 ethereum_block_height = 3;
-  Uint64 ethereum_block_timestamp = 4;
+    repeated protocol.MethodArgument output_argument = 1;
+    protocol.CallMethodStatus call_status = 2;
+    uint64 ethereum_block_height = 3;
+    uint64 ethereum_block_timestamp = 4;
 }
 
+// TODO: maybe like in the other place just use block height of zero to indicate recent block
 enum BlockHeightMode {
-  USE_DEFAULT_BLOCK_HEIGHT = 0;
-  USE_SPECIFIED_BLOCK_HEIGHT = 1;
+    RESERVED = 0;
+    USE_RECENT_BLOCK_HEIGHT = 1;
+    USE_SPECIFIED_BLOCK_HEIGHT = 2;
 }

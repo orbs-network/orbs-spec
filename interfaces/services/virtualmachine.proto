@@ -1,72 +1,76 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/transaction.proto";
+import "protocol/results.proto";
+import "protocol/transactions.proto";
+import "protocol/contracts.proto";
 
 service VirtualMachine {
-  // Called by Consensus Context
-  rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
-  // Called by Public API
-  rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
-  // Called by Transaction Pool
-  rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
-  // Called by Processor
-  rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
+    // called by ConsensusContext
+    rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
+    // called by PublicApi
+    rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
+    // called by TransactionPool
+    rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
+    // called by Processor
+    rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
 }
 
 message ProcessTransactionSetInput {
-  Uint64 block_height = 1;
-  repeated SignedTransaction signed_transaction = 2;
+    uint64 block_height = 1;
+    repeated protocol.SignedTransaction signed_transaction = 2;
 }
 
 message ProcessTransactionSetOutput {
-  RequestStatus status = 1;
-  repeated TransactionReceipt transaction_receipt = 2;
-  repeated ContractStateDiff contract_state_diff = 3;
+    protocol.RequestStatus status = 1;
+    repeated protocol.TransactionReceipt transaction_receipt = 2;
+    repeated protocol.ContractStateDiff contract_state_diff = 3;
 }
 
 message RunLocalMethodInput {
-  Uint64 block_height = 1; // block_height = 0, indicates using the default (latest) block height.
-  Transaction transaction = 2;
+    uint64 block_height = 1; // block_height = 0, indicates using a recent block height (best effort latest)
+    protocol.Transaction transaction = 2;
 }
 
 message RunLocalMethodOutput {
-  CallMethodStatus status = 1;
-  repeated MethodArgument output_argument = 2;
-  Uint64 reference_block_height = 3; 
-  Uint64 reference_block_timestamp = 4;
+    protocol.CallMethodStatus status = 1;
+    repeated protocol.MethodArgument output_argument = 2;
+    uint64 reference_block_height = 3;
+    uint64 reference_block_timestamp = 4;
 }
 
 message TransactionSetPreOrderInput {
-  Uint64 block_height = 1;
-  repeated SignedTransaction signed_transaction = 2; 
+    uint64 block_height = 1;
+    repeated protocol.SignedTransaction signed_transaction = 2;
 }
 
 message TransactionSetPreOrderOutput {
-  RequestStatus status = 1;
-  repeated PreOrderResult pre_order_result = 2; //TBD transaction result
+    protocol.RequestStatus status = 1;
+    repeated PreOrderResult pre_order_result = 2; // TODO: transaction result
 }
 
 message PreOrderResult {
-  PreOrderStatus status = 1;
+    PreOrderStatus status = 1;
 }
 
+// TODO: do we want unique results here?
 enum PreOrderStatus {
-  PRE_ORDER_VALID = 0;
-  PRE_ORDER_INVALID_SIGNATURE = 1;
-  PRE_ORDER_INVALID_ADDRESS_SCHEME = 2;
-  PRE_ORDER_NOT_APPROVED = 3;
+    RESERVED = 0;
+    VALID = 1;
+    INVALID_SIGNATURE = 2;
+    INVALID_ADDRESS_SCHEME = 3;
+    NOT_APPROVED = 4;
 }
 
 message SdkCallInput {
-  Uint32 context_id = 1;
-  ContractAddress contract = 2;
-  MethodAddress method = 3;
-  repeated MethodArgument input_argument = 4;
+    uint32 context_id = 1;
+    protocol.ContractAddress contract = 2;
+    protocol.MethodAddress method = 3;
+    repeated protocol.MethodArgument input_argument = 4;
 }
 
 message SdkCallOutput {
-  repeated MethodArgument output_argument = 1;
-  // TBD error handling, return error
+    repeated protocol.MethodArgument output_argument = 1;
+    // TODO: error handling, return error
 }

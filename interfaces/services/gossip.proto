@@ -1,46 +1,44 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/messages/messages.proto";
-
+import "protocol/gossip/messages.proto";
 
 service Gossip {
-  rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
-  rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
-  rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
+    rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
+    rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
+    rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
 }
 
 message GossipMessageReceivedInput {
-  GossipMessage gossip_message = 1;
+    gossip.Message gossip_message = 1;
 }
 
 message GossipMessageReceivedOutput {
-// empty
 }
 
 message TopicSubscribeInput {
-  String topic = 1;
-  String service_id = 2; 
+    string topic = 1;
+    string service_id = 2;
 }
 
 message TopicSubscribeOutput {
-  Uint64 subscription_token = 1;
+    uint64 subscription_token = 1;
 }
 
 message TopicUnsubscribeInput {
-  String topic = 1;
-  String service_id = 2; 
+    string topic = 1;
+    string service_id = 2;
 }
 
 message TopicUnsubscribeOutput {
-  String topic = 1;
-  String service_id = 2;
+    string topic = 1;
+    string service_id = 2;
 }
 
 message SendMessageInput {
-  GossipMessage gossip_message = 1;
+    gossip.Message gossip_message = 1;
 }
 
 message SendMessageOutput {
-  // empty
 }

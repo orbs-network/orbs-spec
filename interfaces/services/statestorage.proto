@@ -1,56 +1,58 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/block.proto";
+import "primitives/types.proto";
+import "protocol/contracts.proto";
+import "protocol/results.proto";
+import "protocol/blocks.proto";
 
 service StateStorage {
-  // Called by Block Storage
-  rpc CommitStateDiff(CommitStateDiffInput) returns (CommitStateDiffOutput);
-  // Called by Virtual Machine
-  rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
-  rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
-  // Called by Consensus Context
-  rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
+    // called by BlockStorage
+    rpc CommitStateDiff (CommitStateDiffInput) returns (CommitStateDiffOutput);
+    // called by VirtualMachine
+    rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+    rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
+    // called by ConsensusContext
+    rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
 }
 
 message ReadKeysInput {
-  Uint64 block_height = 1;
-  ContractAddress contract = 2;
-  repeated RIPMD160SHA256 key = 3;
+    uint64 block_height = 1;
+    protocol.ContractAddress contract = 2;
+    repeated primitives.ripmd160_sha256 key = 3;
 }
 
 message ReadKeysOutput {
-  RequestStatus status = 1;
-//  map<RIPMD160SHA256,Blob> values = 2; 
-  repeated Blob blob = 2;
+    protocol.RequestStatus status = 1;
+    // TODO: map<RIPMD160crypto.sha256,bytes> values = 2;
+    repeated bytes blob = 2;
 }
 
 message GetStateStorageBlockHeightInput {
-  // empty
 }
 
 message GetStateStorageBlockHeightOutput {
-  Uint64 last_committed_block_height = 1;
-  Uint64 last_committed_block_timestamp = 2;
+    uint64 last_committed_block_height = 1;
+    uint64 last_committed_block_timestamp = 2;
 }
 
 message CommitStateDiffInput {
-  ResultsBlockHeader results_block_header = 1;
-  repeated ContractStateDiff contract_state_diff = 2;
-  Uint64 last_committed_block_height = 3;
+    protocol.ResultsBlockHeader results_block_header = 1;
+    repeated protocol.ContractStateDiff contract_state_diff = 2;
+    uint64 last_committed_block_height = 3;
 }
 
 message CommitStateDiffOutput {
-  Uint64 next_desired_block_height = 1;
-  Uint64 last_committed_block_height = 2;
+    uint64 next_desired_block_height = 1;
+    uint64 last_committed_block_height = 2;
 }
 
 message GetStateHashInput {
-  Uint64 block_height = 1;
+    uint64 block_height = 1;
 }
 
 message GetStateHashOutput {
-  RequestStatus status = 1;
-  SHA256 state_root_hash = 2;
+    protocol.RequestStatus status = 1;
+    primitives.sha256 state_root_hash = 2;
 }

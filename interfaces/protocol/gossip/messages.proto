@@ -1,0 +1,36 @@
+syntax = "proto3";
+package gossip;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
+
+import "../primitives/types.proto";
+import "../protocol/gossip/leanhelixconsensus/messages.proto";
+import "../protocol/gossip/blocksync/messages.proto";
+import "../protocol/gossip/transactionrelay/messages.proto";
+
+// TODO isn't this redundant with oneof?
+enum MessageTopic {
+    RESERVED = 0;
+    LEAN_HELIX_CONSENSUS = 1;
+    TRANSACTION_RELAY = 2;
+    BLOCK_SYNC = 3;
+}
+
+message Message {
+    uint32 protocol_version = 1;
+    repeated primitives.ed25519_pkey recipients_list = 2;
+    RecipientsListMode inverse_recipients_list = 3;
+    MessageTopic topic = 4;
+    uint32 virtual_chain = 5;
+    oneof message_topic {
+        leanhelixconsensus.Message lean_helix_message = 6;
+        blocksync.Message block_sync_message = 7;
+        transactionrelay.Message transactions_relay_message = 8;
+    }
+}
+
+// TODO: maybe this should be a bool
+enum RecipientsListMode {
+    RESERVED = 0;
+    SEND_TO_RECIPIENT_LIST = 1;
+    SEND_TO_ALL_BUT_RECIPIENT_LIST = 2;
+}

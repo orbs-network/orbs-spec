@@ -1,0 +1,33 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/types.proto";
+
+message ContractAddress {
+    string value = 1;
+}
+
+message MethodAddress {
+    string value = 1;
+}
+
+message MethodArgument {
+    string name = 1;
+    oneof type {
+        uint32 uint32 = 2;
+        uint64 uint64 = 3;
+        string string = 4;
+        bytes bytes = 5;
+    }
+}
+
+message StateDiff {
+    primitives.ripmd160_sha256 state_key = 1;
+    bytes state_value = 2;
+}
+
+message ContractStateDiff {
+    ContractAddress contract = 1;
+    repeated StateDiff state_diff = 2;
+}

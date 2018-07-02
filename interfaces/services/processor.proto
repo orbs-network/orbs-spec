@@ -1,56 +1,62 @@
 syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/primitives.proto";
-import "protocol/protocol-primitives.proto";
-import "protocol/address.proto";
-
+import "protocol/contracts.proto";
+import "protocol/addresses.proto";
+import "protocol/results.proto";
 
 service Processor {
-    // Called by Virtual-machine
+    // called by VirtualMachine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
     rpc DeployNativeService (DeployNativeServiceInput) returns (DeployNativeServiceOutput);
 }
   
 message ProcessCallInput {
-    Uint32 context_id = 1;
-    ContractAddress contract = 2;
-    MethodAddress method = 3;
-    repeated MethodArgument input_argument = 4;
+    uint32 context_id = 1;
+    protocol.ContractAddress contract = 2;
+    protocol.MethodAddress method = 3;
+    repeated protocol.MethodArgument input_argument = 4;
     AccessScope access_scope = 5;
     PermissionScope permission_scope = 6;
-    ContractAddress calling_service = 7; // TBD - move to SDK
-    Sender transaction_sender = 8; // TBD - move to SDK
+    protocol.ContractAddress calling_service = 7; // TODO: move to SDK
+    protocol.Sender transaction_sender = 8; // TODO: move to SDK
 }
 
 message ProcessCallOutput {
-    repeated MethodArgument output_argument = 1;
-    CallMethodStatus call_status = 2; 
+    repeated protocol.MethodArgument output_argument = 1;
+    protocol.CallMethodStatus call_status = 2;
 }
 
+// TODO: maybe move this to protocol folder
 enum AccessScope {
-    READ_ONLY = 0;
-    READ_WRITE = 1;
+    RESERVED = 0;
+    READ_ONLY = 1;
+    READ_WRITE = 2;
 }
 
 enum PermissionScope {
-    SYSTEM_PERMISSION = 0;
-    SERVICE_PERMISSION = 1;
+    RESERVED = 0;
+    SYSTEM = 1;
+    SERVICE = 2;
 }
 
 message DeployNativeServiceInput {
-    Uint32 context_id = 1;
-    ContractAddress contract = 2;
+    uint32 context_id = 1;
+    protocol.ContractAddress contract = 2;
     AccessScope access_scope = 3; 
     PermissionScope permission_scope = 4;
-    ContractAddress calling_service = 5; // TBD - move to SDK
-    Sender transaction_sender = 6; // TBD - move to SDK
+    protocol.ContractAddress calling_service = 5; // TODO: move to SDK
+    protocol.Sender transaction_sender = 6; // TODO: move to SDK
 }
 
 message DeployNativeServiceOutput {
     DeployServiceStatus status = 1;       
 }
 
+// TODO: do we want a specific result? can't we use the general one?
 enum DeployServiceStatus {
-    DEPLOEYD_SUCCESSFULLY = 0;
-    DEPLOY_FAILED = 1; 
+    RESERVED = 0;
+    SUCCESS = 1;
+    FAILED = 2;
 }

@@ -1,0 +1,40 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+enum CallMethodStatus {
+    RESERVED = 0;
+    SUCCESS = 1;
+    ERROR_EXCEPTION = 2;
+    ERROR_OUT_OF_SYNC = 3;
+}
+
+enum RequestStatus {
+    RESERVED = 0;
+    SUCCESS = 1;
+    ERROR_INVALID = 2; // TODO: not sure what this one does
+    ERROR_OUT_OF_SYNC = 3;
+}
+
+enum ExecutionStatus {
+    RESERVED = 0;
+    SUCCESS = 1;
+    ERROR_SMART_CONTRACT = 2;
+    ERROR_UNEXPECTED = 3;
+}
+
+enum TransactionStatus {
+    RESERVED = 0;
+    COMMITTED = 1; // valid receipt
+    PENDING = 16;
+    NO_RECORD_FOUND = 17;
+    REJECTED_UNSUPPORTED_VERSION = 18;
+    REJECTED_VIRTUAL_CHAIN_MISMATCH = 19;
+    REJECTED_TIME_STAMP_WINDOW_EXCEEDED = 20;
+    REJECTED_SIGNATURE_MISMATCH = 21;
+    REJECTED_VIRTUAL_CHAIN_SUBSCRIPTION = 22;
+    REJECTED_VIRTUAL_CHAIN_PRE_ORDER = 23;
+    REJECTED_SMART_CONTRACT_PRE_ORDER = 24;
+    REJECTED_DUPLCIATE_PENDING_TRANSACTION = 25;
+    DUPLCIATE_TRANSACTION_ALREADY_COMMITTED = 26; // valid receipt, TODO: needs better name
+}
