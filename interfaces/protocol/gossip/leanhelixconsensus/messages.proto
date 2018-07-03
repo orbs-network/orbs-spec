@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip/
 import "../../primitives/types.proto";
 
 message Message {
-    oneof lean_helix_message {
+    oneof lean_helix {
         PrePrepareMessage pre_prepare = 1;
         PrepareMessage prepare = 2;
         CommitMessage commit = 3;

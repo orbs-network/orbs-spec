@@ -43,42 +43,40 @@ func (x *Sender) MutateAddressScheme(v AddressScheme) error {
 	return x.message.SetUint16(0, uint16(v))
 }
 
-type SenderSenderData uint16
+type SenderScheme uint16
 
 const (
-	SenderSenderDataEddsaSender SenderSenderData = 0
-	SenderSenderDataSmartContractSender SenderSenderData = 1
+	SenderSchemeEddsa SenderScheme = 0
+	SenderSchemeSmartContract SenderScheme = 1
 )
 
-func (x *Sender) SenderData() SenderSenderData {
-	return SenderSenderData(x.message.GetUint16(1))
+func (x *Sender) Scheme() SenderScheme {
+	return SenderScheme(x.message.GetUint16(1))
 }
 
-func (x *Sender) IsSenderDataEddsaSender() bool {
+func (x *Sender) IsSchemeEddsa() bool {
 	is, _ := x.message.IsUnionIndex(1, 0, 0)
 	return is
 }
 
-func (x *Sender) SenderDataEddsaSender() EdDSA01Sender {
+func (x *Sender) SchemeEddsa() *EdDSA01Sender {
 	_, off := x.message.IsUnionIndex(1, 0, 0)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return EdDSA01SenderReader(b[:s])
 }
 
-
-
-func (x *Sender) IsSenderDataSmartContractSender() bool {
+func (x *Sender) IsSchemeSmartContract() bool {
 	is, _ := x.message.IsUnionIndex(1, 0, 1)
 	return is
 }
 
-func (x *Sender) SenderDataSmartContractSender() SmartContractSender {
+func (x *Sender) SchemeSmartContract() *SmartContractSender {
 	_, off := x.message.IsUnionIndex(1, 0, 1)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return SmartContractSenderReader(b[:s])
 }
 
-
-
-func (x *Sender) RawSenderData() []byte {
+func (x *Sender) RawScheme() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
@@ -87,9 +85,9 @@ func (x *Sender) RawSenderData() []byte {
 type SenderBuilder struct {
 	builder membuffers.Builder
 	AddressScheme AddressScheme
-	SenderData SenderSenderData
-	EddsaSender EdDSA01Sender
-	SmartContractSender SmartContractSender
+	Scheme SenderScheme
+	Eddsa *EdDSA01SenderBuilder
+	SmartContract *SmartContractSenderBuilder
 }
 
 func (w *SenderBuilder) Write(buf []byte) (err error) {
@@ -103,12 +101,12 @@ func (w *SenderBuilder) Write(buf []byte) (err error) {
 	}()
 	w.builder.Reset()
 	w.builder.WriteUint16(buf, uint16(w.AddressScheme))
-	w.builder.WriteUnionIndex(buf, uint16(w.SenderData))
-	switch w.SenderData {
-	case SenderSenderDataEddsaSender:
-		w.builder.WriteMessage(buf, w.EddsaSender)
-	case SenderSenderDataSmartContractSender:
-		w.builder.WriteMessage(buf, w.SmartContractSender)
+	w.builder.WriteUnionIndex(buf, uint16(w.Scheme))
+	switch w.Scheme {
+	case SenderSchemeEddsa:
+		w.builder.WriteMessage(buf, w.Eddsa)
+	case SenderSchemeSmartContract:
+		w.builder.WriteMessage(buf, w.SmartContract)
 	}
 	return nil
 }

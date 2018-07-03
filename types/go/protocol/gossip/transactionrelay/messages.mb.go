@@ -31,29 +31,28 @@ func (x *Message) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-type MessageTransactionsRelayMessage uint16
+type MessageTransactionsRelay uint16
 
 const (
-	MessageTransactionsRelayMessageForwardedTransactions MessageTransactionsRelayMessage = 0
+	MessageTransactionsRelayForwardedTransactions MessageTransactionsRelay = 0
 )
 
-func (x *Message) TransactionsRelayMessage() MessageTransactionsRelayMessage {
-	return MessageTransactionsRelayMessage(x.message.GetUint16(0))
+func (x *Message) TransactionsRelay() MessageTransactionsRelay {
+	return MessageTransactionsRelay(x.message.GetUint16(0))
 }
 
-func (x *Message) IsTransactionsRelayMessageForwardedTransactions() bool {
+func (x *Message) IsTransactionsRelayForwardedTransactions() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *Message) TransactionsRelayMessageForwardedTransactions() ForwardedTransactionsMessage {
+func (x *Message) TransactionsRelayForwardedTransactions() *ForwardedTransactionsMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 0)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return ForwardedTransactionsMessageReader(b[:s])
 }
 
-
-
-func (x *Message) RawTransactionsRelayMessage() []byte {
+func (x *Message) RawTransactionsRelay() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
@@ -61,8 +60,8 @@ func (x *Message) RawTransactionsRelayMessage() []byte {
 
 type MessageBuilder struct {
 	builder membuffers.Builder
-	TransactionsRelayMessage MessageTransactionsRelayMessage
-	ForwardedTransactions ForwardedTransactionsMessage
+	TransactionsRelay MessageTransactionsRelay
+	ForwardedTransactions *ForwardedTransactionsMessageBuilder
 }
 
 func (w *MessageBuilder) Write(buf []byte) (err error) {
@@ -75,9 +74,9 @@ func (w *MessageBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	w.builder.WriteUnionIndex(buf, uint16(w.TransactionsRelayMessage))
-	switch w.TransactionsRelayMessage {
-	case MessageTransactionsRelayMessageForwardedTransactions:
+	w.builder.WriteUnionIndex(buf, uint16(w.TransactionsRelay))
+	switch w.TransactionsRelay {
+	case MessageTransactionsRelayForwardedTransactions:
 		w.builder.WriteMessage(buf, w.ForwardedTransactions)
 	}
 	return nil

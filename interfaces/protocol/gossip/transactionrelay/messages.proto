@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip/
 import "../../primitives/types.proto";
 
 message Message {
-    oneof transactions_relay_message {
+    oneof transactions_relay {
         ForwardedTransactionsMessage forwarded_transactions = 1;
     }
 }

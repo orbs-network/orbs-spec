@@ -304,7 +304,7 @@ type TransactionReceipt struct {
 	message membuffers.Message
 }
 
-var m_TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeMessageArray,}
+var m_TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeUint16,membuffers.TypeMessageArray,}
 var m_TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
 func TransactionReceiptReader(buf []byte) *TransactionReceipt {
@@ -345,13 +345,16 @@ func (x *TransactionReceipt) MutateVersion(v uint32) error {
 	return x.message.SetUint32(1, v)
 }
 
-func (x *TransactionReceipt) TransactionStatus() *ExecutionStatus {
-	b, s := x.message.GetMessage(2)
-	return ExecutionStatusReader(b[:s])
+func (x *TransactionReceipt) TransactionStatus() ExecutionStatus {
+	return ExecutionStatus(x.message.GetUint16(2))
 }
 
 func (x *TransactionReceipt) RawTransactionStatus() []byte {
 	return x.message.RawBufferForField(2, 0)
+}
+
+func (x *TransactionReceipt) MutateTransactionStatus(v ExecutionStatus) error {
+	return x.message.SetUint16(2, uint16(v))
 }
 
 func (x *TransactionReceipt) OutputArgumentIterator() *TransactionReceiptOutputArgumentIterator {
@@ -381,7 +384,7 @@ type TransactionReceiptBuilder struct {
 	builder membuffers.Builder
 	Txid []byte
 	Version uint32
-	TransactionStatus *ExecutionStatusBuilder
+	TransactionStatus ExecutionStatus
 	OutputArgument []*MethodArgumentBuilder
 }
 
@@ -405,10 +408,7 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 	w.builder.Reset()
 	w.builder.WriteBytes(buf, w.Txid)
 	w.builder.WriteUint32(buf, w.Version)
-	err = w.builder.WriteMessage(buf, w.TransactionStatus)
-	if err != nil {
-		return
-	}
+	w.builder.WriteUint16(buf, uint16(w.TransactionStatus))
 	err = w.builder.WriteMessageArray(buf, w.arrayOfOutputArgument())
 	if err != nil {
 		return

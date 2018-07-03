@@ -21,7 +21,7 @@ message Message {
     RecipientsListMode inverse_recipients_list = 3;
     MessageTopic topic = 4;
     uint32 virtual_chain = 5;
-    oneof message_topic {
+    oneof body {
         leanhelixconsensus.Message lean_helix_message = 6;
         blocksync.Message block_sync_message = 7;
         transactionrelay.Message transactions_relay_message = 8;

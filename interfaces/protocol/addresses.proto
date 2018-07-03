@@ -11,6 +11,7 @@ enum NetworkType {
     NETWORK_TYPE_TEST_NET = 84;
 }
 
+// TODO: is this redundant because we have onof?
 enum AddressScheme {
     ADDRESS_SCHEME_RESERVED = 0;
     ADDRESS_SCHEME_EDDSA_20B = 1;
@@ -19,9 +20,9 @@ enum AddressScheme {
 
 message Sender {
     AddressScheme address_scheme = 1;
-    oneof sender_data {
-        EdDSA01Sender eddsa_sender = 2;
-        SmartContractSender smart_contract_sender = 3;
+    oneof scheme {
+        EdDSA01Sender eddsa = 2;
+        SmartContractSender smart_contract = 3;
     }
 }
 

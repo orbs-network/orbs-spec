@@ -31,81 +31,76 @@ func (x *Message) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-type MessageLeanHelixMessage uint16
+type MessageLeanHelix uint16
 
 const (
-	MessageLeanHelixMessagePrePrepare MessageLeanHelixMessage = 0
-	MessageLeanHelixMessagePrepare MessageLeanHelixMessage = 1
-	MessageLeanHelixMessageCommit MessageLeanHelixMessage = 2
-	MessageLeanHelixMessageViewChange MessageLeanHelixMessage = 3
-	MessageLeanHelixMessageNewView MessageLeanHelixMessage = 4
+	MessageLeanHelixPrePrepare MessageLeanHelix = 0
+	MessageLeanHelixPrepare MessageLeanHelix = 1
+	MessageLeanHelixCommit MessageLeanHelix = 2
+	MessageLeanHelixViewChange MessageLeanHelix = 3
+	MessageLeanHelixNewView MessageLeanHelix = 4
 )
 
-func (x *Message) LeanHelixMessage() MessageLeanHelixMessage {
-	return MessageLeanHelixMessage(x.message.GetUint16(0))
+func (x *Message) LeanHelix() MessageLeanHelix {
+	return MessageLeanHelix(x.message.GetUint16(0))
 }
 
-func (x *Message) IsLeanHelixMessagePrePrepare() bool {
+func (x *Message) IsLeanHelixPrePrepare() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *Message) LeanHelixMessagePrePrepare() PrePrepareMessage {
+func (x *Message) LeanHelixPrePrepare() *PrePrepareMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 0)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return PrePrepareMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsLeanHelixMessagePrepare() bool {
+func (x *Message) IsLeanHelixPrepare() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 1)
 	return is
 }
 
-func (x *Message) LeanHelixMessagePrepare() PrepareMessage {
+func (x *Message) LeanHelixPrepare() *PrepareMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 1)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return PrepareMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsLeanHelixMessageCommit() bool {
+func (x *Message) IsLeanHelixCommit() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 2)
 	return is
 }
 
-func (x *Message) LeanHelixMessageCommit() CommitMessage {
+func (x *Message) LeanHelixCommit() *CommitMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 2)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return CommitMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsLeanHelixMessageViewChange() bool {
+func (x *Message) IsLeanHelixViewChange() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 3)
 	return is
 }
 
-func (x *Message) LeanHelixMessageViewChange() ViewChangeMessage {
+func (x *Message) LeanHelixViewChange() *ViewChangeMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 3)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return ViewChangeMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsLeanHelixMessageNewView() bool {
+func (x *Message) IsLeanHelixNewView() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 4)
 	return is
 }
 
-func (x *Message) LeanHelixMessageNewView() NewViewMessage {
+func (x *Message) LeanHelixNewView() *NewViewMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 4)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return NewViewMessageReader(b[:s])
 }
 
-
-
-func (x *Message) RawLeanHelixMessage() []byte {
+func (x *Message) RawLeanHelix() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
@@ -113,12 +108,12 @@ func (x *Message) RawLeanHelixMessage() []byte {
 
 type MessageBuilder struct {
 	builder membuffers.Builder
-	LeanHelixMessage MessageLeanHelixMessage
-	PrePrepare PrePrepareMessage
-	Prepare PrepareMessage
-	Commit CommitMessage
-	ViewChange ViewChangeMessage
-	NewView NewViewMessage
+	LeanHelix MessageLeanHelix
+	PrePrepare *PrePrepareMessageBuilder
+	Prepare *PrepareMessageBuilder
+	Commit *CommitMessageBuilder
+	ViewChange *ViewChangeMessageBuilder
+	NewView *NewViewMessageBuilder
 }
 
 func (w *MessageBuilder) Write(buf []byte) (err error) {
@@ -131,17 +126,17 @@ func (w *MessageBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	w.builder.WriteUnionIndex(buf, uint16(w.LeanHelixMessage))
-	switch w.LeanHelixMessage {
-	case MessageLeanHelixMessagePrePrepare:
+	w.builder.WriteUnionIndex(buf, uint16(w.LeanHelix))
+	switch w.LeanHelix {
+	case MessageLeanHelixPrePrepare:
 		w.builder.WriteMessage(buf, w.PrePrepare)
-	case MessageLeanHelixMessagePrepare:
+	case MessageLeanHelixPrepare:
 		w.builder.WriteMessage(buf, w.Prepare)
-	case MessageLeanHelixMessageCommit:
+	case MessageLeanHelixCommit:
 		w.builder.WriteMessage(buf, w.Commit)
-	case MessageLeanHelixMessageViewChange:
+	case MessageLeanHelixViewChange:
 		w.builder.WriteMessage(buf, w.ViewChange)
-	case MessageLeanHelixMessageNewView:
+	case MessageLeanHelixNewView:
 		w.builder.WriteMessage(buf, w.NewView)
 	}
 	return nil

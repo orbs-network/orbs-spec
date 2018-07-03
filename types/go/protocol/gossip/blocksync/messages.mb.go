@@ -31,68 +31,64 @@ func (x *Message) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-type MessageBlockSyncMessage uint16
+type MessageBlockSync uint16
 
 const (
-	MessageBlockSyncMessageBlockAvailabilityRequest MessageBlockSyncMessage = 0
-	MessageBlockSyncMessageBlockAvailabilityResponse MessageBlockSyncMessage = 1
-	MessageBlockSyncMessageBlockSyncRequest MessageBlockSyncMessage = 2
-	MessageBlockSyncMessageBlockSyncResponse MessageBlockSyncMessage = 3
+	MessageBlockSyncBlockAvailabilityRequest MessageBlockSync = 0
+	MessageBlockSyncBlockAvailabilityResponse MessageBlockSync = 1
+	MessageBlockSyncBlockSyncRequest MessageBlockSync = 2
+	MessageBlockSyncBlockSyncResponse MessageBlockSync = 3
 )
 
-func (x *Message) BlockSyncMessage() MessageBlockSyncMessage {
-	return MessageBlockSyncMessage(x.message.GetUint16(0))
+func (x *Message) BlockSync() MessageBlockSync {
+	return MessageBlockSync(x.message.GetUint16(0))
 }
 
-func (x *Message) IsBlockSyncMessageBlockAvailabilityRequest() bool {
+func (x *Message) IsBlockSyncBlockAvailabilityRequest() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *Message) BlockSyncMessageBlockAvailabilityRequest() BlockAvailabilityRequestMessage {
+func (x *Message) BlockSyncBlockAvailabilityRequest() *BlockAvailabilityRequestMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 0)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return BlockAvailabilityRequestMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsBlockSyncMessageBlockAvailabilityResponse() bool {
+func (x *Message) IsBlockSyncBlockAvailabilityResponse() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 1)
 	return is
 }
 
-func (x *Message) BlockSyncMessageBlockAvailabilityResponse() BlockAvailabilityRequestMessage {
+func (x *Message) BlockSyncBlockAvailabilityResponse() *BlockAvailabilityRequestMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 1)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return BlockAvailabilityRequestMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsBlockSyncMessageBlockSyncRequest() bool {
+func (x *Message) IsBlockSyncBlockSyncRequest() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 2)
 	return is
 }
 
-func (x *Message) BlockSyncMessageBlockSyncRequest() BlockSyncRequestMessage {
+func (x *Message) BlockSyncBlockSyncRequest() *BlockSyncRequestMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 2)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return BlockSyncRequestMessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsBlockSyncMessageBlockSyncResponse() bool {
+func (x *Message) IsBlockSyncBlockSyncResponse() bool {
 	is, _ := x.message.IsUnionIndex(0, 0, 3)
 	return is
 }
 
-func (x *Message) BlockSyncMessageBlockSyncResponse() BlockSyncResponseMessage {
+func (x *Message) BlockSyncBlockSyncResponse() *BlockSyncResponseMessage {
 	_, off := x.message.IsUnionIndex(0, 0, 3)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return BlockSyncResponseMessageReader(b[:s])
 }
 
-
-
-func (x *Message) RawBlockSyncMessage() []byte {
+func (x *Message) RawBlockSync() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
@@ -100,11 +96,11 @@ func (x *Message) RawBlockSyncMessage() []byte {
 
 type MessageBuilder struct {
 	builder membuffers.Builder
-	BlockSyncMessage MessageBlockSyncMessage
-	BlockAvailabilityRequest BlockAvailabilityRequestMessage
-	BlockAvailabilityResponse BlockAvailabilityRequestMessage
-	BlockSyncRequest BlockSyncRequestMessage
-	BlockSyncResponse BlockSyncResponseMessage
+	BlockSync MessageBlockSync
+	BlockAvailabilityRequest *BlockAvailabilityRequestMessageBuilder
+	BlockAvailabilityResponse *BlockAvailabilityRequestMessageBuilder
+	BlockSyncRequest *BlockSyncRequestMessageBuilder
+	BlockSyncResponse *BlockSyncResponseMessageBuilder
 }
 
 func (w *MessageBuilder) Write(buf []byte) (err error) {
@@ -117,15 +113,15 @@ func (w *MessageBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	w.builder.WriteUnionIndex(buf, uint16(w.BlockSyncMessage))
-	switch w.BlockSyncMessage {
-	case MessageBlockSyncMessageBlockAvailabilityRequest:
+	w.builder.WriteUnionIndex(buf, uint16(w.BlockSync))
+	switch w.BlockSync {
+	case MessageBlockSyncBlockAvailabilityRequest:
 		w.builder.WriteMessage(buf, w.BlockAvailabilityRequest)
-	case MessageBlockSyncMessageBlockAvailabilityResponse:
+	case MessageBlockSyncBlockAvailabilityResponse:
 		w.builder.WriteMessage(buf, w.BlockAvailabilityResponse)
-	case MessageBlockSyncMessageBlockSyncRequest:
+	case MessageBlockSyncBlockSyncRequest:
 		w.builder.WriteMessage(buf, w.BlockSyncRequest)
-	case MessageBlockSyncMessageBlockSyncResponse:
+	case MessageBlockSyncBlockSyncResponse:
 		w.builder.WriteMessage(buf, w.BlockSyncResponse)
 	}
 	return nil

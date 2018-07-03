@@ -102,55 +102,52 @@ func (x *Message) MutateVirtualChain(v uint32) error {
 	return x.message.SetUint32(4, v)
 }
 
-type MessageMessageTopic uint16
+type MessageBody uint16
 
 const (
-	MessageMessageTopicLeanHelixMessage MessageMessageTopic = 0
-	MessageMessageTopicBlockSyncMessage MessageMessageTopic = 1
-	MessageMessageTopicTransactionsRelayMessage MessageMessageTopic = 2
+	MessageBodyLeanHelixMessage MessageBody = 0
+	MessageBodyBlockSyncMessage MessageBody = 1
+	MessageBodyTransactionsRelayMessage MessageBody = 2
 )
 
-func (x *Message) MessageTopic() MessageMessageTopic {
-	return MessageMessageTopic(x.message.GetUint16(5))
+func (x *Message) Body() MessageBody {
+	return MessageBody(x.message.GetUint16(5))
 }
 
-func (x *Message) IsMessageTopicLeanHelixMessage() bool {
+func (x *Message) IsBodyLeanHelixMessage() bool {
 	is, _ := x.message.IsUnionIndex(5, 0, 0)
 	return is
 }
 
-func (x *Message) MessageTopicLeanHelixMessage() leanhelixconsensus.Message {
+func (x *Message) BodyLeanHelixMessage() *leanhelixconsensus.Message {
 	_, off := x.message.IsUnionIndex(5, 0, 0)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return leanhelixconsensus.MessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsMessageTopicBlockSyncMessage() bool {
+func (x *Message) IsBodyBlockSyncMessage() bool {
 	is, _ := x.message.IsUnionIndex(5, 0, 1)
 	return is
 }
 
-func (x *Message) MessageTopicBlockSyncMessage() blocksync.Message {
+func (x *Message) BodyBlockSyncMessage() *blocksync.Message {
 	_, off := x.message.IsUnionIndex(5, 0, 1)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return blocksync.MessageReader(b[:s])
 }
 
-
-
-func (x *Message) IsMessageTopicTransactionsRelayMessage() bool {
+func (x *Message) IsBodyTransactionsRelayMessage() bool {
 	is, _ := x.message.IsUnionIndex(5, 0, 2)
 	return is
 }
 
-func (x *Message) MessageTopicTransactionsRelayMessage() transactionrelay.Message {
+func (x *Message) BodyTransactionsRelayMessage() *transactionrelay.Message {
 	_, off := x.message.IsUnionIndex(5, 0, 2)
-	return x.message.GetMessageInOffset(off)
+	b, s := x.message.GetMessageInOffset(off)
+	return transactionrelay.MessageReader(b[:s])
 }
 
-
-
-func (x *Message) RawMessageTopic() []byte {
+func (x *Message) RawBody() []byte {
 	return x.message.RawBufferForField(5, 0)
 }
 
@@ -163,10 +160,10 @@ type MessageBuilder struct {
 	InverseRecipientsList RecipientsListMode
 	Topic MessageTopic
 	VirtualChain uint32
-	MessageTopic MessageMessageTopic
-	LeanHelixMessage leanhelixconsensus.Message
-	BlockSyncMessage blocksync.Message
-	TransactionsRelayMessage transactionrelay.Message
+	Body MessageBody
+	LeanHelixMessage *leanhelixconsensus.MessageBuilder
+	BlockSyncMessage *blocksync.MessageBuilder
+	TransactionsRelayMessage *transactionrelay.MessageBuilder
 }
 
 func (w *MessageBuilder) Write(buf []byte) (err error) {
@@ -184,13 +181,13 @@ func (w *MessageBuilder) Write(buf []byte) (err error) {
 	w.builder.WriteUint16(buf, uint16(w.InverseRecipientsList))
 	w.builder.WriteUint16(buf, uint16(w.Topic))
 	w.builder.WriteUint32(buf, w.VirtualChain)
-	w.builder.WriteUnionIndex(buf, uint16(w.MessageTopic))
-	switch w.MessageTopic {
-	case MessageMessageTopicLeanHelixMessage:
+	w.builder.WriteUnionIndex(buf, uint16(w.Body))
+	switch w.Body {
+	case MessageBodyLeanHelixMessage:
 		w.builder.WriteMessage(buf, w.LeanHelixMessage)
-	case MessageMessageTopicBlockSyncMessage:
+	case MessageBodyBlockSyncMessage:
 		w.builder.WriteMessage(buf, w.BlockSyncMessage)
-	case MessageMessageTopicTransactionsRelayMessage:
+	case MessageBodyTransactionsRelayMessage:
 		w.builder.WriteMessage(buf, w.TransactionsRelayMessage)
 	}
 	return nil
