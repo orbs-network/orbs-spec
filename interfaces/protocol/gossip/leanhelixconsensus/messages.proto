@@ -1,6 +1,6 @@
 syntax = "proto3";
 package leanhelixconsensus;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages/leanhelixconsensus";
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip/leanhelixconsensus";
 
 import "../../primitives/types.proto";
 
@@ -16,12 +16,12 @@ message Message {
 
 // TODO isn't this redundant with oneof?
 enum LeanHelixMessageType {
-    RESERVED = 0;
-    PRE_PREPARE = 1;
-    PREPARE = 2;
-    COMMIT = 3;
-    NEW_VIEW = 4;
-    VIEW_CHANGE = 5;
+    LEAN_HELIX_CONSENSUS_RESERVED = 0;
+    LEAN_HELIX_CONSENSUS_PRE_PREPARE = 1;
+    LEAN_HELIX_CONSENSUS_PREPARE = 2;
+    LEAN_HELIX_CONSENSUS_COMMIT = 3;
+    LEAN_HELIX_CONSENSUS_NEW_VIEW = 4;
+    LEAN_HELIX_CONSENSUS_VIEW_CHANGE = 5;
 }
 
 message PrePrepareMessage {

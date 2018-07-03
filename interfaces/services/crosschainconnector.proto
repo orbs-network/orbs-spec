@@ -27,7 +27,7 @@ message EthereumCallContractOutput {
 
 // TODO: maybe like in the other place just use block height of zero to indicate recent block
 enum BlockHeightMode {
-    RESERVED = 0;
-    USE_RECENT_BLOCK_HEIGHT = 1;
-    USE_SPECIFIED_BLOCK_HEIGHT = 2;
+    BLOCK_HEIGHT_MODE_RESERVED = 0;
+    BLOCK_HEIGHT_MODE_USE_RECENT = 1;
+    BLOCK_HEIGHT_MODE_USE_SPECIFIED = 2;
 }

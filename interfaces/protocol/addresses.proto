@@ -6,15 +6,15 @@ import "primitives/types.proto";
 import "protocol/contracts.proto";
 
 enum NetworkType {
-    RESERVED = 0;
-    MAIN_NET = 77;
-    TEST_NET = 84;
+    NETWORK_TYPE_RESERVED = 0;
+    NETWORK_TYPE_MAIN_NET = 77;
+    NETWORK_TYPE_TEST_NET = 84;
 }
 
 enum AddressScheme {
-    RESERVED = 0;
-    EDDSA_20B = 1;
-    SMART_CONTRACT = 2;
+    ADDRESS_SCHEME_RESERVED = 0;
+    ADDRESS_SCHEME_EDDSA_20B = 1;
+    ADDRESS_SCHEME_SMART_CONTRACT = 2;
 }
 
 message Sender {
@@ -35,7 +35,7 @@ message EdDSA01Sender {
 message SmartContractSender {
     NetworkType network_type = 1;
     string contract_name = 2;
-    repeated MethodArgument sender_input_argument = 3; // For example account_name
+    repeated protocol.MethodArgument sender_input_argument = 3; // For example account_name
     // Signature = signature_input_arguments
     // Address = RIPMD160(SHA(SmartContractSender))
 }

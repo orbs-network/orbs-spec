@@ -1,6 +1,6 @@
 syntax = "proto3";
 package blocksync;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages/blocksync";
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip/blocksync";
 
 import "../../primitives/types.proto";
 
@@ -15,11 +15,11 @@ message Message {
 
 // TODO isn't this redundant with oneof?
 enum BlockSyncMessageType {
-    RESERVED = 0;
+    BLOCK_SYNC_RESERVED = 0;
     BLOCK_SYNC_REQUEST = 1;
     BLOCK_SYNC_RESPONSE = 2;
-    BLOCK_AVAILABILITY_REQUEST = 3;
-    BLOCK_AVAILABILITY_RESPONSE = 4;
+    BLOCK_SYNC_BLOCK_AVAILABILITY_REQUEST = 3;
+    BLOCK_SYNC_BLOCK_AVAILABILITY_RESPONSE = 4;
 }
 
 message BlockSyncRequestMessage {
@@ -72,8 +72,8 @@ message BlockSyncAvailabilitySignedFields {
 }
 
 enum BlockType {
-    RESERVED = 0;
-    BLOCK_PAIR = 1;
-    TRANSACTIONS_BLOCK = 2;
-    RESULTS_BLOCK = 3;
+    BLOCK_TYPE_RESERVED = 0;
+    BLOCK_TYPE_BLOCK_PAIR = 1;
+    BLOCK_TYPE_TRANSACTIONS_BLOCK = 2;
+    BLOCK_TYPE_RESULTS_BLOCK = 3;
 }

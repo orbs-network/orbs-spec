@@ -56,11 +56,11 @@ message PreOrderResult {
 
 // TODO: do we want unique results here?
 enum PreOrderStatus {
-    RESERVED = 0;
-    VALID = 1;
-    INVALID_SIGNATURE = 2;
-    INVALID_ADDRESS_SCHEME = 3;
-    NOT_APPROVED = 4;
+    PRE_ORDER_STATUS_RESERVED = 0;
+    PRE_ORDER_STATUS_VALID = 1;
+    PRE_ORDER_STATUS_INVALID_SIGNATURE = 2;
+    PRE_ORDER_STATUS_INVALID_ADDRESS_SCHEME = 3;
+    PRE_ORDER_STATUS_NOT_APPROVED = 4;
 }
 
 message SdkCallInput {

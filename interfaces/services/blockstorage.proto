@@ -17,7 +17,7 @@ service BlockStorage {
     rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
     rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
     // called by Gossip
-    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput); // TODO: improve this global interface
+    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput); // TODO: improve this global interface
     // internal gossip handlers
     rpc OnBlockAvailabilityRequest (OnBlockAvailabilityRequestInput) returns (OnBlockAvailabilityRequestOutput);
     rpc OnBlockAvailabilityResponse (OnBlockAvailabilityResponseInput) returns (OnBlockAvailabilityResponseOutput);

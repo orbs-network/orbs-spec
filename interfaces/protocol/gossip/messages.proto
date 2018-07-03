@@ -9,10 +9,10 @@ import "../protocol/gossip/transactionrelay/messages.proto";
 
 // TODO isn't this redundant with oneof?
 enum MessageTopic {
-    RESERVED = 0;
-    LEAN_HELIX_CONSENSUS = 1;
-    TRANSACTION_RELAY = 2;
-    BLOCK_SYNC = 3;
+    MESSAGE_TOPIC_RESERVED = 0;
+    MESSAGE_TOPIC_LEAN_HELIX_CONSENSUS = 1;
+    MESSAGE_TOPIC_TRANSACTION_RELAY = 2;
+    MESSAGE_TOPIC_BLOCK_SYNC = 3;
 }
 
 message Message {
@@ -30,7 +30,7 @@ message Message {
 
 // TODO: maybe this should be a bool
 enum RecipientsListMode {
-    RESERVED = 0;
-    SEND_TO_RECIPIENT_LIST = 1;
-    SEND_TO_ALL_BUT_RECIPIENT_LIST = 2;
+    RECIPIENT_LIST_MODE_RESERVED = 0;
+    RECIPIENT_LIST_MODE_SEND_TO_LIST = 1;
+    RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST = 2;
 }

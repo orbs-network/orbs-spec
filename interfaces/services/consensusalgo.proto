@@ -10,7 +10,7 @@ service ConsensusAlgo {
     // internal call
     rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
     // called by Gossip
-    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput);
     // internal gossip handlers
     rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
     rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);
@@ -94,7 +94,7 @@ message AcknowledgeResultsBlockConsensusOutput {
 
 // TODO: should this be moved to protocol/results.proto?
 enum ValidateBlockConsensus {
-    RESERVED = 0;
-    VALID_FOR_COMMIT = 1;
-    INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
+    VALIDATE_BLOCK_CONSENSUS_RESERVED = 0;
+    VALIDATE_BLOCK_CONSENSUS_VALID_FOR_COMMIT = 1;
+    VALIDATE_BLOCK_CONSENSUS_INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
 }

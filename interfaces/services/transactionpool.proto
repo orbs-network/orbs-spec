@@ -19,7 +19,7 @@ service TransactionPool {
     // called by BlockStorage
     rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
     // called by Gossip
-    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput);
     // internal gossip handlers
     rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
 }

@@ -30,15 +30,15 @@ message ProcessCallOutput {
 
 // TODO: maybe move this to protocol folder
 enum AccessScope {
-    RESERVED = 0;
-    READ_ONLY = 1;
-    READ_WRITE = 2;
+    ACCESS_SCOPE_RESERVED = 0;
+    ACCESS_SCOPE_READ_ONLY = 1;
+    ACCESS_SCOPE_READ_WRITE = 2;
 }
 
 enum PermissionScope {
-    RESERVED = 0;
-    SYSTEM = 1;
-    SERVICE = 2;
+    PERMISSION_SCOPE_RESERVED = 0;
+    PERMISSION_SCOPE_SYSTEM = 1;
+    PERMISSION_SCOPE_SERVICE = 2;
 }
 
 message DeployNativeServiceInput {
@@ -56,7 +56,7 @@ message DeployNativeServiceOutput {
 
 // TODO: do we want a specific result? can't we use the general one?
 enum DeployServiceStatus {
-    RESERVED = 0;
-    SUCCESS = 1;
-    FAILED = 2;
+    DEPLOY_SERVICE_STATUS_RESERVED = 0;
+    DEPLOY_SERVICE_STATUS_SUCCESS = 1;
+    DEPLOY_SERVICE_STATUS_FAILED = 2;
 }

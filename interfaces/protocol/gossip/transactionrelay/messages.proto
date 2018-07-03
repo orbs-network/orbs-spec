@@ -1,6 +1,6 @@
 syntax = "proto3";
 package transactionrelay;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages/transactionrelay";
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip/transactionrelay";
 
 import "../../primitives/types.proto";
 
@@ -11,9 +11,9 @@ message Message {
 }
 
 // TODO isn't this redundant with oneof?
-enum TransactionsRelayMessageType {  
-    RESERVED = 0;
-    FORWARDED_TRANSACTIONS = 1;
+enum TransactionsRelayMessageType {
+    TRANSACTION_RELAY_RESERVED = 0;
+    TRANSACTION_RELAY_FORWARDED_TRANSACTIONS = 1;
 }
 
 message ForwardedTransactionsMessage {
