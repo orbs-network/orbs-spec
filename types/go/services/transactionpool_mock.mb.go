@@ -57,10 +57,10 @@ func (s *MockTransactionPool) CommitTransactionReceipts(input *CommitTransaction
 	}
 }
 
-func (s *MockTransactionPool) GossipMessageReceived(input *services.GossipMessageReceivedInput) (*services.GossipMessageReceivedOutput, error) {
+func (s *MockTransactionPool) GossipMessageReceived(input *GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*services.GossipMessageReceivedOutput), ret.Error(1)
+		return out.(*GossipMessageReceivedOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

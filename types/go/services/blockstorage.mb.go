@@ -17,7 +17,7 @@ type BlockStorage interface {
 	GetResultsBlockHeader(*GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
 	GetTransactionReceipt(*GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
 	GetLastCommittedBlockHeight(*GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
-	GossipMessageReceived(*services.GossipMessageReceivedInput) (*services.GossipMessageReceivedOutput, error)
+	GossipMessageReceived(*GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error)
 	OnBlockAvailabilityRequest(*OnBlockAvailabilityRequestInput) (*OnBlockAvailabilityRequestOutput, error)
 	OnBlockAvailabilityResponse(*OnBlockAvailabilityResponseInput) (*OnBlockAvailabilityResponseOutput, error)
 	OnBlockSyncRequest(*OnBlockSyncRequestInput) (*OnBlockSyncRequestOutput, error)

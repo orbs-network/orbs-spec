@@ -18,7 +18,7 @@ type TransactionPool interface {
 	GetTransactionsForOrdering(*GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
 	ValidateTransactionsForOrdering(*ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
 	CommitTransactionReceipts(*CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
-	GossipMessageReceived(*services.GossipMessageReceivedInput) (*services.GossipMessageReceivedOutput, error)
+	GossipMessageReceived(*GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error)
 	OnForwardedTransactions(*OnForwardedTransactionsInput) (*OnForwardedTransactionsOutput, error)
 }
 

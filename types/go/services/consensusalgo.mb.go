@@ -12,7 +12,7 @@ import (
 
 type ConsensusAlgo interface {
 	OnNewConsensusRound(*OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
-	GossipMessageReceived(*services.GossipMessageReceivedInput) (*services.GossipMessageReceivedOutput, error)
+	GossipMessageReceived(*GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error)
 	OnPrePrepareReceived(*OnPrePrepareReceivedInput) (*OnPrePrepareReceivedOutput, error)
 	OnPrepareReceived(*OnPrepareReceivedInput) (*OnPrepareReceivedOutput, error)
 	OnCommitReceived(*OnCommitReceivedInput) (*OnCommitReceivedOutput, error)
