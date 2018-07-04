@@ -2,7 +2,11 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "interfaces/protocol/gossip/message.proto";
+import "primitives/types.proto";
+import "protocol/gossip/message.proto";
+import "protocol/gossip/transaction_relay.proto";
+import "protocol/gossip/block_sync.proto";
+import "protocol/gossip/lean_helix_consensus.proto";
 
 service Gossip {
     // registration methods for external handlers that wish to receive callbacks
@@ -10,33 +14,71 @@ service Gossip {
     option register_handler = "BlockSyncGossipHandler";
     option register_handler = "LeanHelixConsensusGossipHandler";
 
-    rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
-    rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
-    rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
+    // TransactionRelay topic
+    rpc BroadcastForwardedTransactions (BroadcastForwardedTransactionsInput) returns (SendGossipMessageOutput);
+
+    // BlockSync topic
+    rpc BroadcastBlockSyncAvailabilityRequest (BroadcastBlockSyncAvailabilityRequestInput) returns (SendGossipMessageOutput);
+    rpc SendBlockSyncAvailabilityResponse (SendBlockSyncAvailabilityResponseInput) returns (SendGossipMessageOutput);
+    rpc SendBlockSyncRequest (SendBlockSyncRequestInput) returns (SendGossipMessageOutput);
+    rpc SendBlockSyncResponse (SendBlockSyncResponseInput) returns (SendGossipMessageOutput);
+
+    // LeanHelixConsensus topic
+    rpc SendLeanHelixPrePrepare (SendLeanHelixPrePrepareInput) returns (SendGossipMessageOutput);
+    rpc SendLeanHelixPrepare (SendLeanHelixPrepareInput) returns (SendGossipMessageOutput);
+    rpc SendLeanHelixCommit (SendLeanHelixCommitInput) returns (SendGossipMessageOutput);
+    rpc SendLeanHelixViewChange (SendLeanHelixViewChangeInput) returns (SendGossipMessageOutput);
+    rpc SendLeanHelixNewView (SendLeanHelixNewViewInput) returns (SendGossipMessageOutput);
 }
 
-message TopicSubscribeInput {
-    string topic = 1;
-    string service_id = 2;
+message SendGossipMessageOutput {
 }
 
-message TopicSubscribeOutput {
-    uint64 subscription_token = 1;
+message BroadcastForwardedTransactionsInput {
+    gossip.ForwardedTransactionsMessage message = 1;
 }
 
-message TopicUnsubscribeInput {
-    string topic = 1;
-    string service_id = 2;
+message BroadcastBlockSyncAvailabilityRequestInput {
+    gossip.BlockSyncAvailabilityRequestMessage message = 1;
 }
 
-message TopicUnsubscribeOutput {
-    string topic = 1;
-    string service_id = 2;
+message SendBlockSyncAvailabilityResponseInput {
+    primitives.ed25519_pkey recipient = 1;
+    gossip.BlockSyncAvailabilityResponseMessage message = 2;
 }
 
-message SendMessageInput {
-    gossip.Message gossip_message = 1;
+message SendBlockSyncRequestInput {
+    primitives.ed25519_pkey recipient = 1;
+    gossip.BlockSyncRequestMessage message = 2;
 }
 
-message SendMessageOutput {
+message SendBlockSyncResponseInput {
+    primitives.ed25519_pkey recipient = 1;
+    gossip.BlockSyncResponseMessage message = 2;
+}
+
+message SendLeanHelixPrePrepareInput {
+    repeated primitives.ed25519_pkey recipient = 1;
+    gossip.LeanHelixPrePrepareMessage message = 2;
+}
+
+message SendLeanHelixPrepareInput {
+    repeated primitives.ed25519_pkey recipient = 1;
+    gossip.LeanHelixPrepareMessage message = 2;
+}
+
+message SendLeanHelixCommitInput {
+    repeated primitives.ed25519_pkey recipient = 1;
+    gossip.RecipientsListMode recipient_mode = 2;
+    gossip.LeanHelixCommitMessage message = 3;
+}
+
+message SendLeanHelixViewChangeInput {
+    repeated primitives.ed25519_pkey recipient = 1;
+    gossip.LeanHelixViewChangeMessage message = 2;
+}
+
+message SendLeanHelixNewViewInput {
+    repeated primitives.ed25519_pkey recipient = 1;
+    gossip.LeanHelixNewViewMessage message = 2;
 }

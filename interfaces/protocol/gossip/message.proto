@@ -17,8 +17,9 @@ enum MessageTopic {
 
 message MessageHeader {
     uint32 protocol_version = 1;
-    repeated primitives.ed25519_pkey recipients_list = 2;
-    RecipientsListMode inverse_recipients_list = 3;
+    repeated primitives.ed25519_pkey recipient = 2;
+    RecipientsListMode recipient_mode = 3;
+    // TODO: do we need to add sender here?
     MessageTopic topic = 4;
     uint32 virtual_chain = 5;
     oneof type {

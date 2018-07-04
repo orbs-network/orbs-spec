@@ -42,6 +42,8 @@ message LeanHelixNewViewMessage {
     bytes block_pair_data = 3;
 }
 
+// internals
+
 message LeanHelixCommitPreparePPMessageSignedFields {
     uint64 block_height = 1;
     uint32 view = 2;

@@ -13,7 +13,7 @@ enum BlockSyncMessageType {
 }
 
 message BlockSyncAvailabilityRequestMessage {
-    BlockSyncAvailabilitySignedFields body = 1;
+    BlockSyncAvailabilitySignedFields body = 1; // TODO: why do we need to sign this?
     primitives.ed25519_sig signature = 2;
 }
 
@@ -21,6 +21,19 @@ message BlockSyncAvailabilityResponseMessage {
     BlockSyncAvailabilitySignedFields body = 1;
     primitives.ed25519_sig signature = 2;
 }
+
+message BlockSyncRequestMessage {
+    BlockSyncRequestSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncResponseMessage {
+    BlockSyncResponseSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+    repeated bytes block_data = 3; // TODO: instead of block_data place actual blocks and kill BlockType
+}
+
+// internals
 
 message BlockSyncAvailabilitySignedFields {
     BlockType block_type = 1;
@@ -30,10 +43,6 @@ message BlockSyncAvailabilitySignedFields {
     uint64 last_committed_block_height = 5;
 }
 
-message BlockSyncRequestMessage {
-    BlockSyncRequestSignedFields body = 1;
-    primitives.ed25519_sig signature = 2; // TODO: why do we need to sign this?
-}
 
 message BlockSyncRequestSignedFields {
     BlockType block_type = 1;
@@ -41,12 +50,6 @@ message BlockSyncRequestSignedFields {
     uint64 first_requested_block_height = 3;
     uint64 last_requested_block_height = 4;
     uint64 last_committed_block_height = 5;
-}
-
-message BlockSyncResponseMessage {
-    BlockSyncResponseSignedFields body = 1;
-    primitives.ed25519_sig signature = 2;
-    repeated bytes block_data = 3; // TODO: instead of block_data place actual blocks and kill BlockType
 }
 
 message BlockSyncResponseSignedFields {
