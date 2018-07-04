@@ -1,0 +1,16 @@
+syntax = "proto3";
+package listeners;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/listeners";
+
+import "../protocol/gossip/messages.proto";
+
+service GossipMessageListener {
+    rpc GossipMessageReceived (GossipMessageReceivedInput) returns (GossipMessageReceivedOutput);
+}
+
+message GossipMessageReceivedInput {
+     gossip.Message gossip_message = 1;
+}
+
+message GossipMessageReceivedOutput {
+}

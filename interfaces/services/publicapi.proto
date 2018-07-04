@@ -7,13 +7,15 @@ import "protocol/transactions.proto";
 import "protocol/results.proto";
 import "protocol/contracts.proto";
 
+// relies on TransactionPool, BlockStorage, VirtualMachine
+// implements TransactionResultsListener
 service PublicApi {
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
     rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
     // called by TransactionPool
-    rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
+
 }
 
 message SendTransactionInput {
@@ -48,13 +50,4 @@ message GetTransactionStatusOutput {
     protocol.TransactionStatus status = 2;
     uint64 block_height = 3;
     uint64 block_timestamp = 4;
-}
-
-message ReturnTransactionResultsInput {
-    repeated protocol.TransactionReceipt transaction_receipt = 1;
-    uint64 block_height = 2;
-    uint64 timestamp = 3;
-}
-
-message ReturnTransactionResultsOutput {
 }

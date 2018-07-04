@@ -8,13 +8,7 @@ service Gossip {
     rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
     rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
     rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
-}
-
-message GossipMessageReceivedInput {
-    gossip.Message gossip_message = 1;
-}
-
-message GossipMessageReceivedOutput {
+    // RegisterGossipMessageListener(*GossipMessageListener)
 }
 
 message TopicSubscribeInput {

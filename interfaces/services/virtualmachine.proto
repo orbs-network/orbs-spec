@@ -6,6 +6,8 @@ import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 
+// relies on Processor, CrosschainConnector
+// implements ContractSdkCallListener
 service VirtualMachine {
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
@@ -13,8 +15,6 @@ service VirtualMachine {
     rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
     // called by TransactionPool
     rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
-    // called by Processor
-    rpc SdkCall (SdkCallInput) returns (SdkCallOutput);
 }
 
 message ProcessTransactionSetInput {
@@ -61,16 +61,4 @@ enum PreOrderStatus {
     PRE_ORDER_STATUS_INVALID_SIGNATURE = 2;
     PRE_ORDER_STATUS_INVALID_ADDRESS_SCHEME = 3;
     PRE_ORDER_STATUS_NOT_APPROVED = 4;
-}
-
-message SdkCallInput {
-    uint32 context_id = 1;
-    protocol.ContractAddress contract = 2;
-    protocol.MethodAddress method = 3;
-    repeated protocol.MethodArgument input_argument = 4;
-}
-
-message SdkCallOutput {
-    repeated protocol.MethodArgument output_argument = 1;
-    // TODO: error handling, return error
 }

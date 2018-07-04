@@ -11,6 +11,7 @@ message BlockPair {
     ResultsBlock results_block = 2;
 }
 
+// TODO: do we need to specify the consensus algorithm type on blocks? how can we support several
 message TransactionsBlock {
     TransactionsBlockHeader header = 1;
     TransactionsBlockMetaData meta_data = 2;

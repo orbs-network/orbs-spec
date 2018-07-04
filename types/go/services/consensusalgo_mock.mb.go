@@ -12,24 +12,6 @@ type MockConsensusAlgo struct {
 	mock.Mock
 }
 
-func (s *MockConsensusAlgo) OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnNewConsensusRoundOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
-func (s *MockConsensusAlgo) GossipMessageReceived(input *GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*GossipMessageReceivedOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
 func (s *MockConsensusAlgo) OnPrePrepareReceived(input *OnPrePrepareReceivedInput) (*OnPrePrepareReceivedOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
@@ -75,19 +57,10 @@ func (s *MockConsensusAlgo) OnNewViewReceived(input *OnNewViewReceivedInput) (*O
 	}
 }
 
-func (s *MockConsensusAlgo) AcknowledgeTransactionsBlockConsensus(input *AcknowledgeTransactionsBlockConsensusInput) (*AcknowledgeTransactionsBlockConsensusOutput, error) {
+func (s *MockConsensusAlgo) OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*AcknowledgeTransactionsBlockConsensusOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
-func (s *MockConsensusAlgo) AcknowledgeResultsBlockConsensus(input *AcknowledgeResultsBlockConsensusInput) (*AcknowledgeResultsBlockConsensusOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*AcknowledgeResultsBlockConsensusOutput), ret.Error(1)
+		return out.(*OnNewConsensusRoundOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

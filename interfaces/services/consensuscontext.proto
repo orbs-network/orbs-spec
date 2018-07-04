@@ -6,6 +6,7 @@ import "primitives/types.proto";
 import "protocol/results.proto";
 import "protocol/blocks.proto";
 
+// relies on TransactionPool, VirtualMachine, StateStorage
 service ConsensusContext {
     // called by ConsensusAlgo
     rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);

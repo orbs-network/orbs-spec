@@ -1,0 +1,18 @@
+syntax = "proto3";
+package listeners;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/listeners";
+
+import "../protocol/transactions.proto";
+
+service TransactionResultsListener {
+    rpc ReturnTransactionResults(ReturnTransactionResultsInput) returns (ReturnTransactionResultsOutput);
+}
+
+message ReturnTransactionResultsInput {
+    repeated protocol.TransactionReceipt transaction_receipt = 1;
+    uint64 block_height = 2;
+    uint64 timestamp = 3;
+}
+
+message ReturnTransactionResultsOutput {
+}

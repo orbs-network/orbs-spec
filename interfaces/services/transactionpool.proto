@@ -9,6 +9,8 @@ import "protocol/blocks.proto";
 import "protocol/gossip/transactionrelay/messages.proto";
 import "services/gossip.proto";
 
+// relies on VirtualMachine
+// implements GossipMessageListener
 service TransactionPool {
     // called by PublicApi
     rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
@@ -18,10 +20,9 @@ service TransactionPool {
     rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
     // called by BlockStorage
     rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
-    // called by Gossip
-    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput);
     // internal gossip handlers
     rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
+    // RegisterTransactionResultsListener(*TransactionResultsListener)
 }
 
 message AddNewTransactionInput {

@@ -7,7 +7,10 @@ import "protocol/transactions.proto";
 import "protocol/blocks.proto";
 import "protocol/gossip/blocksync/messages.proto";
 import "services/gossip.proto";
+import "services/listeners/consensusblocks.proto";
 
+// relies on TransactionPool, StateStorage
+// implements GossipMessageListener
 service BlockStorage {
     // called by ConsensusAlgo
     rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
@@ -16,15 +19,14 @@ service BlockStorage {
     // called by PublicApi
     rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
     rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
-    // called by Gossip
-    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput); // TODO: improve this global interface
     // internal gossip handlers
     rpc OnBlockAvailabilityRequest (OnBlockAvailabilityRequestInput) returns (OnBlockAvailabilityRequestOutput);
     rpc OnBlockAvailabilityResponse (OnBlockAvailabilityResponseInput) returns (OnBlockAvailabilityResponseOutput);
     rpc OnBlockSyncRequest (OnBlockSyncRequestInput) returns (OnBlockSyncRequestOutput);
     rpc OnBlockSyncResponse (OnBlockSyncResponseInput) returns (OnBlockSyncResponseOutput);
-    // internal call
+    // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
+    // RegisterConsensusBlocksListener(*ConsensusBlocksListener)
 }
 
 message CommitBlockInput {

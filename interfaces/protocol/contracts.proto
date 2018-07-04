@@ -4,10 +4,12 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
 import "primitives/types.proto";
 
+// TODO: should this be inlined?
 message ContractAddress {
     string value = 1;
 }
 
+// TODO: should this be inlined?
 message MethodAddress {
     string value = 1;
 }

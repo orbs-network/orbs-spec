@@ -10,6 +10,7 @@ service Processor {
     // called by VirtualMachine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
     rpc DeployNativeService (DeployNativeServiceInput) returns (DeployNativeServiceOutput);
+    // RegisterContractSdkCallListener(*ContractSdkCallListener)
 }
   
 message ProcessCallInput {

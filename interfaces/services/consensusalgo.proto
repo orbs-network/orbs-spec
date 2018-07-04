@@ -2,24 +2,20 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/blocks.proto";
 import "protocol/gossip/leanhelixconsensus/messages.proto";
 import "services/gossip.proto";
 
+// relies on BlockStorage, ConsensusContext
+// implements ConsensusBlocksListener, GossipMessageListener
 service ConsensusAlgo {
-    // internal call
-    rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
-    // called by Gossip
-    rpc GossipMessageReceived (services.GossipMessageReceivedInput) returns (services.GossipMessageReceivedOutput);
     // internal gossip handlers
     rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
     rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);
     rpc OnCommitReceived (OnCommitReceivedInput) returns (OnCommitReceivedOutput);
     rpc OnViewChangeReceived (OnViewChangeReceivedInput) returns (OnViewChangeReceivedOutput);
     rpc OnNewViewReceived (OnNewViewReceivedInput) returns (OnNewViewReceivedOutput);
-    // called by BlockStorage
-    rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
-    rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
+    // internal calls
+    rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
 }
 
 message OnNewConsensusRoundInput {
@@ -61,40 +57,4 @@ message OnNewViewReceivedInput {
 }
 
 message OnNewViewReceivedOutput {
-}
-
-message AcknowledgeTransactionsBlockConsensusInput {
-    protocol.TransactionsBlockHeader transactions_block_header = 1;
-    protocol.TransactionsBlockMetaData transactions_block_meta_data = 2;
-    protocol.TransactionsBlockProof transactions_block_proof = 3;
-    // previous block data
-    protocol.TransactionsBlockHeader previous_committed_transactions_block_header = 4;
-    protocol.TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 5;
-    protocol.TransactionsBlockProof previous_committed_transactions_block_proof = 6;
-    protocol.ResultsBlockProof previous_committed_results_block_proof = 7;
-}
-
-message AcknowledgeTransactionsBlockConsensusOutput {
-    ValidateBlockConsensus status = 1;
-}
-
-message AcknowledgeResultsBlockConsensusInput {
-    protocol.ResultsBlockHeader results_block_header = 1;
-    protocol.ResultsBlockProof results_block_proof = 2;
-    // previous block data
-    protocol.ResultsBlockHeader previous_results_block_header = 3;
-    protocol.TransactionsBlockMetaData previous_committed_transactions_block_meta_data = 4;
-    protocol.TransactionsBlockProof previous_committed_transactions_block_proof = 5;
-    protocol.ResultsBlockProof previous_committed_results_block_proof = 6;
-}
-
-message AcknowledgeResultsBlockConsensusOutput {
-    ValidateBlockConsensus status = 1;
-}
-
-// TODO: should this be moved to protocol/results.proto?
-enum ValidateBlockConsensus {
-    VALIDATE_BLOCK_CONSENSUS_RESERVED = 0;
-    VALIDATE_BLOCK_CONSENSUS_VALID_FOR_COMMIT = 1;
-    VALIDATE_BLOCK_CONSENSUS_INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
 }

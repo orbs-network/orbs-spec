@@ -39,12 +39,3 @@ func (s *MockPublicApi) GetTransactionStatus(input *GetTransactionStatusInput) (
 	}
 }
 
-func (s *MockPublicApi) ReturnTransactionResults(input *ReturnTransactionResultsInput) (*ReturnTransactionResultsOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*ReturnTransactionResultsOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-

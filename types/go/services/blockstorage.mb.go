@@ -6,6 +6,7 @@ import (
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip/blocksync"
+	"github.com/orbs-network/orbs-spec/types/go/services/listeners"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -17,7 +18,6 @@ type BlockStorage interface {
 	GetResultsBlockHeader(*GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
 	GetTransactionReceipt(*GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
 	GetLastCommittedBlockHeight(*GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
-	GossipMessageReceived(*GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error)
 	OnBlockAvailabilityRequest(*OnBlockAvailabilityRequestInput) (*OnBlockAvailabilityRequestOutput, error)
 	OnBlockAvailabilityResponse(*OnBlockAvailabilityResponseInput) (*OnBlockAvailabilityResponseOutput, error)
 	OnBlockSyncRequest(*OnBlockSyncRequestInput) (*OnBlockSyncRequestOutput, error)

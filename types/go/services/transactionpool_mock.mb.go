@@ -57,15 +57,6 @@ func (s *MockTransactionPool) CommitTransactionReceipts(input *CommitTransaction
 	}
 }
 
-func (s *MockTransactionPool) GossipMessageReceived(input *GossipMessageReceivedInput) (*GossipMessageReceivedOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*GossipMessageReceivedOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
 func (s *MockTransactionPool) OnForwardedTransactions(input *OnForwardedTransactionsInput) (*OnForwardedTransactionsOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
