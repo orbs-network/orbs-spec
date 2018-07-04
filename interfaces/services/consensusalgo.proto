@@ -6,8 +6,10 @@ import "protocol/gossip/leanhelixconsensus/messages.proto";
 import "services/gossip.proto";
 
 // relies on BlockStorage, ConsensusContext
-// implements ConsensusBlocksListener, GossipMessageListener
 service ConsensusAlgo {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "ConsensusBlocksHandler";
+    option implement_handler = "GossipMessageHandler";
     // internal gossip handlers
     rpc OnPrePrepareReceived (OnPrePrepareReceivedInput) returns (OnPrePrepareReceivedOutput);
     rpc OnPrepareReceived (OnPrepareReceivedInput) returns (OnPrepareReceivedOutput);

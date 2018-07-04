@@ -7,8 +7,9 @@ import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 
 // relies on Processor, CrosschainConnector
-// implements ContractSdkCallListener
 service VirtualMachine {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "ContractSdkCallHandler";
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
     // called by PublicApi

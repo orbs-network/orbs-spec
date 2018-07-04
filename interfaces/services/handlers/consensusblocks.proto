@@ -1,15 +1,15 @@
 syntax = "proto3";
-package listeners;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/services/listeners";
+package handlers;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
 import "../protocol/blocks.proto";
 
-service ConsensusBlocksListener {
-    rpc AcknowledgeTransactionsBlockConsensus (AcknowledgeTransactionsBlockConsensusInput) returns (AcknowledgeTransactionsBlockConsensusOutput);
-    rpc AcknowledgeResultsBlockConsensus (AcknowledgeResultsBlockConsensusInput) returns (AcknowledgeResultsBlockConsensusOutput);
+service ConsensusBlocksHandler {
+    rpc HandleTransactionsBlock (HandleTransactionsBlockInput) returns (HandleTransactionsBlockOutput);
+    rpc HandleResultsBlock (HandleResultsBlockInput) returns (HandleResultsBlockOutput);
 }
 
-message AcknowledgeTransactionsBlockConsensusInput {
+message HandleTransactionsBlockInput {
     protocol.TransactionsBlockHeader transactions_block_header = 1;
     protocol.TransactionsBlockMetaData transactions_block_meta_data = 2;
     protocol.TransactionsBlockProof transactions_block_proof = 3;
@@ -20,11 +20,11 @@ message AcknowledgeTransactionsBlockConsensusInput {
     protocol.ResultsBlockProof previous_committed_results_block_proof = 7;
 }
 
-message AcknowledgeTransactionsBlockConsensusOutput {
+message HandleTransactionsBlockOutput {
     ValidateBlockConsensus status = 1;
 }
 
-message AcknowledgeResultsBlockConsensusInput {
+message HandleResultsBlockInput {
     protocol.ResultsBlockHeader results_block_header = 1;
     protocol.ResultsBlockProof results_block_proof = 2;
     // previous block data
@@ -34,7 +34,7 @@ message AcknowledgeResultsBlockConsensusInput {
     protocol.ResultsBlockProof previous_committed_results_block_proof = 6;
 }
 
-message AcknowledgeResultsBlockConsensusOutput {
+message HandleResultsBlockOutput {
     ValidateBlockConsensus status = 1;
 }
 

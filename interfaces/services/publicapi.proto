@@ -8,14 +8,13 @@ import "protocol/results.proto";
 import "protocol/contracts.proto";
 
 // relies on TransactionPool, BlockStorage, VirtualMachine
-// implements TransactionResultsListener
 service PublicApi {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "TransactionResultsHandler";
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
     rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-    // called by TransactionPool
-
 }
 
 message SendTransactionInput {

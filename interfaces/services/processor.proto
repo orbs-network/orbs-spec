@@ -10,7 +10,8 @@ service Processor {
     // called by VirtualMachine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
     rpc DeployNativeService (DeployNativeServiceInput) returns (DeployNativeServiceOutput);
-    // RegisterContractSdkCallListener(*ContractSdkCallListener)
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "ContractSdkCallHandler";
 }
   
 message ProcessCallInput {

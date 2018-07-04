@@ -7,11 +7,12 @@ import "protocol/transactions.proto";
 import "protocol/blocks.proto";
 import "protocol/gossip/blocksync/messages.proto";
 import "services/gossip.proto";
-import "services/listeners/consensusblocks.proto";
+import "services/handlers/consensusblocks.proto";
 
 // relies on TransactionPool, StateStorage
-// implements GossipMessageListener
 service BlockStorage {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "GossipMessageHandler";
     // called by ConsensusAlgo
     rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
     rpc GetTransactionsBlockHeader (GetTransactionsBlockHeaderInput) returns (GetTransactionsBlockHeaderOutput);
@@ -26,7 +27,8 @@ service BlockStorage {
     rpc OnBlockSyncResponse (OnBlockSyncResponseInput) returns (OnBlockSyncResponseOutput);
     // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
-    // RegisterConsensusBlocksListener(*ConsensusBlocksListener)
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "ConsensusBlocksHandler";
 }
 
 message CommitBlockInput {

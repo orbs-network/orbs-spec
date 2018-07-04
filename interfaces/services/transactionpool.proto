@@ -10,8 +10,9 @@ import "protocol/gossip/transactionrelay/messages.proto";
 import "services/gossip.proto";
 
 // relies on VirtualMachine
-// implements GossipMessageListener
 service TransactionPool {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "GossipMessageHandler";
     // called by PublicApi
     rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
     rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
@@ -22,7 +23,8 @@ service TransactionPool {
     rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
     // internal gossip handlers
     rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
-    // RegisterTransactionResultsListener(*TransactionResultsListener)
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "TransactionResultsHandler";
 }
 
 message AddNewTransactionInput {
