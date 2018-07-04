@@ -4,76 +4,60 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service Gossip
 
 type Gossip interface {
-	TopicSubscribe(*TopicSubscribeInput) (*TopicSubscribeOutput, error)
-	TopicUnsubscribe(*TopicUnsubscribeInput) (*TopicUnsubscribeOutput, error)
-	SendMessage(*SendMessageInput) (*SendMessageOutput, error)
+	BroadcastForwardedTransactions(*BroadcastForwardedTransactionsInput) (*SendGossipMessageOutput, error)
+	BroadcastBlockSyncAvailabilityRequest(*BroadcastBlockSyncAvailabilityRequestInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncAvailabilityResponse(*SendBlockSyncAvailabilityResponseInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncRequest(*SendBlockSyncRequestInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncResponse(*SendBlockSyncResponseInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixPrePrepare(*SendLeanHelixPrePrepareInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixPrepare(*SendLeanHelixPrepareInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixCommit(*SendLeanHelixCommitInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixViewChange(*SendLeanHelixViewChangeInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixNewView(*SendLeanHelixNewViewInput) (*SendGossipMessageOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message TopicSubscribeInput
+// message SendGossipMessageOutput
 
 // reader
 
-type TopicSubscribeInput struct {
+type SendGossipMessageOutput struct {
 	message membuffers.Message
 }
 
-var m_TopicSubscribeInput_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeString,}
-var m_TopicSubscribeInput_Unions = [][]membuffers.FieldType{}
+var m_SendGossipMessageOutput_Scheme = []membuffers.FieldType{}
+var m_SendGossipMessageOutput_Unions = [][]membuffers.FieldType{}
 
-func TopicSubscribeInputReader(buf []byte) *TopicSubscribeInput {
-	x := &TopicSubscribeInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TopicSubscribeInput_Scheme, m_TopicSubscribeInput_Unions)
+func SendGossipMessageOutputReader(buf []byte) *SendGossipMessageOutput {
+	x := &SendGossipMessageOutput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendGossipMessageOutput_Scheme, m_SendGossipMessageOutput_Unions)
 	return x
 }
 
-func (x *TopicSubscribeInput) IsValid() bool {
+func (x *SendGossipMessageOutput) IsValid() bool {
 	return x.message.IsValid()
 }
 
-func (x *TopicSubscribeInput) Raw() []byte {
+func (x *SendGossipMessageOutput) Raw() []byte {
 	return x.message.RawBuffer()
-}
-
-func (x *TopicSubscribeInput) Topic() string {
-	return x.message.GetString(0)
-}
-
-func (x *TopicSubscribeInput) RawTopic() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-func (x *TopicSubscribeInput) MutateTopic(v string) error {
-	return x.message.SetString(0, v)
-}
-
-func (x *TopicSubscribeInput) ServiceId() string {
-	return x.message.GetString(1)
-}
-
-func (x *TopicSubscribeInput) RawServiceId() []byte {
-	return x.message.RawBufferForField(1, 0)
-}
-
-func (x *TopicSubscribeInput) MutateServiceId(v string) error {
-	return x.message.SetString(1, v)
 }
 
 // builder
 
-type TopicSubscribeInputBuilder struct {
+type SendGossipMessageOutputBuilder struct {
 	builder membuffers.Builder
-	Topic string
-	ServiceId string
 }
 
-func (w *TopicSubscribeInputBuilder) Write(buf []byte) (err error) {
+func (w *SendGossipMessageOutputBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -83,19 +67,17 @@ func (w *TopicSubscribeInputBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	w.builder.WriteString(buf, w.Topic)
-	w.builder.WriteString(buf, w.ServiceId)
 	return nil
 }
 
-func (w *TopicSubscribeInputBuilder) GetSize() membuffers.Offset {
+func (w *SendGossipMessageOutputBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w.builder.GetSize()
 }
 
-func (w *TopicSubscribeInputBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *SendGossipMessageOutputBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -103,331 +85,57 @@ func (w *TopicSubscribeInputBuilder) CalcRequiredSize() membuffers.Offset {
 	return w.builder.GetSize()
 }
 
-func (w *TopicSubscribeInputBuilder) Build() *TopicSubscribeInput {
+func (w *SendGossipMessageOutputBuilder) Build() *SendGossipMessageOutput {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return TopicSubscribeInputReader(buf)
+	return SendGossipMessageOutputReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message TopicSubscribeOutput
+// message BroadcastForwardedTransactionsInput
 
 // reader
 
-type TopicSubscribeOutput struct {
+type BroadcastForwardedTransactionsInput struct {
 	message membuffers.Message
 }
 
-var m_TopicSubscribeOutput_Scheme = []membuffers.FieldType{membuffers.TypeUint64,}
-var m_TopicSubscribeOutput_Unions = [][]membuffers.FieldType{}
+var m_BroadcastForwardedTransactionsInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var m_BroadcastForwardedTransactionsInput_Unions = [][]membuffers.FieldType{}
 
-func TopicSubscribeOutputReader(buf []byte) *TopicSubscribeOutput {
-	x := &TopicSubscribeOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TopicSubscribeOutput_Scheme, m_TopicSubscribeOutput_Unions)
+func BroadcastForwardedTransactionsInputReader(buf []byte) *BroadcastForwardedTransactionsInput {
+	x := &BroadcastForwardedTransactionsInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_BroadcastForwardedTransactionsInput_Scheme, m_BroadcastForwardedTransactionsInput_Unions)
 	return x
 }
 
-func (x *TopicSubscribeOutput) IsValid() bool {
+func (x *BroadcastForwardedTransactionsInput) IsValid() bool {
 	return x.message.IsValid()
 }
 
-func (x *TopicSubscribeOutput) Raw() []byte {
+func (x *BroadcastForwardedTransactionsInput) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *TopicSubscribeOutput) SubscriptionToken() uint64 {
-	return x.message.GetUint64(0)
-}
-
-func (x *TopicSubscribeOutput) RawSubscriptionToken() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-func (x *TopicSubscribeOutput) MutateSubscriptionToken(v uint64) error {
-	return x.message.SetUint64(0, v)
-}
-
-// builder
-
-type TopicSubscribeOutputBuilder struct {
-	builder membuffers.Builder
-	SubscriptionToken uint64
-}
-
-func (w *TopicSubscribeOutputBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	w.builder.WriteUint64(buf, w.SubscriptionToken)
-	return nil
-}
-
-func (w *TopicSubscribeOutputBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *TopicSubscribeOutputBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *TopicSubscribeOutputBuilder) Build() *TopicSubscribeOutput {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return TopicSubscribeOutputReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message TopicUnsubscribeInput
-
-// reader
-
-type TopicUnsubscribeInput struct {
-	message membuffers.Message
-}
-
-var m_TopicUnsubscribeInput_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeString,}
-var m_TopicUnsubscribeInput_Unions = [][]membuffers.FieldType{}
-
-func TopicUnsubscribeInputReader(buf []byte) *TopicUnsubscribeInput {
-	x := &TopicUnsubscribeInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TopicUnsubscribeInput_Scheme, m_TopicUnsubscribeInput_Unions)
-	return x
-}
-
-func (x *TopicUnsubscribeInput) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *TopicUnsubscribeInput) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-func (x *TopicUnsubscribeInput) Topic() string {
-	return x.message.GetString(0)
-}
-
-func (x *TopicUnsubscribeInput) RawTopic() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-func (x *TopicUnsubscribeInput) MutateTopic(v string) error {
-	return x.message.SetString(0, v)
-}
-
-func (x *TopicUnsubscribeInput) ServiceId() string {
-	return x.message.GetString(1)
-}
-
-func (x *TopicUnsubscribeInput) RawServiceId() []byte {
-	return x.message.RawBufferForField(1, 0)
-}
-
-func (x *TopicUnsubscribeInput) MutateServiceId(v string) error {
-	return x.message.SetString(1, v)
-}
-
-// builder
-
-type TopicUnsubscribeInputBuilder struct {
-	builder membuffers.Builder
-	Topic string
-	ServiceId string
-}
-
-func (w *TopicUnsubscribeInputBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	w.builder.WriteString(buf, w.Topic)
-	w.builder.WriteString(buf, w.ServiceId)
-	return nil
-}
-
-func (w *TopicUnsubscribeInputBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *TopicUnsubscribeInputBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *TopicUnsubscribeInputBuilder) Build() *TopicUnsubscribeInput {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return TopicUnsubscribeInputReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message TopicUnsubscribeOutput
-
-// reader
-
-type TopicUnsubscribeOutput struct {
-	message membuffers.Message
-}
-
-var m_TopicUnsubscribeOutput_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeString,}
-var m_TopicUnsubscribeOutput_Unions = [][]membuffers.FieldType{}
-
-func TopicUnsubscribeOutputReader(buf []byte) *TopicUnsubscribeOutput {
-	x := &TopicUnsubscribeOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TopicUnsubscribeOutput_Scheme, m_TopicUnsubscribeOutput_Unions)
-	return x
-}
-
-func (x *TopicUnsubscribeOutput) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *TopicUnsubscribeOutput) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-func (x *TopicUnsubscribeOutput) Topic() string {
-	return x.message.GetString(0)
-}
-
-func (x *TopicUnsubscribeOutput) RawTopic() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-func (x *TopicUnsubscribeOutput) MutateTopic(v string) error {
-	return x.message.SetString(0, v)
-}
-
-func (x *TopicUnsubscribeOutput) ServiceId() string {
-	return x.message.GetString(1)
-}
-
-func (x *TopicUnsubscribeOutput) RawServiceId() []byte {
-	return x.message.RawBufferForField(1, 0)
-}
-
-func (x *TopicUnsubscribeOutput) MutateServiceId(v string) error {
-	return x.message.SetString(1, v)
-}
-
-// builder
-
-type TopicUnsubscribeOutputBuilder struct {
-	builder membuffers.Builder
-	Topic string
-	ServiceId string
-}
-
-func (w *TopicUnsubscribeOutputBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	w.builder.WriteString(buf, w.Topic)
-	w.builder.WriteString(buf, w.ServiceId)
-	return nil
-}
-
-func (w *TopicUnsubscribeOutputBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *TopicUnsubscribeOutputBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *TopicUnsubscribeOutputBuilder) Build() *TopicUnsubscribeOutput {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return TopicUnsubscribeOutputReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message SendMessageInput
-
-// reader
-
-type SendMessageInput struct {
-	message membuffers.Message
-}
-
-var m_SendMessageInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
-var m_SendMessageInput_Unions = [][]membuffers.FieldType{}
-
-func SendMessageInputReader(buf []byte) *SendMessageInput {
-	x := &SendMessageInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendMessageInput_Scheme, m_SendMessageInput_Unions)
-	return x
-}
-
-func (x *SendMessageInput) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *SendMessageInput) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-func (x *SendMessageInput) GossipMessage() *gossip.Message {
+func (x *BroadcastForwardedTransactionsInput) Message() *gossip.ForwardedTransactionsMessage {
 	b, s := x.message.GetMessage(0)
-	return gossip.MessageReader(b[:s])
+	return gossip.ForwardedTransactionsMessageReader(b[:s])
 }
 
-func (x *SendMessageInput) RawGossipMessage() []byte {
+func (x *BroadcastForwardedTransactionsInput) RawMessage() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
 // builder
 
-type SendMessageInputBuilder struct {
+type BroadcastForwardedTransactionsInputBuilder struct {
 	builder membuffers.Builder
-	GossipMessage *gossip.MessageBuilder
+	Message *gossip.ForwardedTransactionsMessageBuilder
 }
 
-func (w *SendMessageInputBuilder) Write(buf []byte) (err error) {
+func (w *BroadcastForwardedTransactionsInputBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -437,21 +145,21 @@ func (w *SendMessageInputBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.GossipMessage)
+	err = w.builder.WriteMessage(buf, w.Message)
 	if err != nil {
 		return
 	}
 	return nil
 }
 
-func (w *SendMessageInputBuilder) GetSize() membuffers.Offset {
+func (w *BroadcastForwardedTransactionsInputBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w.builder.GetSize()
 }
 
-func (w *SendMessageInputBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BroadcastForwardedTransactionsInputBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -459,47 +167,57 @@ func (w *SendMessageInputBuilder) CalcRequiredSize() membuffers.Offset {
 	return w.builder.GetSize()
 }
 
-func (w *SendMessageInputBuilder) Build() *SendMessageInput {
+func (w *BroadcastForwardedTransactionsInputBuilder) Build() *BroadcastForwardedTransactionsInput {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return SendMessageInputReader(buf)
+	return BroadcastForwardedTransactionsInputReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message SendMessageOutput
+// message BroadcastBlockSyncAvailabilityRequestInput
 
 // reader
 
-type SendMessageOutput struct {
+type BroadcastBlockSyncAvailabilityRequestInput struct {
 	message membuffers.Message
 }
 
-var m_SendMessageOutput_Scheme = []membuffers.FieldType{}
-var m_SendMessageOutput_Unions = [][]membuffers.FieldType{}
+var m_BroadcastBlockSyncAvailabilityRequestInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var m_BroadcastBlockSyncAvailabilityRequestInput_Unions = [][]membuffers.FieldType{}
 
-func SendMessageOutputReader(buf []byte) *SendMessageOutput {
-	x := &SendMessageOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendMessageOutput_Scheme, m_SendMessageOutput_Unions)
+func BroadcastBlockSyncAvailabilityRequestInputReader(buf []byte) *BroadcastBlockSyncAvailabilityRequestInput {
+	x := &BroadcastBlockSyncAvailabilityRequestInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_BroadcastBlockSyncAvailabilityRequestInput_Scheme, m_BroadcastBlockSyncAvailabilityRequestInput_Unions)
 	return x
 }
 
-func (x *SendMessageOutput) IsValid() bool {
+func (x *BroadcastBlockSyncAvailabilityRequestInput) IsValid() bool {
 	return x.message.IsValid()
 }
 
-func (x *SendMessageOutput) Raw() []byte {
+func (x *BroadcastBlockSyncAvailabilityRequestInput) Raw() []byte {
 	return x.message.RawBuffer()
+}
+
+func (x *BroadcastBlockSyncAvailabilityRequestInput) Message() *gossip.BlockSyncAvailabilityRequestMessage {
+	b, s := x.message.GetMessage(0)
+	return gossip.BlockSyncAvailabilityRequestMessageReader(b[:s])
+}
+
+func (x *BroadcastBlockSyncAvailabilityRequestInput) RawMessage() []byte {
+	return x.message.RawBufferForField(0, 0)
 }
 
 // builder
 
-type SendMessageOutputBuilder struct {
+type BroadcastBlockSyncAvailabilityRequestInputBuilder struct {
 	builder membuffers.Builder
+	Message *gossip.BlockSyncAvailabilityRequestMessageBuilder
 }
 
-func (w *SendMessageOutputBuilder) Write(buf []byte) (err error) {
+func (w *BroadcastBlockSyncAvailabilityRequestInputBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -509,17 +227,21 @@ func (w *SendMessageOutputBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
 	return nil
 }
 
-func (w *SendMessageOutputBuilder) GetSize() membuffers.Offset {
+func (w *BroadcastBlockSyncAvailabilityRequestInputBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w.builder.GetSize()
 }
 
-func (w *SendMessageOutputBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BroadcastBlockSyncAvailabilityRequestInputBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -527,12 +249,834 @@ func (w *SendMessageOutputBuilder) CalcRequiredSize() membuffers.Offset {
 	return w.builder.GetSize()
 }
 
-func (w *SendMessageOutputBuilder) Build() *SendMessageOutput {
+func (w *BroadcastBlockSyncAvailabilityRequestInputBuilder) Build() *BroadcastBlockSyncAvailabilityRequestInput {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return SendMessageOutputReader(buf)
+	return BroadcastBlockSyncAvailabilityRequestInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendBlockSyncAvailabilityResponseInput
+
+// reader
+
+type SendBlockSyncAvailabilityResponseInput struct {
+	message membuffers.Message
+}
+
+var m_SendBlockSyncAvailabilityResponseInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessage,}
+var m_SendBlockSyncAvailabilityResponseInput_Unions = [][]membuffers.FieldType{}
+
+func SendBlockSyncAvailabilityResponseInputReader(buf []byte) *SendBlockSyncAvailabilityResponseInput {
+	x := &SendBlockSyncAvailabilityResponseInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendBlockSyncAvailabilityResponseInput_Scheme, m_SendBlockSyncAvailabilityResponseInput_Unions)
+	return x
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) Recipient() []byte {
+	return x.message.GetBytes(0)
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) RawRecipient() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) MutateRecipient(v []byte) error {
+	return x.message.SetBytes(0, v)
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) Message() *gossip.BlockSyncAvailabilityResponseMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.BlockSyncAvailabilityResponseMessageReader(b[:s])
+}
+
+func (x *SendBlockSyncAvailabilityResponseInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendBlockSyncAvailabilityResponseInputBuilder struct {
+	builder membuffers.Builder
+	Recipient []byte
+	Message *gossip.BlockSyncAvailabilityResponseMessageBuilder
+}
+
+func (w *SendBlockSyncAvailabilityResponseInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytes(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendBlockSyncAvailabilityResponseInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncAvailabilityResponseInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncAvailabilityResponseInputBuilder) Build() *SendBlockSyncAvailabilityResponseInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendBlockSyncAvailabilityResponseInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendBlockSyncRequestInput
+
+// reader
+
+type SendBlockSyncRequestInput struct {
+	message membuffers.Message
+}
+
+var m_SendBlockSyncRequestInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessage,}
+var m_SendBlockSyncRequestInput_Unions = [][]membuffers.FieldType{}
+
+func SendBlockSyncRequestInputReader(buf []byte) *SendBlockSyncRequestInput {
+	x := &SendBlockSyncRequestInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendBlockSyncRequestInput_Scheme, m_SendBlockSyncRequestInput_Unions)
+	return x
+}
+
+func (x *SendBlockSyncRequestInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendBlockSyncRequestInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendBlockSyncRequestInput) Recipient() []byte {
+	return x.message.GetBytes(0)
+}
+
+func (x *SendBlockSyncRequestInput) RawRecipient() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendBlockSyncRequestInput) MutateRecipient(v []byte) error {
+	return x.message.SetBytes(0, v)
+}
+
+func (x *SendBlockSyncRequestInput) Message() *gossip.BlockSyncRequestMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.BlockSyncRequestMessageReader(b[:s])
+}
+
+func (x *SendBlockSyncRequestInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendBlockSyncRequestInputBuilder struct {
+	builder membuffers.Builder
+	Recipient []byte
+	Message *gossip.BlockSyncRequestMessageBuilder
+}
+
+func (w *SendBlockSyncRequestInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytes(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendBlockSyncRequestInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncRequestInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncRequestInputBuilder) Build() *SendBlockSyncRequestInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendBlockSyncRequestInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendBlockSyncResponseInput
+
+// reader
+
+type SendBlockSyncResponseInput struct {
+	message membuffers.Message
+}
+
+var m_SendBlockSyncResponseInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessage,}
+var m_SendBlockSyncResponseInput_Unions = [][]membuffers.FieldType{}
+
+func SendBlockSyncResponseInputReader(buf []byte) *SendBlockSyncResponseInput {
+	x := &SendBlockSyncResponseInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendBlockSyncResponseInput_Scheme, m_SendBlockSyncResponseInput_Unions)
+	return x
+}
+
+func (x *SendBlockSyncResponseInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendBlockSyncResponseInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendBlockSyncResponseInput) Recipient() []byte {
+	return x.message.GetBytes(0)
+}
+
+func (x *SendBlockSyncResponseInput) RawRecipient() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendBlockSyncResponseInput) MutateRecipient(v []byte) error {
+	return x.message.SetBytes(0, v)
+}
+
+func (x *SendBlockSyncResponseInput) Message() *gossip.BlockSyncResponseMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.BlockSyncResponseMessageReader(b[:s])
+}
+
+func (x *SendBlockSyncResponseInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendBlockSyncResponseInputBuilder struct {
+	builder membuffers.Builder
+	Recipient []byte
+	Message *gossip.BlockSyncResponseMessageBuilder
+}
+
+func (w *SendBlockSyncResponseInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytes(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendBlockSyncResponseInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncResponseInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendBlockSyncResponseInputBuilder) Build() *SendBlockSyncResponseInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendBlockSyncResponseInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendLeanHelixPrePrepareInput
+
+// reader
+
+type SendLeanHelixPrePrepareInput struct {
+	message membuffers.Message
+}
+
+var m_SendLeanHelixPrePrepareInput_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeMessage,}
+var m_SendLeanHelixPrePrepareInput_Unions = [][]membuffers.FieldType{}
+
+func SendLeanHelixPrePrepareInputReader(buf []byte) *SendLeanHelixPrePrepareInput {
+	x := &SendLeanHelixPrePrepareInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendLeanHelixPrePrepareInput_Scheme, m_SendLeanHelixPrePrepareInput_Unions)
+	return x
+}
+
+func (x *SendLeanHelixPrePrepareInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendLeanHelixPrePrepareInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendLeanHelixPrePrepareInput) RecipientIterator() *SendLeanHelixPrePrepareInputRecipientIterator {
+	return &SendLeanHelixPrePrepareInputRecipientIterator{iterator: x.message.GetBytesArrayIterator(0)}
+}
+
+type SendLeanHelixPrePrepareInputRecipientIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *SendLeanHelixPrePrepareInputRecipientIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *SendLeanHelixPrePrepareInputRecipientIterator) NextRecipient() []byte {
+	return i.iterator.NextBytes()
+}
+
+func (x *SendLeanHelixPrePrepareInput) RawRecipientArray() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendLeanHelixPrePrepareInput) Message() *gossip.LeanHelixPrePrepareMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.LeanHelixPrePrepareMessageReader(b[:s])
+}
+
+func (x *SendLeanHelixPrePrepareInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendLeanHelixPrePrepareInputBuilder struct {
+	builder membuffers.Builder
+	Recipient [][]byte
+	Message *gossip.LeanHelixPrePrepareMessageBuilder
+}
+
+func (w *SendLeanHelixPrePrepareInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytesArray(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendLeanHelixPrePrepareInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixPrePrepareInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixPrePrepareInputBuilder) Build() *SendLeanHelixPrePrepareInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendLeanHelixPrePrepareInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendLeanHelixPrepareInput
+
+// reader
+
+type SendLeanHelixPrepareInput struct {
+	message membuffers.Message
+}
+
+var m_SendLeanHelixPrepareInput_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeMessage,}
+var m_SendLeanHelixPrepareInput_Unions = [][]membuffers.FieldType{}
+
+func SendLeanHelixPrepareInputReader(buf []byte) *SendLeanHelixPrepareInput {
+	x := &SendLeanHelixPrepareInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendLeanHelixPrepareInput_Scheme, m_SendLeanHelixPrepareInput_Unions)
+	return x
+}
+
+func (x *SendLeanHelixPrepareInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendLeanHelixPrepareInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendLeanHelixPrepareInput) RecipientIterator() *SendLeanHelixPrepareInputRecipientIterator {
+	return &SendLeanHelixPrepareInputRecipientIterator{iterator: x.message.GetBytesArrayIterator(0)}
+}
+
+type SendLeanHelixPrepareInputRecipientIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *SendLeanHelixPrepareInputRecipientIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *SendLeanHelixPrepareInputRecipientIterator) NextRecipient() []byte {
+	return i.iterator.NextBytes()
+}
+
+func (x *SendLeanHelixPrepareInput) RawRecipientArray() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendLeanHelixPrepareInput) Message() *gossip.LeanHelixPrepareMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.LeanHelixPrepareMessageReader(b[:s])
+}
+
+func (x *SendLeanHelixPrepareInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendLeanHelixPrepareInputBuilder struct {
+	builder membuffers.Builder
+	Recipient [][]byte
+	Message *gossip.LeanHelixPrepareMessageBuilder
+}
+
+func (w *SendLeanHelixPrepareInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytesArray(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendLeanHelixPrepareInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixPrepareInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixPrepareInputBuilder) Build() *SendLeanHelixPrepareInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendLeanHelixPrepareInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendLeanHelixCommitInput
+
+// reader
+
+type SendLeanHelixCommitInput struct {
+	message membuffers.Message
+}
+
+var m_SendLeanHelixCommitInput_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeMessage,}
+var m_SendLeanHelixCommitInput_Unions = [][]membuffers.FieldType{}
+
+func SendLeanHelixCommitInputReader(buf []byte) *SendLeanHelixCommitInput {
+	x := &SendLeanHelixCommitInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendLeanHelixCommitInput_Scheme, m_SendLeanHelixCommitInput_Unions)
+	return x
+}
+
+func (x *SendLeanHelixCommitInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendLeanHelixCommitInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendLeanHelixCommitInput) RecipientIterator() *SendLeanHelixCommitInputRecipientIterator {
+	return &SendLeanHelixCommitInputRecipientIterator{iterator: x.message.GetBytesArrayIterator(0)}
+}
+
+type SendLeanHelixCommitInputRecipientIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *SendLeanHelixCommitInputRecipientIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *SendLeanHelixCommitInputRecipientIterator) NextRecipient() []byte {
+	return i.iterator.NextBytes()
+}
+
+func (x *SendLeanHelixCommitInput) RawRecipientArray() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendLeanHelixCommitInput) RecipientMode() gossip.RecipientsListMode {
+	return gossip.RecipientsListMode(x.message.GetUint16(1))
+}
+
+func (x *SendLeanHelixCommitInput) RawRecipientMode() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+func (x *SendLeanHelixCommitInput) MutateRecipientMode(v gossip.RecipientsListMode) error {
+	return x.message.SetUint16(1, uint16(v))
+}
+
+func (x *SendLeanHelixCommitInput) Message() *gossip.LeanHelixCommitMessage {
+	b, s := x.message.GetMessage(2)
+	return gossip.LeanHelixCommitMessageReader(b[:s])
+}
+
+func (x *SendLeanHelixCommitInput) RawMessage() []byte {
+	return x.message.RawBufferForField(2, 0)
+}
+
+// builder
+
+type SendLeanHelixCommitInputBuilder struct {
+	builder membuffers.Builder
+	Recipient [][]byte
+	RecipientMode gossip.RecipientsListMode
+	Message *gossip.LeanHelixCommitMessageBuilder
+}
+
+func (w *SendLeanHelixCommitInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytesArray(buf, w.Recipient)
+	w.builder.WriteUint16(buf, uint16(w.RecipientMode))
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendLeanHelixCommitInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixCommitInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixCommitInputBuilder) Build() *SendLeanHelixCommitInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendLeanHelixCommitInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendLeanHelixViewChangeInput
+
+// reader
+
+type SendLeanHelixViewChangeInput struct {
+	message membuffers.Message
+}
+
+var m_SendLeanHelixViewChangeInput_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeMessage,}
+var m_SendLeanHelixViewChangeInput_Unions = [][]membuffers.FieldType{}
+
+func SendLeanHelixViewChangeInputReader(buf []byte) *SendLeanHelixViewChangeInput {
+	x := &SendLeanHelixViewChangeInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendLeanHelixViewChangeInput_Scheme, m_SendLeanHelixViewChangeInput_Unions)
+	return x
+}
+
+func (x *SendLeanHelixViewChangeInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendLeanHelixViewChangeInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendLeanHelixViewChangeInput) RecipientIterator() *SendLeanHelixViewChangeInputRecipientIterator {
+	return &SendLeanHelixViewChangeInputRecipientIterator{iterator: x.message.GetBytesArrayIterator(0)}
+}
+
+type SendLeanHelixViewChangeInputRecipientIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *SendLeanHelixViewChangeInputRecipientIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *SendLeanHelixViewChangeInputRecipientIterator) NextRecipient() []byte {
+	return i.iterator.NextBytes()
+}
+
+func (x *SendLeanHelixViewChangeInput) RawRecipientArray() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendLeanHelixViewChangeInput) Message() *gossip.LeanHelixViewChangeMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.LeanHelixViewChangeMessageReader(b[:s])
+}
+
+func (x *SendLeanHelixViewChangeInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendLeanHelixViewChangeInputBuilder struct {
+	builder membuffers.Builder
+	Recipient [][]byte
+	Message *gossip.LeanHelixViewChangeMessageBuilder
+}
+
+func (w *SendLeanHelixViewChangeInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytesArray(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendLeanHelixViewChangeInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixViewChangeInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixViewChangeInputBuilder) Build() *SendLeanHelixViewChangeInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendLeanHelixViewChangeInputReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message SendLeanHelixNewViewInput
+
+// reader
+
+type SendLeanHelixNewViewInput struct {
+	message membuffers.Message
+}
+
+var m_SendLeanHelixNewViewInput_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeMessage,}
+var m_SendLeanHelixNewViewInput_Unions = [][]membuffers.FieldType{}
+
+func SendLeanHelixNewViewInputReader(buf []byte) *SendLeanHelixNewViewInput {
+	x := &SendLeanHelixNewViewInput{}
+	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendLeanHelixNewViewInput_Scheme, m_SendLeanHelixNewViewInput_Unions)
+	return x
+}
+
+func (x *SendLeanHelixNewViewInput) IsValid() bool {
+	return x.message.IsValid()
+}
+
+func (x *SendLeanHelixNewViewInput) Raw() []byte {
+	return x.message.RawBuffer()
+}
+
+func (x *SendLeanHelixNewViewInput) RecipientIterator() *SendLeanHelixNewViewInputRecipientIterator {
+	return &SendLeanHelixNewViewInputRecipientIterator{iterator: x.message.GetBytesArrayIterator(0)}
+}
+
+type SendLeanHelixNewViewInputRecipientIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *SendLeanHelixNewViewInputRecipientIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *SendLeanHelixNewViewInputRecipientIterator) NextRecipient() []byte {
+	return i.iterator.NextBytes()
+}
+
+func (x *SendLeanHelixNewViewInput) RawRecipientArray() []byte {
+	return x.message.RawBufferForField(0, 0)
+}
+
+func (x *SendLeanHelixNewViewInput) Message() *gossip.LeanHelixNewViewMessage {
+	b, s := x.message.GetMessage(1)
+	return gossip.LeanHelixNewViewMessageReader(b[:s])
+}
+
+func (x *SendLeanHelixNewViewInput) RawMessage() []byte {
+	return x.message.RawBufferForField(1, 0)
+}
+
+// builder
+
+type SendLeanHelixNewViewInputBuilder struct {
+	builder membuffers.Builder
+	Recipient [][]byte
+	Message *gossip.LeanHelixNewViewMessageBuilder
+}
+
+func (w *SendLeanHelixNewViewInputBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w.builder.Reset()
+	w.builder.WriteBytesArray(buf, w.Recipient)
+	err = w.builder.WriteMessage(buf, w.Message)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *SendLeanHelixNewViewInputBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixNewViewInputBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w.builder.GetSize()
+}
+
+func (w *SendLeanHelixNewViewInputBuilder) Build() *SendLeanHelixNewViewInput {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SendLeanHelixNewViewInputReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////

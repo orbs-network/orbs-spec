@@ -6,7 +6,6 @@ import (
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip/transactionrelay"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -18,7 +17,6 @@ type TransactionPool interface {
 	GetTransactionsForOrdering(*GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
 	ValidateTransactionsForOrdering(*ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
 	CommitTransactionReceipts(*CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
-	OnForwardedTransactions(*OnForwardedTransactionsInput) (*OnForwardedTransactionsOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1095,156 +1093,6 @@ func (w *CommitTransactionReceiptsOutputBuilder) Build() *CommitTransactionRecei
 		return nil
 	}
 	return CommitTransactionReceiptsOutputReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message OnForwardedTransactionsInput
-
-// reader
-
-type OnForwardedTransactionsInput struct {
-	message membuffers.Message
-}
-
-var m_OnForwardedTransactionsInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
-var m_OnForwardedTransactionsInput_Unions = [][]membuffers.FieldType{}
-
-func OnForwardedTransactionsInputReader(buf []byte) *OnForwardedTransactionsInput {
-	x := &OnForwardedTransactionsInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_OnForwardedTransactionsInput_Scheme, m_OnForwardedTransactionsInput_Unions)
-	return x
-}
-
-func (x *OnForwardedTransactionsInput) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *OnForwardedTransactionsInput) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-func (x *OnForwardedTransactionsInput) TransactionBatch() *transactionrelay.ForwardedTransactionsMessage {
-	b, s := x.message.GetMessage(0)
-	return transactionrelay.ForwardedTransactionsMessageReader(b[:s])
-}
-
-func (x *OnForwardedTransactionsInput) RawTransactionBatch() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-// builder
-
-type OnForwardedTransactionsInputBuilder struct {
-	builder membuffers.Builder
-	TransactionBatch *transactionrelay.ForwardedTransactionsMessageBuilder
-}
-
-func (w *OnForwardedTransactionsInputBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.TransactionBatch)
-	if err != nil {
-		return
-	}
-	return nil
-}
-
-func (w *OnForwardedTransactionsInputBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *OnForwardedTransactionsInputBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *OnForwardedTransactionsInputBuilder) Build() *OnForwardedTransactionsInput {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return OnForwardedTransactionsInputReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message OnForwardedTransactionsOutput
-
-// reader
-
-type OnForwardedTransactionsOutput struct {
-	message membuffers.Message
-}
-
-var m_OnForwardedTransactionsOutput_Scheme = []membuffers.FieldType{}
-var m_OnForwardedTransactionsOutput_Unions = [][]membuffers.FieldType{}
-
-func OnForwardedTransactionsOutputReader(buf []byte) *OnForwardedTransactionsOutput {
-	x := &OnForwardedTransactionsOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_OnForwardedTransactionsOutput_Scheme, m_OnForwardedTransactionsOutput_Unions)
-	return x
-}
-
-func (x *OnForwardedTransactionsOutput) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *OnForwardedTransactionsOutput) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-// builder
-
-type OnForwardedTransactionsOutputBuilder struct {
-	builder membuffers.Builder
-}
-
-func (w *OnForwardedTransactionsOutputBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	return nil
-}
-
-func (w *OnForwardedTransactionsOutputBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *OnForwardedTransactionsOutputBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *OnForwardedTransactionsOutputBuilder) Build() *OnForwardedTransactionsOutput {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return OnForwardedTransactionsOutputReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////

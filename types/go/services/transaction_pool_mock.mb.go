@@ -57,12 +57,3 @@ func (s *MockTransactionPool) CommitTransactionReceipts(input *CommitTransaction
 	}
 }
 
-func (s *MockTransactionPool) OnForwardedTransactions(input *OnForwardedTransactionsInput) (*OnForwardedTransactionsOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnForwardedTransactionsOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-

@@ -12,28 +12,91 @@ type MockGossip struct {
 	mock.Mock
 }
 
-func (s *MockGossip) TopicSubscribe(input *TopicSubscribeInput) (*TopicSubscribeOutput, error) {
+func (s *MockGossip) BroadcastForwardedTransactions(input *BroadcastForwardedTransactionsInput) (*SendGossipMessageOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*TopicSubscribeOutput), ret.Error(1)
+		return out.(*SendGossipMessageOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockGossip) TopicUnsubscribe(input *TopicUnsubscribeInput) (*TopicUnsubscribeOutput, error) {
+func (s *MockGossip) BroadcastBlockSyncAvailabilityRequest(input *BroadcastBlockSyncAvailabilityRequestInput) (*SendGossipMessageOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*TopicUnsubscribeOutput), ret.Error(1)
+		return out.(*SendGossipMessageOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockGossip) SendMessage(input *SendMessageInput) (*SendMessageOutput, error) {
+func (s *MockGossip) SendBlockSyncAvailabilityResponse(input *SendBlockSyncAvailabilityResponseInput) (*SendGossipMessageOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*SendMessageOutput), ret.Error(1)
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendBlockSyncRequest(input *SendBlockSyncRequestInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendBlockSyncResponse(input *SendBlockSyncResponseInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendLeanHelixPrePrepare(input *SendLeanHelixPrePrepareInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendLeanHelixPrepare(input *SendLeanHelixPrepareInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendLeanHelixCommit(input *SendLeanHelixCommitInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendLeanHelixViewChange(input *SendLeanHelixViewChangeInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockGossip) SendLeanHelixNewView(input *SendLeanHelixNewViewInput) (*SendGossipMessageOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendGossipMessageOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

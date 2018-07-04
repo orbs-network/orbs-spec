@@ -1,109 +1,10 @@
 // AUTO GENERATED FILE (by membufc proto compiler)
-package transactionrelay
+package gossip
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
-
-/////////////////////////////////////////////////////////////////////////////
-// message Message
-
-// reader
-
-type Message struct {
-	message membuffers.Message
-}
-
-var m_Message_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var m_Message_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,}}
-
-func MessageReader(buf []byte) *Message {
-	x := &Message{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_Message_Scheme, m_Message_Unions)
-	return x
-}
-
-func (x *Message) IsValid() bool {
-	return x.message.IsValid()
-}
-
-func (x *Message) Raw() []byte {
-	return x.message.RawBuffer()
-}
-
-type MessageTransactionsRelay uint16
-
-const (
-	MessageTransactionsRelayForwardedTransactions MessageTransactionsRelay = 0
-)
-
-func (x *Message) TransactionsRelay() MessageTransactionsRelay {
-	return MessageTransactionsRelay(x.message.GetUint16(0))
-}
-
-func (x *Message) IsTransactionsRelayForwardedTransactions() bool {
-	is, _ := x.message.IsUnionIndex(0, 0, 0)
-	return is
-}
-
-func (x *Message) TransactionsRelayForwardedTransactions() *ForwardedTransactionsMessage {
-	_, off := x.message.IsUnionIndex(0, 0, 0)
-	b, s := x.message.GetMessageInOffset(off)
-	return ForwardedTransactionsMessageReader(b[:s])
-}
-
-func (x *Message) RawTransactionsRelay() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
-// builder
-
-type MessageBuilder struct {
-	builder membuffers.Builder
-	TransactionsRelay MessageTransactionsRelay
-	ForwardedTransactions *ForwardedTransactionsMessageBuilder
-}
-
-func (w *MessageBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w.builder.Reset()
-	w.builder.WriteUnionIndex(buf, uint16(w.TransactionsRelay))
-	switch w.TransactionsRelay {
-	case MessageTransactionsRelayForwardedTransactions:
-		w.builder.WriteMessage(buf, w.ForwardedTransactions)
-	}
-	return nil
-}
-
-func (w *MessageBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w.builder.GetSize()
-}
-
-func (w *MessageBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w.builder.GetSize()
-}
-
-func (w *MessageBuilder) Build() *Message {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return MessageReader(buf)
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // message ForwardedTransactionsMessage
@@ -131,12 +32,12 @@ func (x *ForwardedTransactionsMessage) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *ForwardedTransactionsMessage) ForwardedTransactionsSignedFields() *ForwardedTransactionsSignedFields {
+func (x *ForwardedTransactionsMessage) Body() *ForwardedTransactionsSignedFields {
 	b, s := x.message.GetMessage(0)
 	return ForwardedTransactionsSignedFieldsReader(b[:s])
 }
 
-func (x *ForwardedTransactionsMessage) RawForwardedTransactionsSignedFields() []byte {
+func (x *ForwardedTransactionsMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
@@ -156,7 +57,7 @@ func (x *ForwardedTransactionsMessage) MutateSignature(v []byte) error {
 
 type ForwardedTransactionsMessageBuilder struct {
 	builder membuffers.Builder
-	ForwardedTransactionsSignedFields *ForwardedTransactionsSignedFieldsBuilder
+	Body *ForwardedTransactionsSignedFieldsBuilder
 	Signature []byte
 }
 
@@ -170,7 +71,7 @@ func (w *ForwardedTransactionsMessageBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.ForwardedTransactionsSignedFields)
+	err = w.builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
@@ -210,7 +111,7 @@ type ForwardedTransactionsSignedFields struct {
 	message membuffers.Message
 }
 
-var m_ForwardedTransactionsSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytesArray,}
+var m_ForwardedTransactionsSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessageArray,}
 var m_ForwardedTransactionsSignedFields_Unions = [][]membuffers.FieldType{}
 
 func ForwardedTransactionsSignedFieldsReader(buf []byte) *ForwardedTransactionsSignedFields {
@@ -227,54 +128,53 @@ func (x *ForwardedTransactionsSignedFields) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *ForwardedTransactionsSignedFields) MessageType() *ForwardedTransactionsSignedFields {
-	b, s := x.message.GetMessage(0)
-	return ForwardedTransactionsSignedFieldsReader(b[:s])
-}
-
-func (x *ForwardedTransactionsSignedFields) RawMessageType() []byte {
-	return x.message.RawBufferForField(0, 0)
-}
-
 func (x *ForwardedTransactionsSignedFields) GwNodePublicKey() []byte {
-	return x.message.GetBytes(1)
+	return x.message.GetBytes(0)
 }
 
 func (x *ForwardedTransactionsSignedFields) RawGwNodePublicKey() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x.message.RawBufferForField(0, 0)
 }
 
 func (x *ForwardedTransactionsSignedFields) MutateGwNodePublicKey(v []byte) error {
-	return x.message.SetBytes(1, v)
+	return x.message.SetBytes(0, v)
 }
 
-func (x *ForwardedTransactionsSignedFields) TransactionDataIterator() *ForwardedTransactionsSignedFieldsTransactionDataIterator {
-	return &ForwardedTransactionsSignedFieldsTransactionDataIterator{iterator: x.message.GetBytesArrayIterator(2)}
+func (x *ForwardedTransactionsSignedFields) TransactionIterator() *ForwardedTransactionsSignedFieldsTransactionIterator {
+	return &ForwardedTransactionsSignedFieldsTransactionIterator{iterator: x.message.GetMessageArrayIterator(1)}
 }
 
-type ForwardedTransactionsSignedFieldsTransactionDataIterator struct {
+type ForwardedTransactionsSignedFieldsTransactionIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *ForwardedTransactionsSignedFieldsTransactionDataIterator) HasNext() bool {
+func (i *ForwardedTransactionsSignedFieldsTransactionIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *ForwardedTransactionsSignedFieldsTransactionDataIterator) NextTransactionData() []byte {
-	return i.iterator.NextBytes()
+func (i *ForwardedTransactionsSignedFieldsTransactionIterator) NextTransaction() *protocol.SignedTransaction {
+	b, s := i.iterator.NextMessage()
+	return protocol.SignedTransactionReader(b[:s])
 }
 
-func (x *ForwardedTransactionsSignedFields) RawTransactionDataArray() []byte {
-	return x.message.RawBufferForField(2, 0)
+func (x *ForwardedTransactionsSignedFields) RawTransactionArray() []byte {
+	return x.message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type ForwardedTransactionsSignedFieldsBuilder struct {
 	builder membuffers.Builder
-	MessageType *ForwardedTransactionsSignedFieldsBuilder
 	GwNodePublicKey []byte
-	TransactionData [][]byte
+	Transaction []*protocol.SignedTransactionBuilder
+}
+
+func (w *ForwardedTransactionsSignedFieldsBuilder) arrayOfTransaction() []membuffers.MessageBuilder {
+	res := make([]membuffers.MessageBuilder, len(w.Transaction))
+	for i, v := range w.Transaction {
+		res[i] = v
+	}
+	return res
 }
 
 func (w *ForwardedTransactionsSignedFieldsBuilder) Write(buf []byte) (err error) {
@@ -287,12 +187,11 @@ func (w *ForwardedTransactionsSignedFieldsBuilder) Write(buf []byte) (err error)
 		}
 	}()
 	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.MessageType)
+	w.builder.WriteBytes(buf, w.GwNodePublicKey)
+	err = w.builder.WriteMessageArray(buf, w.arrayOfTransaction())
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.GwNodePublicKey)
-	w.builder.WriteBytesArray(buf, w.TransactionData)
 	return nil
 }
 

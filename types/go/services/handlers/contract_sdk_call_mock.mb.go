@@ -1,21 +1,21 @@
 // AUTO GENERATED FILE (by membufc proto compiler)
-package listeners
+package handlers
 
 import (
 	"github.com/maraino/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// service ContractSdkCallListener
+// service ContractSdkCallHandler
 
-type MockContractSdkCallListener struct {
+type MockContractSdkCallHandler struct {
 	mock.Mock
 }
 
-func (s *MockContractSdkCallListener) SdkCall(input *SdkCallInput) (*SdkCallOutput, error) {
+func (s *MockContractSdkCallHandler) HandleSdkCall(input *HandleSdkCallInput) (*HandleSdkCallOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*SdkCallOutput), ret.Error(1)
+		return out.(*HandleSdkCallOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

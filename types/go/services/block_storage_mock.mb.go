@@ -57,42 +57,6 @@ func (s *MockBlockStorage) GetLastCommittedBlockHeight(input *GetLastCommittedBl
 	}
 }
 
-func (s *MockBlockStorage) OnBlockAvailabilityRequest(input *OnBlockAvailabilityRequestInput) (*OnBlockAvailabilityRequestOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnBlockAvailabilityRequestOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
-func (s *MockBlockStorage) OnBlockAvailabilityResponse(input *OnBlockAvailabilityResponseInput) (*OnBlockAvailabilityResponseOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnBlockAvailabilityResponseOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
-func (s *MockBlockStorage) OnBlockSyncRequest(input *OnBlockSyncRequestInput) (*OnBlockSyncRequestOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnBlockSyncRequestOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
-func (s *MockBlockStorage) OnBlockSyncResponse(input *OnBlockSyncResponseInput) (*OnBlockSyncResponseOutput, error) {
-	ret := s.Called(input)
-	if out := ret.Get(0); out != nil {
-		return out.(*OnBlockSyncResponseOutput), ret.Error(1)
-	} else {
-		return nil, ret.Error(1)
-	}
-}
-
 func (s *MockBlockStorage) ValidateBlockForCommit(input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
