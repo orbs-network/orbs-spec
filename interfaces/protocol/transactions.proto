@@ -9,7 +9,7 @@ import "protocol/results.proto";
 
 message Transaction {
     uint32 protocol_version = 1;
-    uint64 virtual_chain = 2;
+    uint32 virtual_chain = 2;
     protocol.Sender sender = 3;
     uint64 timestamp = 4;
     string contract_name = 5;
