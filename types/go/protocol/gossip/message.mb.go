@@ -205,11 +205,11 @@ func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
 	w.builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
 	case MessageHeaderTypeTransactionRelay:
-		w.builder.WriteUint16(buf, w.TransactionRelay)
+		w.builder.WriteUint16(buf, uint16(w.TransactionRelay))
 	case MessageHeaderTypeBlockSync:
-		w.builder.WriteUint16(buf, w.BlockSync)
+		w.builder.WriteUint16(buf, uint16(w.BlockSync))
 	case MessageHeaderTypeLeanHelixConsensus:
-		w.builder.WriteUint16(buf, w.LeanHelixConsensus)
+		w.builder.WriteUint16(buf, uint16(w.LeanHelixConsensus))
 	}
 	return nil
 }
