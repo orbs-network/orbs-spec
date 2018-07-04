@@ -14,7 +14,7 @@ type Transaction struct {
 	message membuffers.Message
 }
 
-var m_Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
+var m_Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
 var m_Transaction_Unions = [][]membuffers.FieldType{}
 
 func TransactionReader(buf []byte) *Transaction {
@@ -43,16 +43,16 @@ func (x *Transaction) MutateProtocolVersion(v uint32) error {
 	return x.message.SetUint32(0, v)
 }
 
-func (x *Transaction) VirtualChain() uint64 {
-	return x.message.GetUint64(1)
+func (x *Transaction) VirtualChain() uint32 {
+	return x.message.GetUint32(1)
 }
 
 func (x *Transaction) RawVirtualChain() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *Transaction) MutateVirtualChain(v uint64) error {
-	return x.message.SetUint64(1, v)
+func (x *Transaction) MutateVirtualChain(v uint32) error {
+	return x.message.SetUint32(1, v)
 }
 
 func (x *Transaction) Sender() *Sender {
@@ -126,7 +126,7 @@ func (x *Transaction) RawInputArgumentArray() []byte {
 type TransactionBuilder struct {
 	builder membuffers.Builder
 	ProtocolVersion uint32
-	VirtualChain uint64
+	VirtualChain uint32
 	Sender *SenderBuilder
 	Timestamp uint64
 	ContractName string
@@ -153,7 +153,7 @@ func (w *TransactionBuilder) Write(buf []byte) (err error) {
 	}()
 	w.builder.Reset()
 	w.builder.WriteUint32(buf, w.ProtocolVersion)
-	w.builder.WriteUint64(buf, w.VirtualChain)
+	w.builder.WriteUint32(buf, w.VirtualChain)
 	err = w.builder.WriteMessage(buf, w.Sender)
 	if err != nil {
 		return
