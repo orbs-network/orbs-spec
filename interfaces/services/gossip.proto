@@ -2,14 +2,17 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/gossip/messages.proto";
+import "interfaces/protocol/gossip/message.proto";
 
 service Gossip {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "TransactionRelayGossipHandler";
+    option register_handler = "BlockSyncGossipHandler";
+    option register_handler = "LeanHelixConsensusGossipHandler";
+
     rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
     rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
     rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
-    // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "GossipMessageHandler";
 }
 
 message TopicSubscribeInput {

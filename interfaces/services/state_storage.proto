@@ -10,9 +10,11 @@ import "protocol/blocks.proto";
 service StateStorage {
     // called by BlockStorage
     rpc CommitStateDiff (CommitStateDiffInput) returns (CommitStateDiffOutput);
+
     // called by VirtualMachine
     rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
     rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
+
     // called by ConsensusContext
     rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
 }

@@ -7,11 +7,12 @@ import "protocol/addresses.proto";
 import "protocol/results.proto";
 
 service Processor {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "ContractSdkCallHandler";
+
     // called by VirtualMachine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
     rpc DeployNativeService (DeployNativeServiceInput) returns (DeployNativeServiceOutput);
-    // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "ContractSdkCallHandler";
 }
   
 message ProcessCallInput {

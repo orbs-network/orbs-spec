@@ -1,0 +1,66 @@
+syntax = "proto3";
+package gossip;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
+
+import "../primitives/types.proto";
+
+enum BlockSyncMessageType {
+    BLOCK_SYNC_RESERVED = 0;
+    BLOCK_SYNC_REQUEST = 1;
+    BLOCK_SYNC_RESPONSE = 2;
+    BLOCK_SYNC_BLOCK_AVAILABILITY_REQUEST = 3;
+    BLOCK_SYNC_BLOCK_AVAILABILITY_RESPONSE = 4;
+}
+
+message BlockSyncAvailabilityRequestMessage {
+    BlockSyncAvailabilitySignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncAvailabilityResponseMessage {
+    BlockSyncAvailabilitySignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncAvailabilitySignedFields {
+    BlockType block_type = 1;
+    primitives.ed25519_pkey sender_public_key = 2;
+    uint64 first_available_block_height = 3;
+    uint64 last_available_block_height = 4;
+    uint64 last_committed_block_height = 5;
+}
+
+message BlockSyncRequestMessage {
+    BlockSyncRequestSignedFields body = 1;
+    primitives.ed25519_sig signature = 2; // TODO: why do we need to sign this?
+}
+
+message BlockSyncRequestSignedFields {
+    BlockType block_type = 1;
+    primitives.ed25519_pkey sender_public_key = 2; // TODO: we receive the sender public key as part of gossip
+    uint64 first_requested_block_height = 3;
+    uint64 last_requested_block_height = 4;
+    uint64 last_committed_block_height = 5;
+}
+
+message BlockSyncResponseMessage {
+    BlockSyncResponseSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+    repeated bytes block_data = 3; // TODO: instead of block_data place actual blocks and kill BlockType
+}
+
+message BlockSyncResponseSignedFields {
+    BlockType block_type = 1;
+    primitives.ed25519_pkey sender_public_key = 2;
+    uint64 first_block_height = 3;
+    uint64 last_block_height = 4;
+    uint64 last_committed_block_height = 5;
+    repeated primitives.sha256 block_hash = 6;
+}
+
+enum BlockType {
+    BLOCK_TYPE_RESERVED = 0;
+    BLOCK_TYPE_BLOCK_PAIR = 1;
+    BLOCK_TYPE_TRANSACTIONS_BLOCK = 2;
+    BLOCK_TYPE_RESULTS_BLOCK = 3;
+}

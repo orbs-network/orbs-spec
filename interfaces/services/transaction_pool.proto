@@ -6,25 +6,24 @@ import "primitives/types.proto";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
-import "protocol/gossip/transactionrelay/messages.proto";
-import "services/gossip.proto";
 
 // relies on VirtualMachine
 service TransactionPool {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "GossipMessageHandler";
+    option implement_handler = "TransactionRelayGossipHandler";
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "TransactionResultsHandler";
+
     // called by PublicApi
     rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
     rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
+
     // called by ConsensusContext
     rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput);
     rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
+
     // called by BlockStorage
     rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
-    // internal gossip handlers
-    rpc OnForwardedTransactions (OnForwardedTransactionsInput) returns (OnForwardedTransactionsOutput);
-    // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "TransactionResultsHandler";
 }
 
 message AddNewTransactionInput {
@@ -79,11 +78,4 @@ message CommitTransactionReceiptsInput {
 message CommitTransactionReceiptsOutput {
     uint64 next_desired_block_height = 1;
     uint64 last_committed_block_height = 2;
-}
-
-message OnForwardedTransactionsInput {
-    transactionrelay.ForwardedTransactionsMessage transaction_batch = 1;
-}
-
-message OnForwardedTransactionsOutput {
 }

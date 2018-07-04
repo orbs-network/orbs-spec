@@ -10,10 +10,13 @@ import "protocol/contracts.proto";
 service VirtualMachine {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "ContractSdkCallHandler";
+
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
+
     // called by PublicApi
     rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
+
     // called by TransactionPool
     rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
 }

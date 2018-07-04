@@ -11,6 +11,7 @@ import "protocol/contracts.proto";
 service PublicApi {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "TransactionResultsHandler";
+
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
     rpc CallMethod (CallMethodInput) returns (CallMethodOutput);

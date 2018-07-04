@@ -1,0 +1,21 @@
+syntax = "proto3";
+package gossip;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
+
+import "../primitives/types.proto";
+import "../protocol/transactions.proto";
+
+enum TransactionsRelayMessageType {
+    TRANSACTION_RELAY_RESERVED = 0;
+    TRANSACTION_RELAY_FORWARDED_TRANSACTIONS = 1;
+}
+
+message ForwardedTransactionsMessage {
+    ForwardedTransactionsSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+}
+    
+message ForwardedTransactionsSignedFields {
+    primitives.ed25519_pkey gw_node_public_key = 1;
+    repeated protocol.SignedTransaction transaction = 2;
+}

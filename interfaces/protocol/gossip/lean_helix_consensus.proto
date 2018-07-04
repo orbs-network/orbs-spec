@@ -1,0 +1,86 @@
+syntax = "proto3";
+package gossip;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
+
+import "../primitives/types.proto";
+
+enum LeanHelixMessageType {
+    LEAN_HELIX_CONSENSUS_RESERVED = 0;
+    LEAN_HELIX_CONSENSUS_PRE_PREPARE = 1;
+    LEAN_HELIX_CONSENSUS_PREPARE = 2;
+    LEAN_HELIX_CONSENSUS_COMMIT = 3;
+    LEAN_HELIX_CONSENSUS_NEW_VIEW = 4;
+    LEAN_HELIX_CONSENSUS_VIEW_CHANGE = 5;
+}
+
+message LeanHelixPrePrepareMessage {
+    LeanHelixCommitPreparePPMessageSignedFields body = 1; // TODO: can we move the signature to be on the gossip level?
+    primitives.ed25519_sig signature = 2;
+    bytes block_pair_data = 3;
+}
+  
+message LeanHelixPrepareMessage {
+    LeanHelixCommitPreparePPMessageSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message LeanHelixCommitMessage {
+    LeanHelixCommitPreparePPMessageSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+    primitives.bls1_sig random_seed_share = 3;
+}
+
+message LeanHelixViewChangeMessage {
+    LeanHelixViewChangeSignedFields body = 1;
+    primitives.ed25519_sig signature = 2;
+    bytes block_pair_data = 3;
+}
+
+message LeanHelixNewViewMessage {
+    LeanHelixNewViewProof body = 1;
+    primitives.ed25519_sig header_signature = 2;
+    bytes block_pair_data = 3;
+}
+
+message LeanHelixCommitPreparePPMessageSignedFields {
+    uint64 block_height = 1;
+    uint32 view = 2;
+    primitives.sha256 block_hash = 3; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
+    primitives.ed25519_pkey sender_public_key = 4;
+}
+
+message LeanHelixViewChangeSignedFields {
+    uint64 block_height = 1;
+    uint32 view = 2;
+    LeanHelixPreparedProof prepared_proof = 3;
+    primitives.ed25519_pkey sender_public_key = 4;
+}
+
+message LeanHelixPreparedProof {
+    repeated LeanHelixCommitPreparePPMessageSignedFields pp_body = 1;
+    repeated primitives.ed25519_sig pp_prepare_signature = 2;
+}
+
+message LeanHelixNewViewSignedFields {
+    uint64 block_height = 1;
+    uint32 view = 2;
+    LeanHelixNewViewProof new_view_proof = 3;
+    LeanHelixCommitPreparePPMessageSignedFields nv_pp_body = 4;
+    primitives.ed25519_sig nv_pp_signature = 6;
+    primitives.ed25519_pkey sender_public_key = 7;
+}
+
+message LeanHelixNewViewProof {
+    repeated LeanHelixViewChangeSignedFields view_change_header = 1;
+    repeated primitives.ed25519_sig view_change_header_signature = 2;
+}
+
+message LeanHelixBlockProof {
+    uint64 block_height = 1;
+    uint32 view = 2;
+    primitives.uint256 block_hash_mask = 3;
+    primitives.uint256 block_hash = 4;
+    repeated primitives.ed25519_pkey pkey = 5;
+    repeated primitives.ed25519_sig signature = 6;
+    primitives.bls1_sig random_seed_signature = 7;
+}

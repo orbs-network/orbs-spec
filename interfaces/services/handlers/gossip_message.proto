@@ -1,0 +1,29 @@
+syntax = "proto3";
+package handlers;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
+
+import "../protocol/gossip/transaction_relay.proto";
+import "../protocol/gossip/block_sync.proto";
+import "../protocol/gossip/lean_helix_consensus.proto";
+
+service TransactionRelayGossipHandler {
+    rpc HandleForwardedTransactions (gossip.ForwardedTransactionsMessage) returns (GossipMessageHandlerOutput);
+}
+
+service BlockSyncGossipHandler {
+    rpc HandleBlockAvailabilityRequest (gossip.BlockSyncAvailabilityRequestMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleBlockAvailabilityResponse (gossip.BlockSyncAvailabilityResponseMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleBlockSyncRequest (gossip.BlockSyncRequestMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleBlockSyncResponse (gossip.BlockSyncResponseMessage) returns (GossipMessageHandlerOutput);
+}
+
+service LeanHelixConsensusGossipHandler {
+    rpc HandleLeanHelixPrePrepareReceived (gossip.LeanHelixPrePrepareMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleLeanHelixPrepareReceived (gossip.LeanHelixPrepareMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleLeanHelixCommitReceived (gossip.LeanHelixCommitMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleLeanHelixViewChangeReceived (gossip.LeanHelixViewChangeMessage) returns (GossipMessageHandlerOutput);
+    rpc HandleLeanHelixNewViewReceived (gossip.LeanHelixNewViewMessage) returns (GossipMessageHandlerOutput);
+}
+
+message GossipMessageHandlerOutput {
+}

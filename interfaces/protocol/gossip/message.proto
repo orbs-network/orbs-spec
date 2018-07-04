@@ -3,28 +3,28 @@ package gossip;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
 
 import "../primitives/types.proto";
-import "../protocol/gossip/leanhelixconsensus/messages.proto";
-import "../protocol/gossip/blocksync/messages.proto";
-import "../protocol/gossip/transactionrelay/messages.proto";
+import "gossip/transaction_relay.proto";
+import "gossip/block_sync.proto";
+import "gossip/lean_helix_consensus.proto";
 
-// TODO isn't this redundant with oneof?
+// TODO isn't this redundant with oneof of message type?
 enum MessageTopic {
     MESSAGE_TOPIC_RESERVED = 0;
-    MESSAGE_TOPIC_LEAN_HELIX_CONSENSUS = 1;
-    MESSAGE_TOPIC_TRANSACTION_RELAY = 2;
-    MESSAGE_TOPIC_BLOCK_SYNC = 3;
+    MESSAGE_TOPIC_TRANSACTION_RELAY = 1;
+    MESSAGE_TOPIC_BLOCK_SYNC = 2;
+    MESSAGE_TOPIC_LEAN_HELIX_CONSENSUS = 3;
 }
 
-message Message {
+message MessageHeader {
     uint32 protocol_version = 1;
     repeated primitives.ed25519_pkey recipients_list = 2;
     RecipientsListMode inverse_recipients_list = 3;
     MessageTopic topic = 4;
     uint32 virtual_chain = 5;
-    oneof body {
-        leanhelixconsensus.Message lean_helix_message = 6;
-        blocksync.Message block_sync_message = 7;
-        transactionrelay.Message transactions_relay_message = 8;
+    oneof type {
+        gossip.TransactionsRelayMessageType transaction_relay = 6;
+        gossip.BlockSyncMessageType block_sync = 7;
+        gossip.LeanHelixMessageType lean_helix_consensus = 8;
     }
 }
 

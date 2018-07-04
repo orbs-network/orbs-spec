@@ -1,0 +1,21 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+// TODO: add another consensus algo to see how many work side by side
+
+// relies on BlockStorage, ConsensusContext
+service ConsensusAlgoLeanHelix {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "ConsensusBlocksHandler";
+    option implement_handler = "LeanHelixConsensusGossipHandler";
+
+    // internal calls
+    rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
+}
+
+message OnNewConsensusRoundInput {
+}
+
+message OnNewConsensusRoundOutput {
+}
