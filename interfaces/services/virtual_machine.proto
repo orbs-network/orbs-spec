@@ -5,11 +5,12 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
+import "services/handlers/contract_sdk_call.proto";
 
 // relies on Processor, CrosschainConnector
 service VirtualMachine {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "ContractSdkCallHandler";
+    option implement_handler = "handlers.ContractSdkCallHandler";
 
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming

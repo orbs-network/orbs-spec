@@ -7,12 +7,13 @@ import "protocol/gossip/message.proto";
 import "protocol/gossip/transaction_relay.proto";
 import "protocol/gossip/block_sync.proto";
 import "protocol/gossip/lean_helix_consensus.proto";
+import "services/handlers/gossip_message.proto";
 
 service Gossip {
     // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "TransactionRelayGossipHandler";
-    option register_handler = "BlockSyncGossipHandler";
-    option register_handler = "LeanHelixConsensusGossipHandler";
+    option register_handler = "handlers.TransactionRelayGossipHandler";
+    option register_handler = "handlers.BlockSyncGossipHandler";
+    option register_handler = "handlers.LeanHelixConsensusGossipHandler";
 
     // TransactionRelay topic
     rpc BroadcastForwardedTransactions (BroadcastForwardedTransactionsInput) returns (SendGossipMessageOutput);

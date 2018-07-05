@@ -4,19 +4,20 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service TransactionPool
 
 type TransactionPool interface {
+	handlers.TransactionRelayGossipHandler
 	AddNewTransaction(*AddNewTransactionInput) (*AddNewTransactionOutput, error)
 	GetCommittedTransactionReceipt(*GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
 	GetTransactionsForOrdering(*GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
 	ValidateTransactionsForOrdering(*ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
 	CommitTransactionReceipts(*CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
+	RegisterTransactionResultsHandler(handlers.TransactionResultsHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

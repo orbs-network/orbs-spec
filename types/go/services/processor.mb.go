@@ -4,8 +4,7 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -14,6 +13,7 @@ import (
 type Processor interface {
 	ProcessCall(*ProcessCallInput) (*ProcessCallOutput, error)
 	DeployNativeService(*DeployNativeServiceInput) (*DeployNativeServiceOutput, error)
+	RegisterContractSdkCallHandler(handlers.ContractSdkCallHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

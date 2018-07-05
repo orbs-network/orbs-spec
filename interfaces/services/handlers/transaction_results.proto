@@ -4,7 +4,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handler
 
 import "../protocol/transactions.proto";
 
-service TransactionResultsHandler{
+service TransactionResultsHandler {
     rpc HandleTransactionResults(HandleTransactionResultsInput) returns (HandleTransactionResultsOutput);
 }
 

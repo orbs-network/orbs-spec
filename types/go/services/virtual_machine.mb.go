@@ -4,14 +4,14 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service VirtualMachine
 
 type VirtualMachine interface {
+	handlers.ContractSdkCallHandler
 	ProcessTransactionSet(*ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
 	RunLocalMethod(*RunLocalMethodInput) (*RunLocalMethodOutput, error)
 	TransactionSetPreOrder(*TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)

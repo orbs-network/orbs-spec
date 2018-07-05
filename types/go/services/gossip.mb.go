@@ -4,9 +4,7 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -23,6 +21,9 @@ type Gossip interface {
 	SendLeanHelixCommit(*SendLeanHelixCommitInput) (*SendGossipMessageOutput, error)
 	SendLeanHelixViewChange(*SendLeanHelixViewChangeInput) (*SendGossipMessageOutput, error)
 	SendLeanHelixNewView(*SendLeanHelixNewViewInput) (*SendGossipMessageOutput, error)
+	RegisterTransactionRelayGossipHandler(handlers.TransactionRelayGossipHandler)
+	RegisterBlockSyncGossipHandler(handlers.BlockSyncGossipHandler)
+	RegisterLeanHelixConsensusGossipHandler(handlers.LeanHelixConsensusGossipHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

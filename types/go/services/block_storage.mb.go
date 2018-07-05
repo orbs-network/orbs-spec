@@ -4,7 +4,6 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -12,12 +11,14 @@ import (
 // service BlockStorage
 
 type BlockStorage interface {
+	handlers.BlockSyncGossipHandler
 	CommitBlock(*CommitBlockInput) (*CommitBlockOutput, error)
 	GetTransactionsBlockHeader(*GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
 	GetResultsBlockHeader(*GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
 	GetTransactionReceipt(*GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
 	GetLastCommittedBlockHeight(*GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
 	ValidateBlockForCommit(*ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	RegisterConsensusBlocksHandler(handlers.ConsensusBlocksHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

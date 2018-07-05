@@ -6,13 +6,15 @@ import "primitives/types.proto";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
+import "services/handlers/gossip_message.proto";
+import "services/handlers/transaction_results.proto";
 
 // relies on VirtualMachine
 service TransactionPool {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "TransactionRelayGossipHandler";
+    option implement_handler = "handlers.TransactionRelayGossipHandler";
     // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "TransactionResultsHandler";
+    option register_handler = "handlers.TransactionResultsHandler";
 
     // called by PublicApi
     rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);

@@ -4,8 +4,6 @@ package handlers
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
 )
 
 /////////////////////////////////////////////////////////////////////////////

@@ -3,12 +3,15 @@ package services
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service ConsensusAlgoLeanHelix
 
 type ConsensusAlgoLeanHelix interface {
+	handlers.ConsensusBlocksHandler
+	handlers.LeanHelixConsensusGossipHandler
 	OnNewConsensusRound(*OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
 }
 
@@ -147,4 +150,7 @@ func (w *OnNewConsensusRoundOutputBuilder) Build() *OnNewConsensusRoundOutput {
 	}
 	return OnNewConsensusRoundOutputReader(buf)
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// enums
 

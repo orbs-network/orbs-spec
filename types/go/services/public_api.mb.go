@@ -4,14 +4,14 @@ package services
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service PublicApi
 
 type PublicApi interface {
+	handlers.TransactionResultsHandler
 	SendTransaction(*SendTransactionInput) (*SendTransactionOutput, error)
 	CallMethod(*CallMethodInput) (*CallMethodOutput, error)
 	GetTransactionStatus(*GetTransactionStatusInput) (*GetTransactionStatusOutput, error)

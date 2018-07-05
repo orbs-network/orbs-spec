@@ -6,11 +6,12 @@ import "primitives/types.proto";
 import "protocol/transactions.proto";
 import "protocol/results.proto";
 import "protocol/contracts.proto";
+import "services/handlers/transaction_results.proto";
 
 // relies on TransactionPool, BlockStorage, VirtualMachine
 service PublicApi {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "TransactionResultsHandler";
+    option implement_handler = "handlers.TransactionResultsHandler";
 
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);

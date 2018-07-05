@@ -5,10 +5,11 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/contracts.proto";
 import "protocol/addresses.proto";
 import "protocol/results.proto";
+import "services/handlers/contract_sdk_call.proto";
 
 service Processor {
     // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "ContractSdkCallHandler";
+    option register_handler = "handlers.ContractSdkCallHandler";
 
     // called by VirtualMachine
     rpc ProcessCall (ProcessCallInput) returns (ProcessCallOutput);
