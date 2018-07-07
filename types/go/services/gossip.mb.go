@@ -11,19 +11,19 @@ import (
 // service Gossip
 
 type Gossip interface {
-	BroadcastForwardedTransactions(*BroadcastForwardedTransactionsInput) (*SendGossipMessageOutput, error)
-	BroadcastBlockSyncAvailabilityRequest(*BroadcastBlockSyncAvailabilityRequestInput) (*SendGossipMessageOutput, error)
-	SendBlockSyncAvailabilityResponse(*SendBlockSyncAvailabilityResponseInput) (*SendGossipMessageOutput, error)
-	SendBlockSyncRequest(*SendBlockSyncRequestInput) (*SendGossipMessageOutput, error)
-	SendBlockSyncResponse(*SendBlockSyncResponseInput) (*SendGossipMessageOutput, error)
-	SendLeanHelixPrePrepare(*SendLeanHelixPrePrepareInput) (*SendGossipMessageOutput, error)
-	SendLeanHelixPrepare(*SendLeanHelixPrepareInput) (*SendGossipMessageOutput, error)
-	SendLeanHelixCommit(*SendLeanHelixCommitInput) (*SendGossipMessageOutput, error)
-	SendLeanHelixViewChange(*SendLeanHelixViewChangeInput) (*SendGossipMessageOutput, error)
-	SendLeanHelixNewView(*SendLeanHelixNewViewInput) (*SendGossipMessageOutput, error)
-	RegisterTransactionRelayGossipHandler(handlers.TransactionRelayGossipHandler)
-	RegisterBlockSyncGossipHandler(handlers.BlockSyncGossipHandler)
-	RegisterLeanHelixConsensusGossipHandler(handlers.LeanHelixConsensusGossipHandler)
+	BroadcastForwardedTransactions(input *BroadcastForwardedTransactionsInput) (*SendGossipMessageOutput, error)
+	BroadcastBlockSyncAvailabilityRequest(input *BroadcastBlockSyncAvailabilityRequestInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncAvailabilityResponse(input *SendBlockSyncAvailabilityResponseInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncRequest(input *SendBlockSyncRequestInput) (*SendGossipMessageOutput, error)
+	SendBlockSyncResponse(input *SendBlockSyncResponseInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixPrePrepare(input *SendLeanHelixPrePrepareInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixPrepare(input *SendLeanHelixPrepareInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixCommit(input *SendLeanHelixCommitInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixViewChange(input *SendLeanHelixViewChangeInput) (*SendGossipMessageOutput, error)
+	SendLeanHelixNewView(input *SendLeanHelixNewViewInput) (*SendGossipMessageOutput, error)
+	RegisterTransactionRelayGossipHandler(handler handlers.TransactionRelayGossipHandler)
+	RegisterBlockSyncGossipHandler(handler handlers.BlockSyncGossipHandler)
+	RegisterLeanHelixConsensusGossipHandler(handler handlers.LeanHelixConsensusGossipHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -12,9 +12,9 @@ import (
 
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
-	ProcessTransactionSet(*ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
-	RunLocalMethod(*RunLocalMethodInput) (*RunLocalMethodOutput, error)
-	TransactionSetPreOrder(*TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
+	ProcessTransactionSet(input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
+	RunLocalMethod(input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
+	TransactionSetPreOrder(input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

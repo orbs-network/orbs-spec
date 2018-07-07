@@ -12,9 +12,9 @@ import (
 
 type PublicApi interface {
 	handlers.TransactionResultsHandler
-	SendTransaction(*SendTransactionInput) (*SendTransactionOutput, error)
-	CallMethod(*CallMethodInput) (*CallMethodOutput, error)
-	GetTransactionStatus(*GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
+	SendTransaction(input *SendTransactionInput) (*SendTransactionOutput, error)
+	CallMethod(input *CallMethodInput) (*CallMethodOutput, error)
+	GetTransactionStatus(input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,7 @@ import (
 
 type MockPublicApi struct {
 	mock.Mock
+	handlers.MockTransactionResultsHandler
 }
 
 func (s *MockPublicApi) SendTransaction(input *SendTransactionInput) (*SendTransactionOutput, error) {

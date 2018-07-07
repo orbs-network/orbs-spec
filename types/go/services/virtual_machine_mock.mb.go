@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,7 @@ import (
 
 type MockVirtualMachine struct {
 	mock.Mock
+	handlers.MockContractSdkCallHandler
 }
 
 func (s *MockVirtualMachine) ProcessTransactionSet(input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error) {

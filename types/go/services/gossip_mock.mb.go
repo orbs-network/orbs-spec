@@ -102,3 +102,15 @@ func (s *MockGossip) SendLeanHelixNewView(input *SendLeanHelixNewViewInput) (*Se
 	}
 }
 
+func (s *MockGossip) RegisterTransactionRelayGossipHandler(handler handlers.TransactionRelayGossipHandler) {
+	s.Called(handler)
+}
+
+func (s *MockGossip) RegisterBlockSyncGossipHandler(handler handlers.BlockSyncGossipHandler) {
+	s.Called(handler)
+}
+
+func (s *MockGossip) RegisterLeanHelixConsensusGossipHandler(handler handlers.LeanHelixConsensusGossipHandler) {
+	s.Called(handler)
+}
+

@@ -12,13 +12,13 @@ import (
 
 type BlockStorage interface {
 	handlers.BlockSyncGossipHandler
-	CommitBlock(*CommitBlockInput) (*CommitBlockOutput, error)
-	GetTransactionsBlockHeader(*GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
-	GetResultsBlockHeader(*GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
-	GetTransactionReceipt(*GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
-	GetLastCommittedBlockHeight(*GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
-	ValidateBlockForCommit(*ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
-	RegisterConsensusBlocksHandler(handlers.ConsensusBlocksHandler)
+	CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error)
+	GetTransactionsBlockHeader(input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
+	GetResultsBlockHeader(input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
+	GetTransactionReceipt(input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
+	GetLastCommittedBlockHeight(input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
+	ValidateBlockForCommit(input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

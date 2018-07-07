@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,7 @@ import (
 
 type MockTransactionPool struct {
 	mock.Mock
+	handlers.MockTransactionRelayGossipHandler
 }
 
 func (s *MockTransactionPool) AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error) {
@@ -55,5 +57,9 @@ func (s *MockTransactionPool) CommitTransactionReceipts(input *CommitTransaction
 	} else {
 		return nil, ret.Error(1)
 	}
+}
+
+func (s *MockTransactionPool) RegisterTransactionResultsHandler(handler handlers.TransactionResultsHandler) {
+	s.Called(handler)
 }
 

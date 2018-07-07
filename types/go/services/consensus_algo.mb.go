@@ -12,7 +12,7 @@ import (
 type ConsensusAlgoLeanHelix interface {
 	handlers.ConsensusBlocksHandler
 	handlers.LeanHelixConsensusGossipHandler
-	OnNewConsensusRound(*OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
+	OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

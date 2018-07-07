@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,7 @@ import (
 
 type MockBlockStorage struct {
 	mock.Mock
+	handlers.MockBlockSyncGossipHandler
 }
 
 func (s *MockBlockStorage) CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error) {
@@ -64,5 +66,9 @@ func (s *MockBlockStorage) ValidateBlockForCommit(input *ValidateBlockForCommitI
 	} else {
 		return nil, ret.Error(1)
 	}
+}
+
+func (s *MockBlockStorage) RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler) {
+	s.Called(handler)
 }
 

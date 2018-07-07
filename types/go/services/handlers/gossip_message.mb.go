@@ -10,28 +10,28 @@ import (
 // service TransactionRelayGossipHandler
 
 type TransactionRelayGossipHandler interface {
-	HandleForwardedTransactions(*HandleForwardedTransactionsInput) (*GossipMessageHandlerOutput, error)
+	HandleForwardedTransactions(input *HandleForwardedTransactionsInput) (*GossipMessageHandlerOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // service BlockSyncGossipHandler
 
 type BlockSyncGossipHandler interface {
-	HandleBlockAvailabilityRequest(*HandleBlockAvailabilityRequestInput) (*GossipMessageHandlerOutput, error)
-	HandleBlockAvailabilityResponse(*HandleBlockAvailabilityResponseInput) (*GossipMessageHandlerOutput, error)
-	HandleBlockSyncRequest(*HandleBlockSyncRequestInput) (*GossipMessageHandlerOutput, error)
-	HandleBlockSyncResponse(*HandleBlockSyncResponseInput) (*GossipMessageHandlerOutput, error)
+	HandleBlockAvailabilityRequest(input *HandleBlockAvailabilityRequestInput) (*GossipMessageHandlerOutput, error)
+	HandleBlockAvailabilityResponse(input *HandleBlockAvailabilityResponseInput) (*GossipMessageHandlerOutput, error)
+	HandleBlockSyncRequest(input *HandleBlockSyncRequestInput) (*GossipMessageHandlerOutput, error)
+	HandleBlockSyncResponse(input *HandleBlockSyncResponseInput) (*GossipMessageHandlerOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // service LeanHelixConsensusGossipHandler
 
 type LeanHelixConsensusGossipHandler interface {
-	HandleLeanHelixPrePrepare(*HandleLeanHelixPrePrepareInput) (*GossipMessageHandlerOutput, error)
-	HandleLeanHelixPrepare(*HandleLeanHelixPrepareInput) (*GossipMessageHandlerOutput, error)
-	HandleLeanHelixCommit(*HandleLeanHelixCommitInput) (*GossipMessageHandlerOutput, error)
-	HandleLeanHelixViewChange(*HandleLeanHelixViewChangeInput) (*GossipMessageHandlerOutput, error)
-	HandleLeanHelixNewView(*HandleLeanHelixNewViewInput) (*GossipMessageHandlerOutput, error)
+	HandleLeanHelixPrePrepare(input *HandleLeanHelixPrePrepareInput) (*GossipMessageHandlerOutput, error)
+	HandleLeanHelixPrepare(input *HandleLeanHelixPrepareInput) (*GossipMessageHandlerOutput, error)
+	HandleLeanHelixCommit(input *HandleLeanHelixCommitInput) (*GossipMessageHandlerOutput, error)
+	HandleLeanHelixViewChange(input *HandleLeanHelixViewChangeInput) (*GossipMessageHandlerOutput, error)
+	HandleLeanHelixNewView(input *HandleLeanHelixNewViewInput) (*GossipMessageHandlerOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

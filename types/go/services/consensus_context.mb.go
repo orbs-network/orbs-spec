@@ -10,12 +10,12 @@ import (
 // service ConsensusContext
 
 type ConsensusContext interface {
-	RequestNewTransactionsBlock(*RequestNewTransactionsBlockInput) (*RequestNewTransactionsBlockOutput, error)
-	RequestNewResultsBlock(*RequestNewResultsBlockInput) (*RequestNewResultsBlockOutput, error)
-	ValidateTransactionsBlock(*ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error)
-	ValidateResultsBlock(*ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error)
-	RequestOrderingCommittee(*RequestCommitteeInput) (*RequestCommitteeOutput, error)
-	RequestValidationCommittee(*RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	RequestNewTransactionsBlock(input *RequestNewTransactionsBlockInput) (*RequestNewTransactionsBlockOutput, error)
+	RequestNewResultsBlock(input *RequestNewResultsBlockInput) (*RequestNewResultsBlockOutput, error)
+	ValidateTransactionsBlock(input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error)
+	ValidateResultsBlock(input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error)
+	RequestOrderingCommittee(input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	RequestValidationCommittee(input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

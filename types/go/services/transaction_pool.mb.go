@@ -12,12 +12,12 @@ import (
 
 type TransactionPool interface {
 	handlers.TransactionRelayGossipHandler
-	AddNewTransaction(*AddNewTransactionInput) (*AddNewTransactionOutput, error)
-	GetCommittedTransactionReceipt(*GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
-	GetTransactionsForOrdering(*GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
-	ValidateTransactionsForOrdering(*ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
-	CommitTransactionReceipts(*CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
-	RegisterTransactionResultsHandler(handlers.TransactionResultsHandler)
+	AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
+	GetCommittedTransactionReceipt(input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
+	GetTransactionsForOrdering(input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
+	ValidateTransactionsForOrdering(input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
+	CommitTransactionReceipts(input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
+	RegisterTransactionResultsHandler(handler handlers.TransactionResultsHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

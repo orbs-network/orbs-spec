@@ -10,7 +10,7 @@ import (
 // service ContractSdkCallHandler
 
 type ContractSdkCallHandler interface {
-	HandleSdkCall(*HandleSdkCallInput) (*HandleSdkCallOutput, error)
+	HandleSdkCall(input *HandleSdkCallInput) (*HandleSdkCallOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

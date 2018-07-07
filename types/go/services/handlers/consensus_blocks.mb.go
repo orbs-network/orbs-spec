@@ -10,8 +10,8 @@ import (
 // service ConsensusBlocksHandler
 
 type ConsensusBlocksHandler interface {
-	HandleTransactionsBlock(*HandleTransactionsBlockInput) (*HandleTransactionsBlockOutput, error)
-	HandleResultsBlock(*HandleResultsBlockInput) (*HandleResultsBlockOutput, error)
+	HandleTransactionsBlock(input *HandleTransactionsBlockInput) (*HandleTransactionsBlockOutput, error)
+	HandleResultsBlock(input *HandleResultsBlockInput) (*HandleResultsBlockOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

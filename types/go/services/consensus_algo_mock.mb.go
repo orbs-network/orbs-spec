@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,8 @@ import (
 
 type MockConsensusAlgoLeanHelix struct {
 	mock.Mock
+	handlers.MockConsensusBlocksHandler
+	handlers.MockLeanHelixConsensusGossipHandler
 }
 
 func (s *MockConsensusAlgoLeanHelix) OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error) {

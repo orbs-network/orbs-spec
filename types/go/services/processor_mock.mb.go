@@ -30,3 +30,7 @@ func (s *MockProcessor) DeployNativeService(input *DeployNativeServiceInput) (*D
 	}
 }
 
+func (s *MockProcessor) RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler) {
+	s.Called(handler)
+}
+

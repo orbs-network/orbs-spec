@@ -11,9 +11,9 @@ import (
 // service Processor
 
 type Processor interface {
-	ProcessCall(*ProcessCallInput) (*ProcessCallOutput, error)
-	DeployNativeService(*DeployNativeServiceInput) (*DeployNativeServiceOutput, error)
-	RegisterContractSdkCallHandler(handlers.ContractSdkCallHandler)
+	ProcessCall(input *ProcessCallInput) (*ProcessCallOutput, error)
+	DeployNativeService(input *DeployNativeServiceInput) (*DeployNativeServiceOutput, error)
+	RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////

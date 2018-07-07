@@ -10,7 +10,7 @@ import (
 // service TransactionResultsHandler
 
 type TransactionResultsHandler interface {
-	HandleTransactionResults(*HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error)
+	HandleTransactionResults(input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

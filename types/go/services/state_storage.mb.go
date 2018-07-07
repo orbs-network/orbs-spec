@@ -10,10 +10,10 @@ import (
 // service StateStorage
 
 type StateStorage interface {
-	CommitStateDiff(*CommitStateDiffInput) (*CommitStateDiffOutput, error)
-	ReadKeys(*ReadKeysInput) (*ReadKeysOutput, error)
-	GetStateStorageBlockHeight(*GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
-	GetStateHash(*GetStateHashInput) (*GetStateHashOutput, error)
+	CommitStateDiff(input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
+	ReadKeys(input *ReadKeysInput) (*ReadKeysOutput, error)
+	GetStateStorageBlockHeight(input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
+	GetStateHash(input *GetStateHashInput) (*GetStateHashOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

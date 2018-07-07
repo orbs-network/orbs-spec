@@ -10,7 +10,7 @@ import (
 // service CrosschainConnector
 
 type CrosschainConnector interface {
-	EthereumCallContract(*EthereumCallContractInput) (*EthereumCallContractOutput, error)
+	EthereumCallContract(input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
