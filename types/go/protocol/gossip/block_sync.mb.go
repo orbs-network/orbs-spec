@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package gossip
 
 import (
@@ -14,12 +14,12 @@ type BlockSyncAvailabilityRequestMessage struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncAvailabilityRequestMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_BlockSyncAvailabilityRequestMessage_Unions = [][]membuffers.FieldType{}
+var _BlockSyncAvailabilityRequestMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _BlockSyncAvailabilityRequestMessage_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncAvailabilityRequestMessageReader(buf []byte) *BlockSyncAvailabilityRequestMessage {
 	x := &BlockSyncAvailabilityRequestMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncAvailabilityRequestMessage_Scheme, m_BlockSyncAvailabilityRequestMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailabilityRequestMessage_Scheme, _BlockSyncAvailabilityRequestMessage_Unions)
 	return x
 }
 
@@ -110,12 +110,12 @@ type BlockSyncAvailabilityResponseMessage struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncAvailabilityResponseMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_BlockSyncAvailabilityResponseMessage_Unions = [][]membuffers.FieldType{}
+var _BlockSyncAvailabilityResponseMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _BlockSyncAvailabilityResponseMessage_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncAvailabilityResponseMessageReader(buf []byte) *BlockSyncAvailabilityResponseMessage {
 	x := &BlockSyncAvailabilityResponseMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncAvailabilityResponseMessage_Scheme, m_BlockSyncAvailabilityResponseMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailabilityResponseMessage_Scheme, _BlockSyncAvailabilityResponseMessage_Unions)
 	return x
 }
 
@@ -206,12 +206,12 @@ type BlockSyncRequestMessage struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncRequestMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_BlockSyncRequestMessage_Unions = [][]membuffers.FieldType{}
+var _BlockSyncRequestMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _BlockSyncRequestMessage_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncRequestMessageReader(buf []byte) *BlockSyncRequestMessage {
 	x := &BlockSyncRequestMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncRequestMessage_Scheme, m_BlockSyncRequestMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncRequestMessage_Scheme, _BlockSyncRequestMessage_Unions)
 	return x
 }
 
@@ -302,12 +302,12 @@ type BlockSyncResponseMessage struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncResponseMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytesArray,}
-var m_BlockSyncResponseMessage_Unions = [][]membuffers.FieldType{}
+var _BlockSyncResponseMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytesArray,}
+var _BlockSyncResponseMessage_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncResponseMessageReader(buf []byte) *BlockSyncResponseMessage {
 	x := &BlockSyncResponseMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncResponseMessage_Scheme, m_BlockSyncResponseMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncResponseMessage_Scheme, _BlockSyncResponseMessage_Unions)
 	return x
 }
 
@@ -420,12 +420,12 @@ type BlockSyncAvailabilitySignedFields struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncAvailabilitySignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
-var m_BlockSyncAvailabilitySignedFields_Unions = [][]membuffers.FieldType{}
+var _BlockSyncAvailabilitySignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _BlockSyncAvailabilitySignedFields_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncAvailabilitySignedFieldsReader(buf []byte) *BlockSyncAvailabilitySignedFields {
 	x := &BlockSyncAvailabilitySignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncAvailabilitySignedFields_Scheme, m_BlockSyncAvailabilitySignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailabilitySignedFields_Scheme, _BlockSyncAvailabilitySignedFields_Unions)
 	return x
 }
 
@@ -558,12 +558,12 @@ type BlockSyncRequestSignedFields struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncRequestSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
-var m_BlockSyncRequestSignedFields_Unions = [][]membuffers.FieldType{}
+var _BlockSyncRequestSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _BlockSyncRequestSignedFields_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncRequestSignedFieldsReader(buf []byte) *BlockSyncRequestSignedFields {
 	x := &BlockSyncRequestSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncRequestSignedFields_Scheme, m_BlockSyncRequestSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncRequestSignedFields_Scheme, _BlockSyncRequestSignedFields_Unions)
 	return x
 }
 
@@ -696,12 +696,12 @@ type BlockSyncResponseSignedFields struct {
 	message membuffers.Message
 }
 
-var m_BlockSyncResponseSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeBytesArray,}
-var m_BlockSyncResponseSignedFields_Unions = [][]membuffers.FieldType{}
+var _BlockSyncResponseSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeBytesArray,}
+var _BlockSyncResponseSignedFields_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncResponseSignedFieldsReader(buf []byte) *BlockSyncResponseSignedFields {
 	x := &BlockSyncResponseSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockSyncResponseSignedFields_Scheme, m_BlockSyncResponseSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncResponseSignedFields_Scheme, _BlockSyncResponseSignedFields_Unions)
 	return x
 }
 

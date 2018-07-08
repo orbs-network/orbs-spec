@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package gossip
 
 import (
@@ -14,12 +14,12 @@ type MessageHeader struct {
 	message membuffers.Message
 }
 
-var m_MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint32,membuffers.TypeUnion,}
-var m_MessageHeader_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
+var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint32,membuffers.TypeUnion,}
+var _MessageHeader_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
 
 func MessageHeaderReader(buf []byte) *MessageHeader {
 	x := &MessageHeader{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_MessageHeader_Scheme, m_MessageHeader_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _MessageHeader_Scheme, _MessageHeader_Unions)
 	return x
 }
 

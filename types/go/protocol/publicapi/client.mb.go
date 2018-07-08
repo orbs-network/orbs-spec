@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package publicapi
 
 import (
@@ -15,12 +15,12 @@ type SendTransactionInput struct {
 	message membuffers.Message
 }
 
-var m_SendTransactionInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
-var m_SendTransactionInput_Unions = [][]membuffers.FieldType{}
+var _SendTransactionInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var _SendTransactionInput_Unions = [][]membuffers.FieldType{}
 
 func SendTransactionInputReader(buf []byte) *SendTransactionInput {
 	x := &SendTransactionInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendTransactionInput_Scheme, m_SendTransactionInput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _SendTransactionInput_Scheme, _SendTransactionInput_Unions)
 	return x
 }
 
@@ -97,12 +97,12 @@ type SendTransactionOutput struct {
 	message membuffers.Message
 }
 
-var m_SendTransactionOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
-var m_SendTransactionOutput_Unions = [][]membuffers.FieldType{}
+var _SendTransactionOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _SendTransactionOutput_Unions = [][]membuffers.FieldType{}
 
 func SendTransactionOutputReader(buf []byte) *SendTransactionOutput {
 	x := &SendTransactionOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SendTransactionOutput_Scheme, m_SendTransactionOutput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _SendTransactionOutput_Scheme, _SendTransactionOutput_Unions)
 	return x
 }
 
@@ -221,12 +221,12 @@ type CallMethodInput struct {
 	message membuffers.Message
 }
 
-var m_CallMethodInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
-var m_CallMethodInput_Unions = [][]membuffers.FieldType{}
+var _CallMethodInput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var _CallMethodInput_Unions = [][]membuffers.FieldType{}
 
 func CallMethodInputReader(buf []byte) *CallMethodInput {
 	x := &CallMethodInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_CallMethodInput_Scheme, m_CallMethodInput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _CallMethodInput_Scheme, _CallMethodInput_Unions)
 	return x
 }
 
@@ -303,12 +303,12 @@ type CallMethodOutput struct {
 	message membuffers.Message
 }
 
-var m_CallMethodOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
-var m_CallMethodOutput_Unions = [][]membuffers.FieldType{}
+var _CallMethodOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _CallMethodOutput_Unions = [][]membuffers.FieldType{}
 
 func CallMethodOutputReader(buf []byte) *CallMethodOutput {
 	x := &CallMethodOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_CallMethodOutput_Scheme, m_CallMethodOutput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _CallMethodOutput_Scheme, _CallMethodOutput_Unions)
 	return x
 }
 
@@ -447,12 +447,12 @@ type GetTransactionStatusInput struct {
 	message membuffers.Message
 }
 
-var m_GetTransactionStatusInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint64,}
-var m_GetTransactionStatusInput_Unions = [][]membuffers.FieldType{}
+var _GetTransactionStatusInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint64,}
+var _GetTransactionStatusInput_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusInputReader(buf []byte) *GetTransactionStatusInput {
 	x := &GetTransactionStatusInput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_GetTransactionStatusInput_Scheme, m_GetTransactionStatusInput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionStatusInput_Scheme, _GetTransactionStatusInput_Unions)
 	return x
 }
 
@@ -543,12 +543,12 @@ type GetTransactionStatusOutput struct {
 	message membuffers.Message
 }
 
-var m_GetTransactionStatusOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
-var m_GetTransactionStatusOutput_Unions = [][]membuffers.FieldType{}
+var _GetTransactionStatusOutput_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _GetTransactionStatusOutput_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusOutputReader(buf []byte) *GetTransactionStatusOutput {
 	x := &GetTransactionStatusOutput{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_GetTransactionStatusOutput_Scheme, m_GetTransactionStatusOutput_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionStatusOutput_Scheme, _GetTransactionStatusOutput_Unions)
 	return x
 }
 

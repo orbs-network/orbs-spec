@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type Transaction struct {
 	message membuffers.Message
 }
 
-var m_Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
-var m_Transaction_Unions = [][]membuffers.FieldType{}
+var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
+var _Transaction_Unions = [][]membuffers.FieldType{}
 
 func TransactionReader(buf []byte) *Transaction {
 	x := &Transaction{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_Transaction_Scheme, m_Transaction_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _Transaction_Scheme, _Transaction_Unions)
 	return x
 }
 
@@ -200,12 +200,12 @@ type SignedTransaction struct {
 	message membuffers.Message
 }
 
-var m_SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytesArray,}
-var m_SignedTransaction_Unions = [][]membuffers.FieldType{}
+var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytesArray,}
+var _SignedTransaction_Unions = [][]membuffers.FieldType{}
 
 func SignedTransactionReader(buf []byte) *SignedTransaction {
 	x := &SignedTransaction{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SignedTransaction_Scheme, m_SignedTransaction_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _SignedTransaction_Scheme, _SignedTransaction_Unions)
 	return x
 }
 
@@ -304,12 +304,12 @@ type TransactionReceipt struct {
 	message membuffers.Message
 }
 
-var m_TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeUint16,membuffers.TypeMessageArray,}
-var m_TransactionReceipt_Unions = [][]membuffers.FieldType{}
+var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeUint16,membuffers.TypeMessageArray,}
+var _TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
 func TransactionReceiptReader(buf []byte) *TransactionReceipt {
 	x := &TransactionReceipt{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionReceipt_Scheme, m_TransactionReceipt_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionReceipt_Scheme, _TransactionReceipt_Unions)
 	return x
 }
 

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package gossip
 
 import (
@@ -14,12 +14,12 @@ type LeanHelixPrePrepareMessage struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixPrePrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixPrePrepareMessage_Unions = [][]membuffers.FieldType{}
+var _LeanHelixPrePrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixPrePrepareMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPrePrepareMessageReader(buf []byte) *LeanHelixPrePrepareMessage {
 	x := &LeanHelixPrePrepareMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixPrePrepareMessage_Scheme, m_LeanHelixPrePrepareMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrePrepareMessage_Scheme, _LeanHelixPrePrepareMessage_Unions)
 	return x
 }
 
@@ -124,12 +124,12 @@ type LeanHelixPrepareMessage struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixPrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_LeanHelixPrepareMessage_Unions = [][]membuffers.FieldType{}
+var _LeanHelixPrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _LeanHelixPrepareMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPrepareMessageReader(buf []byte) *LeanHelixPrepareMessage {
 	x := &LeanHelixPrepareMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixPrepareMessage_Scheme, m_LeanHelixPrepareMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrepareMessage_Scheme, _LeanHelixPrepareMessage_Unions)
 	return x
 }
 
@@ -220,12 +220,12 @@ type LeanHelixCommitMessage struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixCommitMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixCommitMessage_Unions = [][]membuffers.FieldType{}
+var _LeanHelixCommitMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixCommitMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixCommitMessageReader(buf []byte) *LeanHelixCommitMessage {
 	x := &LeanHelixCommitMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixCommitMessage_Scheme, m_LeanHelixCommitMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitMessage_Scheme, _LeanHelixCommitMessage_Unions)
 	return x
 }
 
@@ -330,12 +330,12 @@ type LeanHelixViewChangeMessage struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixViewChangeMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixViewChangeMessage_Unions = [][]membuffers.FieldType{}
+var _LeanHelixViewChangeMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixViewChangeMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixViewChangeMessageReader(buf []byte) *LeanHelixViewChangeMessage {
 	x := &LeanHelixViewChangeMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixViewChangeMessage_Scheme, m_LeanHelixViewChangeMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeMessage_Scheme, _LeanHelixViewChangeMessage_Unions)
 	return x
 }
 
@@ -440,12 +440,12 @@ type LeanHelixNewViewMessage struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixNewViewMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixNewViewMessage_Unions = [][]membuffers.FieldType{}
+var _LeanHelixNewViewMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixNewViewMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewMessageReader(buf []byte) *LeanHelixNewViewMessage {
 	x := &LeanHelixNewViewMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixNewViewMessage_Scheme, m_LeanHelixNewViewMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewMessage_Scheme, _LeanHelixNewViewMessage_Unions)
 	return x
 }
 
@@ -550,12 +550,12 @@ type LeanHelixCommitPreparePPMessageSignedFields struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixCommitPreparePPMessageSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixCommitPreparePPMessageSignedFields_Unions = [][]membuffers.FieldType{}
+var _LeanHelixCommitPreparePPMessageSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixCommitPreparePPMessageSignedFields_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixCommitPreparePPMessageSignedFieldsReader(buf []byte) *LeanHelixCommitPreparePPMessageSignedFields {
 	x := &LeanHelixCommitPreparePPMessageSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixCommitPreparePPMessageSignedFields_Scheme, m_LeanHelixCommitPreparePPMessageSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitPreparePPMessageSignedFields_Scheme, _LeanHelixCommitPreparePPMessageSignedFields_Unions)
 	return x
 }
 
@@ -674,12 +674,12 @@ type LeanHelixViewChangeSignedFields struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixViewChangeSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_LeanHelixViewChangeSignedFields_Unions = [][]membuffers.FieldType{}
+var _LeanHelixViewChangeSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeBytes,}
+var _LeanHelixViewChangeSignedFields_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixViewChangeSignedFieldsReader(buf []byte) *LeanHelixViewChangeSignedFields {
 	x := &LeanHelixViewChangeSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixViewChangeSignedFields_Scheme, m_LeanHelixViewChangeSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeSignedFields_Scheme, _LeanHelixViewChangeSignedFields_Unions)
 	return x
 }
 
@@ -798,12 +798,12 @@ type LeanHelixPreparedProof struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixPreparedProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
-var m_LeanHelixPreparedProof_Unions = [][]membuffers.FieldType{}
+var _LeanHelixPreparedProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
+var _LeanHelixPreparedProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPreparedProofReader(buf []byte) *LeanHelixPreparedProof {
 	x := &LeanHelixPreparedProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixPreparedProof_Scheme, m_LeanHelixPreparedProof_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPreparedProof_Scheme, _LeanHelixPreparedProof_Unions)
 	return x
 }
 
@@ -922,12 +922,12 @@ type LeanHelixNewViewSignedFields struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixNewViewSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_LeanHelixNewViewSignedFields_Unions = [][]membuffers.FieldType{}
+var _LeanHelixNewViewSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixNewViewSignedFields_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewSignedFieldsReader(buf []byte) *LeanHelixNewViewSignedFields {
 	x := &LeanHelixNewViewSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixNewViewSignedFields_Scheme, m_LeanHelixNewViewSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewSignedFields_Scheme, _LeanHelixNewViewSignedFields_Unions)
 	return x
 }
 
@@ -1074,12 +1074,12 @@ type LeanHelixNewViewProof struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixNewViewProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
-var m_LeanHelixNewViewProof_Unions = [][]membuffers.FieldType{}
+var _LeanHelixNewViewProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
+var _LeanHelixNewViewProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewProofReader(buf []byte) *LeanHelixNewViewProof {
 	x := &LeanHelixNewViewProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixNewViewProof_Scheme, m_LeanHelixNewViewProof_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewProof_Scheme, _LeanHelixNewViewProof_Unions)
 	return x
 }
 
@@ -1198,12 +1198,12 @@ type LeanHelixBlockProof struct {
 	message membuffers.Message
 }
 
-var m_LeanHelixBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytesArray,membuffers.TypeBytesArray,membuffers.TypeBytes,}
-var m_LeanHelixBlockProof_Unions = [][]membuffers.FieldType{}
+var _LeanHelixBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytesArray,membuffers.TypeBytesArray,membuffers.TypeBytes,}
+var _LeanHelixBlockProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixBlockProofReader(buf []byte) *LeanHelixBlockProof {
 	x := &LeanHelixBlockProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_LeanHelixBlockProof_Scheme, m_LeanHelixBlockProof_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixBlockProof_Scheme, _LeanHelixBlockProof_Unions)
 	return x
 }
 

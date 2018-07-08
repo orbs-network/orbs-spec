@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type Sender struct {
 	message membuffers.Message
 }
 
-var m_Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUnion,}
-var m_Sender_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
+var _Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUnion,}
+var _Sender_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
 
 func SenderReader(buf []byte) *Sender {
 	x := &Sender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_Sender_Scheme, m_Sender_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _Sender_Scheme, _Sender_Unions)
 	return x
 }
 
@@ -143,12 +143,12 @@ type EdDSA01Sender struct {
 	message membuffers.Message
 }
 
-var m_EdDSA01Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
-var m_EdDSA01Sender_Unions = [][]membuffers.FieldType{}
+var _EdDSA01Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
+var _EdDSA01Sender_Unions = [][]membuffers.FieldType{}
 
 func EdDSA01SenderReader(buf []byte) *EdDSA01Sender {
 	x := &EdDSA01Sender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_EdDSA01Sender_Scheme, m_EdDSA01Sender_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _EdDSA01Sender_Scheme, _EdDSA01Sender_Unions)
 	return x
 }
 
@@ -239,12 +239,12 @@ type SmartContractSender struct {
 	message membuffers.Message
 }
 
-var m_SmartContractSender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeString,membuffers.TypeMessageArray,}
-var m_SmartContractSender_Unions = [][]membuffers.FieldType{}
+var _SmartContractSender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeString,membuffers.TypeMessageArray,}
+var _SmartContractSender_Unions = [][]membuffers.FieldType{}
 
 func SmartContractSenderReader(buf []byte) *SmartContractSender {
 	x := &SmartContractSender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_SmartContractSender_Scheme, m_SmartContractSender_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _SmartContractSender_Scheme, _SmartContractSender_Unions)
 	return x
 }
 

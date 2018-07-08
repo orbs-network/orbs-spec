@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type ContractAddress struct {
 	message membuffers.Message
 }
 
-var m_ContractAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
-var m_ContractAddress_Unions = [][]membuffers.FieldType{}
+var _ContractAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
+var _ContractAddress_Unions = [][]membuffers.FieldType{}
 
 func ContractAddressReader(buf []byte) *ContractAddress {
 	x := &ContractAddress{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ContractAddress_Scheme, m_ContractAddress_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ContractAddress_Scheme, _ContractAddress_Unions)
 	return x
 }
 
@@ -96,12 +96,12 @@ type MethodAddress struct {
 	message membuffers.Message
 }
 
-var m_MethodAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
-var m_MethodAddress_Unions = [][]membuffers.FieldType{}
+var _MethodAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
+var _MethodAddress_Unions = [][]membuffers.FieldType{}
 
 func MethodAddressReader(buf []byte) *MethodAddress {
 	x := &MethodAddress{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_MethodAddress_Scheme, m_MethodAddress_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _MethodAddress_Scheme, _MethodAddress_Unions)
 	return x
 }
 
@@ -178,12 +178,12 @@ type MethodArgument struct {
 	message membuffers.Message
 }
 
-var m_MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeUnion,}
-var m_MethodArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeBytes,}}
+var _MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeUnion,}
+var _MethodArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeBytes,}}
 
 func MethodArgumentReader(buf []byte) *MethodArgument {
 	x := &MethodArgument{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_MethodArgument_Scheme, m_MethodArgument_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _MethodArgument_Scheme, _MethodArgument_Unions)
 	return x
 }
 
@@ -369,12 +369,12 @@ type StateDiff struct {
 	message membuffers.Message
 }
 
-var m_StateDiff_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_StateDiff_Unions = [][]membuffers.FieldType{}
+var _StateDiff_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _StateDiff_Unions = [][]membuffers.FieldType{}
 
 func StateDiffReader(buf []byte) *StateDiff {
 	x := &StateDiff{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_StateDiff_Scheme, m_StateDiff_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _StateDiff_Scheme, _StateDiff_Unions)
 	return x
 }
 
@@ -465,12 +465,12 @@ type ContractStateDiff struct {
 	message membuffers.Message
 }
 
-var m_ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessageArray,}
-var m_ContractStateDiff_Unions = [][]membuffers.FieldType{}
+var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessageArray,}
+var _ContractStateDiff_Unions = [][]membuffers.FieldType{}
 
 func ContractStateDiffReader(buf []byte) *ContractStateDiff {
 	x := &ContractStateDiff{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ContractStateDiff_Scheme, m_ContractStateDiff_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ContractStateDiff_Scheme, _ContractStateDiff_Unions)
 	return x
 }
 

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type BlockPair struct {
 	message membuffers.Message
 }
 
-var m_BlockPair_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,}
-var m_BlockPair_Unions = [][]membuffers.FieldType{}
+var _BlockPair_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,}
+var _BlockPair_Unions = [][]membuffers.FieldType{}
 
 func BlockPairReader(buf []byte) *BlockPair {
 	x := &BlockPair{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_BlockPair_Scheme, m_BlockPair_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _BlockPair_Scheme, _BlockPair_Unions)
 	return x
 }
 
@@ -110,12 +110,12 @@ type TransactionsBlock struct {
 	message membuffers.Message
 }
 
-var m_TransactionsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,}
-var m_TransactionsBlock_Unions = [][]membuffers.FieldType{}
+var _TransactionsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,}
+var _TransactionsBlock_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockReader(buf []byte) *TransactionsBlock {
 	x := &TransactionsBlock{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionsBlock_Scheme, m_TransactionsBlock_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBlock_Scheme, _TransactionsBlock_Unions)
 	return x
 }
 
@@ -234,12 +234,12 @@ type ResultsBlock struct {
 	message membuffers.Message
 }
 
-var m_ResultsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,}
-var m_ResultsBlock_Unions = [][]membuffers.FieldType{}
+var _ResultsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,}
+var _ResultsBlock_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockReader(buf []byte) *ResultsBlock {
 	x := &ResultsBlock{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ResultsBlock_Scheme, m_ResultsBlock_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ResultsBlock_Scheme, _ResultsBlock_Unions)
 	return x
 }
 
@@ -344,12 +344,12 @@ type TransactionsBlockHeader struct {
 	message membuffers.Message
 }
 
-var m_TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_TransactionsBlockHeader_Unions = [][]membuffers.FieldType{}
+var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _TransactionsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockHeaderReader(buf []byte) *TransactionsBlockHeader {
 	x := &TransactionsBlockHeader{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionsBlockHeader_Scheme, m_TransactionsBlockHeader_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBlockHeader_Scheme, _TransactionsBlockHeader_Unions)
 	return x
 }
 
@@ -510,12 +510,12 @@ type TransactionsBlockMetaData struct {
 	message membuffers.Message
 }
 
-var m_TransactionsBlockMetaData_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32Array,}
-var m_TransactionsBlockMetaData_Unions = [][]membuffers.FieldType{}
+var _TransactionsBlockMetaData_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32Array,}
+var _TransactionsBlockMetaData_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockMetaDataReader(buf []byte) *TransactionsBlockMetaData {
 	x := &TransactionsBlockMetaData{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionsBlockMetaData_Scheme, m_TransactionsBlockMetaData_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBlockMetaData_Scheme, _TransactionsBlockMetaData_Unions)
 	return x
 }
 
@@ -614,12 +614,12 @@ type TransactionsBlockBody struct {
 	message membuffers.Message
 }
 
-var m_TransactionsBlockBody_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,}
-var m_TransactionsBlockBody_Unions = [][]membuffers.FieldType{}
+var _TransactionsBlockBody_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,}
+var _TransactionsBlockBody_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockBodyReader(buf []byte) *TransactionsBlockBody {
 	x := &TransactionsBlockBody{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionsBlockBody_Scheme, m_TransactionsBlockBody_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBlockBody_Scheme, _TransactionsBlockBody_Unions)
 	return x
 }
 
@@ -716,12 +716,12 @@ type TransactionsBlockProof struct {
 	message membuffers.Message
 }
 
-var m_TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes,}
-var m_TransactionsBlockProof_Unions = [][]membuffers.FieldType{}
+var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes,}
+var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockProofReader(buf []byte) *TransactionsBlockProof {
 	x := &TransactionsBlockProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_TransactionsBlockProof_Scheme, m_TransactionsBlockProof_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBlockProof_Scheme, _TransactionsBlockProof_Unions)
 	return x
 }
 
@@ -798,12 +798,12 @@ type ResultsBlockHeader struct {
 	message membuffers.Message
 }
 
-var m_ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_ResultsBlockHeader_Unions = [][]membuffers.FieldType{}
+var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,}
+var _ResultsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockHeaderReader(buf []byte) *ResultsBlockHeader {
 	x := &ResultsBlockHeader{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ResultsBlockHeader_Scheme, m_ResultsBlockHeader_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ResultsBlockHeader_Scheme, _ResultsBlockHeader_Unions)
 	return x
 }
 
@@ -1020,12 +1020,12 @@ type ResultsBlockBody struct {
 	message membuffers.Message
 }
 
-var m_ResultsBlockBody_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeMessageArray,}
-var m_ResultsBlockBody_Unions = [][]membuffers.FieldType{}
+var _ResultsBlockBody_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeMessageArray,}
+var _ResultsBlockBody_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockBodyReader(buf []byte) *ResultsBlockBody {
 	x := &ResultsBlockBody{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ResultsBlockBody_Scheme, m_ResultsBlockBody_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ResultsBlockBody_Scheme, _ResultsBlockBody_Unions)
 	return x
 }
 
@@ -1156,12 +1156,12 @@ type ResultsBlockProof struct {
 	message membuffers.Message
 }
 
-var m_ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes,}
-var m_ResultsBlockProof_Unions = [][]membuffers.FieldType{}
+var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes,}
+var _ResultsBlockProof_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockProofReader(buf []byte) *ResultsBlockProof {
 	x := &ResultsBlockProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ResultsBlockProof_Scheme, m_ResultsBlockProof_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ResultsBlockProof_Scheme, _ResultsBlockProof_Unions)
 	return x
 }
 

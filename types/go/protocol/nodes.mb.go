@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type NodeData struct {
 	message membuffers.Message
 }
 
-var m_NodeData_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var m_NodeData_Unions = [][]membuffers.FieldType{}
+var _NodeData_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _NodeData_Unions = [][]membuffers.FieldType{}
 
 func NodeDataReader(buf []byte) *NodeData {
 	x := &NodeData{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_NodeData_Scheme, m_NodeData_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _NodeData_Scheme, _NodeData_Unions)
 	return x
 }
 

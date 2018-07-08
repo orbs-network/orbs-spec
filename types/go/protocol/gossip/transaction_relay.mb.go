@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package gossip
 
 import (
@@ -15,12 +15,12 @@ type ForwardedTransactionsMessage struct {
 	message membuffers.Message
 }
 
-var m_ForwardedTransactionsMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
-var m_ForwardedTransactionsMessage_Unions = [][]membuffers.FieldType{}
+var _ForwardedTransactionsMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _ForwardedTransactionsMessage_Unions = [][]membuffers.FieldType{}
 
 func ForwardedTransactionsMessageReader(buf []byte) *ForwardedTransactionsMessage {
 	x := &ForwardedTransactionsMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ForwardedTransactionsMessage_Scheme, m_ForwardedTransactionsMessage_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsMessage_Scheme, _ForwardedTransactionsMessage_Unions)
 	return x
 }
 
@@ -111,12 +111,12 @@ type ForwardedTransactionsSignedFields struct {
 	message membuffers.Message
 }
 
-var m_ForwardedTransactionsSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessageArray,}
-var m_ForwardedTransactionsSignedFields_Unions = [][]membuffers.FieldType{}
+var _ForwardedTransactionsSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessageArray,}
+var _ForwardedTransactionsSignedFields_Unions = [][]membuffers.FieldType{}
 
 func ForwardedTransactionsSignedFieldsReader(buf []byte) *ForwardedTransactionsSignedFields {
 	x := &ForwardedTransactionsSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_ForwardedTransactionsSignedFields_Scheme, m_ForwardedTransactionsSignedFields_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsSignedFields_Scheme, _ForwardedTransactionsSignedFields_Unions)
 	return x
 }
 

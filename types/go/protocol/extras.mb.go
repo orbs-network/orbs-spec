@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
 package protocol
 
 import (
@@ -14,12 +14,12 @@ type PreOrderResult struct {
 	message membuffers.Message
 }
 
-var m_PreOrderResult_Scheme = []membuffers.FieldType{membuffers.TypeUint16,}
-var m_PreOrderResult_Unions = [][]membuffers.FieldType{}
+var _PreOrderResult_Scheme = []membuffers.FieldType{membuffers.TypeUint16,}
+var _PreOrderResult_Unions = [][]membuffers.FieldType{}
 
 func PreOrderResultReader(buf []byte) *PreOrderResult {
 	x := &PreOrderResult{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), m_PreOrderResult_Scheme, m_PreOrderResult_Unions)
+	x.message.Init(buf, membuffers.Offset(len(buf)), _PreOrderResult_Scheme, _PreOrderResult_Unions)
 	return x
 }
 
