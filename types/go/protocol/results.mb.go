@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -397,7 +398,7 @@ func (x *TransactionsBlockHeader) MutateBlockHeight(v uint64) error {
 	return x.message.SetUint64(2, v)
 }
 
-func (x *TransactionsBlockHeader) PrevBlockHashPtr() []byte {
+func (x *TransactionsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
 	return x.message.GetBytes(3)
 }
 
@@ -405,7 +406,7 @@ func (x *TransactionsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x.message.RawBufferForField(3, 0)
 }
 
-func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v []byte) error {
+func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x.message.SetBytes(3, v)
 }
 
@@ -421,7 +422,7 @@ func (x *TransactionsBlockHeader) MutateTimestamp(v uint64) error {
 	return x.message.SetUint64(4, v)
 }
 
-func (x *TransactionsBlockHeader) TransactionsRootHash() []byte {
+func (x *TransactionsBlockHeader) TransactionsRootHash() primitives.Sha256 {
 	return x.message.GetBytes(5)
 }
 
@@ -429,11 +430,11 @@ func (x *TransactionsBlockHeader) RawTransactionsRootHash() []byte {
 	return x.message.RawBufferForField(5, 0)
 }
 
-func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v []byte) error {
+func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v primitives.Sha256) error {
 	return x.message.SetBytes(5, v)
 }
 
-func (x *TransactionsBlockHeader) MetaDataHash() []byte {
+func (x *TransactionsBlockHeader) MetaDataHash() primitives.Sha256 {
 	return x.message.GetBytes(6)
 }
 
@@ -441,7 +442,7 @@ func (x *TransactionsBlockHeader) RawMetaDataHash() []byte {
 	return x.message.RawBufferForField(6, 0)
 }
 
-func (x *TransactionsBlockHeader) MutateMetaDataHash(v []byte) error {
+func (x *TransactionsBlockHeader) MutateMetaDataHash(v primitives.Sha256) error {
 	return x.message.SetBytes(6, v)
 }
 
@@ -452,10 +453,10 @@ type TransactionsBlockHeaderBuilder struct {
 	Version uint32
 	VirtualChain uint32
 	BlockHeight uint64
-	PrevBlockHashPtr []byte
+	PrevBlockHashPtr primitives.Sha256
 	Timestamp uint64
-	TransactionsRootHash []byte
-	MetaDataHash []byte
+	TransactionsRootHash primitives.Sha256
+	MetaDataHash primitives.Sha256
 }
 
 func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
@@ -851,7 +852,7 @@ func (x *ResultsBlockHeader) MutateBlockHeight(v uint64) error {
 	return x.message.SetUint64(2, v)
 }
 
-func (x *ResultsBlockHeader) PrevBlockHashPtr() []byte {
+func (x *ResultsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
 	return x.message.GetBytes(3)
 }
 
@@ -859,7 +860,7 @@ func (x *ResultsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x.message.RawBufferForField(3, 0)
 }
 
-func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v []byte) error {
+func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x.message.SetBytes(3, v)
 }
 
@@ -875,7 +876,7 @@ func (x *ResultsBlockHeader) MutateTimestamp(v uint64) error {
 	return x.message.SetUint64(4, v)
 }
 
-func (x *ResultsBlockHeader) ReceiptsRootHash() []byte {
+func (x *ResultsBlockHeader) ReceiptsRootHash() primitives.Sha256 {
 	return x.message.GetBytes(5)
 }
 
@@ -883,11 +884,11 @@ func (x *ResultsBlockHeader) RawReceiptsRootHash() []byte {
 	return x.message.RawBufferForField(5, 0)
 }
 
-func (x *ResultsBlockHeader) MutateReceiptsRootHash(v []byte) error {
+func (x *ResultsBlockHeader) MutateReceiptsRootHash(v primitives.Sha256) error {
 	return x.message.SetBytes(5, v)
 }
 
-func (x *ResultsBlockHeader) StateDiffHash() []byte {
+func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
 	return x.message.GetBytes(6)
 }
 
@@ -895,11 +896,11 @@ func (x *ResultsBlockHeader) RawStateDiffHash() []byte {
 	return x.message.RawBufferForField(6, 0)
 }
 
-func (x *ResultsBlockHeader) MutateStateDiffHash(v []byte) error {
+func (x *ResultsBlockHeader) MutateStateDiffHash(v primitives.Sha256) error {
 	return x.message.SetBytes(6, v)
 }
 
-func (x *ResultsBlockHeader) TransactionsBlockHashPtr() []byte {
+func (x *ResultsBlockHeader) TransactionsBlockHashPtr() primitives.Sha256 {
 	return x.message.GetBytes(7)
 }
 
@@ -907,11 +908,11 @@ func (x *ResultsBlockHeader) RawTransactionsBlockHashPtr() []byte {
 	return x.message.RawBufferForField(7, 0)
 }
 
-func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v []byte) error {
+func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v primitives.Sha256) error {
 	return x.message.SetBytes(7, v)
 }
 
-func (x *ResultsBlockHeader) PreExecutionStateRootHash() []byte {
+func (x *ResultsBlockHeader) PreExecutionStateRootHash() primitives.Sha256 {
 	return x.message.GetBytes(8)
 }
 
@@ -919,7 +920,7 @@ func (x *ResultsBlockHeader) RawPreExecutionStateRootHash() []byte {
 	return x.message.RawBufferForField(8, 0)
 }
 
-func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v []byte) error {
+func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v primitives.Sha256) error {
 	return x.message.SetBytes(8, v)
 }
 
@@ -954,12 +955,12 @@ type ResultsBlockHeaderBuilder struct {
 	Version uint32
 	VirtualChain uint32
 	BlockHeight uint64
-	PrevBlockHashPtr []byte
+	PrevBlockHashPtr primitives.Sha256
 	Timestamp uint64
-	ReceiptsRootHash []byte
-	StateDiffHash []byte
-	TransactionsBlockHashPtr []byte
-	PreExecutionStateRootHash []byte
+	ReceiptsRootHash primitives.Sha256
+	StateDiffHash primitives.Sha256
+	TransactionsBlockHashPtr primitives.Sha256
+	PreExecutionStateRootHash primitives.Sha256
 	TxidBloomFilter []byte
 	TimestampBloomFilter []byte
 }

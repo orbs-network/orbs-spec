@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package gossip
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ func (x *BlockSyncAvailabilityRequestMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncAvailabilityRequestMessage) Signature() []byte {
+func (x *BlockSyncAvailabilityRequestMessage) Signature() primitives.Ed25519Sig {
 	return x.message.GetBytes(1)
 }
 
@@ -48,7 +49,7 @@ func (x *BlockSyncAvailabilityRequestMessage) RawSignature() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncAvailabilityRequestMessage) MutateSignature(v []byte) error {
+func (x *BlockSyncAvailabilityRequestMessage) MutateSignature(v primitives.Ed25519Sig) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -57,7 +58,7 @@ func (x *BlockSyncAvailabilityRequestMessage) MutateSignature(v []byte) error {
 type BlockSyncAvailabilityRequestMessageBuilder struct {
 	builder membuffers.Builder
 	Body *BlockSyncAvailabilitySignedFieldsBuilder
-	Signature []byte
+	Signature primitives.Ed25519Sig
 }
 
 func (w *BlockSyncAvailabilityRequestMessageBuilder) Write(buf []byte) (err error) {
@@ -136,7 +137,7 @@ func (x *BlockSyncAvailabilityResponseMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncAvailabilityResponseMessage) Signature() []byte {
+func (x *BlockSyncAvailabilityResponseMessage) Signature() primitives.Ed25519Sig {
 	return x.message.GetBytes(1)
 }
 
@@ -144,7 +145,7 @@ func (x *BlockSyncAvailabilityResponseMessage) RawSignature() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncAvailabilityResponseMessage) MutateSignature(v []byte) error {
+func (x *BlockSyncAvailabilityResponseMessage) MutateSignature(v primitives.Ed25519Sig) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -153,7 +154,7 @@ func (x *BlockSyncAvailabilityResponseMessage) MutateSignature(v []byte) error {
 type BlockSyncAvailabilityResponseMessageBuilder struct {
 	builder membuffers.Builder
 	Body *BlockSyncAvailabilitySignedFieldsBuilder
-	Signature []byte
+	Signature primitives.Ed25519Sig
 }
 
 func (w *BlockSyncAvailabilityResponseMessageBuilder) Write(buf []byte) (err error) {
@@ -232,7 +233,7 @@ func (x *BlockSyncRequestMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncRequestMessage) Signature() []byte {
+func (x *BlockSyncRequestMessage) Signature() primitives.Ed25519Sig {
 	return x.message.GetBytes(1)
 }
 
@@ -240,7 +241,7 @@ func (x *BlockSyncRequestMessage) RawSignature() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncRequestMessage) MutateSignature(v []byte) error {
+func (x *BlockSyncRequestMessage) MutateSignature(v primitives.Ed25519Sig) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -249,7 +250,7 @@ func (x *BlockSyncRequestMessage) MutateSignature(v []byte) error {
 type BlockSyncRequestMessageBuilder struct {
 	builder membuffers.Builder
 	Body *BlockSyncRequestSignedFieldsBuilder
-	Signature []byte
+	Signature primitives.Ed25519Sig
 }
 
 func (w *BlockSyncRequestMessageBuilder) Write(buf []byte) (err error) {
@@ -328,7 +329,7 @@ func (x *BlockSyncResponseMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncResponseMessage) Signature() []byte {
+func (x *BlockSyncResponseMessage) Signature() primitives.Ed25519Sig {
 	return x.message.GetBytes(1)
 }
 
@@ -336,7 +337,7 @@ func (x *BlockSyncResponseMessage) RawSignature() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncResponseMessage) MutateSignature(v []byte) error {
+func (x *BlockSyncResponseMessage) MutateSignature(v primitives.Ed25519Sig) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -365,7 +366,7 @@ func (x *BlockSyncResponseMessage) RawBlockDataArray() []byte {
 type BlockSyncResponseMessageBuilder struct {
 	builder membuffers.Builder
 	Body *BlockSyncResponseSignedFieldsBuilder
-	Signature []byte
+	Signature primitives.Ed25519Sig
 	BlockData [][]byte
 }
 
@@ -449,7 +450,7 @@ func (x *BlockSyncAvailabilitySignedFields) MutateBlockType(v BlockType) error {
 	return x.message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncAvailabilitySignedFields) SenderPublicKey() []byte {
+func (x *BlockSyncAvailabilitySignedFields) SenderPublicKey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(1)
 }
 
@@ -457,7 +458,7 @@ func (x *BlockSyncAvailabilitySignedFields) RawSenderPublicKey() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncAvailabilitySignedFields) MutateSenderPublicKey(v []byte) error {
+func (x *BlockSyncAvailabilitySignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -502,7 +503,7 @@ func (x *BlockSyncAvailabilitySignedFields) MutateLastCommittedBlockHeight(v uin
 type BlockSyncAvailabilitySignedFieldsBuilder struct {
 	builder membuffers.Builder
 	BlockType BlockType
-	SenderPublicKey []byte
+	SenderPublicKey primitives.Ed25519Pkey
 	FirstAvailableBlockHeight uint64
 	LastAvailableBlockHeight uint64
 	LastCommittedBlockHeight uint64
@@ -587,7 +588,7 @@ func (x *BlockSyncRequestSignedFields) MutateBlockType(v BlockType) error {
 	return x.message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncRequestSignedFields) SenderPublicKey() []byte {
+func (x *BlockSyncRequestSignedFields) SenderPublicKey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(1)
 }
 
@@ -595,7 +596,7 @@ func (x *BlockSyncRequestSignedFields) RawSenderPublicKey() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncRequestSignedFields) MutateSenderPublicKey(v []byte) error {
+func (x *BlockSyncRequestSignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -640,7 +641,7 @@ func (x *BlockSyncRequestSignedFields) MutateLastCommittedBlockHeight(v uint64) 
 type BlockSyncRequestSignedFieldsBuilder struct {
 	builder membuffers.Builder
 	BlockType BlockType
-	SenderPublicKey []byte
+	SenderPublicKey primitives.Ed25519Pkey
 	FirstRequestedBlockHeight uint64
 	LastRequestedBlockHeight uint64
 	LastCommittedBlockHeight uint64
@@ -725,7 +726,7 @@ func (x *BlockSyncResponseSignedFields) MutateBlockType(v BlockType) error {
 	return x.message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncResponseSignedFields) SenderPublicKey() []byte {
+func (x *BlockSyncResponseSignedFields) SenderPublicKey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(1)
 }
 
@@ -733,7 +734,7 @@ func (x *BlockSyncResponseSignedFields) RawSenderPublicKey() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncResponseSignedFields) MutateSenderPublicKey(v []byte) error {
+func (x *BlockSyncResponseSignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -785,7 +786,7 @@ func (i *BlockSyncResponseSignedFieldsBlockHashIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *BlockSyncResponseSignedFieldsBlockHashIterator) NextBlockHash() []byte {
+func (i *BlockSyncResponseSignedFieldsBlockHashIterator) NextBlockHash() primitives.Sha256 {
 	return i.iterator.NextBytes()
 }
 
@@ -798,11 +799,19 @@ func (x *BlockSyncResponseSignedFields) RawBlockHashArray() []byte {
 type BlockSyncResponseSignedFieldsBuilder struct {
 	builder membuffers.Builder
 	BlockType BlockType
-	SenderPublicKey []byte
+	SenderPublicKey primitives.Ed25519Pkey
 	FirstBlockHeight uint64
 	LastBlockHeight uint64
 	LastCommittedBlockHeight uint64
-	BlockHash [][]byte
+	BlockHash []primitives.Sha256
+}
+
+func (w *BlockSyncResponseSignedFieldsBuilder) arrayOfBlockHash() [][]byte {
+	res := make([][]byte, len(w.BlockHash))
+	for i, v := range w.BlockHash {
+		res[i] = v
+	}
+	return res
 }
 
 func (w *BlockSyncResponseSignedFieldsBuilder) Write(buf []byte) (err error) {
@@ -820,7 +829,7 @@ func (w *BlockSyncResponseSignedFieldsBuilder) Write(buf []byte) (err error) {
 	w.builder.WriteUint64(buf, w.FirstBlockHeight)
 	w.builder.WriteUint64(buf, w.LastBlockHeight)
 	w.builder.WriteUint64(buf, w.LastCommittedBlockHeight)
-	w.builder.WriteBytesArray(buf, w.BlockHash)
+	w.builder.WriteBytesArray(buf, w.arrayOfBlockHash())
 	return nil
 }
 

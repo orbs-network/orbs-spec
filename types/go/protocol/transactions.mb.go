@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -321,7 +322,7 @@ func (x *TransactionReceipt) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *TransactionReceipt) Txid() []byte {
+func (x *TransactionReceipt) Txid() primitives.Sha256 {
 	return x.message.GetBytes(0)
 }
 
@@ -329,7 +330,7 @@ func (x *TransactionReceipt) RawTxid() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *TransactionReceipt) MutateTxid(v []byte) error {
+func (x *TransactionReceipt) MutateTxid(v primitives.Sha256) error {
 	return x.message.SetBytes(0, v)
 }
 
@@ -382,7 +383,7 @@ func (x *TransactionReceipt) RawOutputArgumentArray() []byte {
 
 type TransactionReceiptBuilder struct {
 	builder membuffers.Builder
-	Txid []byte
+	Txid primitives.Sha256
 	Version uint32
 	TransactionStatus ExecutionStatus
 	OutputArgument []*MethodArgumentBuilder

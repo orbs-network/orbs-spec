@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -24,7 +25,7 @@ type RequestNewTransactionsBlockInput struct {
 	BlockHeight uint64
 	MaxBlockSizeKb uint32
 	MaxNumberOfTransactions uint32
-	PrevBlockHash []byte
+	PrevBlockHash primitives.Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ type RequestNewTransactionsBlockOutput struct {
 
 type RequestNewResultsBlockInput struct {
 	BlockHeight uint64
-	PrevBlockHash []byte
+	PrevBlockHash primitives.Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -56,7 +57,7 @@ type RequestNewResultsBlockOutput struct {
 
 type ValidateTransactionsBlockInput struct {
 	TransactionsBlock *protocol.TransactionsBlock
-	PrevBlockHash []byte
+	PrevBlockHash primitives.Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -71,7 +72,7 @@ type ValidateTransactionsBlockOutput struct {
 
 type ValidateResultsBlockInput struct {
 	ResultsBlock *protocol.ResultsBlock
-	PrevBlockHash []byte
+	PrevBlockHash primitives.Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////

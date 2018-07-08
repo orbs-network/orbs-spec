@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -386,7 +387,7 @@ func (x *StateDiff) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *StateDiff) StateKey() []byte {
+func (x *StateDiff) StateKey() primitives.Ripmd160Sha256 {
 	return x.message.GetBytes(0)
 }
 
@@ -394,7 +395,7 @@ func (x *StateDiff) RawStateKey() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *StateDiff) MutateStateKey(v []byte) error {
+func (x *StateDiff) MutateStateKey(v primitives.Ripmd160Sha256) error {
 	return x.message.SetBytes(0, v)
 }
 
@@ -414,7 +415,7 @@ func (x *StateDiff) MutateStateValue(v []byte) error {
 
 type StateDiffBuilder struct {
 	builder membuffers.Builder
-	StateKey []byte
+	StateKey primitives.Ripmd160Sha256
 	StateValue []byte
 }
 

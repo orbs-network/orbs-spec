@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -172,7 +173,7 @@ func (x *EdDSA01Sender) MutateNetworkType(v NetworkType) error {
 	return x.message.SetUint16(0, uint16(v))
 }
 
-func (x *EdDSA01Sender) SenderPublicKey() []byte {
+func (x *EdDSA01Sender) SenderPublicKey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(1)
 }
 
@@ -180,7 +181,7 @@ func (x *EdDSA01Sender) RawSenderPublicKey() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *EdDSA01Sender) MutateSenderPublicKey(v []byte) error {
+func (x *EdDSA01Sender) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -189,7 +190,7 @@ func (x *EdDSA01Sender) MutateSenderPublicKey(v []byte) error {
 type EdDSA01SenderBuilder struct {
 	builder membuffers.Builder
 	NetworkType NetworkType
-	SenderPublicKey []byte
+	SenderPublicKey primitives.Ed25519Pkey
 }
 
 func (w *EdDSA01SenderBuilder) Write(buf []byte) (err error) {

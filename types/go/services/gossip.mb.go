@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossip"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -49,7 +50,7 @@ type BroadcastBlockSyncAvailabilityRequestInput struct {
 // message SendBlockSyncAvailabilityResponseInput (non serializable)
 
 type SendBlockSyncAvailabilityResponseInput struct {
-	Recipient []byte
+	Recipient primitives.Ed25519Pkey
 	Message *gossip.BlockSyncAvailabilityResponseMessage
 }
 
@@ -57,7 +58,7 @@ type SendBlockSyncAvailabilityResponseInput struct {
 // message SendBlockSyncRequestInput (non serializable)
 
 type SendBlockSyncRequestInput struct {
-	Recipient []byte
+	Recipient primitives.Ed25519Pkey
 	Message *gossip.BlockSyncRequestMessage
 }
 
@@ -65,7 +66,7 @@ type SendBlockSyncRequestInput struct {
 // message SendBlockSyncResponseInput (non serializable)
 
 type SendBlockSyncResponseInput struct {
-	Recipient []byte
+	Recipient primitives.Ed25519Pkey
 	Message *gossip.BlockSyncResponseMessage
 }
 
@@ -73,7 +74,7 @@ type SendBlockSyncResponseInput struct {
 // message SendLeanHelixPrePrepareInput (non serializable)
 
 type SendLeanHelixPrePrepareInput struct {
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	Message *gossip.LeanHelixPrePrepareMessage
 }
 
@@ -81,7 +82,7 @@ type SendLeanHelixPrePrepareInput struct {
 // message SendLeanHelixPrepareInput (non serializable)
 
 type SendLeanHelixPrepareInput struct {
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	Message *gossip.LeanHelixPrepareMessage
 }
 
@@ -89,7 +90,7 @@ type SendLeanHelixPrepareInput struct {
 // message SendLeanHelixCommitInput (non serializable)
 
 type SendLeanHelixCommitInput struct {
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	RecipientMode gossip.RecipientsListMode
 	Message *gossip.LeanHelixCommitMessage
 }
@@ -98,7 +99,7 @@ type SendLeanHelixCommitInput struct {
 // message SendLeanHelixViewChangeInput (non serializable)
 
 type SendLeanHelixViewChangeInput struct {
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	Message *gossip.LeanHelixViewChangeMessage
 }
 
@@ -106,7 +107,7 @@ type SendLeanHelixViewChangeInput struct {
 // message SendLeanHelixNewViewInput (non serializable)
 
 type SendLeanHelixNewViewInput struct {
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	Message *gossip.LeanHelixNewViewMessage
 }
 

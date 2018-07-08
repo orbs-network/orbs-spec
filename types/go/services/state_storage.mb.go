@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -21,7 +22,7 @@ type StateStorage interface {
 type ReadKeysInput struct {
 	BlockHeight uint64
 	Contract *protocol.ContractAddress
-	Key [][]byte
+	Key []primitives.Ripmd160Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,7 @@ type GetStateHashInput struct {
 
 type GetStateHashOutput struct {
 	Status protocol.RequestStatus
-	StateRootHash []byte
+	StateRootHash primitives.Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////

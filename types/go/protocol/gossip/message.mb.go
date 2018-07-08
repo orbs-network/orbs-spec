@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package gossip
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,7 +56,7 @@ func (i *MessageHeaderRecipientIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *MessageHeaderRecipientIterator) NextRecipient() []byte {
+func (i *MessageHeaderRecipientIterator) NextRecipient() primitives.Ed25519Pkey {
 	return i.iterator.NextBytes()
 }
 
@@ -177,7 +178,7 @@ func (x *MessageHeader) RawType() []byte {
 type MessageHeaderBuilder struct {
 	builder membuffers.Builder
 	ProtocolVersion uint32
-	Recipient [][]byte
+	Recipient []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
 	Topic MessageTopic
 	VirtualChain uint32
@@ -185,6 +186,14 @@ type MessageHeaderBuilder struct {
 	TransactionRelay TransactionsRelayMessageType
 	BlockSync BlockSyncMessageType
 	LeanHelixConsensus LeanHelixMessageType
+}
+
+func (w *MessageHeaderBuilder) arrayOfRecipient() [][]byte {
+	res := make([][]byte, len(w.Recipient))
+	for i, v := range w.Recipient {
+		res[i] = v
+	}
+	return res
 }
 
 func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
@@ -198,7 +207,7 @@ func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
 	}()
 	w.builder.Reset()
 	w.builder.WriteUint32(buf, w.ProtocolVersion)
-	w.builder.WriteBytesArray(buf, w.Recipient)
+	w.builder.WriteBytesArray(buf, w.arrayOfRecipient())
 	w.builder.WriteUint16(buf, uint16(w.RecipientMode))
 	w.builder.WriteUint16(buf, uint16(w.Topic))
 	w.builder.WriteUint32(buf, w.VirtualChain)

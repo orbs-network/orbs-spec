@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -68,7 +69,7 @@ type GetResultsBlockHeaderOutput struct {
 // message GetTransactionReceiptInput (non serializable)
 
 type GetTransactionReceiptInput struct {
-	Txid []byte
+	Txid primitives.Uint256
 	Timestamp uint64
 }
 

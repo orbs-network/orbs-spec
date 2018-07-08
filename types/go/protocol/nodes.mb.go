@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -31,7 +32,7 @@ func (x *NodeData) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *NodeData) NodePkey() []byte {
+func (x *NodeData) NodePkey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(0)
 }
 
@@ -39,11 +40,11 @@ func (x *NodeData) RawNodePkey() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *NodeData) MutateNodePkey(v []byte) error {
+func (x *NodeData) MutateNodePkey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(0, v)
 }
 
-func (x *NodeData) NodeRandomSeedPkey() []byte {
+func (x *NodeData) NodeRandomSeedPkey() primitives.Bls1Pkey {
 	return x.message.GetBytes(1)
 }
 
@@ -51,7 +52,7 @@ func (x *NodeData) RawNodeRandomSeedPkey() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *NodeData) MutateNodeRandomSeedPkey(v []byte) error {
+func (x *NodeData) MutateNodeRandomSeedPkey(v primitives.Bls1Pkey) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -59,8 +60,8 @@ func (x *NodeData) MutateNodeRandomSeedPkey(v []byte) error {
 
 type NodeDataBuilder struct {
 	builder membuffers.Builder
-	NodePkey []byte
-	NodeRandomSeedPkey []byte
+	NodePkey primitives.Ed25519Pkey
+	NodeRandomSeedPkey primitives.Bls1Pkey
 }
 
 func (w *NodeDataBuilder) Write(buf []byte) (err error) {

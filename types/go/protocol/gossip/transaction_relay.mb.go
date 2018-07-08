@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package gossip
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -41,7 +42,7 @@ func (x *ForwardedTransactionsMessage) RawBody() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *ForwardedTransactionsMessage) Signature() []byte {
+func (x *ForwardedTransactionsMessage) Signature() primitives.Ed25519Sig {
 	return x.message.GetBytes(1)
 }
 
@@ -49,7 +50,7 @@ func (x *ForwardedTransactionsMessage) RawSignature() []byte {
 	return x.message.RawBufferForField(1, 0)
 }
 
-func (x *ForwardedTransactionsMessage) MutateSignature(v []byte) error {
+func (x *ForwardedTransactionsMessage) MutateSignature(v primitives.Ed25519Sig) error {
 	return x.message.SetBytes(1, v)
 }
 
@@ -58,7 +59,7 @@ func (x *ForwardedTransactionsMessage) MutateSignature(v []byte) error {
 type ForwardedTransactionsMessageBuilder struct {
 	builder membuffers.Builder
 	Body *ForwardedTransactionsSignedFieldsBuilder
-	Signature []byte
+	Signature primitives.Ed25519Sig
 }
 
 func (w *ForwardedTransactionsMessageBuilder) Write(buf []byte) (err error) {
@@ -128,7 +129,7 @@ func (x *ForwardedTransactionsSignedFields) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *ForwardedTransactionsSignedFields) GwNodePublicKey() []byte {
+func (x *ForwardedTransactionsSignedFields) GwNodePublicKey() primitives.Ed25519Pkey {
 	return x.message.GetBytes(0)
 }
 
@@ -136,7 +137,7 @@ func (x *ForwardedTransactionsSignedFields) RawGwNodePublicKey() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *ForwardedTransactionsSignedFields) MutateGwNodePublicKey(v []byte) error {
+func (x *ForwardedTransactionsSignedFields) MutateGwNodePublicKey(v primitives.Ed25519Pkey) error {
 	return x.message.SetBytes(0, v)
 }
 
@@ -165,7 +166,7 @@ func (x *ForwardedTransactionsSignedFields) RawTransactionArray() []byte {
 
 type ForwardedTransactionsSignedFieldsBuilder struct {
 	builder membuffers.Builder
-	GwNodePublicKey []byte
+	GwNodePublicKey primitives.Ed25519Pkey
 	Transaction []*protocol.SignedTransactionBuilder
 }
 

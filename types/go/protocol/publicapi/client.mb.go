@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.11)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
 package publicapi
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -464,7 +465,7 @@ func (x *GetTransactionStatusInput) Raw() []byte {
 	return x.message.RawBuffer()
 }
 
-func (x *GetTransactionStatusInput) Txid() []byte {
+func (x *GetTransactionStatusInput) Txid() primitives.Sha256 {
 	return x.message.GetBytes(0)
 }
 
@@ -472,7 +473,7 @@ func (x *GetTransactionStatusInput) RawTxid() []byte {
 	return x.message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusInput) MutateTxid(v []byte) error {
+func (x *GetTransactionStatusInput) MutateTxid(v primitives.Sha256) error {
 	return x.message.SetBytes(0, v)
 }
 
@@ -492,7 +493,7 @@ func (x *GetTransactionStatusInput) MutateTimestamp(v uint64) error {
 
 type GetTransactionStatusInputBuilder struct {
 	builder membuffers.Builder
-	Txid []byte
+	Txid primitives.Sha256
 	Timestamp uint64
 }
 
