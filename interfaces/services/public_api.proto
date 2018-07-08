@@ -2,10 +2,7 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "primitives/types.proto";
-import "protocol/transactions.proto";
-import "protocol/results.proto";
-import "protocol/contracts.proto";
+import "protocol/publicapi/client.proto";
 import "services/handlers/transaction_results.proto";
 
 option serialize_service_args = false;
@@ -22,35 +19,25 @@ service PublicApi {
 }
 
 message SendTransactionInput {
-    protocol.SignedTransaction signed_transaction = 1;
+    publicapi.SendTransactionInput client_input = 1;
 }
 
 message SendTransactionOutput {
-    protocol.TransactionReceipt receipt = 1;
-    protocol.TransactionStatus transaction_status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    publicapi.SendTransactionOutput client_output = 1;
 }
 
 message CallMethodInput {
-    protocol.Transaction transaction = 1;
+    publicapi.CallMethodInput client_input = 1;
 }
 
 message CallMethodOutput {
-    repeated protocol.MethodArgument output_argument = 1;
-    protocol.CallMethodStatus call_status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    publicapi.CallMethodOutput client_output = 1;
 }
 
 message GetTransactionStatusInput {
-    primitives.sha256 txid = 1;
-    uint64 timestamp = 2;
+    publicapi.GetTransactionStatusInput client_input = 1;
 }
 
 message GetTransactionStatusOutput {
-    protocol.TransactionReceipt receipt = 1;
-    protocol.TransactionStatus status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    publicapi.GetTransactionStatusOutput client_output = 1;
 }

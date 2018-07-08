@@ -2,7 +2,7 @@
 package services
 
 import (
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/publicapi"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -20,54 +20,41 @@ type PublicApi interface {
 // message SendTransactionInput (non serializable)
 
 type SendTransactionInput struct {
-	SignedTransaction *protocol.SignedTransaction
+	ClientInput *publicapi.SendTransactionInput
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message SendTransactionOutput (non serializable)
 
 type SendTransactionOutput struct {
-	Receipt *protocol.TransactionReceipt
-	TransactionStatus protocol.TransactionStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	ClientOutput *publicapi.SendTransactionOutput
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CallMethodInput (non serializable)
 
 type CallMethodInput struct {
-	Transaction *protocol.Transaction
+	ClientInput *publicapi.CallMethodInput
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CallMethodOutput (non serializable)
 
 type CallMethodOutput struct {
-	OutputArgument []*protocol.MethodArgument
-	CallStatus protocol.CallMethodStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	ClientOutput *publicapi.CallMethodOutput
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionStatusInput (non serializable)
 
 type GetTransactionStatusInput struct {
-	Txid []byte
-	Timestamp uint64
+	ClientInput *publicapi.GetTransactionStatusInput
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionStatusOutput (non serializable)
 
 type GetTransactionStatusOutput struct {
-	Receipt *protocol.TransactionReceipt
-	Status protocol.TransactionStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	ClientOutput *publicapi.GetTransactionStatusOutput
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// enums
 

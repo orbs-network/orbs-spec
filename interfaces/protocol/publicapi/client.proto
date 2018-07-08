@@ -1,0 +1,42 @@
+syntax = "proto3";
+package publicapi;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/publcapi";
+
+import "../primitives/types.proto";
+import "../protocol/transactions.proto";
+import "../protocol/results.proto";
+import "../protocol/contracts.proto";
+
+message SendTransactionInput {
+    protocol.SignedTransaction signed_transaction = 1;
+}
+
+message SendTransactionOutput {
+    protocol.TransactionReceipt receipt = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
+}
+
+message CallMethodInput {
+    protocol.Transaction transaction = 1;
+}
+
+message CallMethodOutput {
+    repeated protocol.MethodArgument output_argument = 1;
+    protocol.CallMethodStatus call_status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
+}
+
+message GetTransactionStatusInput {
+    primitives.sha256 txid = 1;
+    uint64 timestamp = 2;
+}
+
+message GetTransactionStatusOutput {
+    protocol.TransactionReceipt receipt = 1;
+    protocol.TransactionStatus status = 2;
+    uint64 block_height = 3;
+    uint64 block_timestamp = 4;
+}
