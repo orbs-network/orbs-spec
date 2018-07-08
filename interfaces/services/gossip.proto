@@ -9,6 +9,8 @@ import "protocol/gossip/block_sync.proto";
 import "protocol/gossip/lean_helix_consensus.proto";
 import "services/handlers/gossip_message.proto";
 
+option serialize_service_args = false;
+
 service Gossip {
     // registration methods for external handlers that wish to receive callbacks
     option register_handler = "handlers.TransactionRelayGossipHandler";

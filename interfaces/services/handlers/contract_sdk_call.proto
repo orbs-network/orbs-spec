@@ -4,6 +4,8 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handler
 
 import "../protocol/contracts.proto";
 
+option serialize_service_args = false;
+
 service ContractSdkCallHandler {
     rpc HandleSdkCall (HandleSdkCallInput) returns (HandleSdkCallOutput);
 }

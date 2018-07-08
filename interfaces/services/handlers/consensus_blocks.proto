@@ -3,6 +3,9 @@ package handlers;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
 import "../protocol/blocks.proto";
+import "../protocol/extras.proto";
+
+option serialize_service_args = false;
 
 service ConsensusBlocksHandler {
     rpc HandleTransactionsBlock (HandleTransactionsBlockInput) returns (HandleTransactionsBlockOutput);
@@ -21,7 +24,7 @@ message HandleTransactionsBlockInput {
 }
 
 message HandleTransactionsBlockOutput {
-    ValidateBlockConsensus status = 1;
+    protocol.ValidateBlockConsensus status = 1;
 }
 
 message HandleResultsBlockInput {
@@ -35,12 +38,5 @@ message HandleResultsBlockInput {
 }
 
 message HandleResultsBlockOutput {
-    ValidateBlockConsensus status = 1;
-}
-
-// TODO: should this be moved to protocol/results.proto?
-enum ValidateBlockConsensus {
-    VALIDATE_BLOCK_CONSENSUS_RESERVED = 0;
-    VALIDATE_BLOCK_CONSENSUS_VALID_FOR_COMMIT = 1;
-    VALIDATE_BLOCK_CONSENSUS_INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
+    protocol.ValidateBlockConsensus status = 1;
 }

@@ -4,6 +4,9 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "protocol/results.proto";
 import "protocol/contracts.proto";
+import "protocol/extras.proto";
+
+option serialize_service_args = false;
 
 service CrosschainConnector {
     // called by VirtualMachine
@@ -15,7 +18,7 @@ message EthereumCallContractInput {
     string ethereum_function_canonical_form = 2;
     repeated protocol.MethodArgument input_argument = 3;
     uint64 ethereum_block_height = 4;
-    BlockHeightMode ethereum_block_height_mode = 5;
+    protocol.BlockHeightMode ethereum_block_height_mode = 5;
 }
 
 message EthereumCallContractOutput {
@@ -23,11 +26,4 @@ message EthereumCallContractOutput {
     protocol.CallMethodStatus call_status = 2;
     uint64 ethereum_block_height = 3;
     uint64 ethereum_block_timestamp = 4;
-}
-
-// TODO: maybe like in the other place just use block height of zero to indicate recent block
-enum BlockHeightMode {
-    BLOCK_HEIGHT_MODE_RESERVED = 0;
-    BLOCK_HEIGHT_MODE_USE_RECENT = 1;
-    BLOCK_HEIGHT_MODE_USE_SPECIFIED = 2;
 }

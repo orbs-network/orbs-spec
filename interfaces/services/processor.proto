@@ -5,7 +5,10 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/contracts.proto";
 import "protocol/addresses.proto";
 import "protocol/results.proto";
+import "protocol/extras.proto";
 import "services/handlers/contract_sdk_call.proto";
+
+option serialize_service_args = false;
 
 service Processor {
     // registration methods for external handlers that wish to receive callbacks
@@ -21,8 +24,8 @@ message ProcessCallInput {
     protocol.ContractAddress contract = 2;
     protocol.MethodAddress method = 3;
     repeated protocol.MethodArgument input_argument = 4;
-    AccessScope access_scope = 5;
-    PermissionScope permission_scope = 6;
+    protocol.AccessScope access_scope = 5;
+    protocol.PermissionScope permission_scope = 6;
     protocol.ContractAddress calling_service = 7; // TODO: move to SDK
     protocol.Sender transaction_sender = 8; // TODO: move to SDK
 }
@@ -32,35 +35,15 @@ message ProcessCallOutput {
     protocol.CallMethodStatus call_status = 2;
 }
 
-// TODO: maybe move this to protocol folder
-enum AccessScope {
-    ACCESS_SCOPE_RESERVED = 0;
-    ACCESS_SCOPE_READ_ONLY = 1;
-    ACCESS_SCOPE_READ_WRITE = 2;
-}
-
-enum PermissionScope {
-    PERMISSION_SCOPE_RESERVED = 0;
-    PERMISSION_SCOPE_SYSTEM = 1;
-    PERMISSION_SCOPE_SERVICE = 2;
-}
-
 message DeployNativeServiceInput {
     uint32 context_id = 1;
     protocol.ContractAddress contract = 2;
-    AccessScope access_scope = 3; 
-    PermissionScope permission_scope = 4;
+    protocol.AccessScope access_scope = 3;
+    protocol.PermissionScope permission_scope = 4;
     protocol.ContractAddress calling_service = 5; // TODO: move to SDK
     protocol.Sender transaction_sender = 6; // TODO: move to SDK
 }
 
 message DeployNativeServiceOutput {
-    DeployServiceStatus status = 1;       
-}
-
-// TODO: do we want a specific result? can't we use the general one?
-enum DeployServiceStatus {
-    DEPLOY_SERVICE_STATUS_RESERVED = 0;
-    DEPLOY_SERVICE_STATUS_SUCCESS = 1;
-    DEPLOY_SERVICE_STATUS_FAILED = 2;
+    protocol.DeployServiceStatus status = 1;
 }

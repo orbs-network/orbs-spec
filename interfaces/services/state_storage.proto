@@ -7,6 +7,8 @@ import "protocol/contracts.proto";
 import "protocol/results.proto";
 import "protocol/blocks.proto";
 
+option serialize_service_args = false;
+
 service StateStorage {
     // called by BlockStorage
     rpc CommitStateDiff (CommitStateDiffInput) returns (CommitStateDiffOutput);

@@ -8,6 +8,8 @@ import "protocol/results.proto";
 import "protocol/contracts.proto";
 import "services/handlers/transaction_results.proto";
 
+option serialize_service_args = false;
+
 // relies on TransactionPool, BlockStorage, VirtualMachine
 service PublicApi {
     // implements interfaces for handling callbacks from other services

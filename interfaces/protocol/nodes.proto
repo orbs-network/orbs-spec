@@ -1,0 +1,10 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/types.proto";
+
+message NodeData {
+    primitives.ed25519_pkey node_pkey = 1;
+    primitives.bls1_pkey node_random_seed_pkey = 2;
+}

@@ -5,6 +5,9 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "primitives/types.proto";
 import "protocol/results.proto";
 import "protocol/blocks.proto";
+import "protocol/nodes.proto";
+
+option serialize_service_args = false;
 
 // relies on TransactionPool, VirtualMachine, StateStorage
 service ConsensusContext {
@@ -65,10 +68,5 @@ message RequestCommitteeInput {
 
 message RequestCommitteeOutput {
     protocol.RequestStatus status = 1;
-    repeated NodeData node_data = 2;
-}
-
-message NodeData {
-    primitives.ed25519_pkey node_pkey = 1;
-    primitives.bls1_pkey node_random_seed_pkey = 2;
+    repeated protocol.NodeData node_data = 2;
 }

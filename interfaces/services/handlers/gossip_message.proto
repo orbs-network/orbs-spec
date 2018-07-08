@@ -7,6 +7,8 @@ import "../protocol/gossip/transaction_relay.proto";
 import "../protocol/gossip/block_sync.proto";
 import "../protocol/gossip/lean_helix_consensus.proto";
 
+option serialize_service_args = false;
+
 service TransactionRelayGossipHandler {
     rpc HandleForwardedTransactions (HandleForwardedTransactionsInput) returns (GossipMessageHandlerOutput);
 }

@@ -5,7 +5,10 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
+import "protocol/extras.proto";
 import "services/handlers/contract_sdk_call.proto";
+
+option serialize_service_args = false;
 
 // relies on Processor, CrosschainConnector
 service VirtualMachine {
@@ -52,18 +55,5 @@ message TransactionSetPreOrderInput {
 
 message TransactionSetPreOrderOutput {
     protocol.RequestStatus status = 1;
-    repeated PreOrderResult pre_order_result = 2; // TODO: transaction result
-}
-
-message PreOrderResult {
-    PreOrderStatus status = 1;
-}
-
-// TODO: do we want unique results here?
-enum PreOrderStatus {
-    PRE_ORDER_STATUS_RESERVED = 0;
-    PRE_ORDER_STATUS_VALID = 1;
-    PRE_ORDER_STATUS_INVALID_SIGNATURE = 2;
-    PRE_ORDER_STATUS_INVALID_ADDRESS_SCHEME = 3;
-    PRE_ORDER_STATUS_NOT_APPROVED = 4;
+    repeated protocol.PreOrderResult pre_order_result = 2; // TODO: transaction result
 }

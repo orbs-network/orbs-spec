@@ -1,0 +1,53 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/types.proto";
+
+// TODO: this entire file should probably be killed
+
+// TODO: maybe like in the other place just use block height of zero to indicate recent block
+enum BlockHeightMode {
+    BLOCK_HEIGHT_MODE_RESERVED = 0;
+    BLOCK_HEIGHT_MODE_USE_RECENT = 1;
+    BLOCK_HEIGHT_MODE_USE_SPECIFIED = 2;
+}
+
+enum AccessScope {
+    ACCESS_SCOPE_RESERVED = 0;
+    ACCESS_SCOPE_READ_ONLY = 1;
+    ACCESS_SCOPE_READ_WRITE = 2;
+}
+
+enum PermissionScope {
+    PERMISSION_SCOPE_RESERVED = 0;
+    PERMISSION_SCOPE_SYSTEM = 1;
+    PERMISSION_SCOPE_SERVICE = 2;
+}
+
+// TODO: do we want a specific result? can't we use the general one?
+enum DeployServiceStatus {
+    DEPLOY_SERVICE_STATUS_RESERVED = 0;
+    DEPLOY_SERVICE_STATUS_SUCCESS = 1;
+    DEPLOY_SERVICE_STATUS_FAILED = 2;
+}
+
+message PreOrderResult {
+    PreOrderStatus status = 1;
+}
+
+// TODO: do we want unique results here?
+enum PreOrderStatus {
+    PRE_ORDER_STATUS_RESERVED = 0;
+    PRE_ORDER_STATUS_VALID = 1;
+    PRE_ORDER_STATUS_INVALID_SIGNATURE = 2;
+    PRE_ORDER_STATUS_INVALID_ADDRESS_SCHEME = 3;
+    PRE_ORDER_STATUS_NOT_APPROVED = 4;
+}
+
+// TODO: should this be moved to protocol/results.proto?
+enum ValidateBlockConsensus {
+    VALIDATE_BLOCK_CONSENSUS_RESERVED = 0;
+    VALIDATE_BLOCK_CONSENSUS_VALID_FOR_COMMIT = 1;
+    VALIDATE_BLOCK_CONSENSUS_INVALID_FOR_COMMIT = 2; // TODO: maybe add more detailed reasons for invalid
+}
