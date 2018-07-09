@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package gossip
 
 import (
@@ -34,7 +34,7 @@ type LeanHelixConsensusHandler interface {
 // message LeanHelixPrePrepareInput (non serializable)
 
 type LeanHelixPrePrepareInput struct {
-	Recipients []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	Header *messages.LeanHelixPrePrepareHeader
 	BlockRef *messages.LeanHelixBlockRef
 	Block []byte
@@ -44,7 +44,7 @@ type LeanHelixPrePrepareInput struct {
 // message LeanHelixPrepareInput (non serializable)
 
 type LeanHelixPrepareInput struct {
-	Recipient []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	Header *messages.LeanHelixPrepareHeader
 	BlockRef *messages.LeanHelixBlockRef
 }
@@ -53,7 +53,7 @@ type LeanHelixPrepareInput struct {
 // message LeanHelixCommitInput (non serializable)
 
 type LeanHelixCommitInput struct {
-	Recipient []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode protocol.RecipientsListMode
 	BlockRef *messages.LeanHelixBlockRef
 }
@@ -62,7 +62,7 @@ type LeanHelixCommitInput struct {
 // message LeanHelixViewChangeInput (non serializable)
 
 type LeanHelixViewChangeInput struct {
-	Recipient []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	Header *messages.LeanHelixViewChangeHeader
 	ViewChange *messages.LeanHelixViewChange
 	Block []byte
@@ -72,7 +72,7 @@ type LeanHelixViewChangeInput struct {
 // message LeanHelixNewViewInput (non serializable)
 
 type LeanHelixNewViewInput struct {
-	Recipient []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	Header *messages.LeanHelixNewViewHeader
 	NewView *messages.LeanHelixNewView
 	Block []byte

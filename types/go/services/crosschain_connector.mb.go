@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
@@ -18,17 +18,16 @@ type CrosschainConnector interface {
 type EthereumCallContractInput struct {
 	EthereumContractAddress string
 	EthereumFunctionCanonicalForm string
-	InputArgument []*protocol.MethodArgument
+	InputArguments []*protocol.MethodArgument
 	EthereumBlockHeight uint64
-	EthereumBlockHeightMode protocol.BlockHeightMode
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message EthereumCallContractOutput (non serializable)
 
 type EthereumCallContractOutput struct {
-	OutputArgument []*protocol.MethodArgument
-	CallStatus protocol.CallMethodStatus
+	OutputArguments []*protocol.MethodArgument
+	CallStatus protocol.ExecutionStatus
 	EthereumBlockHeight uint64
 	EthereumBlockTimestamp uint64
 }

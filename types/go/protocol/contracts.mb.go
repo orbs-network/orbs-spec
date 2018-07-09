@@ -1,184 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
-
-/////////////////////////////////////////////////////////////////////////////
-// message ContractAddress
-
-// reader
-
-type ContractAddress struct {
-	// internal
-	membuffers.Message // interface
-	_message membuffers.InternalMessage
-}
-
-var _ContractAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
-var _ContractAddress_Unions = [][]membuffers.FieldType{}
-
-func ContractAddressReader(buf []byte) *ContractAddress {
-	x := &ContractAddress{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _ContractAddress_Scheme, _ContractAddress_Unions)
-	return x
-}
-
-func (x *ContractAddress) IsValid() bool {
-	return x._message.IsValid()
-}
-
-func (x *ContractAddress) Raw() []byte {
-	return x._message.RawBuffer()
-}
-
-func (x *ContractAddress) Value() string {
-	return x._message.GetString(0)
-}
-
-func (x *ContractAddress) RawValue() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *ContractAddress) MutateValue(v string) error {
-	return x._message.SetString(0, v)
-}
-
-// builder
-
-type ContractAddressBuilder struct {
-	Value string
-
-	// internal
-	membuffers.Builder // interface
-	_builder membuffers.InternalBuilder
-}
-
-func (w *ContractAddressBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.WriteString(buf, w.Value)
-	return nil
-}
-
-func (w *ContractAddressBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w._builder.GetSize()
-}
-
-func (w *ContractAddressBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w._builder.GetSize()
-}
-
-func (w *ContractAddressBuilder) Build() *ContractAddress {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return ContractAddressReader(buf)
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message MethodAddress
-
-// reader
-
-type MethodAddress struct {
-	// internal
-	membuffers.Message // interface
-	_message membuffers.InternalMessage
-}
-
-var _MethodAddress_Scheme = []membuffers.FieldType{membuffers.TypeString,}
-var _MethodAddress_Unions = [][]membuffers.FieldType{}
-
-func MethodAddressReader(buf []byte) *MethodAddress {
-	x := &MethodAddress{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _MethodAddress_Scheme, _MethodAddress_Unions)
-	return x
-}
-
-func (x *MethodAddress) IsValid() bool {
-	return x._message.IsValid()
-}
-
-func (x *MethodAddress) Raw() []byte {
-	return x._message.RawBuffer()
-}
-
-func (x *MethodAddress) Value() string {
-	return x._message.GetString(0)
-}
-
-func (x *MethodAddress) RawValue() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *MethodAddress) MutateValue(v string) error {
-	return x._message.SetString(0, v)
-}
-
-// builder
-
-type MethodAddressBuilder struct {
-	Value string
-
-	// internal
-	membuffers.Builder // interface
-	_builder membuffers.InternalBuilder
-}
-
-func (w *MethodAddressBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.WriteString(buf, w.Value)
-	return nil
-}
-
-func (w *MethodAddressBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w._builder.GetSize()
-}
-
-func (w *MethodAddressBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w._builder.GetSize()
-}
-
-func (w *MethodAddressBuilder) Build() *MethodAddress {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return MethodAddressReader(buf)
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // message MethodArgument
@@ -238,12 +64,12 @@ func (x *MethodArgument) IsTypeUint32() bool {
 	return is
 }
 
-func (x *MethodArgument) TypeUint32() uint32 {
+func (x *MethodArgument) Uint32() uint32 {
 	_, off := x._message.IsUnionIndex(1, 0, 0)
 	return x._message.GetUint32InOffset(off)
 }
 
-func (x *MethodArgument) MutateTypeUint32(v uint32) error {
+func (x *MethodArgument) MutateUint32(v uint32) error {
 	is, off := x._message.IsUnionIndex(1, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -257,12 +83,12 @@ func (x *MethodArgument) IsTypeUint64() bool {
 	return is
 }
 
-func (x *MethodArgument) TypeUint64() uint64 {
+func (x *MethodArgument) Uint64() uint64 {
 	_, off := x._message.IsUnionIndex(1, 0, 1)
 	return x._message.GetUint64InOffset(off)
 }
 
-func (x *MethodArgument) MutateTypeUint64(v uint64) error {
+func (x *MethodArgument) MutateUint64(v uint64) error {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -276,12 +102,12 @@ func (x *MethodArgument) IsTypeString() bool {
 	return is
 }
 
-func (x *MethodArgument) TypeString() string {
+func (x *MethodArgument) String() string {
 	_, off := x._message.IsUnionIndex(1, 0, 2)
 	return x._message.GetStringInOffset(off)
 }
 
-func (x *MethodArgument) MutateTypeString(v string) error {
+func (x *MethodArgument) MutateString(v string) error {
 	is, off := x._message.IsUnionIndex(1, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -295,12 +121,12 @@ func (x *MethodArgument) IsTypeBytes() bool {
 	return is
 }
 
-func (x *MethodArgument) TypeBytes() []byte {
+func (x *MethodArgument) Bytes() []byte {
 	_, off := x._message.IsUnionIndex(1, 0, 3)
 	return x._message.GetBytesInOffset(off)
 }
 
-func (x *MethodArgument) MutateTypeBytes(v []byte) error {
+func (x *MethodArgument) MutateBytes(v []byte) error {
 	is, off := x._message.IsUnionIndex(1, 0, 3)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -377,69 +203,69 @@ func (w *MethodArgumentBuilder) Build() *MethodArgument {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message StateDiff
+// message StateRecord
 
 // reader
 
-type StateDiff struct {
+type StateRecord struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
 }
 
-var _StateDiff_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var _StateDiff_Unions = [][]membuffers.FieldType{}
+var _StateRecord_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _StateRecord_Unions = [][]membuffers.FieldType{}
 
-func StateDiffReader(buf []byte) *StateDiff {
-	x := &StateDiff{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _StateDiff_Scheme, _StateDiff_Unions)
+func StateRecordReader(buf []byte) *StateRecord {
+	x := &StateRecord{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _StateRecord_Scheme, _StateRecord_Unions)
 	return x
 }
 
-func (x *StateDiff) IsValid() bool {
+func (x *StateRecord) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *StateDiff) Raw() []byte {
+func (x *StateRecord) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *StateDiff) StateKey() primitives.Ripmd160Sha256 {
-	return x._message.GetBytes(0)
+func (x *StateRecord) Key() primitives.Ripmd160Sha256 {
+	return primitives.Ripmd160Sha256(x._message.GetBytes(0))
 }
 
-func (x *StateDiff) RawStateKey() []byte {
+func (x *StateRecord) RawKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *StateDiff) MutateStateKey(v primitives.Ripmd160Sha256) error {
-	return x._message.SetBytes(0, v)
+func (x *StateRecord) MutateKey(v primitives.Ripmd160Sha256) error {
+	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *StateDiff) StateValue() []byte {
+func (x *StateRecord) Value() []byte {
 	return x._message.GetBytes(1)
 }
 
-func (x *StateDiff) RawStateValue() []byte {
+func (x *StateRecord) RawValue() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *StateDiff) MutateStateValue(v []byte) error {
+func (x *StateRecord) MutateValue(v []byte) error {
 	return x._message.SetBytes(1, v)
 }
 
 // builder
 
-type StateDiffBuilder struct {
-	StateKey primitives.Ripmd160Sha256
-	StateValue []byte
+type StateRecordBuilder struct {
+	Key primitives.Ripmd160Sha256
+	Value []byte
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *StateDiffBuilder) Write(buf []byte) (err error) {
+func (w *StateRecordBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -449,19 +275,19 @@ func (w *StateDiffBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.StateKey)
-	w._builder.WriteBytes(buf, w.StateValue)
+	w._builder.WriteBytes(buf, []byte(w.Key))
+	w._builder.WriteBytes(buf, w.Value)
 	return nil
 }
 
-func (w *StateDiffBuilder) GetSize() membuffers.Offset {
+func (w *StateRecordBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *StateDiffBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *StateRecordBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -469,12 +295,12 @@ func (w *StateDiffBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *StateDiffBuilder) Build() *StateDiff {
+func (w *StateRecordBuilder) Build() *StateRecord {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return StateDiffReader(buf)
+	return StateRecordReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -488,7 +314,7 @@ type ContractStateDiff struct {
 	_message membuffers.InternalMessage
 }
 
-var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessageArray,}
+var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeMessageArray,}
 var _ContractStateDiff_Unions = [][]membuffers.FieldType{}
 
 func ContractStateDiffReader(buf []byte) *ContractStateDiff {
@@ -505,50 +331,53 @@ func (x *ContractStateDiff) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *ContractStateDiff) Contract() *ContractAddress {
-	b, s := x._message.GetMessage(0)
-	return ContractAddressReader(b[:s])
+func (x *ContractStateDiff) ContractName() primitives.ContractName {
+	return primitives.ContractName(x._message.GetString(0))
 }
 
-func (x *ContractStateDiff) RawContract() []byte {
+func (x *ContractStateDiff) RawContractName() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *ContractStateDiff) StateDiffIterator() *ContractStateDiffStateDiffIterator {
-	return &ContractStateDiffStateDiffIterator{iterator: x._message.GetMessageArrayIterator(1)}
+func (x *ContractStateDiff) MutateContractName(v primitives.ContractName) error {
+	return x._message.SetString(0, string(v))
 }
 
-type ContractStateDiffStateDiffIterator struct {
+func (x *ContractStateDiff) StateDiffsIterator() *ContractStateDiffStateDiffsIterator {
+	return &ContractStateDiffStateDiffsIterator{iterator: x._message.GetMessageArrayIterator(1)}
+}
+
+type ContractStateDiffStateDiffsIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *ContractStateDiffStateDiffIterator) HasNext() bool {
+func (i *ContractStateDiffStateDiffsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *ContractStateDiffStateDiffIterator) NextStateDiff() *StateDiff {
+func (i *ContractStateDiffStateDiffsIterator) NextStateDiffs() *StateRecord {
 	b, s := i.iterator.NextMessage()
-	return StateDiffReader(b[:s])
+	return StateRecordReader(b[:s])
 }
 
-func (x *ContractStateDiff) RawStateDiffArray() []byte {
+func (x *ContractStateDiff) RawStateDiffsArray() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type ContractStateDiffBuilder struct {
-	Contract *ContractAddressBuilder
-	StateDiff []*StateDiffBuilder
+	ContractName primitives.ContractName
+	StateDiffs []*StateRecordBuilder
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *ContractStateDiffBuilder) arrayOfStateDiff() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.StateDiff))
-	for i, v := range w.StateDiff {
+func (w *ContractStateDiffBuilder) arrayOfStateDiffs() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.StateDiffs))
+	for i, v := range w.StateDiffs {
 		res[i] = v
 	}
 	return res
@@ -564,11 +393,8 @@ func (w *ContractStateDiffBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Contract)
-	if err != nil {
-		return
-	}
-	err = w._builder.WriteMessageArray(buf, w.arrayOfStateDiff())
+	w._builder.WriteString(buf, string(w.ContractName))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfStateDiffs())
 	if err != nil {
 		return
 	}
@@ -597,4 +423,23 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 	}
 	return ContractStateDiffReader(buf)
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// enums
+
+type ExecutionAccessScope uint16
+
+const (
+	ACCESS_SCOPE_RESERVED ExecutionAccessScope = 0
+	ACCESS_SCOPE_READ_ONLY ExecutionAccessScope = 1
+	ACCESS_SCOPE_READ_WRITE ExecutionAccessScope = 2
+)
+
+type ExecutionPermissionScope uint16
+
+const (
+	PERMISSION_SCOPE_RESERVED ExecutionPermissionScope = 0
+	PERMISSION_SCOPE_SYSTEM ExecutionPermissionScope = 1
+	PERMISSION_SCOPE_SERVICE ExecutionPermissionScope = 2
+)
 

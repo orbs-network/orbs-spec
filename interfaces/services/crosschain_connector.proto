@@ -4,7 +4,6 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "protocol/results.proto";
 import "protocol/contracts.proto";
-import "protocol/extras.proto";
 
 option serialize_service_args = false;
 

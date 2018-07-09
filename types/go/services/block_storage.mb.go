@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
@@ -39,7 +39,7 @@ type CommitBlockOutput struct {
 // message GetTransactionsBlockHeaderInput (non serializable)
 
 type GetTransactionsBlockHeaderInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ type GetTransactionsBlockHeaderInput struct {
 
 type GetTransactionsBlockHeaderOutput struct {
 	TransactionsBlockHeader *protocol.TransactionsBlockHeader
-	TransactionsBlockMetaData *protocol.TransactionsBlockMetaData
+	TransactionsBlockMetadata *protocol.TransactionsBlockMetadata
 	TransactionsBlockProof *protocol.TransactionsBlockProof
 }
 
@@ -55,7 +55,7 @@ type GetTransactionsBlockHeaderOutput struct {
 // message GetResultsBlockHeaderInput (non serializable)
 
 type GetResultsBlockHeaderInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,17 +70,17 @@ type GetResultsBlockHeaderOutput struct {
 // message GetTransactionReceiptInput (non serializable)
 
 type GetTransactionReceiptInput struct {
-	Txid primitives.Uint256
-	Timestamp uint64
+	Txhash primitives.Sha256
+	TransactionTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionReceiptOutput (non serializable)
 
 type GetTransactionReceiptOutput struct {
-	Receipt *protocol.TransactionReceipt
-	BlockHeight uint64
-	BlockTimestamp uint64
+	TransactionReceipt *protocol.TransactionReceipt
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,8 +93,8 @@ type GetLastCommittedBlockHeightInput struct {
 // message GetLastCommittedBlockHeightOutput (non serializable)
 
 type GetLastCommittedBlockHeightOutput struct {
-	LastCommittedBlockHeight uint64
-	LastCommittedBlockTimestamp uint64
+	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////

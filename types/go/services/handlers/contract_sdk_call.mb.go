@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package handlers
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -16,16 +17,19 @@ type ContractSdkCallHandler interface {
 // message HandleSdkCallInput (non serializable)
 
 type HandleSdkCallInput struct {
-	ContextId uint32
-	Contract *protocol.ContractAddress
-	Method *protocol.MethodAddress
-	InputArgument []*protocol.MethodArgument
+	ContextId primitives.ExecutionContextId
+	ContractName primitives.ContractName
+	MethodName primitives.MethodName
+	InputArguments []*protocol.MethodArgument
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message HandleSdkCallOutput (non serializable)
 
 type HandleSdkCallOutput struct {
-	OutputArgument []*protocol.MethodArgument
+	OutputArguments []*protocol.MethodArgument
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// enums
 

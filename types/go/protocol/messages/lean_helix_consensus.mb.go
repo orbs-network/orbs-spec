@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package messages
 
 import (
@@ -35,7 +35,7 @@ func (x *LeanHelixPrePrepareHeader) Raw() []byte {
 }
 
 func (x *LeanHelixPrePrepareHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixPrePrepareHeader) RawSenderPublicKey() []byte {
@@ -43,11 +43,11 @@ func (x *LeanHelixPrePrepareHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *LeanHelixPrePrepareHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *LeanHelixPrePrepareHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixPrePrepareHeader) RawSignature() []byte {
@@ -55,7 +55,7 @@ func (x *LeanHelixPrePrepareHeader) RawSignature() []byte {
 }
 
 func (x *LeanHelixPrePrepareHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -79,8 +79,8 @@ func (w *LeanHelixPrePrepareHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -136,7 +136,7 @@ func (x *LeanHelixPrepareHeader) Raw() []byte {
 }
 
 func (x *LeanHelixPrepareHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixPrepareHeader) RawSenderPublicKey() []byte {
@@ -144,11 +144,11 @@ func (x *LeanHelixPrepareHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *LeanHelixPrepareHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *LeanHelixPrepareHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixPrepareHeader) RawSignature() []byte {
@@ -156,7 +156,7 @@ func (x *LeanHelixPrepareHeader) RawSignature() []byte {
 }
 
 func (x *LeanHelixPrepareHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -180,8 +180,8 @@ func (w *LeanHelixPrepareHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -237,7 +237,7 @@ func (x *LeanHelixCommitHeader) Raw() []byte {
 }
 
 func (x *LeanHelixCommitHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixCommitHeader) RawSenderPublicKey() []byte {
@@ -245,11 +245,11 @@ func (x *LeanHelixCommitHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *LeanHelixCommitHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *LeanHelixCommitHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixCommitHeader) RawSignature() []byte {
@@ -257,11 +257,11 @@ func (x *LeanHelixCommitHeader) RawSignature() []byte {
 }
 
 func (x *LeanHelixCommitHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 func (x *LeanHelixCommitHeader) RandomSeedShare() primitives.Bls1Sig {
-	return x._message.GetBytes(2)
+	return primitives.Bls1Sig(x._message.GetBytes(2))
 }
 
 func (x *LeanHelixCommitHeader) RawRandomSeedShare() []byte {
@@ -269,7 +269,7 @@ func (x *LeanHelixCommitHeader) RawRandomSeedShare() []byte {
 }
 
 func (x *LeanHelixCommitHeader) MutateRandomSeedShare(v primitives.Bls1Sig) error {
-	return x._message.SetBytes(2, v)
+	return x._message.SetBytes(2, []byte(v))
 }
 
 // builder
@@ -294,9 +294,9 @@ func (w *LeanHelixCommitHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
-	w._builder.WriteBytes(buf, w.RandomSeedShare)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	w._builder.WriteBytes(buf, []byte(w.RandomSeedShare))
 	return nil
 }
 
@@ -352,7 +352,7 @@ func (x *LeanHelixViewChangeHeader) Raw() []byte {
 }
 
 func (x *LeanHelixViewChangeHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixViewChangeHeader) RawSenderPublicKey() []byte {
@@ -360,11 +360,11 @@ func (x *LeanHelixViewChangeHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *LeanHelixViewChangeHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *LeanHelixViewChangeHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixViewChangeHeader) RawSignature() []byte {
@@ -372,7 +372,7 @@ func (x *LeanHelixViewChangeHeader) RawSignature() []byte {
 }
 
 func (x *LeanHelixViewChangeHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -396,8 +396,8 @@ func (w *LeanHelixViewChangeHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -453,7 +453,7 @@ func (x *LeanHelixNewViewHeader) Raw() []byte {
 }
 
 func (x *LeanHelixNewViewHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixNewViewHeader) RawSenderPublicKey() []byte {
@@ -461,11 +461,11 @@ func (x *LeanHelixNewViewHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *LeanHelixNewViewHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *LeanHelixNewViewHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixNewViewHeader) RawSignature() []byte {
@@ -473,7 +473,7 @@ func (x *LeanHelixNewViewHeader) RawSignature() []byte {
 }
 
 func (x *LeanHelixNewViewHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -497,8 +497,8 @@ func (w *LeanHelixNewViewHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -553,16 +553,16 @@ func (x *LeanHelixBlockRef) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *LeanHelixBlockRef) BlockHeight() uint64 {
-	return x._message.GetUint64(0)
+func (x *LeanHelixBlockRef) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(0))
 }
 
 func (x *LeanHelixBlockRef) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixBlockRef) MutateBlockHeight(v uint64) error {
-	return x._message.SetUint64(0, v)
+func (x *LeanHelixBlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(0, uint64(v))
 }
 
 func (x *LeanHelixBlockRef) View() uint32 {
@@ -578,7 +578,7 @@ func (x *LeanHelixBlockRef) MutateView(v uint32) error {
 }
 
 func (x *LeanHelixBlockRef) BlockHash() primitives.Sha256 {
-	return x._message.GetBytes(2)
+	return primitives.Sha256(x._message.GetBytes(2))
 }
 
 func (x *LeanHelixBlockRef) RawBlockHash() []byte {
@@ -586,13 +586,13 @@ func (x *LeanHelixBlockRef) RawBlockHash() []byte {
 }
 
 func (x *LeanHelixBlockRef) MutateBlockHash(v primitives.Sha256) error {
-	return x._message.SetBytes(2, v)
+	return x._message.SetBytes(2, []byte(v))
 }
 
 // builder
 
 type LeanHelixBlockRefBuilder struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	View uint32
 	BlockHash primitives.Sha256
 
@@ -611,9 +611,9 @@ func (w *LeanHelixBlockRefBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint64(buf, w.BlockHeight)
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint32(buf, w.View)
-	w._builder.WriteBytes(buf, w.BlockHash)
+	w._builder.WriteBytes(buf, []byte(w.BlockHash))
 	return nil
 }
 
@@ -702,7 +702,7 @@ func (i *LeanHelixViewChangeSignaturesIterator) HasNext() bool {
 }
 
 func (i *LeanHelixViewChangeSignaturesIterator) NextSignatures() primitives.Ed25519Sig {
-	return i.iterator.NextBytes()
+	return primitives.Ed25519Sig(i.iterator.NextBytes())
 }
 
 func (x *LeanHelixViewChange) RawSignaturesArray() []byte {
@@ -818,7 +818,7 @@ func (i *LeanHelixNewViewSignaturesIterator) HasNext() bool {
 }
 
 func (i *LeanHelixNewViewSignaturesIterator) NextSignatures() primitives.Ed25519Sig {
-	return i.iterator.NextBytes()
+	return primitives.Ed25519Sig(i.iterator.NextBytes())
 }
 
 func (x *LeanHelixNewView) RawSignaturesArray() []byte {

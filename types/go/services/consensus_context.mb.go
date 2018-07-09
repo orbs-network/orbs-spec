@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
@@ -22,7 +22,7 @@ type ConsensusContext interface {
 // message RequestNewTransactionsBlockInput (non serializable)
 
 type RequestNewTransactionsBlockInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	MaxBlockSizeKb uint32
 	MaxNumberOfTransactions uint32
 	PrevBlockHash primitives.Sha256
@@ -32,7 +32,6 @@ type RequestNewTransactionsBlockInput struct {
 // message RequestNewTransactionsBlockOutput (non serializable)
 
 type RequestNewTransactionsBlockOutput struct {
-	Status protocol.RequestStatus
 	TransactionsBlock *protocol.TransactionsBlock
 }
 
@@ -40,7 +39,7 @@ type RequestNewTransactionsBlockOutput struct {
 // message RequestNewResultsBlockInput (non serializable)
 
 type RequestNewResultsBlockInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	PrevBlockHash primitives.Sha256
 }
 
@@ -48,7 +47,6 @@ type RequestNewResultsBlockInput struct {
 // message RequestNewResultsBlockOutput (non serializable)
 
 type RequestNewResultsBlockOutput struct {
-	Status protocol.RequestStatus
 	ResultsBlock *protocol.ResultsBlock
 }
 
@@ -64,7 +62,6 @@ type ValidateTransactionsBlockInput struct {
 // message ValidateTransactionsBlockOutput (non serializable)
 
 type ValidateTransactionsBlockOutput struct {
-	Status protocol.RequestStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -79,14 +76,13 @@ type ValidateResultsBlockInput struct {
 // message ValidateResultsBlockOutput (non serializable)
 
 type ValidateResultsBlockOutput struct {
-	Status protocol.RequestStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message RequestCommitteeInput (non serializable)
 
 type RequestCommitteeInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	RandomSeed uint64
 	MaxCommitteeSize uint32
 }
@@ -95,8 +91,8 @@ type RequestCommitteeInput struct {
 // message RequestCommitteeOutput (non serializable)
 
 type RequestCommitteeOutput struct {
-	Status protocol.RequestStatus
-	NodeData []*protocol.NodeData
+	NodePublicKeys []primitives.Ed25519Pkey
+	NodeRandomSeedPublicKeys []primitives.Bls1Pkey
 }
 
 /////////////////////////////////////////////////////////////////////////////

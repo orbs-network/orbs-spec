@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package protocol
 
 import (
@@ -17,7 +17,7 @@ type Transaction struct {
 	_message membuffers.InternalMessage
 }
 
-var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
+var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
 var _Transaction_Unions = [][]membuffers.FieldType{}
 
 func TransactionReader(buf []byte) *Transaction {
@@ -34,115 +34,115 @@ func (x *Transaction) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *Transaction) ProtocolVersion() uint32 {
-	return x._message.GetUint32(0)
+func (x *Transaction) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
 }
 
 func (x *Transaction) RawProtocolVersion() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *Transaction) MutateProtocolVersion(v uint32) error {
-	return x._message.SetUint32(0, v)
+func (x *Transaction) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
 }
 
-func (x *Transaction) VirtualChain() uint64 {
-	return x._message.GetUint64(1)
+func (x *Transaction) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
 
-func (x *Transaction) RawVirtualChain() []byte {
+func (x *Transaction) RawVirtualChainId() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *Transaction) MutateVirtualChain(v uint64) error {
-	return x._message.SetUint64(1, v)
+func (x *Transaction) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
 }
 
-func (x *Transaction) Sender() *Sender {
-	b, s := x._message.GetMessage(2)
-	return SenderReader(b[:s])
-}
-
-func (x *Transaction) RawSender() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *Transaction) Timestamp() uint64 {
-	return x._message.GetUint64(3)
+func (x *Transaction) Timestamp() primitives.Timestamp {
+	return primitives.Timestamp(x._message.GetUint64(2))
 }
 
 func (x *Transaction) RawTimestamp() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *Transaction) MutateTimestamp(v primitives.Timestamp) error {
+	return x._message.SetUint64(2, uint64(v))
+}
+
+func (x *Transaction) Signer() *Signer {
+	b, s := x._message.GetMessage(3)
+	return SignerReader(b[:s])
+}
+
+func (x *Transaction) RawSigner() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *Transaction) MutateTimestamp(v uint64) error {
-	return x._message.SetUint64(3, v)
-}
-
-func (x *Transaction) ContractName() string {
-	return x._message.GetString(4)
+func (x *Transaction) ContractName() primitives.ContractName {
+	return primitives.ContractName(x._message.GetString(4))
 }
 
 func (x *Transaction) RawContractName() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
-func (x *Transaction) MutateContractName(v string) error {
-	return x._message.SetString(4, v)
+func (x *Transaction) MutateContractName(v primitives.ContractName) error {
+	return x._message.SetString(4, string(v))
 }
 
-func (x *Transaction) MethodName() string {
-	return x._message.GetString(5)
+func (x *Transaction) MethodName() primitives.MethodName {
+	return primitives.MethodName(x._message.GetString(5))
 }
 
 func (x *Transaction) RawMethodName() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
-func (x *Transaction) MutateMethodName(v string) error {
-	return x._message.SetString(5, v)
+func (x *Transaction) MutateMethodName(v primitives.MethodName) error {
+	return x._message.SetString(5, string(v))
 }
 
-func (x *Transaction) InputArgumentIterator() *TransactionInputArgumentIterator {
-	return &TransactionInputArgumentIterator{iterator: x._message.GetMessageArrayIterator(6)}
+func (x *Transaction) InputArgumentsIterator() *TransactionInputArgumentsIterator {
+	return &TransactionInputArgumentsIterator{iterator: x._message.GetMessageArrayIterator(6)}
 }
 
-type TransactionInputArgumentIterator struct {
+type TransactionInputArgumentsIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *TransactionInputArgumentIterator) HasNext() bool {
+func (i *TransactionInputArgumentsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *TransactionInputArgumentIterator) NextInputArgument() *MethodArgument {
+func (i *TransactionInputArgumentsIterator) NextInputArguments() *MethodArgument {
 	b, s := i.iterator.NextMessage()
 	return MethodArgumentReader(b[:s])
 }
 
-func (x *Transaction) RawInputArgumentArray() []byte {
+func (x *Transaction) RawInputArgumentsArray() []byte {
 	return x._message.RawBufferForField(6, 0)
 }
 
 // builder
 
 type TransactionBuilder struct {
-	ProtocolVersion uint32
-	VirtualChain uint64
-	Sender *SenderBuilder
-	Timestamp uint64
-	ContractName string
-	MethodName string
-	InputArgument []*MethodArgumentBuilder
+	ProtocolVersion primitives.ProtocolVersion
+	VirtualChainId primitives.VirtualChainId
+	Timestamp primitives.Timestamp
+	Signer *SignerBuilder
+	ContractName primitives.ContractName
+	MethodName primitives.MethodName
+	InputArguments []*MethodArgumentBuilder
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *TransactionBuilder) arrayOfInputArgument() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.InputArgument))
-	for i, v := range w.InputArgument {
+func (w *TransactionBuilder) arrayOfInputArguments() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.InputArguments))
+	for i, v := range w.InputArguments {
 		res[i] = v
 	}
 	return res
@@ -158,16 +158,16 @@ func (w *TransactionBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint32(buf, w.ProtocolVersion)
-	w._builder.WriteUint64(buf, w.VirtualChain)
-	err = w._builder.WriteMessage(buf, w.Sender)
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.Timestamp))
+	err = w._builder.WriteMessage(buf, w.Signer)
 	if err != nil {
 		return
 	}
-	w._builder.WriteUint64(buf, w.Timestamp)
-	w._builder.WriteString(buf, w.ContractName)
-	w._builder.WriteString(buf, w.MethodName)
-	err = w._builder.WriteMessageArray(buf, w.arrayOfInputArgument())
+	w._builder.WriteString(buf, string(w.ContractName))
+	w._builder.WriteString(buf, string(w.MethodName))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfInputArguments())
 	if err != nil {
 		return
 	}
@@ -208,7 +208,7 @@ type SignedTransaction struct {
 	_message membuffers.InternalMessage
 }
 
-var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytesArray,}
+var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
 var _SignedTransaction_Unions = [][]membuffers.FieldType{}
 
 func SignedTransactionReader(buf []byte) *SignedTransaction {
@@ -225,40 +225,32 @@ func (x *SignedTransaction) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *SignedTransaction) TransactionContent() *Transaction {
+func (x *SignedTransaction) Transaction() *Transaction {
 	b, s := x._message.GetMessage(0)
 	return TransactionReader(b[:s])
 }
 
-func (x *SignedTransaction) RawTransactionContent() []byte {
+func (x *SignedTransaction) RawTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *SignedTransaction) SignatureDataIterator() *SignedTransactionSignatureDataIterator {
-	return &SignedTransactionSignatureDataIterator{iterator: x._message.GetBytesArrayIterator(1)}
+func (x *SignedTransaction) Signature() []byte {
+	return x._message.GetBytes(1)
 }
 
-type SignedTransactionSignatureDataIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *SignedTransactionSignatureDataIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *SignedTransactionSignatureDataIterator) NextSignatureData() []byte {
-	return i.iterator.NextBytes()
-}
-
-func (x *SignedTransaction) RawSignatureDataArray() []byte {
+func (x *SignedTransaction) RawSignature() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *SignedTransaction) MutateSignature(v []byte) error {
+	return x._message.SetBytes(1, v)
 }
 
 // builder
 
 type SignedTransactionBuilder struct {
-	TransactionContent *TransactionBuilder
-	SignatureData [][]byte
+	Transaction *TransactionBuilder
+	Signature []byte
 
 	// internal
 	membuffers.Builder // interface
@@ -275,11 +267,11 @@ func (w *SignedTransactionBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.TransactionContent)
+	err = w._builder.WriteMessage(buf, w.Transaction)
 	if err != nil {
 		return
 	}
-	w._builder.WriteBytesArray(buf, w.SignatureData)
+	w._builder.WriteBytes(buf, w.Signature)
 	return nil
 }
 
@@ -317,7 +309,7 @@ type TransactionReceipt struct {
 	_message membuffers.InternalMessage
 }
 
-var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeUint16,membuffers.TypeMessageArray,}
+var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint16,membuffers.TypeMessageArray,}
 var _TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
 func TransactionReceiptReader(buf []byte) *TransactionReceipt {
@@ -334,79 +326,66 @@ func (x *TransactionReceipt) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *TransactionReceipt) Txid() primitives.Sha256 {
-	return x._message.GetBytes(0)
+func (x *TransactionReceipt) Txhash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(0))
 }
 
-func (x *TransactionReceipt) RawTxid() []byte {
+func (x *TransactionReceipt) RawTxhash() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *TransactionReceipt) MutateTxid(v primitives.Sha256) error {
-	return x._message.SetBytes(0, v)
+func (x *TransactionReceipt) MutateTxhash(v primitives.Sha256) error {
+	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *TransactionReceipt) Version() uint32 {
-	return x._message.GetUint32(1)
+func (x *TransactionReceipt) ExecutionStatus() ExecutionStatus {
+	return ExecutionStatus(x._message.GetUint16(1))
 }
 
-func (x *TransactionReceipt) RawVersion() []byte {
+func (x *TransactionReceipt) RawExecutionStatus() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *TransactionReceipt) MutateVersion(v uint32) error {
-	return x._message.SetUint32(1, v)
+func (x *TransactionReceipt) MutateExecutionStatus(v ExecutionStatus) error {
+	return x._message.SetUint16(1, uint16(v))
 }
 
-func (x *TransactionReceipt) TransactionStatus() ExecutionStatus {
-	return ExecutionStatus(x._message.GetUint16(2))
+func (x *TransactionReceipt) OutputArgumentsIterator() *TransactionReceiptOutputArgumentsIterator {
+	return &TransactionReceiptOutputArgumentsIterator{iterator: x._message.GetMessageArrayIterator(2)}
 }
 
-func (x *TransactionReceipt) RawTransactionStatus() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *TransactionReceipt) MutateTransactionStatus(v ExecutionStatus) error {
-	return x._message.SetUint16(2, uint16(v))
-}
-
-func (x *TransactionReceipt) OutputArgumentIterator() *TransactionReceiptOutputArgumentIterator {
-	return &TransactionReceiptOutputArgumentIterator{iterator: x._message.GetMessageArrayIterator(3)}
-}
-
-type TransactionReceiptOutputArgumentIterator struct {
+type TransactionReceiptOutputArgumentsIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *TransactionReceiptOutputArgumentIterator) HasNext() bool {
+func (i *TransactionReceiptOutputArgumentsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *TransactionReceiptOutputArgumentIterator) NextOutputArgument() *MethodArgument {
+func (i *TransactionReceiptOutputArgumentsIterator) NextOutputArguments() *MethodArgument {
 	b, s := i.iterator.NextMessage()
 	return MethodArgumentReader(b[:s])
 }
 
-func (x *TransactionReceipt) RawOutputArgumentArray() []byte {
-	return x._message.RawBufferForField(3, 0)
+func (x *TransactionReceipt) RawOutputArgumentsArray() []byte {
+	return x._message.RawBufferForField(2, 0)
 }
 
 // builder
 
 type TransactionReceiptBuilder struct {
-	Txid primitives.Sha256
-	Version uint32
-	TransactionStatus ExecutionStatus
-	OutputArgument []*MethodArgumentBuilder
+	Txhash primitives.Sha256
+	ExecutionStatus ExecutionStatus
+	OutputArguments []*MethodArgumentBuilder
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *TransactionReceiptBuilder) arrayOfOutputArgument() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.OutputArgument))
-	for i, v := range w.OutputArgument {
+func (w *TransactionReceiptBuilder) arrayOfOutputArguments() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.OutputArguments))
+	for i, v := range w.OutputArguments {
 		res[i] = v
 	}
 	return res
@@ -422,10 +401,9 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.Txid)
-	w._builder.WriteUint32(buf, w.Version)
-	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
-	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArgument())
+	w._builder.WriteBytes(buf, []byte(w.Txhash))
+	w._builder.WriteUint16(buf, uint16(w.ExecutionStatus))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArguments())
 	if err != nil {
 		return
 	}

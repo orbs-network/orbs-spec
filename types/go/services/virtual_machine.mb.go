@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -20,24 +21,23 @@ type VirtualMachine interface {
 // message ProcessTransactionSetInput (non serializable)
 
 type ProcessTransactionSetInput struct {
-	BlockHeight uint64
-	SignedTransaction []*protocol.SignedTransaction
+	BlockHeight primitives.BlockHeight
+	SignedTransactions []*protocol.SignedTransaction
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ProcessTransactionSetOutput (non serializable)
 
 type ProcessTransactionSetOutput struct {
-	Status protocol.RequestStatus
-	TransactionReceipt []*protocol.TransactionReceipt
-	ContractStateDiff []*protocol.ContractStateDiff
+	TransactionReceipts []*protocol.TransactionReceipt
+	ContractStateDiffs []*protocol.ContractStateDiff
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message RunLocalMethodInput (non serializable)
 
 type RunLocalMethodInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	Transaction *protocol.Transaction
 }
 
@@ -45,8 +45,8 @@ type RunLocalMethodInput struct {
 // message RunLocalMethodOutput (non serializable)
 
 type RunLocalMethodOutput struct {
-	Status protocol.CallMethodStatus
-	OutputArgument []*protocol.MethodArgument
+	CallStatus protocol.ExecutionStatus
+	OutputArguments []*protocol.MethodArgument
 	ReferenceBlockHeight uint64
 	ReferenceBlockTimestamp uint64
 }
@@ -55,16 +55,15 @@ type RunLocalMethodOutput struct {
 // message TransactionSetPreOrderInput (non serializable)
 
 type TransactionSetPreOrderInput struct {
-	BlockHeight uint64
-	SignedTransaction []*protocol.SignedTransaction
+	BlockHeight primitives.BlockHeight
+	SignedTransactions []*protocol.SignedTransaction
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message TransactionSetPreOrderOutput (non serializable)
 
 type TransactionSetPreOrderOutput struct {
-	Status protocol.RequestStatus
-	PreOrderResult []*protocol.PreOrderResult
+	PreOrderResults []protocol.TransactionStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////

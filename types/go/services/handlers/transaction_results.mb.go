@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package handlers
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -16,9 +17,9 @@ type TransactionResultsHandler interface {
 // message HandleTransactionResultsInput (non serializable)
 
 type HandleTransactionResultsInput struct {
-	TransactionReceipt []*protocol.TransactionReceipt
-	BlockHeight uint64
-	Timestamp uint64
+	TransactionReceipts []*protocol.TransactionReceipt
+	BlockHeight primitives.BlockHeight
+	Timestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////

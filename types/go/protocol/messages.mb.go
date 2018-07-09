@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package protocol
 
 import (
@@ -18,7 +18,7 @@ type MessageHeader struct {
 	_message membuffers.InternalMessage
 }
 
-var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint32,membuffers.TypeUnion,}
+var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,}
 var _MessageHeader_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
 
 func MessageHeaderReader(buf []byte) *MessageHeader {
@@ -35,72 +35,60 @@ func (x *MessageHeader) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *MessageHeader) ProtocolVersion() uint32 {
-	return x._message.GetUint32(0)
+func (x *MessageHeader) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
 }
 
 func (x *MessageHeader) RawProtocolVersion() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *MessageHeader) MutateProtocolVersion(v uint32) error {
-	return x._message.SetUint32(0, v)
+func (x *MessageHeader) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
 }
 
-func (x *MessageHeader) RecipientIterator() *MessageHeaderRecipientIterator {
-	return &MessageHeaderRecipientIterator{iterator: x._message.GetBytesArrayIterator(1)}
+func (x *MessageHeader) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
 
-type MessageHeaderRecipientIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *MessageHeaderRecipientIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *MessageHeaderRecipientIterator) NextRecipient() primitives.Ed25519Pkey {
-	return i.iterator.NextBytes()
-}
-
-func (x *MessageHeader) RawRecipientArray() []byte {
+func (x *MessageHeader) RawVirtualChainId() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *MessageHeader) RecipientMode() RecipientsListMode {
-	return RecipientsListMode(x._message.GetUint16(2))
+func (x *MessageHeader) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
 }
 
-func (x *MessageHeader) RawRecipientMode() []byte {
+func (x *MessageHeader) RecipientPublicKeysIterator() *MessageHeaderRecipientPublicKeysIterator {
+	return &MessageHeaderRecipientPublicKeysIterator{iterator: x._message.GetBytesArrayIterator(2)}
+}
+
+type MessageHeaderRecipientPublicKeysIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *MessageHeaderRecipientPublicKeysIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *MessageHeaderRecipientPublicKeysIterator) NextRecipientPublicKeys() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(i.iterator.NextBytes())
+}
+
+func (x *MessageHeader) RawRecipientPublicKeysArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *MessageHeader) MutateRecipientMode(v RecipientsListMode) error {
-	return x._message.SetUint16(2, uint16(v))
+func (x *MessageHeader) RecipientMode() RecipientsListMode {
+	return RecipientsListMode(x._message.GetUint16(3))
 }
 
-func (x *MessageHeader) Topic() MessageTopic {
-	return MessageTopic(x._message.GetUint16(3))
-}
-
-func (x *MessageHeader) RawTopic() []byte {
+func (x *MessageHeader) RawRecipientMode() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *MessageHeader) MutateTopic(v MessageTopic) error {
+func (x *MessageHeader) MutateRecipientMode(v RecipientsListMode) error {
 	return x._message.SetUint16(3, uint16(v))
-}
-
-func (x *MessageHeader) VirtualChain() uint32 {
-	return x._message.GetUint32(4)
-}
-
-func (x *MessageHeader) RawVirtualChain() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *MessageHeader) MutateVirtualChain(v uint32) error {
-	return x._message.SetUint32(4, v)
 }
 
 type MessageHeaderType uint16
@@ -112,21 +100,21 @@ const (
 )
 
 func (x *MessageHeader) Type() MessageHeaderType {
-	return MessageHeaderType(x._message.GetUint16(5))
+	return MessageHeaderType(x._message.GetUint16(4))
 }
 
 func (x *MessageHeader) IsTypeTransactionRelay() bool {
-	is, _ := x._message.IsUnionIndex(5, 0, 0)
+	is, _ := x._message.IsUnionIndex(4, 0, 0)
 	return is
 }
 
-func (x *MessageHeader) TypeTransactionRelay() messages.TransactionsRelayMessageType {
-	_, off := x._message.IsUnionIndex(5, 0, 0)
+func (x *MessageHeader) TransactionRelay() messages.TransactionsRelayMessageType {
+	_, off := x._message.IsUnionIndex(4, 0, 0)
 	return messages.TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeTransactionRelay(v messages.TransactionsRelayMessageType) error {
-	is, off := x._message.IsUnionIndex(5, 0, 0)
+func (x *MessageHeader) MutateTransactionRelay(v messages.TransactionsRelayMessageType) error {
+	is, off := x._message.IsUnionIndex(4, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -135,17 +123,17 @@ func (x *MessageHeader) MutateTypeTransactionRelay(v messages.TransactionsRelayM
 }
 
 func (x *MessageHeader) IsTypeBlockSync() bool {
-	is, _ := x._message.IsUnionIndex(5, 0, 1)
+	is, _ := x._message.IsUnionIndex(4, 0, 1)
 	return is
 }
 
-func (x *MessageHeader) TypeBlockSync() messages.BlockSyncMessageType {
-	_, off := x._message.IsUnionIndex(5, 0, 1)
+func (x *MessageHeader) BlockSync() messages.BlockSyncMessageType {
+	_, off := x._message.IsUnionIndex(4, 0, 1)
 	return messages.BlockSyncMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeBlockSync(v messages.BlockSyncMessageType) error {
-	is, off := x._message.IsUnionIndex(5, 0, 1)
+func (x *MessageHeader) MutateBlockSync(v messages.BlockSyncMessageType) error {
+	is, off := x._message.IsUnionIndex(4, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -154,17 +142,17 @@ func (x *MessageHeader) MutateTypeBlockSync(v messages.BlockSyncMessageType) err
 }
 
 func (x *MessageHeader) IsTypeLeanHelixConsensus() bool {
-	is, _ := x._message.IsUnionIndex(5, 0, 2)
+	is, _ := x._message.IsUnionIndex(4, 0, 2)
 	return is
 }
 
-func (x *MessageHeader) TypeLeanHelixConsensus() messages.LeanHelixMessageType {
-	_, off := x._message.IsUnionIndex(5, 0, 2)
+func (x *MessageHeader) LeanHelixConsensus() messages.LeanHelixMessageType {
+	_, off := x._message.IsUnionIndex(4, 0, 2)
 	return messages.LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeLeanHelixConsensus(v messages.LeanHelixMessageType) error {
-	is, off := x._message.IsUnionIndex(5, 0, 2)
+func (x *MessageHeader) MutateLeanHelixConsensus(v messages.LeanHelixMessageType) error {
+	is, off := x._message.IsUnionIndex(4, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -173,17 +161,16 @@ func (x *MessageHeader) MutateTypeLeanHelixConsensus(v messages.LeanHelixMessage
 }
 
 func (x *MessageHeader) RawType() []byte {
-	return x._message.RawBufferForField(5, 0)
+	return x._message.RawBufferForField(4, 0)
 }
 
 // builder
 
 type MessageHeaderBuilder struct {
-	ProtocolVersion uint32
-	Recipient []primitives.Ed25519Pkey
+	ProtocolVersion primitives.ProtocolVersion
+	VirtualChainId primitives.VirtualChainId
+	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
-	Topic MessageTopic
-	VirtualChain uint32
 	Type MessageHeaderType
 	TransactionRelay messages.TransactionsRelayMessageType
 	BlockSync messages.BlockSyncMessageType
@@ -194,9 +181,9 @@ type MessageHeaderBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *MessageHeaderBuilder) arrayOfRecipient() [][]byte {
-	res := make([][]byte, len(w.Recipient))
-	for i, v := range w.Recipient {
+func (w *MessageHeaderBuilder) arrayOfRecipientPublicKeys() [][]byte {
+	res := make([][]byte, len(w.RecipientPublicKeys))
+	for i, v := range w.RecipientPublicKeys {
 		res[i] = v
 	}
 	return res
@@ -212,11 +199,10 @@ func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint32(buf, w.ProtocolVersion)
-	w._builder.WriteBytesArray(buf, w.arrayOfRecipient())
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteBytesArray(buf, w.arrayOfRecipientPublicKeys())
 	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
-	w._builder.WriteUint16(buf, uint16(w.Topic))
-	w._builder.WriteUint32(buf, w.VirtualChain)
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
 	case MessageHeaderTypeTransactionRelay:
@@ -255,20 +241,10 @@ func (w *MessageHeaderBuilder) Build() *MessageHeader {
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
-type MessageTopic uint16
-
-const (
-	MESSAGE_TOPIC_RESERVED MessageTopic = 0
-	MESSAGE_TOPIC_TRANSACTION_RELAY MessageTopic = 1
-	MESSAGE_TOPIC_BLOCK_SYNC MessageTopic = 2
-	MESSAGE_TOPIC_LEAN_HELIX_CONSENSUS MessageTopic = 3
-)
-
 type RecipientsListMode uint16
 
 const (
-	RECIPIENT_LIST_MODE_RESERVED RecipientsListMode = 0
-	RECIPIENT_LIST_MODE_SEND_TO_LIST RecipientsListMode = 1
-	RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST RecipientsListMode = 2
+	RECIPIENT_LIST_MODE_SEND_TO_LIST RecipientsListMode = 0
+	RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST RecipientsListMode = 1
 )
 

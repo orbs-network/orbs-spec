@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package handlers
 
 import (
@@ -18,19 +18,18 @@ type ConsensusBlocksHandler interface {
 
 type HandleTransactionsBlockInput struct {
 	TransactionsBlockHeader *protocol.TransactionsBlockHeader
-	TransactionsBlockMetaData *protocol.TransactionsBlockMetaData
+	TransactionsBlockMetadata *protocol.TransactionsBlockMetadata
 	TransactionsBlockProof *protocol.TransactionsBlockProof
-	PreviousCommittedTransactionsBlockHeader *protocol.TransactionsBlockHeader
-	PreviousCommittedTransactionsBlockMetaData *protocol.TransactionsBlockMetaData
-	PreviousCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
-	PreviousCommittedResultsBlockProof *protocol.ResultsBlockProof
+	PrevCommittedTransactionsBlockHeader *protocol.TransactionsBlockHeader
+	PrevCommittedTransactionsBlockMetadata *protocol.TransactionsBlockMetadata
+	PrevCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
+	PrevCommittedResultsBlockProof *protocol.ResultsBlockProof
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message HandleTransactionsBlockOutput (non serializable)
 
 type HandleTransactionsBlockOutput struct {
-	Status protocol.ValidateBlockConsensus
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -39,19 +38,15 @@ type HandleTransactionsBlockOutput struct {
 type HandleResultsBlockInput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
 	ResultsBlockProof *protocol.ResultsBlockProof
-	PreviousResultsBlockHeader *protocol.ResultsBlockHeader
-	PreviousCommittedTransactionsBlockMetaData *protocol.TransactionsBlockMetaData
-	PreviousCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
-	PreviousCommittedResultsBlockProof *protocol.ResultsBlockProof
+	PrevResultsBlockHeader *protocol.ResultsBlockHeader
+	PrevCommittedTransactionsBlockMetadata *protocol.TransactionsBlockMetadata
+	PrevCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
+	PrevCommittedResultsBlockProof *protocol.ResultsBlockProof
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message HandleResultsBlockOutput (non serializable)
 
 type HandleResultsBlockOutput struct {
-	Status protocol.ValidateBlockConsensus
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// enums
 

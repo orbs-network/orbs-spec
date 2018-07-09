@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -19,41 +20,40 @@ type Processor interface {
 // message ProcessCallInput (non serializable)
 
 type ProcessCallInput struct {
-	ContextId uint32
-	Contract *protocol.ContractAddress
-	Method *protocol.MethodAddress
-	InputArgument []*protocol.MethodArgument
-	AccessScope protocol.AccessScope
-	PermissionScope protocol.PermissionScope
-	CallingService *protocol.ContractAddress
-	TransactionSender *protocol.Sender
+	ContextId primitives.ExecutionContextId
+	ContractName primitives.ContractName
+	MethodName primitives.MethodName
+	InputArguments []*protocol.MethodArgument
+	AccessScope protocol.ExecutionAccessScope
+	PermissionScope protocol.ExecutionPermissionScope
+	CallingService primitives.ContractName
+	TransactionSigner *protocol.Signer
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ProcessCallOutput (non serializable)
 
 type ProcessCallOutput struct {
-	OutputArgument []*protocol.MethodArgument
-	CallStatus protocol.CallMethodStatus
+	OutputArguments []*protocol.MethodArgument
+	CallStatus protocol.ExecutionStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message DeployNativeServiceInput (non serializable)
 
 type DeployNativeServiceInput struct {
-	ContextId uint32
-	Contract *protocol.ContractAddress
-	AccessScope protocol.AccessScope
-	PermissionScope protocol.PermissionScope
-	CallingService *protocol.ContractAddress
-	TransactionSender *protocol.Sender
+	ContextId primitives.ExecutionContextId
+	ContractName primitives.ContractName
+	AccessScope protocol.ExecutionAccessScope
+	PermissionScope protocol.ExecutionPermissionScope
+	CallingService primitives.ContractName
+	TransactionSigner *protocol.Signer
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message DeployNativeServiceOutput (non serializable)
 
 type DeployNativeServiceOutput struct {
-	Status protocol.DeployServiceStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -8,14 +8,6 @@ import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 import "protocol/blockproofs/lean_helix.proto";
 
-message Block {
-    oneof type {
-        TransactionsBlock transactions_block = 1;
-        ResultsBlock results_block = 2;
-        BlockPair block_pair = 3;
-    }
-}
-
 message BlockPair {
     TransactionsBlock transactions_block = 1;
     ResultsBlock results_block = 2;

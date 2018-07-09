@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
@@ -34,16 +34,16 @@ type AddNewTransactionInput struct {
 type AddNewTransactionOutput struct {
 	TransactionStatus protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight uint64
-	BlockTimestamp uint64
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetCommittedTransactionReceiptInput (non serializable)
 
 type GetCommittedTransactionReceiptInput struct {
-	Txid primitives.Sha256
-	Timestamp uint64
+	Txhash primitives.Sha256
+	TransactionTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -52,15 +52,15 @@ type GetCommittedTransactionReceiptInput struct {
 type GetCommittedTransactionReceiptOutput struct {
 	TransactionStatus protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight uint64
-	BlockTimestamp uint64
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionsForOrderingInput (non serializable)
 
 type GetTransactionsForOrderingInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 	MaxTransactionsSetSizeKb uint32
 	MaxNumberOfTransactions uint32
 }
@@ -69,23 +69,21 @@ type GetTransactionsForOrderingInput struct {
 // message GetTransactionsForOrderingOutput (non serializable)
 
 type GetTransactionsForOrderingOutput struct {
-	Status protocol.RequestStatus
-	SignedTransaction []*protocol.SignedTransaction
+	SignedTransactions []*protocol.SignedTransaction
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsForOrderingInput (non serializable)
 
 type ValidateTransactionsForOrderingInput struct {
-	BlockHeight uint64
-	Transaction []*protocol.SignedTransaction
+	BlockHeight primitives.BlockHeight
+	SignedTransactions []*protocol.SignedTransaction
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsForOrderingOutput (non serializable)
 
 type ValidateTransactionsForOrderingOutput struct {
-	Status protocol.RequestStatus
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,16 +91,16 @@ type ValidateTransactionsForOrderingOutput struct {
 
 type CommitTransactionReceiptsInput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
-	TransactionReceipt []*protocol.TransactionReceipt
-	LastCommittedBlockHeight uint64
+	TransactionReceipts []*protocol.TransactionReceipt
+	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CommitTransactionReceiptsOutput (non serializable)
 
 type CommitTransactionReceiptsOutput struct {
-	NextDesiredBlockHeight uint64
-	LastCommittedBlockHeight uint64
+	NextDesiredBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package messages
 
 import (
@@ -35,7 +35,7 @@ func (x *BlockSyncAvailabilityRequestHeader) Raw() []byte {
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) RawSenderPublicKey() []byte {
@@ -43,11 +43,11 @@ func (x *BlockSyncAvailabilityRequestHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) RawSignature() []byte {
@@ -55,7 +55,7 @@ func (x *BlockSyncAvailabilityRequestHeader) RawSignature() []byte {
 }
 
 func (x *BlockSyncAvailabilityRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -79,8 +79,8 @@ func (w *BlockSyncAvailabilityRequestHeaderBuilder) Write(buf []byte) (err error
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -136,7 +136,7 @@ func (x *BlockSyncAvailabilityResponseHeader) Raw() []byte {
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) RawSenderPublicKey() []byte {
@@ -144,11 +144,11 @@ func (x *BlockSyncAvailabilityResponseHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) RawSignature() []byte {
@@ -156,7 +156,7 @@ func (x *BlockSyncAvailabilityResponseHeader) RawSignature() []byte {
 }
 
 func (x *BlockSyncAvailabilityResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -180,8 +180,8 @@ func (w *BlockSyncAvailabilityResponseHeaderBuilder) Write(buf []byte) (err erro
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -237,7 +237,7 @@ func (x *BlockSyncRequestHeader) Raw() []byte {
 }
 
 func (x *BlockSyncRequestHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *BlockSyncRequestHeader) RawSenderPublicKey() []byte {
@@ -245,11 +245,11 @@ func (x *BlockSyncRequestHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *BlockSyncRequestHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *BlockSyncRequestHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *BlockSyncRequestHeader) RawSignature() []byte {
@@ -257,7 +257,7 @@ func (x *BlockSyncRequestHeader) RawSignature() []byte {
 }
 
 func (x *BlockSyncRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -281,8 +281,8 @@ func (w *BlockSyncRequestHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -349,49 +349,49 @@ func (x *BlockSyncAvailability) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncAvailability) FirstAvailableBlockHeight() uint64 {
-	return x._message.GetUint64(1)
+func (x *BlockSyncAvailability) FirstAvailableBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
 func (x *BlockSyncAvailability) RawFirstAvailableBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncAvailability) MutateFirstAvailableBlockHeight(v uint64) error {
-	return x._message.SetUint64(1, v)
+func (x *BlockSyncAvailability) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncAvailability) LastAvailableBlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *BlockSyncAvailability) LastAvailableBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *BlockSyncAvailability) RawLastAvailableBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncAvailability) MutateLastAvailableBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *BlockSyncAvailability) MutateLastAvailableBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncAvailability) LastCommittedBlockHeight() uint64 {
-	return x._message.GetUint64(3)
+func (x *BlockSyncAvailability) LastCommittedBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
 func (x *BlockSyncAvailability) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockSyncAvailability) MutateLastCommittedBlockHeight(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *BlockSyncAvailability) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
 // builder
 
 type BlockSyncAvailabilityBuilder struct {
 	BlockType BlockType
-	FirstAvailableBlockHeight uint64
-	LastAvailableBlockHeight uint64
-	LastCommittedBlockHeight uint64
+	FirstAvailableBlockHeight primitives.BlockHeight
+	LastAvailableBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
 	membuffers.Builder // interface
@@ -409,9 +409,9 @@ func (w *BlockSyncAvailabilityBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, w.FirstAvailableBlockHeight)
-	w._builder.WriteUint64(buf, w.LastAvailableBlockHeight)
-	w._builder.WriteUint64(buf, w.LastCommittedBlockHeight)
+	w._builder.WriteUint64(buf, uint64(w.FirstAvailableBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastAvailableBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
@@ -478,49 +478,49 @@ func (x *BlockSyncRequest) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncRequest) FirstRequestedBlockHeight() uint64 {
-	return x._message.GetUint64(1)
+func (x *BlockSyncRequest) FirstRequestedBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
 func (x *BlockSyncRequest) RawFirstRequestedBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncRequest) MutateFirstRequestedBlockHeight(v uint64) error {
-	return x._message.SetUint64(1, v)
+func (x *BlockSyncRequest) MutateFirstRequestedBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncRequest) LastRequestedBlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *BlockSyncRequest) LastRequestedBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *BlockSyncRequest) RawLastRequestedBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncRequest) MutateLastRequestedBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *BlockSyncRequest) MutateLastRequestedBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncRequest) LastCommittedBlockHeight() uint64 {
-	return x._message.GetUint64(3)
+func (x *BlockSyncRequest) LastCommittedBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
 func (x *BlockSyncRequest) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockSyncRequest) MutateLastCommittedBlockHeight(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *BlockSyncRequest) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
 // builder
 
 type BlockSyncRequestBuilder struct {
 	BlockType BlockType
-	FirstRequestedBlockHeight uint64
-	LastRequestedBlockHeight uint64
-	LastCommittedBlockHeight uint64
+	FirstRequestedBlockHeight primitives.BlockHeight
+	LastRequestedBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
 	membuffers.Builder // interface
@@ -538,9 +538,9 @@ func (w *BlockSyncRequestBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, w.FirstRequestedBlockHeight)
-	w._builder.WriteUint64(buf, w.LastRequestedBlockHeight)
-	w._builder.WriteUint64(buf, w.LastCommittedBlockHeight)
+	w._builder.WriteUint64(buf, uint64(w.FirstRequestedBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastRequestedBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
@@ -596,7 +596,7 @@ func (x *BlockSyncResponseHeader) Raw() []byte {
 }
 
 func (x *BlockSyncResponseHeader) SenderPublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *BlockSyncResponseHeader) RawSenderPublicKey() []byte {
@@ -604,11 +604,11 @@ func (x *BlockSyncResponseHeader) RawSenderPublicKey() []byte {
 }
 
 func (x *BlockSyncResponseHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *BlockSyncResponseHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *BlockSyncResponseHeader) RawSignature() []byte {
@@ -616,7 +616,7 @@ func (x *BlockSyncResponseHeader) RawSignature() []byte {
 }
 
 func (x *BlockSyncResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -640,8 +640,8 @@ func (w *BlockSyncResponseHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.SenderPublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
@@ -708,59 +708,59 @@ func (x *BlockSyncResponse) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncResponse) FirstBlockHeight() uint64 {
-	return x._message.GetUint64(1)
+func (x *BlockSyncResponse) FirstBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
 func (x *BlockSyncResponse) RawFirstBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncResponse) MutateFirstBlockHeight(v uint64) error {
-	return x._message.SetUint64(1, v)
+func (x *BlockSyncResponse) MutateFirstBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncResponse) LastBlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *BlockSyncResponse) LastBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *BlockSyncResponse) RawLastBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncResponse) MutateLastBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *BlockSyncResponse) MutateLastBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncResponse) LastCommittedBlockHeight() uint64 {
-	return x._message.GetUint64(3)
+func (x *BlockSyncResponse) LastCommittedBlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
 func (x *BlockSyncResponse) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockSyncResponse) MutateLastCommittedBlockHeight(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *BlockSyncResponse) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
-func (x *BlockSyncResponse) BlockHashIterator() *BlockSyncResponseBlockHashIterator {
-	return &BlockSyncResponseBlockHashIterator{iterator: x._message.GetBytesArrayIterator(4)}
+func (x *BlockSyncResponse) BlockHashesIterator() *BlockSyncResponseBlockHashesIterator {
+	return &BlockSyncResponseBlockHashesIterator{iterator: x._message.GetBytesArrayIterator(4)}
 }
 
-type BlockSyncResponseBlockHashIterator struct {
+type BlockSyncResponseBlockHashesIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *BlockSyncResponseBlockHashIterator) HasNext() bool {
+func (i *BlockSyncResponseBlockHashesIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *BlockSyncResponseBlockHashIterator) NextBlockHash() primitives.Sha256 {
-	return i.iterator.NextBytes()
+func (i *BlockSyncResponseBlockHashesIterator) NextBlockHashes() primitives.Sha256 {
+	return primitives.Sha256(i.iterator.NextBytes())
 }
 
-func (x *BlockSyncResponse) RawBlockHashArray() []byte {
+func (x *BlockSyncResponse) RawBlockHashesArray() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
@@ -768,19 +768,19 @@ func (x *BlockSyncResponse) RawBlockHashArray() []byte {
 
 type BlockSyncResponseBuilder struct {
 	BlockType BlockType
-	FirstBlockHeight uint64
-	LastBlockHeight uint64
-	LastCommittedBlockHeight uint64
-	BlockHash []primitives.Sha256
+	FirstBlockHeight primitives.BlockHeight
+	LastBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight primitives.BlockHeight
+	BlockHashes []primitives.Sha256
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *BlockSyncResponseBuilder) arrayOfBlockHash() [][]byte {
-	res := make([][]byte, len(w.BlockHash))
-	for i, v := range w.BlockHash {
+func (w *BlockSyncResponseBuilder) arrayOfBlockHashes() [][]byte {
+	res := make([][]byte, len(w.BlockHashes))
+	for i, v := range w.BlockHashes {
 		res[i] = v
 	}
 	return res
@@ -797,10 +797,10 @@ func (w *BlockSyncResponseBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, w.FirstBlockHeight)
-	w._builder.WriteUint64(buf, w.LastBlockHeight)
-	w._builder.WriteUint64(buf, w.LastCommittedBlockHeight)
-	w._builder.WriteBytesArray(buf, w.arrayOfBlockHash())
+	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	w._builder.WriteBytesArray(buf, w.arrayOfBlockHashes())
 	return nil
 }
 

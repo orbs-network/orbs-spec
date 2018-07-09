@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package messages
 
 import (
@@ -35,7 +35,7 @@ func (x *ForwardedTransactionsHeader) Raw() []byte {
 }
 
 func (x *ForwardedTransactionsHeader) GwNodePublicKey() primitives.Ed25519Pkey {
-	return x._message.GetBytes(0)
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
 }
 
 func (x *ForwardedTransactionsHeader) RawGwNodePublicKey() []byte {
@@ -43,11 +43,11 @@ func (x *ForwardedTransactionsHeader) RawGwNodePublicKey() []byte {
 }
 
 func (x *ForwardedTransactionsHeader) MutateGwNodePublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, v)
+	return x._message.SetBytes(0, []byte(v))
 }
 
 func (x *ForwardedTransactionsHeader) Signature() primitives.Ed25519Sig {
-	return x._message.GetBytes(1)
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
 
 func (x *ForwardedTransactionsHeader) RawSignature() []byte {
@@ -55,7 +55,7 @@ func (x *ForwardedTransactionsHeader) RawSignature() []byte {
 }
 
 func (x *ForwardedTransactionsHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, v)
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
@@ -79,8 +79,8 @@ func (w *ForwardedTransactionsHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.GwNodePublicKey)
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, []byte(w.GwNodePublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 

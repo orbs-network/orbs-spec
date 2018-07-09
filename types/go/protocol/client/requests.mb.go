@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package client
 
 import (
@@ -122,12 +122,12 @@ func (x *SendTransactionResponse) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *SendTransactionResponse) Receipt() *protocol.TransactionReceipt {
+func (x *SendTransactionResponse) TransactionReceipt() *protocol.TransactionReceipt {
 	b, s := x._message.GetMessage(0)
 	return protocol.TransactionReceiptReader(b[:s])
 }
 
-func (x *SendTransactionResponse) RawReceipt() []byte {
+func (x *SendTransactionResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
@@ -143,37 +143,37 @@ func (x *SendTransactionResponse) MutateTransactionStatus(v protocol.Transaction
 	return x._message.SetUint16(1, uint16(v))
 }
 
-func (x *SendTransactionResponse) BlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *SendTransactionResponse) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *SendTransactionResponse) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *SendTransactionResponse) MutateBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *SendTransactionResponse) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *SendTransactionResponse) BlockTimestamp() uint64 {
-	return x._message.GetUint64(3)
+func (x *SendTransactionResponse) BlockTimestamp() primitives.Timestamp {
+	return primitives.Timestamp(x._message.GetUint64(3))
 }
 
 func (x *SendTransactionResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *SendTransactionResponse) MutateBlockTimestamp(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
 // builder
 
 type SendTransactionResponseBuilder struct {
-	Receipt *protocol.TransactionReceiptBuilder
+	TransactionReceipt *protocol.TransactionReceiptBuilder
 	TransactionStatus protocol.TransactionStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 
 	// internal
 	membuffers.Builder // interface
@@ -190,13 +190,13 @@ func (w *SendTransactionResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Receipt)
+	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
 	if err != nil {
 		return
 	}
 	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
-	w._builder.WriteUint64(buf, w.BlockHeight)
-	w._builder.WriteUint64(buf, w.BlockTimestamp)
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
 	return nil
 }
 
@@ -338,79 +338,79 @@ func (x *CallMethodResponse) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *CallMethodResponse) OutputArgumentIterator() *CallMethodResponseOutputArgumentIterator {
-	return &CallMethodResponseOutputArgumentIterator{iterator: x._message.GetMessageArrayIterator(0)}
+func (x *CallMethodResponse) OutputArgumentsIterator() *CallMethodResponseOutputArgumentsIterator {
+	return &CallMethodResponseOutputArgumentsIterator{iterator: x._message.GetMessageArrayIterator(0)}
 }
 
-type CallMethodResponseOutputArgumentIterator struct {
+type CallMethodResponseOutputArgumentsIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *CallMethodResponseOutputArgumentIterator) HasNext() bool {
+func (i *CallMethodResponseOutputArgumentsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *CallMethodResponseOutputArgumentIterator) NextOutputArgument() *protocol.MethodArgument {
+func (i *CallMethodResponseOutputArgumentsIterator) NextOutputArguments() *protocol.MethodArgument {
 	b, s := i.iterator.NextMessage()
 	return protocol.MethodArgumentReader(b[:s])
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
+func (x *CallMethodResponse) RawOutputArgumentsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *CallMethodResponse) CallStatus() protocol.CallMethodStatus {
-	return protocol.CallMethodStatus(x._message.GetUint16(1))
+func (x *CallMethodResponse) CallStatus() protocol.ExecutionStatus {
+	return protocol.ExecutionStatus(x._message.GetUint16(1))
 }
 
 func (x *CallMethodResponse) RawCallStatus() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *CallMethodResponse) MutateCallStatus(v protocol.CallMethodStatus) error {
+func (x *CallMethodResponse) MutateCallStatus(v protocol.ExecutionStatus) error {
 	return x._message.SetUint16(1, uint16(v))
 }
 
-func (x *CallMethodResponse) BlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *CallMethodResponse) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *CallMethodResponse) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *CallMethodResponse) MutateBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *CallMethodResponse) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *CallMethodResponse) BlockTimestamp() uint64 {
-	return x._message.GetUint64(3)
+func (x *CallMethodResponse) BlockTimestamp() primitives.Timestamp {
+	return primitives.Timestamp(x._message.GetUint64(3))
 }
 
 func (x *CallMethodResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *CallMethodResponse) MutateBlockTimestamp(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
 // builder
 
 type CallMethodResponseBuilder struct {
-	OutputArgument []*protocol.MethodArgumentBuilder
-	CallStatus protocol.CallMethodStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	OutputArguments []*protocol.MethodArgumentBuilder
+	CallStatus protocol.ExecutionStatus
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *CallMethodResponseBuilder) arrayOfOutputArgument() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.OutputArgument))
-	for i, v := range w.OutputArgument {
+func (w *CallMethodResponseBuilder) arrayOfOutputArguments() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.OutputArguments))
+	for i, v := range w.OutputArguments {
 		res[i] = v
 	}
 	return res
@@ -426,13 +426,13 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArgument())
+	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArguments())
 	if err != nil {
 		return
 	}
 	w._builder.WriteUint16(buf, uint16(w.CallStatus))
-	w._builder.WriteUint64(buf, w.BlockHeight)
-	w._builder.WriteUint64(buf, w.BlockTimestamp)
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
 	return nil
 }
 
@@ -470,7 +470,7 @@ type GetTransactionStatusRequest struct {
 	_message membuffers.InternalMessage
 }
 
-var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint64,}
+var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeBytes,}
 var _GetTransactionStatusRequest_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusRequestReader(buf []byte) *GetTransactionStatusRequest {
@@ -487,35 +487,35 @@ func (x *GetTransactionStatusRequest) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *GetTransactionStatusRequest) Txid() primitives.Sha256 {
-	return x._message.GetBytes(0)
+func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.Timestamp {
+	return primitives.Timestamp(x._message.GetUint64(0))
 }
 
-func (x *GetTransactionStatusRequest) RawTxid() []byte {
+func (x *GetTransactionStatusRequest) RawTransactionTimestamp() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusRequest) MutateTxid(v primitives.Sha256) error {
-	return x._message.SetBytes(0, v)
+func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.Timestamp) error {
+	return x._message.SetUint64(0, uint64(v))
 }
 
-func (x *GetTransactionStatusRequest) Timestamp() uint64 {
-	return x._message.GetUint64(1)
+func (x *GetTransactionStatusRequest) Txhash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(1))
 }
 
-func (x *GetTransactionStatusRequest) RawTimestamp() []byte {
+func (x *GetTransactionStatusRequest) RawTxhash() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionStatusRequest) MutateTimestamp(v uint64) error {
-	return x._message.SetUint64(1, v)
+func (x *GetTransactionStatusRequest) MutateTxhash(v primitives.Sha256) error {
+	return x._message.SetBytes(1, []byte(v))
 }
 
 // builder
 
 type GetTransactionStatusRequestBuilder struct {
-	Txid primitives.Sha256
-	Timestamp uint64
+	TransactionTimestamp primitives.Timestamp
+	Txhash primitives.Sha256
 
 	// internal
 	membuffers.Builder // interface
@@ -532,8 +532,8 @@ func (w *GetTransactionStatusRequestBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.Txid)
-	w._builder.WriteUint64(buf, w.Timestamp)
+	w._builder.WriteUint64(buf, uint64(w.TransactionTimestamp))
+	w._builder.WriteBytes(buf, []byte(w.Txhash))
 	return nil
 }
 
@@ -588,58 +588,58 @@ func (x *GetTransactionStatusResponse) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *GetTransactionStatusResponse) Receipt() *protocol.TransactionReceipt {
+func (x *GetTransactionStatusResponse) TransactionReceipt() *protocol.TransactionReceipt {
 	b, s := x._message.GetMessage(0)
 	return protocol.TransactionReceiptReader(b[:s])
 }
 
-func (x *GetTransactionStatusResponse) RawReceipt() []byte {
+func (x *GetTransactionStatusResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusResponse) Status() protocol.TransactionStatus {
+func (x *GetTransactionStatusResponse) TransactionStatus() protocol.TransactionStatus {
 	return protocol.TransactionStatus(x._message.GetUint16(1))
 }
 
-func (x *GetTransactionStatusResponse) RawStatus() []byte {
+func (x *GetTransactionStatusResponse) RawTransactionStatus() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateStatus(v protocol.TransactionStatus) error {
+func (x *GetTransactionStatusResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
 	return x._message.SetUint16(1, uint16(v))
 }
 
-func (x *GetTransactionStatusResponse) BlockHeight() uint64 {
-	return x._message.GetUint64(2)
+func (x *GetTransactionStatusResponse) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
 func (x *GetTransactionStatusResponse) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateBlockHeight(v uint64) error {
-	return x._message.SetUint64(2, v)
+func (x *GetTransactionStatusResponse) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *GetTransactionStatusResponse) BlockTimestamp() uint64 {
-	return x._message.GetUint64(3)
+func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.Timestamp {
+	return primitives.Timestamp(x._message.GetUint64(3))
 }
 
 func (x *GetTransactionStatusResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v uint64) error {
-	return x._message.SetUint64(3, v)
+func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+	return x._message.SetUint64(3, uint64(v))
 }
 
 // builder
 
 type GetTransactionStatusResponseBuilder struct {
-	Receipt *protocol.TransactionReceiptBuilder
-	Status protocol.TransactionStatus
-	BlockHeight uint64
-	BlockTimestamp uint64
+	TransactionReceipt *protocol.TransactionReceiptBuilder
+	TransactionStatus protocol.TransactionStatus
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.Timestamp
 
 	// internal
 	membuffers.Builder // interface
@@ -656,13 +656,13 @@ func (w *GetTransactionStatusResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Receipt)
+	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
 	if err != nil {
 		return
 	}
-	w._builder.WriteUint16(buf, uint16(w.Status))
-	w._builder.WriteUint64(buf, w.BlockHeight)
-	w._builder.WriteUint64(buf, w.BlockTimestamp)
+	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
 	return nil
 }
 

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package gossip
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/messages"
 )
 
@@ -39,7 +40,7 @@ type BlockSyncAvailabilityRequestInput struct {
 // message BlockSyncAvailabilityResponseInput (non serializable)
 
 type BlockSyncAvailabilityResponseInput struct {
-	Recipient primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519Pkey
 	Header *messages.BlockSyncAvailabilityResponseHeader
 	Response *messages.BlockSyncAvailability
 }
@@ -48,7 +49,7 @@ type BlockSyncAvailabilityResponseInput struct {
 // message BlockSyncRequestInput (non serializable)
 
 type BlockSyncRequestInput struct {
-	Recipient primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519Pkey
 	Header *messages.BlockSyncRequestHeader
 	Request *messages.BlockSyncRequest
 }
@@ -57,9 +58,9 @@ type BlockSyncRequestInput struct {
 // message BlockSyncResponseInput (non serializable)
 
 type BlockSyncResponseInput struct {
-	Recipient primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519Pkey
 	Header *messages.BlockSyncResponseHeader
-	Blocks [][]byte
+	BlockPairs []*protocol.BlockPair
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
 package services
 
 import (
@@ -20,17 +20,16 @@ type StateStorage interface {
 // message ReadKeysInput (non serializable)
 
 type ReadKeysInput struct {
-	BlockHeight uint64
-	Contract *protocol.ContractAddress
-	Key []primitives.Ripmd160Sha256
+	BlockHeight primitives.BlockHeight
+	ContractName primitives.ContractName
+	Keys []primitives.Ripmd160Sha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ReadKeysOutput (non serializable)
 
 type ReadKeysOutput struct {
-	Status protocol.RequestStatus
-	Blob [][]byte
+	StateRecords []*protocol.StateRecord
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -43,8 +42,8 @@ type GetStateStorageBlockHeightInput struct {
 // message GetStateStorageBlockHeightOutput (non serializable)
 
 type GetStateStorageBlockHeightOutput struct {
-	LastCommittedBlockHeight uint64
-	LastCommittedBlockTimestamp uint64
+	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -52,31 +51,30 @@ type GetStateStorageBlockHeightOutput struct {
 
 type CommitStateDiffInput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
-	ContractStateDiff []*protocol.ContractStateDiff
-	LastCommittedBlockHeight uint64
+	ContractStateDiffs []*protocol.ContractStateDiff
+	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CommitStateDiffOutput (non serializable)
 
 type CommitStateDiffOutput struct {
-	NextDesiredBlockHeight uint64
-	LastCommittedBlockHeight uint64
+	NextDesiredBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetStateHashInput (non serializable)
 
 type GetStateHashInput struct {
-	BlockHeight uint64
+	BlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetStateHashOutput (non serializable)
 
 type GetStateHashOutput struct {
-	Status protocol.RequestStatus
-	StateRootHash primitives.Sha256
+	StateRootHash primitives.MerkleSha256
 }
 
 /////////////////////////////////////////////////////////////////////////////
