@@ -3,6 +3,7 @@ package messages;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages";
 
 import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
 
 enum BlockSyncMessageType {
     BLOCK_SYNC_RESERVED = 0;
@@ -33,16 +34,16 @@ message BlockSyncRequestHeader {
 
 message BlockSyncAvailability {
     BlockType block_type = 1;
-    uint64 first_available_block_height = 2;
-    uint64 last_available_block_height = 3;
-    uint64 last_committed_block_height = 4;
+    primitives.block_height first_available_block_height = 2;
+    primitives.block_height last_available_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
 }
 
 message BlockSyncRequest {
     BlockType block_type = 1;
-    uint64 first_requested_block_height = 2;
-    uint64 last_requested_block_height = 3;
-    uint64 last_committed_block_height = 4;
+    primitives.block_height first_requested_block_height = 2;
+    primitives.block_height last_requested_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
 }
 
 message BlockSyncResponseHeader {
@@ -52,10 +53,10 @@ message BlockSyncResponseHeader {
 
 message BlockSyncResponse {
     BlockType block_type = 1;
-    uint64 first_block_height = 3;
-    uint64 last_block_height = 4;
-    uint64 last_committed_block_height = 5;
-    repeated primitives.sha256 block_hash = 6;
+    primitives.block_height first_block_height = 2;
+    primitives.block_height last_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
+    repeated primitives.sha256 block_hashes = 5;
 }
 
 enum BlockType {

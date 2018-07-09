@@ -3,34 +3,25 @@ package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
 import "primitives/crypto.proto";
+import "primitives/protocol.proto";
 import "protocol/messages/transaction_relay.proto";
 import "protocol/messages/block_sync.proto";
 import "protocol/messages/lean_helix_consensus.proto";
 
-// TODO isn't this redundant with oneof of message type?
-enum MessageTopic {
-    MESSAGE_TOPIC_RESERVED = 0;
-    MESSAGE_TOPIC_TRANSACTION_RELAY = 1;
-    MESSAGE_TOPIC_BLOCK_SYNC = 2;
-    MESSAGE_TOPIC_LEAN_HELIX_CONSENSUS = 3;
-}
-
 message MessageHeader {
-    uint32 protocol_version = 1;
-    uint32 virtual_chain = 5;
-    repeated primitives.ed25519_pkey recipient = 2;
-    RecipientsListMode recipient_mode = 3;
-    MessageTopic topic = 4;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    repeated primitives.ed25519_pkey recipient_public_keys = 3;
+    RecipientsListMode recipient_mode = 4;
     oneof type {
-        messages.TransactionsRelayMessageType transaction_relay = 6;
-        messages.BlockSyncMessageType block_sync = 7;
-        messages.LeanHelixMessageType lean_helix_consensus = 8;
+        messages.TransactionsRelayMessageType transaction_relay = 5;
+        messages.BlockSyncMessageType block_sync = 6;
+        messages.LeanHelixMessageType lean_helix_consensus = 7;
     }
 }
 
 // TODO: maybe this should be a bool
 enum RecipientsListMode {
-    RECIPIENT_LIST_MODE_RESERVED = 0;
-    RECIPIENT_LIST_MODE_SEND_TO_LIST = 1;
-    RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST = 2;
+    RECIPIENT_LIST_MODE_SEND_TO_LIST = 0;
+    RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST = 1;
 }

@@ -3,6 +3,7 @@ package gossip;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossip";
 
 import "../primitives/crypto.proto";
+import "../protocol/blocks.proto";
 import "../protocol/messages/block_sync.proto";
 
 option serialize_service_args = false;
@@ -31,21 +32,21 @@ message BlockSyncAvailabilityRequestInput {
 }
 
 message BlockSyncAvailabilityResponseInput {
-    primitives.ed25519_pkey recipient = 1;
+    primitives.ed25519_pkey recipient_public_key = 1;
     messages.BlockSyncAvailabilityResponseHeader header = 2;
     messages.BlockSyncAvailability response = 3;
 }
 
 message BlockSyncRequestInput {
-    primitives.ed25519_pkey recipient = 1;
+    primitives.ed25519_pkey recipient_public_key = 1;
     messages.BlockSyncRequestHeader header = 2;
     messages.BlockSyncRequest request = 3;
 }
 
 message BlockSyncResponseInput {
-    primitives.ed25519_pkey recipient = 1;
+    primitives.ed25519_pkey recipient_public_key = 1;
     messages.BlockSyncResponseHeader header = 2;
-    repeated bytes blocks = 3; // TODO: change this into a union
+    repeated protocol.Block blocks = 3;
 }
 
 message BlockSyncOutput {

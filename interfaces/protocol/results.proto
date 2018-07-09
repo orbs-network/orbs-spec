@@ -2,20 +2,13 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-enum CallMethodStatus {
-    CALL_METHOD_STATUS_RESERVED = 0;
-    CALL_METHOD_STATUS_SUCCESS = 1;
-    CALL_METHOD_STATUS_ERROR_EXCEPTION = 2;
-    CALL_METHOD_STATUS_ERROR_OUT_OF_SYNC = 3;
+enum ErrorCodes {
+    ERROR_CODE_RESERVED = 0;
+    ERROR_CODE_OUT_OF_SYNC = 1;
+    ERROR_CODE_INVALID = 2;
 }
 
-enum RequestStatus {
-    REQUEST_STATUS_RESERVED = 0;
-    REQUEST_STATUS_SUCCESS = 1;
-    REQUEST_STATUS_ERROR_INVALID = 2; // TODO: not sure what this one does
-    REQUEST_STATUS_ERROR_OUT_OF_SYNC = 3;
-}
-
+// ExecutionStatus is the result of the execution phase of the consensus over a transaction
 enum ExecutionStatus {
     EXECUTION_STATUS_RESERVED = 0;
     EXECUTION_STATUS_SUCCESS = 1;

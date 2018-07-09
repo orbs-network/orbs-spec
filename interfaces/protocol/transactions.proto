@@ -2,29 +2,32 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
+import "primitives/protocol.proto";
 import "primitives/crypto.proto";
-import "protocol/addresses.proto";
+import "protocol/signers.proto";
 import "protocol/contracts.proto";
 import "protocol/results.proto";
 
+// txhash = SHA(serialized protocol.Transaction)
+// txid = concatenation of timestamp and txhash (without txhash length)
+
 message Transaction {
-    uint32 protocol_version = 1;
-    uint64 virtual_chain = 2;
-    protocol.Sender sender = 3;
-    uint64 timestamp = 4;
-    string contract_name = 5;
-    string method_name = 6;
-    repeated protocol.MethodArgument input_argument = 7;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp timestamp = 3;
+    protocol.Signer signer = 4;
+    primitives.contract_name contract_name = 5;
+    primitives.method_name method_name = 6;
+    repeated protocol.MethodArgument input_arguments = 7;
 }
 
 message SignedTransaction {
-    protocol.Transaction transaction_content = 1;
-    repeated bytes signature_data = 2; // TODO why repeated?
+    Transaction transaction = 1;
+    bytes signature = 2; // depends on transaction.signer scheme
 }
 
 message TransactionReceipt {
-    primitives.sha256 txid = 1; // TODO Concatenate the timestamp, didn't we change this?
-    uint32 version = 2;
-    protocol.ExecutionStatus transaction_status = 3;
-    repeated protocol.MethodArgument output_argument = 4;
+    primitives.sha256 txhash = 1;
+    protocol.ExecutionStatus execution_status = 2;
+    repeated protocol.MethodArgument output_arguments = 3;
 }

@@ -3,7 +3,7 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/crypto.proto";
-import "primitives/integers.proto";
+import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
 import "services/gossip/block_sync.proto";
@@ -39,17 +39,17 @@ message CommitBlockOutput {
 }
 
 message GetTransactionsBlockHeaderInput {
-    uint64 block_height = 1;
+    primitives.block_height block_height = 1;
 }
 
 message GetTransactionsBlockHeaderOutput {
     protocol.TransactionsBlockHeader transactions_block_header = 1;
-    protocol.TransactionsBlockMetaData transactions_block_meta_data = 2;
+    protocol.TransactionsBlockMetadata transactions_block_metadata = 2;
     protocol.TransactionsBlockProof transactions_block_proof = 3;
 }
 
 message GetResultsBlockHeaderInput {
-    uint64 block_height = 1;
+    primitives.block_height block_height = 1;
 }
 
 message GetResultsBlockHeaderOutput {
@@ -58,22 +58,22 @@ message GetResultsBlockHeaderOutput {
 }
 
 message GetTransactionReceiptInput {
-    primitives.uint256 txid = 1; // TODO: which txid? is this the correct type?
-    uint64 timestamp = 2;
+    primitives.sha256 txhash = 1;
+    primitives.timestamp transaction_timestamp = 2;
 }
 
 message GetTransactionReceiptOutput {
-    protocol.TransactionReceipt receipt = 1;
-    uint64 block_height = 2;
-    uint64 block_timestamp = 3;
+    protocol.TransactionReceipt transaction_receipt = 1;
+    primitives.block_height block_height = 2;
+    primitives.timestamp block_timestamp = 3;
 }
 
 message GetLastCommittedBlockHeightInput {
 }
 
 message GetLastCommittedBlockHeightOutput {
-    uint64 last_committed_block_height = 1;
-    uint64 last_committed_block_timestamp = 2;
+    primitives.block_height last_committed_block_height = 1;
+    primitives.timestamp last_committed_block_timestamp = 2;
 }
 
 message ValidateBlockForCommitInput {

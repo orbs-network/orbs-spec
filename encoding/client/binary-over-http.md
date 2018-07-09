@@ -5,6 +5,7 @@
 * Errors that are non-application level return: 
   * The relevant HTTP status code (eg. `400 Bad Request`, `403 Forbidden`, `404 Not Found`, `429 Too Many Requests`, `500 Internal Server Error`, `503 Service Unavailable`).
   * HTTP content type of `text/plain` with a human readable explanation of the error as body. 
+  * Example: If node fails on out of sync, returns `503 Service Unavailable` with text "node out of sync".
   
 &nbsp;
 ## `/v1/api/call-method`

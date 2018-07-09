@@ -2,10 +2,10 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
+import "primitives/protocol.proto";
 import "protocol/contracts.proto";
-import "protocol/addresses.proto";
+import "protocol/signers.proto";
 import "protocol/results.proto";
-import "protocol/extras.proto";
 import "services/handlers/contract_sdk_call.proto";
 
 option serialize_service_args = false;
@@ -20,30 +20,30 @@ service Processor {
 }
   
 message ProcessCallInput {
-    uint32 context_id = 1;
-    protocol.ContractAddress contract = 2;
-    protocol.MethodAddress method = 3;
-    repeated protocol.MethodArgument input_argument = 4;
-    protocol.AccessScope access_scope = 5;
-    protocol.PermissionScope permission_scope = 6;
-    protocol.ContractAddress calling_service = 7; // TODO: move to SDK
-    protocol.Sender transaction_sender = 8; // TODO: move to SDK
+    primitives.execution_context_id context_id = 1;
+    primitives.contract_name contract_name = 2;
+    primitives.method_name method_name = 3;
+    repeated protocol.MethodArgument input_arguments = 4;
+    protocol.ExecutionAccessScope access_scope = 5;
+    protocol.ExecutionPermissionScope permission_scope = 6;
+    primitives.contract_name calling_service = 7; // TODO: move to SDK
+    protocol.Signer transaction_signer = 8; // TODO: move to SDK
 }
 
 message ProcessCallOutput {
-    repeated protocol.MethodArgument output_argument = 1;
-    protocol.CallMethodStatus call_status = 2;
+    repeated protocol.MethodArgument output_arguments = 1;
+    protocol.ExecutionStatus call_status = 2;
 }
 
 message DeployNativeServiceInput {
-    uint32 context_id = 1;
-    protocol.ContractAddress contract = 2;
-    protocol.AccessScope access_scope = 3;
-    protocol.PermissionScope permission_scope = 4;
-    protocol.ContractAddress calling_service = 5; // TODO: move to SDK
-    protocol.Sender transaction_sender = 6; // TODO: move to SDK
+    primitives.execution_context_id context_id = 1;
+    primitives.contract_name contract_name = 2;
+    protocol.ExecutionAccessScope access_scope = 3;
+    protocol.ExecutionPermissionScope permission_scope = 4;
+    primitives.contract_name calling_service = 5; // TODO: move to SDK
+    protocol.Signer transaction_signer = 6; // TODO: move to SDK
 }
 
+// failure to deploy is indicated in the returned error
 message DeployNativeServiceOutput {
-    protocol.DeployServiceStatus status = 1;
 }

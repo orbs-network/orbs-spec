@@ -3,6 +3,7 @@ package client;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/client";
 
 import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
 import "../protocol/transactions.proto";
 import "../protocol/results.proto";
 import "../protocol/contracts.proto";
@@ -12,10 +13,10 @@ message SendTransactionRequest {
 }
 
 message SendTransactionResponse {
-    protocol.TransactionReceipt receipt = 1;
+    protocol.TransactionReceipt transaction_receipt = 1;
     protocol.TransactionStatus transaction_status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
 }
 
 message CallMethodRequest {
@@ -23,20 +24,20 @@ message CallMethodRequest {
 }
 
 message CallMethodResponse {
-    repeated protocol.MethodArgument output_argument = 1;
-    protocol.CallMethodStatus call_status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    repeated protocol.MethodArgument output_arguments = 1;
+    protocol.ExecutionStatus call_status = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
 }
 
 message GetTransactionStatusRequest {
-    primitives.sha256 txid = 1;
-    uint64 timestamp = 2;
+    primitives.timestamp transaction_timestamp = 1;
+    primitives.sha256 txhash = 2;
 }
 
 message GetTransactionStatusResponse {
-    protocol.TransactionReceipt receipt = 1;
-    protocol.TransactionStatus status = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    protocol.TransactionReceipt transaction_receipt = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
 }

@@ -2,6 +2,7 @@ syntax = "proto3";
 package handlers;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
+import "../primitives/protocol.proto";
 import "../protocol/contracts.proto";
 
 option serialize_service_args = false;
@@ -11,13 +12,12 @@ service ContractSdkCallHandler {
 }
 
 message HandleSdkCallInput {
-    uint32 context_id = 1;
-    protocol.ContractAddress contract = 2;
-    protocol.MethodAddress method = 3;
-    repeated protocol.MethodArgument input_argument = 4;
+    primitives.execution_context_id context_id = 1;
+    primitives.contract_name contract_name = 2;
+    primitives.method_name method_name = 3;
+    repeated protocol.MethodArgument input_arguments = 4;
 }
 
 message HandleSdkCallOutput {
-    repeated protocol.MethodArgument output_argument = 1;
-    // TODO: error handling, return error
+    repeated protocol.MethodArgument output_arguments = 1;
 }

@@ -3,6 +3,7 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/crypto.proto";
+import "primitives/protocol.proto";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
@@ -37,49 +38,49 @@ message AddNewTransactionInput {
 message AddNewTransactionOutput {
     protocol.TransactionStatus transaction_status = 1;
     protocol.TransactionReceipt transaction_receipt = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
 }
 
 message GetCommittedTransactionReceiptInput {
-    primitives.sha256 txid = 1;
-    uint64 timestamp = 2;
+    primitives.sha256 txhash = 1;
+    primitives.timestamp transaction_timestamp = 2;
 }
 
 message GetCommittedTransactionReceiptOutput {
     protocol.TransactionStatus transaction_status = 1;
     protocol.TransactionReceipt transaction_receipt = 2;
-    uint64 block_height = 3;
-    uint64 block_timestamp = 4;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
 }
 
 message GetTransactionsForOrderingInput {
-    uint64 block_height = 1;
+    primitives.block_height block_height = 1;
     uint32 max_transactions_set_size_kb = 2;
     uint32 max_number_of_transactions = 3;
 }
 
+// returns error code on failure
 message GetTransactionsForOrderingOutput {
-    protocol.RequestStatus status = 1;
-    repeated protocol.SignedTransaction signed_transaction = 2;
+    repeated protocol.SignedTransaction signed_transactions = 1;
 }
 
 message ValidateTransactionsForOrderingInput {
-    uint64 block_height = 1;
-    repeated protocol.SignedTransaction transaction = 2;
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
 }
 
+// returns error code on failure
 message ValidateTransactionsForOrderingOutput {
-    protocol.RequestStatus status = 1;
 }
 
 message CommitTransactionReceiptsInput {
     protocol.ResultsBlockHeader results_block_header = 1;
-    repeated protocol.TransactionReceipt transaction_receipt = 2;
-    uint64 last_committed_block_height = 3;
+    repeated protocol.TransactionReceipt transaction_receipts = 2;
+    primitives.block_height last_committed_block_height = 3;
 }
 
 message CommitTransactionReceiptsOutput {
-    uint64 next_desired_block_height = 1;
-    uint64 last_committed_block_height = 2;
+    primitives.block_height next_desired_block_height = 1;
+    primitives.block_height last_committed_block_height = 2;
 }

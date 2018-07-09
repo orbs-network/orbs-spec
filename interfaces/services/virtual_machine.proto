@@ -3,9 +3,9 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "protocol/results.proto";
+import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
-import "protocol/extras.proto";
 import "services/handlers/contract_sdk_call.proto";
 
 option serialize_service_args = false;
@@ -26,34 +26,34 @@ service VirtualMachine {
 }
 
 message ProcessTransactionSetInput {
-    uint64 block_height = 1;
-    repeated protocol.SignedTransaction signed_transaction = 2;
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
 }
 
+// returns error code on failure
 message ProcessTransactionSetOutput {
-    protocol.RequestStatus status = 1;
-    repeated protocol.TransactionReceipt transaction_receipt = 2;
-    repeated protocol.ContractStateDiff contract_state_diff = 3;
+    repeated protocol.TransactionReceipt transaction_receipts = 1;
+    repeated protocol.ContractStateDiff contract_state_diffs = 2;
 }
 
 message RunLocalMethodInput {
-    uint64 block_height = 1; // block_height = 0, indicates using a recent block height (best effort latest)
+    primitives.block_height block_height = 1; // block_height = 0, indicates using a recent block height (best effort latest)
     protocol.Transaction transaction = 2;
 }
 
 message RunLocalMethodOutput {
-    protocol.CallMethodStatus status = 1;
-    repeated protocol.MethodArgument output_argument = 2;
+    protocol.ExecutionStatus call_status = 1;
+    repeated protocol.MethodArgument output_arguments = 2;
     uint64 reference_block_height = 3;
     uint64 reference_block_timestamp = 4;
 }
 
 message TransactionSetPreOrderInput {
-    uint64 block_height = 1;
-    repeated protocol.SignedTransaction signed_transaction = 2;
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
 }
 
+// returns error code on failure
 message TransactionSetPreOrderOutput {
-    protocol.RequestStatus status = 1;
-    repeated protocol.PreOrderResult pre_order_result = 2; // TODO: transaction result
+    repeated protocol.TransactionStatus pre_order_results = 1;
 }
