@@ -7,7 +7,7 @@ Install [membuffers](https://github.com/orbs-network/membuffers) compiler:
 brew install orbs-network/membuffers/membufc
 ```
 
-> Verify with `membufc --version` (version needs to be 0.0.11 or above).
+> Verify with `membufc --version` (version needs to be 0.0.13 or above).
   
 ## Build
 
