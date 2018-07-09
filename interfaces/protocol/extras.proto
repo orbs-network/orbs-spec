@@ -2,8 +2,6 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-import "primitives/crypto.proto";
-
 // TODO: this entire file should probably be killed
 
 // TODO: maybe like in the other place just use block height of zero to indicate recent block
