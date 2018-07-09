@@ -4,6 +4,7 @@ package services
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/services/gossip"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -11,7 +12,7 @@ import (
 // service TransactionPool
 
 type TransactionPool interface {
-	handlers.TransactionRelayGossipHandler
+	gossip.TransactionRelayHandler
 	AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
 	GetCommittedTransactionReceipt(input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
 	GetTransactionsForOrdering(input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)

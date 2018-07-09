@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
+	"github.com/orbs-network/orbs-spec/types/go/services/gossip"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -10,7 +11,7 @@ import (
 
 type ConsensusAlgoLeanHelix interface {
 	handlers.ConsensusBlocksHandler
-	handlers.LeanHelixConsensusGossipHandler
+	gossip.LeanHelixConsensusHandler
 	OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
 }
 

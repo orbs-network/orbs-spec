@@ -3,7 +3,7 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "services/handlers/consensus_blocks.proto";
-import "services/handlers/gossip_message.proto";
+import "services/gossip/lean_helix_consensus.proto";
 
 // TODO: add another consensus algo to see how many work side by side
 
@@ -13,7 +13,7 @@ option serialize_service_args = false;
 service ConsensusAlgoLeanHelix {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "handlers.ConsensusBlocksHandler";
-    option implement_handler = "handlers.LeanHelixConsensusGossipHandler";
+    option implement_handler = "gossip.LeanHelixConsensusHandler";
 
     // internal calls
     rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);

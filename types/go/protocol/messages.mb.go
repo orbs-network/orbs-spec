@@ -1,9 +1,10 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.12)
-package gossip
+package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/messages"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -119,12 +120,12 @@ func (x *MessageHeader) IsTypeTransactionRelay() bool {
 	return is
 }
 
-func (x *MessageHeader) TypeTransactionRelay() TransactionsRelayMessageType {
+func (x *MessageHeader) TypeTransactionRelay() messages.TransactionsRelayMessageType {
 	_, off := x._message.IsUnionIndex(5, 0, 0)
-	return TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
+	return messages.TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeTransactionRelay(v TransactionsRelayMessageType) error {
+func (x *MessageHeader) MutateTypeTransactionRelay(v messages.TransactionsRelayMessageType) error {
 	is, off := x._message.IsUnionIndex(5, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -138,12 +139,12 @@ func (x *MessageHeader) IsTypeBlockSync() bool {
 	return is
 }
 
-func (x *MessageHeader) TypeBlockSync() BlockSyncMessageType {
+func (x *MessageHeader) TypeBlockSync() messages.BlockSyncMessageType {
 	_, off := x._message.IsUnionIndex(5, 0, 1)
-	return BlockSyncMessageType(x._message.GetUint16InOffset(off))
+	return messages.BlockSyncMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeBlockSync(v BlockSyncMessageType) error {
+func (x *MessageHeader) MutateTypeBlockSync(v messages.BlockSyncMessageType) error {
 	is, off := x._message.IsUnionIndex(5, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -157,12 +158,12 @@ func (x *MessageHeader) IsTypeLeanHelixConsensus() bool {
 	return is
 }
 
-func (x *MessageHeader) TypeLeanHelixConsensus() LeanHelixMessageType {
+func (x *MessageHeader) TypeLeanHelixConsensus() messages.LeanHelixMessageType {
 	_, off := x._message.IsUnionIndex(5, 0, 2)
-	return LeanHelixMessageType(x._message.GetUint16InOffset(off))
+	return messages.LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTypeLeanHelixConsensus(v LeanHelixMessageType) error {
+func (x *MessageHeader) MutateTypeLeanHelixConsensus(v messages.LeanHelixMessageType) error {
 	is, off := x._message.IsUnionIndex(5, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -184,9 +185,9 @@ type MessageHeaderBuilder struct {
 	Topic MessageTopic
 	VirtualChain uint32
 	Type MessageHeaderType
-	TransactionRelay TransactionsRelayMessageType
-	BlockSync BlockSyncMessageType
-	LeanHelixConsensus LeanHelixMessageType
+	TransactionRelay messages.TransactionsRelayMessageType
+	BlockSync messages.BlockSyncMessageType
+	LeanHelixConsensus messages.LeanHelixMessageType
 
 	// internal
 	membuffers.Builder // interface

@@ -1,11 +1,11 @@
 syntax = "proto3";
-package gossip;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-import "../primitives/crypto.proto";
-import "gossip/transaction_relay.proto";
-import "gossip/block_sync.proto";
-import "gossip/lean_helix_consensus.proto";
+import "primitives/crypto.proto";
+import "protocol/messages/transaction_relay.proto";
+import "protocol/messages/block_sync.proto";
+import "protocol/messages/lean_helix_consensus.proto";
 
 // TODO isn't this redundant with oneof of message type?
 enum MessageTopic {
@@ -17,15 +17,14 @@ enum MessageTopic {
 
 message MessageHeader {
     uint32 protocol_version = 1;
+    uint32 virtual_chain = 5;
     repeated primitives.ed25519_pkey recipient = 2;
     RecipientsListMode recipient_mode = 3;
-    // TODO: do we need to add sender here?
     MessageTopic topic = 4;
-    uint32 virtual_chain = 5;
     oneof type {
-        gossip.TransactionsRelayMessageType transaction_relay = 6;
-        gossip.BlockSyncMessageType block_sync = 7;
-        gossip.LeanHelixMessageType lean_helix_consensus = 8;
+        messages.TransactionsRelayMessageType transaction_relay = 6;
+        messages.BlockSyncMessageType block_sync = 7;
+        messages.LeanHelixMessageType lean_helix_consensus = 8;
     }
 }
 

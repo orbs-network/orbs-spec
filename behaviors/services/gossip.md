@@ -2,7 +2,7 @@
 
 Connects different nodes over the network with efficient message broadcast and unicast. This is the main method nodes in the network use to communicate among themselves.
 
-Inside a node: A pub/sub model where any service subscribes with Gossip to a specific topic (group of messages, all topics are described [here](../../interfaces/protocol/gossip/message.proto)).
+Inside a node: A pub/sub model where any service subscribes with Gossip to a specific topic (group of messages, all topics are described [here](../../interfaces/protocol/messages.proto)).
 
 Currently a single instance per virtual chain per node.
 
