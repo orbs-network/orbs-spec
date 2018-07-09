@@ -12,7 +12,9 @@ import (
 // reader
 
 type PreOrderResult struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _PreOrderResult_Scheme = []membuffers.FieldType{membuffers.TypeUint16,}
@@ -20,35 +22,38 @@ var _PreOrderResult_Unions = [][]membuffers.FieldType{}
 
 func PreOrderResultReader(buf []byte) *PreOrderResult {
 	x := &PreOrderResult{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _PreOrderResult_Scheme, _PreOrderResult_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _PreOrderResult_Scheme, _PreOrderResult_Unions)
 	return x
 }
 
 func (x *PreOrderResult) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *PreOrderResult) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *PreOrderResult) Status() PreOrderStatus {
-	return PreOrderStatus(x.message.GetUint16(0))
+	return PreOrderStatus(x._message.GetUint16(0))
 }
 
 func (x *PreOrderResult) RawStatus() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *PreOrderResult) MutateStatus(v PreOrderStatus) error {
-	return x.message.SetUint16(0, uint16(v))
+	return x._message.SetUint16(0, uint16(v))
 }
 
 // builder
 
 type PreOrderResultBuilder struct {
-	builder membuffers.Builder
 	Status PreOrderStatus
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *PreOrderResultBuilder) Write(buf []byte) (err error) {
@@ -60,8 +65,8 @@ func (w *PreOrderResultBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint16(buf, uint16(w.Status))
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.Status))
 	return nil
 }
 
@@ -69,7 +74,7 @@ func (w *PreOrderResultBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *PreOrderResultBuilder) CalcRequiredSize() membuffers.Offset {
@@ -77,7 +82,7 @@ func (w *PreOrderResultBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *PreOrderResultBuilder) Build() *PreOrderResult {

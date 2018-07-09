@@ -2,7 +2,8 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "primitives/types.proto";
+import "primitives/crypto.proto";
+import "primitives/integers.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
 import "services/handlers/gossip_message.proto";
@@ -57,7 +58,7 @@ message GetResultsBlockHeaderOutput {
 }
 
 message GetTransactionReceiptInput {
-    primitives.uint256 txid = 1; // TODO: which txid?
+    primitives.uint256 txid = 1; // TODO: which txid? is this the correct type?
     uint64 timestamp = 2;
 }
 

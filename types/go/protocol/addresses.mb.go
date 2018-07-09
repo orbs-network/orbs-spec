@@ -12,7 +12,9 @@ import (
 // reader
 
 type Sender struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUnion,}
@@ -20,28 +22,28 @@ var _Sender_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers
 
 func SenderReader(buf []byte) *Sender {
 	x := &Sender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _Sender_Scheme, _Sender_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _Sender_Scheme, _Sender_Unions)
 	return x
 }
 
 func (x *Sender) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *Sender) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *Sender) AddressScheme() AddressScheme {
-	return AddressScheme(x.message.GetUint16(0))
+	return AddressScheme(x._message.GetUint16(0))
 }
 
 func (x *Sender) RawAddressScheme() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *Sender) MutateAddressScheme(v AddressScheme) error {
-	return x.message.SetUint16(0, uint16(v))
+	return x._message.SetUint16(0, uint16(v))
 }
 
 type SenderScheme uint16
@@ -52,43 +54,46 @@ const (
 )
 
 func (x *Sender) Scheme() SenderScheme {
-	return SenderScheme(x.message.GetUint16(1))
+	return SenderScheme(x._message.GetUint16(1))
 }
 
 func (x *Sender) IsSchemeEddsa() bool {
-	is, _ := x.message.IsUnionIndex(1, 0, 0)
+	is, _ := x._message.IsUnionIndex(1, 0, 0)
 	return is
 }
 
 func (x *Sender) SchemeEddsa() *EdDSA01Sender {
-	_, off := x.message.IsUnionIndex(1, 0, 0)
-	b, s := x.message.GetMessageInOffset(off)
+	_, off := x._message.IsUnionIndex(1, 0, 0)
+	b, s := x._message.GetMessageInOffset(off)
 	return EdDSA01SenderReader(b[:s])
 }
 
 func (x *Sender) IsSchemeSmartContract() bool {
-	is, _ := x.message.IsUnionIndex(1, 0, 1)
+	is, _ := x._message.IsUnionIndex(1, 0, 1)
 	return is
 }
 
 func (x *Sender) SchemeSmartContract() *SmartContractSender {
-	_, off := x.message.IsUnionIndex(1, 0, 1)
-	b, s := x.message.GetMessageInOffset(off)
+	_, off := x._message.IsUnionIndex(1, 0, 1)
+	b, s := x._message.GetMessageInOffset(off)
 	return SmartContractSenderReader(b[:s])
 }
 
 func (x *Sender) RawScheme() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type SenderBuilder struct {
-	builder membuffers.Builder
 	AddressScheme AddressScheme
 	Scheme SenderScheme
 	Eddsa *EdDSA01SenderBuilder
 	SmartContract *SmartContractSenderBuilder
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *SenderBuilder) Write(buf []byte) (err error) {
@@ -100,14 +105,14 @@ func (w *SenderBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint16(buf, uint16(w.AddressScheme))
-	w.builder.WriteUnionIndex(buf, uint16(w.Scheme))
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.AddressScheme))
+	w._builder.WriteUnionIndex(buf, uint16(w.Scheme))
 	switch w.Scheme {
 	case SenderSchemeEddsa:
-		w.builder.WriteMessage(buf, w.Eddsa)
+		w._builder.WriteMessage(buf, w.Eddsa)
 	case SenderSchemeSmartContract:
-		w.builder.WriteMessage(buf, w.SmartContract)
+		w._builder.WriteMessage(buf, w.SmartContract)
 	}
 	return nil
 }
@@ -116,7 +121,7 @@ func (w *SenderBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *SenderBuilder) CalcRequiredSize() membuffers.Offset {
@@ -124,7 +129,7 @@ func (w *SenderBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *SenderBuilder) Build() *Sender {
@@ -141,7 +146,9 @@ func (w *SenderBuilder) Build() *Sender {
 // reader
 
 type EdDSA01Sender struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _EdDSA01Sender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
@@ -149,48 +156,51 @@ var _EdDSA01Sender_Unions = [][]membuffers.FieldType{}
 
 func EdDSA01SenderReader(buf []byte) *EdDSA01Sender {
 	x := &EdDSA01Sender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _EdDSA01Sender_Scheme, _EdDSA01Sender_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _EdDSA01Sender_Scheme, _EdDSA01Sender_Unions)
 	return x
 }
 
 func (x *EdDSA01Sender) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *EdDSA01Sender) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *EdDSA01Sender) NetworkType() NetworkType {
-	return NetworkType(x.message.GetUint16(0))
+	return NetworkType(x._message.GetUint16(0))
 }
 
 func (x *EdDSA01Sender) RawNetworkType() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *EdDSA01Sender) MutateNetworkType(v NetworkType) error {
-	return x.message.SetUint16(0, uint16(v))
+	return x._message.SetUint16(0, uint16(v))
 }
 
 func (x *EdDSA01Sender) SenderPublicKey() primitives.Ed25519Pkey {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *EdDSA01Sender) RawSenderPublicKey() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *EdDSA01Sender) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 // builder
 
 type EdDSA01SenderBuilder struct {
-	builder membuffers.Builder
 	NetworkType NetworkType
 	SenderPublicKey primitives.Ed25519Pkey
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *EdDSA01SenderBuilder) Write(buf []byte) (err error) {
@@ -202,9 +212,9 @@ func (w *EdDSA01SenderBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint16(buf, uint16(w.NetworkType))
-	w.builder.WriteBytes(buf, w.SenderPublicKey)
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.NetworkType))
+	w._builder.WriteBytes(buf, w.SenderPublicKey)
 	return nil
 }
 
@@ -212,7 +222,7 @@ func (w *EdDSA01SenderBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *EdDSA01SenderBuilder) CalcRequiredSize() membuffers.Offset {
@@ -220,7 +230,7 @@ func (w *EdDSA01SenderBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *EdDSA01SenderBuilder) Build() *EdDSA01Sender {
@@ -237,7 +247,9 @@ func (w *EdDSA01SenderBuilder) Build() *EdDSA01Sender {
 // reader
 
 type SmartContractSender struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _SmartContractSender_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeString,membuffers.TypeMessageArray,}
@@ -245,44 +257,44 @@ var _SmartContractSender_Unions = [][]membuffers.FieldType{}
 
 func SmartContractSenderReader(buf []byte) *SmartContractSender {
 	x := &SmartContractSender{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _SmartContractSender_Scheme, _SmartContractSender_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _SmartContractSender_Scheme, _SmartContractSender_Unions)
 	return x
 }
 
 func (x *SmartContractSender) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *SmartContractSender) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *SmartContractSender) NetworkType() NetworkType {
-	return NetworkType(x.message.GetUint16(0))
+	return NetworkType(x._message.GetUint16(0))
 }
 
 func (x *SmartContractSender) RawNetworkType() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *SmartContractSender) MutateNetworkType(v NetworkType) error {
-	return x.message.SetUint16(0, uint16(v))
+	return x._message.SetUint16(0, uint16(v))
 }
 
 func (x *SmartContractSender) ContractName() string {
-	return x.message.GetString(1)
+	return x._message.GetString(1)
 }
 
 func (x *SmartContractSender) RawContractName() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *SmartContractSender) MutateContractName(v string) error {
-	return x.message.SetString(1, v)
+	return x._message.SetString(1, v)
 }
 
 func (x *SmartContractSender) SenderInputArgumentIterator() *SmartContractSenderSenderInputArgumentIterator {
-	return &SmartContractSenderSenderInputArgumentIterator{iterator: x.message.GetMessageArrayIterator(2)}
+	return &SmartContractSenderSenderInputArgumentIterator{iterator: x._message.GetMessageArrayIterator(2)}
 }
 
 type SmartContractSenderSenderInputArgumentIterator struct {
@@ -299,20 +311,23 @@ func (i *SmartContractSenderSenderInputArgumentIterator) NextSenderInputArgument
 }
 
 func (x *SmartContractSender) RawSenderInputArgumentArray() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 // builder
 
 type SmartContractSenderBuilder struct {
-	builder membuffers.Builder
 	NetworkType NetworkType
 	ContractName string
 	SenderInputArgument []*MethodArgumentBuilder
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
-func (w *SmartContractSenderBuilder) arrayOfSenderInputArgument() []membuffers.MessageBuilder {
-	res := make([]membuffers.MessageBuilder, len(w.SenderInputArgument))
+func (w *SmartContractSenderBuilder) arrayOfSenderInputArgument() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.SenderInputArgument))
 	for i, v := range w.SenderInputArgument {
 		res[i] = v
 	}
@@ -328,10 +343,10 @@ func (w *SmartContractSenderBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint16(buf, uint16(w.NetworkType))
-	w.builder.WriteString(buf, w.ContractName)
-	err = w.builder.WriteMessageArray(buf, w.arrayOfSenderInputArgument())
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.NetworkType))
+	w._builder.WriteString(buf, w.ContractName)
+	err = w._builder.WriteMessageArray(buf, w.arrayOfSenderInputArgument())
 	if err != nil {
 		return
 	}
@@ -342,7 +357,7 @@ func (w *SmartContractSenderBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *SmartContractSenderBuilder) CalcRequiredSize() membuffers.Offset {
@@ -350,7 +365,7 @@ func (w *SmartContractSenderBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *SmartContractSenderBuilder) Build() *SmartContractSender {

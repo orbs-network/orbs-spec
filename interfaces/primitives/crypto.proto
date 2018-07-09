@@ -5,30 +5,6 @@ package primitives;
 
 option inline = true;
 
-message uint8 {
-    option inline_type = "uint8";
-    uint32 value = 1;
-    // size 1 byte
-}
-
-message uint16 {
-    option inline_type = "uint16";
-    uint32 value = 1;
-    // size 2 bytes
-}
-
-message uint128 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 16 bytes
-}
-
-message uint256 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 32 bytes
-}
-
 message sha256 {
     option inline_type = "bytes";
     bytes value = 1;

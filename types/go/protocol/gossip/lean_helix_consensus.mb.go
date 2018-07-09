@@ -12,7 +12,9 @@ import (
 // reader
 
 type LeanHelixPrePrepareMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixPrePrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -20,58 +22,61 @@ var _LeanHelixPrePrepareMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPrePrepareMessageReader(buf []byte) *LeanHelixPrePrepareMessage {
 	x := &LeanHelixPrePrepareMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrePrepareMessage_Scheme, _LeanHelixPrePrepareMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrePrepareMessage_Scheme, _LeanHelixPrePrepareMessage_Unions)
 	return x
 }
 
 func (x *LeanHelixPrePrepareMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixPrePrepareMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixPrePrepareMessage) Body() *LeanHelixCommitPreparePPMessageSignedFields {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return LeanHelixCommitPreparePPMessageSignedFieldsReader(b[:s])
 }
 
 func (x *LeanHelixPrePrepareMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixPrePrepareMessage) Signature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *LeanHelixPrePrepareMessage) RawSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixPrePrepareMessage) MutateSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 func (x *LeanHelixPrePrepareMessage) BlockPairData() []byte {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixPrePrepareMessage) RawBlockPairData() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixPrePrepareMessage) MutateBlockPairData(v []byte) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 // builder
 
 type LeanHelixPrePrepareMessageBuilder struct {
-	builder membuffers.Builder
 	Body *LeanHelixCommitPreparePPMessageSignedFieldsBuilder
 	Signature primitives.Ed25519Sig
 	BlockPairData []byte
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixPrePrepareMessageBuilder) Write(buf []byte) (err error) {
@@ -83,13 +88,13 @@ func (w *LeanHelixPrePrepareMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.Signature)
-	w.builder.WriteBytes(buf, w.BlockPairData)
+	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, w.BlockPairData)
 	return nil
 }
 
@@ -97,7 +102,7 @@ func (w *LeanHelixPrePrepareMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPrePrepareMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -105,7 +110,7 @@ func (w *LeanHelixPrePrepareMessageBuilder) CalcRequiredSize() membuffers.Offset
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPrePrepareMessageBuilder) Build() *LeanHelixPrePrepareMessage {
@@ -122,7 +127,9 @@ func (w *LeanHelixPrePrepareMessageBuilder) Build() *LeanHelixPrePrepareMessage 
 // reader
 
 type LeanHelixPrepareMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixPrepareMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
@@ -130,45 +137,48 @@ var _LeanHelixPrepareMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPrepareMessageReader(buf []byte) *LeanHelixPrepareMessage {
 	x := &LeanHelixPrepareMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrepareMessage_Scheme, _LeanHelixPrepareMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPrepareMessage_Scheme, _LeanHelixPrepareMessage_Unions)
 	return x
 }
 
 func (x *LeanHelixPrepareMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixPrepareMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixPrepareMessage) Body() *LeanHelixCommitPreparePPMessageSignedFields {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return LeanHelixCommitPreparePPMessageSignedFieldsReader(b[:s])
 }
 
 func (x *LeanHelixPrepareMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixPrepareMessage) Signature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *LeanHelixPrepareMessage) RawSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixPrepareMessage) MutateSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 // builder
 
 type LeanHelixPrepareMessageBuilder struct {
-	builder membuffers.Builder
 	Body *LeanHelixCommitPreparePPMessageSignedFieldsBuilder
 	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixPrepareMessageBuilder) Write(buf []byte) (err error) {
@@ -180,12 +190,12 @@ func (w *LeanHelixPrepareMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, w.Signature)
 	return nil
 }
 
@@ -193,7 +203,7 @@ func (w *LeanHelixPrepareMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPrepareMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -201,7 +211,7 @@ func (w *LeanHelixPrepareMessageBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPrepareMessageBuilder) Build() *LeanHelixPrepareMessage {
@@ -218,7 +228,9 @@ func (w *LeanHelixPrepareMessageBuilder) Build() *LeanHelixPrepareMessage {
 // reader
 
 type LeanHelixCommitMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixCommitMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -226,58 +238,61 @@ var _LeanHelixCommitMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixCommitMessageReader(buf []byte) *LeanHelixCommitMessage {
 	x := &LeanHelixCommitMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitMessage_Scheme, _LeanHelixCommitMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitMessage_Scheme, _LeanHelixCommitMessage_Unions)
 	return x
 }
 
 func (x *LeanHelixCommitMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixCommitMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixCommitMessage) Body() *LeanHelixCommitPreparePPMessageSignedFields {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return LeanHelixCommitPreparePPMessageSignedFieldsReader(b[:s])
 }
 
 func (x *LeanHelixCommitMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixCommitMessage) Signature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *LeanHelixCommitMessage) RawSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixCommitMessage) MutateSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 func (x *LeanHelixCommitMessage) RandomSeedShare() primitives.Bls1Sig {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixCommitMessage) RawRandomSeedShare() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixCommitMessage) MutateRandomSeedShare(v primitives.Bls1Sig) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 // builder
 
 type LeanHelixCommitMessageBuilder struct {
-	builder membuffers.Builder
 	Body *LeanHelixCommitPreparePPMessageSignedFieldsBuilder
 	Signature primitives.Ed25519Sig
 	RandomSeedShare primitives.Bls1Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixCommitMessageBuilder) Write(buf []byte) (err error) {
@@ -289,13 +304,13 @@ func (w *LeanHelixCommitMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.Signature)
-	w.builder.WriteBytes(buf, w.RandomSeedShare)
+	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, w.RandomSeedShare)
 	return nil
 }
 
@@ -303,7 +318,7 @@ func (w *LeanHelixCommitMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixCommitMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -311,7 +326,7 @@ func (w *LeanHelixCommitMessageBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixCommitMessageBuilder) Build() *LeanHelixCommitMessage {
@@ -328,7 +343,9 @@ func (w *LeanHelixCommitMessageBuilder) Build() *LeanHelixCommitMessage {
 // reader
 
 type LeanHelixViewChangeMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixViewChangeMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -336,58 +353,61 @@ var _LeanHelixViewChangeMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixViewChangeMessageReader(buf []byte) *LeanHelixViewChangeMessage {
 	x := &LeanHelixViewChangeMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeMessage_Scheme, _LeanHelixViewChangeMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeMessage_Scheme, _LeanHelixViewChangeMessage_Unions)
 	return x
 }
 
 func (x *LeanHelixViewChangeMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixViewChangeMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixViewChangeMessage) Body() *LeanHelixViewChangeSignedFields {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return LeanHelixViewChangeSignedFieldsReader(b[:s])
 }
 
 func (x *LeanHelixViewChangeMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixViewChangeMessage) Signature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *LeanHelixViewChangeMessage) RawSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixViewChangeMessage) MutateSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 func (x *LeanHelixViewChangeMessage) BlockPairData() []byte {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixViewChangeMessage) RawBlockPairData() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixViewChangeMessage) MutateBlockPairData(v []byte) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 // builder
 
 type LeanHelixViewChangeMessageBuilder struct {
-	builder membuffers.Builder
 	Body *LeanHelixViewChangeSignedFieldsBuilder
 	Signature primitives.Ed25519Sig
 	BlockPairData []byte
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixViewChangeMessageBuilder) Write(buf []byte) (err error) {
@@ -399,13 +419,13 @@ func (w *LeanHelixViewChangeMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.Signature)
-	w.builder.WriteBytes(buf, w.BlockPairData)
+	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, w.BlockPairData)
 	return nil
 }
 
@@ -413,7 +433,7 @@ func (w *LeanHelixViewChangeMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixViewChangeMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -421,7 +441,7 @@ func (w *LeanHelixViewChangeMessageBuilder) CalcRequiredSize() membuffers.Offset
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixViewChangeMessageBuilder) Build() *LeanHelixViewChangeMessage {
@@ -438,7 +458,9 @@ func (w *LeanHelixViewChangeMessageBuilder) Build() *LeanHelixViewChangeMessage 
 // reader
 
 type LeanHelixNewViewMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixNewViewMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -446,58 +468,61 @@ var _LeanHelixNewViewMessage_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewMessageReader(buf []byte) *LeanHelixNewViewMessage {
 	x := &LeanHelixNewViewMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewMessage_Scheme, _LeanHelixNewViewMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewMessage_Scheme, _LeanHelixNewViewMessage_Unions)
 	return x
 }
 
 func (x *LeanHelixNewViewMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixNewViewMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixNewViewMessage) Body() *LeanHelixNewViewProof {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return LeanHelixNewViewProofReader(b[:s])
 }
 
 func (x *LeanHelixNewViewMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixNewViewMessage) HeaderSignature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *LeanHelixNewViewMessage) RawHeaderSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixNewViewMessage) MutateHeaderSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 func (x *LeanHelixNewViewMessage) BlockPairData() []byte {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixNewViewMessage) RawBlockPairData() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixNewViewMessage) MutateBlockPairData(v []byte) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 // builder
 
 type LeanHelixNewViewMessageBuilder struct {
-	builder membuffers.Builder
 	Body *LeanHelixNewViewProofBuilder
 	HeaderSignature primitives.Ed25519Sig
 	BlockPairData []byte
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixNewViewMessageBuilder) Write(buf []byte) (err error) {
@@ -509,13 +534,13 @@ func (w *LeanHelixNewViewMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.HeaderSignature)
-	w.builder.WriteBytes(buf, w.BlockPairData)
+	w._builder.WriteBytes(buf, w.HeaderSignature)
+	w._builder.WriteBytes(buf, w.BlockPairData)
 	return nil
 }
 
@@ -523,7 +548,7 @@ func (w *LeanHelixNewViewMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -531,7 +556,7 @@ func (w *LeanHelixNewViewMessageBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewMessageBuilder) Build() *LeanHelixNewViewMessage {
@@ -548,7 +573,9 @@ func (w *LeanHelixNewViewMessageBuilder) Build() *LeanHelixNewViewMessage {
 // reader
 
 type LeanHelixCommitPreparePPMessageSignedFields struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixCommitPreparePPMessageSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -556,74 +583,77 @@ var _LeanHelixCommitPreparePPMessageSignedFields_Unions = [][]membuffers.FieldTy
 
 func LeanHelixCommitPreparePPMessageSignedFieldsReader(buf []byte) *LeanHelixCommitPreparePPMessageSignedFields {
 	x := &LeanHelixCommitPreparePPMessageSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitPreparePPMessageSignedFields_Scheme, _LeanHelixCommitPreparePPMessageSignedFields_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixCommitPreparePPMessageSignedFields_Scheme, _LeanHelixCommitPreparePPMessageSignedFields_Unions)
 	return x
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) BlockHeight() uint64 {
-	return x.message.GetUint64(0)
+	return x._message.GetUint64(0)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) RawBlockHeight() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) MutateBlockHeight(v uint64) error {
-	return x.message.SetUint64(0, v)
+	return x._message.SetUint64(0, v)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) View() uint32 {
-	return x.message.GetUint32(1)
+	return x._message.GetUint32(1)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) RawView() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) MutateView(v uint32) error {
-	return x.message.SetUint32(1, v)
+	return x._message.SetUint32(1, v)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) BlockHash() primitives.Sha256 {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) RawBlockHash() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) MutateBlockHash(v primitives.Sha256) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) SenderPublicKey() primitives.Ed25519Pkey {
-	return x.message.GetBytes(3)
+	return x._message.GetBytes(3)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) RawSenderPublicKey() []byte {
-	return x.message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *LeanHelixCommitPreparePPMessageSignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x.message.SetBytes(3, v)
+	return x._message.SetBytes(3, v)
 }
 
 // builder
 
 type LeanHelixCommitPreparePPMessageSignedFieldsBuilder struct {
-	builder membuffers.Builder
 	BlockHeight uint64
 	View uint32
 	BlockHash primitives.Sha256
 	SenderPublicKey primitives.Ed25519Pkey
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) Write(buf []byte) (err error) {
@@ -635,11 +665,11 @@ func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) Write(buf []byte) (
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint64(buf, w.BlockHeight)
-	w.builder.WriteUint32(buf, w.View)
-	w.builder.WriteBytes(buf, w.BlockHash)
-	w.builder.WriteBytes(buf, w.SenderPublicKey)
+	w._builder.Reset()
+	w._builder.WriteUint64(buf, w.BlockHeight)
+	w._builder.WriteUint32(buf, w.View)
+	w._builder.WriteBytes(buf, w.BlockHash)
+	w._builder.WriteBytes(buf, w.SenderPublicKey)
 	return nil
 }
 
@@ -647,7 +677,7 @@ func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) GetSize() membuffer
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) CalcRequiredSize() membuffers.Offset {
@@ -655,7 +685,7 @@ func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) CalcRequiredSize() 
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) Build() *LeanHelixCommitPreparePPMessageSignedFields {
@@ -672,7 +702,9 @@ func (w *LeanHelixCommitPreparePPMessageSignedFieldsBuilder) Build() *LeanHelixC
 // reader
 
 type LeanHelixViewChangeSignedFields struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixViewChangeSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeBytes,}
@@ -680,71 +712,74 @@ var _LeanHelixViewChangeSignedFields_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixViewChangeSignedFieldsReader(buf []byte) *LeanHelixViewChangeSignedFields {
 	x := &LeanHelixViewChangeSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeSignedFields_Scheme, _LeanHelixViewChangeSignedFields_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeSignedFields_Scheme, _LeanHelixViewChangeSignedFields_Unions)
 	return x
 }
 
 func (x *LeanHelixViewChangeSignedFields) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixViewChangeSignedFields) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixViewChangeSignedFields) BlockHeight() uint64 {
-	return x.message.GetUint64(0)
+	return x._message.GetUint64(0)
 }
 
 func (x *LeanHelixViewChangeSignedFields) RawBlockHeight() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixViewChangeSignedFields) MutateBlockHeight(v uint64) error {
-	return x.message.SetUint64(0, v)
+	return x._message.SetUint64(0, v)
 }
 
 func (x *LeanHelixViewChangeSignedFields) View() uint32 {
-	return x.message.GetUint32(1)
+	return x._message.GetUint32(1)
 }
 
 func (x *LeanHelixViewChangeSignedFields) RawView() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixViewChangeSignedFields) MutateView(v uint32) error {
-	return x.message.SetUint32(1, v)
+	return x._message.SetUint32(1, v)
 }
 
 func (x *LeanHelixViewChangeSignedFields) PreparedProof() *LeanHelixPreparedProof {
-	b, s := x.message.GetMessage(2)
+	b, s := x._message.GetMessage(2)
 	return LeanHelixPreparedProofReader(b[:s])
 }
 
 func (x *LeanHelixViewChangeSignedFields) RawPreparedProof() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixViewChangeSignedFields) SenderPublicKey() primitives.Ed25519Pkey {
-	return x.message.GetBytes(3)
+	return x._message.GetBytes(3)
 }
 
 func (x *LeanHelixViewChangeSignedFields) RawSenderPublicKey() []byte {
-	return x.message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *LeanHelixViewChangeSignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x.message.SetBytes(3, v)
+	return x._message.SetBytes(3, v)
 }
 
 // builder
 
 type LeanHelixViewChangeSignedFieldsBuilder struct {
-	builder membuffers.Builder
 	BlockHeight uint64
 	View uint32
 	PreparedProof *LeanHelixPreparedProofBuilder
 	SenderPublicKey primitives.Ed25519Pkey
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixViewChangeSignedFieldsBuilder) Write(buf []byte) (err error) {
@@ -756,14 +791,14 @@ func (w *LeanHelixViewChangeSignedFieldsBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint64(buf, w.BlockHeight)
-	w.builder.WriteUint32(buf, w.View)
-	err = w.builder.WriteMessage(buf, w.PreparedProof)
+	w._builder.Reset()
+	w._builder.WriteUint64(buf, w.BlockHeight)
+	w._builder.WriteUint32(buf, w.View)
+	err = w._builder.WriteMessage(buf, w.PreparedProof)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.SenderPublicKey)
+	w._builder.WriteBytes(buf, w.SenderPublicKey)
 	return nil
 }
 
@@ -771,7 +806,7 @@ func (w *LeanHelixViewChangeSignedFieldsBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixViewChangeSignedFieldsBuilder) CalcRequiredSize() membuffers.Offset {
@@ -779,7 +814,7 @@ func (w *LeanHelixViewChangeSignedFieldsBuilder) CalcRequiredSize() membuffers.O
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixViewChangeSignedFieldsBuilder) Build() *LeanHelixViewChangeSignedFields {
@@ -796,7 +831,9 @@ func (w *LeanHelixViewChangeSignedFieldsBuilder) Build() *LeanHelixViewChangeSig
 // reader
 
 type LeanHelixPreparedProof struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixPreparedProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
@@ -804,20 +841,20 @@ var _LeanHelixPreparedProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixPreparedProofReader(buf []byte) *LeanHelixPreparedProof {
 	x := &LeanHelixPreparedProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPreparedProof_Scheme, _LeanHelixPreparedProof_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixPreparedProof_Scheme, _LeanHelixPreparedProof_Unions)
 	return x
 }
 
 func (x *LeanHelixPreparedProof) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixPreparedProof) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixPreparedProof) PpBodyIterator() *LeanHelixPreparedProofPpBodyIterator {
-	return &LeanHelixPreparedProofPpBodyIterator{iterator: x.message.GetMessageArrayIterator(0)}
+	return &LeanHelixPreparedProofPpBodyIterator{iterator: x._message.GetMessageArrayIterator(0)}
 }
 
 type LeanHelixPreparedProofPpBodyIterator struct {
@@ -834,11 +871,11 @@ func (i *LeanHelixPreparedProofPpBodyIterator) NextPpBody() *LeanHelixCommitPrep
 }
 
 func (x *LeanHelixPreparedProof) RawPpBodyArray() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixPreparedProof) PpPrepareSignatureIterator() *LeanHelixPreparedProofPpPrepareSignatureIterator {
-	return &LeanHelixPreparedProofPpPrepareSignatureIterator{iterator: x.message.GetBytesArrayIterator(1)}
+	return &LeanHelixPreparedProofPpPrepareSignatureIterator{iterator: x._message.GetBytesArrayIterator(1)}
 }
 
 type LeanHelixPreparedProofPpPrepareSignatureIterator struct {
@@ -854,19 +891,22 @@ func (i *LeanHelixPreparedProofPpPrepareSignatureIterator) NextPpPrepareSignatur
 }
 
 func (x *LeanHelixPreparedProof) RawPpPrepareSignatureArray() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type LeanHelixPreparedProofBuilder struct {
-	builder membuffers.Builder
 	PpBody []*LeanHelixCommitPreparePPMessageSignedFieldsBuilder
 	PpPrepareSignature []primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
-func (w *LeanHelixPreparedProofBuilder) arrayOfPpBody() []membuffers.MessageBuilder {
-	res := make([]membuffers.MessageBuilder, len(w.PpBody))
+func (w *LeanHelixPreparedProofBuilder) arrayOfPpBody() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.PpBody))
 	for i, v := range w.PpBody {
 		res[i] = v
 	}
@@ -890,12 +930,12 @@ func (w *LeanHelixPreparedProofBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessageArray(buf, w.arrayOfPpBody())
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfPpBody())
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytesArray(buf, w.arrayOfPpPrepareSignature())
+	w._builder.WriteBytesArray(buf, w.arrayOfPpPrepareSignature())
 	return nil
 }
 
@@ -903,7 +943,7 @@ func (w *LeanHelixPreparedProofBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPreparedProofBuilder) CalcRequiredSize() membuffers.Offset {
@@ -911,7 +951,7 @@ func (w *LeanHelixPreparedProofBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixPreparedProofBuilder) Build() *LeanHelixPreparedProof {
@@ -928,7 +968,9 @@ func (w *LeanHelixPreparedProofBuilder) Build() *LeanHelixPreparedProof {
 // reader
 
 type LeanHelixNewViewSignedFields struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixNewViewSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -936,94 +978,97 @@ var _LeanHelixNewViewSignedFields_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewSignedFieldsReader(buf []byte) *LeanHelixNewViewSignedFields {
 	x := &LeanHelixNewViewSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewSignedFields_Scheme, _LeanHelixNewViewSignedFields_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewSignedFields_Scheme, _LeanHelixNewViewSignedFields_Unions)
 	return x
 }
 
 func (x *LeanHelixNewViewSignedFields) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixNewViewSignedFields) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixNewViewSignedFields) BlockHeight() uint64 {
-	return x.message.GetUint64(0)
+	return x._message.GetUint64(0)
 }
 
 func (x *LeanHelixNewViewSignedFields) RawBlockHeight() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) MutateBlockHeight(v uint64) error {
-	return x.message.SetUint64(0, v)
+	return x._message.SetUint64(0, v)
 }
 
 func (x *LeanHelixNewViewSignedFields) View() uint32 {
-	return x.message.GetUint32(1)
+	return x._message.GetUint32(1)
 }
 
 func (x *LeanHelixNewViewSignedFields) RawView() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) MutateView(v uint32) error {
-	return x.message.SetUint32(1, v)
+	return x._message.SetUint32(1, v)
 }
 
 func (x *LeanHelixNewViewSignedFields) NewViewProof() *LeanHelixNewViewProof {
-	b, s := x.message.GetMessage(2)
+	b, s := x._message.GetMessage(2)
 	return LeanHelixNewViewProofReader(b[:s])
 }
 
 func (x *LeanHelixNewViewSignedFields) RawNewViewProof() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) NvPpBody() *LeanHelixCommitPreparePPMessageSignedFields {
-	b, s := x.message.GetMessage(3)
+	b, s := x._message.GetMessage(3)
 	return LeanHelixCommitPreparePPMessageSignedFieldsReader(b[:s])
 }
 
 func (x *LeanHelixNewViewSignedFields) RawNvPpBody() []byte {
-	return x.message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) NvPpSignature() primitives.Ed25519Sig {
-	return x.message.GetBytes(4)
+	return x._message.GetBytes(4)
 }
 
 func (x *LeanHelixNewViewSignedFields) RawNvPpSignature() []byte {
-	return x.message.RawBufferForField(4, 0)
+	return x._message.RawBufferForField(4, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) MutateNvPpSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(4, v)
+	return x._message.SetBytes(4, v)
 }
 
 func (x *LeanHelixNewViewSignedFields) SenderPublicKey() primitives.Ed25519Pkey {
-	return x.message.GetBytes(5)
+	return x._message.GetBytes(5)
 }
 
 func (x *LeanHelixNewViewSignedFields) RawSenderPublicKey() []byte {
-	return x.message.RawBufferForField(5, 0)
+	return x._message.RawBufferForField(5, 0)
 }
 
 func (x *LeanHelixNewViewSignedFields) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
-	return x.message.SetBytes(5, v)
+	return x._message.SetBytes(5, v)
 }
 
 // builder
 
 type LeanHelixNewViewSignedFieldsBuilder struct {
-	builder membuffers.Builder
 	BlockHeight uint64
 	View uint32
 	NewViewProof *LeanHelixNewViewProofBuilder
 	NvPpBody *LeanHelixCommitPreparePPMessageSignedFieldsBuilder
 	NvPpSignature primitives.Ed25519Sig
 	SenderPublicKey primitives.Ed25519Pkey
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixNewViewSignedFieldsBuilder) Write(buf []byte) (err error) {
@@ -1035,19 +1080,19 @@ func (w *LeanHelixNewViewSignedFieldsBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint64(buf, w.BlockHeight)
-	w.builder.WriteUint32(buf, w.View)
-	err = w.builder.WriteMessage(buf, w.NewViewProof)
+	w._builder.Reset()
+	w._builder.WriteUint64(buf, w.BlockHeight)
+	w._builder.WriteUint32(buf, w.View)
+	err = w._builder.WriteMessage(buf, w.NewViewProof)
 	if err != nil {
 		return
 	}
-	err = w.builder.WriteMessage(buf, w.NvPpBody)
+	err = w._builder.WriteMessage(buf, w.NvPpBody)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.NvPpSignature)
-	w.builder.WriteBytes(buf, w.SenderPublicKey)
+	w._builder.WriteBytes(buf, w.NvPpSignature)
+	w._builder.WriteBytes(buf, w.SenderPublicKey)
 	return nil
 }
 
@@ -1055,7 +1100,7 @@ func (w *LeanHelixNewViewSignedFieldsBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewSignedFieldsBuilder) CalcRequiredSize() membuffers.Offset {
@@ -1063,7 +1108,7 @@ func (w *LeanHelixNewViewSignedFieldsBuilder) CalcRequiredSize() membuffers.Offs
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewSignedFieldsBuilder) Build() *LeanHelixNewViewSignedFields {
@@ -1080,7 +1125,9 @@ func (w *LeanHelixNewViewSignedFieldsBuilder) Build() *LeanHelixNewViewSignedFie
 // reader
 
 type LeanHelixNewViewProof struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixNewViewProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
@@ -1088,20 +1135,20 @@ var _LeanHelixNewViewProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewProofReader(buf []byte) *LeanHelixNewViewProof {
 	x := &LeanHelixNewViewProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewProof_Scheme, _LeanHelixNewViewProof_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewProof_Scheme, _LeanHelixNewViewProof_Unions)
 	return x
 }
 
 func (x *LeanHelixNewViewProof) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixNewViewProof) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixNewViewProof) ViewChangeHeaderIterator() *LeanHelixNewViewProofViewChangeHeaderIterator {
-	return &LeanHelixNewViewProofViewChangeHeaderIterator{iterator: x.message.GetMessageArrayIterator(0)}
+	return &LeanHelixNewViewProofViewChangeHeaderIterator{iterator: x._message.GetMessageArrayIterator(0)}
 }
 
 type LeanHelixNewViewProofViewChangeHeaderIterator struct {
@@ -1118,11 +1165,11 @@ func (i *LeanHelixNewViewProofViewChangeHeaderIterator) NextViewChangeHeader() *
 }
 
 func (x *LeanHelixNewViewProof) RawViewChangeHeaderArray() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixNewViewProof) ViewChangeHeaderSignatureIterator() *LeanHelixNewViewProofViewChangeHeaderSignatureIterator {
-	return &LeanHelixNewViewProofViewChangeHeaderSignatureIterator{iterator: x.message.GetBytesArrayIterator(1)}
+	return &LeanHelixNewViewProofViewChangeHeaderSignatureIterator{iterator: x._message.GetBytesArrayIterator(1)}
 }
 
 type LeanHelixNewViewProofViewChangeHeaderSignatureIterator struct {
@@ -1138,19 +1185,22 @@ func (i *LeanHelixNewViewProofViewChangeHeaderSignatureIterator) NextViewChangeH
 }
 
 func (x *LeanHelixNewViewProof) RawViewChangeHeaderSignatureArray() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type LeanHelixNewViewProofBuilder struct {
-	builder membuffers.Builder
 	ViewChangeHeader []*LeanHelixViewChangeSignedFieldsBuilder
 	ViewChangeHeaderSignature []primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
-func (w *LeanHelixNewViewProofBuilder) arrayOfViewChangeHeader() []membuffers.MessageBuilder {
-	res := make([]membuffers.MessageBuilder, len(w.ViewChangeHeader))
+func (w *LeanHelixNewViewProofBuilder) arrayOfViewChangeHeader() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.ViewChangeHeader))
 	for i, v := range w.ViewChangeHeader {
 		res[i] = v
 	}
@@ -1174,12 +1224,12 @@ func (w *LeanHelixNewViewProofBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessageArray(buf, w.arrayOfViewChangeHeader())
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfViewChangeHeader())
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytesArray(buf, w.arrayOfViewChangeHeaderSignature())
+	w._builder.WriteBytesArray(buf, w.arrayOfViewChangeHeaderSignature())
 	return nil
 }
 
@@ -1187,7 +1237,7 @@ func (w *LeanHelixNewViewProofBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewProofBuilder) CalcRequiredSize() membuffers.Offset {
@@ -1195,7 +1245,7 @@ func (w *LeanHelixNewViewProofBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixNewViewProofBuilder) Build() *LeanHelixNewViewProof {
@@ -1212,7 +1262,9 @@ func (w *LeanHelixNewViewProofBuilder) Build() *LeanHelixNewViewProof {
 // reader
 
 type LeanHelixBlockProof struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _LeanHelixBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytesArray,membuffers.TypeBytesArray,membuffers.TypeBytes,}
@@ -1220,68 +1272,68 @@ var _LeanHelixBlockProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixBlockProofReader(buf []byte) *LeanHelixBlockProof {
 	x := &LeanHelixBlockProof{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixBlockProof_Scheme, _LeanHelixBlockProof_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixBlockProof_Scheme, _LeanHelixBlockProof_Unions)
 	return x
 }
 
 func (x *LeanHelixBlockProof) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *LeanHelixBlockProof) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *LeanHelixBlockProof) BlockHeight() uint64 {
-	return x.message.GetUint64(0)
+	return x._message.GetUint64(0)
 }
 
 func (x *LeanHelixBlockProof) RawBlockHeight() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *LeanHelixBlockProof) MutateBlockHeight(v uint64) error {
-	return x.message.SetUint64(0, v)
+	return x._message.SetUint64(0, v)
 }
 
 func (x *LeanHelixBlockProof) View() uint32 {
-	return x.message.GetUint32(1)
+	return x._message.GetUint32(1)
 }
 
 func (x *LeanHelixBlockProof) RawView() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *LeanHelixBlockProof) MutateView(v uint32) error {
-	return x.message.SetUint32(1, v)
+	return x._message.SetUint32(1, v)
 }
 
 func (x *LeanHelixBlockProof) BlockHashMask() primitives.Uint256 {
-	return x.message.GetBytes(2)
+	return x._message.GetBytes(2)
 }
 
 func (x *LeanHelixBlockProof) RawBlockHashMask() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *LeanHelixBlockProof) MutateBlockHashMask(v primitives.Uint256) error {
-	return x.message.SetBytes(2, v)
+	return x._message.SetBytes(2, v)
 }
 
 func (x *LeanHelixBlockProof) BlockHash() primitives.Uint256 {
-	return x.message.GetBytes(3)
+	return x._message.GetBytes(3)
 }
 
 func (x *LeanHelixBlockProof) RawBlockHash() []byte {
-	return x.message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *LeanHelixBlockProof) MutateBlockHash(v primitives.Uint256) error {
-	return x.message.SetBytes(3, v)
+	return x._message.SetBytes(3, v)
 }
 
 func (x *LeanHelixBlockProof) PkeyIterator() *LeanHelixBlockProofPkeyIterator {
-	return &LeanHelixBlockProofPkeyIterator{iterator: x.message.GetBytesArrayIterator(4)}
+	return &LeanHelixBlockProofPkeyIterator{iterator: x._message.GetBytesArrayIterator(4)}
 }
 
 type LeanHelixBlockProofPkeyIterator struct {
@@ -1297,11 +1349,11 @@ func (i *LeanHelixBlockProofPkeyIterator) NextPkey() primitives.Ed25519Pkey {
 }
 
 func (x *LeanHelixBlockProof) RawPkeyArray() []byte {
-	return x.message.RawBufferForField(4, 0)
+	return x._message.RawBufferForField(4, 0)
 }
 
 func (x *LeanHelixBlockProof) SignatureIterator() *LeanHelixBlockProofSignatureIterator {
-	return &LeanHelixBlockProofSignatureIterator{iterator: x.message.GetBytesArrayIterator(5)}
+	return &LeanHelixBlockProofSignatureIterator{iterator: x._message.GetBytesArrayIterator(5)}
 }
 
 type LeanHelixBlockProofSignatureIterator struct {
@@ -1317,25 +1369,24 @@ func (i *LeanHelixBlockProofSignatureIterator) NextSignature() primitives.Ed2551
 }
 
 func (x *LeanHelixBlockProof) RawSignatureArray() []byte {
-	return x.message.RawBufferForField(5, 0)
+	return x._message.RawBufferForField(5, 0)
 }
 
 func (x *LeanHelixBlockProof) RandomSeedSignature() primitives.Bls1Sig {
-	return x.message.GetBytes(6)
+	return x._message.GetBytes(6)
 }
 
 func (x *LeanHelixBlockProof) RawRandomSeedSignature() []byte {
-	return x.message.RawBufferForField(6, 0)
+	return x._message.RawBufferForField(6, 0)
 }
 
 func (x *LeanHelixBlockProof) MutateRandomSeedSignature(v primitives.Bls1Sig) error {
-	return x.message.SetBytes(6, v)
+	return x._message.SetBytes(6, v)
 }
 
 // builder
 
 type LeanHelixBlockProofBuilder struct {
-	builder membuffers.Builder
 	BlockHeight uint64
 	View uint32
 	BlockHashMask primitives.Uint256
@@ -1343,6 +1394,10 @@ type LeanHelixBlockProofBuilder struct {
 	Pkey []primitives.Ed25519Pkey
 	Signature []primitives.Ed25519Sig
 	RandomSeedSignature primitives.Bls1Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *LeanHelixBlockProofBuilder) arrayOfPkey() [][]byte {
@@ -1370,14 +1425,14 @@ func (w *LeanHelixBlockProofBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint64(buf, w.BlockHeight)
-	w.builder.WriteUint32(buf, w.View)
-	w.builder.WriteBytes(buf, w.BlockHashMask)
-	w.builder.WriteBytes(buf, w.BlockHash)
-	w.builder.WriteBytesArray(buf, w.arrayOfPkey())
-	w.builder.WriteBytesArray(buf, w.arrayOfSignature())
-	w.builder.WriteBytes(buf, w.RandomSeedSignature)
+	w._builder.Reset()
+	w._builder.WriteUint64(buf, w.BlockHeight)
+	w._builder.WriteUint32(buf, w.View)
+	w._builder.WriteBytes(buf, w.BlockHashMask)
+	w._builder.WriteBytes(buf, w.BlockHash)
+	w._builder.WriteBytesArray(buf, w.arrayOfPkey())
+	w._builder.WriteBytesArray(buf, w.arrayOfSignature())
+	w._builder.WriteBytes(buf, w.RandomSeedSignature)
 	return nil
 }
 
@@ -1385,7 +1440,7 @@ func (w *LeanHelixBlockProofBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixBlockProofBuilder) CalcRequiredSize() membuffers.Offset {
@@ -1393,7 +1448,7 @@ func (w *LeanHelixBlockProofBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *LeanHelixBlockProofBuilder) Build() *LeanHelixBlockProof {

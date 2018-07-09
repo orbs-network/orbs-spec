@@ -2,7 +2,7 @@
 package services
 
 import (
-	"github.com/orbs-network/orbs-spec/types/go/protocol/publicapi"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/client"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -20,41 +20,41 @@ type PublicApi interface {
 // message SendTransactionInput (non serializable)
 
 type SendTransactionInput struct {
-	ClientInput *publicapi.SendTransactionInput
+	ClientRequest *client.SendTransactionRequest
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message SendTransactionOutput (non serializable)
 
 type SendTransactionOutput struct {
-	ClientOutput *publicapi.SendTransactionOutput
+	ClientResponse *client.SendTransactionResponse
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CallMethodInput (non serializable)
 
 type CallMethodInput struct {
-	ClientInput *publicapi.CallMethodInput
+	ClientRequest *client.CallMethodRequest
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message CallMethodOutput (non serializable)
 
 type CallMethodOutput struct {
-	ClientOutput *publicapi.CallMethodOutput
+	ClientResponse *client.CallMethodResponse
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionStatusInput (non serializable)
 
 type GetTransactionStatusInput struct {
-	ClientInput *publicapi.GetTransactionStatusInput
+	ClientRequest *client.GetTransactionStatusRequest
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionStatusOutput (non serializable)
 
 type GetTransactionStatusOutput struct {
-	ClientOutput *publicapi.GetTransactionStatusOutput
+	ClientResponse *client.GetTransactionStatusResponse
 }
 

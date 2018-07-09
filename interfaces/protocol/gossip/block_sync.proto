@@ -2,7 +2,7 @@ syntax = "proto3";
 package gossip;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossip";
 
-import "../primitives/types.proto";
+import "../primitives/crypto.proto";
 
 enum BlockSyncMessageType {
     BLOCK_SYNC_RESERVED = 0;

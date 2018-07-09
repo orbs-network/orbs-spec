@@ -2,7 +2,7 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-import "primitives/types.proto";
+import "primitives/crypto.proto";
 
 message NodeData {
     primitives.ed25519_pkey node_pkey = 1;

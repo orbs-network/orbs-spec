@@ -2,7 +2,7 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/publicapi/client.proto";
+import "protocol/client/requests.proto";
 import "services/handlers/transaction_results.proto";
 
 option serialize_service_args = false;
@@ -19,25 +19,25 @@ service PublicApi {
 }
 
 message SendTransactionInput {
-    publicapi.SendTransactionInput client_input = 1;
+    client.SendTransactionRequest client_request = 1;
 }
 
 message SendTransactionOutput {
-    publicapi.SendTransactionOutput client_output = 1;
+    client.SendTransactionResponse client_response = 1;
 }
 
 message CallMethodInput {
-    publicapi.CallMethodInput client_input = 1;
+    client.CallMethodRequest client_request = 1;
 }
 
 message CallMethodOutput {
-    publicapi.CallMethodOutput client_output = 1;
+    client.CallMethodResponse client_response = 1;
 }
 
 message GetTransactionStatusInput {
-    publicapi.GetTransactionStatusInput client_input = 1;
+    client.GetTransactionStatusRequest client_request = 1;
 }
 
 message GetTransactionStatusOutput {
-    publicapi.GetTransactionStatusOutput client_output = 1;
+    client.GetTransactionStatusResponse client_response = 1;
 }

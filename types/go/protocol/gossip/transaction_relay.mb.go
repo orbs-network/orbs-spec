@@ -13,7 +13,9 @@ import (
 // reader
 
 type ForwardedTransactionsMessage struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _ForwardedTransactionsMessage_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
@@ -21,45 +23,48 @@ var _ForwardedTransactionsMessage_Unions = [][]membuffers.FieldType{}
 
 func ForwardedTransactionsMessageReader(buf []byte) *ForwardedTransactionsMessage {
 	x := &ForwardedTransactionsMessage{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsMessage_Scheme, _ForwardedTransactionsMessage_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsMessage_Scheme, _ForwardedTransactionsMessage_Unions)
 	return x
 }
 
 func (x *ForwardedTransactionsMessage) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *ForwardedTransactionsMessage) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *ForwardedTransactionsMessage) Body() *ForwardedTransactionsSignedFields {
-	b, s := x.message.GetMessage(0)
+	b, s := x._message.GetMessage(0)
 	return ForwardedTransactionsSignedFieldsReader(b[:s])
 }
 
 func (x *ForwardedTransactionsMessage) RawBody() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *ForwardedTransactionsMessage) Signature() primitives.Ed25519Sig {
-	return x.message.GetBytes(1)
+	return x._message.GetBytes(1)
 }
 
 func (x *ForwardedTransactionsMessage) RawSignature() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *ForwardedTransactionsMessage) MutateSignature(v primitives.Ed25519Sig) error {
-	return x.message.SetBytes(1, v)
+	return x._message.SetBytes(1, v)
 }
 
 // builder
 
 type ForwardedTransactionsMessageBuilder struct {
-	builder membuffers.Builder
 	Body *ForwardedTransactionsSignedFieldsBuilder
 	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *ForwardedTransactionsMessageBuilder) Write(buf []byte) (err error) {
@@ -71,12 +76,12 @@ func (w *ForwardedTransactionsMessageBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	err = w.builder.WriteMessage(buf, w.Body)
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Body)
 	if err != nil {
 		return
 	}
-	w.builder.WriteBytes(buf, w.Signature)
+	w._builder.WriteBytes(buf, w.Signature)
 	return nil
 }
 
@@ -84,7 +89,7 @@ func (w *ForwardedTransactionsMessageBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *ForwardedTransactionsMessageBuilder) CalcRequiredSize() membuffers.Offset {
@@ -92,7 +97,7 @@ func (w *ForwardedTransactionsMessageBuilder) CalcRequiredSize() membuffers.Offs
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *ForwardedTransactionsMessageBuilder) Build() *ForwardedTransactionsMessage {
@@ -109,7 +114,9 @@ func (w *ForwardedTransactionsMessageBuilder) Build() *ForwardedTransactionsMess
 // reader
 
 type ForwardedTransactionsSignedFields struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _ForwardedTransactionsSignedFields_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeMessageArray,}
@@ -117,32 +124,32 @@ var _ForwardedTransactionsSignedFields_Unions = [][]membuffers.FieldType{}
 
 func ForwardedTransactionsSignedFieldsReader(buf []byte) *ForwardedTransactionsSignedFields {
 	x := &ForwardedTransactionsSignedFields{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsSignedFields_Scheme, _ForwardedTransactionsSignedFields_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsSignedFields_Scheme, _ForwardedTransactionsSignedFields_Unions)
 	return x
 }
 
 func (x *ForwardedTransactionsSignedFields) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *ForwardedTransactionsSignedFields) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *ForwardedTransactionsSignedFields) GwNodePublicKey() primitives.Ed25519Pkey {
-	return x.message.GetBytes(0)
+	return x._message.GetBytes(0)
 }
 
 func (x *ForwardedTransactionsSignedFields) RawGwNodePublicKey() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *ForwardedTransactionsSignedFields) MutateGwNodePublicKey(v primitives.Ed25519Pkey) error {
-	return x.message.SetBytes(0, v)
+	return x._message.SetBytes(0, v)
 }
 
 func (x *ForwardedTransactionsSignedFields) TransactionIterator() *ForwardedTransactionsSignedFieldsTransactionIterator {
-	return &ForwardedTransactionsSignedFieldsTransactionIterator{iterator: x.message.GetMessageArrayIterator(1)}
+	return &ForwardedTransactionsSignedFieldsTransactionIterator{iterator: x._message.GetMessageArrayIterator(1)}
 }
 
 type ForwardedTransactionsSignedFieldsTransactionIterator struct {
@@ -159,19 +166,22 @@ func (i *ForwardedTransactionsSignedFieldsTransactionIterator) NextTransaction()
 }
 
 func (x *ForwardedTransactionsSignedFields) RawTransactionArray() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 // builder
 
 type ForwardedTransactionsSignedFieldsBuilder struct {
-	builder membuffers.Builder
 	GwNodePublicKey primitives.Ed25519Pkey
 	Transaction []*protocol.SignedTransactionBuilder
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
-func (w *ForwardedTransactionsSignedFieldsBuilder) arrayOfTransaction() []membuffers.MessageBuilder {
-	res := make([]membuffers.MessageBuilder, len(w.Transaction))
+func (w *ForwardedTransactionsSignedFieldsBuilder) arrayOfTransaction() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.Transaction))
 	for i, v := range w.Transaction {
 		res[i] = v
 	}
@@ -187,9 +197,9 @@ func (w *ForwardedTransactionsSignedFieldsBuilder) Write(buf []byte) (err error)
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteBytes(buf, w.GwNodePublicKey)
-	err = w.builder.WriteMessageArray(buf, w.arrayOfTransaction())
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, w.GwNodePublicKey)
+	err = w._builder.WriteMessageArray(buf, w.arrayOfTransaction())
 	if err != nil {
 		return
 	}
@@ -200,7 +210,7 @@ func (w *ForwardedTransactionsSignedFieldsBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *ForwardedTransactionsSignedFieldsBuilder) CalcRequiredSize() membuffers.Offset {
@@ -208,7 +218,7 @@ func (w *ForwardedTransactionsSignedFieldsBuilder) CalcRequiredSize() membuffers
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *ForwardedTransactionsSignedFieldsBuilder) Build() *ForwardedTransactionsSignedFields {

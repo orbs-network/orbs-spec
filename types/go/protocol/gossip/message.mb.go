@@ -12,7 +12,9 @@ import (
 // reader
 
 type MessageHeader struct {
-	message membuffers.Message
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
 }
 
 var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint32,membuffers.TypeUnion,}
@@ -20,32 +22,32 @@ var _MessageHeader_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,memb
 
 func MessageHeaderReader(buf []byte) *MessageHeader {
 	x := &MessageHeader{}
-	x.message.Init(buf, membuffers.Offset(len(buf)), _MessageHeader_Scheme, _MessageHeader_Unions)
+	x._message.Init(buf, membuffers.Offset(len(buf)), _MessageHeader_Scheme, _MessageHeader_Unions)
 	return x
 }
 
 func (x *MessageHeader) IsValid() bool {
-	return x.message.IsValid()
+	return x._message.IsValid()
 }
 
 func (x *MessageHeader) Raw() []byte {
-	return x.message.RawBuffer()
+	return x._message.RawBuffer()
 }
 
 func (x *MessageHeader) ProtocolVersion() uint32 {
-	return x.message.GetUint32(0)
+	return x._message.GetUint32(0)
 }
 
 func (x *MessageHeader) RawProtocolVersion() []byte {
-	return x.message.RawBufferForField(0, 0)
+	return x._message.RawBufferForField(0, 0)
 }
 
 func (x *MessageHeader) MutateProtocolVersion(v uint32) error {
-	return x.message.SetUint32(0, v)
+	return x._message.SetUint32(0, v)
 }
 
 func (x *MessageHeader) RecipientIterator() *MessageHeaderRecipientIterator {
-	return &MessageHeaderRecipientIterator{iterator: x.message.GetBytesArrayIterator(1)}
+	return &MessageHeaderRecipientIterator{iterator: x._message.GetBytesArrayIterator(1)}
 }
 
 type MessageHeaderRecipientIterator struct {
@@ -61,43 +63,43 @@ func (i *MessageHeaderRecipientIterator) NextRecipient() primitives.Ed25519Pkey 
 }
 
 func (x *MessageHeader) RawRecipientArray() []byte {
-	return x.message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *MessageHeader) RecipientMode() RecipientsListMode {
-	return RecipientsListMode(x.message.GetUint16(2))
+	return RecipientsListMode(x._message.GetUint16(2))
 }
 
 func (x *MessageHeader) RawRecipientMode() []byte {
-	return x.message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
 func (x *MessageHeader) MutateRecipientMode(v RecipientsListMode) error {
-	return x.message.SetUint16(2, uint16(v))
+	return x._message.SetUint16(2, uint16(v))
 }
 
 func (x *MessageHeader) Topic() MessageTopic {
-	return MessageTopic(x.message.GetUint16(3))
+	return MessageTopic(x._message.GetUint16(3))
 }
 
 func (x *MessageHeader) RawTopic() []byte {
-	return x.message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *MessageHeader) MutateTopic(v MessageTopic) error {
-	return x.message.SetUint16(3, uint16(v))
+	return x._message.SetUint16(3, uint16(v))
 }
 
 func (x *MessageHeader) VirtualChain() uint32 {
-	return x.message.GetUint32(4)
+	return x._message.GetUint32(4)
 }
 
 func (x *MessageHeader) RawVirtualChain() []byte {
-	return x.message.RawBufferForField(4, 0)
+	return x._message.RawBufferForField(4, 0)
 }
 
 func (x *MessageHeader) MutateVirtualChain(v uint32) error {
-	return x.message.SetUint32(4, v)
+	return x._message.SetUint32(4, v)
 }
 
 type MessageHeaderType uint16
@@ -109,74 +111,73 @@ const (
 )
 
 func (x *MessageHeader) Type() MessageHeaderType {
-	return MessageHeaderType(x.message.GetUint16(5))
+	return MessageHeaderType(x._message.GetUint16(5))
 }
 
 func (x *MessageHeader) IsTypeTransactionRelay() bool {
-	is, _ := x.message.IsUnionIndex(5, 0, 0)
+	is, _ := x._message.IsUnionIndex(5, 0, 0)
 	return is
 }
 
 func (x *MessageHeader) TypeTransactionRelay() TransactionsRelayMessageType {
-	_, off := x.message.IsUnionIndex(5, 0, 0)
-	return TransactionsRelayMessageType(x.message.GetUint16InOffset(off))
+	_, off := x._message.IsUnionIndex(5, 0, 0)
+	return TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
 func (x *MessageHeader) MutateTypeTransactionRelay(v TransactionsRelayMessageType) error {
-	is, off := x.message.IsUnionIndex(5, 0, 0)
+	is, off := x._message.IsUnionIndex(5, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
-	x.message.SetUint16InOffset(off, uint16(v))
+	x._message.SetUint16InOffset(off, uint16(v))
 	return nil
 }
 
 func (x *MessageHeader) IsTypeBlockSync() bool {
-	is, _ := x.message.IsUnionIndex(5, 0, 1)
+	is, _ := x._message.IsUnionIndex(5, 0, 1)
 	return is
 }
 
 func (x *MessageHeader) TypeBlockSync() BlockSyncMessageType {
-	_, off := x.message.IsUnionIndex(5, 0, 1)
-	return BlockSyncMessageType(x.message.GetUint16InOffset(off))
+	_, off := x._message.IsUnionIndex(5, 0, 1)
+	return BlockSyncMessageType(x._message.GetUint16InOffset(off))
 }
 
 func (x *MessageHeader) MutateTypeBlockSync(v BlockSyncMessageType) error {
-	is, off := x.message.IsUnionIndex(5, 0, 1)
+	is, off := x._message.IsUnionIndex(5, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
-	x.message.SetUint16InOffset(off, uint16(v))
+	x._message.SetUint16InOffset(off, uint16(v))
 	return nil
 }
 
 func (x *MessageHeader) IsTypeLeanHelixConsensus() bool {
-	is, _ := x.message.IsUnionIndex(5, 0, 2)
+	is, _ := x._message.IsUnionIndex(5, 0, 2)
 	return is
 }
 
 func (x *MessageHeader) TypeLeanHelixConsensus() LeanHelixMessageType {
-	_, off := x.message.IsUnionIndex(5, 0, 2)
-	return LeanHelixMessageType(x.message.GetUint16InOffset(off))
+	_, off := x._message.IsUnionIndex(5, 0, 2)
+	return LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
 func (x *MessageHeader) MutateTypeLeanHelixConsensus(v LeanHelixMessageType) error {
-	is, off := x.message.IsUnionIndex(5, 0, 2)
+	is, off := x._message.IsUnionIndex(5, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
-	x.message.SetUint16InOffset(off, uint16(v))
+	x._message.SetUint16InOffset(off, uint16(v))
 	return nil
 }
 
 func (x *MessageHeader) RawType() []byte {
-	return x.message.RawBufferForField(5, 0)
+	return x._message.RawBufferForField(5, 0)
 }
 
 // builder
 
 type MessageHeaderBuilder struct {
-	builder membuffers.Builder
 	ProtocolVersion uint32
 	Recipient []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
@@ -186,6 +187,10 @@ type MessageHeaderBuilder struct {
 	TransactionRelay TransactionsRelayMessageType
 	BlockSync BlockSyncMessageType
 	LeanHelixConsensus LeanHelixMessageType
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
 }
 
 func (w *MessageHeaderBuilder) arrayOfRecipient() [][]byte {
@@ -205,20 +210,20 @@ func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
-	w.builder.Reset()
-	w.builder.WriteUint32(buf, w.ProtocolVersion)
-	w.builder.WriteBytesArray(buf, w.arrayOfRecipient())
-	w.builder.WriteUint16(buf, uint16(w.RecipientMode))
-	w.builder.WriteUint16(buf, uint16(w.Topic))
-	w.builder.WriteUint32(buf, w.VirtualChain)
-	w.builder.WriteUnionIndex(buf, uint16(w.Type))
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, w.ProtocolVersion)
+	w._builder.WriteBytesArray(buf, w.arrayOfRecipient())
+	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
+	w._builder.WriteUint16(buf, uint16(w.Topic))
+	w._builder.WriteUint32(buf, w.VirtualChain)
+	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
 	case MessageHeaderTypeTransactionRelay:
-		w.builder.WriteUint16(buf, uint16(w.TransactionRelay))
+		w._builder.WriteUint16(buf, uint16(w.TransactionRelay))
 	case MessageHeaderTypeBlockSync:
-		w.builder.WriteUint16(buf, uint16(w.BlockSync))
+		w._builder.WriteUint16(buf, uint16(w.BlockSync))
 	case MessageHeaderTypeLeanHelixConsensus:
-		w.builder.WriteUint16(buf, uint16(w.LeanHelixConsensus))
+		w._builder.WriteUint16(buf, uint16(w.LeanHelixConsensus))
 	}
 	return nil
 }
@@ -227,7 +232,7 @@ func (w *MessageHeaderBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *MessageHeaderBuilder) CalcRequiredSize() membuffers.Offset {
@@ -235,7 +240,7 @@ func (w *MessageHeaderBuilder) CalcRequiredSize() membuffers.Offset {
 		return 0
 	}
 	w.Write(nil)
-	return w.builder.GetSize()
+	return w._builder.GetSize()
 }
 
 func (w *MessageHeaderBuilder) Build() *MessageHeader {

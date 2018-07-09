@@ -2,7 +2,7 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "primitives/types.proto";
+import "primitives/crypto.proto";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";

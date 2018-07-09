@@ -2,7 +2,7 @@ syntax = "proto3";
 package handlers;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
-import "../primitives/types.proto";
+import "../primitives/crypto.proto";
 import "../protocol/gossip/transaction_relay.proto";
 import "../protocol/gossip/block_sync.proto";
 import "../protocol/gossip/lean_helix_consensus.proto";
