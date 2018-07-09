@@ -338,15 +338,15 @@ func (x *TransactionReceipt) MutateTxhash(v primitives.Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *TransactionReceipt) ExecutionStatus() ExecutionStatus {
-	return ExecutionStatus(x._message.GetUint16(1))
+func (x *TransactionReceipt) ExecutionResult() ExecutionResult {
+	return ExecutionResult(x._message.GetUint16(1))
 }
 
-func (x *TransactionReceipt) RawExecutionStatus() []byte {
+func (x *TransactionReceipt) RawExecutionResult() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *TransactionReceipt) MutateExecutionStatus(v ExecutionStatus) error {
+func (x *TransactionReceipt) MutateExecutionResult(v ExecutionResult) error {
 	return x._message.SetUint16(1, uint16(v))
 }
 
@@ -375,7 +375,7 @@ func (x *TransactionReceipt) RawOutputArgumentsArray() []byte {
 
 type TransactionReceiptBuilder struct {
 	Txhash primitives.Sha256
-	ExecutionStatus ExecutionStatus
+	ExecutionResult ExecutionResult
 	OutputArguments []*MethodArgumentBuilder
 
 	// internal
@@ -402,7 +402,7 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteBytes(buf, []byte(w.Txhash))
-	w._builder.WriteUint16(buf, uint16(w.ExecutionStatus))
+	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
 	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArguments())
 	if err != nil {
 		return

@@ -27,7 +27,7 @@ type EthereumCallContractInput struct {
 
 type EthereumCallContractOutput struct {
 	OutputArguments []*protocol.MethodArgument
-	CallStatus protocol.ExecutionStatus
+	CallResult protocol.ExecutionResult
 	EthereumBlockHeight uint64
 	EthereumBlockTimestamp uint64
 }

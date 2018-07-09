@@ -359,15 +359,15 @@ func (x *CallMethodResponse) RawOutputArgumentsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *CallMethodResponse) CallStatus() protocol.ExecutionStatus {
-	return protocol.ExecutionStatus(x._message.GetUint16(1))
+func (x *CallMethodResponse) CallResult() protocol.ExecutionResult {
+	return protocol.ExecutionResult(x._message.GetUint16(1))
 }
 
-func (x *CallMethodResponse) RawCallStatus() []byte {
+func (x *CallMethodResponse) RawCallResult() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *CallMethodResponse) MutateCallStatus(v protocol.ExecutionStatus) error {
+func (x *CallMethodResponse) MutateCallResult(v protocol.ExecutionResult) error {
 	return x._message.SetUint16(1, uint16(v))
 }
 
@@ -399,7 +399,7 @@ func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.Timestamp) error 
 
 type CallMethodResponseBuilder struct {
 	OutputArguments []*protocol.MethodArgumentBuilder
-	CallStatus protocol.ExecutionStatus
+	CallResult protocol.ExecutionResult
 	BlockHeight primitives.BlockHeight
 	BlockTimestamp primitives.Timestamp
 
@@ -430,7 +430,7 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 	if err != nil {
 		return
 	}
-	w._builder.WriteUint16(buf, uint16(w.CallStatus))
+	w._builder.WriteUint16(buf, uint16(w.CallResult))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
 	return nil

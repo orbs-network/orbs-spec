@@ -57,6 +57,7 @@ message BlockSyncResponse {
     primitives.block_height last_block_height = 3;
     primitives.block_height last_committed_block_height = 4;
     repeated primitives.sha256 block_hashes = 5;
+    // repeated protocol.BlockPair (block data) is sent separately as payload
 }
 
 enum BlockType {

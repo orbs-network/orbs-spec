@@ -15,13 +15,13 @@ const (
 	ERROR_CODE_INVALID ErrorCodes = 2
 )
 
-type ExecutionStatus uint16
+type ExecutionResult uint16
 
 const (
-	EXECUTION_STATUS_RESERVED ExecutionStatus = 0
-	EXECUTION_STATUS_SUCCESS ExecutionStatus = 1
-	EXECUTION_STATUS_ERROR_SMART_CONTRACT ExecutionStatus = 2
-	EXECUTION_STATUS_ERROR_UNEXPECTED ExecutionStatus = 3
+	EXECUTION_RESULT_RESERVED ExecutionResult = 0
+	EXECUTION_RESULT_SUCCESS ExecutionResult = 1
+	EXECUTION_RESULT_ERROR_SMART_CONTRACT ExecutionResult = 2
+	EXECUTION_RESULT_ERROR_UNEXPECTED ExecutionResult = 3
 )
 
 type TransactionStatus uint16

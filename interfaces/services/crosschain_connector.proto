@@ -21,7 +21,7 @@ message EthereumCallContractInput {
 
 message EthereumCallContractOutput {
     repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionStatus call_status = 2;
+    protocol.ExecutionResult call_result = 2;
     uint64 ethereum_block_height = 3;
     uint64 ethereum_block_timestamp = 4;
 }

@@ -35,7 +35,7 @@ type ProcessCallInput struct {
 
 type ProcessCallOutput struct {
 	OutputArguments []*protocol.MethodArgument
-	CallStatus protocol.ExecutionStatus
+	CallResult protocol.ExecutionResult
 }
 
 /////////////////////////////////////////////////////////////////////////////

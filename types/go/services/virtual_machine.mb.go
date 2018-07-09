@@ -45,10 +45,10 @@ type RunLocalMethodInput struct {
 // message RunLocalMethodOutput (non serializable)
 
 type RunLocalMethodOutput struct {
-	CallStatus protocol.ExecutionStatus
+	CallResult protocol.ExecutionResult
 	OutputArguments []*protocol.MethodArgument
-	ReferenceBlockHeight uint64
-	ReferenceBlockTimestamp uint64
+	ReferenceBlockHeight primitives.BlockHeight
+	ReferenceBlockTimestamp primitives.Timestamp
 }
 
 /////////////////////////////////////////////////////////////////////////////

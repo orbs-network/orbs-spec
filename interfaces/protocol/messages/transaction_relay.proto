@@ -14,4 +14,5 @@ enum TransactionsRelayMessageType {
 message ForwardedTransactionsHeader {
     primitives.ed25519_pkey gw_node_public_key = 1;
     primitives.ed25519_sig signature = 2; // Ed25519Sig(sigma SHA(SignedTransaction))
+    // repeated protocol.SignedTransaction (transactions data) is sent separately as payload
 }

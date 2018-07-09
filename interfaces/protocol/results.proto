@@ -8,12 +8,12 @@ enum ErrorCodes {
     ERROR_CODE_INVALID = 2;
 }
 
-// ExecutionStatus is the result of the execution phase of the consensus over a transaction
-enum ExecutionStatus {
-    EXECUTION_STATUS_RESERVED = 0;
-    EXECUTION_STATUS_SUCCESS = 1;
-    EXECUTION_STATUS_ERROR_SMART_CONTRACT = 2;
-    EXECUTION_STATUS_ERROR_UNEXPECTED = 3;
+// ExecutionResult is the result of the execution phase of the consensus over a transaction
+enum ExecutionResult {
+    EXECUTION_RESULT_RESERVED = 0;
+    EXECUTION_RESULT_SUCCESS = 1;
+    EXECUTION_RESULT_ERROR_SMART_CONTRACT = 2;
+    EXECUTION_RESULT_ERROR_UNEXPECTED = 3;
 }
 
 enum TransactionStatus {

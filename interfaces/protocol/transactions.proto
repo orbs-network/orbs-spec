@@ -28,6 +28,6 @@ message SignedTransaction {
 
 message TransactionReceipt {
     primitives.sha256 txhash = 1;
-    protocol.ExecutionStatus execution_status = 2;
+    protocol.ExecutionResult execution_result = 2;
     repeated protocol.MethodArgument output_arguments = 3;
 }

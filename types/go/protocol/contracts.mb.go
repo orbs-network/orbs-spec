@@ -203,60 +203,60 @@ func (w *MethodArgumentBuilder) Build() *MethodArgument {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message StateRecord
+// message StateDiff
 
 // reader
 
-type StateRecord struct {
+type StateDiff struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
 }
 
-var _StateRecord_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var _StateRecord_Unions = [][]membuffers.FieldType{}
+var _StateDiff_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _StateDiff_Unions = [][]membuffers.FieldType{}
 
-func StateRecordReader(buf []byte) *StateRecord {
-	x := &StateRecord{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _StateRecord_Scheme, _StateRecord_Unions)
+func StateDiffReader(buf []byte) *StateDiff {
+	x := &StateDiff{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _StateDiff_Scheme, _StateDiff_Unions)
 	return x
 }
 
-func (x *StateRecord) IsValid() bool {
+func (x *StateDiff) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *StateRecord) Raw() []byte {
+func (x *StateDiff) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *StateRecord) Key() primitives.Ripmd160Sha256 {
+func (x *StateDiff) Key() primitives.Ripmd160Sha256 {
 	return primitives.Ripmd160Sha256(x._message.GetBytes(0))
 }
 
-func (x *StateRecord) RawKey() []byte {
+func (x *StateDiff) RawKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *StateRecord) MutateKey(v primitives.Ripmd160Sha256) error {
+func (x *StateDiff) MutateKey(v primitives.Ripmd160Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *StateRecord) Value() []byte {
+func (x *StateDiff) Value() []byte {
 	return x._message.GetBytes(1)
 }
 
-func (x *StateRecord) RawValue() []byte {
+func (x *StateDiff) RawValue() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *StateRecord) MutateValue(v []byte) error {
+func (x *StateDiff) MutateValue(v []byte) error {
 	return x._message.SetBytes(1, v)
 }
 
 // builder
 
-type StateRecordBuilder struct {
+type StateDiffBuilder struct {
 	Key primitives.Ripmd160Sha256
 	Value []byte
 
@@ -265,7 +265,7 @@ type StateRecordBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *StateRecordBuilder) Write(buf []byte) (err error) {
+func (w *StateDiffBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -280,14 +280,14 @@ func (w *StateRecordBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *StateRecordBuilder) GetSize() membuffers.Offset {
+func (w *StateDiffBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *StateRecordBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *StateDiffBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -295,12 +295,12 @@ func (w *StateRecordBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *StateRecordBuilder) Build() *StateRecord {
+func (w *StateDiffBuilder) Build() *StateDiff {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return StateRecordReader(buf)
+	return StateDiffReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -355,9 +355,9 @@ func (i *ContractStateDiffStateDiffsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *ContractStateDiffStateDiffsIterator) NextStateDiffs() *StateRecord {
+func (i *ContractStateDiffStateDiffsIterator) NextStateDiffs() *StateDiff {
 	b, s := i.iterator.NextMessage()
-	return StateRecordReader(b[:s])
+	return StateDiffReader(b[:s])
 }
 
 func (x *ContractStateDiff) RawStateDiffsArray() []byte {
@@ -368,7 +368,7 @@ func (x *ContractStateDiff) RawStateDiffsArray() []byte {
 
 type ContractStateDiffBuilder struct {
 	ContractName primitives.ContractName
-	StateDiffs []*StateRecordBuilder
+	StateDiffs []*StateDiffBuilder
 
 	// internal
 	membuffers.Builder // interface

@@ -42,10 +42,10 @@ message RunLocalMethodInput {
 }
 
 message RunLocalMethodOutput {
-    protocol.ExecutionStatus call_status = 1;
+    protocol.ExecutionResult call_result = 1;
     repeated protocol.MethodArgument output_arguments = 2;
-    uint64 reference_block_height = 3;
-    uint64 reference_block_timestamp = 4;
+    primitives.block_height reference_block_height = 3;
+    primitives.timestamp reference_block_timestamp = 4;
 }
 
 message TransactionSetPreOrderInput {

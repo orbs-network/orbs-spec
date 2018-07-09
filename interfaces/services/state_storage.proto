@@ -30,7 +30,7 @@ message ReadKeysInput {
 
 // returns error code on failure
 message ReadKeysOutput {
-    repeated protocol.StateRecord state_records = 1;
+    repeated protocol.StateDiff state_diffs = 1;
 }
 
 message GetStateStorageBlockHeightInput {

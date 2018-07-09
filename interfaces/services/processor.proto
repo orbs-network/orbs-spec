@@ -32,7 +32,7 @@ message ProcessCallInput {
 
 message ProcessCallOutput {
     repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionStatus call_status = 2;
+    protocol.ExecutionResult call_result = 2;
 }
 
 message DeployNativeServiceInput {

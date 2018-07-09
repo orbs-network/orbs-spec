@@ -25,7 +25,7 @@ message CallMethodRequest {
 
 message CallMethodResponse {
     repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionStatus call_status = 2;
+    protocol.ExecutionResult call_result = 2;
     primitives.block_height block_height = 3;
     primitives.timestamp block_timestamp = 4;
 }
