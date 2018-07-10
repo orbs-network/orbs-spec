@@ -91,19 +91,19 @@ func (x *GossipMessageHeader) MutateRecipientMode(v RecipientsListMode) error {
 	return x._message.SetUint16(3, uint16(v))
 }
 
-type GossipMessageHeaderType uint16
+type GossipMessageHeaderTopic uint16
 
 const (
-	GossipMessageHeaderTypeTransactionRelayType GossipMessageHeaderType = 0
-	GossipMessageHeaderTypeBlockSyncType GossipMessageHeaderType = 1
-	GossipMessageHeaderTypeLeanHelixConsensusType GossipMessageHeaderType = 2
+	GossipMessageHeaderTopicTransactionRelayType GossipMessageHeaderTopic = 0
+	GossipMessageHeaderTopicBlockSyncType GossipMessageHeaderTopic = 1
+	GossipMessageHeaderTopicLeanHelixConsensusType GossipMessageHeaderTopic = 2
 )
 
-func (x *GossipMessageHeader) Type() GossipMessageHeaderType {
-	return GossipMessageHeaderType(x._message.GetUint16(4))
+func (x *GossipMessageHeader) Topic() GossipMessageHeaderTopic {
+	return GossipMessageHeaderTopic(x._message.GetUint16(4))
 }
 
-func (x *GossipMessageHeader) IsTypeTransactionRelayType() bool {
+func (x *GossipMessageHeader) IsTopicTransactionRelayType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 0)
 	return is
 }
@@ -122,7 +122,7 @@ func (x *GossipMessageHeader) MutateTransactionRelayType(v gossipmessages.Transa
 	return nil
 }
 
-func (x *GossipMessageHeader) IsTypeBlockSyncType() bool {
+func (x *GossipMessageHeader) IsTopicBlockSyncType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 1)
 	return is
 }
@@ -141,7 +141,7 @@ func (x *GossipMessageHeader) MutateBlockSyncType(v gossipmessages.BlockSyncMess
 	return nil
 }
 
-func (x *GossipMessageHeader) IsTypeLeanHelixConsensusType() bool {
+func (x *GossipMessageHeader) IsTopicLeanHelixConsensusType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 2)
 	return is
 }
@@ -160,7 +160,7 @@ func (x *GossipMessageHeader) MutateLeanHelixConsensusType(v gossipmessages.Lean
 	return nil
 }
 
-func (x *GossipMessageHeader) RawType() []byte {
+func (x *GossipMessageHeader) RawTopic() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
@@ -183,7 +183,7 @@ type GossipMessageHeaderBuilder struct {
 	VirtualChainId primitives.VirtualChainId
 	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
-	Type GossipMessageHeaderType
+	Topic GossipMessageHeaderTopic
 	NumPayloads uint32
 	TransactionRelayType gossipmessages.TransactionsRelayMessageType
 	BlockSyncType gossipmessages.BlockSyncMessageType
@@ -216,13 +216,13 @@ func (w *GossipMessageHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
 	w._builder.WriteBytesArray(buf, w.arrayOfRecipientPublicKeys())
 	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
-	switch w.Type {
-	case GossipMessageHeaderTypeTransactionRelayType:
+	w._builder.WriteUnionIndex(buf, uint16(w.Topic))
+	switch w.Topic {
+	case GossipMessageHeaderTopicTransactionRelayType:
 		w._builder.WriteUint16(buf, uint16(w.TransactionRelayType))
-	case GossipMessageHeaderTypeBlockSyncType:
+	case GossipMessageHeaderTopicBlockSyncType:
 		w._builder.WriteUint16(buf, uint16(w.BlockSyncType))
-	case GossipMessageHeaderTypeLeanHelixConsensusType:
+	case GossipMessageHeaderTopicLeanHelixConsensusType:
 		w._builder.WriteUint16(buf, uint16(w.LeanHelixConsensusType))
 	}
 	w._builder.WriteUint32(buf, w.NumPayloads)

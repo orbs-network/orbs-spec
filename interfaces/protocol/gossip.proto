@@ -13,7 +13,7 @@ message GossipMessageHeader {
     primitives.virtual_chain_id virtual_chain_id = 2;
     repeated primitives.ed25519_pkey recipient_public_keys = 3;
     RecipientsListMode recipient_mode = 4;
-    oneof type {
+    oneof topic {
         gossipmessages.TransactionsRelayMessageType transaction_relay_type = 5;
         gossipmessages.BlockSyncMessageType block_sync_type = 6;
         gossipmessages.LeanHelixMessageType lean_helix_consensus_type = 7;
