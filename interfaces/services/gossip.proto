@@ -2,15 +2,15 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "services/gossip/transaction_relay.proto";
-import "services/gossip/block_sync.proto";
-import "services/gossip/lean_helix_consensus.proto";
+import "services/gossiptopics/transaction_relay.proto";
+import "services/gossiptopics/block_sync.proto";
+import "services/gossiptopics/lean_helix_consensus.proto";
 
 option serialize_service_args = false;
 
 service Gossip {
     // registration methods for external handlers that wish to receive callbacks
-    option implement_handler = "gossip.TransactionRelay";
-    option implement_handler = "gossip.BlockSync";
-    option implement_handler = "gossip.LeanHelixConsensus";
+    option implement_handler = "gossiptopics.TransactionRelay";
+    option implement_handler = "gossiptopics.BlockSync";
+    option implement_handler = "gossiptopics.LeanHelixConsensus";
 }

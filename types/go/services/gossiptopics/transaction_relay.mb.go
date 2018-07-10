@@ -1,9 +1,9 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
-package gossip
+package gossiptopics
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/messages"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ type TransactionRelayHandler interface {
 // message ForwardedTransactionsInput (non serializable)
 
 type ForwardedTransactionsInput struct {
-	Header *messages.ForwardedTransactionsHeader
+	Header *gossipmessages.ForwardedTransactionsHeader
 	Transactions []*protocol.SignedTransaction
 }
 

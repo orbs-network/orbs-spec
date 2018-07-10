@@ -1,9 +1,9 @@
 syntax = "proto3";
-package gossip;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossip";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
 import "../protocol/transactions.proto";
-import "../protocol/messages/transaction_relay.proto";
+import "../protocol/gossipmessages/transaction_relay.proto";
 
 option serialize_service_args = false;
 
@@ -20,7 +20,7 @@ service TransactionRelayHandler {
 }
 
 message ForwardedTransactionsInput {
-    messages.ForwardedTransactionsHeader header = 1;
+    gossipmessages.ForwardedTransactionsHeader header = 1;
     repeated protocol.SignedTransaction transactions = 2;
 }
 

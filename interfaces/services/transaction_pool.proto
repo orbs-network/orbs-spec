@@ -7,7 +7,7 @@ import "primitives/protocol.proto";
 import "protocol/results.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
-import "services/gossip/transaction_relay.proto";
+import "services/gossiptopics/transaction_relay.proto";
 import "services/handlers/transaction_results.proto";
 
 option serialize_service_args = false;
@@ -15,7 +15,7 @@ option serialize_service_args = false;
 // relies on VirtualMachine
 service TransactionPool {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "gossip.TransactionRelayHandler";
+    option implement_handler = "gossiptopics.TransactionRelayHandler";
     // registration methods for external handlers that wish to receive callbacks
     option register_handler = "handlers.TransactionResultsHandler";
 

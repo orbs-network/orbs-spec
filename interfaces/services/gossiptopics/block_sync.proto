@@ -1,10 +1,10 @@
 syntax = "proto3";
-package gossip;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossip";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
 import "../primitives/crypto.proto";
 import "../protocol/blocks.proto";
-import "../protocol/messages/block_sync.proto";
+import "../protocol/gossipmessages/block_sync.proto";
 
 option serialize_service_args = false;
 
@@ -27,26 +27,26 @@ service BlockSyncHandler {
 }
 
 message BlockSyncAvailabilityRequestInput {
-    messages.BlockSyncAvailabilityRequestHeader header = 1;
-    messages.BlockSyncAvailability request = 2;
+    gossipmessages.BlockSyncAvailabilityRequestHeader header = 1;
+    gossipmessages.BlockSyncAvailability request = 2;
 }
 
 message BlockSyncAvailabilityResponseInput {
     primitives.ed25519_pkey recipient_public_key = 1;
-    messages.BlockSyncAvailabilityResponseHeader header = 2;
-    messages.BlockSyncAvailability response = 3;
+    gossipmessages.BlockSyncAvailabilityResponseHeader header = 2;
+    gossipmessages.BlockSyncAvailability response = 3;
 }
 
 message BlockSyncRequestInput {
     primitives.ed25519_pkey recipient_public_key = 1;
-    messages.BlockSyncRequestHeader header = 2;
-    messages.BlockSyncRequest request = 3;
+    gossipmessages.BlockSyncRequestHeader header = 2;
+    gossipmessages.BlockSyncRequest request = 3;
 }
 
 message BlockSyncResponseInput {
     primitives.ed25519_pkey recipient_public_key = 1;
-    messages.BlockSyncResponseHeader header = 2;
-    messages.BlockSyncResponse response = 3;
+    gossipmessages.BlockSyncResponseHeader header = 2;
+    gossipmessages.BlockSyncResponse response = 3;
     repeated protocol.BlockPair block_pairs = 4; // if only one was requested, place zero in the other
 }
 

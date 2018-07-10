@@ -1,4 +1,4 @@
-# Gossip Protobuf over TCP Encoding
+# Gossip MemBuffers over TCP Encoding
 
 * TCP socket between peers with raw data transmitted over it according to the wire format.
 
@@ -7,7 +7,7 @@
 
 * Wire format (for a single message transmission over the socket):
     * `protocol.MessageHeader` size in bytes (4 bytes, little endian).
-    * `protocol.MessageHeader` content (serialized with MemBuffers, [format](../../interfaces/protocol/messages.proto)).
+    * `protocol.MessageHeader` content (serialized with MemBuffers, [format](../../interfaces/protocol/gossip.proto)).
         * Specifies the specific message type under `protocol.MessageHeader.type`.
         * Specifies the number of payloads under `protocol.MessageHeader.num_payloads`.
     * Payload 1 size in bytes (4 bytes, little endian).
@@ -16,7 +16,7 @@
     * Payload 2 content ...
 
     Example with `BLOCK_SYNC_RESPONSE` message streaming 1000 block pairs:
-    > Note: The payloads can be seen in [`BlockSyncResponseInput`](../../interfaces/services/gossip/block_sync.proto).
+    > Note: The payloads can be seen in [`BlockSyncResponseInput`](../../interfaces/services/gossiptopics/block_sync.proto).
      
     * `protocol.MessageHeader` size
     * `protocol.MessageHeader` content (`type`: `BLOCK_SYNC_RESPONSE`, `num_payloads`: 1002)

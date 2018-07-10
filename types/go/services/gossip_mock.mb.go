@@ -3,7 +3,7 @@ package services
 
 import (
 	"github.com/maraino/go-mock"
-	"github.com/orbs-network/orbs-spec/types/go/services/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -11,8 +11,8 @@ import (
 
 type MockGossip struct {
 	mock.Mock
-	gossip.MockTransactionRelay
-	gossip.MockBlockSync
-	gossip.MockLeanHelixConsensus
+	gossiptopics.MockTransactionRelay
+	gossiptopics.MockBlockSync
+	gossiptopics.MockLeanHelixConsensus
 }
 

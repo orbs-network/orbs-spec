@@ -4,7 +4,7 @@ package services
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/services/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -12,7 +12,7 @@ import (
 // service BlockStorage
 
 type BlockStorage interface {
-	gossip.BlockSyncHandler
+	gossiptopics.BlockSyncHandler
 	CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error)
 	GetTransactionsBlockHeader(input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
 	GetResultsBlockHeader(input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)

@@ -1,10 +1,10 @@
 syntax = "proto3";
-package gossip;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossip";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
 import "../primitives/crypto.proto";
-import "../protocol/messages.proto";
-import "../protocol/messages/lean_helix_consensus.proto";
+import "../protocol/gossip.proto";
+import "../protocol/gossipmessages/lean_helix_consensus.proto";
 
 option serialize_service_args = false;
 
@@ -30,34 +30,34 @@ service LeanHelixConsensusHandler {
 
 message LeanHelixPrePrepareInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    messages.LeanHelixPrePrepareHeader header = 2;
-    messages.LeanHelixBlockRef block_ref = 3;
+    gossipmessages.LeanHelixPrePrepareHeader header = 2;
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
     bytes block = 4; // TODO: fix all blocks here
 }
 
 message LeanHelixPrepareInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    messages.LeanHelixPrepareHeader header = 2;
-    messages.LeanHelixBlockRef block_ref = 3;
+    gossipmessages.LeanHelixPrepareHeader header = 2;
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
 }
 
 message LeanHelixCommitInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    protocol.RecipientsListMode recipient_mode = 2;
-    messages.LeanHelixBlockRef block_ref = 3;
+    protocol.RecipientsListMode recipient_mode = 2; // TODO: move this to a boolean
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
 }
 
 message LeanHelixViewChangeInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    messages.LeanHelixViewChangeHeader header = 2;
-    messages.LeanHelixViewChange view_change = 3;
+    gossipmessages.LeanHelixViewChangeHeader header = 2;
+    gossipmessages.LeanHelixViewChange view_change = 3;
     bytes block = 4;
 }
 
 message LeanHelixNewViewInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    messages.LeanHelixNewViewHeader header = 2;
-    messages.LeanHelixNewView new_view = 3;
+    gossipmessages.LeanHelixNewViewHeader header = 2;
+    gossipmessages.LeanHelixNewView new_view = 3;
     bytes block = 4;
 }
 

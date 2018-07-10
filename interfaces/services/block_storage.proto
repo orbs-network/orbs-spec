@@ -6,7 +6,7 @@ import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
-import "services/gossip/block_sync.proto";
+import "services/gossiptopics/block_sync.proto";
 import "services/handlers/consensus_blocks.proto";
 
 option serialize_service_args = false;
@@ -14,7 +14,7 @@ option serialize_service_args = false;
 // relies on TransactionPool, StateStorage
 service BlockStorage {
     // implements interfaces for handling callbacks from other services
-    option implement_handler = "gossip.BlockSyncHandler";
+    option implement_handler = "gossiptopics.BlockSyncHandler";
     // registration methods for external handlers that wish to receive callbacks
     option register_handler = "handlers.ConsensusBlocksHandler";
 

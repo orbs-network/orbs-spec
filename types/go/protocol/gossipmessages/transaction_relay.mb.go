@@ -1,5 +1,5 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
-package messages
+package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"

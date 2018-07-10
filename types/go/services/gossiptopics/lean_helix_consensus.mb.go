@@ -1,10 +1,10 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
-package gossip
+package gossiptopics
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/messages"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -35,8 +35,8 @@ type LeanHelixConsensusHandler interface {
 
 type LeanHelixPrePrepareInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *messages.LeanHelixPrePrepareHeader
-	BlockRef *messages.LeanHelixBlockRef
+	Header *gossipmessages.LeanHelixPrePrepareHeader
+	BlockRef *gossipmessages.LeanHelixBlockRef
 	Block []byte
 }
 
@@ -45,8 +45,8 @@ type LeanHelixPrePrepareInput struct {
 
 type LeanHelixPrepareInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *messages.LeanHelixPrepareHeader
-	BlockRef *messages.LeanHelixBlockRef
+	Header *gossipmessages.LeanHelixPrepareHeader
+	BlockRef *gossipmessages.LeanHelixBlockRef
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ type LeanHelixPrepareInput struct {
 type LeanHelixCommitInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode protocol.RecipientsListMode
-	BlockRef *messages.LeanHelixBlockRef
+	BlockRef *gossipmessages.LeanHelixBlockRef
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -63,8 +63,8 @@ type LeanHelixCommitInput struct {
 
 type LeanHelixViewChangeInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *messages.LeanHelixViewChangeHeader
-	ViewChange *messages.LeanHelixViewChange
+	Header *gossipmessages.LeanHelixViewChangeHeader
+	ViewChange *gossipmessages.LeanHelixViewChange
 	Block []byte
 }
 
@@ -73,8 +73,8 @@ type LeanHelixViewChangeInput struct {
 
 type LeanHelixNewViewInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *messages.LeanHelixNewViewHeader
-	NewView *messages.LeanHelixNewView
+	Header *gossipmessages.LeanHelixNewViewHeader
+	NewView *gossipmessages.LeanHelixNewView
 	Block []byte
 }
 

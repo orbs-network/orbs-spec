@@ -1,6 +1,6 @@
 syntax = "proto3";
-package messages;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/messages";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
 
 import "../primitives/crypto.proto";
 

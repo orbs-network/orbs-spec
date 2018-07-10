@@ -1,10 +1,10 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
-package gossip
+package gossiptopics
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/messages"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -32,8 +32,8 @@ type BlockSyncHandler interface {
 // message BlockSyncAvailabilityRequestInput (non serializable)
 
 type BlockSyncAvailabilityRequestInput struct {
-	Header *messages.BlockSyncAvailabilityRequestHeader
-	Request *messages.BlockSyncAvailability
+	Header *gossipmessages.BlockSyncAvailabilityRequestHeader
+	Request *gossipmessages.BlockSyncAvailability
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,8 +41,8 @@ type BlockSyncAvailabilityRequestInput struct {
 
 type BlockSyncAvailabilityResponseInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *messages.BlockSyncAvailabilityResponseHeader
-	Response *messages.BlockSyncAvailability
+	Header *gossipmessages.BlockSyncAvailabilityResponseHeader
+	Response *gossipmessages.BlockSyncAvailability
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -50,8 +50,8 @@ type BlockSyncAvailabilityResponseInput struct {
 
 type BlockSyncRequestInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *messages.BlockSyncRequestHeader
-	Request *messages.BlockSyncRequest
+	Header *gossipmessages.BlockSyncRequestHeader
+	Request *gossipmessages.BlockSyncRequest
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ type BlockSyncRequestInput struct {
 
 type BlockSyncResponseInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *messages.BlockSyncResponseHeader
-	Response *messages.BlockSyncResponse
+	Header *gossipmessages.BlockSyncResponseHeader
+	Response *gossipmessages.BlockSyncResponse
 	BlockPairs []*protocol.BlockPair
 }
 

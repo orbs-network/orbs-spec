@@ -2,15 +2,15 @@
 package services
 
 import (
-	"github.com/orbs-network/orbs-spec/types/go/services/gossip"
+	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service Gossip
 
 type Gossip interface {
-	gossip.TransactionRelay
-	gossip.BlockSync
-	gossip.LeanHelixConsensus
+	gossiptopics.TransactionRelay
+	gossiptopics.BlockSync
+	gossiptopics.LeanHelixConsensus
 }
 

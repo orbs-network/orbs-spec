@@ -1,5 +1,5 @@
 // AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
-package gossip
+package gossiptopics
 
 import (
 	"github.com/maraino/go-mock"
