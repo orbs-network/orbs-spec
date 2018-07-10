@@ -46,7 +46,8 @@ message BlockSyncRequestInput {
 message BlockSyncResponseInput {
     primitives.ed25519_pkey recipient_public_key = 1;
     messages.BlockSyncResponseHeader header = 2;
-    repeated protocol.BlockPair block_pairs = 3; // if only one was requested, place zero in the other
+    messages.BlockSyncResponse response = 3;
+    repeated protocol.BlockPair block_pairs = 4; // if only one was requested, place zero in the other
 }
 
 message BlockSyncOutput {
