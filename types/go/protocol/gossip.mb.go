@@ -258,7 +258,8 @@ func (w *GossipMessageHeaderBuilder) Build() *GossipMessageHeader {
 type RecipientsListMode uint16
 
 const (
-	RECIPIENT_LIST_MODE_SEND_TO_LIST RecipientsListMode = 0
-	RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST RecipientsListMode = 1
+	RECIPIENT_LIST_MODE_BROADCAST RecipientsListMode = 0
+	RECIPIENT_LIST_MODE_SEND_TO_LIST RecipientsListMode = 1
+	RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST RecipientsListMode = 2
 )
 

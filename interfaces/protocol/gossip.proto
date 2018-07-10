@@ -23,6 +23,7 @@ message GossipMessageHeader {
 
 // TODO: maybe this should be a bool
 enum RecipientsListMode {
-    RECIPIENT_LIST_MODE_SEND_TO_LIST = 0;
-    RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST = 1;
+    RECIPIENT_LIST_MODE_BROADCAST = 0;
+    RECIPIENT_LIST_MODE_SEND_TO_LIST = 1;
+    RECIPIENT_LIST_MODE_SEND_TO_ALL_BUT_LIST = 2;
 }
