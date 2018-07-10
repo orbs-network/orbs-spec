@@ -18,6 +18,7 @@ message MessageHeader {
         messages.BlockSyncMessageType block_sync = 6;
         messages.LeanHelixMessageType lean_helix_consensus = 7;
     }
+    uint32 num_payloads = 8;
 }
 
 // TODO: maybe this should be a bool

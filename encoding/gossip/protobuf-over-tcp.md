@@ -7,8 +7,8 @@
 * Wire format (for a single message transmission over the socket):
     * `protocol.MessageHeader` size in bytes (4 bytes, little endian).
     * `protocol.MessageHeader` content (serialized with MemBuffers, [format](../../interfaces/protocol/messages.proto)).
-        * This specifies the specific message type.
-    * Number of payloads in this specific message (4 bytes, little endian).
+        * Specifies the specific message type under `protocol.MessageHeader.type`.
+        * Specifies the number of payloads under `protocol.MessageHeader.num_payloads`.
     * Payload 1 size in bytes (4 bytes, little endian).
     * Payload 1 content (serialized with MemBuffers, format per specific message).
     * Payload 2 size ...
@@ -18,8 +18,7 @@
     > Note: The payloads can be seen in [`BlockSyncResponseInput`](../../interfaces/services/gossip/block_sync.proto).
      
     * `protocol.MessageHeader` size
-    * `protocol.MessageHeader` content
-    * number of payloads: 1002
+    * `protocol.MessageHeader` content (`type`: `BLOCK_SYNC_RESPONSE`, `num_payloads`: 1002)
     * `messages.BlockSyncResponseHeader` size
     * `messages.BlockSyncResponseHeader` content
     * `messages.BlockSyncResponse` size
