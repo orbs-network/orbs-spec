@@ -2,6 +2,8 @@
 
 * TCP socket between peers with raw data transmitted over it according to the wire format.
 
+* The gossip protocol is a stream of MemBuffers encoded payloads. Each gossip message can be comprised of several payloads that are streamed in succession.
+
 * Wire format (for a single message transmission over the socket):
     * `protocol.MessageHeader` size in bytes (4 bytes, little endian).
     * `protocol.MessageHeader` content (serialized with MemBuffers, [format](../../interfaces/protocol/messages.proto)).
