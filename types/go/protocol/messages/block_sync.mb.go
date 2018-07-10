@@ -834,10 +834,10 @@ type BlockSyncMessageType uint16
 
 const (
 	BLOCK_SYNC_RESERVED BlockSyncMessageType = 0
-	BLOCK_SYNC_REQUEST BlockSyncMessageType = 1
-	BLOCK_SYNC_RESPONSE BlockSyncMessageType = 2
-	BLOCK_SYNC_BLOCK_AVAILABILITY_REQUEST BlockSyncMessageType = 3
-	BLOCK_SYNC_BLOCK_AVAILABILITY_RESPONSE BlockSyncMessageType = 4
+	BLOCK_SYNC_BLOCK_AVAILABILITY_REQUEST BlockSyncMessageType = 1
+	BLOCK_SYNC_BLOCK_AVAILABILITY_RESPONSE BlockSyncMessageType = 2
+	BLOCK_SYNC_REQUEST BlockSyncMessageType = 3
+	BLOCK_SYNC_RESPONSE BlockSyncMessageType = 4
 )
 
 type BlockType uint16

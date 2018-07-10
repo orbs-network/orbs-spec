@@ -18,7 +18,7 @@ type MessageHeader struct {
 	_message membuffers.InternalMessage
 }
 
-var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,}
+var _MessageHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,membuffers.TypeUint32,}
 var _MessageHeader_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
 
 func MessageHeaderReader(buf []byte) *MessageHeader {
@@ -94,26 +94,26 @@ func (x *MessageHeader) MutateRecipientMode(v RecipientsListMode) error {
 type MessageHeaderType uint16
 
 const (
-	MessageHeaderTypeTransactionRelay MessageHeaderType = 0
-	MessageHeaderTypeBlockSync MessageHeaderType = 1
-	MessageHeaderTypeLeanHelixConsensus MessageHeaderType = 2
+	MessageHeaderTypeTransactionRelayType MessageHeaderType = 0
+	MessageHeaderTypeBlockSyncType MessageHeaderType = 1
+	MessageHeaderTypeLeanHelixConsensusType MessageHeaderType = 2
 )
 
 func (x *MessageHeader) Type() MessageHeaderType {
 	return MessageHeaderType(x._message.GetUint16(4))
 }
 
-func (x *MessageHeader) IsTypeTransactionRelay() bool {
+func (x *MessageHeader) IsTypeTransactionRelayType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 0)
 	return is
 }
 
-func (x *MessageHeader) TransactionRelay() messages.TransactionsRelayMessageType {
+func (x *MessageHeader) TransactionRelayType() messages.TransactionsRelayMessageType {
 	_, off := x._message.IsUnionIndex(4, 0, 0)
 	return messages.TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateTransactionRelay(v messages.TransactionsRelayMessageType) error {
+func (x *MessageHeader) MutateTransactionRelayType(v messages.TransactionsRelayMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -122,17 +122,17 @@ func (x *MessageHeader) MutateTransactionRelay(v messages.TransactionsRelayMessa
 	return nil
 }
 
-func (x *MessageHeader) IsTypeBlockSync() bool {
+func (x *MessageHeader) IsTypeBlockSyncType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 1)
 	return is
 }
 
-func (x *MessageHeader) BlockSync() messages.BlockSyncMessageType {
+func (x *MessageHeader) BlockSyncType() messages.BlockSyncMessageType {
 	_, off := x._message.IsUnionIndex(4, 0, 1)
 	return messages.BlockSyncMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateBlockSync(v messages.BlockSyncMessageType) error {
+func (x *MessageHeader) MutateBlockSyncType(v messages.BlockSyncMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -141,17 +141,17 @@ func (x *MessageHeader) MutateBlockSync(v messages.BlockSyncMessageType) error {
 	return nil
 }
 
-func (x *MessageHeader) IsTypeLeanHelixConsensus() bool {
+func (x *MessageHeader) IsTypeLeanHelixConsensusType() bool {
 	is, _ := x._message.IsUnionIndex(4, 0, 2)
 	return is
 }
 
-func (x *MessageHeader) LeanHelixConsensus() messages.LeanHelixMessageType {
+func (x *MessageHeader) LeanHelixConsensusType() messages.LeanHelixMessageType {
 	_, off := x._message.IsUnionIndex(4, 0, 2)
 	return messages.LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
-func (x *MessageHeader) MutateLeanHelixConsensus(v messages.LeanHelixMessageType) error {
+func (x *MessageHeader) MutateLeanHelixConsensusType(v messages.LeanHelixMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -164,6 +164,18 @@ func (x *MessageHeader) RawType() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
+func (x *MessageHeader) NumPayloads() uint32 {
+	return x._message.GetUint32(5)
+}
+
+func (x *MessageHeader) RawNumPayloads() []byte {
+	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *MessageHeader) MutateNumPayloads(v uint32) error {
+	return x._message.SetUint32(5, v)
+}
+
 // builder
 
 type MessageHeaderBuilder struct {
@@ -172,9 +184,10 @@ type MessageHeaderBuilder struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
 	Type MessageHeaderType
-	TransactionRelay messages.TransactionsRelayMessageType
-	BlockSync messages.BlockSyncMessageType
-	LeanHelixConsensus messages.LeanHelixMessageType
+	NumPayloads uint32
+	TransactionRelayType messages.TransactionsRelayMessageType
+	BlockSyncType messages.BlockSyncMessageType
+	LeanHelixConsensusType messages.LeanHelixMessageType
 
 	// internal
 	membuffers.Builder // interface
@@ -205,13 +218,14 @@ func (w *MessageHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case MessageHeaderTypeTransactionRelay:
-		w._builder.WriteUint16(buf, uint16(w.TransactionRelay))
-	case MessageHeaderTypeBlockSync:
-		w._builder.WriteUint16(buf, uint16(w.BlockSync))
-	case MessageHeaderTypeLeanHelixConsensus:
-		w._builder.WriteUint16(buf, uint16(w.LeanHelixConsensus))
+	case MessageHeaderTypeTransactionRelayType:
+		w._builder.WriteUint16(buf, uint16(w.TransactionRelayType))
+	case MessageHeaderTypeBlockSyncType:
+		w._builder.WriteUint16(buf, uint16(w.BlockSyncType))
+	case MessageHeaderTypeLeanHelixConsensusType:
+		w._builder.WriteUint16(buf, uint16(w.LeanHelixConsensusType))
 	}
+	w._builder.WriteUint32(buf, w.NumPayloads)
 	return nil
 }
 

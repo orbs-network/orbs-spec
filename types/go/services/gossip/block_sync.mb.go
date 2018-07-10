@@ -60,6 +60,7 @@ type BlockSyncRequestInput struct {
 type BlockSyncResponseInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
 	Header *messages.BlockSyncResponseHeader
+	Response *messages.BlockSyncResponse
 	BlockPairs []*protocol.BlockPair
 }
 

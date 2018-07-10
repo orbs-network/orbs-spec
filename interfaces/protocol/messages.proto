@@ -14,9 +14,9 @@ message MessageHeader {
     repeated primitives.ed25519_pkey recipient_public_keys = 3;
     RecipientsListMode recipient_mode = 4;
     oneof type {
-        messages.TransactionsRelayMessageType transaction_relay = 5;
-        messages.BlockSyncMessageType block_sync = 6;
-        messages.LeanHelixMessageType lean_helix_consensus = 7;
+        messages.TransactionsRelayMessageType transaction_relay_type = 5;
+        messages.BlockSyncMessageType block_sync_type = 6;
+        messages.LeanHelixMessageType lean_helix_consensus_type = 7;
     }
     uint32 num_payloads = 8;
 }

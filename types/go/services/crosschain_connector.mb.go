@@ -2,6 +2,7 @@
 package services
 
 import (
+	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -16,6 +17,7 @@ type CrosschainConnector interface {
 // message EthereumCallContractInput (non serializable)
 
 type EthereumCallContractInput struct {
+	BlockHeight primitives.BlockHeight
 	EthereumContractAddress string
 	EthereumFunctionCanonicalForm string
 	InputArguments []*protocol.MethodArgument
