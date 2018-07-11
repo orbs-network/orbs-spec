@@ -1,0 +1,28 @@
+syntax = "proto3";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
+
+import "../protocol/transactions.proto";
+import "../protocol/gossipmessages/transaction_relay.proto";
+
+option serialize_service_args = false;
+
+service TransactionRelay {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "TransactionRelayHandler";
+
+    // called by anyone looking to send gossip messages
+    rpc BroadcastForwardedTransactions (ForwardedTransactionsInput) returns (TransactionRelayOutput);
+}
+
+service TransactionRelayHandler {
+    rpc HandleForwardedTransactions (ForwardedTransactionsInput) returns (TransactionRelayOutput);
+}
+
+message ForwardedTransactionsInput {
+    gossipmessages.ForwardedTransactionsHeader header = 1;
+    repeated protocol.SignedTransaction transactions = 2;
+}
+
+message TransactionRelayOutput {
+}

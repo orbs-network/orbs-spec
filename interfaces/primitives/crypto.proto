@@ -1,0 +1,60 @@
+syntax = "proto3";
+package primitives;
+
+// NOTE: inline files must be in packages having only inline files
+
+option inline = true;
+
+message sha256 {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
+}
+
+message merkle_sha256 {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
+}
+
+message sha3_256 {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
+}
+
+message ed25519_sig {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 64 bytes
+}
+
+message ed25519_pkey {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
+}
+
+message ripmd160_sha256 {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 20 bytes
+}
+
+message bls1_sig {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // TODO size
+}
+
+message bls1_pkey {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // TODO size
+}
+
+message bloom_filter {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}

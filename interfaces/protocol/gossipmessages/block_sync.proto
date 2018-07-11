@@ -1,0 +1,68 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+
+enum BlockSyncMessageType {
+    BLOCK_SYNC_RESERVED = 0;
+    BLOCK_SYNC_AVAILABILITY_REQUEST = 1;
+    BLOCK_SYNC_AVAILABILITY_RESPONSE = 2;
+    BLOCK_SYNC_REQUEST = 3;
+    BLOCK_SYNC_RESPONSE = 4;
+}
+
+// message headers
+
+message BlockSyncAvailabilityRequestHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncAvailabilityResponseHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncRequestHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+// message bodies
+
+message BlockSyncAvailability {
+    BlockType block_type = 1;
+    primitives.block_height first_available_block_height = 2;
+    primitives.block_height last_available_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
+}
+
+message BlockSyncRequest {
+    BlockType block_type = 1;
+    primitives.block_height first_requested_block_height = 2;
+    primitives.block_height last_requested_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
+}
+
+message BlockSyncResponseHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message BlockSyncResponse {
+    BlockType block_type = 1;
+    primitives.block_height first_block_height = 2;
+    primitives.block_height last_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;
+    repeated primitives.sha256 block_hashes = 5;
+    // repeated protocol.BlockPair (block data) is sent separately as payload
+}
+
+enum BlockType {
+    BLOCK_TYPE_RESERVED = 0;
+    BLOCK_TYPE_BLOCK_PAIR = 1;
+    BLOCK_TYPE_TRANSACTIONS_BLOCK = 2;
+    BLOCK_TYPE_RESULTS_BLOCK = 3;
+}

@@ -2,43 +2,15 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
-import "protocol/gossip/messages.proto";
+import "services/gossiptopics/transaction_relay.proto";
+import "services/gossiptopics/block_sync.proto";
+import "services/gossiptopics/lean_helix.proto";
+
+option serialize_service_args = false;
 
 service Gossip {
-    rpc TopicSubscribe (TopicSubscribeInput) returns (TopicSubscribeOutput);
-    rpc TopicUnsubscribe (TopicUnsubscribeInput) returns (TopicUnsubscribeOutput);
-    rpc SendMessage (SendMessageInput) returns (SendMessageOutput);
-}
-
-message GossipMessageReceivedInput {
-    gossip.Message gossip_message = 1;
-}
-
-message GossipMessageReceivedOutput {
-}
-
-message TopicSubscribeInput {
-    string topic = 1;
-    string service_id = 2;
-}
-
-message TopicSubscribeOutput {
-    uint64 subscription_token = 1;
-}
-
-message TopicUnsubscribeInput {
-    string topic = 1;
-    string service_id = 2;
-}
-
-message TopicUnsubscribeOutput {
-    string topic = 1;
-    string service_id = 2;
-}
-
-message SendMessageInput {
-    gossip.Message gossip_message = 1;
-}
-
-message SendMessageOutput {
+    // registration methods for external handlers that wish to receive callbacks
+    option implement_handler = "gossiptopics.TransactionRelay";
+    option implement_handler = "gossiptopics.BlockSync";
+    option implement_handler = "gossiptopics.LeanHelix";
 }

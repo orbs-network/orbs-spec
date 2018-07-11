@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package protocol
 
 import (
@@ -7,31 +7,21 @@ import (
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
-type CallMethodStatus uint16
+type ErrorCodes uint16
 
 const (
-	CALL_METHOD_STATUS_RESERVED CallMethodStatus = 0
-	CALL_METHOD_STATUS_SUCCESS CallMethodStatus = 1
-	CALL_METHOD_STATUS_ERROR_EXCEPTION CallMethodStatus = 2
-	CALL_METHOD_STATUS_ERROR_OUT_OF_SYNC CallMethodStatus = 3
+	ERROR_CODE_RESERVED ErrorCodes = 0
+	ERROR_CODE_OUT_OF_SYNC ErrorCodes = 1
+	ERROR_CODE_INVALID ErrorCodes = 2
 )
 
-type RequestStatus uint16
+type ExecutionResult uint16
 
 const (
-	REQUEST_STATUS_RESERVED RequestStatus = 0
-	REQUEST_STATUS_SUCCESS RequestStatus = 1
-	REQUEST_STATUS_ERROR_INVALID RequestStatus = 2
-	REQUEST_STATUS_ERROR_OUT_OF_SYNC RequestStatus = 3
-)
-
-type ExecutionStatus uint16
-
-const (
-	EXECUTION_STATUS_RESERVED ExecutionStatus = 0
-	EXECUTION_STATUS_SUCCESS ExecutionStatus = 1
-	EXECUTION_STATUS_ERROR_SMART_CONTRACT ExecutionStatus = 2
-	EXECUTION_STATUS_ERROR_UNEXPECTED ExecutionStatus = 3
+	EXECUTION_RESULT_RESERVED ExecutionResult = 0
+	EXECUTION_RESULT_SUCCESS ExecutionResult = 1
+	EXECUTION_RESULT_ERROR_SMART_CONTRACT ExecutionResult = 2
+	EXECUTION_RESULT_ERROR_UNEXPECTED ExecutionResult = 3
 )
 
 type TransactionStatus uint16

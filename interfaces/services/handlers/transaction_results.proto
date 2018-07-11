@@ -1,0 +1,21 @@
+syntax = "proto3";
+package handlers;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
+
+import "../primitives/protocol.proto";
+import "../protocol/transactions.proto";
+
+option serialize_service_args = false;
+
+service TransactionResultsHandler {
+    rpc HandleTransactionResults(HandleTransactionResultsInput) returns (HandleTransactionResultsOutput);
+}
+
+message HandleTransactionResultsInput {
+    repeated protocol.TransactionReceipt transaction_receipts = 1;
+    primitives.block_height block_height = 2;
+    primitives.timestamp timestamp = 3;
+}
+
+message HandleTransactionResultsOutput {
+}

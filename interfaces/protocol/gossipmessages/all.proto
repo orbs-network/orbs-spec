@@ -1,0 +1,29 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+import "../protocol/gossipmessages/transaction_relay.proto";
+import "../protocol/gossipmessages/block_sync.proto";
+import "../protocol/gossipmessages/lean_helix.proto";
+
+message Header {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    repeated primitives.ed25519_pkey recipient_public_keys = 3;
+    RecipientsListMode recipient_mode = 4;
+    oneof topic {
+        gossipmessages.TransactionsRelayMessageType transaction_relay = 5;
+        gossipmessages.BlockSyncMessageType block_sync = 6;
+        gossipmessages.LeanHelixMessageType lean_helix = 7;
+    }
+    uint32 num_payloads = 8;
+}
+
+// TODO: maybe this should be a bool
+enum RecipientsListMode {
+    RECIPIENT_LIST_MODE_BROADCAST = 0;
+    RECIPIENT_LIST_MODE_LIST = 1;
+    RECIPIENT_LIST_MODE_ALL_BUT_LIST = 2;
+}

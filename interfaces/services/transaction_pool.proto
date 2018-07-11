@@ -1,0 +1,86 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+import "protocol/results.proto";
+import "protocol/transactions.proto";
+import "protocol/blocks.proto";
+import "services/gossiptopics/transaction_relay.proto";
+import "services/handlers/transaction_results.proto";
+
+option serialize_service_args = false;
+
+// relies on VirtualMachine
+service TransactionPool {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "gossiptopics.TransactionRelayHandler";
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "handlers.TransactionResultsHandler";
+
+    // called by PublicApi
+    rpc AddNewTransaction (AddNewTransactionInput) returns (AddNewTransactionOutput);
+    rpc GetCommittedTransactionReceipt (GetCommittedTransactionReceiptInput) returns (GetCommittedTransactionReceiptOutput);
+
+    // called by ConsensusContext
+    rpc GetTransactionsForOrdering (GetTransactionsForOrderingInput) returns (GetTransactionsForOrderingOutput);
+    rpc ValidateTransactionsForOrdering (ValidateTransactionsForOrderingInput) returns (ValidateTransactionsForOrderingOutput);
+
+    // called by BlockStorage
+    rpc CommitTransactionReceipts (CommitTransactionReceiptsInput) returns (CommitTransactionReceiptsOutput);
+}
+
+message AddNewTransactionInput {
+    protocol.SignedTransaction signed_transaction = 1;
+}
+
+message AddNewTransactionOutput {
+    protocol.TransactionStatus transaction_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
+}
+
+message GetCommittedTransactionReceiptInput {
+    primitives.sha256 txhash = 1;
+    primitives.timestamp transaction_timestamp = 2;
+}
+
+message GetCommittedTransactionReceiptOutput {
+    protocol.TransactionStatus transaction_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
+}
+
+message GetTransactionsForOrderingInput {
+    primitives.block_height block_height = 1;
+    uint32 max_transactions_set_size_kb = 2;
+    uint32 max_number_of_transactions = 3;
+}
+
+// returns error code on failure
+message GetTransactionsForOrderingOutput {
+    repeated protocol.SignedTransaction signed_transactions = 1;
+}
+
+message ValidateTransactionsForOrderingInput {
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
+}
+
+// returns error code on failure
+message ValidateTransactionsForOrderingOutput {
+}
+
+message CommitTransactionReceiptsInput {
+    protocol.ResultsBlockHeader results_block_header = 1;
+    repeated protocol.TransactionReceipt transaction_receipts = 2;
+    primitives.block_height last_committed_block_height = 3;
+}
+
+message CommitTransactionReceiptsOutput {
+    primitives.block_height next_desired_block_height = 1;
+    primitives.block_height last_committed_block_height = 2;
+}

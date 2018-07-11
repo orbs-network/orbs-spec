@@ -2,70 +2,69 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-import "primitives/types.proto";
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
+import "protocol/blockproofs/lean_helix.proto";
 
-message BlockPair { 
+message BlockPair {
     TransactionsBlock transactions_block = 1;
     ResultsBlock results_block = 2;
 }
 
 message TransactionsBlock {
     TransactionsBlockHeader header = 1;
-    TransactionsBlockMetaData meta_data = 2;
-    TransactionsBlockBody body = 3;
+    TransactionsBlockMetadata metadata = 2;
+    repeated protocol.SignedTransaction signed_transactions = 3;
     TransactionsBlockProof block_proof = 4;
 }
 
 message ResultsBlock {
     ResultsBlockHeader header = 1;
-    ResultsBlockBody body = 2;
-    ResultsBlockProof block_proof = 3;
+    repeated protocol.TransactionReceipt transaction_receipts = 2;
+    repeated protocol.ContractStateDiff contract_state_diffs = 3;
+    ResultsBlockProof block_proof = 4;
 }
 
 message TransactionsBlockHeader {
-    uint32 version = 1;
-    uint32 virtual_chain = 2;
-    uint64 block_height = 3;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4;
-    uint64 timestamp = 5;
-    primitives.sha256 transactions_root_hash = 6;
-    primitives.sha256 meta_data_hash = 7;
-}
-
-message TransactionsBlockMetaData {
-    uint32 version = 1;
-    repeated uint32 nodes_reputation = 2;
-}
-
-message TransactionsBlockBody {
-    repeated protocol.SignedTransaction transaction = 1;
-}
-
-message TransactionsBlockProof {
-    bytes block_proof = 1; // format depends on specific consensus algorithm
+    primitives.timestamp timestamp = 5;
+    primitives.merkle_sha256 transactions_root_hash = 6;
+    primitives.sha256 metadata_hash = 7;
 }
 
 message ResultsBlockHeader {
-    uint32 version = 1;
-    uint32 virtual_chain = 2;
-    uint64 block_height = 3;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4;
-    uint64 timestamp = 5;
-    primitives.sha256 receipts_root_hash = 6;
+    primitives.timestamp timestamp = 5;
+    primitives.merkle_sha256 receipts_root_hash = 6;
     primitives.sha256 state_diff_hash = 7;
     primitives.sha256 transactions_block_hash_ptr = 8;
-    primitives.sha256 pre_execution_state_root_hash = 9;
-    bytes txid_bloom_filter = 10;
-    bytes timestamp_bloom_filter = 11;
+    primitives.merkle_sha256 pre_execution_state_root_hash = 9;
+    primitives.bloom_filter txhash_bloom_filter = 10;
+    primitives.bloom_filter timestamp_bloom_filter = 11;
 }
 
-message ResultsBlockBody {
-    repeated protocol.TransactionReceipt transaction_receipt = 1;
-    repeated protocol.ContractStateDiff contract_state_diff = 2;
+message TransactionsBlockMetadata {
+    // TODO: complete me
+    // uint32 version = 1;
+    // repeated uint32 nodes_reputation = 2;
+}
+
+message TransactionsBlockProof {
+    oneof type {
+        blockproofs.LeanHelix lean_helix = 1;
+    }
 }
 
 message ResultsBlockProof {
-    bytes block_proof = 1; // format depends on specific consensus algorithm
+    oneof type {
+        blockproofs.LeanHelix lean_helix = 1;
+    }
 }

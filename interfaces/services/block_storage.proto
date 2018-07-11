@@ -1,0 +1,84 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+import "protocol/transactions.proto";
+import "protocol/blocks.proto";
+import "services/gossiptopics/block_sync.proto";
+import "services/handlers/consensus_blocks.proto";
+
+option serialize_service_args = false;
+
+// relies on TransactionPool, StateStorage
+service BlockStorage {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "gossiptopics.BlockSyncHandler";
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "handlers.ConsensusBlocksHandler";
+
+    // called by ConsensusAlgo
+    rpc CommitBlock (CommitBlockInput) returns (CommitBlockOutput);
+    rpc GetTransactionsBlockHeader (GetTransactionsBlockHeaderInput) returns (GetTransactionsBlockHeaderOutput);
+    rpc GetResultsBlockHeader (GetResultsBlockHeaderInput) returns (GetResultsBlockHeaderOutput);
+
+    // called by PublicApi
+    rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
+    rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
+
+    // internal calls
+    rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
+}
+
+message CommitBlockInput {
+    protocol.BlockPair block_pair = 1;
+}
+
+message CommitBlockOutput {
+}
+
+message GetTransactionsBlockHeaderInput {
+    primitives.block_height block_height = 1;
+}
+
+message GetTransactionsBlockHeaderOutput {
+    protocol.TransactionsBlockHeader transactions_block_header = 1;
+    protocol.TransactionsBlockMetadata transactions_block_metadata = 2;
+    protocol.TransactionsBlockProof transactions_block_proof = 3;
+}
+
+message GetResultsBlockHeaderInput {
+    primitives.block_height block_height = 1;
+}
+
+message GetResultsBlockHeaderOutput {
+    protocol.ResultsBlockHeader results_block_header = 1;
+    protocol.ResultsBlockProof results_block_proof = 2;
+}
+
+message GetTransactionReceiptInput {
+    primitives.sha256 txhash = 1;
+    primitives.timestamp transaction_timestamp = 2;
+}
+
+message GetTransactionReceiptOutput {
+    protocol.TransactionReceipt transaction_receipt = 1;
+    primitives.block_height block_height = 2;
+    primitives.timestamp block_timestamp = 3;
+}
+
+message GetLastCommittedBlockHeightInput {
+}
+
+message GetLastCommittedBlockHeightOutput {
+    primitives.block_height last_committed_block_height = 1;
+    primitives.timestamp last_committed_block_timestamp = 2;
+}
+
+message ValidateBlockForCommitInput {
+    // TODO: should this be empty?
+}
+
+message ValidateBlockForCommitOutput {
+}

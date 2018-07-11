@@ -1,0 +1,65 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+
+enum LeanHelixMessageType {
+    LEAN_HELIX_RESERVED = 0;
+    LEAN_HELIX_PRE_PREPARE = 1;
+    LEAN_HELIX_PREPARE = 2;
+    LEAN_HELIX_COMMIT = 3;
+    LEAN_HELIX_NEW_VIEW = 4;
+    LEAN_HELIX_VIEW_CHANGE = 5;
+}
+
+// message headers
+
+message LeanHelixPrePrepareHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2; // over phase
+}
+  
+message LeanHelixPrepareHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message LeanHelixCommitHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+    primitives.bls1_sig random_seed_share = 3;
+}
+
+message LeanHelixViewChangeHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+message LeanHelixNewViewHeader {
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}
+
+// message bodies
+
+message LeanHelixBlockRef {
+    primitives.block_height block_height = 1;
+    uint32 view = 2;
+    primitives.sha256 block_hash = 3; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
+}
+
+message LeanHelixViewChange {
+    //uint64 block_height = 1;
+    //uint32 view = 2;
+    repeated LeanHelixBlockRef block_refs = 3;
+    repeated primitives.ed25519_sig signatures = 4;
+}
+
+message LeanHelixNewView {
+    //uint64 block_height = 1;
+    //uint32 view = 2;
+    repeated LeanHelixViewChange view_changes = 3;
+    repeated primitives.ed25519_sig signatures = 2;
+}

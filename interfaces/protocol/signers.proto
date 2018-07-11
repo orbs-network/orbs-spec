@@ -1,0 +1,34 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/crypto.proto";
+import "protocol/contracts.proto";
+
+// address = RIPMD160(SHA(serialized protocol.Signer))
+
+enum SignerNetworkType {
+    NETWORK_TYPE_RESERVED = 0;
+    NETWORK_TYPE_MAIN_NET = 77;
+    NETWORK_TYPE_TEST_NET = 84;
+}
+
+message Signer {
+    oneof scheme {
+        EdDSA01Signer eddsa = 1;
+        // TODO: SmartContractSigner smart_contract = 2;
+    }
+}
+
+message EdDSA01Signer {
+    SignerNetworkType network_type = 1; // TODO: do we want to move network_type to Signer
+    primitives.ed25519_pkey signer_public_key = 2;
+    // signature = Ed25519Signature(txhash)
+}
+
+// message SmartContractSigner {
+//    SignerNetworkType network_type = 1;
+//    primitives.contract_name contract_name = 2;
+//    repeated protocol.MethodArgument input_arguments = 3;
+//    // signature = signature_input_arguments
+//}

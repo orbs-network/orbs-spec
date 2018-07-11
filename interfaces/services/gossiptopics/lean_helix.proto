@@ -1,0 +1,65 @@
+syntax = "proto3";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
+
+import "../primitives/crypto.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/gossipmessages/lean_helix.proto";
+
+option serialize_service_args = false;
+
+service LeanHelix {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "LeanHelixHandler";
+
+    // called by anyone looking to send gossip messages
+    rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
+    rpc SendLeanHelixPrepare (LeanHelixPrepareInput) returns (LeanHelixOutput);
+    rpc SendLeanHelixCommit (LeanHelixCommitInput) returns (LeanHelixOutput);
+    rpc SendLeanHelixViewChange (LeanHelixViewChangeInput) returns (LeanHelixOutput);
+    rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (LeanHelixOutput);
+}
+
+service LeanHelixHandler {
+    rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
+    rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (LeanHelixOutput);
+    rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (LeanHelixOutput);
+    rpc HandleLeanHelixViewChange (LeanHelixViewChangeInput) returns (LeanHelixOutput);
+    rpc HandleLeanHelixNewView (LeanHelixNewViewInput) returns (LeanHelixOutput);
+}
+
+message LeanHelixPrePrepareInput {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.LeanHelixPrePrepareHeader header = 2;
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
+    bytes block = 4; // TODO: fix all blocks here
+}
+
+message LeanHelixPrepareInput {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.LeanHelixPrepareHeader header = 2;
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
+}
+
+message LeanHelixCommitInput {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.RecipientsListMode recipient_mode = 2; // TODO: move this to a boolean
+    gossipmessages.LeanHelixBlockRef block_ref = 3;
+}
+
+message LeanHelixViewChangeInput {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.LeanHelixViewChangeHeader header = 2;
+    gossipmessages.LeanHelixViewChange view_change = 3;
+    bytes block = 4;
+}
+
+message LeanHelixNewViewInput {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.LeanHelixNewViewHeader header = 2;
+    gossipmessages.LeanHelixNewView new_view = 3;
+    bytes block = 4;
+}
+
+message LeanHelixOutput {
+}

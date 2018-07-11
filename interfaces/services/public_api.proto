@@ -1,0 +1,43 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "protocol/client/requests.proto";
+import "services/handlers/transaction_results.proto";
+
+option serialize_service_args = false;
+
+// relies on TransactionPool, BlockStorage, VirtualMachine
+service PublicApi {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "handlers.TransactionResultsHandler";
+
+    // called by ClientSdk
+    rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
+    rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
+    rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+}
+
+message SendTransactionInput {
+    client.SendTransactionRequest client_request = 1;
+}
+
+message SendTransactionOutput {
+    client.SendTransactionResponse client_response = 1;
+}
+
+message CallMethodInput {
+    client.CallMethodRequest client_request = 1;
+}
+
+message CallMethodOutput {
+    client.CallMethodResponse client_response = 1;
+}
+
+message GetTransactionStatusInput {
+    client.GetTransactionStatusRequest client_request = 1;
+}
+
+message GetTransactionStatusOutput {
+    client.GetTransactionStatusResponse client_response = 1;
+}

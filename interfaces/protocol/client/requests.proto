@@ -1,0 +1,43 @@
+syntax = "proto3";
+package client;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/client";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+import "../protocol/transactions.proto";
+import "../protocol/results.proto";
+import "../protocol/contracts.proto";
+
+message SendTransactionRequest {
+    protocol.SignedTransaction signed_transaction = 1;
+}
+
+message SendTransactionResponse {
+    protocol.TransactionReceipt transaction_receipt = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
+}
+
+message CallMethodRequest {
+    protocol.Transaction transaction = 1;
+}
+
+message CallMethodResponse {
+    repeated protocol.MethodArgument output_arguments = 1;
+    protocol.ExecutionResult call_result = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
+}
+
+message GetTransactionStatusRequest {
+    primitives.timestamp transaction_timestamp = 1;
+    primitives.sha256 txhash = 2;
+}
+
+message GetTransactionStatusResponse {
+    protocol.TransactionReceipt transaction_receipt = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp block_timestamp = 4;
+}

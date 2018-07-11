@@ -1,0 +1,62 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+import "protocol/contracts.proto";
+import "protocol/results.proto";
+import "protocol/blocks.proto";
+
+option serialize_service_args = false;
+
+service StateStorage {
+    // called by BlockStorage
+    rpc CommitStateDiff (CommitStateDiffInput) returns (CommitStateDiffOutput);
+
+    // called by VirtualMachine
+    rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
+    rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
+
+    // called by ConsensusContext
+    rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
+}
+
+message ReadKeysInput {
+    primitives.block_height block_height = 1;
+    primitives.contract_name contract_name = 2;
+    repeated primitives.ripmd160_sha256 keys = 3;
+}
+
+// returns error code on failure
+message ReadKeysOutput {
+    repeated protocol.StateDiff state_diffs = 1;
+}
+
+message GetStateStorageBlockHeightInput {
+}
+
+message GetStateStorageBlockHeightOutput {
+    primitives.block_height last_committed_block_height = 1;
+    primitives.timestamp last_committed_block_timestamp = 2;
+}
+
+message CommitStateDiffInput {
+    protocol.ResultsBlockHeader results_block_header = 1;
+    repeated protocol.ContractStateDiff contract_state_diffs = 2;
+    primitives.block_height last_committed_block_height = 3;
+}
+
+message CommitStateDiffOutput {
+    primitives.block_height next_desired_block_height = 1;
+    primitives.block_height last_committed_block_height = 2;
+}
+
+message GetStateHashInput {
+    primitives.block_height block_height = 1;
+}
+
+// returns error code on failure
+message GetStateHashOutput {
+    primitives.merkle_sha256 state_root_hash = 1;
+}

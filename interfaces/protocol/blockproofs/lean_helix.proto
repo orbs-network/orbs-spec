@@ -1,0 +1,17 @@
+syntax = "proto3";
+package blockproofs;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/blockproofs";
+
+import "../primitives/crypto.proto";
+import "../primitives/integers.proto";
+import "../primitives/protocol.proto";
+
+message LeanHelix {
+    primitives.block_height block_height = 1;
+    uint32 view = 2;
+    primitives.uint256 block_hash_mask = 3;
+    primitives.uint256 block_hash = 4;
+    repeated primitives.ed25519_pkey node_public_keys = 5;
+    repeated primitives.ed25519_sig node_signatures = 6;
+    primitives.bls1_sig random_seed_signature = 7;
+}

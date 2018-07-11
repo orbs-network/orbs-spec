@@ -1,0 +1,74 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+import "protocol/results.proto";
+import "protocol/blocks.proto";
+
+option serialize_service_args = false;
+
+// relies on TransactionPool, VirtualMachine, StateStorage
+service ConsensusContext {
+    // called by ConsensusAlgo
+    rpc RequestNewTransactionsBlock (RequestNewTransactionsBlockInput) returns (RequestNewTransactionsBlockOutput);
+    rpc RequestNewResultsBlock (RequestNewResultsBlockInput) returns (RequestNewResultsBlockOutput);
+    rpc ValidateTransactionsBlock (ValidateTransactionsBlockInput) returns (ValidateTransactionsBlockOutput);
+    rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
+    rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+    rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+}
+
+message RequestNewTransactionsBlockInput {
+    primitives.block_height block_height = 1;
+    uint32 max_block_size_kb = 2;
+    uint32 max_number_of_transactions = 3;
+    primitives.sha256 prev_block_hash = 4;
+}
+
+// returns error code on failure
+message RequestNewTransactionsBlockOutput {
+    protocol.TransactionsBlock transactions_block = 1;
+}
+
+message RequestNewResultsBlockInput {
+    primitives.block_height block_height = 1;
+    primitives.sha256 prev_block_hash = 2;
+}
+
+// returns error code on failure
+message RequestNewResultsBlockOutput {
+    protocol.ResultsBlock results_block = 1;
+}
+
+message ValidateTransactionsBlockInput {
+    protocol.TransactionsBlock transactions_block = 1;
+    primitives.sha256 prev_block_hash = 2;
+}
+
+// returns error code on failure
+message ValidateTransactionsBlockOutput {
+}
+
+message ValidateResultsBlockInput {
+    protocol.ResultsBlock results_block = 1;
+    primitives.sha256 prev_block_hash = 2;
+}
+
+// returns error code on failure
+message ValidateResultsBlockOutput {
+}
+
+message RequestCommitteeInput {
+    primitives.block_height block_height = 1;
+    uint64 random_seed = 2;
+    uint32 max_committee_size = 3;
+}
+
+// returns error code on failure
+message RequestCommitteeOutput {
+    repeated primitives.ed25519_pkey node_public_keys = 1;
+    repeated primitives.bls1_pkey node_random_seed_public_keys = 2;
+
+}

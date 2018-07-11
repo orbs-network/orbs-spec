@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package services
 
 import (
 	"github.com/maraino/go-mock"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -28,5 +29,9 @@ func (s *MockProcessor) DeployNativeService(input *DeployNativeServiceInput) (*D
 	} else {
 		return nil, ret.Error(1)
 	}
+}
+
+func (s *MockProcessor) RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler) {
+	s.Called(handler)
 }
 

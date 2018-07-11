@@ -1,0 +1,18 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+
+enum TransactionsRelayMessageType {
+    TRANSACTION_RELAY_RESERVED = 0;
+    TRANSACTION_RELAY_FORWARDED_TRANSACTIONS = 1;
+}
+
+// message headers
+
+message ForwardedTransactionsHeader {
+    primitives.ed25519_pkey gw_node_public_key = 1;
+    primitives.ed25519_sig signature = 2; // Ed25519Sig(sigma SHA(SignedTransaction))
+    // repeated protocol.SignedTransaction (transactions data) is sent separately as payload
+}

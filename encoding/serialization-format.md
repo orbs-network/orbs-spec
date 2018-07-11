@@ -7,4 +7,4 @@
 * Serialization format should be as canonical and deterministic as possible.
   * Different nodes may generate the same complex field separately and compare it using hash only.
   
-* Serialization format is [membuffers](https://github.com/orbs-network/membuffers).
+* Serialization format is [MemBuffers](https://github.com/orbs-network/membuffers).

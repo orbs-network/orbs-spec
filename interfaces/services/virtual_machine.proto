@@ -1,0 +1,59 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "protocol/results.proto";
+import "primitives/protocol.proto";
+import "protocol/transactions.proto";
+import "protocol/contracts.proto";
+import "services/handlers/contract_sdk_call.proto";
+
+option serialize_service_args = false;
+
+// relies on Processor, CrosschainConnector
+service VirtualMachine {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "handlers.ContractSdkCallHandler";
+
+    // called by ConsensusContext
+    rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
+
+    // called by PublicApi
+    rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
+
+    // called by TransactionPool
+    rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
+}
+
+message ProcessTransactionSetInput {
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
+}
+
+// returns error code on failure
+message ProcessTransactionSetOutput {
+    repeated protocol.TransactionReceipt transaction_receipts = 1;
+    repeated protocol.ContractStateDiff contract_state_diffs = 2;
+}
+
+message RunLocalMethodInput {
+    primitives.block_height block_height = 1; // block_height = 0, indicates using a recent block height (best effort latest)
+    protocol.Transaction transaction = 2;
+}
+
+message RunLocalMethodOutput {
+    protocol.ExecutionResult call_result = 1;
+    repeated protocol.MethodArgument output_arguments = 2;
+    primitives.block_height reference_block_height = 3;
+    primitives.timestamp reference_block_timestamp = 4;
+}
+
+message TransactionSetPreOrderInput {
+    primitives.block_height block_height = 1;
+    repeated protocol.SignedTransaction signed_transactions = 2;
+}
+
+// returns error code on failure
+message TransactionSetPreOrderOutput {
+    repeated protocol.TransactionStatus pre_order_results = 1;
+}
