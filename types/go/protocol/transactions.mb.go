@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package protocol
 
 import (
@@ -12,6 +12,14 @@ import (
 // reader
 
 type Transaction struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// Timestamp primitives.Timestamp
+	// Signer Signer
+	// ContractName primitives.ContractName
+	// MethodName primitives.MethodName
+	// InputArguments []MethodArgument
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -203,6 +211,9 @@ func (w *TransactionBuilder) Build() *Transaction {
 // reader
 
 type SignedTransaction struct {
+	// Transaction Transaction
+	// Signature []byte
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -304,6 +315,10 @@ func (w *SignedTransactionBuilder) Build() *SignedTransaction {
 // reader
 
 type TransactionReceipt struct {
+	// Txhash primitives.Sha256
+	// ExecutionResult ExecutionResult
+	// OutputArguments []MethodArgument
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage

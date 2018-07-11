@@ -3,14 +3,14 @@ package gossiptopics;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
 import "../primitives/crypto.proto";
-import "../protocol/gossip.proto";
-import "../protocol/gossipmessages/lean_helix_consensus.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/gossipmessages/lean_helix.proto";
 
 option serialize_service_args = false;
 
-service LeanHelixConsensus {
+service LeanHelix {
     // registration methods for external handlers that wish to receive callbacks
-    option register_handler = "LeanHelixConsensusHandler";
+    option register_handler = "LeanHelixHandler";
 
     // called by anyone looking to send gossip messages
     rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
@@ -20,7 +20,7 @@ service LeanHelixConsensus {
     rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (LeanHelixOutput);
 }
 
-service LeanHelixConsensusHandler {
+service LeanHelixHandler {
     rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
     rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (LeanHelixOutput);
     rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (LeanHelixOutput);
@@ -43,7 +43,7 @@ message LeanHelixPrepareInput {
 
 message LeanHelixCommitInput {
     repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    protocol.RecipientsListMode recipient_mode = 2; // TODO: move this to a boolean
+    gossipmessages.RecipientsListMode recipient_mode = 2; // TODO: move this to a boolean
     gossipmessages.LeanHelixBlockRef block_ref = 3;
 }
 

@@ -1,28 +1,27 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package gossiptopics
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// service LeanHelixConsensus
+// service LeanHelix
 
-type LeanHelixConsensus interface {
+type LeanHelix interface {
 	SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error)
 	SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error)
 	SendLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error)
 	SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error)
 	SendLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error)
-	RegisterLeanHelixConsensusHandler(handler LeanHelixConsensusHandler)
+	RegisterLeanHelixHandler(handler LeanHelixHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// service LeanHelixConsensusHandler
+// service LeanHelixHandler
 
-type LeanHelixConsensusHandler interface {
+type LeanHelixHandler interface {
 	HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error)
 	HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error)
 	HandleLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error)
@@ -54,7 +53,7 @@ type LeanHelixPrepareInput struct {
 
 type LeanHelixCommitInput struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
-	RecipientMode protocol.RecipientsListMode
+	RecipientMode gossipmessages.RecipientsListMode
 	BlockRef *gossipmessages.LeanHelixBlockRef
 }
 

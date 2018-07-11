@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package services
 
 import (
@@ -30,6 +30,6 @@ func (s *MockConsensusAlgo) OnNewConsensusRound(input *OnNewConsensusRoundInput)
 type MockConsensusAlgoLeanHelix struct {
 	mock.Mock
 	MockConsensusAlgo
-	gossiptopics.MockLeanHelixConsensusHandler
+	gossiptopics.MockLeanHelixHandler
 }
 

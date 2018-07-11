@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package protocol
 
 import (
@@ -12,6 +12,9 @@ import (
 // reader
 
 type MethodArgument struct {
+	// Name string
+	// Type MethodArgumentType
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -49,10 +52,10 @@ func (x *MethodArgument) MutateName(v string) error {
 type MethodArgumentType uint16
 
 const (
-	MethodArgumentTypeUint32 MethodArgumentType = 0
-	MethodArgumentTypeUint64 MethodArgumentType = 1
-	MethodArgumentTypeString MethodArgumentType = 2
-	MethodArgumentTypeBytes MethodArgumentType = 3
+	METHOD_ARGUMENT_TYPE_UINT_32 MethodArgumentType = 0
+	METHOD_ARGUMENT_TYPE_UINT_64 MethodArgumentType = 1
+	METHOD_ARGUMENT_TYPE_STRING MethodArgumentType = 2
+	METHOD_ARGUMENT_TYPE_BYTES MethodArgumentType = 3
 )
 
 func (x *MethodArgument) Type() MethodArgumentType {
@@ -167,13 +170,13 @@ func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteString(buf, w.Name)
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case MethodArgumentTypeUint32:
+	case METHOD_ARGUMENT_TYPE_UINT_32:
 		w._builder.WriteUint32(buf, w.Uint32)
-	case MethodArgumentTypeUint64:
+	case METHOD_ARGUMENT_TYPE_UINT_64:
 		w._builder.WriteUint64(buf, w.Uint64)
-	case MethodArgumentTypeString:
+	case METHOD_ARGUMENT_TYPE_STRING:
 		w._builder.WriteString(buf, w.String)
-	case MethodArgumentTypeBytes:
+	case METHOD_ARGUMENT_TYPE_BYTES:
 		w._builder.WriteBytes(buf, w.Bytes)
 	}
 	return nil
@@ -208,6 +211,9 @@ func (w *MethodArgumentBuilder) Build() *MethodArgument {
 // reader
 
 type StateDiff struct {
+	// Key primitives.Ripmd160Sha256
+	// Value []byte
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -309,6 +315,9 @@ func (w *StateDiffBuilder) Build() *StateDiff {
 // reader
 
 type ContractStateDiff struct {
+	// ContractName primitives.ContractName
+	// StateDiffs []StateDiff
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage

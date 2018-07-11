@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package gossiptopics
 
 import (
@@ -6,13 +6,13 @@ import (
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// service LeanHelixConsensus
+// service LeanHelix
 
-type MockLeanHelixConsensus struct {
+type MockLeanHelix struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelixConsensus) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -21,7 +21,7 @@ func (s *MockLeanHelixConsensus) SendLeanHelixPrePrepare(input *LeanHelixPrePrep
 	}
 }
 
-func (s *MockLeanHelixConsensus) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -30,7 +30,7 @@ func (s *MockLeanHelixConsensus) SendLeanHelixPrepare(input *LeanHelixPrepareInp
 	}
 }
 
-func (s *MockLeanHelixConsensus) SendLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -39,7 +39,7 @@ func (s *MockLeanHelixConsensus) SendLeanHelixCommit(input *LeanHelixCommitInput
 	}
 }
 
-func (s *MockLeanHelixConsensus) SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -48,7 +48,7 @@ func (s *MockLeanHelixConsensus) SendLeanHelixViewChange(input *LeanHelixViewCha
 	}
 }
 
-func (s *MockLeanHelixConsensus) SendLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -57,18 +57,18 @@ func (s *MockLeanHelixConsensus) SendLeanHelixNewView(input *LeanHelixNewViewInp
 	}
 }
 
-func (s *MockLeanHelixConsensus) RegisterLeanHelixConsensusHandler(handler LeanHelixConsensusHandler) {
+func (s *MockLeanHelix) RegisterLeanHelixHandler(handler LeanHelixHandler) {
 	s.Called(handler)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// service LeanHelixConsensusHandler
+// service LeanHelixHandler
 
-type MockLeanHelixConsensusHandler struct {
+type MockLeanHelixHandler struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelixConsensusHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -77,7 +77,7 @@ func (s *MockLeanHelixConsensusHandler) HandleLeanHelixPrePrepare(input *LeanHel
 	}
 }
 
-func (s *MockLeanHelixConsensusHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -86,7 +86,7 @@ func (s *MockLeanHelixConsensusHandler) HandleLeanHelixPrepare(input *LeanHelixP
 	}
 }
 
-func (s *MockLeanHelixConsensusHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -95,7 +95,7 @@ func (s *MockLeanHelixConsensusHandler) HandleLeanHelixCommit(input *LeanHelixCo
 	}
 }
 
-func (s *MockLeanHelixConsensusHandler) HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)
@@ -104,7 +104,7 @@ func (s *MockLeanHelixConsensusHandler) HandleLeanHelixViewChange(input *LeanHel
 	}
 }
 
-func (s *MockLeanHelixConsensusHandler) HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*LeanHelixOutput), ret.Error(1)

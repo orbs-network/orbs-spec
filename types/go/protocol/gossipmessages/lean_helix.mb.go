@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package gossipmessages
 
 import (
@@ -12,6 +12,9 @@ import (
 // reader
 
 type LeanHelixPrePrepareHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -113,6 +116,9 @@ func (w *LeanHelixPrePrepareHeaderBuilder) Build() *LeanHelixPrePrepareHeader {
 // reader
 
 type LeanHelixPrepareHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -214,6 +220,10 @@ func (w *LeanHelixPrepareHeaderBuilder) Build() *LeanHelixPrepareHeader {
 // reader
 
 type LeanHelixCommitHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+	// RandomSeedShare primitives.Bls1Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -329,6 +339,9 @@ func (w *LeanHelixCommitHeaderBuilder) Build() *LeanHelixCommitHeader {
 // reader
 
 type LeanHelixViewChangeHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -430,6 +443,9 @@ func (w *LeanHelixViewChangeHeaderBuilder) Build() *LeanHelixViewChangeHeader {
 // reader
 
 type LeanHelixNewViewHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -531,6 +547,10 @@ func (w *LeanHelixNewViewHeaderBuilder) Build() *LeanHelixNewViewHeader {
 // reader
 
 type LeanHelixBlockRef struct {
+	// BlockHeight primitives.BlockHeight
+	// View uint32
+	// BlockHash primitives.Sha256
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -646,6 +666,9 @@ func (w *LeanHelixBlockRefBuilder) Build() *LeanHelixBlockRef {
 // reader
 
 type LeanHelixViewChange struct {
+	// BlockRefs []LeanHelixBlockRef
+	// Signatures []primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -783,6 +806,9 @@ func (w *LeanHelixViewChangeBuilder) Build() *LeanHelixViewChange {
 // reader
 
 type LeanHelixNewView struct {
+	// Signatures []primitives.Ed25519Sig
+	// ViewChanges []LeanHelixViewChange
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -920,11 +946,11 @@ func (w *LeanHelixNewViewBuilder) Build() *LeanHelixNewView {
 type LeanHelixMessageType uint16
 
 const (
-	LEAN_HELIX_CONSENSUS_RESERVED LeanHelixMessageType = 0
-	LEAN_HELIX_CONSENSUS_PRE_PREPARE LeanHelixMessageType = 1
-	LEAN_HELIX_CONSENSUS_PREPARE LeanHelixMessageType = 2
-	LEAN_HELIX_CONSENSUS_COMMIT LeanHelixMessageType = 3
-	LEAN_HELIX_CONSENSUS_NEW_VIEW LeanHelixMessageType = 4
-	LEAN_HELIX_CONSENSUS_VIEW_CHANGE LeanHelixMessageType = 5
+	LEAN_HELIX_RESERVED LeanHelixMessageType = 0
+	LEAN_HELIX_PRE_PREPARE LeanHelixMessageType = 1
+	LEAN_HELIX_PREPARE LeanHelixMessageType = 2
+	LEAN_HELIX_COMMIT LeanHelixMessageType = 3
+	LEAN_HELIX_NEW_VIEW LeanHelixMessageType = 4
+	LEAN_HELIX_VIEW_CHANGE LeanHelixMessageType = 5
 )
 

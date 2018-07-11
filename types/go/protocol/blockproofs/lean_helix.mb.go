@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package blockproofs
 
 import (
@@ -12,6 +12,14 @@ import (
 // reader
 
 type LeanHelix struct {
+	// BlockHeight primitives.BlockHeight
+	// View uint32
+	// BlockHashMask primitives.Uint256
+	// BlockHash primitives.Uint256
+	// NodePublicKeys []primitives.Ed25519Pkey
+	// NodeSignatures []primitives.Ed25519Sig
+	// RandomSeedSignature primitives.Bls1Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage

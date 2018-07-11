@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package gossipmessages
 
 import (
@@ -12,6 +12,9 @@ import (
 // reader
 
 type ForwardedTransactionsHeader struct {
+	// GwNodePublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage

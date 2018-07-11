@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package gossipmessages
 
 import (
@@ -12,6 +12,9 @@ import (
 // reader
 
 type BlockSyncAvailabilityRequestHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -113,6 +116,9 @@ func (w *BlockSyncAvailabilityRequestHeaderBuilder) Build() *BlockSyncAvailabili
 // reader
 
 type BlockSyncAvailabilityResponseHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -214,6 +220,9 @@ func (w *BlockSyncAvailabilityResponseHeaderBuilder) Build() *BlockSyncAvailabil
 // reader
 
 type BlockSyncRequestHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -315,6 +324,11 @@ func (w *BlockSyncRequestHeaderBuilder) Build() *BlockSyncRequestHeader {
 // reader
 
 type BlockSyncAvailability struct {
+	// BlockType BlockType
+	// FirstAvailableBlockHeight primitives.BlockHeight
+	// LastAvailableBlockHeight primitives.BlockHeight
+	// LastCommittedBlockHeight primitives.BlockHeight
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -444,6 +458,11 @@ func (w *BlockSyncAvailabilityBuilder) Build() *BlockSyncAvailability {
 // reader
 
 type BlockSyncRequest struct {
+	// BlockType BlockType
+	// FirstRequestedBlockHeight primitives.BlockHeight
+	// LastRequestedBlockHeight primitives.BlockHeight
+	// LastCommittedBlockHeight primitives.BlockHeight
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -573,6 +592,9 @@ func (w *BlockSyncRequestBuilder) Build() *BlockSyncRequest {
 // reader
 
 type BlockSyncResponseHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -674,6 +696,12 @@ func (w *BlockSyncResponseHeaderBuilder) Build() *BlockSyncResponseHeader {
 // reader
 
 type BlockSyncResponse struct {
+	// BlockType BlockType
+	// FirstBlockHeight primitives.BlockHeight
+	// LastBlockHeight primitives.BlockHeight
+	// LastCommittedBlockHeight primitives.BlockHeight
+	// BlockHashes []primitives.Sha256
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -834,8 +862,8 @@ type BlockSyncMessageType uint16
 
 const (
 	BLOCK_SYNC_RESERVED BlockSyncMessageType = 0
-	BLOCK_SYNC_BLOCK_AVAILABILITY_REQUEST BlockSyncMessageType = 1
-	BLOCK_SYNC_BLOCK_AVAILABILITY_RESPONSE BlockSyncMessageType = 2
+	BLOCK_SYNC_AVAILABILITY_REQUEST BlockSyncMessageType = 1
+	BLOCK_SYNC_AVAILABILITY_RESPONSE BlockSyncMessageType = 2
 	BLOCK_SYNC_REQUEST BlockSyncMessageType = 3
 	BLOCK_SYNC_RESPONSE BlockSyncMessageType = 4
 )

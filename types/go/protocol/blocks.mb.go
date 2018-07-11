@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package protocol
 
 import (
@@ -13,6 +13,9 @@ import (
 // reader
 
 type BlockPair struct {
+	// TransactionsBlock TransactionsBlock
+	// ResultsBlock ResultsBlock
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -114,6 +117,11 @@ func (w *BlockPairBuilder) Build() *BlockPair {
 // reader
 
 type TransactionsBlock struct {
+	// Header TransactionsBlockHeader
+	// Metadata TransactionsBlockMetadata
+	// SignedTransactions []SignedTransaction
+	// BlockProof TransactionsBlockProof
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -263,6 +271,11 @@ func (w *TransactionsBlockBuilder) Build() *TransactionsBlock {
 // reader
 
 type ResultsBlock struct {
+	// Header ResultsBlockHeader
+	// TransactionReceipts []TransactionReceipt
+	// ContractStateDiffs []ContractStateDiff
+	// BlockProof ResultsBlockProof
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -432,6 +445,14 @@ func (w *ResultsBlockBuilder) Build() *ResultsBlock {
 // reader
 
 type TransactionsBlockHeader struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// BlockHeight primitives.BlockHeight
+	// PrevBlockHashPtr primitives.Sha256
+	// Timestamp primitives.Timestamp
+	// TransactionsRootHash primitives.MerkleSha256
+	// MetadataHash primitives.Sha256
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -603,6 +624,18 @@ func (w *TransactionsBlockHeaderBuilder) Build() *TransactionsBlockHeader {
 // reader
 
 type ResultsBlockHeader struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// BlockHeight primitives.BlockHeight
+	// PrevBlockHashPtr primitives.Sha256
+	// Timestamp primitives.Timestamp
+	// ReceiptsRootHash primitives.MerkleSha256
+	// StateDiffHash primitives.Sha256
+	// TransactionsBlockHashPtr primitives.Sha256
+	// PreExecutionStateRootHash primitives.MerkleSha256
+	// TxhashBloomFilter primitives.BloomFilter
+	// TimestampBloomFilter primitives.BloomFilter
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -830,6 +863,7 @@ func (w *ResultsBlockHeaderBuilder) Build() *ResultsBlockHeader {
 // reader
 
 type TransactionsBlockMetadata struct {
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -903,6 +937,8 @@ func (w *TransactionsBlockMetadataBuilder) Build() *TransactionsBlockMetadata {
 // reader
 
 type TransactionsBlockProof struct {
+	// Type TransactionsBlockProofType
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -928,7 +964,7 @@ func (x *TransactionsBlockProof) Raw() []byte {
 type TransactionsBlockProofType uint16
 
 const (
-	TransactionsBlockProofTypeLeanHelix TransactionsBlockProofType = 0
+	TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX TransactionsBlockProofType = 0
 )
 
 func (x *TransactionsBlockProof) Type() TransactionsBlockProofType {
@@ -973,7 +1009,7 @@ func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case TransactionsBlockProofTypeLeanHelix:
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		w._builder.WriteMessage(buf, w.LeanHelix)
 	}
 	return nil
@@ -1008,6 +1044,8 @@ func (w *TransactionsBlockProofBuilder) Build() *TransactionsBlockProof {
 // reader
 
 type ResultsBlockProof struct {
+	// Type ResultsBlockProofType
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -1033,7 +1071,7 @@ func (x *ResultsBlockProof) Raw() []byte {
 type ResultsBlockProofType uint16
 
 const (
-	ResultsBlockProofTypeLeanHelix ResultsBlockProofType = 0
+	RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX ResultsBlockProofType = 0
 )
 
 func (x *ResultsBlockProof) Type() ResultsBlockProofType {
@@ -1078,7 +1116,7 @@ func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case ResultsBlockProofTypeLeanHelix:
+	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		w._builder.WriteMessage(buf, w.LeanHelix)
 	}
 	return nil

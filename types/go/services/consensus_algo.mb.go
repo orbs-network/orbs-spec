@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package services
 
 import (
@@ -19,7 +19,7 @@ type ConsensusAlgo interface {
 
 type ConsensusAlgoLeanHelix interface {
 	ConsensusAlgo
-	gossiptopics.LeanHelixConsensusHandler
+	gossiptopics.LeanHelixHandler
 }
 
 /////////////////////////////////////////////////////////////////////////////

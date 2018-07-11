@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package protocol
 
 import (
@@ -12,6 +12,8 @@ import (
 // reader
 
 type Signer struct {
+	// Scheme SignerScheme
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -37,7 +39,7 @@ func (x *Signer) Raw() []byte {
 type SignerScheme uint16
 
 const (
-	SignerSchemeEddsa SignerScheme = 0
+	SIGNER_SCHEME_EDDSA SignerScheme = 0
 )
 
 func (x *Signer) Scheme() SignerScheme {
@@ -82,7 +84,7 @@ func (w *SignerBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteUnionIndex(buf, uint16(w.Scheme))
 	switch w.Scheme {
-	case SignerSchemeEddsa:
+	case SIGNER_SCHEME_EDDSA:
 		w._builder.WriteMessage(buf, w.Eddsa)
 	}
 	return nil
@@ -117,6 +119,9 @@ func (w *SignerBuilder) Build() *Signer {
 // reader
 
 type EdDSA01Signer struct {
+	// NetworkType SignerNetworkType
+	// SignerPublicKey primitives.Ed25519Pkey
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage

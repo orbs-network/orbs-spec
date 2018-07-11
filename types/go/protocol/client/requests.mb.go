@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.13)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
 package client
 
 import (
@@ -13,6 +13,8 @@ import (
 // reader
 
 type SendTransactionRequest struct {
+	// SignedTransaction protocol.SignedTransaction
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -100,6 +102,11 @@ func (w *SendTransactionRequestBuilder) Build() *SendTransactionRequest {
 // reader
 
 type SendTransactionResponse struct {
+	// TransactionReceipt protocol.TransactionReceipt
+	// TransactionStatus protocol.TransactionStatus
+	// BlockHeight primitives.BlockHeight
+	// BlockTimestamp primitives.Timestamp
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -229,6 +236,8 @@ func (w *SendTransactionResponseBuilder) Build() *SendTransactionResponse {
 // reader
 
 type CallMethodRequest struct {
+	// Transaction protocol.Transaction
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -316,6 +325,11 @@ func (w *CallMethodRequestBuilder) Build() *CallMethodRequest {
 // reader
 
 type CallMethodResponse struct {
+	// OutputArguments []protocol.MethodArgument
+	// CallResult protocol.ExecutionResult
+	// BlockHeight primitives.BlockHeight
+	// BlockTimestamp primitives.Timestamp
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -465,6 +479,9 @@ func (w *CallMethodResponseBuilder) Build() *CallMethodResponse {
 // reader
 
 type GetTransactionStatusRequest struct {
+	// TransactionTimestamp primitives.Timestamp
+	// Txhash primitives.Sha256
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
@@ -566,6 +583,11 @@ func (w *GetTransactionStatusRequestBuilder) Build() *GetTransactionStatusReques
 // reader
 
 type GetTransactionStatusResponse struct {
+	// TransactionReceipt protocol.TransactionReceipt
+	// TransactionStatus protocol.TransactionStatus
+	// BlockHeight primitives.BlockHeight
+	// BlockTimestamp primitives.Timestamp
+
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
