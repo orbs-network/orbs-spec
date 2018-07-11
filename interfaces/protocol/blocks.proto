@@ -16,7 +16,8 @@ message BlockPair {
 message TransactionsBlock {
     TransactionsBlockHeader header = 1;
     TransactionsBlockMetadata metadata = 2;
-    repeated protocol.SignedTransaction signed_transactions = 3;
+    //TODO: was: repeated protocol.SignedTransaction signed_transactions = 3; changed to byte array to resolve builder in builder issue
+    repeated bytes signed_transactions_opaque = 3;
     TransactionsBlockProof block_proof = 4;
 }
 

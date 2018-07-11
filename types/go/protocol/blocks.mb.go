@@ -119,7 +119,7 @@ func (w *BlockPairBuilder) Build() *BlockPair {
 type TransactionsBlock struct {
 	// Header TransactionsBlockHeader
 	// Metadata TransactionsBlockMetadata
-	// SignedTransactions []SignedTransaction
+	// SignedTransactionsOpaque [][]byte
 	// BlockProof TransactionsBlockProof
 
 	// internal
@@ -127,7 +127,7 @@ type TransactionsBlock struct {
 	_message membuffers.InternalMessage
 }
 
-var _TransactionsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessageArray,membuffers.TypeMessage,}
+var _TransactionsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeBytesArray,membuffers.TypeMessage,}
 var _TransactionsBlock_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockReader(buf []byte) *TransactionsBlock {
@@ -162,24 +162,23 @@ func (x *TransactionsBlock) RawMetadata() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *TransactionsBlock) SignedTransactionsIterator() *TransactionsBlockSignedTransactionsIterator {
-	return &TransactionsBlockSignedTransactionsIterator{iterator: x._message.GetMessageArrayIterator(2)}
+func (x *TransactionsBlock) SignedTransactionsOpaqueIterator() *TransactionsBlockSignedTransactionsOpaqueIterator {
+	return &TransactionsBlockSignedTransactionsOpaqueIterator{iterator: x._message.GetBytesArrayIterator(2)}
 }
 
-type TransactionsBlockSignedTransactionsIterator struct {
+type TransactionsBlockSignedTransactionsOpaqueIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *TransactionsBlockSignedTransactionsIterator) HasNext() bool {
+func (i *TransactionsBlockSignedTransactionsOpaqueIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *TransactionsBlockSignedTransactionsIterator) NextSignedTransactions() *SignedTransaction {
-	b, s := i.iterator.NextMessage()
-	return SignedTransactionReader(b[:s])
+func (i *TransactionsBlockSignedTransactionsOpaqueIterator) NextSignedTransactionsOpaque() []byte {
+	return i.iterator.NextBytes()
 }
 
-func (x *TransactionsBlock) RawSignedTransactionsArray() []byte {
+func (x *TransactionsBlock) RawSignedTransactionsOpaqueArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
@@ -197,20 +196,12 @@ func (x *TransactionsBlock) RawBlockProof() []byte {
 type TransactionsBlockBuilder struct {
 	Header *TransactionsBlockHeaderBuilder
 	Metadata *TransactionsBlockMetadataBuilder
-	SignedTransactions []*SignedTransactionBuilder
+	SignedTransactionsOpaque [][]byte
 	BlockProof *TransactionsBlockProofBuilder
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
-}
-
-func (w *TransactionsBlockBuilder) arrayOfSignedTransactions() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.SignedTransactions))
-	for i, v := range w.SignedTransactions {
-		res[i] = v
-	}
-	return res
 }
 
 func (w *TransactionsBlockBuilder) Write(buf []byte) (err error) {
@@ -231,10 +222,7 @@ func (w *TransactionsBlockBuilder) Write(buf []byte) (err error) {
 	if err != nil {
 		return
 	}
-	err = w._builder.WriteMessageArray(buf, w.arrayOfSignedTransactions())
-	if err != nil {
-		return
-	}
+	w._builder.WriteBytesArray(buf, w.SignedTransactionsOpaque)
 	err = w._builder.WriteMessage(buf, w.BlockProof)
 	if err != nil {
 		return
