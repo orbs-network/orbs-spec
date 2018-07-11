@@ -8,10 +8,10 @@ import "primitives/protocol.proto";
 message MethodArgument {
     string name = 1;
     oneof type {
-        uint32 uint32 = 2;
-        uint64 uint64 = 3;
-        string string = 4;
-        bytes bytes = 5;
+        uint32 uint32_value = 2;
+        uint64 uint64_value = 3;
+        string string_value = 4;
+        bytes bytes_value = 5;
     }
 }
 
