@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/client/requests.proto";
 import "services/handlers/transaction_results.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 // relies on TransactionPool, BlockStorage, VirtualMachine
 service PublicApi {

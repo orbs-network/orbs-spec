@@ -6,7 +6,7 @@ import "../primitives/crypto.proto";
 import "../protocol/blocks.proto";
 import "../protocol/gossipmessages/block_sync.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service BlockSync {
     // registration methods for external handlers that wish to receive callbacks

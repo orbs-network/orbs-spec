@@ -7,7 +7,7 @@ import "primitives/protocol.proto";
 import "protocol/results.proto";
 import "protocol/blocks.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 // relies on TransactionPool, VirtualMachine, StateStorage
 service ConsensusContext {

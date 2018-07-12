@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -22,6 +23,10 @@ type Header struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *Header) String() string {
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,NumPayloads:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic(), x.StringNumPayloads())
 }
 
 var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,membuffers.TypeUint32,}
@@ -53,6 +58,10 @@ func (x *Header) MutateProtocolVersion(v primitives.ProtocolVersion) error {
 	return x._message.SetUint32(0, uint32(v))
 }
 
+func (x *Header) StringProtocolVersion() string {
+	return fmt.Sprintf("%x", x.ProtocolVersion())
+}
+
 func (x *Header) VirtualChainId() primitives.VirtualChainId {
 	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
@@ -63,6 +72,10 @@ func (x *Header) RawVirtualChainId() []byte {
 
 func (x *Header) MutateVirtualChainId(v primitives.VirtualChainId) error {
 	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *Header) StringVirtualChainId() string {
+	return fmt.Sprintf("%x", x.VirtualChainId())
 }
 
 func (x *Header) RecipientPublicKeysIterator() *HeaderRecipientPublicKeysIterator {
@@ -85,6 +98,15 @@ func (x *Header) RawRecipientPublicKeysArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *Header) StringRecipientPublicKeys() (res string) {
+	res = "["
+	for i := x.RecipientPublicKeysIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextRecipientPublicKeys()) + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *Header) RecipientMode() RecipientsListMode {
 	return RecipientsListMode(x._message.GetUint16(3))
 }
@@ -95,6 +117,10 @@ func (x *Header) RawRecipientMode() []byte {
 
 func (x *Header) MutateRecipientMode(v RecipientsListMode) error {
 	return x._message.SetUint16(3, uint16(v))
+}
+
+func (x *Header) StringRecipientMode() string {
+	return x.RecipientMode().String()
 }
 
 type HeaderTopic uint16
@@ -119,6 +145,10 @@ func (x *Header) TransactionRelay() TransactionsRelayMessageType {
 	return TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
+func (x *Header) StringTransactionRelay() string {
+	return x.TransactionRelay().String()
+}
+
 func (x *Header) MutateTransactionRelay(v TransactionsRelayMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 0)
 	if !is {
@@ -136,6 +166,10 @@ func (x *Header) IsTopicBlockSync() bool {
 func (x *Header) BlockSync() BlockSyncMessageType {
 	_, off := x._message.IsUnionIndex(4, 0, 1)
 	return BlockSyncMessageType(x._message.GetUint16InOffset(off))
+}
+
+func (x *Header) StringBlockSync() string {
+	return x.BlockSync().String()
 }
 
 func (x *Header) MutateBlockSync(v BlockSyncMessageType) error {
@@ -157,6 +191,10 @@ func (x *Header) LeanHelix() LeanHelixMessageType {
 	return LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
+func (x *Header) StringLeanHelix() string {
+	return x.LeanHelix().String()
+}
+
 func (x *Header) MutateLeanHelix(v LeanHelixMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 2)
 	if !is {
@@ -170,6 +208,18 @@ func (x *Header) RawTopic() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
+func (x *Header) StringTopic() string {
+	switch x.Topic() {
+	case HEADER_TOPIC_TRANSACTION_RELAY:
+		return "(TransactionRelay)" + x.StringTransactionRelay()
+	case HEADER_TOPIC_BLOCK_SYNC:
+		return "(BlockSync)" + x.StringBlockSync()
+	case HEADER_TOPIC_LEAN_HELIX:
+		return "(LeanHelix)" + x.StringLeanHelix()
+	}
+	return "(Unknown)"
+}
+
 func (x *Header) NumPayloads() uint32 {
 	return x._message.GetUint32(5)
 }
@@ -180,6 +230,10 @@ func (x *Header) RawNumPayloads() []byte {
 
 func (x *Header) MutateNumPayloads(v uint32) error {
 	return x._message.SetUint32(5, v)
+}
+
+func (x *Header) StringNumPayloads() string {
+	return fmt.Sprintf("%x", x.NumPayloads())
 }
 
 // builder
@@ -268,4 +322,16 @@ const (
 	RECIPIENT_LIST_MODE_LIST RecipientsListMode = 1
 	RECIPIENT_LIST_MODE_ALL_BUT_LIST RecipientsListMode = 2
 )
+
+func (n RecipientsListMode) String() string {
+	switch n {
+	case RECIPIENT_LIST_MODE_BROADCAST:
+		return "RECIPIENT_LIST_MODE_BROADCAST"
+	case RECIPIENT_LIST_MODE_LIST:
+		return "RECIPIENT_LIST_MODE_LIST"
+	case RECIPIENT_LIST_MODE_ALL_BUT_LIST:
+		return "RECIPIENT_LIST_MODE_ALL_BUT_LIST"
+	}
+	return "UNKNOWN"
+}
 

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -23,6 +24,10 @@ type Transaction struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *Transaction) String() string {
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,Timestamp:%s,Signer:%s,ContractName:%s,MethodName:%s,InputArguments:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTimestamp(), x.StringSigner(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments())
 }
 
 var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeString,membuffers.TypeString,membuffers.TypeMessageArray,}
@@ -54,6 +59,10 @@ func (x *Transaction) MutateProtocolVersion(v primitives.ProtocolVersion) error 
 	return x._message.SetUint32(0, uint32(v))
 }
 
+func (x *Transaction) StringProtocolVersion() string {
+	return fmt.Sprintf("%x", x.ProtocolVersion())
+}
+
 func (x *Transaction) VirtualChainId() primitives.VirtualChainId {
 	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
@@ -64,6 +73,10 @@ func (x *Transaction) RawVirtualChainId() []byte {
 
 func (x *Transaction) MutateVirtualChainId(v primitives.VirtualChainId) error {
 	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *Transaction) StringVirtualChainId() string {
+	return fmt.Sprintf("%x", x.VirtualChainId())
 }
 
 func (x *Transaction) Timestamp() primitives.Timestamp {
@@ -78,6 +91,10 @@ func (x *Transaction) MutateTimestamp(v primitives.Timestamp) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *Transaction) StringTimestamp() string {
+	return fmt.Sprintf("%x", x.Timestamp())
+}
+
 func (x *Transaction) Signer() *Signer {
 	b, s := x._message.GetMessage(3)
 	return SignerReader(b[:s])
@@ -85,6 +102,10 @@ func (x *Transaction) Signer() *Signer {
 
 func (x *Transaction) RawSigner() []byte {
 	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *Transaction) StringSigner() string {
+	return x.Signer().String()
 }
 
 func (x *Transaction) ContractName() primitives.ContractName {
@@ -99,6 +120,10 @@ func (x *Transaction) MutateContractName(v primitives.ContractName) error {
 	return x._message.SetString(4, string(v))
 }
 
+func (x *Transaction) StringContractName() string {
+	return fmt.Sprintf("%x", x.ContractName())
+}
+
 func (x *Transaction) MethodName() primitives.MethodName {
 	return primitives.MethodName(x._message.GetString(5))
 }
@@ -109,6 +134,10 @@ func (x *Transaction) RawMethodName() []byte {
 
 func (x *Transaction) MutateMethodName(v primitives.MethodName) error {
 	return x._message.SetString(5, string(v))
+}
+
+func (x *Transaction) StringMethodName() string {
+	return fmt.Sprintf("%x", x.MethodName())
 }
 
 func (x *Transaction) InputArgumentsIterator() *TransactionInputArgumentsIterator {
@@ -130,6 +159,15 @@ func (i *TransactionInputArgumentsIterator) NextInputArguments() *MethodArgument
 
 func (x *Transaction) RawInputArgumentsArray() []byte {
 	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *Transaction) StringInputArguments() (res string) {
+	res = "["
+	for i := x.InputArgumentsIterator(); i.HasNext(); {
+		res += i.NextInputArguments().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -219,6 +257,10 @@ type SignedTransaction struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *SignedTransaction) String() string {
+	return fmt.Sprintf("{Transaction:%s,Signature:%s,}", x.StringTransaction(), x.StringSignature())
+}
+
 var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
 var _SignedTransaction_Unions = [][]membuffers.FieldType{}
 
@@ -245,6 +287,10 @@ func (x *SignedTransaction) RawTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *SignedTransaction) StringTransaction() string {
+	return x.Transaction().String()
+}
+
 func (x *SignedTransaction) Signature() []byte {
 	return x._message.GetBytes(1)
 }
@@ -255,6 +301,10 @@ func (x *SignedTransaction) RawSignature() []byte {
 
 func (x *SignedTransaction) MutateSignature(v []byte) error {
 	return x._message.SetBytes(1, v)
+}
+
+func (x *SignedTransaction) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -324,6 +374,10 @@ type TransactionReceipt struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *TransactionReceipt) String() string {
+	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArguments:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArguments())
+}
+
 var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint16,membuffers.TypeMessageArray,}
 var _TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
@@ -353,6 +407,10 @@ func (x *TransactionReceipt) MutateTxhash(v primitives.Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *TransactionReceipt) StringTxhash() string {
+	return fmt.Sprintf("%x", x.Txhash())
+}
+
 func (x *TransactionReceipt) ExecutionResult() ExecutionResult {
 	return ExecutionResult(x._message.GetUint16(1))
 }
@@ -363,6 +421,10 @@ func (x *TransactionReceipt) RawExecutionResult() []byte {
 
 func (x *TransactionReceipt) MutateExecutionResult(v ExecutionResult) error {
 	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *TransactionReceipt) StringExecutionResult() string {
+	return x.ExecutionResult().String()
 }
 
 func (x *TransactionReceipt) OutputArgumentsIterator() *TransactionReceiptOutputArgumentsIterator {
@@ -384,6 +446,15 @@ func (i *TransactionReceiptOutputArgumentsIterator) NextOutputArguments() *Metho
 
 func (x *TransactionReceipt) RawOutputArgumentsArray() []byte {
 	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *TransactionReceipt) StringOutputArguments() (res string) {
+	res = "["
+	for i := x.OutputArgumentsIterator(); i.HasNext(); {
+		res += i.NextOutputArguments().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder

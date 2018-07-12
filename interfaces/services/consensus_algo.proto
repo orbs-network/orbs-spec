@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "services/handlers/consensus_blocks.proto";
 import "services/gossiptopics/lean_helix.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 // relies on BlockStorage, ConsensusContext
 service ConsensusAlgo {

@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handler
 import "../primitives/protocol.proto";
 import "../protocol/transactions.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service TransactionResultsHandler {
     rpc HandleTransactionResults(HandleTransactionResultsInput) returns (HandleTransactionResultsOutput);

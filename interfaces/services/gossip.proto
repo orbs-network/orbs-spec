@@ -6,7 +6,7 @@ import "services/gossiptopics/transaction_relay.proto";
 import "services/gossiptopics/block_sync.proto";
 import "services/gossiptopics/lean_helix.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service Gossip {
     // registration methods for external handlers that wish to receive callbacks

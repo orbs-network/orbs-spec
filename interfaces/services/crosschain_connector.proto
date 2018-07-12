@@ -6,7 +6,7 @@ import "primitives/protocol.proto";
 import "protocol/results.proto";
 import "protocol/contracts.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service CrosschainConnector {
     // called by VirtualMachine

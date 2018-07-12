@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -18,6 +19,10 @@ type MethodArgument struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *MethodArgument) String() string {
+	return fmt.Sprintf("{Name:%s,Type:%s,}", x.StringName(), x.StringType())
 }
 
 var _MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeUnion,}
@@ -49,30 +54,38 @@ func (x *MethodArgument) MutateName(v string) error {
 	return x._message.SetString(0, v)
 }
 
+func (x *MethodArgument) StringName() string {
+	return fmt.Sprintf(x.Name())
+}
+
 type MethodArgumentType uint16
 
 const (
-	METHOD_ARGUMENT_TYPE_UINT_32 MethodArgumentType = 0
-	METHOD_ARGUMENT_TYPE_UINT_64 MethodArgumentType = 1
-	METHOD_ARGUMENT_TYPE_STRING MethodArgumentType = 2
-	METHOD_ARGUMENT_TYPE_BYTES MethodArgumentType = 3
+	METHOD_ARGUMENT_TYPE_UINT_32_VALUE MethodArgumentType = 0
+	METHOD_ARGUMENT_TYPE_UINT_64_VALUE MethodArgumentType = 1
+	METHOD_ARGUMENT_TYPE_STRING_VALUE MethodArgumentType = 2
+	METHOD_ARGUMENT_TYPE_BYTES_VALUE MethodArgumentType = 3
 )
 
 func (x *MethodArgument) Type() MethodArgumentType {
 	return MethodArgumentType(x._message.GetUint16(1))
 }
 
-func (x *MethodArgument) IsTypeUint32() bool {
+func (x *MethodArgument) IsTypeUint32Value() bool {
 	is, _ := x._message.IsUnionIndex(1, 0, 0)
 	return is
 }
 
-func (x *MethodArgument) Uint32() uint32 {
+func (x *MethodArgument) Uint32Value() uint32 {
 	_, off := x._message.IsUnionIndex(1, 0, 0)
 	return x._message.GetUint32InOffset(off)
 }
 
-func (x *MethodArgument) MutateUint32(v uint32) error {
+func (x *MethodArgument) StringUint32Value() string {
+	return fmt.Sprintf("%x", x.Uint32Value())
+}
+
+func (x *MethodArgument) MutateUint32Value(v uint32) error {
 	is, off := x._message.IsUnionIndex(1, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -81,17 +94,21 @@ func (x *MethodArgument) MutateUint32(v uint32) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeUint64() bool {
+func (x *MethodArgument) IsTypeUint64Value() bool {
 	is, _ := x._message.IsUnionIndex(1, 0, 1)
 	return is
 }
 
-func (x *MethodArgument) Uint64() uint64 {
+func (x *MethodArgument) Uint64Value() uint64 {
 	_, off := x._message.IsUnionIndex(1, 0, 1)
 	return x._message.GetUint64InOffset(off)
 }
 
-func (x *MethodArgument) MutateUint64(v uint64) error {
+func (x *MethodArgument) StringUint64Value() string {
+	return fmt.Sprintf("%x", x.Uint64Value())
+}
+
+func (x *MethodArgument) MutateUint64Value(v uint64) error {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -100,17 +117,21 @@ func (x *MethodArgument) MutateUint64(v uint64) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeString() bool {
+func (x *MethodArgument) IsTypeStringValue() bool {
 	is, _ := x._message.IsUnionIndex(1, 0, 2)
 	return is
 }
 
-func (x *MethodArgument) String() string {
+func (x *MethodArgument) StringValue() string {
 	_, off := x._message.IsUnionIndex(1, 0, 2)
 	return x._message.GetStringInOffset(off)
 }
 
-func (x *MethodArgument) MutateString(v string) error {
+func (x *MethodArgument) StringStringValue() string {
+	return fmt.Sprintf(x.StringValue())
+}
+
+func (x *MethodArgument) MutateStringValue(v string) error {
 	is, off := x._message.IsUnionIndex(1, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -119,17 +140,21 @@ func (x *MethodArgument) MutateString(v string) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeBytes() bool {
+func (x *MethodArgument) IsTypeBytesValue() bool {
 	is, _ := x._message.IsUnionIndex(1, 0, 3)
 	return is
 }
 
-func (x *MethodArgument) Bytes() []byte {
+func (x *MethodArgument) BytesValue() []byte {
 	_, off := x._message.IsUnionIndex(1, 0, 3)
 	return x._message.GetBytesInOffset(off)
 }
 
-func (x *MethodArgument) MutateBytes(v []byte) error {
+func (x *MethodArgument) StringBytesValue() string {
+	return fmt.Sprintf("%x", x.BytesValue())
+}
+
+func (x *MethodArgument) MutateBytesValue(v []byte) error {
 	is, off := x._message.IsUnionIndex(1, 0, 3)
 	if !is {
 		return &membuffers.ErrInvalidField{}
@@ -142,15 +167,29 @@ func (x *MethodArgument) RawType() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
+func (x *MethodArgument) StringType() string {
+	switch x.Type() {
+	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
+		return "(Uint32Value)" + x.StringUint32Value()
+	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
+		return "(Uint64Value)" + x.StringUint64Value()
+	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
+		return "(StringValue)" + x.StringStringValue()
+	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
+		return "(BytesValue)" + x.StringBytesValue()
+	}
+	return "(Unknown)"
+}
+
 // builder
 
 type MethodArgumentBuilder struct {
 	Name string
 	Type MethodArgumentType
-	Uint32 uint32
-	Uint64 uint64
-	String string
-	Bytes []byte
+	Uint32Value uint32
+	Uint64Value uint64
+	StringValue string
+	BytesValue []byte
 
 	// internal
 	membuffers.Builder // interface
@@ -170,14 +209,14 @@ func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteString(buf, w.Name)
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case METHOD_ARGUMENT_TYPE_UINT_32:
-		w._builder.WriteUint32(buf, w.Uint32)
-	case METHOD_ARGUMENT_TYPE_UINT_64:
-		w._builder.WriteUint64(buf, w.Uint64)
-	case METHOD_ARGUMENT_TYPE_STRING:
-		w._builder.WriteString(buf, w.String)
-	case METHOD_ARGUMENT_TYPE_BYTES:
-		w._builder.WriteBytes(buf, w.Bytes)
+	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
+		w._builder.WriteUint32(buf, w.Uint32Value)
+	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
+		w._builder.WriteUint64(buf, w.Uint64Value)
+	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
+		w._builder.WriteString(buf, w.StringValue)
+	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
+		w._builder.WriteBytes(buf, w.BytesValue)
 	}
 	return nil
 }
@@ -219,6 +258,10 @@ type StateDiff struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *StateDiff) String() string {
+	return fmt.Sprintf("{Key:%s,Value:%s,}", x.StringKey(), x.StringValue())
+}
+
 var _StateDiff_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _StateDiff_Unions = [][]membuffers.FieldType{}
 
@@ -248,6 +291,10 @@ func (x *StateDiff) MutateKey(v primitives.Ripmd160Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *StateDiff) StringKey() string {
+	return fmt.Sprintf("%x", x.Key())
+}
+
 func (x *StateDiff) Value() []byte {
 	return x._message.GetBytes(1)
 }
@@ -258,6 +305,10 @@ func (x *StateDiff) RawValue() []byte {
 
 func (x *StateDiff) MutateValue(v []byte) error {
 	return x._message.SetBytes(1, v)
+}
+
+func (x *StateDiff) StringValue() string {
+	return fmt.Sprintf("%x", x.Value())
 }
 
 // builder
@@ -323,6 +374,10 @@ type ContractStateDiff struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *ContractStateDiff) String() string {
+	return fmt.Sprintf("{ContractName:%s,StateDiffs:%s,}", x.StringContractName(), x.StringStateDiffs())
+}
+
 var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeMessageArray,}
 var _ContractStateDiff_Unions = [][]membuffers.FieldType{}
 
@@ -352,6 +407,10 @@ func (x *ContractStateDiff) MutateContractName(v primitives.ContractName) error 
 	return x._message.SetString(0, string(v))
 }
 
+func (x *ContractStateDiff) StringContractName() string {
+	return fmt.Sprintf("%x", x.ContractName())
+}
+
 func (x *ContractStateDiff) StateDiffsIterator() *ContractStateDiffStateDiffsIterator {
 	return &ContractStateDiffStateDiffsIterator{iterator: x._message.GetMessageArrayIterator(1)}
 }
@@ -371,6 +430,15 @@ func (i *ContractStateDiffStateDiffsIterator) NextStateDiffs() *StateDiff {
 
 func (x *ContractStateDiff) RawStateDiffsArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *ContractStateDiff) StringStateDiffs() (res string) {
+	res = "["
+	for i := x.StateDiffsIterator(); i.HasNext(); {
+		res += i.NextStateDiffs().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -444,6 +512,18 @@ const (
 	ACCESS_SCOPE_READ_WRITE ExecutionAccessScope = 2
 )
 
+func (n ExecutionAccessScope) String() string {
+	switch n {
+	case ACCESS_SCOPE_RESERVED:
+		return "ACCESS_SCOPE_RESERVED"
+	case ACCESS_SCOPE_READ_ONLY:
+		return "ACCESS_SCOPE_READ_ONLY"
+	case ACCESS_SCOPE_READ_WRITE:
+		return "ACCESS_SCOPE_READ_WRITE"
+	}
+	return "UNKNOWN"
+}
+
 type ExecutionPermissionScope uint16
 
 const (
@@ -451,4 +531,16 @@ const (
 	PERMISSION_SCOPE_SYSTEM ExecutionPermissionScope = 1
 	PERMISSION_SCOPE_SERVICE ExecutionPermissionScope = 2
 )
+
+func (n ExecutionPermissionScope) String() string {
+	switch n {
+	case PERMISSION_SCOPE_RESERVED:
+		return "PERMISSION_SCOPE_RESERVED"
+	case PERMISSION_SCOPE_SYSTEM:
+		return "PERMISSION_SCOPE_SYSTEM"
+	case PERMISSION_SCOPE_SERVICE:
+		return "PERMISSION_SCOPE_SERVICE"
+	}
+	return "UNKNOWN"
+}
 

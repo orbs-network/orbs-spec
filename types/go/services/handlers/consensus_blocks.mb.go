@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package handlers
 
 import (

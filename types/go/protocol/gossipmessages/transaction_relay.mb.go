@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -18,6 +19,10 @@ type ForwardedTransactionsHeader struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *ForwardedTransactionsHeader) String() string {
+	return fmt.Sprintf("{GwNodePublicKey:%s,Signature:%s,}", x.StringGwNodePublicKey(), x.StringSignature())
 }
 
 var _ForwardedTransactionsHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -49,6 +54,10 @@ func (x *ForwardedTransactionsHeader) MutateGwNodePublicKey(v primitives.Ed25519
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *ForwardedTransactionsHeader) StringGwNodePublicKey() string {
+	return fmt.Sprintf("%x", x.GwNodePublicKey())
+}
+
 func (x *ForwardedTransactionsHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -59,6 +68,10 @@ func (x *ForwardedTransactionsHeader) RawSignature() []byte {
 
 func (x *ForwardedTransactionsHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *ForwardedTransactionsHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -119,4 +132,14 @@ const (
 	TRANSACTION_RELAY_RESERVED TransactionsRelayMessageType = 0
 	TRANSACTION_RELAY_FORWARDED_TRANSACTIONS TransactionsRelayMessageType = 1
 )
+
+func (n TransactionsRelayMessageType) String() string {
+	switch n {
+	case TRANSACTION_RELAY_RESERVED:
+		return "TRANSACTION_RELAY_RESERVED"
+	case TRANSACTION_RELAY_FORWARDED_TRANSACTIONS:
+		return "TRANSACTION_RELAY_FORWARDED_TRANSACTIONS"
+	}
+	return "UNKNOWN"
+}
 

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package client
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -18,6 +19,10 @@ type SendTransactionRequest struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *SendTransactionRequest) String() string {
+	return fmt.Sprintf("{SignedTransaction:%s,}", x.StringSignedTransaction())
 }
 
 var _SendTransactionRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
@@ -44,6 +49,10 @@ func (x *SendTransactionRequest) SignedTransaction() *protocol.SignedTransaction
 
 func (x *SendTransactionRequest) RawSignedTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *SendTransactionRequest) StringSignedTransaction() string {
+	return x.SignedTransaction().String()
 }
 
 // builder
@@ -112,6 +121,10 @@ type SendTransactionResponse struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *SendTransactionResponse) String() string {
+	return fmt.Sprintf("{TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
 var _SendTransactionResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _SendTransactionResponse_Unions = [][]membuffers.FieldType{}
 
@@ -138,6 +151,10 @@ func (x *SendTransactionResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *SendTransactionResponse) StringTransactionReceipt() string {
+	return x.TransactionReceipt().String()
+}
+
 func (x *SendTransactionResponse) TransactionStatus() protocol.TransactionStatus {
 	return protocol.TransactionStatus(x._message.GetUint16(1))
 }
@@ -148,6 +165,10 @@ func (x *SendTransactionResponse) RawTransactionStatus() []byte {
 
 func (x *SendTransactionResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
 	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *SendTransactionResponse) StringTransactionStatus() string {
+	return x.TransactionStatus().String()
 }
 
 func (x *SendTransactionResponse) BlockHeight() primitives.BlockHeight {
@@ -162,6 +183,10 @@ func (x *SendTransactionResponse) MutateBlockHeight(v primitives.BlockHeight) er
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *SendTransactionResponse) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *SendTransactionResponse) BlockTimestamp() primitives.Timestamp {
 	return primitives.Timestamp(x._message.GetUint64(3))
 }
@@ -172,6 +197,10 @@ func (x *SendTransactionResponse) RawBlockTimestamp() []byte {
 
 func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *SendTransactionResponse) StringBlockTimestamp() string {
+	return fmt.Sprintf("%x", x.BlockTimestamp())
 }
 
 // builder
@@ -243,6 +272,10 @@ type CallMethodRequest struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *CallMethodRequest) String() string {
+	return fmt.Sprintf("{Transaction:%s,}", x.StringTransaction())
+}
+
 var _CallMethodRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
 var _CallMethodRequest_Unions = [][]membuffers.FieldType{}
 
@@ -267,6 +300,10 @@ func (x *CallMethodRequest) Transaction() *protocol.Transaction {
 
 func (x *CallMethodRequest) RawTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *CallMethodRequest) StringTransaction() string {
+	return x.Transaction().String()
 }
 
 // builder
@@ -335,6 +372,10 @@ type CallMethodResponse struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *CallMethodResponse) String() string {
+	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
 var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _CallMethodResponse_Unions = [][]membuffers.FieldType{}
 
@@ -373,6 +414,15 @@ func (x *CallMethodResponse) RawOutputArgumentsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *CallMethodResponse) StringOutputArguments() (res string) {
+	res = "["
+	for i := x.OutputArgumentsIterator(); i.HasNext(); {
+		res += i.NextOutputArguments().String() + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *CallMethodResponse) CallResult() protocol.ExecutionResult {
 	return protocol.ExecutionResult(x._message.GetUint16(1))
 }
@@ -383,6 +433,10 @@ func (x *CallMethodResponse) RawCallResult() []byte {
 
 func (x *CallMethodResponse) MutateCallResult(v protocol.ExecutionResult) error {
 	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *CallMethodResponse) StringCallResult() string {
+	return x.CallResult().String()
 }
 
 func (x *CallMethodResponse) BlockHeight() primitives.BlockHeight {
@@ -397,6 +451,10 @@ func (x *CallMethodResponse) MutateBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *CallMethodResponse) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *CallMethodResponse) BlockTimestamp() primitives.Timestamp {
 	return primitives.Timestamp(x._message.GetUint64(3))
 }
@@ -407,6 +465,10 @@ func (x *CallMethodResponse) RawBlockTimestamp() []byte {
 
 func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *CallMethodResponse) StringBlockTimestamp() string {
+	return fmt.Sprintf("%x", x.BlockTimestamp())
 }
 
 // builder
@@ -487,6 +549,10 @@ type GetTransactionStatusRequest struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *GetTransactionStatusRequest) String() string {
+	return fmt.Sprintf("{TransactionTimestamp:%s,Txhash:%s,}", x.StringTransactionTimestamp(), x.StringTxhash())
+}
+
 var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeBytes,}
 var _GetTransactionStatusRequest_Unions = [][]membuffers.FieldType{}
 
@@ -516,6 +582,10 @@ func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.Ti
 	return x._message.SetUint64(0, uint64(v))
 }
 
+func (x *GetTransactionStatusRequest) StringTransactionTimestamp() string {
+	return fmt.Sprintf("%x", x.TransactionTimestamp())
+}
+
 func (x *GetTransactionStatusRequest) Txhash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(1))
 }
@@ -526,6 +596,10 @@ func (x *GetTransactionStatusRequest) RawTxhash() []byte {
 
 func (x *GetTransactionStatusRequest) MutateTxhash(v primitives.Sha256) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *GetTransactionStatusRequest) StringTxhash() string {
+	return fmt.Sprintf("%x", x.Txhash())
 }
 
 // builder
@@ -593,6 +667,10 @@ type GetTransactionStatusResponse struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *GetTransactionStatusResponse) String() string {
+	return fmt.Sprintf("{TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
 var _GetTransactionStatusResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _GetTransactionStatusResponse_Unions = [][]membuffers.FieldType{}
 
@@ -619,6 +697,10 @@ func (x *GetTransactionStatusResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *GetTransactionStatusResponse) StringTransactionReceipt() string {
+	return x.TransactionReceipt().String()
+}
+
 func (x *GetTransactionStatusResponse) TransactionStatus() protocol.TransactionStatus {
 	return protocol.TransactionStatus(x._message.GetUint16(1))
 }
@@ -629,6 +711,10 @@ func (x *GetTransactionStatusResponse) RawTransactionStatus() []byte {
 
 func (x *GetTransactionStatusResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
 	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *GetTransactionStatusResponse) StringTransactionStatus() string {
+	return x.TransactionStatus().String()
 }
 
 func (x *GetTransactionStatusResponse) BlockHeight() primitives.BlockHeight {
@@ -643,6 +729,10 @@ func (x *GetTransactionStatusResponse) MutateBlockHeight(v primitives.BlockHeigh
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *GetTransactionStatusResponse) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.Timestamp {
 	return primitives.Timestamp(x._message.GetUint64(3))
 }
@@ -653,6 +743,10 @@ func (x *GetTransactionStatusResponse) RawBlockTimestamp() []byte {
 
 func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *GetTransactionStatusResponse) StringBlockTimestamp() string {
+	return fmt.Sprintf("%x", x.BlockTimestamp())
 }
 
 // builder

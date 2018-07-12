@@ -8,7 +8,7 @@ import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 import "services/handlers/contract_sdk_call.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 // relies on Processor, CrosschainConnector
 service VirtualMachine {

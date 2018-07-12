@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -18,6 +19,10 @@ type LeanHelixPrePrepareHeader struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *LeanHelixPrePrepareHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
 var _LeanHelixPrePrepareHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -49,6 +54,10 @@ func (x *LeanHelixPrePrepareHeader) MutateSenderPublicKey(v primitives.Ed25519Pk
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *LeanHelixPrePrepareHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *LeanHelixPrePrepareHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -59,6 +68,10 @@ func (x *LeanHelixPrePrepareHeader) RawSignature() []byte {
 
 func (x *LeanHelixPrePrepareHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *LeanHelixPrePrepareHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -124,6 +137,10 @@ type LeanHelixPrepareHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixPrepareHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _LeanHelixPrepareHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _LeanHelixPrepareHeader_Unions = [][]membuffers.FieldType{}
 
@@ -153,6 +170,10 @@ func (x *LeanHelixPrepareHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey)
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *LeanHelixPrepareHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *LeanHelixPrepareHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -163,6 +184,10 @@ func (x *LeanHelixPrepareHeader) RawSignature() []byte {
 
 func (x *LeanHelixPrepareHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *LeanHelixPrepareHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -229,6 +254,10 @@ type LeanHelixCommitHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixCommitHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,RandomSeedShare:%s,}", x.StringSenderPublicKey(), x.StringSignature(), x.StringRandomSeedShare())
+}
+
 var _LeanHelixCommitHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,}
 var _LeanHelixCommitHeader_Unions = [][]membuffers.FieldType{}
 
@@ -258,6 +287,10 @@ func (x *LeanHelixCommitHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) 
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *LeanHelixCommitHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *LeanHelixCommitHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -270,6 +303,10 @@ func (x *LeanHelixCommitHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
+func (x *LeanHelixCommitHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
 func (x *LeanHelixCommitHeader) RandomSeedShare() primitives.Bls1Sig {
 	return primitives.Bls1Sig(x._message.GetBytes(2))
 }
@@ -280,6 +317,10 @@ func (x *LeanHelixCommitHeader) RawRandomSeedShare() []byte {
 
 func (x *LeanHelixCommitHeader) MutateRandomSeedShare(v primitives.Bls1Sig) error {
 	return x._message.SetBytes(2, []byte(v))
+}
+
+func (x *LeanHelixCommitHeader) StringRandomSeedShare() string {
+	return fmt.Sprintf("%x", x.RandomSeedShare())
 }
 
 // builder
@@ -347,6 +388,10 @@ type LeanHelixViewChangeHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixViewChangeHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _LeanHelixViewChangeHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _LeanHelixViewChangeHeader_Unions = [][]membuffers.FieldType{}
 
@@ -376,6 +421,10 @@ func (x *LeanHelixViewChangeHeader) MutateSenderPublicKey(v primitives.Ed25519Pk
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *LeanHelixViewChangeHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *LeanHelixViewChangeHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -386,6 +435,10 @@ func (x *LeanHelixViewChangeHeader) RawSignature() []byte {
 
 func (x *LeanHelixViewChangeHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *LeanHelixViewChangeHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -451,6 +504,10 @@ type LeanHelixNewViewHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixNewViewHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _LeanHelixNewViewHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _LeanHelixNewViewHeader_Unions = [][]membuffers.FieldType{}
 
@@ -480,6 +537,10 @@ func (x *LeanHelixNewViewHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey)
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *LeanHelixNewViewHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *LeanHelixNewViewHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -490,6 +551,10 @@ func (x *LeanHelixNewViewHeader) RawSignature() []byte {
 
 func (x *LeanHelixNewViewHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *LeanHelixNewViewHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -556,6 +621,10 @@ type LeanHelixBlockRef struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixBlockRef) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,View:%s,BlockHash:%s,}", x.StringBlockHeight(), x.StringView(), x.StringBlockHash())
+}
+
 var _LeanHelixBlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,}
 var _LeanHelixBlockRef_Unions = [][]membuffers.FieldType{}
 
@@ -585,6 +654,10 @@ func (x *LeanHelixBlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(0, uint64(v))
 }
 
+func (x *LeanHelixBlockRef) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *LeanHelixBlockRef) View() uint32 {
 	return x._message.GetUint32(1)
 }
@@ -597,6 +670,10 @@ func (x *LeanHelixBlockRef) MutateView(v uint32) error {
 	return x._message.SetUint32(1, v)
 }
 
+func (x *LeanHelixBlockRef) StringView() string {
+	return fmt.Sprintf("%x", x.View())
+}
+
 func (x *LeanHelixBlockRef) BlockHash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(2))
 }
@@ -607,6 +684,10 @@ func (x *LeanHelixBlockRef) RawBlockHash() []byte {
 
 func (x *LeanHelixBlockRef) MutateBlockHash(v primitives.Sha256) error {
 	return x._message.SetBytes(2, []byte(v))
+}
+
+func (x *LeanHelixBlockRef) StringBlockHash() string {
+	return fmt.Sprintf("%x", x.BlockHash())
 }
 
 // builder
@@ -674,6 +755,10 @@ type LeanHelixViewChange struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixViewChange) String() string {
+	return fmt.Sprintf("{BlockRefs:%s,Signatures:%s,}", x.StringBlockRefs(), x.StringSignatures())
+}
+
 var _LeanHelixViewChange_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeBytesArray,}
 var _LeanHelixViewChange_Unions = [][]membuffers.FieldType{}
 
@@ -712,6 +797,15 @@ func (x *LeanHelixViewChange) RawBlockRefsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixViewChange) StringBlockRefs() (res string) {
+	res = "["
+	for i := x.BlockRefsIterator(); i.HasNext(); {
+		res += i.NextBlockRefs().String() + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *LeanHelixViewChange) SignaturesIterator() *LeanHelixViewChangeSignaturesIterator {
 	return &LeanHelixViewChangeSignaturesIterator{iterator: x._message.GetBytesArrayIterator(1)}
 }
@@ -730,6 +824,15 @@ func (i *LeanHelixViewChangeSignaturesIterator) NextSignatures() primitives.Ed25
 
 func (x *LeanHelixViewChange) RawSignaturesArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixViewChange) StringSignatures() (res string) {
+	res = "["
+	for i := x.SignaturesIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextSignatures()) + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -814,6 +917,10 @@ type LeanHelixNewView struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *LeanHelixNewView) String() string {
+	return fmt.Sprintf("{Signatures:%s,ViewChanges:%s,}", x.StringSignatures(), x.StringViewChanges())
+}
+
 var _LeanHelixNewView_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeMessageArray,}
 var _LeanHelixNewView_Unions = [][]membuffers.FieldType{}
 
@@ -851,6 +958,15 @@ func (x *LeanHelixNewView) RawSignaturesArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixNewView) StringSignatures() (res string) {
+	res = "["
+	for i := x.SignaturesIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextSignatures()) + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *LeanHelixNewView) ViewChangesIterator() *LeanHelixNewViewViewChangesIterator {
 	return &LeanHelixNewViewViewChangesIterator{iterator: x._message.GetMessageArrayIterator(1)}
 }
@@ -870,6 +986,15 @@ func (i *LeanHelixNewViewViewChangesIterator) NextViewChanges() *LeanHelixViewCh
 
 func (x *LeanHelixNewView) RawViewChangesArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixNewView) StringViewChanges() (res string) {
+	res = "["
+	for i := x.ViewChangesIterator(); i.HasNext(); {
+		res += i.NextViewChanges().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -953,4 +1078,22 @@ const (
 	LEAN_HELIX_NEW_VIEW LeanHelixMessageType = 4
 	LEAN_HELIX_VIEW_CHANGE LeanHelixMessageType = 5
 )
+
+func (n LeanHelixMessageType) String() string {
+	switch n {
+	case LEAN_HELIX_RESERVED:
+		return "LEAN_HELIX_RESERVED"
+	case LEAN_HELIX_PRE_PREPARE:
+		return "LEAN_HELIX_PRE_PREPARE"
+	case LEAN_HELIX_PREPARE:
+		return "LEAN_HELIX_PREPARE"
+	case LEAN_HELIX_COMMIT:
+		return "LEAN_HELIX_COMMIT"
+	case LEAN_HELIX_NEW_VIEW:
+		return "LEAN_HELIX_NEW_VIEW"
+	case LEAN_HELIX_VIEW_CHANGE:
+		return "LEAN_HELIX_VIEW_CHANGE"
+	}
+	return "UNKNOWN"
+}
 

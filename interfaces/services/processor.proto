@@ -8,7 +8,7 @@ import "protocol/signers.proto";
 import "protocol/results.proto";
 import "services/handlers/contract_sdk_call.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service Processor {
     // registration methods for external handlers that wish to receive callbacks

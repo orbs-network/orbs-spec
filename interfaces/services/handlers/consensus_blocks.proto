@@ -4,7 +4,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handler
 
 import "../protocol/blocks.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service ConsensusBlocksHandler {
     rpc HandleTransactionsBlock (HandleTransactionsBlockInput) returns (HandleTransactionsBlockOutput);

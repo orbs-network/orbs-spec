@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package blockproofs
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -23,6 +24,10 @@ type LeanHelix struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *LeanHelix) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,View:%s,BlockHashMask:%s,BlockHash:%s,NodePublicKeys:%s,NodeSignatures:%s,RandomSeedSignature:%s,}", x.StringBlockHeight(), x.StringView(), x.StringBlockHashMask(), x.StringBlockHash(), x.StringNodePublicKeys(), x.StringNodeSignatures(), x.StringRandomSeedSignature())
 }
 
 var _LeanHelix_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytesArray,membuffers.TypeBytesArray,membuffers.TypeBytes,}
@@ -54,6 +59,10 @@ func (x *LeanHelix) MutateBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(0, uint64(v))
 }
 
+func (x *LeanHelix) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *LeanHelix) View() uint32 {
 	return x._message.GetUint32(1)
 }
@@ -64,6 +73,10 @@ func (x *LeanHelix) RawView() []byte {
 
 func (x *LeanHelix) MutateView(v uint32) error {
 	return x._message.SetUint32(1, v)
+}
+
+func (x *LeanHelix) StringView() string {
+	return fmt.Sprintf("%x", x.View())
 }
 
 func (x *LeanHelix) BlockHashMask() primitives.Uint256 {
@@ -78,6 +91,10 @@ func (x *LeanHelix) MutateBlockHashMask(v primitives.Uint256) error {
 	return x._message.SetBytes(2, []byte(v))
 }
 
+func (x *LeanHelix) StringBlockHashMask() string {
+	return fmt.Sprintf("%x", x.BlockHashMask())
+}
+
 func (x *LeanHelix) BlockHash() primitives.Uint256 {
 	return primitives.Uint256(x._message.GetBytes(3))
 }
@@ -88,6 +105,10 @@ func (x *LeanHelix) RawBlockHash() []byte {
 
 func (x *LeanHelix) MutateBlockHash(v primitives.Uint256) error {
 	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *LeanHelix) StringBlockHash() string {
+	return fmt.Sprintf("%x", x.BlockHash())
 }
 
 func (x *LeanHelix) NodePublicKeysIterator() *LeanHelixNodePublicKeysIterator {
@@ -110,6 +131,15 @@ func (x *LeanHelix) RawNodePublicKeysArray() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
+func (x *LeanHelix) StringNodePublicKeys() (res string) {
+	res = "["
+	for i := x.NodePublicKeysIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextNodePublicKeys()) + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *LeanHelix) NodeSignaturesIterator() *LeanHelixNodeSignaturesIterator {
 	return &LeanHelixNodeSignaturesIterator{iterator: x._message.GetBytesArrayIterator(5)}
 }
@@ -130,6 +160,15 @@ func (x *LeanHelix) RawNodeSignaturesArray() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
+func (x *LeanHelix) StringNodeSignatures() (res string) {
+	res = "["
+	for i := x.NodeSignaturesIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextNodeSignatures()) + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *LeanHelix) RandomSeedSignature() primitives.Bls1Sig {
 	return primitives.Bls1Sig(x._message.GetBytes(6))
 }
@@ -140,6 +179,10 @@ func (x *LeanHelix) RawRandomSeedSignature() []byte {
 
 func (x *LeanHelix) MutateRandomSeedSignature(v primitives.Bls1Sig) error {
 	return x._message.SetBytes(6, []byte(v))
+}
+
+func (x *LeanHelix) StringRandomSeedSignature() string {
+	return fmt.Sprintf("%x", x.RandomSeedSignature())
 }
 
 // builder

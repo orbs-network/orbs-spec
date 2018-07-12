@@ -10,7 +10,7 @@ import "protocol/blocks.proto";
 import "services/gossiptopics/transaction_relay.proto";
 import "services/handlers/transaction_results.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 // relies on VirtualMachine
 service TransactionPool {

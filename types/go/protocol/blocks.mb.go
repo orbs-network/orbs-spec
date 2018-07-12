@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/blockproofs"
 )
@@ -19,6 +20,10 @@ type BlockPair struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *BlockPair) String() string {
+	return fmt.Sprintf("{TransactionsBlock:%s,ResultsBlock:%s,}", x.StringTransactionsBlock(), x.StringResultsBlock())
 }
 
 var _BlockPair_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,}
@@ -47,6 +52,10 @@ func (x *BlockPair) RawTransactionsBlock() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *BlockPair) StringTransactionsBlock() string {
+	return x.TransactionsBlock().String()
+}
+
 func (x *BlockPair) ResultsBlock() *ResultsBlock {
 	b, s := x._message.GetMessage(1)
 	return ResultsBlockReader(b[:s])
@@ -54,6 +63,10 @@ func (x *BlockPair) ResultsBlock() *ResultsBlock {
 
 func (x *BlockPair) RawResultsBlock() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BlockPair) StringResultsBlock() string {
+	return x.ResultsBlock().String()
 }
 
 // builder
@@ -127,6 +140,10 @@ type TransactionsBlock struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *TransactionsBlock) String() string {
+	return fmt.Sprintf("{Header:%s,Metadata:%s,SignedTransactionsOpaque:%s,BlockProof:%s,}", x.StringHeader(), x.StringMetadata(), x.StringSignedTransactionsOpaque(), x.StringBlockProof())
+}
+
 var _TransactionsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeBytesArray,membuffers.TypeMessage,}
 var _TransactionsBlock_Unions = [][]membuffers.FieldType{}
 
@@ -153,6 +170,10 @@ func (x *TransactionsBlock) RawHeader() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *TransactionsBlock) StringHeader() string {
+	return x.Header().String()
+}
+
 func (x *TransactionsBlock) Metadata() *TransactionsBlockMetadata {
 	b, s := x._message.GetMessage(1)
 	return TransactionsBlockMetadataReader(b[:s])
@@ -160,6 +181,10 @@ func (x *TransactionsBlock) Metadata() *TransactionsBlockMetadata {
 
 func (x *TransactionsBlock) RawMetadata() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *TransactionsBlock) StringMetadata() string {
+	return x.Metadata().String()
 }
 
 func (x *TransactionsBlock) SignedTransactionsOpaqueIterator() *TransactionsBlockSignedTransactionsOpaqueIterator {
@@ -182,6 +207,15 @@ func (x *TransactionsBlock) RawSignedTransactionsOpaqueArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *TransactionsBlock) StringSignedTransactionsOpaque() (res string) {
+	res = "["
+	for i := x.SignedTransactionsOpaqueIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextSignedTransactionsOpaque()) + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *TransactionsBlock) BlockProof() *TransactionsBlockProof {
 	b, s := x._message.GetMessage(3)
 	return TransactionsBlockProofReader(b[:s])
@@ -189,6 +223,10 @@ func (x *TransactionsBlock) BlockProof() *TransactionsBlockProof {
 
 func (x *TransactionsBlock) RawBlockProof() []byte {
 	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *TransactionsBlock) StringBlockProof() string {
+	return x.BlockProof().String()
 }
 
 // builder
@@ -269,6 +307,10 @@ type ResultsBlock struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *ResultsBlock) String() string {
+	return fmt.Sprintf("{Header:%s,TransactionReceipts:%s,ContractStateDiffs:%s,BlockProof:%s,}", x.StringHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringBlockProof())
+}
+
 var _ResultsBlock_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessageArray,membuffers.TypeMessageArray,membuffers.TypeMessage,}
 var _ResultsBlock_Unions = [][]membuffers.FieldType{}
 
@@ -295,6 +337,10 @@ func (x *ResultsBlock) RawHeader() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *ResultsBlock) StringHeader() string {
+	return x.Header().String()
+}
+
 func (x *ResultsBlock) TransactionReceiptsIterator() *ResultsBlockTransactionReceiptsIterator {
 	return &ResultsBlockTransactionReceiptsIterator{iterator: x._message.GetMessageArrayIterator(1)}
 }
@@ -314,6 +360,15 @@ func (i *ResultsBlockTransactionReceiptsIterator) NextTransactionReceipts() *Tra
 
 func (x *ResultsBlock) RawTransactionReceiptsArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *ResultsBlock) StringTransactionReceipts() (res string) {
+	res = "["
+	for i := x.TransactionReceiptsIterator(); i.HasNext(); {
+		res += i.NextTransactionReceipts().String() + ","
+	}
+	res += "]"
+	return
 }
 
 func (x *ResultsBlock) ContractStateDiffsIterator() *ResultsBlockContractStateDiffsIterator {
@@ -337,6 +392,15 @@ func (x *ResultsBlock) RawContractStateDiffsArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *ResultsBlock) StringContractStateDiffs() (res string) {
+	res = "["
+	for i := x.ContractStateDiffsIterator(); i.HasNext(); {
+		res += i.NextContractStateDiffs().String() + ","
+	}
+	res += "]"
+	return
+}
+
 func (x *ResultsBlock) BlockProof() *ResultsBlockProof {
 	b, s := x._message.GetMessage(3)
 	return ResultsBlockProofReader(b[:s])
@@ -344,6 +408,10 @@ func (x *ResultsBlock) BlockProof() *ResultsBlockProof {
 
 func (x *ResultsBlock) RawBlockProof() []byte {
 	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *ResultsBlock) StringBlockProof() string {
+	return x.BlockProof().String()
 }
 
 // builder
@@ -446,6 +514,10 @@ type TransactionsBlockHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *TransactionsBlockHeader) String() string {
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsRootHash:%s,MetadataHash:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsRootHash(), x.StringMetadataHash())
+}
+
 var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,}
 var _TransactionsBlockHeader_Unions = [][]membuffers.FieldType{}
 
@@ -475,6 +547,10 @@ func (x *TransactionsBlockHeader) MutateProtocolVersion(v primitives.ProtocolVer
 	return x._message.SetUint32(0, uint32(v))
 }
 
+func (x *TransactionsBlockHeader) StringProtocolVersion() string {
+	return fmt.Sprintf("%x", x.ProtocolVersion())
+}
+
 func (x *TransactionsBlockHeader) VirtualChainId() primitives.VirtualChainId {
 	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
@@ -485,6 +561,10 @@ func (x *TransactionsBlockHeader) RawVirtualChainId() []byte {
 
 func (x *TransactionsBlockHeader) MutateVirtualChainId(v primitives.VirtualChainId) error {
 	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *TransactionsBlockHeader) StringVirtualChainId() string {
+	return fmt.Sprintf("%x", x.VirtualChainId())
 }
 
 func (x *TransactionsBlockHeader) BlockHeight() primitives.BlockHeight {
@@ -499,6 +579,10 @@ func (x *TransactionsBlockHeader) MutateBlockHeight(v primitives.BlockHeight) er
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *TransactionsBlockHeader) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *TransactionsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(3))
 }
@@ -509,6 +593,10 @@ func (x *TransactionsBlockHeader) RawPrevBlockHashPtr() []byte {
 
 func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *TransactionsBlockHeader) StringPrevBlockHashPtr() string {
+	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
 }
 
 func (x *TransactionsBlockHeader) Timestamp() primitives.Timestamp {
@@ -523,6 +611,10 @@ func (x *TransactionsBlockHeader) MutateTimestamp(v primitives.Timestamp) error 
 	return x._message.SetUint64(4, uint64(v))
 }
 
+func (x *TransactionsBlockHeader) StringTimestamp() string {
+	return fmt.Sprintf("%x", x.Timestamp())
+}
+
 func (x *TransactionsBlockHeader) TransactionsRootHash() primitives.MerkleSha256 {
 	return primitives.MerkleSha256(x._message.GetBytes(5))
 }
@@ -535,6 +627,10 @@ func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v primitives.Merkle
 	return x._message.SetBytes(5, []byte(v))
 }
 
+func (x *TransactionsBlockHeader) StringTransactionsRootHash() string {
+	return fmt.Sprintf("%x", x.TransactionsRootHash())
+}
+
 func (x *TransactionsBlockHeader) MetadataHash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(6))
 }
@@ -545,6 +641,10 @@ func (x *TransactionsBlockHeader) RawMetadataHash() []byte {
 
 func (x *TransactionsBlockHeader) MutateMetadataHash(v primitives.Sha256) error {
 	return x._message.SetBytes(6, []byte(v))
+}
+
+func (x *TransactionsBlockHeader) StringMetadataHash() string {
+	return fmt.Sprintf("%x", x.MetadataHash())
 }
 
 // builder
@@ -629,6 +729,10 @@ type ResultsBlockHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *ResultsBlockHeader) String() string {
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,TxhashBloomFilter:%s,TimestampBloomFilter:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringTxhashBloomFilter(), x.StringTimestampBloomFilter())
+}
+
 var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,}
 var _ResultsBlockHeader_Unions = [][]membuffers.FieldType{}
 
@@ -658,6 +762,10 @@ func (x *ResultsBlockHeader) MutateProtocolVersion(v primitives.ProtocolVersion)
 	return x._message.SetUint32(0, uint32(v))
 }
 
+func (x *ResultsBlockHeader) StringProtocolVersion() string {
+	return fmt.Sprintf("%x", x.ProtocolVersion())
+}
+
 func (x *ResultsBlockHeader) VirtualChainId() primitives.VirtualChainId {
 	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
@@ -668,6 +776,10 @@ func (x *ResultsBlockHeader) RawVirtualChainId() []byte {
 
 func (x *ResultsBlockHeader) MutateVirtualChainId(v primitives.VirtualChainId) error {
 	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *ResultsBlockHeader) StringVirtualChainId() string {
+	return fmt.Sprintf("%x", x.VirtualChainId())
 }
 
 func (x *ResultsBlockHeader) BlockHeight() primitives.BlockHeight {
@@ -682,6 +794,10 @@ func (x *ResultsBlockHeader) MutateBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *ResultsBlockHeader) StringBlockHeight() string {
+	return fmt.Sprintf("%x", x.BlockHeight())
+}
+
 func (x *ResultsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(3))
 }
@@ -692,6 +808,10 @@ func (x *ResultsBlockHeader) RawPrevBlockHashPtr() []byte {
 
 func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *ResultsBlockHeader) StringPrevBlockHashPtr() string {
+	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
 }
 
 func (x *ResultsBlockHeader) Timestamp() primitives.Timestamp {
@@ -706,6 +826,10 @@ func (x *ResultsBlockHeader) MutateTimestamp(v primitives.Timestamp) error {
 	return x._message.SetUint64(4, uint64(v))
 }
 
+func (x *ResultsBlockHeader) StringTimestamp() string {
+	return fmt.Sprintf("%x", x.Timestamp())
+}
+
 func (x *ResultsBlockHeader) ReceiptsRootHash() primitives.MerkleSha256 {
 	return primitives.MerkleSha256(x._message.GetBytes(5))
 }
@@ -716,6 +840,10 @@ func (x *ResultsBlockHeader) RawReceiptsRootHash() []byte {
 
 func (x *ResultsBlockHeader) MutateReceiptsRootHash(v primitives.MerkleSha256) error {
 	return x._message.SetBytes(5, []byte(v))
+}
+
+func (x *ResultsBlockHeader) StringReceiptsRootHash() string {
+	return fmt.Sprintf("%x", x.ReceiptsRootHash())
 }
 
 func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
@@ -730,6 +858,10 @@ func (x *ResultsBlockHeader) MutateStateDiffHash(v primitives.Sha256) error {
 	return x._message.SetBytes(6, []byte(v))
 }
 
+func (x *ResultsBlockHeader) StringStateDiffHash() string {
+	return fmt.Sprintf("%x", x.StateDiffHash())
+}
+
 func (x *ResultsBlockHeader) TransactionsBlockHashPtr() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(7))
 }
@@ -740,6 +872,10 @@ func (x *ResultsBlockHeader) RawTransactionsBlockHashPtr() []byte {
 
 func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(7, []byte(v))
+}
+
+func (x *ResultsBlockHeader) StringTransactionsBlockHashPtr() string {
+	return fmt.Sprintf("%x", x.TransactionsBlockHashPtr())
 }
 
 func (x *ResultsBlockHeader) PreExecutionStateRootHash() primitives.MerkleSha256 {
@@ -754,6 +890,10 @@ func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v primitives.Merkle
 	return x._message.SetBytes(8, []byte(v))
 }
 
+func (x *ResultsBlockHeader) StringPreExecutionStateRootHash() string {
+	return fmt.Sprintf("%x", x.PreExecutionStateRootHash())
+}
+
 func (x *ResultsBlockHeader) TxhashBloomFilter() primitives.BloomFilter {
 	return primitives.BloomFilter(x._message.GetBytes(9))
 }
@@ -766,6 +906,10 @@ func (x *ResultsBlockHeader) MutateTxhashBloomFilter(v primitives.BloomFilter) e
 	return x._message.SetBytes(9, []byte(v))
 }
 
+func (x *ResultsBlockHeader) StringTxhashBloomFilter() string {
+	return fmt.Sprintf("%x", x.TxhashBloomFilter())
+}
+
 func (x *ResultsBlockHeader) TimestampBloomFilter() primitives.BloomFilter {
 	return primitives.BloomFilter(x._message.GetBytes(10))
 }
@@ -776,6 +920,10 @@ func (x *ResultsBlockHeader) RawTimestampBloomFilter() []byte {
 
 func (x *ResultsBlockHeader) MutateTimestampBloomFilter(v primitives.BloomFilter) error {
 	return x._message.SetBytes(10, []byte(v))
+}
+
+func (x *ResultsBlockHeader) StringTimestampBloomFilter() string {
+	return fmt.Sprintf("%x", x.TimestampBloomFilter())
 }
 
 // builder
@@ -857,6 +1005,10 @@ type TransactionsBlockMetadata struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *TransactionsBlockMetadata) String() string {
+	return fmt.Sprintf("{}")
+}
+
 var _TransactionsBlockMetadata_Scheme = []membuffers.FieldType{}
 var _TransactionsBlockMetadata_Unions = [][]membuffers.FieldType{}
 
@@ -932,6 +1084,10 @@ type TransactionsBlockProof struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *TransactionsBlockProof) String() string {
+	return fmt.Sprintf("{Type:%s,}", x.StringType())
+}
+
 var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
 var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,}}
 
@@ -970,8 +1126,20 @@ func (x *TransactionsBlockProof) LeanHelix() *blockproofs.LeanHelix {
 	return blockproofs.LeanHelixReader(b[:s])
 }
 
+func (x *TransactionsBlockProof) StringLeanHelix() string {
+	return x.LeanHelix().String()
+}
+
 func (x *TransactionsBlockProof) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *TransactionsBlockProof) StringType() string {
+	switch x.Type() {
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		return "(LeanHelix)" + x.StringLeanHelix()
+	}
+	return "(Unknown)"
 }
 
 // builder
@@ -1039,6 +1207,10 @@ type ResultsBlockProof struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *ResultsBlockProof) String() string {
+	return fmt.Sprintf("{Type:%s,}", x.StringType())
+}
+
 var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
 var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,}}
 
@@ -1077,8 +1249,20 @@ func (x *ResultsBlockProof) LeanHelix() *blockproofs.LeanHelix {
 	return blockproofs.LeanHelixReader(b[:s])
 }
 
+func (x *ResultsBlockProof) StringLeanHelix() string {
+	return x.LeanHelix().String()
+}
+
 func (x *ResultsBlockProof) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *ResultsBlockProof) StringType() string {
+	switch x.Type() {
+	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		return "(LeanHelix)" + x.StringLeanHelix()
+	}
+	return "(Unknown)"
 }
 
 // builder

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -18,6 +19,10 @@ type BlockSyncAvailabilityRequestHeader struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
 var _BlockSyncAvailabilityRequestHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
@@ -49,6 +54,10 @@ func (x *BlockSyncAvailabilityRequestHeader) MutateSenderPublicKey(v primitives.
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *BlockSyncAvailabilityRequestHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *BlockSyncAvailabilityRequestHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -59,6 +68,10 @@ func (x *BlockSyncAvailabilityRequestHeader) RawSignature() []byte {
 
 func (x *BlockSyncAvailabilityRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -124,6 +137,10 @@ type BlockSyncAvailabilityResponseHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncAvailabilityResponseHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _BlockSyncAvailabilityResponseHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _BlockSyncAvailabilityResponseHeader_Unions = [][]membuffers.FieldType{}
 
@@ -153,6 +170,10 @@ func (x *BlockSyncAvailabilityResponseHeader) MutateSenderPublicKey(v primitives
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *BlockSyncAvailabilityResponseHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *BlockSyncAvailabilityResponseHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -163,6 +184,10 @@ func (x *BlockSyncAvailabilityResponseHeader) RawSignature() []byte {
 
 func (x *BlockSyncAvailabilityResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -228,6 +253,10 @@ type BlockSyncRequestHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncRequestHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _BlockSyncRequestHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _BlockSyncRequestHeader_Unions = [][]membuffers.FieldType{}
 
@@ -257,6 +286,10 @@ func (x *BlockSyncRequestHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey)
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *BlockSyncRequestHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *BlockSyncRequestHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -267,6 +300,10 @@ func (x *BlockSyncRequestHeader) RawSignature() []byte {
 
 func (x *BlockSyncRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncRequestHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -334,6 +371,10 @@ type BlockSyncAvailability struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncAvailability) String() string {
+	return fmt.Sprintf("{BlockType:%s,FirstAvailableBlockHeight:%s,LastAvailableBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstAvailableBlockHeight(), x.StringLastAvailableBlockHeight(), x.StringLastCommittedBlockHeight())
+}
+
 var _BlockSyncAvailability_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _BlockSyncAvailability_Unions = [][]membuffers.FieldType{}
 
@@ -363,6 +404,10 @@ func (x *BlockSyncAvailability) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
+func (x *BlockSyncAvailability) StringBlockType() string {
+	return x.BlockType().String()
+}
+
 func (x *BlockSyncAvailability) FirstAvailableBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
@@ -373,6 +418,10 @@ func (x *BlockSyncAvailability) RawFirstAvailableBlockHeight() []byte {
 
 func (x *BlockSyncAvailability) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
+}
+
+func (x *BlockSyncAvailability) StringFirstAvailableBlockHeight() string {
+	return fmt.Sprintf("%x", x.FirstAvailableBlockHeight())
 }
 
 func (x *BlockSyncAvailability) LastAvailableBlockHeight() primitives.BlockHeight {
@@ -387,6 +436,10 @@ func (x *BlockSyncAvailability) MutateLastAvailableBlockHeight(v primitives.Bloc
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *BlockSyncAvailability) StringLastAvailableBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastAvailableBlockHeight())
+}
+
 func (x *BlockSyncAvailability) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
@@ -397,6 +450,10 @@ func (x *BlockSyncAvailability) RawLastCommittedBlockHeight() []byte {
 
 func (x *BlockSyncAvailability) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *BlockSyncAvailability) StringLastCommittedBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
 // builder
@@ -468,6 +525,10 @@ type BlockSyncRequest struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncRequest) String() string {
+	return fmt.Sprintf("{BlockType:%s,FirstRequestedBlockHeight:%s,LastRequestedBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstRequestedBlockHeight(), x.StringLastRequestedBlockHeight(), x.StringLastCommittedBlockHeight())
+}
+
 var _BlockSyncRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _BlockSyncRequest_Unions = [][]membuffers.FieldType{}
 
@@ -497,6 +558,10 @@ func (x *BlockSyncRequest) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
+func (x *BlockSyncRequest) StringBlockType() string {
+	return x.BlockType().String()
+}
+
 func (x *BlockSyncRequest) FirstRequestedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
@@ -507,6 +572,10 @@ func (x *BlockSyncRequest) RawFirstRequestedBlockHeight() []byte {
 
 func (x *BlockSyncRequest) MutateFirstRequestedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
+}
+
+func (x *BlockSyncRequest) StringFirstRequestedBlockHeight() string {
+	return fmt.Sprintf("%x", x.FirstRequestedBlockHeight())
 }
 
 func (x *BlockSyncRequest) LastRequestedBlockHeight() primitives.BlockHeight {
@@ -521,6 +590,10 @@ func (x *BlockSyncRequest) MutateLastRequestedBlockHeight(v primitives.BlockHeig
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *BlockSyncRequest) StringLastRequestedBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastRequestedBlockHeight())
+}
+
 func (x *BlockSyncRequest) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
@@ -531,6 +604,10 @@ func (x *BlockSyncRequest) RawLastCommittedBlockHeight() []byte {
 
 func (x *BlockSyncRequest) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *BlockSyncRequest) StringLastCommittedBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
 // builder
@@ -600,6 +677,10 @@ type BlockSyncResponseHeader struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncResponseHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
 var _BlockSyncResponseHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
 var _BlockSyncResponseHeader_Unions = [][]membuffers.FieldType{}
 
@@ -629,6 +710,10 @@ func (x *BlockSyncResponseHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey
 	return x._message.SetBytes(0, []byte(v))
 }
 
+func (x *BlockSyncResponseHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
 func (x *BlockSyncResponseHeader) Signature() primitives.Ed25519Sig {
 	return primitives.Ed25519Sig(x._message.GetBytes(1))
 }
@@ -639,6 +724,10 @@ func (x *BlockSyncResponseHeader) RawSignature() []byte {
 
 func (x *BlockSyncResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncResponseHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
@@ -707,6 +796,10 @@ type BlockSyncResponse struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *BlockSyncResponse) String() string {
+	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,BlockHashes:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight(), x.StringBlockHashes())
+}
+
 var _BlockSyncResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeBytesArray,}
 var _BlockSyncResponse_Unions = [][]membuffers.FieldType{}
 
@@ -736,6 +829,10 @@ func (x *BlockSyncResponse) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
+func (x *BlockSyncResponse) StringBlockType() string {
+	return x.BlockType().String()
+}
+
 func (x *BlockSyncResponse) FirstBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
@@ -746,6 +843,10 @@ func (x *BlockSyncResponse) RawFirstBlockHeight() []byte {
 
 func (x *BlockSyncResponse) MutateFirstBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
+}
+
+func (x *BlockSyncResponse) StringFirstBlockHeight() string {
+	return fmt.Sprintf("%x", x.FirstBlockHeight())
 }
 
 func (x *BlockSyncResponse) LastBlockHeight() primitives.BlockHeight {
@@ -760,6 +861,10 @@ func (x *BlockSyncResponse) MutateLastBlockHeight(v primitives.BlockHeight) erro
 	return x._message.SetUint64(2, uint64(v))
 }
 
+func (x *BlockSyncResponse) StringLastBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastBlockHeight())
+}
+
 func (x *BlockSyncResponse) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
@@ -770,6 +875,10 @@ func (x *BlockSyncResponse) RawLastCommittedBlockHeight() []byte {
 
 func (x *BlockSyncResponse) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *BlockSyncResponse) StringLastCommittedBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
 func (x *BlockSyncResponse) BlockHashesIterator() *BlockSyncResponseBlockHashesIterator {
@@ -790,6 +899,15 @@ func (i *BlockSyncResponseBlockHashesIterator) NextBlockHashes() primitives.Sha2
 
 func (x *BlockSyncResponse) RawBlockHashesArray() []byte {
 	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *BlockSyncResponse) StringBlockHashes() (res string) {
+	res = "["
+	for i := x.BlockHashesIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextBlockHashes()) + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -868,6 +986,22 @@ const (
 	BLOCK_SYNC_RESPONSE BlockSyncMessageType = 4
 )
 
+func (n BlockSyncMessageType) String() string {
+	switch n {
+	case BLOCK_SYNC_RESERVED:
+		return "BLOCK_SYNC_RESERVED"
+	case BLOCK_SYNC_AVAILABILITY_REQUEST:
+		return "BLOCK_SYNC_AVAILABILITY_REQUEST"
+	case BLOCK_SYNC_AVAILABILITY_RESPONSE:
+		return "BLOCK_SYNC_AVAILABILITY_RESPONSE"
+	case BLOCK_SYNC_REQUEST:
+		return "BLOCK_SYNC_REQUEST"
+	case BLOCK_SYNC_RESPONSE:
+		return "BLOCK_SYNC_RESPONSE"
+	}
+	return "UNKNOWN"
+}
+
 type BlockType uint16
 
 const (
@@ -876,4 +1010,18 @@ const (
 	BLOCK_TYPE_TRANSACTIONS_BLOCK BlockType = 2
 	BLOCK_TYPE_RESULTS_BLOCK BlockType = 3
 )
+
+func (n BlockType) String() string {
+	switch n {
+	case BLOCK_TYPE_RESERVED:
+		return "BLOCK_TYPE_RESERVED"
+	case BLOCK_TYPE_BLOCK_PAIR:
+		return "BLOCK_TYPE_BLOCK_PAIR"
+	case BLOCK_TYPE_TRANSACTIONS_BLOCK:
+		return "BLOCK_TYPE_TRANSACTIONS_BLOCK"
+	case BLOCK_TYPE_RESULTS_BLOCK:
+		return "BLOCK_TYPE_RESULTS_BLOCK"
+	}
+	return "UNKNOWN"
+}
 

@@ -6,7 +6,7 @@ import "../primitives/crypto.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
 
-option serialize_service_args = false;
+option serialize_messages = false;
 
 service LeanHelix {
     // registration methods for external handlers that wish to receive callbacks

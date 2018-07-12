@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.14)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -17,6 +18,10 @@ type Signer struct {
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
+}
+
+func (x *Signer) String() string {
+	return fmt.Sprintf("{Scheme:%s,}", x.StringScheme())
 }
 
 var _Signer_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
@@ -57,8 +62,20 @@ func (x *Signer) Eddsa() *EdDSA01Signer {
 	return EdDSA01SignerReader(b[:s])
 }
 
+func (x *Signer) StringEddsa() string {
+	return x.Eddsa().String()
+}
+
 func (x *Signer) RawScheme() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *Signer) StringScheme() string {
+	switch x.Scheme() {
+	case SIGNER_SCHEME_EDDSA:
+		return "(Eddsa)" + x.StringEddsa()
+	}
+	return "(Unknown)"
 }
 
 // builder
@@ -127,6 +144,10 @@ type EdDSA01Signer struct {
 	_message membuffers.InternalMessage
 }
 
+func (x *EdDSA01Signer) String() string {
+	return fmt.Sprintf("{NetworkType:%s,SignerPublicKey:%s,}", x.StringNetworkType(), x.StringSignerPublicKey())
+}
+
 var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
 var _EdDSA01Signer_Unions = [][]membuffers.FieldType{}
 
@@ -156,6 +177,10 @@ func (x *EdDSA01Signer) MutateNetworkType(v SignerNetworkType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
+func (x *EdDSA01Signer) StringNetworkType() string {
+	return x.NetworkType().String()
+}
+
 func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519Pkey {
 	return primitives.Ed25519Pkey(x._message.GetBytes(1))
 }
@@ -166,6 +191,10 @@ func (x *EdDSA01Signer) RawSignerPublicKey() []byte {
 
 func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519Pkey) error {
 	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *EdDSA01Signer) StringSignerPublicKey() string {
+	return fmt.Sprintf("%x", x.SignerPublicKey())
 }
 
 // builder
@@ -227,4 +256,16 @@ const (
 	NETWORK_TYPE_MAIN_NET SignerNetworkType = 77
 	NETWORK_TYPE_TEST_NET SignerNetworkType = 84
 )
+
+func (n SignerNetworkType) String() string {
+	switch n {
+	case NETWORK_TYPE_RESERVED:
+		return "NETWORK_TYPE_RESERVED"
+	case NETWORK_TYPE_MAIN_NET:
+		return "NETWORK_TYPE_MAIN_NET"
+	case NETWORK_TYPE_TEST_NET:
+		return "NETWORK_TYPE_TEST_NET"
+	}
+	return "UNKNOWN"
+}
 
