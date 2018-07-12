@@ -33,40 +33,48 @@ type LeanHelixHandler interface {
 // message LeanHelixPrePrepareInput (non serializable)
 
 type LeanHelixPrePrepareInput struct {
-	RecipientList *gossipmessages.RecipientsList
-	PrePrepareMessage *gossipmessages.LeanHelixPrePrepareMessage
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	Header *gossipmessages.LeanHelixPrePrepareHeader
+	BlockRef *gossipmessages.LeanHelixBlockRef
+	Block []byte
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixPrepareInput (non serializable)
 
 type LeanHelixPrepareInput struct {
-	RecipientList *gossipmessages.RecipientsList
-	PrepareMessage *gossipmessages.LeanHelixPrepareMessage
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	Header *gossipmessages.LeanHelixPrepareHeader
+	BlockRef *gossipmessages.LeanHelixBlockRef
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixCommitInput (non serializable)
 
 type LeanHelixCommitInput struct {
-	RecipientList *gossipmessages.RecipientsList
-	CommitMessage *gossipmessages.LeanHelixCommitMessage
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	RecipientMode gossipmessages.RecipientsListMode
+	BlockRef *gossipmessages.LeanHelixBlockRef
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixViewChangeInput (non serializable)
 
 type LeanHelixViewChangeInput struct {
-	RecipientList *gossipmessages.RecipientsList
-	ViewChange *gossipmessages.LeanHelixViewChangeMessage
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	Header *gossipmessages.LeanHelixViewChangeHeader
+	ViewChange *gossipmessages.LeanHelixViewChange
+	Block []byte
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixNewViewInput (non serializable)
 
 type LeanHelixNewViewInput struct {
-	RecipientList *gossipmessages.RecipientsList
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	Header *gossipmessages.LeanHelixNewViewHeader
 	NewView *gossipmessages.LeanHelixNewView
+	Block []byte
 }
 
 /////////////////////////////////////////////////////////////////////////////

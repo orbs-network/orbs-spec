@@ -5,48 +5,362 @@ import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockAvailabilityRequestMessage (non serializable)
-
-type BlockAvailabilityRequestMessage struct {
-	BlockAvailabilityRequestSignedHeader *BlockAvailabilitySignedHeader
-	Signer *MessageSigner
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message BlockAvailabilityResponseMessage (non serializable)
-
-type BlockAvailabilityResponseMessage struct {
-	BlockAvailabilityResponseSignedHeader *BlockAvailabilitySignedHeader
-	Signer *MessageSigner
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message BlockSyncRequestMessage (non serializable)
-
-type BlockSyncRequestMessage struct {
-	BlockSyncRequestSignedHeader *BlockSyncRequestSignedHeader
-	Signer *MessageSigner
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message BlockSyncResponseMessage (non serializable)
-
-type BlockSyncResponseMessage struct {
-	BlockSyncResponseSignedHeader *BlockSyncResponseSignedHeader
-	Signer *MessageSigner
-	BlockPairs []*protocol.BlockPair
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message BlockAvailabilitySignedHeader
+// message BlockSyncAvailabilityRequestHeader
 
 // reader
 
-type BlockAvailabilitySignedHeader struct {
+type BlockSyncAvailabilityRequestHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _BlockSyncAvailabilityRequestHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _BlockSyncAvailabilityRequestHeader_Unions = [][]membuffers.FieldType{}
+
+func BlockSyncAvailabilityRequestHeaderReader(buf []byte) *BlockSyncAvailabilityRequestHeader {
+	x := &BlockSyncAvailabilityRequestHeader{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailabilityRequestHeader_Scheme, _BlockSyncAvailabilityRequestHeader_Unions)
+	return x
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityRequestHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type BlockSyncAvailabilityRequestHeaderBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *BlockSyncAvailabilityRequestHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *BlockSyncAvailabilityRequestHeaderBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncAvailabilityRequestHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncAvailabilityRequestHeaderBuilder) Build() *BlockSyncAvailabilityRequestHeader {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return BlockSyncAvailabilityRequestHeaderReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message BlockSyncAvailabilityResponseHeader
+
+// reader
+
+type BlockSyncAvailabilityResponseHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _BlockSyncAvailabilityResponseHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _BlockSyncAvailabilityResponseHeader_Unions = [][]membuffers.FieldType{}
+
+func BlockSyncAvailabilityResponseHeaderReader(buf []byte) *BlockSyncAvailabilityResponseHeader {
+	x := &BlockSyncAvailabilityResponseHeader{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailabilityResponseHeader_Scheme, _BlockSyncAvailabilityResponseHeader_Unions)
+	return x
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncAvailabilityResponseHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type BlockSyncAvailabilityResponseHeaderBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *BlockSyncAvailabilityResponseHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *BlockSyncAvailabilityResponseHeaderBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncAvailabilityResponseHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncAvailabilityResponseHeaderBuilder) Build() *BlockSyncAvailabilityResponseHeader {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return BlockSyncAvailabilityResponseHeaderReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message BlockSyncRequestHeader
+
+// reader
+
+type BlockSyncRequestHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *BlockSyncRequestHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _BlockSyncRequestHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _BlockSyncRequestHeader_Unions = [][]membuffers.FieldType{}
+
+func BlockSyncRequestHeaderReader(buf []byte) *BlockSyncRequestHeader {
+	x := &BlockSyncRequestHeader{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncRequestHeader_Scheme, _BlockSyncRequestHeader_Unions)
+	return x
+}
+
+func (x *BlockSyncRequestHeader) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *BlockSyncRequestHeader) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *BlockSyncRequestHeader) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *BlockSyncRequestHeader) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *BlockSyncRequestHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *BlockSyncRequestHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *BlockSyncRequestHeader) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *BlockSyncRequestHeader) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BlockSyncRequestHeader) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncRequestHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type BlockSyncRequestHeaderBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *BlockSyncRequestHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *BlockSyncRequestHeaderBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncRequestHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncRequestHeaderBuilder) Build() *BlockSyncRequestHeader {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return BlockSyncRequestHeaderReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message BlockSyncAvailability
+
+// reader
+
+type BlockSyncAvailability struct {
 	// BlockType BlockType
 	// FirstAvailableBlockHeight primitives.BlockHeight
 	// LastAvailableBlockHeight primitives.BlockHeight
@@ -57,94 +371,94 @@ type BlockAvailabilitySignedHeader struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *BlockAvailabilitySignedHeader) String() string {
+func (x *BlockSyncAvailability) String() string {
 	return fmt.Sprintf("{BlockType:%s,FirstAvailableBlockHeight:%s,LastAvailableBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstAvailableBlockHeight(), x.StringLastAvailableBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 
-var _BlockAvailabilitySignedHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
-var _BlockAvailabilitySignedHeader_Unions = [][]membuffers.FieldType{}
+var _BlockSyncAvailability_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _BlockSyncAvailability_Unions = [][]membuffers.FieldType{}
 
-func BlockAvailabilitySignedHeaderReader(buf []byte) *BlockAvailabilitySignedHeader {
-	x := &BlockAvailabilitySignedHeader{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockAvailabilitySignedHeader_Scheme, _BlockAvailabilitySignedHeader_Unions)
+func BlockSyncAvailabilityReader(buf []byte) *BlockSyncAvailability {
+	x := &BlockSyncAvailability{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncAvailability_Scheme, _BlockSyncAvailability_Unions)
 	return x
 }
 
-func (x *BlockAvailabilitySignedHeader) IsValid() bool {
+func (x *BlockSyncAvailability) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *BlockAvailabilitySignedHeader) Raw() []byte {
+func (x *BlockSyncAvailability) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *BlockAvailabilitySignedHeader) BlockType() BlockType {
+func (x *BlockSyncAvailability) BlockType() BlockType {
 	return BlockType(x._message.GetUint16(0))
 }
 
-func (x *BlockAvailabilitySignedHeader) RawBlockType() []byte {
+func (x *BlockSyncAvailability) RawBlockType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *BlockAvailabilitySignedHeader) MutateBlockType(v BlockType) error {
+func (x *BlockSyncAvailability) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockAvailabilitySignedHeader) StringBlockType() string {
+func (x *BlockSyncAvailability) StringBlockType() string {
 	return x.BlockType().String()
 }
 
-func (x *BlockAvailabilitySignedHeader) FirstAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncAvailability) FirstAvailableBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *BlockAvailabilitySignedHeader) RawFirstAvailableBlockHeight() []byte {
+func (x *BlockSyncAvailability) RawFirstAvailableBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockAvailabilitySignedHeader) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncAvailability) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockAvailabilitySignedHeader) StringFirstAvailableBlockHeight() string {
+func (x *BlockSyncAvailability) StringFirstAvailableBlockHeight() string {
 	return fmt.Sprintf("%x", x.FirstAvailableBlockHeight())
 }
 
-func (x *BlockAvailabilitySignedHeader) LastAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncAvailability) LastAvailableBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
-func (x *BlockAvailabilitySignedHeader) RawLastAvailableBlockHeight() []byte {
+func (x *BlockSyncAvailability) RawLastAvailableBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockAvailabilitySignedHeader) MutateLastAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncAvailability) MutateLastAvailableBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockAvailabilitySignedHeader) StringLastAvailableBlockHeight() string {
+func (x *BlockSyncAvailability) StringLastAvailableBlockHeight() string {
 	return fmt.Sprintf("%x", x.LastAvailableBlockHeight())
 }
 
-func (x *BlockAvailabilitySignedHeader) LastCommittedBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncAvailability) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
-func (x *BlockAvailabilitySignedHeader) RawLastCommittedBlockHeight() []byte {
+func (x *BlockSyncAvailability) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockAvailabilitySignedHeader) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncAvailability) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
-func (x *BlockAvailabilitySignedHeader) StringLastCommittedBlockHeight() string {
+func (x *BlockSyncAvailability) StringLastCommittedBlockHeight() string {
 	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
 // builder
 
-type BlockAvailabilitySignedHeaderBuilder struct {
+type BlockSyncAvailabilityBuilder struct {
 	BlockType BlockType
 	FirstAvailableBlockHeight primitives.BlockHeight
 	LastAvailableBlockHeight primitives.BlockHeight
@@ -155,7 +469,7 @@ type BlockAvailabilitySignedHeaderBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *BlockAvailabilitySignedHeaderBuilder) Write(buf []byte) (err error) {
+func (w *BlockSyncAvailabilityBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -172,14 +486,14 @@ func (w *BlockAvailabilitySignedHeaderBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *BlockAvailabilitySignedHeaderBuilder) GetSize() membuffers.Offset {
+func (w *BlockSyncAvailabilityBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *BlockAvailabilitySignedHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BlockSyncAvailabilityBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -187,23 +501,23 @@ func (w *BlockAvailabilitySignedHeaderBuilder) CalcRequiredSize() membuffers.Off
 	return w._builder.GetSize()
 }
 
-func (w *BlockAvailabilitySignedHeaderBuilder) Build() *BlockAvailabilitySignedHeader {
+func (w *BlockSyncAvailabilityBuilder) Build() *BlockSyncAvailability {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return BlockAvailabilitySignedHeaderReader(buf)
+	return BlockSyncAvailabilityReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncRequestSignedHeader
+// message BlockSyncRequest
 
 // reader
 
-type BlockSyncRequestSignedHeader struct {
+type BlockSyncRequest struct {
 	// BlockType BlockType
-	// FirstAvailableBlockHeight primitives.BlockHeight
-	// LastAvailableBlockHeight primitives.BlockHeight
+	// FirstRequestedBlockHeight primitives.BlockHeight
+	// LastRequestedBlockHeight primitives.BlockHeight
 	// LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
@@ -211,97 +525,97 @@ type BlockSyncRequestSignedHeader struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *BlockSyncRequestSignedHeader) String() string {
-	return fmt.Sprintf("{BlockType:%s,FirstAvailableBlockHeight:%s,LastAvailableBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstAvailableBlockHeight(), x.StringLastAvailableBlockHeight(), x.StringLastCommittedBlockHeight())
+func (x *BlockSyncRequest) String() string {
+	return fmt.Sprintf("{BlockType:%s,FirstRequestedBlockHeight:%s,LastRequestedBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstRequestedBlockHeight(), x.StringLastRequestedBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 
-var _BlockSyncRequestSignedHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
-var _BlockSyncRequestSignedHeader_Unions = [][]membuffers.FieldType{}
+var _BlockSyncRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _BlockSyncRequest_Unions = [][]membuffers.FieldType{}
 
-func BlockSyncRequestSignedHeaderReader(buf []byte) *BlockSyncRequestSignedHeader {
-	x := &BlockSyncRequestSignedHeader{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncRequestSignedHeader_Scheme, _BlockSyncRequestSignedHeader_Unions)
+func BlockSyncRequestReader(buf []byte) *BlockSyncRequest {
+	x := &BlockSyncRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncRequest_Scheme, _BlockSyncRequest_Unions)
 	return x
 }
 
-func (x *BlockSyncRequestSignedHeader) IsValid() bool {
+func (x *BlockSyncRequest) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *BlockSyncRequestSignedHeader) Raw() []byte {
+func (x *BlockSyncRequest) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *BlockSyncRequestSignedHeader) BlockType() BlockType {
+func (x *BlockSyncRequest) BlockType() BlockType {
 	return BlockType(x._message.GetUint16(0))
 }
 
-func (x *BlockSyncRequestSignedHeader) RawBlockType() []byte {
+func (x *BlockSyncRequest) RawBlockType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncRequestSignedHeader) MutateBlockType(v BlockType) error {
+func (x *BlockSyncRequest) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncRequestSignedHeader) StringBlockType() string {
+func (x *BlockSyncRequest) StringBlockType() string {
 	return x.BlockType().String()
 }
 
-func (x *BlockSyncRequestSignedHeader) FirstAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncRequest) FirstRequestedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *BlockSyncRequestSignedHeader) RawFirstAvailableBlockHeight() []byte {
+func (x *BlockSyncRequest) RawFirstRequestedBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncRequestSignedHeader) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncRequest) MutateFirstRequestedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncRequestSignedHeader) StringFirstAvailableBlockHeight() string {
-	return fmt.Sprintf("%x", x.FirstAvailableBlockHeight())
+func (x *BlockSyncRequest) StringFirstRequestedBlockHeight() string {
+	return fmt.Sprintf("%x", x.FirstRequestedBlockHeight())
 }
 
-func (x *BlockSyncRequestSignedHeader) LastAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncRequest) LastRequestedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
-func (x *BlockSyncRequestSignedHeader) RawLastAvailableBlockHeight() []byte {
+func (x *BlockSyncRequest) RawLastRequestedBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncRequestSignedHeader) MutateLastAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncRequest) MutateLastRequestedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncRequestSignedHeader) StringLastAvailableBlockHeight() string {
-	return fmt.Sprintf("%x", x.LastAvailableBlockHeight())
+func (x *BlockSyncRequest) StringLastRequestedBlockHeight() string {
+	return fmt.Sprintf("%x", x.LastRequestedBlockHeight())
 }
 
-func (x *BlockSyncRequestSignedHeader) LastCommittedBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncRequest) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
-func (x *BlockSyncRequestSignedHeader) RawLastCommittedBlockHeight() []byte {
+func (x *BlockSyncRequest) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockSyncRequestSignedHeader) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncRequest) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
-func (x *BlockSyncRequestSignedHeader) StringLastCommittedBlockHeight() string {
+func (x *BlockSyncRequest) StringLastCommittedBlockHeight() string {
 	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
 // builder
 
-type BlockSyncRequestSignedHeaderBuilder struct {
+type BlockSyncRequestBuilder struct {
 	BlockType BlockType
-	FirstAvailableBlockHeight primitives.BlockHeight
-	LastAvailableBlockHeight primitives.BlockHeight
+	FirstRequestedBlockHeight primitives.BlockHeight
+	LastRequestedBlockHeight primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
@@ -309,7 +623,7 @@ type BlockSyncRequestSignedHeaderBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *BlockSyncRequestSignedHeaderBuilder) Write(buf []byte) (err error) {
+func (w *BlockSyncRequestBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -320,20 +634,20 @@ func (w *BlockSyncRequestSignedHeaderBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, uint64(w.FirstAvailableBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastAvailableBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.FirstRequestedBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastRequestedBlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
-func (w *BlockSyncRequestSignedHeaderBuilder) GetSize() membuffers.Offset {
+func (w *BlockSyncRequestBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *BlockSyncRequestSignedHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BlockSyncRequestBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -341,20 +655,136 @@ func (w *BlockSyncRequestSignedHeaderBuilder) CalcRequiredSize() membuffers.Offs
 	return w._builder.GetSize()
 }
 
-func (w *BlockSyncRequestSignedHeaderBuilder) Build() *BlockSyncRequestSignedHeader {
+func (w *BlockSyncRequestBuilder) Build() *BlockSyncRequest {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return BlockSyncRequestSignedHeaderReader(buf)
+	return BlockSyncRequestReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncResponseSignedHeader
+// message BlockSyncResponseHeader
 
 // reader
 
-type BlockSyncResponseSignedHeader struct {
+type BlockSyncResponseHeader struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *BlockSyncResponseHeader) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _BlockSyncResponseHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _BlockSyncResponseHeader_Unions = [][]membuffers.FieldType{}
+
+func BlockSyncResponseHeaderReader(buf []byte) *BlockSyncResponseHeader {
+	x := &BlockSyncResponseHeader{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncResponseHeader_Scheme, _BlockSyncResponseHeader_Unions)
+	return x
+}
+
+func (x *BlockSyncResponseHeader) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *BlockSyncResponseHeader) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *BlockSyncResponseHeader) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *BlockSyncResponseHeader) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *BlockSyncResponseHeader) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *BlockSyncResponseHeader) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *BlockSyncResponseHeader) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *BlockSyncResponseHeader) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BlockSyncResponseHeader) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *BlockSyncResponseHeader) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type BlockSyncResponseHeaderBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *BlockSyncResponseHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *BlockSyncResponseHeaderBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncResponseHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *BlockSyncResponseHeaderBuilder) Build() *BlockSyncResponseHeader {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return BlockSyncResponseHeaderReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message BlockSyncResponse
+
+// reader
+
+type BlockSyncResponse struct {
 	// BlockType BlockType
 	// FirstBlockHeight primitives.BlockHeight
 	// LastBlockHeight primitives.BlockHeight
@@ -366,112 +796,112 @@ type BlockSyncResponseSignedHeader struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *BlockSyncResponseSignedHeader) String() string {
+func (x *BlockSyncResponse) String() string {
 	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,BlockHashes:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight(), x.StringBlockHashes())
 }
 
-var _BlockSyncResponseSignedHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeBytesArray,}
-var _BlockSyncResponseSignedHeader_Unions = [][]membuffers.FieldType{}
+var _BlockSyncResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeBytesArray,}
+var _BlockSyncResponse_Unions = [][]membuffers.FieldType{}
 
-func BlockSyncResponseSignedHeaderReader(buf []byte) *BlockSyncResponseSignedHeader {
-	x := &BlockSyncResponseSignedHeader{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncResponseSignedHeader_Scheme, _BlockSyncResponseSignedHeader_Unions)
+func BlockSyncResponseReader(buf []byte) *BlockSyncResponse {
+	x := &BlockSyncResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockSyncResponse_Scheme, _BlockSyncResponse_Unions)
 	return x
 }
 
-func (x *BlockSyncResponseSignedHeader) IsValid() bool {
+func (x *BlockSyncResponse) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *BlockSyncResponseSignedHeader) Raw() []byte {
+func (x *BlockSyncResponse) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *BlockSyncResponseSignedHeader) BlockType() BlockType {
+func (x *BlockSyncResponse) BlockType() BlockType {
 	return BlockType(x._message.GetUint16(0))
 }
 
-func (x *BlockSyncResponseSignedHeader) RawBlockType() []byte {
+func (x *BlockSyncResponse) RawBlockType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *BlockSyncResponseSignedHeader) MutateBlockType(v BlockType) error {
+func (x *BlockSyncResponse) MutateBlockType(v BlockType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockSyncResponseSignedHeader) StringBlockType() string {
+func (x *BlockSyncResponse) StringBlockType() string {
 	return x.BlockType().String()
 }
 
-func (x *BlockSyncResponseSignedHeader) FirstBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncResponse) FirstBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *BlockSyncResponseSignedHeader) RawFirstBlockHeight() []byte {
+func (x *BlockSyncResponse) RawFirstBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncResponseSignedHeader) MutateFirstBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncResponse) MutateFirstBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncResponseSignedHeader) StringFirstBlockHeight() string {
+func (x *BlockSyncResponse) StringFirstBlockHeight() string {
 	return fmt.Sprintf("%x", x.FirstBlockHeight())
 }
 
-func (x *BlockSyncResponseSignedHeader) LastBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncResponse) LastBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
-func (x *BlockSyncResponseSignedHeader) RawLastBlockHeight() []byte {
+func (x *BlockSyncResponse) RawLastBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncResponseSignedHeader) MutateLastBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncResponse) MutateLastBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncResponseSignedHeader) StringLastBlockHeight() string {
+func (x *BlockSyncResponse) StringLastBlockHeight() string {
 	return fmt.Sprintf("%x", x.LastBlockHeight())
 }
 
-func (x *BlockSyncResponseSignedHeader) LastCommittedBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncResponse) LastCommittedBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(3))
 }
 
-func (x *BlockSyncResponseSignedHeader) RawLastCommittedBlockHeight() []byte {
+func (x *BlockSyncResponse) RawLastCommittedBlockHeight() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockSyncResponseSignedHeader) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncResponse) MutateLastCommittedBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
-func (x *BlockSyncResponseSignedHeader) StringLastCommittedBlockHeight() string {
+func (x *BlockSyncResponse) StringLastCommittedBlockHeight() string {
 	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
 }
 
-func (x *BlockSyncResponseSignedHeader) BlockHashesIterator() *BlockSyncResponseSignedHeaderBlockHashesIterator {
-	return &BlockSyncResponseSignedHeaderBlockHashesIterator{iterator: x._message.GetBytesArrayIterator(4)}
+func (x *BlockSyncResponse) BlockHashesIterator() *BlockSyncResponseBlockHashesIterator {
+	return &BlockSyncResponseBlockHashesIterator{iterator: x._message.GetBytesArrayIterator(4)}
 }
 
-type BlockSyncResponseSignedHeaderBlockHashesIterator struct {
+type BlockSyncResponseBlockHashesIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *BlockSyncResponseSignedHeaderBlockHashesIterator) HasNext() bool {
+func (i *BlockSyncResponseBlockHashesIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *BlockSyncResponseSignedHeaderBlockHashesIterator) NextBlockHashes() primitives.Sha256 {
+func (i *BlockSyncResponseBlockHashesIterator) NextBlockHashes() primitives.Sha256 {
 	return primitives.Sha256(i.iterator.NextBytes())
 }
 
-func (x *BlockSyncResponseSignedHeader) RawBlockHashesArray() []byte {
+func (x *BlockSyncResponse) RawBlockHashesArray() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
-func (x *BlockSyncResponseSignedHeader) StringBlockHashes() (res string) {
+func (x *BlockSyncResponse) StringBlockHashes() (res string) {
 	res = "["
 	for i := x.BlockHashesIterator(); i.HasNext(); {
 		res += fmt.Sprintf("%x", i.NextBlockHashes()) + ","
@@ -482,7 +912,7 @@ func (x *BlockSyncResponseSignedHeader) StringBlockHashes() (res string) {
 
 // builder
 
-type BlockSyncResponseSignedHeaderBuilder struct {
+type BlockSyncResponseBuilder struct {
 	BlockType BlockType
 	FirstBlockHeight primitives.BlockHeight
 	LastBlockHeight primitives.BlockHeight
@@ -494,7 +924,7 @@ type BlockSyncResponseSignedHeaderBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *BlockSyncResponseSignedHeaderBuilder) arrayOfBlockHashes() [][]byte {
+func (w *BlockSyncResponseBuilder) arrayOfBlockHashes() [][]byte {
 	res := make([][]byte, len(w.BlockHashes))
 	for i, v := range w.BlockHashes {
 		res[i] = v
@@ -502,7 +932,7 @@ func (w *BlockSyncResponseSignedHeaderBuilder) arrayOfBlockHashes() [][]byte {
 	return res
 }
 
-func (w *BlockSyncResponseSignedHeaderBuilder) Write(buf []byte) (err error) {
+func (w *BlockSyncResponseBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -520,14 +950,14 @@ func (w *BlockSyncResponseSignedHeaderBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *BlockSyncResponseSignedHeaderBuilder) GetSize() membuffers.Offset {
+func (w *BlockSyncResponseBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *BlockSyncResponseSignedHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BlockSyncResponseBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -535,12 +965,12 @@ func (w *BlockSyncResponseSignedHeaderBuilder) CalcRequiredSize() membuffers.Off
 	return w._builder.GetSize()
 }
 
-func (w *BlockSyncResponseSignedHeaderBuilder) Build() *BlockSyncResponseSignedHeader {
+func (w *BlockSyncResponseBuilder) Build() *BlockSyncResponse {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return BlockSyncResponseSignedHeaderReader(buf)
+	return BlockSyncResponseReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////

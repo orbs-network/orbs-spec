@@ -12,7 +12,7 @@ type MockBlockSync struct {
 	mock.Mock
 }
 
-func (s *MockBlockSync) BroadcastBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSync) BroadcastBlockSyncAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
@@ -21,7 +21,7 @@ func (s *MockBlockSync) BroadcastBlockAvailabilityRequest(input *BlockAvailabili
 	}
 }
 
-func (s *MockBlockSync) SendBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSync) SendBlockSyncAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
@@ -30,7 +30,7 @@ func (s *MockBlockSync) SendBlockAvailabilityResponse(input *BlockAvailabilityRe
 	}
 }
 
-func (s *MockBlockSync) SendBlockRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSync) SendBlockSyncRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
@@ -39,7 +39,7 @@ func (s *MockBlockSync) SendBlockRequest(input *BlockSyncRequestInput) (*BlockSy
 	}
 }
 
-func (s *MockBlockSync) SendBlockResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSync) SendBlockSyncResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
@@ -59,7 +59,7 @@ type MockBlockSyncHandler struct {
 	mock.Mock
 }
 
-func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
@@ -68,7 +68,7 @@ func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(input *BlockAvaila
 	}
 }
 
-func (s *MockBlockSyncHandler) HandleBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*BlockSyncOutput, error) {
+func (s *MockBlockSyncHandler) HandleBlockAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
 		return out.(*BlockSyncOutput), ret.Error(1)
