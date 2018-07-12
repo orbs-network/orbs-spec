@@ -10,7 +10,7 @@ import "services/handlers/contract_sdk_call.proto";
 
 option serialize_messages = false;
 
-// relies on Processor, CrosschainConnector
+// relies on Processor, CrosschainConnector, StateStorage
 service VirtualMachine {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "handlers.ContractSdkCallHandler";

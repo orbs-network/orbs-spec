@@ -2,10 +2,10 @@ syntax = "proto3";
 package gossiptopics;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
-import "../primitives/crypto.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
 import "../protocol/gossipmessages/all.proto";
+import "../services/gossiptopics/all.proto";
 
 option serialize_messages = false;
 
@@ -14,45 +14,42 @@ service LeanHelix {
     option register_handler = "LeanHelixHandler";
 
     // called by anyone looking to send gossip messages
-    rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
-    rpc SendLeanHelixPrepare (LeanHelixPrepareInput) returns (LeanHelixOutput);
-    rpc SendLeanHelixCommit (LeanHelixCommitInput) returns (LeanHelixOutput);
-    rpc SendLeanHelixViewChange (LeanHelixViewChangeInput) returns (LeanHelixOutput);
-    rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (LeanHelixOutput);
+    rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
+    rpc SendLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
+    rpc SendLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
+    rpc SendLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
+    rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
 }
 
 service LeanHelixHandler {
-    rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (LeanHelixOutput);
-    rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (LeanHelixOutput);
-    rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (LeanHelixOutput);
-    rpc HandleLeanHelixViewChange (LeanHelixViewChangeInput) returns (LeanHelixOutput);
-    rpc HandleLeanHelixNewView (LeanHelixNewViewInput) returns (LeanHelixOutput);
+    rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
 }
 
 message LeanHelixPrePrepareInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.LeanHelixPrePrepareMessage pre_prepare_message = 2;
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixPrePrepareMessage message = 2;
 }
 
 message LeanHelixPrepareInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.LeanHelixPrepareMessage prepare_message = 2;
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixPrepareMessage message = 2;
 }
 
 message LeanHelixCommitInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.LeanHelixCommitMessage commit_message = 2;
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixCommitMessage message = 2;
 }
 
 message LeanHelixViewChangeInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.LeanHelixViewChangeMessage view_change = 2;
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixViewChangeMessage message = 2;
 }
 
 message LeanHelixNewViewInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.LeanHelixNewView new_view = 2;
-}
-
-message LeanHelixOutput {
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixNewViewMessage message = 2;
 }

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
+
+import "../primitives/crypto.proto";
+import "../protocol/gossipmessages/all.proto";
+
+option serialize_messages = false;
+
+message RecipientsList {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    gossipmessages.RecipientsListMode recipient_mode = 2;
+}
+
+message EmptyOutput {
+}

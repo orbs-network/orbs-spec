@@ -15,59 +15,44 @@ enum BlockSyncMessageType {
     BLOCK_SYNC_RESPONSE = 4;
 }
 
-// message headers
+// message format
 
 message BlockAvailabilityRequestMessage {
     option serialize_message = false;
 
-    BlockAvailabilitySignedHeader block_availability_request_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    BlockSyncRange signed_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_range
 }
 
 message BlockAvailabilityResponseMessage {
     option serialize_message = false;
 
-    BlockAvailabilitySignedHeader block_availability_response_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    BlockSyncRange signed_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_range
 }
 
 message BlockSyncRequestMessage {
     option serialize_message = false;
 
-    BlockSyncRequestSignedHeader block_sync_request_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    BlockSyncRange signed_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_range
 }
 
 message BlockSyncResponseMessage {
     option serialize_message = false;
 
-    BlockSyncResponseSignedHeader block_sync_response_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
-    repeated protocol.BlockPair block_pairs = 3; // TODO change to Block (oneof)
+    BlockSyncRange signed_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_range
+    repeated protocol.BlockPair block_pairs = 3;
 }
 
-// message bodies
+// message payloads (serializable)
 
-message BlockAvailabilitySignedHeader {
+message BlockSyncRange {
     BlockType block_type = 1;
     primitives.block_height first_available_block_height = 2;
     primitives.block_height last_available_block_height = 3;
     primitives.block_height last_committed_block_height = 4;    
-}
-
-message BlockSyncRequestSignedHeader {
-    BlockType block_type = 1;
-    primitives.block_height first_available_block_height = 2;
-    primitives.block_height last_available_block_height = 3;
-    primitives.block_height last_committed_block_height = 4;    
-}
-
-message BlockSyncResponseSignedHeader {
-    BlockType block_type = 1;
-    primitives.block_height first_block_height = 2;
-    primitives.block_height last_block_height = 3;
-    primitives.block_height last_committed_block_height = 4;
-    repeated primitives.sha256 block_hashes = 5; // TODO, single merged hash / merkle root.
 }
 
 enum BlockType {

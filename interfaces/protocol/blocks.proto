@@ -21,7 +21,6 @@ message TransactionsBlock {
     TransactionsBlockHeader header = 1;
     TransactionsBlockMetadata metadata = 2;
     repeated protocol.SignedTransaction signed_transactions = 3;
-    // repeated bytes signed_transactions_opaque = 3; changed to byte array to resolve builder in builder issue
     TransactionsBlockProof block_proof = 4;
 }
 
@@ -42,6 +41,7 @@ message TransactionsBlockHeader {
     primitives.timestamp timestamp = 5;
     primitives.merkle_sha256 transactions_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
+    uint32 num_signed_transactions = 8;
 }
 
 message ResultsBlockHeader {
@@ -56,6 +56,8 @@ message ResultsBlockHeader {
     primitives.merkle_sha256 pre_execution_state_root_hash = 9;
     primitives.bloom_filter txhash_bloom_filter = 10;
     primitives.bloom_filter timestamp_bloom_filter = 11;
+    uint32 num_transaction_receipts = 12;
+    uint32 num_contract_state_diffs = 13;
 }
 
 message TransactionsBlockMetadata {

@@ -2,9 +2,8 @@ syntax = "proto3";
 package gossiptopics;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
-import "../protocol/transactions.proto";
 import "../protocol/gossipmessages/transaction_relay.proto";
-import "../protocol/gossipmessages/all.proto";
+import "../services/gossiptopics/all.proto";
 
 option serialize_messages = false;
 
@@ -13,17 +12,13 @@ service TransactionRelay {
     option register_handler = "TransactionRelayHandler";
 
     // called by anyone looking to send gossip messages
-    rpc BroadcastForwardedTransactions (ForwardedTransactionsInput) returns (TransactionRelayOutput);
+    rpc BroadcastForwardedTransactions (ForwardedTransactionsInput) returns (gossiptopics.EmptyOutput);
 }
 
 service TransactionRelayHandler {
-    rpc HandleForwardedTransactions (ForwardedTransactionsInput) returns (TransactionRelayOutput);
+    rpc HandleForwardedTransactions (ForwardedTransactionsInput) returns (gossiptopics.EmptyOutput);
 }
 
 message ForwardedTransactionsInput {
-    gossipmessages.RecipientsList recipient_list = 1;
-    gossipmessages.ForwardedTransactionsMessage forwarded_transactions_message = 2;
-}
-
-message TransactionRelayOutput {
+    gossipmessages.ForwardedTransactionsMessage message = 1;
 }

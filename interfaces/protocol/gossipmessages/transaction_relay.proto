@@ -2,7 +2,6 @@ syntax = "proto3";
 package gossipmessages;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
 
-import "../primitives/crypto.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/transactions.proto";
 
@@ -11,11 +10,13 @@ enum TransactionsRelayMessageType {
     TRANSACTION_RELAY_FORWARDED_TRANSACTIONS = 1;
 }
 
-// message headers
+message TempKillMe {}
+
+// message format
 
 message ForwardedTransactionsMessage {
     option serialize_message = false;
-    
-    gossipmessages.MessageSigner signer = 1; // signs on SHA256{txhash1, txhash2, ... }
-    repeated protocol.SignedTransaction transactions = 1;
+
+    gossipmessages.SenderSignature sender = 1; // signs on crc64 in parallel chunks over txhash of each transaction
+    repeated protocol.SignedTransaction signed_transactions = 2;
 }

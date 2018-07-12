@@ -22,39 +22,39 @@ enum LeanHelixMessageType {
 message LeanHelixPrePrepareMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef pre_prepare_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    LeanHelixBlockRef signed_header = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_header
     protocol.BlockPair block_pair = 3;
 }
 
 message LeanHelixPrepareMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef prepare_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    LeanHelixBlockRef signed_header = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_header
 }
 
 message LeanHelixCommitMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef commit_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
-    LeanHelixRandomSeedShare lean_helix_random_seed_share = 3;
+    LeanHelixBlockRef signed_header = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    LeanHelixRandomSeedShare share = 3;
 }
 
 message LeanHelixViewChangeMessage {
     option serialize_message = false;
 
-    LeanHelixViewChangeSignedHeader view_change_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    LeanHelixViewChangeHeader signed_header = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_header
     protocol.BlockPair block_pair = 3;
 }
 
-message LeanHelixNewView {
+message LeanHelixNewViewMessage {
     option serialize_message = false;
 
-    LeanHelixNewViewSignedHeader new_view_signed_header = 1;
-    gossipmessages.MessageSigner signer = 2;
+    LeanHelixNewViewHeader signed_header = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_header
     protocol.BlockPair block_pair = 3;
 }
 
@@ -71,7 +71,7 @@ message LeanHelixRandomSeedShare {
     primitives.bls1_sig random_seed_share = 1;
 }
 
-message LeanHelixViewChangeSignedHeader {
+message LeanHelixViewChangeHeader {
     LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
@@ -79,21 +79,20 @@ message LeanHelixViewChangeSignedHeader {
 }
 
 message LeanHelixPreparedProof {
-    LeanHelixBlockRef block_refs = 1;
-    repeated gossipmessages.MessageSigner signers = 2;
+    LeanHelixBlockRef block_ref = 1;
+    repeated gossipmessages.SenderSignature senders = 2;
 }
 
-message LeanHelixNewViewSignedHeader {
+message LeanHelixNewViewHeader {
     LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
     LeanHelixNewViewProof new_view_proof = 4;
-    LeanHelixBlockRef nv_pp_signed_header = 5; // TODO if in the same file use LeanHelixPrePrepareMessage
-    gossipmessages.MessageSigner nv_pp_signer = 6; // 
+    LeanHelixBlockRef new_view_pre_prepare_signed_header = 5;
+    gossipmessages.SenderSignature new_view_pre_prepare_sender = 6;
 }
 
 message LeanHelixNewViewProof {
-    repeated LeanHelixViewChangeSignedHeader view_change_signed_header = 1;
-    repeated gossipmessages.MessageSigner view_change_signers = 2;
+    repeated LeanHelixViewChangeHeader view_change_signed_headers = 1;
+    repeated gossipmessages.SenderSignature view_change_senders = 2;
 }
-
