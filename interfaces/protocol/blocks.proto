@@ -9,19 +9,25 @@ import "protocol/contracts.proto";
 import "protocol/blockproofs/lean_helix.proto";
 
 message BlockPair {
+    option serialize_message = false;
+
     TransactionsBlock transactions_block = 1;
     ResultsBlock results_block = 2;
 }
 
 message TransactionsBlock {
+    option serialize_message = false;
+
     TransactionsBlockHeader header = 1;
     TransactionsBlockMetadata metadata = 2;
-    //TODO: was: repeated protocol.SignedTransaction signed_transactions = 3; changed to byte array to resolve builder in builder issue
-    repeated bytes signed_transactions_opaque = 3;
+    repeated protocol.SignedTransaction signed_transactions = 3;
+    // repeated bytes signed_transactions_opaque = 3; changed to byte array to resolve builder in builder issue
     TransactionsBlockProof block_proof = 4;
 }
 
 message ResultsBlock {
+    option serialize_message = false;
+
     ResultsBlockHeader header = 1;
     repeated protocol.TransactionReceipt transaction_receipts = 2;
     repeated protocol.ContractStateDiff contract_state_diffs = 3;

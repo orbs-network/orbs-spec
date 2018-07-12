@@ -17,13 +17,5 @@ message ForwardedTransactionsMessage {
     option serialize_message = false;
     
     gossipmessages.MessageSigner signer = 1; // signs on SHA256{txhash1, txhash2, ... }
-    ForwardedTransactionSet forwarded_transaction_set = 2;
-}
-
-// message bodies
-
-message ForwardedTransactionSet {
     repeated protocol.SignedTransaction transactions = 1;
 }
-
-
