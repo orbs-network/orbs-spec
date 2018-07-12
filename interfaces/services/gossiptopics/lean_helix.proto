@@ -5,6 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossipt
 import "../primitives/crypto.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
+import "../protocol/gossipmessages/all.proto";
 
 option serialize_messages = false;
 
@@ -29,36 +30,28 @@ service LeanHelixHandler {
 }
 
 message LeanHelixPrePrepareInput {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    gossipmessages.LeanHelixPrePrepareHeader header = 2;
-    gossipmessages.LeanHelixBlockRef block_ref = 3;
-    bytes block = 4; // TODO: fix all blocks here
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.LeanHelixPrePrepareMessage pre_prepare_message = 2;
 }
 
 message LeanHelixPrepareInput {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    gossipmessages.LeanHelixPrepareHeader header = 2;
-    gossipmessages.LeanHelixBlockRef block_ref = 3;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.LeanHelixPrepareMessage prepare_message = 2;
 }
 
 message LeanHelixCommitInput {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    gossipmessages.RecipientsListMode recipient_mode = 2; // TODO: move this to a boolean
-    gossipmessages.LeanHelixBlockRef block_ref = 3;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.LeanHelixCommitMessage commit_message = 2;
 }
 
 message LeanHelixViewChangeInput {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    gossipmessages.LeanHelixViewChangeHeader header = 2;
-    gossipmessages.LeanHelixViewChange view_change = 3;
-    bytes block = 4;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.LeanHelixViewChangeMessage view_change = 2;
 }
 
 message LeanHelixNewViewInput {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
-    gossipmessages.LeanHelixNewViewHeader header = 2;
-    gossipmessages.LeanHelixNewView new_view = 3;
-    bytes block = 4;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.LeanHelixNewView new_view = 2;
 }
 
 message LeanHelixOutput {

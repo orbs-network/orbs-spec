@@ -4,6 +4,8 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipm
 
 import "../primitives/crypto.proto";
 import "../primitives/protocol.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/blocks.proto";
 
 enum BlockSyncMessageType {
     BLOCK_SYNC_RESERVED = 0;
@@ -15,49 +17,57 @@ enum BlockSyncMessageType {
 
 // message headers
 
-message BlockSyncAvailabilityRequestHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message BlockAvailabilityRequestMessage {
+    option serialize_message = false;
+
+    BlockAvailabilitySignedHeader block_availability_request_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
 }
 
-message BlockSyncAvailabilityResponseHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message BlockAvailabilityResponseMessage {
+    option serialize_message = false;
+
+    BlockAvailabilitySignedHeader block_availability_response_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
 }
 
-message BlockSyncRequestHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message BlockSyncRequestMessage {
+    option serialize_message = false;
+
+    BlockSyncRequestSignedHeader block_sync_request_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+}
+
+message BlockSyncResponseMessage {
+    option serialize_message = false;
+
+    BlockSyncResponseSignedHeader block_sync_response_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+    repeated protocol.BlockPair block_pairs = 3; // TODO change to Block (oneof)
 }
 
 // message bodies
 
-message BlockSyncAvailability {
+message BlockAvailabilitySignedHeader {
     BlockType block_type = 1;
     primitives.block_height first_available_block_height = 2;
     primitives.block_height last_available_block_height = 3;
-    primitives.block_height last_committed_block_height = 4;
+    primitives.block_height last_committed_block_height = 4;    
 }
 
-message BlockSyncRequest {
+message BlockSyncRequestSignedHeader {
     BlockType block_type = 1;
-    primitives.block_height first_requested_block_height = 2;
-    primitives.block_height last_requested_block_height = 3;
-    primitives.block_height last_committed_block_height = 4;
+    primitives.block_height first_available_block_height = 2;
+    primitives.block_height last_available_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;    
 }
 
-message BlockSyncResponseHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
-}
-
-message BlockSyncResponse {
+message BlockSyncResponseSignedHeader {
     BlockType block_type = 1;
     primitives.block_height first_block_height = 2;
     primitives.block_height last_block_height = 3;
     primitives.block_height last_committed_block_height = 4;
-    repeated primitives.sha256 block_hashes = 5;
-    // repeated protocol.BlockPair (block data) is sent separately as payload
+    repeated primitives.sha256 block_hashes = 5; // TODO, single merged hash / merkle root.
 }
 
 enum BlockType {

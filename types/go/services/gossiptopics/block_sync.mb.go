@@ -11,10 +11,10 @@ import (
 // service BlockSync
 
 type BlockSync interface {
-	BroadcastBlockSyncAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error)
-	SendBlockSyncAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error)
-	SendBlockSyncRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error)
-	SendBlockSyncResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error)
+	BroadcastBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*BlockSyncOutput, error)
+	SendBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*BlockSyncOutput, error)
+	SendBlockRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error)
+	SendBlockResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error)
 	RegisterBlockSyncHandler(handler BlockSyncHandler)
 }
 
@@ -22,46 +22,42 @@ type BlockSync interface {
 // service BlockSyncHandler
 
 type BlockSyncHandler interface {
-	HandleBlockAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error)
-	HandleBlockAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error)
+	HandleBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*BlockSyncOutput, error)
+	HandleBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*BlockSyncOutput, error)
 	HandleBlockSyncRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error)
 	HandleBlockSyncResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncAvailabilityRequestInput (non serializable)
+// message BlockAvailabilityRequestInput (non serializable)
 
-type BlockSyncAvailabilityRequestInput struct {
-	Header *gossipmessages.BlockSyncAvailabilityRequestHeader
-	Request *gossipmessages.BlockSyncAvailability
+type BlockAvailabilityRequestInput struct {
+	RecipientList *gossipmessages.RecipientsList
+	BlockAvailabilityRequestMessage *gossipmessages.BlockAvailabilityRequestMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncAvailabilityResponseInput (non serializable)
+// message BlockAvailabilityResponseInput (non serializable)
 
-type BlockSyncAvailabilityResponseInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncAvailabilityResponseHeader
-	Response *gossipmessages.BlockSyncAvailability
+type BlockAvailabilityResponseInput struct {
+	RecipientList *gossipmessages.RecipientsList
+	BlockAvailabilityResponseMessage *gossipmessages.BlockAvailabilityResponseMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message BlockSyncRequestInput (non serializable)
 
 type BlockSyncRequestInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncRequestHeader
-	Request *gossipmessages.BlockSyncRequest
+	RecipientList *gossipmessages.RecipientsList
+	BlockSyncRequestMessage *gossipmessages.BlockSyncRequestMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message BlockSyncResponseInput (non serializable)
 
 type BlockSyncResponseInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncResponseHeader
-	Response *gossipmessages.BlockSyncResponse
-	BlockPairs []*protocol.BlockPair
+	RecipientList *gossipmessages.RecipientsList
+	BlockSyncResponseMessage *gossipmessages.BlockSyncRequestMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////

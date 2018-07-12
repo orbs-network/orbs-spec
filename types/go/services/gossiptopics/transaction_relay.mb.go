@@ -25,8 +25,8 @@ type TransactionRelayHandler interface {
 // message ForwardedTransactionsInput (non serializable)
 
 type ForwardedTransactionsInput struct {
-	Header *gossipmessages.ForwardedTransactionsHeader
-	Transactions []*protocol.SignedTransaction
+	RecipientList *gossipmessages.RecipientsList
+	ForwardedTransactionsMessage *gossipmessages.ForwardedTransactionsMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////

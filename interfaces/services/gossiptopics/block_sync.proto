@@ -5,6 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossipt
 import "../primitives/crypto.proto";
 import "../protocol/blocks.proto";
 import "../protocol/gossipmessages/block_sync.proto";
+import "../protocol/gossipmessages/all.proto";
 
 option serialize_messages = false;
 
@@ -13,41 +14,37 @@ service BlockSync {
     option register_handler = "BlockSyncHandler";
 
     // called by anyone looking to send gossip messages
-    rpc BroadcastBlockSyncAvailabilityRequest (BlockSyncAvailabilityRequestInput) returns (BlockSyncOutput);
-    rpc SendBlockSyncAvailabilityResponse (BlockSyncAvailabilityResponseInput) returns (BlockSyncOutput);
-    rpc SendBlockSyncRequest (BlockSyncRequestInput) returns (BlockSyncOutput);
-    rpc SendBlockSyncResponse (BlockSyncResponseInput) returns (BlockSyncOutput);
+    rpc BroadcastBlockAvailabilityRequest (BlockAvailabilityRequestInput) returns (BlockSyncOutput);
+    rpc SendBlockAvailabilityResponse (BlockAvailabilityResponseInput) returns (BlockSyncOutput);
+    rpc SendBlockRequest (BlockSyncRequestInput) returns (BlockSyncOutput);
+    rpc SendBlockResponse (BlockSyncResponseInput) returns (BlockSyncOutput);
 }
 
 service BlockSyncHandler {
-    rpc HandleBlockAvailabilityRequest (BlockSyncAvailabilityRequestInput) returns (BlockSyncOutput);
-    rpc HandleBlockAvailabilityResponse (BlockSyncAvailabilityResponseInput) returns (BlockSyncOutput);
+    rpc HandleBlockAvailabilityRequest (BlockAvailabilityRequestInput) returns (BlockSyncOutput);
+    rpc HandleBlockAvailabilityResponse (BlockAvailabilityResponseInput) returns (BlockSyncOutput);
     rpc HandleBlockSyncRequest (BlockSyncRequestInput) returns (BlockSyncOutput);
     rpc HandleBlockSyncResponse (BlockSyncResponseInput) returns (BlockSyncOutput);
 }
 
-message BlockSyncAvailabilityRequestInput {
-    gossipmessages.BlockSyncAvailabilityRequestHeader header = 1;
-    gossipmessages.BlockSyncAvailability request = 2;
+message BlockAvailabilityRequestInput {
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.BlockAvailabilityRequestMessage block_availability_request_message = 2;
 }
 
-message BlockSyncAvailabilityResponseInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
-    gossipmessages.BlockSyncAvailabilityResponseHeader header = 2;
-    gossipmessages.BlockSyncAvailability response = 3;
+message BlockAvailabilityResponseInput {
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.BlockAvailabilityResponseMessage block_availability_response_message = 2;
 }
 
 message BlockSyncRequestInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
-    gossipmessages.BlockSyncRequestHeader header = 2;
-    gossipmessages.BlockSyncRequest request = 3;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.BlockSyncRequestMessage block_sync_request_message = 2;
 }
 
 message BlockSyncResponseInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
-    gossipmessages.BlockSyncResponseHeader header = 2;
-    gossipmessages.BlockSyncResponse response = 3;
-    repeated protocol.BlockPair block_pairs = 4; // if only one was requested, place zero in the other
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.BlockSyncRequestMessage block_sync_response_message = 2;
 }
 
 message BlockSyncOutput {

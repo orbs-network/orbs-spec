@@ -5,87 +5,100 @@ import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// message ForwardedTransactionsHeader
+// message ForwardedTransactionsMessage (non serializable)
+
+type ForwardedTransactionsMessage struct {
+	Signer *MessageSigner
+	ForwardedTransactionSet *ForwardedTransactionSet
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ForwardedTransactionSet
 
 // reader
 
-type ForwardedTransactionsHeader struct {
-	// GwNodePublicKey primitives.Ed25519Pkey
-	// Signature primitives.Ed25519Sig
+type ForwardedTransactionSet struct {
+	// Transactions []protocol.SignedTransaction
 
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
 }
 
-func (x *ForwardedTransactionsHeader) String() string {
-	return fmt.Sprintf("{GwNodePublicKey:%s,Signature:%s,}", x.StringGwNodePublicKey(), x.StringSignature())
+func (x *ForwardedTransactionSet) String() string {
+	return fmt.Sprintf("{Transactions:%s,}", x.StringTransactions())
 }
 
-var _ForwardedTransactionsHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var _ForwardedTransactionsHeader_Unions = [][]membuffers.FieldType{}
+var _ForwardedTransactionSet_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,}
+var _ForwardedTransactionSet_Unions = [][]membuffers.FieldType{}
 
-func ForwardedTransactionsHeaderReader(buf []byte) *ForwardedTransactionsHeader {
-	x := &ForwardedTransactionsHeader{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsHeader_Scheme, _ForwardedTransactionsHeader_Unions)
+func ForwardedTransactionSetReader(buf []byte) *ForwardedTransactionSet {
+	x := &ForwardedTransactionSet{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionSet_Scheme, _ForwardedTransactionSet_Unions)
 	return x
 }
 
-func (x *ForwardedTransactionsHeader) IsValid() bool {
+func (x *ForwardedTransactionSet) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *ForwardedTransactionsHeader) Raw() []byte {
+func (x *ForwardedTransactionSet) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *ForwardedTransactionsHeader) GwNodePublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+func (x *ForwardedTransactionSet) TransactionsIterator() *ForwardedTransactionSetTransactionsIterator {
+	return &ForwardedTransactionSetTransactionsIterator{iterator: x._message.GetMessageArrayIterator(0)}
 }
 
-func (x *ForwardedTransactionsHeader) RawGwNodePublicKey() []byte {
+type ForwardedTransactionSetTransactionsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *ForwardedTransactionSetTransactionsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *ForwardedTransactionSetTransactionsIterator) NextTransactions() *protocol.SignedTransaction {
+	b, s := i.iterator.NextMessage()
+	return protocol.SignedTransactionReader(b[:s])
+}
+
+func (x *ForwardedTransactionSet) RawTransactionsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *ForwardedTransactionsHeader) MutateGwNodePublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, []byte(v))
-}
-
-func (x *ForwardedTransactionsHeader) StringGwNodePublicKey() string {
-	return fmt.Sprintf("%x", x.GwNodePublicKey())
-}
-
-func (x *ForwardedTransactionsHeader) Signature() primitives.Ed25519Sig {
-	return primitives.Ed25519Sig(x._message.GetBytes(1))
-}
-
-func (x *ForwardedTransactionsHeader) RawSignature() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *ForwardedTransactionsHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, []byte(v))
-}
-
-func (x *ForwardedTransactionsHeader) StringSignature() string {
-	return fmt.Sprintf("%x", x.Signature())
+func (x *ForwardedTransactionSet) StringTransactions() (res string) {
+	res = "["
+	for i := x.TransactionsIterator(); i.HasNext(); {
+		res += i.NextTransactions().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
 
-type ForwardedTransactionsHeaderBuilder struct {
-	GwNodePublicKey primitives.Ed25519Pkey
-	Signature primitives.Ed25519Sig
+type ForwardedTransactionSetBuilder struct {
+	Transactions []*protocol.SignedTransactionBuilder
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) Write(buf []byte) (err error) {
+func (w *ForwardedTransactionSetBuilder) arrayOfTransactions() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.Transactions))
+	for i, v := range w.Transactions {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *ForwardedTransactionSetBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -95,19 +108,21 @@ func (w *ForwardedTransactionsHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.GwNodePublicKey))
-	w._builder.WriteBytes(buf, []byte(w.Signature))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfTransactions())
+	if err != nil {
+		return
+	}
 	return nil
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) GetSize() membuffers.Offset {
+func (w *ForwardedTransactionSetBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *ForwardedTransactionSetBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -115,12 +130,12 @@ func (w *ForwardedTransactionsHeaderBuilder) CalcRequiredSize() membuffers.Offse
 	return w._builder.GetSize()
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) Build() *ForwardedTransactionsHeader {
+func (w *ForwardedTransactionSetBuilder) Build() *ForwardedTransactionSet {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return ForwardedTransactionsHeaderReader(buf)
+	return ForwardedTransactionSetReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////

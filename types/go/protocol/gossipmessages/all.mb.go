@@ -313,6 +313,259 @@ func (w *HeaderBuilder) Build() *Header {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message RecipientsList
+
+// reader
+
+type RecipientsList struct {
+	// RecipientPublicKeys []primitives.Ed25519Pkey
+	// RecipientMode RecipientsListMode
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *RecipientsList) String() string {
+	return fmt.Sprintf("{RecipientPublicKeys:%s,RecipientMode:%s,}", x.StringRecipientPublicKeys(), x.StringRecipientMode())
+}
+
+var _RecipientsList_Scheme = []membuffers.FieldType{membuffers.TypeBytesArray,membuffers.TypeUint16,}
+var _RecipientsList_Unions = [][]membuffers.FieldType{}
+
+func RecipientsListReader(buf []byte) *RecipientsList {
+	x := &RecipientsList{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _RecipientsList_Scheme, _RecipientsList_Unions)
+	return x
+}
+
+func (x *RecipientsList) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *RecipientsList) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *RecipientsList) RecipientPublicKeysIterator() *RecipientsListRecipientPublicKeysIterator {
+	return &RecipientsListRecipientPublicKeysIterator{iterator: x._message.GetBytesArrayIterator(0)}
+}
+
+type RecipientsListRecipientPublicKeysIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *RecipientsListRecipientPublicKeysIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *RecipientsListRecipientPublicKeysIterator) NextRecipientPublicKeys() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(i.iterator.NextBytes())
+}
+
+func (x *RecipientsList) RawRecipientPublicKeysArray() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *RecipientsList) StringRecipientPublicKeys() (res string) {
+	res = "["
+	for i := x.RecipientPublicKeysIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%x", i.NextRecipientPublicKeys()) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *RecipientsList) RecipientMode() RecipientsListMode {
+	return RecipientsListMode(x._message.GetUint16(1))
+}
+
+func (x *RecipientsList) RawRecipientMode() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *RecipientsList) MutateRecipientMode(v RecipientsListMode) error {
+	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *RecipientsList) StringRecipientMode() string {
+	return x.RecipientMode().String()
+}
+
+// builder
+
+type RecipientsListBuilder struct {
+	RecipientPublicKeys []primitives.Ed25519Pkey
+	RecipientMode RecipientsListMode
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *RecipientsListBuilder) arrayOfRecipientPublicKeys() [][]byte {
+	res := make([][]byte, len(w.RecipientPublicKeys))
+	for i, v := range w.RecipientPublicKeys {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *RecipientsListBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytesArray(buf, w.arrayOfRecipientPublicKeys())
+	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
+	return nil
+}
+
+func (w *RecipientsListBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *RecipientsListBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *RecipientsListBuilder) Build() *RecipientsList {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return RecipientsListReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message MessageSigner
+
+// reader
+
+type MessageSigner struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *MessageSigner) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _MessageSigner_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _MessageSigner_Unions = [][]membuffers.FieldType{}
+
+func MessageSignerReader(buf []byte) *MessageSigner {
+	x := &MessageSigner{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _MessageSigner_Scheme, _MessageSigner_Unions)
+	return x
+}
+
+func (x *MessageSigner) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *MessageSigner) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *MessageSigner) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *MessageSigner) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *MessageSigner) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *MessageSigner) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *MessageSigner) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *MessageSigner) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *MessageSigner) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *MessageSigner) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type MessageSignerBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *MessageSignerBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *MessageSignerBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *MessageSignerBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *MessageSignerBuilder) Build() *MessageSigner {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return MessageSignerReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums
 
 type RecipientsListMode uint16

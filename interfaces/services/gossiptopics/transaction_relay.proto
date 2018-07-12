@@ -4,6 +4,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossipt
 
 import "../protocol/transactions.proto";
 import "../protocol/gossipmessages/transaction_relay.proto";
+import "../protocol/gossipmessages/all.proto";
 
 option serialize_messages = false;
 
@@ -20,8 +21,8 @@ service TransactionRelayHandler {
 }
 
 message ForwardedTransactionsInput {
-    gossipmessages.ForwardedTransactionsHeader header = 1;
-    repeated protocol.SignedTransaction transactions = 2;
+    gossipmessages.RecipientsList recipient_list = 1;
+    gossipmessages.ForwardedTransactionsMessage forwarded_transactions_message = 2;
 }
 
 message TransactionRelayOutput {

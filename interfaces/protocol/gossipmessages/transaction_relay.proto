@@ -3,6 +3,8 @@ package gossipmessages;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
 
 import "../primitives/crypto.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/transactions.proto";
 
 enum TransactionsRelayMessageType {
     TRANSACTION_RELAY_RESERVED = 0;
@@ -11,8 +13,17 @@ enum TransactionsRelayMessageType {
 
 // message headers
 
-message ForwardedTransactionsHeader {
-    primitives.ed25519_pkey gw_node_public_key = 1;
-    primitives.ed25519_sig signature = 2; // Ed25519Sig(sigma SHA(SignedTransaction))
-    // repeated protocol.SignedTransaction (transactions data) is sent separately as payload
+message ForwardedTransactionsMessage {
+    option serialize_message = false;
+    
+    gossipmessages.MessageSigner signer = 1; // signs on SHA256{txhash1, txhash2, ... }
+    ForwardedTransactionSet forwarded_transaction_set = 2;
 }
+
+// message bodies
+
+message ForwardedTransactionSet {
+    repeated protocol.SignedTransaction transactions = 1;
+}
+
+

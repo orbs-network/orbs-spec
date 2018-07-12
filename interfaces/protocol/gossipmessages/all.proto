@@ -27,3 +27,13 @@ enum RecipientsListMode {
     RECIPIENT_LIST_MODE_LIST = 1;
     RECIPIENT_LIST_MODE_ALL_BUT_LIST = 2;
 }
+
+message RecipientsList {
+    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    RecipientsListMode recipient_mode = 2;
+}
+
+message MessageSigner { // TODO merge to a general signer message
+    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_sig signature = 2;
+}

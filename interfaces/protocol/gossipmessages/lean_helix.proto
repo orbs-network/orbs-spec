@@ -4,6 +4,9 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipm
 
 import "../primitives/crypto.proto";
 import "../primitives/protocol.proto";
+import "../primitives/integers.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/blocks.proto";
 
 enum LeanHelixMessageType {
     LEAN_HELIX_RESERVED = 0;
@@ -16,50 +19,81 @@ enum LeanHelixMessageType {
 
 // message headers
 
-message LeanHelixPrePrepareHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2; // over phase
-}
-  
-message LeanHelixPrepareHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message LeanHelixPrePrepareMessage {
+    option serialize_message = false;
+
+    LeanHelixBlockRef pre_prepare_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+    protocol.BlockPair block_pair = 3;
 }
 
-message LeanHelixCommitHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
-    primitives.bls1_sig random_seed_share = 3;
+message LeanHelixPrepareMessage {
+    option serialize_message = false;
+
+    LeanHelixBlockRef prepare_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
 }
 
-message LeanHelixViewChangeHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message LeanHelixCommitMessage {
+    option serialize_message = false;
+
+    LeanHelixBlockRef commit_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+    LeanHelixRandomSeedShare lean_helix_random_seed_share = 3;
 }
 
-message LeanHelixNewViewHeader {
-    primitives.ed25519_pkey sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+message LeanHelixViewChangeMessage {
+    option serialize_message = false;
+
+    LeanHelixViewChangeSignedHeader view_change_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+    protocol.BlockPair block_pair = 3;
+}
+
+message LeanHelixNewView {
+    option serialize_message = false;
+
+    LeanHelixNewViewSignedHeader new_view_signed_header = 1;
+    gossipmessages.MessageSigner signer = 2;
+    protocol.BlockPair block_pair = 3;
 }
 
 // message bodies
 
 message LeanHelixBlockRef {
-    primitives.block_height block_height = 1;
-    uint32 view = 2;
-    primitives.sha256 block_hash = 3; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
+    LeanHelixMessageType message_type = 1;
+    primitives.block_height block_height = 2;
+    uint32 view = 3;
+    primitives.uint256 block_hash = 4; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
 }
 
-message LeanHelixViewChange {
-    //uint64 block_height = 1;
-    //uint32 view = 2;
-    repeated LeanHelixBlockRef block_refs = 3;
-    repeated primitives.ed25519_sig signatures = 4;
+message LeanHelixRandomSeedShare {
+    primitives.bls1_sig random_seed_share = 1;
 }
 
-message LeanHelixNewView {
-    //uint64 block_height = 1;
-    //uint32 view = 2;
-    repeated LeanHelixViewChange view_changes = 3;
-    repeated primitives.ed25519_sig signatures = 2;
+message LeanHelixViewChangeSignedHeader {
+    LeanHelixMessageType message_type = 1;
+    primitives.block_height block_height = 2;
+    uint32 view = 3;
+    LeanHelixPreparedProof prepared_proof = 4;
 }
+
+message LeanHelixPreparedProof {
+    LeanHelixBlockRef block_refs = 1;
+    repeated gossipmessages.MessageSigner signers = 2;
+}
+
+message LeanHelixNewViewSignedHeader {
+    LeanHelixMessageType message_type = 1;
+    primitives.block_height block_height = 2;
+    uint32 view = 3;
+    LeanHelixNewViewProof new_view_proof = 4;
+    LeanHelixBlockRef nv_pp_signed_header = 5; // TODO if in the same file use LeanHelixPrePrepareMessage
+    gossipmessages.MessageSigner nv_pp_signer = 6; // 
+}
+
+message LeanHelixNewViewProof {
+    repeated LeanHelixViewChangeSignedHeader view_change_signed_header = 1;
+    repeated gossipmessages.MessageSigner view_change_signers = 2;
+}
+
