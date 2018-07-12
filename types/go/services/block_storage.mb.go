@@ -26,7 +26,7 @@ type BlockStorage interface {
 // message CommitBlockInput (non serializable)
 
 type CommitBlockInput struct {
-	BlockPair *protocol.BlockPair
+	BlockPair *protocol.BlockPairContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////

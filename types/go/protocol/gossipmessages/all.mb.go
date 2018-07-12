@@ -313,6 +313,122 @@ func (w *HeaderBuilder) Build() *Header {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message SenderSignature
+
+// reader
+
+type SenderSignature struct {
+	// SenderPublicKey primitives.Ed25519Pkey
+	// Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Message // interface
+	_message membuffers.InternalMessage
+}
+
+func (x *SenderSignature) String() string {
+	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+}
+
+var _SenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _SenderSignature_Unions = [][]membuffers.FieldType{}
+
+func SenderSignatureReader(buf []byte) *SenderSignature {
+	x := &SenderSignature{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _SenderSignature_Scheme, _SenderSignature_Unions)
+	return x
+}
+
+func (x *SenderSignature) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *SenderSignature) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *SenderSignature) SenderPublicKey() primitives.Ed25519Pkey {
+	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+}
+
+func (x *SenderSignature) RawSenderPublicKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *SenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+	return x._message.SetBytes(0, []byte(v))
+}
+
+func (x *SenderSignature) StringSenderPublicKey() string {
+	return fmt.Sprintf("%x", x.SenderPublicKey())
+}
+
+func (x *SenderSignature) Signature() primitives.Ed25519Sig {
+	return primitives.Ed25519Sig(x._message.GetBytes(1))
+}
+
+func (x *SenderSignature) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *SenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
+	return x._message.SetBytes(1, []byte(v))
+}
+
+func (x *SenderSignature) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
+}
+
+// builder
+
+type SenderSignatureBuilder struct {
+	SenderPublicKey primitives.Ed25519Pkey
+	Signature primitives.Ed25519Sig
+
+	// internal
+	membuffers.Builder // interface
+	_builder membuffers.InternalBuilder
+}
+
+func (w *SenderSignatureBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *SenderSignatureBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *SenderSignatureBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *SenderSignatureBuilder) Build() *SenderSignature {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return SenderSignatureReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums
 
 type RecipientsListMode uint16

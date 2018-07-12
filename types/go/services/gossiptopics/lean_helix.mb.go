@@ -2,7 +2,6 @@
 package gossiptopics
 
 import (
-	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -10,11 +9,11 @@ import (
 // service LeanHelix
 
 type LeanHelix interface {
-	SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error)
-	SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error)
-	SendLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error)
-	SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error)
-	SendLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error)
+	SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
+	SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error)
+	SendLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error)
+	SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error)
+	SendLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error)
 	RegisterLeanHelixHandler(handler LeanHelixHandler)
 }
 
@@ -22,65 +21,51 @@ type LeanHelix interface {
 // service LeanHelixHandler
 
 type LeanHelixHandler interface {
-	HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error)
-	HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error)
-	HandleLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error)
-	HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error)
-	HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error)
+	HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
+	HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error)
+	HandleLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error)
+	HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error)
+	HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixPrePrepareInput (non serializable)
 
 type LeanHelixPrePrepareInput struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *gossipmessages.LeanHelixPrePrepareHeader
-	BlockRef *gossipmessages.LeanHelixBlockRef
-	Block []byte
+	RecipientsList *RecipientsList
+	Message *gossipmessages.LeanHelixPrePrepareMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixPrepareInput (non serializable)
 
 type LeanHelixPrepareInput struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *gossipmessages.LeanHelixPrepareHeader
-	BlockRef *gossipmessages.LeanHelixBlockRef
+	RecipientsList *RecipientsList
+	Message *gossipmessages.LeanHelixPrepareMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixCommitInput (non serializable)
 
 type LeanHelixCommitInput struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
-	RecipientMode gossipmessages.RecipientsListMode
-	BlockRef *gossipmessages.LeanHelixBlockRef
+	RecipientsList *RecipientsList
+	Message *gossipmessages.LeanHelixCommitMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixViewChangeInput (non serializable)
 
 type LeanHelixViewChangeInput struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *gossipmessages.LeanHelixViewChangeHeader
-	ViewChange *gossipmessages.LeanHelixViewChange
-	Block []byte
+	RecipientsList *RecipientsList
+	Message *gossipmessages.LeanHelixViewChangeMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixNewViewInput (non serializable)
 
 type LeanHelixNewViewInput struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
-	Header *gossipmessages.LeanHelixNewViewHeader
-	NewView *gossipmessages.LeanHelixNewView
-	Block []byte
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message LeanHelixOutput (non serializable)
-
-type LeanHelixOutput struct {
+	RecipientsList *RecipientsList
+	Message *gossipmessages.LeanHelixNewViewMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@ type ReadKeysInput struct {
 // message ReadKeysOutput (non serializable)
 
 type ReadKeysOutput struct {
-	StateDiffs []*protocol.StateDiff
+	StateRecords []*protocol.StateRecord
 }
 
 /////////////////////////////////////////////////////////////////////////////

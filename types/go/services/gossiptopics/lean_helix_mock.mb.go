@@ -12,46 +12,46 @@ type MockLeanHelix struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelix) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelix) SendLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
@@ -68,46 +68,46 @@ type MockLeanHelixHandler struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*LeanHelixOutput, error) {
+func (s *MockLeanHelixHandler) HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*LeanHelixOutput), ret.Error(1)
+		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

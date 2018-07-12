@@ -4,88 +4,52 @@ package gossipmessages
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
-	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// message ForwardedTransactionsHeader
+// message TempKillMe
 
 // reader
 
-type ForwardedTransactionsHeader struct {
-	// GwNodePublicKey primitives.Ed25519Pkey
-	// Signature primitives.Ed25519Sig
+type TempKillMe struct {
 
 	// internal
 	membuffers.Message // interface
 	_message membuffers.InternalMessage
 }
 
-func (x *ForwardedTransactionsHeader) String() string {
-	return fmt.Sprintf("{GwNodePublicKey:%s,Signature:%s,}", x.StringGwNodePublicKey(), x.StringSignature())
+func (x *TempKillMe) String() string {
+	return fmt.Sprintf("{}")
 }
 
-var _ForwardedTransactionsHeader_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
-var _ForwardedTransactionsHeader_Unions = [][]membuffers.FieldType{}
+var _TempKillMe_Scheme = []membuffers.FieldType{}
+var _TempKillMe_Unions = [][]membuffers.FieldType{}
 
-func ForwardedTransactionsHeaderReader(buf []byte) *ForwardedTransactionsHeader {
-	x := &ForwardedTransactionsHeader{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _ForwardedTransactionsHeader_Scheme, _ForwardedTransactionsHeader_Unions)
+func TempKillMeReader(buf []byte) *TempKillMe {
+	x := &TempKillMe{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _TempKillMe_Scheme, _TempKillMe_Unions)
 	return x
 }
 
-func (x *ForwardedTransactionsHeader) IsValid() bool {
+func (x *TempKillMe) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *ForwardedTransactionsHeader) Raw() []byte {
+func (x *TempKillMe) Raw() []byte {
 	return x._message.RawBuffer()
-}
-
-func (x *ForwardedTransactionsHeader) GwNodePublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(0))
-}
-
-func (x *ForwardedTransactionsHeader) RawGwNodePublicKey() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *ForwardedTransactionsHeader) MutateGwNodePublicKey(v primitives.Ed25519Pkey) error {
-	return x._message.SetBytes(0, []byte(v))
-}
-
-func (x *ForwardedTransactionsHeader) StringGwNodePublicKey() string {
-	return fmt.Sprintf("%x", x.GwNodePublicKey())
-}
-
-func (x *ForwardedTransactionsHeader) Signature() primitives.Ed25519Sig {
-	return primitives.Ed25519Sig(x._message.GetBytes(1))
-}
-
-func (x *ForwardedTransactionsHeader) RawSignature() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *ForwardedTransactionsHeader) MutateSignature(v primitives.Ed25519Sig) error {
-	return x._message.SetBytes(1, []byte(v))
-}
-
-func (x *ForwardedTransactionsHeader) StringSignature() string {
-	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
 
-type ForwardedTransactionsHeaderBuilder struct {
-	GwNodePublicKey primitives.Ed25519Pkey
-	Signature primitives.Ed25519Sig
+type TempKillMeBuilder struct {
 
 	// internal
 	membuffers.Builder // interface
 	_builder membuffers.InternalBuilder
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) Write(buf []byte) (err error) {
+func (w *TempKillMeBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -95,19 +59,17 @@ func (w *ForwardedTransactionsHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.GwNodePublicKey))
-	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) GetSize() membuffers.Offset {
+func (w *TempKillMeBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *TempKillMeBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -115,12 +77,20 @@ func (w *ForwardedTransactionsHeaderBuilder) CalcRequiredSize() membuffers.Offse
 	return w._builder.GetSize()
 }
 
-func (w *ForwardedTransactionsHeaderBuilder) Build() *ForwardedTransactionsHeader {
+func (w *TempKillMeBuilder) Build() *TempKillMe {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return ForwardedTransactionsHeaderReader(buf)
+	return TempKillMeReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ForwardedTransactionsMessage (non serializable)
+
+type ForwardedTransactionsMessage struct {
+	Sender *SenderSignature
+	SignedTransactions []*protocol.SignedTransaction
 }
 
 /////////////////////////////////////////////////////////////////////////////

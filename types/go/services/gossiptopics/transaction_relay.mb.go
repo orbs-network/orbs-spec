@@ -2,7 +2,6 @@
 package gossiptopics
 
 import (
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -10,7 +9,7 @@ import (
 // service TransactionRelay
 
 type TransactionRelay interface {
-	BroadcastForwardedTransactions(input *ForwardedTransactionsInput) (*TransactionRelayOutput, error)
+	BroadcastForwardedTransactions(input *ForwardedTransactionsInput) (*EmptyOutput, error)
 	RegisterTransactionRelayHandler(handler TransactionRelayHandler)
 }
 
@@ -18,21 +17,14 @@ type TransactionRelay interface {
 // service TransactionRelayHandler
 
 type TransactionRelayHandler interface {
-	HandleForwardedTransactions(input *ForwardedTransactionsInput) (*TransactionRelayOutput, error)
+	HandleForwardedTransactions(input *ForwardedTransactionsInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ForwardedTransactionsInput (non serializable)
 
 type ForwardedTransactionsInput struct {
-	Header *gossipmessages.ForwardedTransactionsHeader
-	Transactions []*protocol.SignedTransaction
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message TransactionRelayOutput (non serializable)
-
-type TransactionRelayOutput struct {
+	Message *gossipmessages.ForwardedTransactionsMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////

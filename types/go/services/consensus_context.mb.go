@@ -32,7 +32,7 @@ type RequestNewTransactionsBlockInput struct {
 // message RequestNewTransactionsBlockOutput (non serializable)
 
 type RequestNewTransactionsBlockOutput struct {
-	TransactionsBlock *protocol.TransactionsBlock
+	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,14 +47,14 @@ type RequestNewResultsBlockInput struct {
 // message RequestNewResultsBlockOutput (non serializable)
 
 type RequestNewResultsBlockOutput struct {
-	ResultsBlock *protocol.ResultsBlock
+	ResultsBlock *protocol.ResultsBlockContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsBlockInput (non serializable)
 
 type ValidateTransactionsBlockInput struct {
-	TransactionsBlock *protocol.TransactionsBlock
+	TransactionsBlock *protocol.TransactionsBlockContainer
 	PrevBlockHash primitives.Sha256
 }
 
@@ -68,7 +68,7 @@ type ValidateTransactionsBlockOutput struct {
 // message ValidateResultsBlockInput (non serializable)
 
 type ValidateResultsBlockInput struct {
-	ResultsBlock *protocol.ResultsBlock
+	ResultsBlock *protocol.ResultsBlockContainer
 	PrevBlockHash primitives.Sha256
 }
 

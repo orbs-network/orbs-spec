@@ -15,8 +15,8 @@ service BlockSync {
     // called by anyone looking to send gossip messages
     rpc BroadcastBlockAvailabilityRequest (BlockAvailabilityRequestInput) returns (gossiptopics.EmptyOutput);
     rpc SendBlockAvailabilityResponse (BlockAvailabilityResponseInput) returns (gossiptopics.EmptyOutput);
-    rpc SendBlockRequest (BlockSyncRequestInput) returns (gossiptopics.EmptyOutput);
-    rpc SendBlockResponse (BlockSyncResponseInput) returns (gossiptopics.EmptyOutput);
+    rpc SendBlockSyncRequest (BlockSyncRequestInput) returns (gossiptopics.EmptyOutput);
+    rpc SendBlockSyncResponse (BlockSyncResponseInput) returns (gossiptopics.EmptyOutput);
 }
 
 service BlockSyncHandler {

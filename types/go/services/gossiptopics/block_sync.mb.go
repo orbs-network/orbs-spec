@@ -3,7 +3,6 @@ package gossiptopics
 
 import (
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -11,10 +10,10 @@ import (
 // service BlockSync
 
 type BlockSync interface {
-	BroadcastBlockSyncAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error)
-	SendBlockSyncAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error)
-	SendBlockSyncRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error)
-	SendBlockSyncResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error)
+	BroadcastBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
+	SendBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
+	SendBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error)
+	SendBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error)
 	RegisterBlockSyncHandler(handler BlockSyncHandler)
 }
 
@@ -22,27 +21,25 @@ type BlockSync interface {
 // service BlockSyncHandler
 
 type BlockSyncHandler interface {
-	HandleBlockAvailabilityRequest(input *BlockSyncAvailabilityRequestInput) (*BlockSyncOutput, error)
-	HandleBlockAvailabilityResponse(input *BlockSyncAvailabilityResponseInput) (*BlockSyncOutput, error)
-	HandleBlockSyncRequest(input *BlockSyncRequestInput) (*BlockSyncOutput, error)
-	HandleBlockSyncResponse(input *BlockSyncResponseInput) (*BlockSyncOutput, error)
+	HandleBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
+	HandleBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
+	HandleBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error)
+	HandleBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncAvailabilityRequestInput (non serializable)
+// message BlockAvailabilityRequestInput (non serializable)
 
-type BlockSyncAvailabilityRequestInput struct {
-	Header *gossipmessages.BlockSyncAvailabilityRequestHeader
-	Request *gossipmessages.BlockSyncAvailability
+type BlockAvailabilityRequestInput struct {
+	Message *gossipmessages.BlockAvailabilityRequestMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockSyncAvailabilityResponseInput (non serializable)
+// message BlockAvailabilityResponseInput (non serializable)
 
-type BlockSyncAvailabilityResponseInput struct {
+type BlockAvailabilityResponseInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncAvailabilityResponseHeader
-	Response *gossipmessages.BlockSyncAvailability
+	Message *gossipmessages.BlockAvailabilityResponseMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -50,8 +47,7 @@ type BlockSyncAvailabilityResponseInput struct {
 
 type BlockSyncRequestInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncRequestHeader
-	Request *gossipmessages.BlockSyncRequest
+	Message *gossipmessages.BlockSyncRequestMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,15 +55,7 @@ type BlockSyncRequestInput struct {
 
 type BlockSyncResponseInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
-	Header *gossipmessages.BlockSyncResponseHeader
-	Response *gossipmessages.BlockSyncResponse
-	BlockPairs []*protocol.BlockPair
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message BlockSyncOutput (non serializable)
-
-type BlockSyncOutput struct {
+	Message *gossipmessages.BlockSyncResponseMessage
 }
 
 /////////////////////////////////////////////////////////////////////////////
