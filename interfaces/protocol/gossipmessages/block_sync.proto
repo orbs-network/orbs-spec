@@ -43,7 +43,7 @@ message BlockSyncResponseMessage {
 
     BlockSyncRange signed_range = 1;
     gossipmessages.SenderSignature sender = 2; // signs on signed_range
-    repeated protocol.BlockPair block_pairs = 3;
+    repeated protocol.BlockPairContainer block_pairs = 3;
 }
 
 // message payloads (serializable)

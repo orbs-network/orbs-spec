@@ -24,7 +24,7 @@ message LeanHelixPrePrepareMessage {
 
     LeanHelixBlockRef signed_header = 1;
     gossipmessages.SenderSignature sender = 2; // signs on signed_header
-    protocol.BlockPair block_pair = 3;
+    protocol.BlockPairContainer block_pair = 3;
 }
 
 message LeanHelixPrepareMessage {
@@ -47,7 +47,7 @@ message LeanHelixViewChangeMessage {
 
     LeanHelixViewChangeHeader signed_header = 1;
     gossipmessages.SenderSignature sender = 2; // signs on signed_header
-    protocol.BlockPair block_pair = 3;
+    protocol.BlockPairContainer block_pair = 3;
 }
 
 message LeanHelixNewViewMessage {
@@ -55,7 +55,7 @@ message LeanHelixNewViewMessage {
 
     LeanHelixNewViewHeader signed_header = 1;
     gossipmessages.SenderSignature sender = 2; // signs on signed_header
-    protocol.BlockPair block_pair = 3;
+    protocol.BlockPairContainer block_pair = 3;
 }
 
 // message bodies

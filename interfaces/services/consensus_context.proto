@@ -29,7 +29,7 @@ message RequestNewTransactionsBlockInput {
 
 // returns error code on failure
 message RequestNewTransactionsBlockOutput {
-    protocol.TransactionsBlock transactions_block = 1;
+    protocol.TransactionsBlockContainer transactions_block = 1;
 }
 
 message RequestNewResultsBlockInput {
@@ -39,11 +39,11 @@ message RequestNewResultsBlockInput {
 
 // returns error code on failure
 message RequestNewResultsBlockOutput {
-    protocol.ResultsBlock results_block = 1;
+    protocol.ResultsBlockContainer results_block = 1;
 }
 
 message ValidateTransactionsBlockInput {
-    protocol.TransactionsBlock transactions_block = 1;
+    protocol.TransactionsBlockContainer transactions_block = 1;
     primitives.sha256 prev_block_hash = 2;
 }
 
@@ -52,7 +52,7 @@ message ValidateTransactionsBlockOutput {
 }
 
 message ValidateResultsBlockInput {
-    protocol.ResultsBlock results_block = 1;
+    protocol.ResultsBlockContainer results_block = 1;
     primitives.sha256 prev_block_hash = 2;
 }
 

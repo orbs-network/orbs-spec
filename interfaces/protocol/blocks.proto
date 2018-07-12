@@ -8,14 +8,16 @@ import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 import "protocol/blockproofs/lean_helix.proto";
 
-message BlockPair {
+// containers (not serializable)
+
+message BlockPairContainer {
     option serialize_message = false;
 
-    TransactionsBlock transactions_block = 1;
-    ResultsBlock results_block = 2;
+    TransactionsBlockContainer transactions_block = 1;
+    ResultsBlockContainer results_block = 2;
 }
 
-message TransactionsBlock {
+message TransactionsBlockContainer {
     option serialize_message = false;
 
     TransactionsBlockHeader header = 1;
@@ -24,7 +26,7 @@ message TransactionsBlock {
     TransactionsBlockProof block_proof = 4;
 }
 
-message ResultsBlock {
+message ResultsBlockContainer {
     option serialize_message = false;
 
     ResultsBlockHeader header = 1;
@@ -32,6 +34,8 @@ message ResultsBlock {
     repeated protocol.ContractStateDiff contract_state_diffs = 3;
     ResultsBlockProof block_proof = 4;
 }
+
+// payloads
 
 message TransactionsBlockHeader {
     primitives.protocol_version protocol_version = 1;

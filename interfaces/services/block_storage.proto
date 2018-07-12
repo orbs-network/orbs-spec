@@ -32,7 +32,7 @@ service BlockStorage {
 }
 
 message CommitBlockInput {
-    protocol.BlockPair block_pair = 1;
+    protocol.BlockPairContainer block_pair = 1;
 }
 
 message CommitBlockOutput {
