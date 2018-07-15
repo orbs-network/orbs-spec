@@ -35,6 +35,12 @@ Currently a single instance per virtual chain per node.
   * Relevant for `ReadWrite` execution contexts only.
 
 &nbsp;
+## `Init` (flow)
+
+* Initialize the [configuration](../config/services.md).
+* For each processor, register to handle the processor's SDK calls by calling `Processor.ContractSdkCallHandler`.
+
+&nbsp;
 ## `RunLocalMethod` (method)
 
 > Executes a read only method of a deployed service and returns its result (not under consensus).
@@ -142,3 +148,12 @@ Currently a single instance per virtual chain per node.
 * Make sure the execution context is `ReadWrite` and we have a transient state.
 * Identify the service we're writing to, it's the top of the execution context's service stack.
 * Write the variable to the transaction transient state.
+
+&nbsp;
+## SDK Call Handler
+
+> Handles the processor's SDK calls.
+
+#### `HandleSdkCall`
+* Handle by calling `SdkCall`.
+

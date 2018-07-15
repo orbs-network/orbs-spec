@@ -28,7 +28,8 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.
-* Subscribe to gossip messages in the relevant consensus topic by calling `Gossip.TopicSubscribe`.
+* Subscribe to gossip messages by calling `Gossip.LeanHelix.RegisterLeanHelixHandler`.
+* Register to handle transactions and results blocks validation by calling `BlockStorage.ConsensusBlocksHandler`.
 * Start the consensus algorithm.
 
 &nbsp;
@@ -170,3 +171,35 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 > Handles a gossip message from another node. Relevant messages include algorithm-specific consensus messages.
 
 * Depends on consensus algorithm.
+
+&nbsp;
+## Block Validation Handlers 
+
+> Handles transactions and results blocks validation requests, called by `BlockStorage`. 
+
+#### `HandleTransactionsBlock`
+* Handle by calling `AcknowledgeTransactionsBlockConsensus`.
+
+#### `HandleResultsBlock`
+* Handle by calling `AcknowledgeResultsBlockConsensus`.
+
+
+&nbsp;
+## Gossip Messages Handlers
+
+> Handles gossip messages from other nodes. Relevant messages include block sync messages.
+
+#### `HandleLeanHelixPrePrepare`
+* Handles `LEAN_HELIX_PRE_PREPARE` messages, see `lean-helix` flow.
+
+#### `HandleLeanHelixPrepare`
+* Handles `LEAN_HELIX_PREPARE` messages, see `lean-helix` flow.
+
+#### `HandleLeanHelixCommit`
+* Handles `LEAN_HELIX_COMMIT` messages, see `lean-helix` flow.
+
+#### `HandleLeanHelixViewChange`
+* Handles `LEAN_HELIX_VIEW_CHANGE` messages, see `lean-helix` flow.
+
+#### `HandleLeanHelixNewView`
+* Handles `LEAN_HELIX_NEW_VIEW` messages, see `lean-helix` flow.

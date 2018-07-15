@@ -156,7 +156,7 @@ Currently a single instance per virtual chain per node.
   * Add the receipt, block height and block timestamp to the committed pool.
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
-    * If indeed local, update the local public api by calling `PublicApi.ReturnTransactionResults`.
+    * If indeed local, update the registered public api service by calling its `HandleTransactionsBlock`.
   * Remove the corresponding transactions (based on their `tx_id`) from the pending pool.
 * Update `last_committed_block` to match the given block.
 
@@ -170,12 +170,13 @@ Currently a single instance per virtual chain per node.
 * else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
 
 &nbsp;
-## `GossipMessageReceived` (method)
+## Gossip Messages Handlers
 
-> Handle a gossip message from another node. Relevant messages include transaction relay messages.
+> Handles gossip messages from other nodes. Relevant messages include transaction relay messages.
 
-#### `TRANSACTION_BATCH` message
-* Call `OnForwardedTransactions`.
+#### `HandleForwardedTransactions`
+* Handles `TRANSACTION_RELAY_FORWARDED_TRANSACTIONS` messages, see `send-transaction` flow.
+
 
 
 <!-- TODO: oded, add the diagrams again

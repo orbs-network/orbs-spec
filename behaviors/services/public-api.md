@@ -27,6 +27,12 @@ Currently a single instance per virtual chain per node.
 * Limited to `CallMethod` requests.
 
 &nbsp;
+## `Init` (flow)
+
+* Initialize the [configuration](../config/services.md).
+* Register to handle transactions results blocks by calling `TransactionPool.TransactionResultsHandler`.
+
+&nbsp;
 ## `CallMethod` (method)
 
 > Public interface: Run a read only service method without consensus based on the current block height. The call is synchronous.
@@ -59,9 +65,9 @@ Currently a single instance per virtual chain per node.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `ReturnTransactionResults`.
 
 &nbsp;
-## `ReturnTransactionResults` (method)
+## `UpdateTransactionResults` (method)
 
-> Called by transaction pool on committed blocks to let public api respond to their waiting clients.
+> Called by the TransactionResults Handler
 
 * For every transaction:
   * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
@@ -84,3 +90,12 @@ Currently a single instance per virtual chain per node.
 * If not found in transaction pool, it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
+
+&nbsp;
+## TransactionResults Handler
+
+> Handles transaction results enables the public api to respond to the waiting clients, called by `TransactionPool`. 
+
+#### `HandleTransactionResults`
+* Handle by calling `UpdateTransactionResults`.
+

@@ -58,7 +58,7 @@ Currently a single instance per virtual chain per node.
   * `ReadWrite` method can only be called with appropriate write context.
   * Fail if found a permission problem.
 * Execute the code on the processor.
-  * External SDK calls are performed by blocking execution and calling `VirtualMachine.SdkCall`.
+  * External SDK calls are performed by blocking execution and calling the registered virtual machine service by calling its `HandleSdkCall`.
 
 &nbsp;
 ## `DeployNativeService` (method)

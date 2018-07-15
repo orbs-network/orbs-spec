@@ -32,7 +32,7 @@ Currently a single instance per virtual chain per node.
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.
 * If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the database to empty.
-* Subscribe to gossip messages in topic `NODE_SYNC` by calling `Gossip.TopicSubscribe`.
+* Subscribe to gossip messages by calling `Gossip.BlockSync.RegisterBlockSyncHandler`.
 * Trigger the block synchronization process in the `Inter Node Block Sync` flow.
 
 &nbsp;
@@ -48,14 +48,14 @@ Currently a single instance per virtual chain per node.
 * Make sure no more than one synchronization process is active at any given time.
 
 #### Synchronization process
-* Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.SendMessage`.
+* Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.BlockSync.BroadcastBlockAvailabilityRequest`.
   * Request blocks starting from `last_committed_block`.
   * Since the highest missing block height is probably unknown, set it to `MAX_UINT64`.
   * Nodes will respond with a `BLOCK_AVAILABILITY_RESPONSE` message.
     * Indicating the range from the desired blocks that is available to them and their current top block.
 * Randomly select one of the responding nodes and request a batch of blocks from them.
   * If some of the responders are significantly behind and can't fulfill one batch, avoid them in the random selection.
-  * Request the block batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.SendMessage`.
+  * Request the block batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.BlockSync.SendBlockSyncRequest`.
   * The receiving node will respond with a `BLOCK_SYNC_RESPONSE` message.
     * The response includes a steam of the requested blocks and the node's `last_committed_block` height.
     * The receiving node may limit the number of blocks it is willing to stream in a batch to a [configurable](../config/services.md) amount.
@@ -125,8 +125,10 @@ Currently a single instance per virtual chain per node.
 *Note: The logic up to here also appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.*
 
 #### Check the block consensus
-* Check consensus of the Transactions block header by calling `ConsensusAlgo.AcknowledgeTransactionsBlockConsensus`.
-* Check consensus of the Results block header by calling `ConsensusAlgo.AcknowledgeResultsBlockConsensus`.
+* Identify the relevant service (consensus algorithm) that is registered to handle TransactionsBlock validation.
+  * Check consensus of the transactions block by calling its `HandleTransactionsBlock`.
+* Identify the relevant service (consensus algorithm) that is registered to handle ResultsBlock validation.
+  * Check consensus of the results block by calling its `HandleResultsBlock`.
 
 &nbsp;
 ## `GetLastCommittedBlockHeight` (method)
@@ -169,21 +171,22 @@ Currently a single instance per virtual chain per node.
 * Return the results block header, metadata and the results block proof.
 
 &nbsp;
-## `GossipMessageReceived` (method)
+## Gossip Messages Handlers
 
-> Handles a gossip message from another node. Relevant messages include block sync messages.
+> Handles gossip messages from other nodes. Relevant messages include block sync messages.
 
-#### `BLOCK_AVAILABILITY_REQUEST` message
-* See `Inter Node Block Sync` flow.
+#### `HandleBlockAvailabilityRequest`
+* Handles `BLOCK_AVAILABILITY_REQUEST` messages, see `Inter Node Block Sync` flow.
 
-#### `BLOCK_AVAILABILITY_RESPONSE` message
-* See `Inter Node Block Sync` flow.
+#### `HandleBlockAvailabilityResponse`
+* Handles `BLOCK_AVAILABILITY_RESPONSE` messages, see `Inter Node Block Sync` flow.
 
-#### `BLOCK_SYNC_REQUEST` message
-* See `Inter Node Block Sync` flow.
+#### `HandleBlockSyncRequest`
+* Handles `BLOCK_SYNC_REQUEST` messages, see `Inter Node Block Sync` flow.
 
-#### `BLOCK_SYNC_RESPONSE` message
-* See `Inter Node Block Sync` flow.
+#### `HandleBlockSyncResponse`
+* Handles `BLOCK_SYNC_RESPONSE` messages, see `Inter Node Block Sync` flow.
+
 
 
 <!--
