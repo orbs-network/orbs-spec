@@ -16,6 +16,7 @@ service ConsensusAlgo {
     rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
 }
 
+// relies on BlockStorage, ConsensusContext, Gossip.LeanHelix
 service ConsensusAlgoLeanHelix {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "ConsensusAlgo";

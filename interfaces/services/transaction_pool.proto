@@ -12,7 +12,7 @@ import "services/handlers/transaction_results.proto";
 
 option serialize_messages = false;
 
-// relies on VirtualMachine
+// relies on VirtualMachine, Gossip.TransactionRelay
 service TransactionPool {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "gossiptopics.TransactionRelayHandler";
