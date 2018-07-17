@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -64,7 +65,7 @@ type LeanHelixBlockRef struct {
 	// BlockHash primitives.Uint256
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -87,6 +88,10 @@ func (x *LeanHelixBlockRef) IsValid() bool {
 
 func (x *LeanHelixBlockRef) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelixBlockRef) Equal(y *LeanHelixBlockRef) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixBlockRef) MessageType() LeanHelixMessageType {
@@ -162,7 +167,7 @@ type LeanHelixBlockRefBuilder struct {
 	BlockHash primitives.Uint256
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -215,7 +220,7 @@ type LeanHelixRandomSeedShare struct {
 	// RandomSeedShare primitives.Bls1Sig
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -240,6 +245,10 @@ func (x *LeanHelixRandomSeedShare) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
+func (x *LeanHelixRandomSeedShare) Equal(y *LeanHelixRandomSeedShare) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
 func (x *LeanHelixRandomSeedShare) RandomSeedShare() primitives.Bls1Sig {
 	return primitives.Bls1Sig(x._message.GetBytes(0))
 }
@@ -262,7 +271,7 @@ type LeanHelixRandomSeedShareBuilder struct {
 	RandomSeedShare primitives.Bls1Sig
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -315,7 +324,7 @@ type LeanHelixViewChangeHeader struct {
 	// PreparedProof LeanHelixPreparedProof
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -338,6 +347,10 @@ func (x *LeanHelixViewChangeHeader) IsValid() bool {
 
 func (x *LeanHelixViewChangeHeader) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelixViewChangeHeader) Equal(y *LeanHelixViewChangeHeader) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixViewChangeHeader) MessageType() LeanHelixMessageType {
@@ -410,7 +423,7 @@ type LeanHelixViewChangeHeaderBuilder struct {
 	PreparedProof *LeanHelixPreparedProofBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -467,7 +480,7 @@ type LeanHelixPreparedProof struct {
 	// Senders []SenderSignature
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -490,6 +503,10 @@ func (x *LeanHelixPreparedProof) IsValid() bool {
 
 func (x *LeanHelixPreparedProof) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelixPreparedProof) Equal(y *LeanHelixPreparedProof) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixPreparedProof) BlockRef() *LeanHelixBlockRef {
@@ -542,7 +559,7 @@ type LeanHelixPreparedProofBuilder struct {
 	Senders []*SenderSignatureBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -612,7 +629,7 @@ type LeanHelixNewViewHeader struct {
 	// NewViewPrePrepareSender SenderSignature
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -635,6 +652,10 @@ func (x *LeanHelixNewViewHeader) IsValid() bool {
 
 func (x *LeanHelixNewViewHeader) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelixNewViewHeader) Equal(y *LeanHelixNewViewHeader) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixNewViewHeader) MessageType() LeanHelixMessageType {
@@ -735,7 +756,7 @@ type LeanHelixNewViewHeaderBuilder struct {
 	NewViewPrePrepareSender *SenderSignatureBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -800,7 +821,7 @@ type LeanHelixNewViewProof struct {
 	// ViewChangeSenders []SenderSignature
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -823,6 +844,10 @@ func (x *LeanHelixNewViewProof) IsValid() bool {
 
 func (x *LeanHelixNewViewProof) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelixNewViewProof) Equal(y *LeanHelixNewViewProof) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixNewViewProof) ViewChangeSignedHeadersIterator() *LeanHelixNewViewProofViewChangeSignedHeadersIterator {
@@ -892,7 +917,7 @@ type LeanHelixNewViewProofBuilder struct {
 	ViewChangeSenders []*SenderSignatureBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

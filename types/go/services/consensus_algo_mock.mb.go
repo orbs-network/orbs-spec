@@ -1,8 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package services
 
 import (
-	"github.com/maraino/go-mock"
+	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 )

@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/blockproofs"
 )
@@ -52,7 +53,7 @@ type TransactionsBlockHeader struct {
 	// NumSignedTransactions uint32
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -75,6 +76,10 @@ func (x *TransactionsBlockHeader) IsValid() bool {
 
 func (x *TransactionsBlockHeader) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *TransactionsBlockHeader) Equal(y *TransactionsBlockHeader) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *TransactionsBlockHeader) ProtocolVersion() primitives.ProtocolVersion {
@@ -218,7 +223,7 @@ type TransactionsBlockHeaderBuilder struct {
 	NumSignedTransactions uint32
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -287,7 +292,7 @@ type ResultsBlockHeader struct {
 	// NumContractStateDiffs uint32
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -310,6 +315,10 @@ func (x *ResultsBlockHeader) IsValid() bool {
 
 func (x *ResultsBlockHeader) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *ResultsBlockHeader) Equal(y *ResultsBlockHeader) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *ResultsBlockHeader) ProtocolVersion() primitives.ProtocolVersion {
@@ -538,7 +547,7 @@ type ResultsBlockHeaderBuilder struct {
 	NumContractStateDiffs uint32
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -599,7 +608,7 @@ func (w *ResultsBlockHeaderBuilder) Build() *ResultsBlockHeader {
 type TransactionsBlockMetadata struct {
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -624,12 +633,16 @@ func (x *TransactionsBlockMetadata) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
+func (x *TransactionsBlockMetadata) Equal(y *TransactionsBlockMetadata) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
 // builder
 
 type TransactionsBlockMetadataBuilder struct {
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -678,7 +691,7 @@ type TransactionsBlockProof struct {
 	// Type TransactionsBlockProofType
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -701,6 +714,10 @@ func (x *TransactionsBlockProof) IsValid() bool {
 
 func (x *TransactionsBlockProof) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *TransactionsBlockProof) Equal(y *TransactionsBlockProof) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type TransactionsBlockProofType uint16
@@ -747,7 +764,7 @@ type TransactionsBlockProofBuilder struct {
 	LeanHelix *blockproofs.LeanHelixBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -801,7 +818,7 @@ type ResultsBlockProof struct {
 	// Type ResultsBlockProofType
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -824,6 +841,10 @@ func (x *ResultsBlockProof) IsValid() bool {
 
 func (x *ResultsBlockProof) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *ResultsBlockProof) Equal(y *ResultsBlockProof) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type ResultsBlockProofType uint16
@@ -870,7 +891,7 @@ type ResultsBlockProofBuilder struct {
 	LeanHelix *blockproofs.LeanHelixBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
