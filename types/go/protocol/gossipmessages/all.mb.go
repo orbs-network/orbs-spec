@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -21,7 +22,7 @@ type Header struct {
 	// NumPayloads uint32
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -44,6 +45,16 @@ func (x *Header) IsValid() bool {
 
 func (x *Header) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *Header) Equal(y *Header) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *Header) ProtocolVersion() primitives.ProtocolVersion {
@@ -250,7 +261,7 @@ type HeaderBuilder struct {
 	LeanHelix LeanHelixMessageType
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -322,7 +333,7 @@ type SenderSignature struct {
 	// Signature primitives.Ed25519Sig
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -345,6 +356,16 @@ func (x *SenderSignature) IsValid() bool {
 
 func (x *SenderSignature) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *SenderSignature) Equal(y *SenderSignature) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SenderSignature) SenderPublicKey() primitives.Ed25519Pkey {
@@ -386,7 +407,7 @@ type SenderSignatureBuilder struct {
 	Signature primitives.Ed25519Sig
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

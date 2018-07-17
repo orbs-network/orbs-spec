@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -15,7 +16,7 @@ import (
 type TempKillMe struct {
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -40,12 +41,22 @@ func (x *TempKillMe) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
+func (x *TempKillMe) Equal(y *TempKillMe) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
 // builder
 
 type TempKillMeBuilder struct {
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

@@ -1,8 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package handlers
 
 import (
-	"github.com/maraino/go-mock"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////

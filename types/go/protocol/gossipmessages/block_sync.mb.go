@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -53,7 +54,7 @@ type BlockSyncRange struct {
 	// LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -76,6 +77,16 @@ func (x *BlockSyncRange) IsValid() bool {
 
 func (x *BlockSyncRange) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *BlockSyncRange) Equal(y *BlockSyncRange) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *BlockSyncRange) BlockType() BlockType {
@@ -151,7 +162,7 @@ type BlockSyncRangeBuilder struct {
 	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

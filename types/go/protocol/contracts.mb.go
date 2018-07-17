@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -17,7 +18,7 @@ type MethodArgument struct {
 	// Type MethodArgumentType
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -40,6 +41,16 @@ func (x *MethodArgument) IsValid() bool {
 
 func (x *MethodArgument) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *MethodArgument) Equal(y *MethodArgument) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *MethodArgument) Name() string {
@@ -192,7 +203,7 @@ type MethodArgumentBuilder struct {
 	BytesValue []byte
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -254,7 +265,7 @@ type StateRecord struct {
 	// Value []byte
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -277,6 +288,16 @@ func (x *StateRecord) IsValid() bool {
 
 func (x *StateRecord) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *StateRecord) Equal(y *StateRecord) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *StateRecord) Key() primitives.Ripmd160Sha256 {
@@ -318,7 +339,7 @@ type StateRecordBuilder struct {
 	Value []byte
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -370,7 +391,7 @@ type ContractStateDiff struct {
 	// StateDiffs []StateRecord
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -393,6 +414,16 @@ func (x *ContractStateDiff) IsValid() bool {
 
 func (x *ContractStateDiff) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *ContractStateDiff) Equal(y *ContractStateDiff) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *ContractStateDiff) ContractName() primitives.ContractName {
@@ -448,7 +479,7 @@ type ContractStateDiffBuilder struct {
 	StateDiffs []*StateRecordBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
