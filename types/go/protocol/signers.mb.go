@@ -43,6 +43,12 @@ func (x *Signer) Raw() []byte {
 }
 
 func (x *Signer) Equal(y *Signer) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -171,6 +177,12 @@ func (x *EdDSA01Signer) Raw() []byte {
 }
 
 func (x *EdDSA01Signer) Equal(y *EdDSA01Signer) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

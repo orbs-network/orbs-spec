@@ -91,6 +91,12 @@ func (x *LeanHelixBlockRef) Raw() []byte {
 }
 
 func (x *LeanHelixBlockRef) Equal(y *LeanHelixBlockRef) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -246,6 +252,12 @@ func (x *LeanHelixRandomSeedShare) Raw() []byte {
 }
 
 func (x *LeanHelixRandomSeedShare) Equal(y *LeanHelixRandomSeedShare) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -350,6 +362,12 @@ func (x *LeanHelixViewChangeHeader) Raw() []byte {
 }
 
 func (x *LeanHelixViewChangeHeader) Equal(y *LeanHelixViewChangeHeader) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -506,6 +524,12 @@ func (x *LeanHelixPreparedProof) Raw() []byte {
 }
 
 func (x *LeanHelixPreparedProof) Equal(y *LeanHelixPreparedProof) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -655,6 +679,12 @@ func (x *LeanHelixNewViewHeader) Raw() []byte {
 }
 
 func (x *LeanHelixNewViewHeader) Equal(y *LeanHelixNewViewHeader) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -847,6 +877,12 @@ func (x *LeanHelixNewViewProof) Raw() []byte {
 }
 
 func (x *LeanHelixNewViewProof) Equal(y *LeanHelixNewViewProof) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

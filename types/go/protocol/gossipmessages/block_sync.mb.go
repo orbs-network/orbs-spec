@@ -80,6 +80,12 @@ func (x *BlockSyncRange) Raw() []byte {
 }
 
 func (x *BlockSyncRange) Equal(y *BlockSyncRange) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

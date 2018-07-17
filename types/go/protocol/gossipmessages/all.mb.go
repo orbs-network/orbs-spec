@@ -48,6 +48,12 @@ func (x *Header) Raw() []byte {
 }
 
 func (x *Header) Equal(y *Header) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -353,6 +359,12 @@ func (x *SenderSignature) Raw() []byte {
 }
 
 func (x *SenderSignature) Equal(y *SenderSignature) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

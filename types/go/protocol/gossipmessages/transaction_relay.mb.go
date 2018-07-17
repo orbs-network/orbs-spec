@@ -42,6 +42,12 @@ func (x *TempKillMe) Raw() []byte {
 }
 
 func (x *TempKillMe) Equal(y *TempKillMe) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

@@ -49,6 +49,12 @@ func (x *LeanHelix) Raw() []byte {
 }
 
 func (x *LeanHelix) Equal(y *LeanHelix) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

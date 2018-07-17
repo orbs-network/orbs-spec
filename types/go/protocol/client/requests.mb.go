@@ -44,6 +44,12 @@ func (x *SendTransactionRequest) Raw() []byte {
 }
 
 func (x *SendTransactionRequest) Equal(y *SendTransactionRequest) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -148,6 +154,12 @@ func (x *SendTransactionResponse) Raw() []byte {
 }
 
 func (x *SendTransactionResponse) Equal(y *SendTransactionResponse) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -303,6 +315,12 @@ func (x *CallMethodRequest) Raw() []byte {
 }
 
 func (x *CallMethodRequest) Equal(y *CallMethodRequest) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -407,6 +425,12 @@ func (x *CallMethodResponse) Raw() []byte {
 }
 
 func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -588,6 +612,12 @@ func (x *GetTransactionStatusRequest) Raw() []byte {
 }
 
 func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -710,6 +740,12 @@ func (x *GetTransactionStatusResponse) Raw() []byte {
 }
 
 func (x *GetTransactionStatusResponse) Equal(y *GetTransactionStatusResponse) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

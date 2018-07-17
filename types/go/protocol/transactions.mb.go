@@ -49,6 +49,12 @@ func (x *Transaction) Raw() []byte {
 }
 
 func (x *Transaction) Equal(y *Transaction) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -284,6 +290,12 @@ func (x *SignedTransaction) Raw() []byte {
 }
 
 func (x *SignedTransaction) Equal(y *SignedTransaction) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -405,6 +417,12 @@ func (x *TransactionReceipt) Raw() []byte {
 }
 
 func (x *TransactionReceipt) Equal(y *TransactionReceipt) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

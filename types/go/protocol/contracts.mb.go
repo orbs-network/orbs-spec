@@ -44,6 +44,12 @@ func (x *MethodArgument) Raw() []byte {
 }
 
 func (x *MethodArgument) Equal(y *MethodArgument) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -285,6 +291,12 @@ func (x *StateRecord) Raw() []byte {
 }
 
 func (x *StateRecord) Equal(y *StateRecord) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -405,6 +417,12 @@ func (x *ContractStateDiff) Raw() []byte {
 }
 
 func (x *ContractStateDiff) Equal(y *ContractStateDiff) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 

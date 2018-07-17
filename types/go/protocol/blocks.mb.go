@@ -79,6 +79,12 @@ func (x *TransactionsBlockHeader) Raw() []byte {
 }
 
 func (x *TransactionsBlockHeader) Equal(y *TransactionsBlockHeader) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -318,6 +324,12 @@ func (x *ResultsBlockHeader) Raw() []byte {
 }
 
 func (x *ResultsBlockHeader) Equal(y *ResultsBlockHeader) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -634,6 +646,12 @@ func (x *TransactionsBlockMetadata) Raw() []byte {
 }
 
 func (x *TransactionsBlockMetadata) Equal(y *TransactionsBlockMetadata) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -717,6 +735,12 @@ func (x *TransactionsBlockProof) Raw() []byte {
 }
 
 func (x *TransactionsBlockProof) Equal(y *TransactionsBlockProof) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
@@ -844,6 +868,12 @@ func (x *ResultsBlockProof) Raw() []byte {
 }
 
 func (x *ResultsBlockProof) Equal(y *ResultsBlockProof) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
