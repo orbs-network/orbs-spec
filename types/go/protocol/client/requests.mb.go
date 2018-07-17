@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package client
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -17,7 +18,7 @@ type SendTransactionRequest struct {
 	// SignedTransaction protocol.SignedTransaction
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -42,6 +43,10 @@ func (x *SendTransactionRequest) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
+func (x *SendTransactionRequest) Equal(y *SendTransactionRequest) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
 func (x *SendTransactionRequest) SignedTransaction() *protocol.SignedTransaction {
 	b, s := x._message.GetMessage(0)
 	return protocol.SignedTransactionReader(b[:s])
@@ -61,7 +66,7 @@ type SendTransactionRequestBuilder struct {
 	SignedTransaction *protocol.SignedTransactionBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -117,7 +122,7 @@ type SendTransactionResponse struct {
 	// BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -140,6 +145,10 @@ func (x *SendTransactionResponse) IsValid() bool {
 
 func (x *SendTransactionResponse) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *SendTransactionResponse) Equal(y *SendTransactionResponse) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SendTransactionResponse) TransactionReceipt() *protocol.TransactionReceipt {
@@ -212,7 +221,7 @@ type SendTransactionResponseBuilder struct {
 	BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -268,7 +277,7 @@ type CallMethodRequest struct {
 	// Transaction protocol.Transaction
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -293,6 +302,10 @@ func (x *CallMethodRequest) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
+func (x *CallMethodRequest) Equal(y *CallMethodRequest) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
 func (x *CallMethodRequest) Transaction() *protocol.Transaction {
 	b, s := x._message.GetMessage(0)
 	return protocol.TransactionReader(b[:s])
@@ -312,7 +325,7 @@ type CallMethodRequestBuilder struct {
 	Transaction *protocol.TransactionBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -368,7 +381,7 @@ type CallMethodResponse struct {
 	// BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -391,6 +404,10 @@ func (x *CallMethodResponse) IsValid() bool {
 
 func (x *CallMethodResponse) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *CallMethodResponse) OutputArgumentsIterator() *CallMethodResponseOutputArgumentsIterator {
@@ -480,7 +497,7 @@ type CallMethodResponseBuilder struct {
 	BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -545,7 +562,7 @@ type GetTransactionStatusRequest struct {
 	// Txhash primitives.Sha256
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -568,6 +585,10 @@ func (x *GetTransactionStatusRequest) IsValid() bool {
 
 func (x *GetTransactionStatusRequest) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.Timestamp {
@@ -609,7 +630,7 @@ type GetTransactionStatusRequestBuilder struct {
 	Txhash primitives.Sha256
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -663,7 +684,7 @@ type GetTransactionStatusResponse struct {
 	// BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -686,6 +707,10 @@ func (x *GetTransactionStatusResponse) IsValid() bool {
 
 func (x *GetTransactionStatusResponse) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionStatusResponse) Equal(y *GetTransactionStatusResponse) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *GetTransactionStatusResponse) TransactionReceipt() *protocol.TransactionReceipt {
@@ -758,7 +783,7 @@ type GetTransactionStatusResponseBuilder struct {
 	BlockTimestamp primitives.Timestamp
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

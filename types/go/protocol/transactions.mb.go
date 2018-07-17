@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -22,7 +23,7 @@ type Transaction struct {
 	// InputArguments []MethodArgument
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -45,6 +46,10 @@ func (x *Transaction) IsValid() bool {
 
 func (x *Transaction) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *Transaction) Equal(y *Transaction) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *Transaction) ProtocolVersion() primitives.ProtocolVersion {
@@ -182,7 +187,7 @@ type TransactionBuilder struct {
 	InputArguments []*MethodArgumentBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -253,7 +258,7 @@ type SignedTransaction struct {
 	// Signature []byte
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -276,6 +281,10 @@ func (x *SignedTransaction) IsValid() bool {
 
 func (x *SignedTransaction) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *SignedTransaction) Equal(y *SignedTransaction) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SignedTransaction) Transaction() *Transaction {
@@ -314,7 +323,7 @@ type SignedTransactionBuilder struct {
 	Signature []byte
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -370,7 +379,7 @@ type TransactionReceipt struct {
 	// OutputArguments []MethodArgument
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -393,6 +402,10 @@ func (x *TransactionReceipt) IsValid() bool {
 
 func (x *TransactionReceipt) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *TransactionReceipt) Equal(y *TransactionReceipt) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *TransactionReceipt) Txhash() primitives.Sha256 {
@@ -465,7 +478,7 @@ type TransactionReceiptBuilder struct {
 	OutputArguments []*MethodArgumentBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

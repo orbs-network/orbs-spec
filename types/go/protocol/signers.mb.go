@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -16,7 +17,7 @@ type Signer struct {
 	// Scheme SignerScheme
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -39,6 +40,10 @@ func (x *Signer) IsValid() bool {
 
 func (x *Signer) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *Signer) Equal(y *Signer) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type SignerScheme uint16
@@ -85,7 +90,7 @@ type SignerBuilder struct {
 	Eddsa *EdDSA01SignerBuilder
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
@@ -140,7 +145,7 @@ type EdDSA01Signer struct {
 	// SignerPublicKey primitives.Ed25519Pkey
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -163,6 +168,10 @@ func (x *EdDSA01Signer) IsValid() bool {
 
 func (x *EdDSA01Signer) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *EdDSA01Signer) Equal(y *EdDSA01Signer) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *EdDSA01Signer) NetworkType() SignerNetworkType {
@@ -204,7 +213,7 @@ type EdDSA01SignerBuilder struct {
 	SignerPublicKey primitives.Ed25519Pkey
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 

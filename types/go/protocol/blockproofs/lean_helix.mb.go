@@ -1,9 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.15)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
 package blockproofs
 
 import (
 	"github.com/orbs-network/membuffers/go"
 	"fmt"
+	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -22,7 +23,7 @@ type LeanHelix struct {
 	// RandomSeedSignature primitives.Bls1Sig
 
 	// internal
-	membuffers.Message // interface
+	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
@@ -45,6 +46,10 @@ func (x *LeanHelix) IsValid() bool {
 
 func (x *LeanHelix) Raw() []byte {
 	return x._message.RawBuffer()
+}
+
+func (x *LeanHelix) Equal(y *LeanHelix) bool {
+  return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelix) BlockHeight() primitives.BlockHeight {
@@ -197,7 +202,7 @@ type LeanHelixBuilder struct {
 	RandomSeedSignature primitives.Bls1Sig
 
 	// internal
-	membuffers.Builder // interface
+	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
