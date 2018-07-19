@@ -6,7 +6,7 @@ import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
-import "protocol/blockproofs/lean_helix.proto";
+import "protocol/consensus/lean_helix.proto";
 
 // containers (not serializable)
 
@@ -72,12 +72,12 @@ message TransactionsBlockMetadata {
 
 message TransactionsBlockProof {
     oneof type {
-        blockproofs.LeanHelix lean_helix = 1;
+        consensus.LeanHelixBlockProof lean_helix = 1;
     }
 }
 
 message ResultsBlockProof {
     oneof type {
-        blockproofs.LeanHelix lean_helix = 1;
+        consensus.LeanHelixBlockProof lean_helix = 1;
     }
 }

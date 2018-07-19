@@ -7,6 +7,8 @@ import "../primitives/protocol.proto";
 import "../protocol/gossipmessages/transaction_relay.proto";
 import "../protocol/gossipmessages/block_sync.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
+import "../protocol/consensus/lean_helix.proto";
+
 
 message Header {
     primitives.protocol_version protocol_version = 1;
@@ -16,9 +18,8 @@ message Header {
     oneof topic {
         gossipmessages.TransactionsRelayMessageType transaction_relay = 5;
         gossipmessages.BlockSyncMessageType block_sync = 6;
-        gossipmessages.LeanHelixMessageType lean_helix = 7;
+        consensus.LeanHelixMessageType lean_helix = 7;
     }
-    uint32 num_payloads = 8;
 }
 
 message SenderSignature {

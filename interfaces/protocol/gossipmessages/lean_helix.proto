@@ -7,38 +7,30 @@ import "../primitives/protocol.proto";
 import "../primitives/integers.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/blocks.proto";
-
-enum LeanHelixMessageType {
-    LEAN_HELIX_RESERVED = 0;
-    LEAN_HELIX_PRE_PREPARE = 1;
-    LEAN_HELIX_PREPARE = 2;
-    LEAN_HELIX_COMMIT = 3;
-    LEAN_HELIX_NEW_VIEW = 4;
-    LEAN_HELIX_VIEW_CHANGE = 5;
-}
+import "../protocol/consensus/lean_helix.proto";
 
 // message headers
 
 message LeanHelixPrePrepareMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef signed_header = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    consensus.LeanHelixBlockRef signed_header = 1;
+    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
     protocol.BlockPairContainer block_pair = 3;
 }
 
 message LeanHelixPrepareMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef signed_header = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    consensus.LeanHelixBlockRef signed_header = 1;
+    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
 }
 
 message LeanHelixCommitMessage {
     option serialize_message = false;
 
-    LeanHelixBlockRef signed_header = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    consensus.LeanHelixBlockRef signed_header = 1;
+    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
     LeanHelixRandomSeedShare share = 3;
 }
 
@@ -46,7 +38,7 @@ message LeanHelixViewChangeMessage {
     option serialize_message = false;
 
     LeanHelixViewChangeHeader signed_header = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
     protocol.BlockPairContainer block_pair = 3;
 }
 
@@ -54,45 +46,38 @@ message LeanHelixNewViewMessage {
     option serialize_message = false;
 
     LeanHelixNewViewHeader signed_header = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_header
+    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
     protocol.BlockPairContainer block_pair = 3;
 }
 
 // message bodies
-
-message LeanHelixBlockRef {
-    LeanHelixMessageType message_type = 1;
-    primitives.block_height block_height = 2;
-    uint32 view = 3;
-    primitives.uint256 block_hash = 4; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
-}
 
 message LeanHelixRandomSeedShare {
     primitives.bls1_sig random_seed_share = 1;
 }
 
 message LeanHelixViewChangeHeader {
-    LeanHelixMessageType message_type = 1;
+    consensus.LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
     LeanHelixPreparedProof prepared_proof = 4;
 }
 
 message LeanHelixPreparedProof {
-    LeanHelixBlockRef block_ref = 1;
-    repeated gossipmessages.SenderSignature senders = 2;
+    consensus.LeanHelixBlockRef block_ref = 1;
+    repeated consensus.LeanHelixSenderSignature senders = 2;
 }
 
 message LeanHelixNewViewHeader {
-    LeanHelixMessageType message_type = 1;
+    consensus.LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
     LeanHelixNewViewProof new_view_proof = 4;
-    LeanHelixBlockRef new_view_pre_prepare_signed_header = 5;
-    gossipmessages.SenderSignature new_view_pre_prepare_sender = 6;
+    consensus.LeanHelixBlockRef new_view_pre_prepare_signed_header = 5;
+    consensus.LeanHelixSenderSignature new_view_pre_prepare_sender = 6;
 }
 
 message LeanHelixNewViewProof {
     repeated LeanHelixViewChangeHeader view_change_signed_headers = 1;
-    repeated gossipmessages.SenderSignature view_change_senders = 2;
+    repeated consensus.LeanHelixSenderSignature view_change_senders = 2;
 }
