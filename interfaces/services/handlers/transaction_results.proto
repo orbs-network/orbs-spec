@@ -14,7 +14,7 @@ service TransactionResultsHandler {
 message HandleTransactionResultsInput {
     repeated protocol.TransactionReceipt transaction_receipts = 1;
     primitives.block_height block_height = 2;
-    primitives.timestamp timestamp = 3;
+    primitives.timestamp_nano timestamp = 3;
 }
 
 message HandleTransactionResultsOutput {

@@ -59,13 +59,13 @@ message GetResultsBlockHeaderOutput {
 
 message GetTransactionReceiptInput {
     primitives.sha256 txhash = 1;
-    primitives.timestamp transaction_timestamp = 2;
+    primitives.timestamp_nano transaction_timestamp = 2;
 }
 
 message GetTransactionReceiptOutput {
     protocol.TransactionReceipt transaction_receipt = 1;
     primitives.block_height block_height = 2;
-    primitives.timestamp block_timestamp = 3;
+    primitives.timestamp_nano block_timestamp = 3;
 }
 
 message GetLastCommittedBlockHeightInput {
@@ -73,7 +73,7 @@ message GetLastCommittedBlockHeightInput {
 
 message GetLastCommittedBlockHeightOutput {
     primitives.block_height last_committed_block_height = 1;
-    primitives.timestamp last_committed_block_timestamp = 2;
+    primitives.timestamp_nano last_committed_block_timestamp = 2;
 }
 
 message ValidateBlockForCommitInput {

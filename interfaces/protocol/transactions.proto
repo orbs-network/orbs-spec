@@ -14,7 +14,7 @@ import "protocol/results.proto";
 message Transaction {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
-    primitives.timestamp timestamp = 3;
+    primitives.timestamp_nano timestamp = 3;
     protocol.Signer signer = 4;
     primitives.contract_name contract_name = 5;
     primitives.method_name method_name = 6;

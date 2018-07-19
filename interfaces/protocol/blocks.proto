@@ -42,7 +42,7 @@ message TransactionsBlockHeader {
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4;
-    primitives.timestamp timestamp = 5;
+    primitives.timestamp_nano timestamp = 5;
     primitives.merkle_sha256 transactions_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
     uint32 num_signed_transactions = 8;
@@ -53,7 +53,7 @@ message ResultsBlockHeader {
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4;
-    primitives.timestamp timestamp = 5;
+    primitives.timestamp_nano timestamp = 5;
     primitives.merkle_sha256 receipts_root_hash = 6;
     primitives.sha256 state_diff_hash = 7;
     primitives.sha256 transactions_block_hash_ptr = 8;

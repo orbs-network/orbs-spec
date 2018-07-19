@@ -39,19 +39,19 @@ message AddNewTransactionOutput {
     protocol.TransactionStatus transaction_status = 1;
     protocol.TransactionReceipt transaction_receipt = 2;
     primitives.block_height block_height = 3;
-    primitives.timestamp block_timestamp = 4;
+    primitives.timestamp_nano block_timestamp = 4;
 }
 
 message GetCommittedTransactionReceiptInput {
     primitives.sha256 txhash = 1;
-    primitives.timestamp transaction_timestamp = 2;
+    primitives.timestamp_nano transaction_timestamp = 2;
 }
 
 message GetCommittedTransactionReceiptOutput {
     protocol.TransactionStatus transaction_status = 1;
     protocol.TransactionReceipt transaction_receipt = 2;
     primitives.block_height block_height = 3;
-    primitives.timestamp block_timestamp = 4;
+    primitives.timestamp_nano block_timestamp = 4;
 }
 
 message GetTransactionsForOrderingInput {

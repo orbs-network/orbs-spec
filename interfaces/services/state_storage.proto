@@ -38,7 +38,7 @@ message GetStateStorageBlockHeightInput {
 
 message GetStateStorageBlockHeightOutput {
     primitives.block_height last_committed_block_height = 1;
-    primitives.timestamp last_committed_block_timestamp = 2;
+    primitives.timestamp_nano last_committed_block_timestamp = 2;
 }
 
 message CommitStateDiffInput {

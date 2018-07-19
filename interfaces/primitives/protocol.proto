@@ -24,7 +24,7 @@ message block_height {
 }
 
 // timestamp is Unix timestamp in nanoseconds (number of nanoseconds elapsed since Jan 1, 1970 UTC)
-message timestamp {
+message timestamp_nano {
     option inline_type = "uint64";
     uint64 value = 1;
     // size 8 bytes
