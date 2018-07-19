@@ -1,0 +1,27 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+import "../primitives/integers.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/blocks.proto";
+import "../protocol/consensus/lean_helix.proto";
+
+message TempKillMeBenchmarkConsensus {}
+
+// message format
+
+message BenchmarkConsensusCommitMessage {
+    option serialize_message = false;
+
+    protocol.BlockPairContainer block_pair = 1;
+}
+
+message BenchmarkConsensusCommittedMessage {
+    option serialize_message = false;
+
+    primitives.block_height last_committed_block_height = 1;
+    consensus.LeanHelixSenderSignature sender = 2; // signs on last_committed_block_height
+}

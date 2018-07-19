@@ -9,7 +9,6 @@ import "../protocol/gossipmessages/block_sync.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
 import "../protocol/consensus/lean_helix.proto";
 
-
 message Header {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;

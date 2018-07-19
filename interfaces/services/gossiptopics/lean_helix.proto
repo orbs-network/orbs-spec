@@ -4,7 +4,6 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossipt
 
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
-import "../protocol/gossipmessages/all.proto";
 import "../services/gossiptopics/all.proto";
 
 option serialize_messages = false;

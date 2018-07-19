@@ -7,6 +7,7 @@ import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/contracts.proto";
 import "protocol/consensus/lean_helix.proto";
+import "protocol/consensus/benchmark_consensus.proto";
 
 // containers (not serializable)
 
@@ -41,7 +42,7 @@ message TransactionsBlockHeader {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
-    primitives.sha256 prev_block_hash_ptr = 4;
+    primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(TransactionBlockHeader)
     primitives.timestamp_nano timestamp = 5;
     primitives.merkle_sha256 transactions_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
@@ -52,7 +53,7 @@ message ResultsBlockHeader {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
-    primitives.sha256 prev_block_hash_ptr = 4;
+    primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(ResultsBlockHeader)
     primitives.timestamp_nano timestamp = 5;
     primitives.merkle_sha256 receipts_root_hash = 6;
     primitives.sha256 state_diff_hash = 7;
@@ -72,12 +73,14 @@ message TransactionsBlockMetadata {
 
 message TransactionsBlockProof {
     oneof type {
-        consensus.LeanHelixBlockProof lean_helix = 1;
+        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 1;
+        consensus.LeanHelixBlockProof lean_helix = 2;
     }
 }
 
 message ResultsBlockProof {
     oneof type {
-        consensus.LeanHelixBlockProof lean_helix = 1;
+        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 1;
+        consensus.LeanHelixBlockProof lean_helix = 2;
     }
 }

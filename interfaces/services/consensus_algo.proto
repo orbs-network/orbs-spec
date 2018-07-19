@@ -23,6 +23,13 @@ service ConsensusAlgoLeanHelix {
     option implement_handler = "gossiptopics.LeanHelixHandler";
 }
 
+// relies on BlockStorage, ConsensusContext, Gossip.Benchmark
+service ConsensusAlgoBenchmark {
+    // implements interfaces for handling callbacks from other services
+    option implement_handler = "ConsensusAlgo";
+    option implement_handler = "gossiptopics.BenchmarkConsensusHandler";
+}
+
 message OnNewConsensusRoundInput {
 }
 

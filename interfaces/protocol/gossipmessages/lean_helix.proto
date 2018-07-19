@@ -9,7 +9,7 @@ import "../protocol/gossipmessages/all.proto";
 import "../protocol/blocks.proto";
 import "../protocol/consensus/lean_helix.proto";
 
-// message headers
+// message format
 
 message LeanHelixPrePrepareMessage {
     option serialize_message = false;
@@ -50,7 +50,7 @@ message LeanHelixNewViewMessage {
     protocol.BlockPairContainer block_pair = 3;
 }
 
-// message bodies
+// message payloads (serializable)
 
 message LeanHelixRandomSeedShare {
     primitives.bls1_sig random_seed_share = 1;

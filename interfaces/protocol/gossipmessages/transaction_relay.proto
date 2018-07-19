@@ -10,7 +10,7 @@ enum TransactionsRelayMessageType {
     TRANSACTION_RELAY_FORWARDED_TRANSACTIONS = 1;
 }
 
-message TempKillMe {}
+message TempKillMeTransactionRelay {}
 
 // message format
 

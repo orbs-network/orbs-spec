@@ -1,0 +1,32 @@
+syntax = "proto3";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
+
+import "../primitives/crypto.proto";
+import "../protocol/gossipmessages/benchmark_consensus.proto";
+import "../services/gossiptopics/all.proto";
+
+option serialize_messages = false;
+
+service BenchmarkConsensus {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "BenchmarkConsensusHandler";
+
+    // called by anyone looking to send gossip messages
+    rpc BroadcastBenchmarkConsensusCommit (BenchmarkConsensusCommitInput) returns (gossiptopics.EmptyOutput);
+    rpc SendBenchmarkConsensusCommitted (BenchmarkConsensusCommittedInput) returns (gossiptopics.EmptyOutput);
+}
+
+service BenchmarkConsensusHandler {
+    rpc HandleBenchmarkConsensusCommit (BenchmarkConsensusCommitInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleBenchmarkConsensusCommitted (BenchmarkConsensusCommittedInput) returns (gossiptopics.EmptyOutput);
+}
+
+message BenchmarkConsensusCommitInput {
+    gossipmessages.BenchmarkConsensusCommitMessage message = 1;
+}
+
+message BenchmarkConsensusCommittedInput {
+    primitives.ed25519_pkey recipient_public_key = 1;
+    gossipmessages.BenchmarkConsensusCommittedMessage message = 2;
+}

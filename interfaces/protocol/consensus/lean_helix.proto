@@ -7,10 +7,9 @@ import "../primitives/integers.proto";
 import "../primitives/protocol.proto";
 
 message LeanHelixBlockProof {
-    uint32 consensus_algo_id = 1;
-    LeanHelixBlockRef block_ref = 2;
-    repeated LeanHelixSenderSignature nodes = 3;
-    primitives.bls1_sig random_seed_signature = 4;
+    LeanHelixBlockRef block_ref = 1;
+    repeated LeanHelixSenderSignature nodes = 2;
+    primitives.bls1_sig random_seed_signature = 3;
 }
 
 message LeanHelixSenderSignature {
@@ -22,7 +21,7 @@ message LeanHelixBlockRef {
     LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
-    primitives.uint256 block_hash = 4; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader).
+    primitives.uint256 block_hash = 4; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader)
 }
 
 enum LeanHelixMessageType {
@@ -33,15 +32,3 @@ enum LeanHelixMessageType {
     LEAN_HELIX_NEW_VIEW = 4;
     LEAN_HELIX_VIEW_CHANGE = 5;
 }
-
-/*
-message LeanHelix {
-    primitives.block_height block_height = 1;
-    uint32 view = 2;
-    primitives.uint256 block_hash_mask = 3;
-    primitives.uint256 block_hash = 4;
-    repeated primitives.ed25519_pkey node_public_keys = 5;
-    repeated primitives.ed25519_sig node_signatures = 6;
-    primitives.bls1_sig random_seed_signature = 7;
-}
-*/

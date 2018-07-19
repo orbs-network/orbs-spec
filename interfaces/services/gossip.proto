@@ -5,6 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "services/gossiptopics/transaction_relay.proto";
 import "services/gossiptopics/block_sync.proto";
 import "services/gossiptopics/lean_helix.proto";
+import "services/gossiptopics/benchmark_consensus.proto";
 
 option serialize_messages = false;
 
@@ -13,4 +14,5 @@ service Gossip {
     option implement_handler = "gossiptopics.TransactionRelay";
     option implement_handler = "gossiptopics.BlockSync";
     option implement_handler = "gossiptopics.LeanHelix";
+    option implement_handler = "gossiptopics.BenchmarkConsensus";
 }
