@@ -3,34 +3,46 @@
 * TCP socket between peers with raw data transmitted over it according to the wire format.
 
 * The gossip protocol is a stream of MemBuffers encoded payloads. Each gossip message can be comprised of several payloads that are streamed in succession.
+  * The number of payloads in the steam is encoded in the beginning.
   * Each chunk (MemBuffer) in the stream is always padded to 4 bytes.
 
-* Wire format (for a single message transmission over the socket):
-    * `gossipmessages.Header` size in bytes (4 bytes, little endian).
-    * `gossipmessages.Header` content (serialized with MemBuffers, [format](../../interfaces/protocol/gossipmessages/all.proto)).
-        * Specifies the specific message type under `gossipmessages.Header.topic`.
-        * Specifies the number of payloads under `gossipmessages.Header.num_payloads`.
+* Wire format (for a single message stream over the socket):
+    * Number of payloads (4 bytes, little endian).
     * Payload 1 size in bytes (4 bytes, little endian).
     * Payload 1 content (serialized with MemBuffers, format per specific message).
     * Payload 2 size ...
     * Payload 2 content ...
 
-    Example with `BLOCK_SYNC_RESPONSE` message streaming 1000 block pairs:
-    > Note: The payloads can be seen in [`BlockSyncResponseInput`](../../interfaces/services/gossiptopics/block_sync.proto).
+    Example with `BLOCK_SYNC_RESPONSE` message streaming 100 transaction blocks (each with 3 transactions):
+    > Note: The message format can be seen in [`BlockSyncResponseMessage`](../../interfaces/protocol/gossipmessages/block_sync.proto).
      
+    * `num_payloads` (603) (3 payloads before blocks + 100 * 6 payloads per block)
     * `gossipmessages.Header` size
-    * `gossipmessages.Header` content (`type`: `BLOCK_SYNC_RESPONSE`, `num_payloads`: 1002)
-    * `gossipmessages.BlockSyncResponseHeader` size
-    * `gossipmessages.BlockSyncResponseHeader` content
-    * `gossipmessages.BlockSyncResponse` size
-    * `gossipmessages.BlockSyncResponse` content
-    * `protocol.BlockPair` #1 size
-    * `protocol.BlockPair` #1 content
-    * `protocol.BlockPair` #2 size
-    * `protocol.BlockPair` #2 content
+    * `gossipmessages.Header` content (`type`: `BLOCK_SYNC_RESPONSE`)
+    * `gossipmessages.BlockSyncRange` size (`block_type`: `BLOCK_TYPE_TRANSACTIONS_BLOCK`)
+    * `gossipmessages.BlockSyncRange` content
+    * `gossipmessages.SenderSignature` size
+    * `gossipmessages.SenderSignature` content
+    * `protocol.TransactionsBlockHeader` size (block #1)
+    * `protocol.TransactionsBlockHeader` content (block #1)
+    * `protocol.TransactionsBlockMetadata` size (block #1)
+    * `protocol.TransactionsBlockMetadata` content (block #1)
+    * `protocol.SignedTransaction` size (block #1)
+    * `protocol.SignedTransaction` content (block #1)
+    * `protocol.SignedTransaction` size (block #1)
+    * `protocol.SignedTransaction` content (block #1)
+    * `protocol.SignedTransaction` size (block #1)
+    * `protocol.SignedTransaction` content (block #1)
+    * `protocol.TransactionsBlockProof` size (block #1)
+    * `protocol.TransactionsBlockProof` content (block #1) (total 6 payloads for this block)
+    * `protocol.TransactionsBlockHeader` size (block #2)
+    * `protocol.TransactionsBlockHeader` content (block #2)
+    * `protocol.TransactionsBlockMetadata` size (block #2)
+    * `protocol.TransactionsBlockMetadata` content (block #2)
+    * `protocol.SignedTransaction` size (block #2)
+    * `protocol.SignedTransaction` content (block #2)
+    * `protocol.SignedTransaction` size (block #2)
     * ...
-    * `protocol.BlockPair` #1000 size
-    * `protocol.BlockPair` #1000 content
 
 * As an optimization to reduce buffer copies, messages should be sent over the socket in multiple separate write operations:
   * Each payload should be sent as a separate write.

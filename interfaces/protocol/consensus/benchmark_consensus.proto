@@ -4,6 +4,12 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/consens
 
 import "../primitives/crypto.proto";
 
+enum BenchmarkConsensusMessageType {
+    BENCHMARK_CONSENSUS_RESERVED = 0;
+    BENCHMARK_CONSENSUS_COMMIT = 1;
+    BENCHMARK_CONSENSUS_COMMITTED = 2;
+}
+
 message BenchmarkConsensusBlockProof {
     BenchmarkConsensusSenderSignature sender = 1; // signs on primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader)
 }
@@ -11,10 +17,4 @@ message BenchmarkConsensusBlockProof {
 message BenchmarkConsensusSenderSignature {
     primitives.ed25519_pkey sender_public_key = 1;
     primitives.ed25519_sig signature = 2;
-}
-
-enum BenchmarkConsensusMessageType {
-    BENCHMARK_CONSENSUS_RESERVED = 0;
-    BENCHMARK_CONSENSUS_COMMIT = 1;
-    BENCHMARK_CONSENSUS_COMMITTED = 2;
 }
