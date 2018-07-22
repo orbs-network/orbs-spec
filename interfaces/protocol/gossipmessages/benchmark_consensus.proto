@@ -7,7 +7,6 @@ import "../primitives/protocol.proto";
 import "../primitives/integers.proto";
 import "../protocol/gossipmessages/all.proto";
 import "../protocol/blocks.proto";
-import "../protocol/consensus/lean_helix.proto";
 
 message TempKillMeBenchmarkConsensus {}
 
@@ -22,6 +21,12 @@ message BenchmarkConsensusCommitMessage {
 message BenchmarkConsensusCommittedMessage {
     option serialize_message = false;
 
+    BenchmarkConsensusStatus status = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on status
+}
+
+// message payloads (serializable)
+
+message BenchmarkConsensusStatus {
     primitives.block_height last_committed_block_height = 1;
-    consensus.LeanHelixSenderSignature sender = 2; // signs on last_committed_block_height
 }
