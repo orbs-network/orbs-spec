@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
 package gossiptopics
 
 import (
