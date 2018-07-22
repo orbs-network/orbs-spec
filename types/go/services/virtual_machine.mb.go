@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package services
 
 import (
@@ -48,7 +48,7 @@ type RunLocalMethodOutput struct {
 	CallResult protocol.ExecutionResult
 	OutputArguments []*protocol.MethodArgument
 	ReferenceBlockHeight primitives.BlockHeight
-	ReferenceBlockTimestamp primitives.Timestamp
+	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
 /////////////////////////////////////////////////////////////////////////////

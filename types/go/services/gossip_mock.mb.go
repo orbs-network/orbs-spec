@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package services
 
 import (
@@ -14,5 +14,6 @@ type MockGossip struct {
 	gossiptopics.MockTransactionRelay
 	gossiptopics.MockBlockSync
 	gossiptopics.MockLeanHelix
+	gossiptopics.MockBenchmarkConsensus
 }
 

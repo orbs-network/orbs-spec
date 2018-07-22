@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package services
 
 import (
@@ -43,7 +43,7 @@ type GetStateStorageBlockHeightInput struct {
 
 type GetStateStorageBlockHeightOutput struct {
 	LastCommittedBlockHeight primitives.BlockHeight
-	LastCommittedBlockTimestamp primitives.Timestamp
+	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
 /////////////////////////////////////////////////////////////////////////////

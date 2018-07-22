@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package protocol
 
 import (
@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol/blockproofs"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ type TransactionsBlockHeader struct {
 	// VirtualChainId primitives.VirtualChainId
 	// BlockHeight primitives.BlockHeight
 	// PrevBlockHashPtr primitives.Sha256
-	// Timestamp primitives.Timestamp
+	// Timestamp primitives.TimestampNano
 	// TransactionsRootHash primitives.MerkleSha256
 	// MetadataHash primitives.Sha256
 	// NumSignedTransactions uint32
@@ -152,15 +152,15 @@ func (x *TransactionsBlockHeader) StringPrevBlockHashPtr() string {
 	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
 }
 
-func (x *TransactionsBlockHeader) Timestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(4))
+func (x *TransactionsBlockHeader) Timestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(4))
 }
 
 func (x *TransactionsBlockHeader) RawTimestamp() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
-func (x *TransactionsBlockHeader) MutateTimestamp(v primitives.Timestamp) error {
+func (x *TransactionsBlockHeader) MutateTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(4, uint64(v))
 }
 
@@ -223,7 +223,7 @@ type TransactionsBlockHeaderBuilder struct {
 	VirtualChainId primitives.VirtualChainId
 	BlockHeight primitives.BlockHeight
 	PrevBlockHashPtr primitives.Sha256
-	Timestamp primitives.Timestamp
+	Timestamp primitives.TimestampNano
 	TransactionsRootHash primitives.MerkleSha256
 	MetadataHash primitives.Sha256
 	NumSignedTransactions uint32
@@ -287,7 +287,7 @@ type ResultsBlockHeader struct {
 	// VirtualChainId primitives.VirtualChainId
 	// BlockHeight primitives.BlockHeight
 	// PrevBlockHashPtr primitives.Sha256
-	// Timestamp primitives.Timestamp
+	// Timestamp primitives.TimestampNano
 	// ReceiptsRootHash primitives.MerkleSha256
 	// StateDiffHash primitives.Sha256
 	// TransactionsBlockHashPtr primitives.Sha256
@@ -397,15 +397,15 @@ func (x *ResultsBlockHeader) StringPrevBlockHashPtr() string {
 	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
 }
 
-func (x *ResultsBlockHeader) Timestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(4))
+func (x *ResultsBlockHeader) Timestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(4))
 }
 
 func (x *ResultsBlockHeader) RawTimestamp() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
-func (x *ResultsBlockHeader) MutateTimestamp(v primitives.Timestamp) error {
+func (x *ResultsBlockHeader) MutateTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(4, uint64(v))
 }
 
@@ -548,7 +548,7 @@ type ResultsBlockHeaderBuilder struct {
 	VirtualChainId primitives.VirtualChainId
 	BlockHeight primitives.BlockHeight
 	PrevBlockHashPtr primitives.Sha256
-	Timestamp primitives.Timestamp
+	Timestamp primitives.TimestampNano
 	ReceiptsRootHash primitives.MerkleSha256
 	StateDiffHash primitives.Sha256
 	TransactionsBlockHashPtr primitives.Sha256
@@ -718,7 +718,7 @@ func (x *TransactionsBlockProof) String() string {
 }
 
 var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,}}
+var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
 
 func TransactionsBlockProofReader(buf []byte) *TransactionsBlockProof {
 	x := &TransactionsBlockProof{}
@@ -747,22 +747,38 @@ func (x *TransactionsBlockProof) Equal(y *TransactionsBlockProof) bool {
 type TransactionsBlockProofType uint16
 
 const (
-	TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX TransactionsBlockProofType = 0
+	TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS TransactionsBlockProofType = 0
+	TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX TransactionsBlockProofType = 1
 )
 
 func (x *TransactionsBlockProof) Type() TransactionsBlockProofType {
 	return TransactionsBlockProofType(x._message.GetUint16(0))
 }
 
-func (x *TransactionsBlockProof) IsTypeLeanHelix() bool {
+func (x *TransactionsBlockProof) IsTypeBenchmarkConsensus() bool {
 	is, _ := x._message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *TransactionsBlockProof) LeanHelix() *blockproofs.LeanHelix {
+func (x *TransactionsBlockProof) BenchmarkConsensus() *consensus.BenchmarkConsensusBlockProof {
 	_, off := x._message.IsUnionIndex(0, 0, 0)
 	b, s := x._message.GetMessageInOffset(off)
-	return blockproofs.LeanHelixReader(b[:s])
+	return consensus.BenchmarkConsensusBlockProofReader(b[:s])
+}
+
+func (x *TransactionsBlockProof) StringBenchmarkConsensus() string {
+	return x.BenchmarkConsensus().String()
+}
+
+func (x *TransactionsBlockProof) IsTypeLeanHelix() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 1)
+	return is
+}
+
+func (x *TransactionsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+	_, off := x._message.IsUnionIndex(0, 0, 1)
+	b, s := x._message.GetMessageInOffset(off)
+	return consensus.LeanHelixBlockProofReader(b[:s])
 }
 
 func (x *TransactionsBlockProof) StringLeanHelix() string {
@@ -775,6 +791,8 @@ func (x *TransactionsBlockProof) RawType() []byte {
 
 func (x *TransactionsBlockProof) StringType() string {
 	switch x.Type() {
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		return "(BenchmarkConsensus)" + x.StringBenchmarkConsensus()
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		return "(LeanHelix)" + x.StringLeanHelix()
 	}
@@ -785,7 +803,8 @@ func (x *TransactionsBlockProof) StringType() string {
 
 type TransactionsBlockProofBuilder struct {
 	Type TransactionsBlockProofType
-	LeanHelix *blockproofs.LeanHelixBuilder
+	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
+	LeanHelix *consensus.LeanHelixBlockProofBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -804,6 +823,8 @@ func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		w._builder.WriteMessage(buf, w.LeanHelix)
 	}
@@ -851,7 +872,7 @@ func (x *ResultsBlockProof) String() string {
 }
 
 var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,}}
+var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
 
 func ResultsBlockProofReader(buf []byte) *ResultsBlockProof {
 	x := &ResultsBlockProof{}
@@ -880,22 +901,38 @@ func (x *ResultsBlockProof) Equal(y *ResultsBlockProof) bool {
 type ResultsBlockProofType uint16
 
 const (
-	RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX ResultsBlockProofType = 0
+	RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS ResultsBlockProofType = 0
+	RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX ResultsBlockProofType = 1
 )
 
 func (x *ResultsBlockProof) Type() ResultsBlockProofType {
 	return ResultsBlockProofType(x._message.GetUint16(0))
 }
 
-func (x *ResultsBlockProof) IsTypeLeanHelix() bool {
+func (x *ResultsBlockProof) IsTypeBenchmarkConsensus() bool {
 	is, _ := x._message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *ResultsBlockProof) LeanHelix() *blockproofs.LeanHelix {
+func (x *ResultsBlockProof) BenchmarkConsensus() *consensus.BenchmarkConsensusBlockProof {
 	_, off := x._message.IsUnionIndex(0, 0, 0)
 	b, s := x._message.GetMessageInOffset(off)
-	return blockproofs.LeanHelixReader(b[:s])
+	return consensus.BenchmarkConsensusBlockProofReader(b[:s])
+}
+
+func (x *ResultsBlockProof) StringBenchmarkConsensus() string {
+	return x.BenchmarkConsensus().String()
+}
+
+func (x *ResultsBlockProof) IsTypeLeanHelix() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 1)
+	return is
+}
+
+func (x *ResultsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+	_, off := x._message.IsUnionIndex(0, 0, 1)
+	b, s := x._message.GetMessageInOffset(off)
+	return consensus.LeanHelixBlockProofReader(b[:s])
 }
 
 func (x *ResultsBlockProof) StringLeanHelix() string {
@@ -908,6 +945,8 @@ func (x *ResultsBlockProof) RawType() []byte {
 
 func (x *ResultsBlockProof) StringType() string {
 	switch x.Type() {
+	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		return "(BenchmarkConsensus)" + x.StringBenchmarkConsensus()
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		return "(LeanHelix)" + x.StringLeanHelix()
 	}
@@ -918,7 +957,8 @@ func (x *ResultsBlockProof) StringType() string {
 
 type ResultsBlockProofBuilder struct {
 	Type ResultsBlockProofType
-	LeanHelix *blockproofs.LeanHelixBuilder
+	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
+	LeanHelix *consensus.LeanHelixBlockProofBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -937,6 +977,8 @@ func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
+	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		w._builder.WriteMessage(buf, w.LeanHelix)
 	}

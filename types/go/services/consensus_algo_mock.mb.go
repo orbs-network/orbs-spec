@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package services
 
 import (
@@ -31,5 +31,14 @@ type MockConsensusAlgoLeanHelix struct {
 	mock.Mock
 	MockConsensusAlgo
 	gossiptopics.MockLeanHelixHandler
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// service ConsensusAlgoBenchmark
+
+type MockConsensusAlgoBenchmark struct {
+	mock.Mock
+	MockConsensusAlgo
+	gossiptopics.MockBenchmarkConsensusHandler
 }
 

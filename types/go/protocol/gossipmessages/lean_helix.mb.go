@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package gossipmessages
 
 import (
@@ -7,14 +7,15 @@ import (
 	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixPrePrepareMessage (non serializable)
 
 type LeanHelixPrePrepareMessage struct {
-	SignedHeader *LeanHelixBlockRef
-	Sender *SenderSignature
+	SignedHeader *consensus.LeanHelixBlockRef
+	Sender *consensus.LeanHelixSenderSignature
 	BlockPair *protocol.BlockPairContainer
 }
 
@@ -22,16 +23,16 @@ type LeanHelixPrePrepareMessage struct {
 // message LeanHelixPrepareMessage (non serializable)
 
 type LeanHelixPrepareMessage struct {
-	SignedHeader *LeanHelixBlockRef
-	Sender *SenderSignature
+	SignedHeader *consensus.LeanHelixBlockRef
+	Sender *consensus.LeanHelixSenderSignature
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixCommitMessage (non serializable)
 
 type LeanHelixCommitMessage struct {
-	SignedHeader *LeanHelixBlockRef
-	Sender *SenderSignature
+	SignedHeader *consensus.LeanHelixBlockRef
+	Sender *consensus.LeanHelixSenderSignature
 	Share *LeanHelixRandomSeedShare
 }
 
@@ -40,7 +41,7 @@ type LeanHelixCommitMessage struct {
 
 type LeanHelixViewChangeMessage struct {
 	SignedHeader *LeanHelixViewChangeHeader
-	Sender *SenderSignature
+	Sender *consensus.LeanHelixSenderSignature
 	BlockPair *protocol.BlockPairContainer
 }
 
@@ -49,172 +50,8 @@ type LeanHelixViewChangeMessage struct {
 
 type LeanHelixNewViewMessage struct {
 	SignedHeader *LeanHelixNewViewHeader
-	Sender *SenderSignature
+	Sender *consensus.LeanHelixSenderSignature
 	BlockPair *protocol.BlockPairContainer
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message LeanHelixBlockRef
-
-// reader
-
-type LeanHelixBlockRef struct {
-	// MessageType LeanHelixMessageType
-	// BlockHeight primitives.BlockHeight
-	// View uint32
-	// BlockHash primitives.Uint256
-
-	// internal
-	// implements membuffers.Message
-	_message membuffers.InternalMessage
-}
-
-func (x *LeanHelixBlockRef) String() string {
-	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,BlockHash:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringBlockHash())
-}
-
-var _LeanHelixBlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,}
-var _LeanHelixBlockRef_Unions = [][]membuffers.FieldType{}
-
-func LeanHelixBlockRefReader(buf []byte) *LeanHelixBlockRef {
-	x := &LeanHelixBlockRef{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixBlockRef_Scheme, _LeanHelixBlockRef_Unions)
-	return x
-}
-
-func (x *LeanHelixBlockRef) IsValid() bool {
-	return x._message.IsValid()
-}
-
-func (x *LeanHelixBlockRef) Raw() []byte {
-	return x._message.RawBuffer()
-}
-
-func (x *LeanHelixBlockRef) Equal(y *LeanHelixBlockRef) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
-}
-
-func (x *LeanHelixBlockRef) MessageType() LeanHelixMessageType {
-	return LeanHelixMessageType(x._message.GetUint16(0))
-}
-
-func (x *LeanHelixBlockRef) RawMessageType() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *LeanHelixBlockRef) MutateMessageType(v LeanHelixMessageType) error {
-	return x._message.SetUint16(0, uint16(v))
-}
-
-func (x *LeanHelixBlockRef) StringMessageType() string {
-	return x.MessageType().String()
-}
-
-func (x *LeanHelixBlockRef) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(1))
-}
-
-func (x *LeanHelixBlockRef) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *LeanHelixBlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(1, uint64(v))
-}
-
-func (x *LeanHelixBlockRef) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
-}
-
-func (x *LeanHelixBlockRef) View() uint32 {
-	return x._message.GetUint32(2)
-}
-
-func (x *LeanHelixBlockRef) RawView() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *LeanHelixBlockRef) MutateView(v uint32) error {
-	return x._message.SetUint32(2, v)
-}
-
-func (x *LeanHelixBlockRef) StringView() string {
-	return fmt.Sprintf("%x", x.View())
-}
-
-func (x *LeanHelixBlockRef) BlockHash() primitives.Uint256 {
-	return primitives.Uint256(x._message.GetBytes(3))
-}
-
-func (x *LeanHelixBlockRef) RawBlockHash() []byte {
-	return x._message.RawBufferForField(3, 0)
-}
-
-func (x *LeanHelixBlockRef) MutateBlockHash(v primitives.Uint256) error {
-	return x._message.SetBytes(3, []byte(v))
-}
-
-func (x *LeanHelixBlockRef) StringBlockHash() string {
-	return fmt.Sprintf("%x", x.BlockHash())
-}
-
-// builder
-
-type LeanHelixBlockRefBuilder struct {
-	MessageType LeanHelixMessageType
-	BlockHeight primitives.BlockHeight
-	View uint32
-	BlockHash primitives.Uint256
-
-	// internal
-	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
-}
-
-func (w *LeanHelixBlockRefBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.MessageType))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint32(buf, w.View)
-	w._builder.WriteBytes(buf, []byte(w.BlockHash))
-	return nil
-}
-
-func (w *LeanHelixBlockRefBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w._builder.GetSize()
-}
-
-func (w *LeanHelixBlockRefBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w._builder.GetSize()
-}
-
-func (w *LeanHelixBlockRefBuilder) Build() *LeanHelixBlockRef {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return LeanHelixBlockRefReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -330,7 +167,7 @@ func (w *LeanHelixRandomSeedShareBuilder) Build() *LeanHelixRandomSeedShare {
 // reader
 
 type LeanHelixViewChangeHeader struct {
-	// MessageType LeanHelixMessageType
+	// MessageType consensus.LeanHelixMessageType
 	// BlockHeight primitives.BlockHeight
 	// View uint32
 	// PreparedProof LeanHelixPreparedProof
@@ -371,15 +208,15 @@ func (x *LeanHelixViewChangeHeader) Equal(y *LeanHelixViewChangeHeader) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixViewChangeHeader) MessageType() LeanHelixMessageType {
-	return LeanHelixMessageType(x._message.GetUint16(0))
+func (x *LeanHelixViewChangeHeader) MessageType() consensus.LeanHelixMessageType {
+	return consensus.LeanHelixMessageType(x._message.GetUint16(0))
 }
 
 func (x *LeanHelixViewChangeHeader) RawMessageType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixViewChangeHeader) MutateMessageType(v LeanHelixMessageType) error {
+func (x *LeanHelixViewChangeHeader) MutateMessageType(v consensus.LeanHelixMessageType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
@@ -435,7 +272,7 @@ func (x *LeanHelixViewChangeHeader) StringPreparedProof() string {
 // builder
 
 type LeanHelixViewChangeHeaderBuilder struct {
-	MessageType LeanHelixMessageType
+	MessageType consensus.LeanHelixMessageType
 	BlockHeight primitives.BlockHeight
 	View uint32
 	PreparedProof *LeanHelixPreparedProofBuilder
@@ -494,8 +331,8 @@ func (w *LeanHelixViewChangeHeaderBuilder) Build() *LeanHelixViewChangeHeader {
 // reader
 
 type LeanHelixPreparedProof struct {
-	// BlockRef LeanHelixBlockRef
-	// Senders []SenderSignature
+	// BlockRef consensus.LeanHelixBlockRef
+	// Senders []consensus.LeanHelixSenderSignature
 
 	// internal
 	// implements membuffers.Message
@@ -533,9 +370,9 @@ func (x *LeanHelixPreparedProof) Equal(y *LeanHelixPreparedProof) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixPreparedProof) BlockRef() *LeanHelixBlockRef {
+func (x *LeanHelixPreparedProof) BlockRef() *consensus.LeanHelixBlockRef {
 	b, s := x._message.GetMessage(0)
-	return LeanHelixBlockRefReader(b[:s])
+	return consensus.LeanHelixBlockRefReader(b[:s])
 }
 
 func (x *LeanHelixPreparedProof) RawBlockRef() []byte {
@@ -558,9 +395,9 @@ func (i *LeanHelixPreparedProofSendersIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *LeanHelixPreparedProofSendersIterator) NextSenders() *SenderSignature {
+func (i *LeanHelixPreparedProofSendersIterator) NextSenders() *consensus.LeanHelixSenderSignature {
 	b, s := i.iterator.NextMessage()
-	return SenderSignatureReader(b[:s])
+	return consensus.LeanHelixSenderSignatureReader(b[:s])
 }
 
 func (x *LeanHelixPreparedProof) RawSendersArray() []byte {
@@ -579,8 +416,8 @@ func (x *LeanHelixPreparedProof) StringSenders() (res string) {
 // builder
 
 type LeanHelixPreparedProofBuilder struct {
-	BlockRef *LeanHelixBlockRefBuilder
-	Senders []*SenderSignatureBuilder
+	BlockRef *consensus.LeanHelixBlockRefBuilder
+	Senders []*consensus.LeanHelixSenderSignatureBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -645,12 +482,12 @@ func (w *LeanHelixPreparedProofBuilder) Build() *LeanHelixPreparedProof {
 // reader
 
 type LeanHelixNewViewHeader struct {
-	// MessageType LeanHelixMessageType
+	// MessageType consensus.LeanHelixMessageType
 	// BlockHeight primitives.BlockHeight
 	// View uint32
 	// NewViewProof LeanHelixNewViewProof
-	// NewViewPrePrepareSignedHeader LeanHelixBlockRef
-	// NewViewPrePrepareSender SenderSignature
+	// NewViewPrePrepareSignedHeader consensus.LeanHelixBlockRef
+	// NewViewPrePrepareSender consensus.LeanHelixSenderSignature
 
 	// internal
 	// implements membuffers.Message
@@ -688,15 +525,15 @@ func (x *LeanHelixNewViewHeader) Equal(y *LeanHelixNewViewHeader) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixNewViewHeader) MessageType() LeanHelixMessageType {
-	return LeanHelixMessageType(x._message.GetUint16(0))
+func (x *LeanHelixNewViewHeader) MessageType() consensus.LeanHelixMessageType {
+	return consensus.LeanHelixMessageType(x._message.GetUint16(0))
 }
 
 func (x *LeanHelixNewViewHeader) RawMessageType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixNewViewHeader) MutateMessageType(v LeanHelixMessageType) error {
+func (x *LeanHelixNewViewHeader) MutateMessageType(v consensus.LeanHelixMessageType) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
@@ -749,9 +586,9 @@ func (x *LeanHelixNewViewHeader) StringNewViewProof() string {
 	return x.NewViewProof().String()
 }
 
-func (x *LeanHelixNewViewHeader) NewViewPrePrepareSignedHeader() *LeanHelixBlockRef {
+func (x *LeanHelixNewViewHeader) NewViewPrePrepareSignedHeader() *consensus.LeanHelixBlockRef {
 	b, s := x._message.GetMessage(4)
-	return LeanHelixBlockRefReader(b[:s])
+	return consensus.LeanHelixBlockRefReader(b[:s])
 }
 
 func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSignedHeader() []byte {
@@ -762,9 +599,9 @@ func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSignedHeader() string {
 	return x.NewViewPrePrepareSignedHeader().String()
 }
 
-func (x *LeanHelixNewViewHeader) NewViewPrePrepareSender() *SenderSignature {
+func (x *LeanHelixNewViewHeader) NewViewPrePrepareSender() *consensus.LeanHelixSenderSignature {
 	b, s := x._message.GetMessage(5)
-	return SenderSignatureReader(b[:s])
+	return consensus.LeanHelixSenderSignatureReader(b[:s])
 }
 
 func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSender() []byte {
@@ -778,12 +615,12 @@ func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSender() string {
 // builder
 
 type LeanHelixNewViewHeaderBuilder struct {
-	MessageType LeanHelixMessageType
+	MessageType consensus.LeanHelixMessageType
 	BlockHeight primitives.BlockHeight
 	View uint32
 	NewViewProof *LeanHelixNewViewProofBuilder
-	NewViewPrePrepareSignedHeader *LeanHelixBlockRefBuilder
-	NewViewPrePrepareSender *SenderSignatureBuilder
+	NewViewPrePrepareSignedHeader *consensus.LeanHelixBlockRefBuilder
+	NewViewPrePrepareSender *consensus.LeanHelixSenderSignatureBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -848,7 +685,7 @@ func (w *LeanHelixNewViewHeaderBuilder) Build() *LeanHelixNewViewHeader {
 
 type LeanHelixNewViewProof struct {
 	// ViewChangeSignedHeaders []LeanHelixViewChangeHeader
-	// ViewChangeSenders []SenderSignature
+	// ViewChangeSenders []consensus.LeanHelixSenderSignature
 
 	// internal
 	// implements membuffers.Message
@@ -928,9 +765,9 @@ func (i *LeanHelixNewViewProofViewChangeSendersIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *LeanHelixNewViewProofViewChangeSendersIterator) NextViewChangeSenders() *SenderSignature {
+func (i *LeanHelixNewViewProofViewChangeSendersIterator) NextViewChangeSenders() *consensus.LeanHelixSenderSignature {
 	b, s := i.iterator.NextMessage()
-	return SenderSignatureReader(b[:s])
+	return consensus.LeanHelixSenderSignatureReader(b[:s])
 }
 
 func (x *LeanHelixNewViewProof) RawViewChangeSendersArray() []byte {
@@ -950,7 +787,7 @@ func (x *LeanHelixNewViewProof) StringViewChangeSenders() (res string) {
 
 type LeanHelixNewViewProofBuilder struct {
 	ViewChangeSignedHeaders []*LeanHelixViewChangeHeaderBuilder
-	ViewChangeSenders []*SenderSignatureBuilder
+	ViewChangeSenders []*consensus.LeanHelixSenderSignatureBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -1019,33 +856,4 @@ func (w *LeanHelixNewViewProofBuilder) Build() *LeanHelixNewViewProof {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-
-type LeanHelixMessageType uint16
-
-const (
-	LEAN_HELIX_RESERVED LeanHelixMessageType = 0
-	LEAN_HELIX_PRE_PREPARE LeanHelixMessageType = 1
-	LEAN_HELIX_PREPARE LeanHelixMessageType = 2
-	LEAN_HELIX_COMMIT LeanHelixMessageType = 3
-	LEAN_HELIX_NEW_VIEW LeanHelixMessageType = 4
-	LEAN_HELIX_VIEW_CHANGE LeanHelixMessageType = 5
-)
-
-func (n LeanHelixMessageType) String() string {
-	switch n {
-	case LEAN_HELIX_RESERVED:
-		return "LEAN_HELIX_RESERVED"
-	case LEAN_HELIX_PRE_PREPARE:
-		return "LEAN_HELIX_PRE_PREPARE"
-	case LEAN_HELIX_PREPARE:
-		return "LEAN_HELIX_PREPARE"
-	case LEAN_HELIX_COMMIT:
-		return "LEAN_HELIX_COMMIT"
-	case LEAN_HELIX_NEW_VIEW:
-		return "LEAN_HELIX_NEW_VIEW"
-	case LEAN_HELIX_VIEW_CHANGE:
-		return "LEAN_HELIX_VIEW_CHANGE"
-	}
-	return "UNKNOWN"
-}
 

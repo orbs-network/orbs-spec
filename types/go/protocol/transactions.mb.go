@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package protocol
 
 import (
@@ -16,7 +16,7 @@ import (
 type Transaction struct {
 	// ProtocolVersion primitives.ProtocolVersion
 	// VirtualChainId primitives.VirtualChainId
-	// Timestamp primitives.Timestamp
+	// Timestamp primitives.TimestampNano
 	// Signer Signer
 	// ContractName primitives.ContractName
 	// MethodName primitives.MethodName
@@ -90,15 +90,15 @@ func (x *Transaction) StringVirtualChainId() string {
 	return fmt.Sprintf("%x", x.VirtualChainId())
 }
 
-func (x *Transaction) Timestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(2))
+func (x *Transaction) Timestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(2))
 }
 
 func (x *Transaction) RawTimestamp() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *Transaction) MutateTimestamp(v primitives.Timestamp) error {
+func (x *Transaction) MutateTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
@@ -186,7 +186,7 @@ func (x *Transaction) StringInputArguments() (res string) {
 type TransactionBuilder struct {
 	ProtocolVersion primitives.ProtocolVersion
 	VirtualChainId primitives.VirtualChainId
-	Timestamp primitives.Timestamp
+	Timestamp primitives.TimestampNano
 	Signer *SignerBuilder
 	ContractName primitives.ContractName
 	MethodName primitives.MethodName

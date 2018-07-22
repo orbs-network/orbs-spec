@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package gossipmessages
 
 import (
@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"bytes"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,6 @@ type Header struct {
 	// RecipientPublicKeys []primitives.Ed25519Pkey
 	// RecipientMode RecipientsListMode
 	// Topic HeaderTopic
-	// NumPayloads uint32
 
 	// internal
 	// implements membuffers.Message
@@ -27,11 +27,11 @@ type Header struct {
 }
 
 func (x *Header) String() string {
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,NumPayloads:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic(), x.StringNumPayloads())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic())
 }
 
-var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,membuffers.TypeUint32,}
-var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
+var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,}
+var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
 
 func HeaderReader(buf []byte) *Header {
 	x := &Header{}
@@ -140,6 +140,7 @@ const (
 	HEADER_TOPIC_TRANSACTION_RELAY HeaderTopic = 0
 	HEADER_TOPIC_BLOCK_SYNC HeaderTopic = 1
 	HEADER_TOPIC_LEAN_HELIX HeaderTopic = 2
+	HEADER_TOPIC_BENCHMARK_CONSENSUS HeaderTopic = 3
 )
 
 func (x *Header) Topic() HeaderTopic {
@@ -197,17 +198,40 @@ func (x *Header) IsTopicLeanHelix() bool {
 	return is
 }
 
-func (x *Header) LeanHelix() LeanHelixMessageType {
+func (x *Header) LeanHelix() consensus.LeanHelixMessageType {
 	_, off := x._message.IsUnionIndex(4, 0, 2)
-	return LeanHelixMessageType(x._message.GetUint16InOffset(off))
+	return consensus.LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
 func (x *Header) StringLeanHelix() string {
 	return x.LeanHelix().String()
 }
 
-func (x *Header) MutateLeanHelix(v LeanHelixMessageType) error {
+func (x *Header) MutateLeanHelix(v consensus.LeanHelixMessageType) error {
 	is, off := x._message.IsUnionIndex(4, 0, 2)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetUint16InOffset(off, uint16(v))
+	return nil
+}
+
+func (x *Header) IsTopicBenchmarkConsensus() bool {
+	is, _ := x._message.IsUnionIndex(4, 0, 3)
+	return is
+}
+
+func (x *Header) BenchmarkConsensus() consensus.BenchmarkConsensusMessageType {
+	_, off := x._message.IsUnionIndex(4, 0, 3)
+	return consensus.BenchmarkConsensusMessageType(x._message.GetUint16InOffset(off))
+}
+
+func (x *Header) StringBenchmarkConsensus() string {
+	return x.BenchmarkConsensus().String()
+}
+
+func (x *Header) MutateBenchmarkConsensus(v consensus.BenchmarkConsensusMessageType) error {
+	is, off := x._message.IsUnionIndex(4, 0, 3)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -227,24 +251,10 @@ func (x *Header) StringTopic() string {
 		return "(BlockSync)" + x.StringBlockSync()
 	case HEADER_TOPIC_LEAN_HELIX:
 		return "(LeanHelix)" + x.StringLeanHelix()
+	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
+		return "(BenchmarkConsensus)" + x.StringBenchmarkConsensus()
 	}
 	return "(Unknown)"
-}
-
-func (x *Header) NumPayloads() uint32 {
-	return x._message.GetUint32(5)
-}
-
-func (x *Header) RawNumPayloads() []byte {
-	return x._message.RawBufferForField(5, 0)
-}
-
-func (x *Header) MutateNumPayloads(v uint32) error {
-	return x._message.SetUint32(5, v)
-}
-
-func (x *Header) StringNumPayloads() string {
-	return fmt.Sprintf("%x", x.NumPayloads())
 }
 
 // builder
@@ -255,10 +265,10 @@ type HeaderBuilder struct {
 	RecipientPublicKeys []primitives.Ed25519Pkey
 	RecipientMode RecipientsListMode
 	Topic HeaderTopic
-	NumPayloads uint32
 	TransactionRelay TransactionsRelayMessageType
 	BlockSync BlockSyncMessageType
-	LeanHelix LeanHelixMessageType
+	LeanHelix consensus.LeanHelixMessageType
+	BenchmarkConsensus consensus.BenchmarkConsensusMessageType
 
 	// internal
 	// implements membuffers.Builder
@@ -295,8 +305,9 @@ func (w *HeaderBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteUint16(buf, uint16(w.BlockSync))
 	case HEADER_TOPIC_LEAN_HELIX:
 		w._builder.WriteUint16(buf, uint16(w.LeanHelix))
+	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
+		w._builder.WriteUint16(buf, uint16(w.BenchmarkConsensus))
 	}
-	w._builder.WriteUint32(buf, w.NumPayloads)
 	return nil
 }
 

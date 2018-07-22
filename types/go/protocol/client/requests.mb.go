@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package client
 
 import (
@@ -125,7 +125,7 @@ type SendTransactionResponse struct {
 	// TransactionReceipt protocol.TransactionReceipt
 	// TransactionStatus protocol.TransactionStatus
 	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.Timestamp
+	// BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Message
@@ -208,15 +208,15 @@ func (x *SendTransactionResponse) StringBlockHeight() string {
 	return fmt.Sprintf("%x", x.BlockHeight())
 }
 
-func (x *SendTransactionResponse) BlockTimestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(3))
+func (x *SendTransactionResponse) BlockTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(3))
 }
 
 func (x *SendTransactionResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
@@ -230,7 +230,7 @@ type SendTransactionResponseBuilder struct {
 	TransactionReceipt *protocol.TransactionReceiptBuilder
 	TransactionStatus protocol.TransactionStatus
 	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.Timestamp
+	BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
@@ -396,7 +396,7 @@ type CallMethodResponse struct {
 	// OutputArguments []protocol.MethodArgument
 	// CallResult protocol.ExecutionResult
 	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.Timestamp
+	// BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Message
@@ -496,15 +496,15 @@ func (x *CallMethodResponse) StringBlockHeight() string {
 	return fmt.Sprintf("%x", x.BlockHeight())
 }
 
-func (x *CallMethodResponse) BlockTimestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(3))
+func (x *CallMethodResponse) BlockTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(3))
 }
 
 func (x *CallMethodResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
@@ -518,7 +518,7 @@ type CallMethodResponseBuilder struct {
 	OutputArguments []*protocol.MethodArgumentBuilder
 	CallResult protocol.ExecutionResult
 	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.Timestamp
+	BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
@@ -582,7 +582,7 @@ func (w *CallMethodResponseBuilder) Build() *CallMethodResponse {
 // reader
 
 type GetTransactionStatusRequest struct {
-	// TransactionTimestamp primitives.Timestamp
+	// TransactionTimestamp primitives.TimestampNano
 	// Txhash primitives.Sha256
 
 	// internal
@@ -621,15 +621,15 @@ func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(0))
+func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(0))
 }
 
 func (x *GetTransactionStatusRequest) RawTransactionTimestamp() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.Timestamp) error {
+func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(0, uint64(v))
 }
 
@@ -656,7 +656,7 @@ func (x *GetTransactionStatusRequest) StringTxhash() string {
 // builder
 
 type GetTransactionStatusRequestBuilder struct {
-	TransactionTimestamp primitives.Timestamp
+	TransactionTimestamp primitives.TimestampNano
 	Txhash primitives.Sha256
 
 	// internal
@@ -711,7 +711,7 @@ type GetTransactionStatusResponse struct {
 	// TransactionReceipt protocol.TransactionReceipt
 	// TransactionStatus protocol.TransactionStatus
 	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.Timestamp
+	// BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Message
@@ -794,15 +794,15 @@ func (x *GetTransactionStatusResponse) StringBlockHeight() string {
 	return fmt.Sprintf("%x", x.BlockHeight())
 }
 
-func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.Timestamp {
-	return primitives.Timestamp(x._message.GetUint64(3))
+func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(3))
 }
 
 func (x *GetTransactionStatusResponse) RawBlockTimestamp() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.Timestamp) error {
+func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(3, uint64(v))
 }
 
@@ -816,7 +816,7 @@ type GetTransactionStatusResponseBuilder struct {
 	TransactionReceipt *protocol.TransactionReceiptBuilder
 	TransactionStatus protocol.TransactionStatus
 	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.Timestamp
+	BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder

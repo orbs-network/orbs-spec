@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package services
 
 import (
@@ -35,7 +35,7 @@ type AddNewTransactionOutput struct {
 	TransactionStatus protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
 	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.Timestamp
+	BlockTimestamp primitives.TimestampNano
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ type AddNewTransactionOutput struct {
 
 type GetCommittedTransactionReceiptInput struct {
 	Txhash primitives.Sha256
-	TransactionTimestamp primitives.Timestamp
+	TransactionTimestamp primitives.TimestampNano
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ type GetCommittedTransactionReceiptOutput struct {
 	TransactionStatus protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
 	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.Timestamp
+	BlockTimestamp primitives.TimestampNano
 }
 
 /////////////////////////////////////////////////////////////////////////////

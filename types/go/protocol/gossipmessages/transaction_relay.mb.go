@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.16)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.17)
 package gossipmessages
 
 import (
@@ -9,39 +9,39 @@ import (
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// message TempKillMe
+// message TempKillMeTransactionRelay
 
 // reader
 
-type TempKillMe struct {
+type TempKillMeTransactionRelay struct {
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *TempKillMe) String() string {
+func (x *TempKillMeTransactionRelay) String() string {
 	return fmt.Sprintf("{}")
 }
 
-var _TempKillMe_Scheme = []membuffers.FieldType{}
-var _TempKillMe_Unions = [][]membuffers.FieldType{}
+var _TempKillMeTransactionRelay_Scheme = []membuffers.FieldType{}
+var _TempKillMeTransactionRelay_Unions = [][]membuffers.FieldType{}
 
-func TempKillMeReader(buf []byte) *TempKillMe {
-	x := &TempKillMe{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _TempKillMe_Scheme, _TempKillMe_Unions)
+func TempKillMeTransactionRelayReader(buf []byte) *TempKillMeTransactionRelay {
+	x := &TempKillMeTransactionRelay{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _TempKillMeTransactionRelay_Scheme, _TempKillMeTransactionRelay_Unions)
 	return x
 }
 
-func (x *TempKillMe) IsValid() bool {
+func (x *TempKillMeTransactionRelay) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *TempKillMe) Raw() []byte {
+func (x *TempKillMeTransactionRelay) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *TempKillMe) Equal(y *TempKillMe) bool {
+func (x *TempKillMeTransactionRelay) Equal(y *TempKillMeTransactionRelay) bool {
   if x == nil && y == nil {
     return true
   }
@@ -53,14 +53,14 @@ func (x *TempKillMe) Equal(y *TempKillMe) bool {
 
 // builder
 
-type TempKillMeBuilder struct {
+type TempKillMeTransactionRelayBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *TempKillMeBuilder) Write(buf []byte) (err error) {
+func (w *TempKillMeTransactionRelayBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -73,14 +73,14 @@ func (w *TempKillMeBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *TempKillMeBuilder) GetSize() membuffers.Offset {
+func (w *TempKillMeTransactionRelayBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *TempKillMeBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *TempKillMeTransactionRelayBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -88,12 +88,12 @@ func (w *TempKillMeBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *TempKillMeBuilder) Build() *TempKillMe {
+func (w *TempKillMeTransactionRelayBuilder) Build() *TempKillMeTransactionRelay {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return TempKillMeReader(buf)
+	return TempKillMeTransactionRelayReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
