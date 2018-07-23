@@ -101,6 +101,7 @@ type GetLastCommittedBlockHeightOutput struct {
 // message ValidateBlockForCommitInput (non serializable)
 
 type ValidateBlockForCommitInput struct {
+	BlockPair *protocol.BlockPairContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////
