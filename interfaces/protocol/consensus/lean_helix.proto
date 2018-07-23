@@ -30,5 +30,5 @@ message LeanHelixBlockRef {
     LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
-    primitives.uint256 block_hash = 4; // primitives.sha256(TransactionBlockHeader) XOR primitives.sha256(ResultsBlockHeader)
+    primitives.uint256 block_hash = 4; // primitives.sha256({primitives.sha256(TransactionBlockHeader,primitives.sha256(ResultsBlockHeader)})
 }

@@ -98,7 +98,7 @@
   * View = my_state.view
   * Block_height = my_state.block_height
   * BlockPair = constructed block (without proofs)
-  * Block_hash = SHA256(TransactionBlockHeader) XOR SHA256(ResultsBlockHeader).
+  * Block_hash = SHA256({SHA256(TransactionsBlockHeader) XOR SHA256(ResultsBlockHeader)})
   * Signature {Type, Block_height, View, Hash(Block pair)}
 * Update the state and log
   * Log the PRE_PREPARE message

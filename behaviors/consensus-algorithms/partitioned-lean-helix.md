@@ -108,7 +108,7 @@
 
 &nbsp;
 ## `CalcBlockHash`
-* Block_hash = SHA256(TransactionsBlockHeader) XOR SHA256(ResultsBlockHeader)
+* Block_hash = SHA256({SHA256(TransactionsBlockHeader) XOR SHA256(ResultsBlockHeader)})
 
 
 &nbsp;
