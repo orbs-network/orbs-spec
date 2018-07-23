@@ -77,8 +77,10 @@ message GetLastCommittedBlockHeightOutput {
 }
 
 message ValidateBlockForCommitInput {
-    // TODO: should this be empty?
+    protocol.BlockPairContainer block_pair = 1;
 }
 
+// returns error code ERROR_CODE_INVALID if not valid
 message ValidateBlockForCommitOutput {
+
 }
