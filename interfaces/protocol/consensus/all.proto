@@ -1,0 +1,9 @@
+syntax = "proto3";
+package consensus;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/consensus";
+
+enum ConsensusAlgoType {
+    CONSENSUS_ALGO_TYPE_RESERVED = 0;
+    CONSENSUS_ALGO_TYPE_BENCHMARK_CONSENSUS = 1;
+    CONSENSUS_ALGO_TYPE_LEAN_HELIX = 2;
+}
