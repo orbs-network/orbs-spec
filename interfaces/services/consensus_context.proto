@@ -35,6 +35,8 @@ message RequestNewTransactionsBlockOutput {
 message RequestNewResultsBlockInput {
     primitives.block_height block_height = 1;
     primitives.sha256 prev_block_hash = 2;
+    // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
+    protocol.TransactionsBlockContainer transactions_block = 3;
 }
 
 // returns error code on failure
@@ -54,6 +56,8 @@ message ValidateTransactionsBlockOutput {
 message ValidateResultsBlockInput {
     protocol.ResultsBlockContainer results_block = 1;
     primitives.sha256 prev_block_hash = 2;
+    // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
+    protocol.TransactionsBlockContainer transactions_block = 3;
 }
 
 // returns error code on failure

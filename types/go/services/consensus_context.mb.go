@@ -41,6 +41,7 @@ type RequestNewTransactionsBlockOutput struct {
 type RequestNewResultsBlockInput struct {
 	BlockHeight primitives.BlockHeight
 	PrevBlockHash primitives.Sha256
+	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,6 +71,7 @@ type ValidateTransactionsBlockOutput struct {
 type ValidateResultsBlockInput struct {
 	ResultsBlock *protocol.ResultsBlockContainer
 	PrevBlockHash primitives.Sha256
+	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
 /////////////////////////////////////////////////////////////////////////////
