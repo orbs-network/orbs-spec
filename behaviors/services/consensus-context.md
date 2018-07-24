@@ -55,9 +55,11 @@ Currently a single instance per virtual chain per node.
 * Placeholder: metadata - holds reputation / algorithm data.
 * Hash of the block metadata.
 
+<!--
 #### Prepare for Results block
 * Cache the Transactions block for execution (Results block).
 * Optimization: Warm up by running the logic in `RequestNewResultsBlock` right now.
+-->
 
 &nbsp;
 ## `RequestNewResultsBlock` (method)
@@ -65,7 +67,9 @@ Currently a single instance per virtual chain per node.
 > Performed by the leader only, upon request from consensus algo to perform the execution phase of the consensus during a live round.
 
 #### Execute transactions
+<!-->
 * The Transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
+-->
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
 
 #### Build Results block
