@@ -11,7 +11,6 @@ import (
 
 type ConsensusAlgo interface {
 	handlers.ConsensusBlocksHandler
-	OnNewConsensusRound(input *OnNewConsensusRoundInput) (*OnNewConsensusRoundOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
