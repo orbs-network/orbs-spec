@@ -2,12 +2,21 @@
 
 ## Prerequisites
 
-Install [membuffers](https://github.com/orbs-network/membuffers) compiler:
-```
-brew install orbs-network/membuffers/membufc
-```
+* Make sure [Go](https://golang.org/doc/install) is installed (version 1.10 or later).
+    
+    > Verify with `go version`
 
-> Verify with `membufc --version` (version needs to be 0.0.18 or above).
+* Go get [membuffers](https://github.com/orbs-network/membuffers):
+
+    ```
+    go get -u github.com/orbs-network/membuffers/go/...
+    ```
+    
+* Go get [go-mock](https://github.com/orbs-network/go-mock):
+
+    ```
+    go get -u github.com/orbs-network/go-mock/...
+    ```
   
 ## Build
 
