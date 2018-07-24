@@ -18,7 +18,7 @@ Currently a single instance per virtual chain per node.
 * Separated into deployed services, for each one:
   * Keep a merkle tree of all state variables (keys and values) under it.
   * Keys are hashes, values are blobs (byte arrays).
-  * A non existent key returns the number `0` as its value.
+  * A non existent key returns an empty byte array. (implies null value / integer `0` value)
 * Default system services:
   * `_Deployments`
     * Contains metadata about every [service](../../terminology.md) and [library](../../terminology.md) smart contracts that were deployed on the system.
@@ -66,6 +66,13 @@ Currently a single instance per virtual chain per node.
 
 #### Return the values
 * Respond with the values from the state store.
+
+&nbsp;
+## `GetStateStorageBlockHeight` (method)
+
+> Returns the last committed height and timestamp, called by the Virtual Machine as part of the CallMethod flow.
+
+* Return the height and timestamp of `last_committed_block`.
 
 &nbsp;
 ## `GetStateHash` (method)
