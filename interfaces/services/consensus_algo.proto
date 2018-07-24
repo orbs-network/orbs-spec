@@ -11,9 +11,6 @@ option serialize_messages = false;
 service ConsensusAlgo {
     // implements interfaces for handling callbacks from other services
     option implement_handler = "handlers.ConsensusBlocksHandler";
-
-    // internal calls
-    rpc OnNewConsensusRound (OnNewConsensusRoundInput) returns (OnNewConsensusRoundOutput);
 }
 
 // relies on BlockStorage, ConsensusContext, Gossip.LeanHelix
