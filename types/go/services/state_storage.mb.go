@@ -2,6 +2,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -25,6 +26,29 @@ type ReadKeysInput struct {
 	Keys []primitives.Ripmd160Sha256
 }
 
+func (x *ReadKeysInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,ContractName:%s,Keys:%s,}", x.StringBlockHeight(), x.StringContractName(), x.StringKeys())
+}
+
+func (x *ReadKeysInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *ReadKeysInput) StringContractName() (res string) {
+	res = fmt.Sprintf("%x", x.ContractName)
+	return
+}
+
+func (x *ReadKeysInput) StringKeys() (res string) {
+	res = "["
+		for _, v := range x.Keys {
+		res += fmt.Sprintf("%x", v) + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ReadKeysOutput (non serializable)
 
@@ -32,10 +56,27 @@ type ReadKeysOutput struct {
 	StateRecords []*protocol.StateRecord
 }
 
+func (x *ReadKeysOutput) String() string {
+	return fmt.Sprintf("{StateRecords:%s,}", x.StringStateRecords())
+}
+
+func (x *ReadKeysOutput) StringStateRecords() (res string) {
+	res = "["
+		for _, v := range x.StateRecords {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetStateStorageBlockHeightInput (non serializable)
 
 type GetStateStorageBlockHeightInput struct {
+}
+
+func (x *GetStateStorageBlockHeightInput) String() string {
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -46,12 +87,44 @@ type GetStateStorageBlockHeightOutput struct {
 	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
+func (x *GetStateStorageBlockHeightOutput) String() string {
+	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp())
+}
+
+func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.LastCommittedBlockHeight)
+	return
+}
+
+func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.LastCommittedBlockTimestamp)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message CommitStateDiffInput (non serializable)
 
 type CommitStateDiffInput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
 	ContractStateDiffs []*protocol.ContractStateDiff
+}
+
+func (x *CommitStateDiffInput) String() string {
+	return fmt.Sprintf("{ResultsBlockHeader:%s,ContractStateDiffs:%s,}", x.StringResultsBlockHeader(), x.StringContractStateDiffs())
+}
+
+func (x *CommitStateDiffInput) StringResultsBlockHeader() (res string) {
+	res = x.ResultsBlockHeader.String()
+	return
+}
+
+func (x *CommitStateDiffInput) StringContractStateDiffs() (res string) {
+	res = "["
+		for _, v := range x.ContractStateDiffs {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,6 +134,15 @@ type CommitStateDiffOutput struct {
 	NextDesiredBlockHeight primitives.BlockHeight
 }
 
+func (x *CommitStateDiffOutput) String() string {
+	return fmt.Sprintf("{NextDesiredBlockHeight:%s,}", x.StringNextDesiredBlockHeight())
+}
+
+func (x *CommitStateDiffOutput) StringNextDesiredBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.NextDesiredBlockHeight)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetStateHashInput (non serializable)
 
@@ -68,11 +150,29 @@ type GetStateHashInput struct {
 	BlockHeight primitives.BlockHeight
 }
 
+func (x *GetStateHashInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
+}
+
+func (x *GetStateHashInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetStateHashOutput (non serializable)
 
 type GetStateHashOutput struct {
 	StateRootHash primitives.MerkleSha256
+}
+
+func (x *GetStateHashOutput) String() string {
+	return fmt.Sprintf("{StateRootHash:%s,}", x.StringStateRootHash())
+}
+
+func (x *GetStateHashOutput) StringStateRootHash() (res string) {
+	res = fmt.Sprintf("%x", x.StateRootHash)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

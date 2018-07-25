@@ -3,8 +3,8 @@ package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )

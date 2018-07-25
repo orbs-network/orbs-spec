@@ -3,8 +3,8 @@ package protocol
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
@@ -17,6 +17,20 @@ type BlockPairContainer struct {
 	ResultsBlock *ResultsBlockContainer
 }
 
+func (x *BlockPairContainer) String() string {
+	return fmt.Sprintf("{TransactionsBlock:%s,ResultsBlock:%s,}", x.StringTransactionsBlock(), x.StringResultsBlock())
+}
+
+func (x *BlockPairContainer) StringTransactionsBlock() (res string) {
+	res = x.TransactionsBlock.String()
+	return
+}
+
+func (x *BlockPairContainer) StringResultsBlock() (res string) {
+	res = x.ResultsBlock.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message TransactionsBlockContainer (non serializable)
 
@@ -27,6 +41,34 @@ type TransactionsBlockContainer struct {
 	BlockProof *TransactionsBlockProof
 }
 
+func (x *TransactionsBlockContainer) String() string {
+	return fmt.Sprintf("{Header:%s,Metadata:%s,SignedTransactions:%s,BlockProof:%s,}", x.StringHeader(), x.StringMetadata(), x.StringSignedTransactions(), x.StringBlockProof())
+}
+
+func (x *TransactionsBlockContainer) StringHeader() (res string) {
+	res = x.Header.String()
+	return
+}
+
+func (x *TransactionsBlockContainer) StringMetadata() (res string) {
+	res = x.Metadata.String()
+	return
+}
+
+func (x *TransactionsBlockContainer) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *TransactionsBlockContainer) StringBlockProof() (res string) {
+	res = x.BlockProof.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ResultsBlockContainer (non serializable)
 
@@ -35,6 +77,38 @@ type ResultsBlockContainer struct {
 	TransactionReceipts []*TransactionReceipt
 	ContractStateDiffs []*ContractStateDiff
 	BlockProof *ResultsBlockProof
+}
+
+func (x *ResultsBlockContainer) String() string {
+	return fmt.Sprintf("{Header:%s,TransactionReceipts:%s,ContractStateDiffs:%s,BlockProof:%s,}", x.StringHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringBlockProof())
+}
+
+func (x *ResultsBlockContainer) StringHeader() (res string) {
+	res = x.Header.String()
+	return
+}
+
+func (x *ResultsBlockContainer) StringTransactionReceipts() (res string) {
+	res = "["
+		for _, v := range x.TransactionReceipts {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *ResultsBlockContainer) StringContractStateDiffs() (res string) {
+	res = "["
+		for _, v := range x.ContractStateDiffs {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *ResultsBlockContainer) StringBlockProof() (res string) {
+	res = x.BlockProof.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

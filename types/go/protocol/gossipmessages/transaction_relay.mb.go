@@ -3,8 +3,8 @@ package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -102,6 +102,24 @@ func (w *TempKillMeTransactionRelayBuilder) Build() *TempKillMeTransactionRelay 
 type ForwardedTransactionsMessage struct {
 	Sender *SenderSignature
 	SignedTransactions []*protocol.SignedTransaction
+}
+
+func (x *ForwardedTransactionsMessage) String() string {
+	return fmt.Sprintf("{Sender:%s,SignedTransactions:%s,}", x.StringSender(), x.StringSignedTransactions())
+}
+
+func (x *ForwardedTransactionsMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *ForwardedTransactionsMessage) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

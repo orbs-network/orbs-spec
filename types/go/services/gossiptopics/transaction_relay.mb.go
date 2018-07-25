@@ -2,6 +2,7 @@
 package gossiptopics
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -25,6 +26,15 @@ type TransactionRelayHandler interface {
 
 type ForwardedTransactionsInput struct {
 	Message *gossipmessages.ForwardedTransactionsMessage
+}
+
+func (x *ForwardedTransactionsInput) String() string {
+	return fmt.Sprintf("{Message:%s,}", x.StringMessage())
+}
+
+func (x *ForwardedTransactionsInput) StringMessage() (res string) {
+	res = x.Message.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

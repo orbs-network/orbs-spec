@@ -3,8 +3,8 @@ package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
@@ -19,12 +19,45 @@ type LeanHelixPrePrepareMessage struct {
 	BlockPair *protocol.BlockPairContainer
 }
 
+func (x *LeanHelixPrePrepareMessage) String() string {
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
+}
+
+func (x *LeanHelixPrePrepareMessage) StringSignedHeader() (res string) {
+	res = x.SignedHeader.String()
+	return
+}
+
+func (x *LeanHelixPrePrepareMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *LeanHelixPrePrepareMessage) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixPrepareMessage (non serializable)
 
 type LeanHelixPrepareMessage struct {
 	SignedHeader *consensus.LeanHelixBlockRef
 	Sender *consensus.LeanHelixSenderSignature
+}
+
+func (x *LeanHelixPrepareMessage) String() string {
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,}", x.StringSignedHeader(), x.StringSender())
+}
+
+func (x *LeanHelixPrepareMessage) StringSignedHeader() (res string) {
+	res = x.SignedHeader.String()
+	return
+}
+
+func (x *LeanHelixPrepareMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -36,6 +69,25 @@ type LeanHelixCommitMessage struct {
 	Share *LeanHelixRandomSeedShare
 }
 
+func (x *LeanHelixCommitMessage) String() string {
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,Share:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringShare())
+}
+
+func (x *LeanHelixCommitMessage) StringSignedHeader() (res string) {
+	res = x.SignedHeader.String()
+	return
+}
+
+func (x *LeanHelixCommitMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *LeanHelixCommitMessage) StringShare() (res string) {
+	res = x.Share.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixViewChangeMessage (non serializable)
 
@@ -45,6 +97,25 @@ type LeanHelixViewChangeMessage struct {
 	BlockPair *protocol.BlockPairContainer
 }
 
+func (x *LeanHelixViewChangeMessage) String() string {
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
+}
+
+func (x *LeanHelixViewChangeMessage) StringSignedHeader() (res string) {
+	res = x.SignedHeader.String()
+	return
+}
+
+func (x *LeanHelixViewChangeMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *LeanHelixViewChangeMessage) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message LeanHelixNewViewMessage (non serializable)
 
@@ -52,6 +123,25 @@ type LeanHelixNewViewMessage struct {
 	SignedHeader *LeanHelixNewViewHeader
 	Sender *consensus.LeanHelixSenderSignature
 	BlockPair *protocol.BlockPairContainer
+}
+
+func (x *LeanHelixNewViewMessage) String() string {
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
+}
+
+func (x *LeanHelixNewViewMessage) StringSignedHeader() (res string) {
+	res = x.SignedHeader.String()
+	return
+}
+
+func (x *LeanHelixNewViewMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *LeanHelixNewViewMessage) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

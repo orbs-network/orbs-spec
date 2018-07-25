@@ -2,6 +2,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -25,6 +26,24 @@ type ProcessTransactionSetInput struct {
 	SignedTransactions []*protocol.SignedTransaction
 }
 
+func (x *ProcessTransactionSetInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+}
+
+func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ProcessTransactionSetOutput (non serializable)
 
@@ -33,12 +52,48 @@ type ProcessTransactionSetOutput struct {
 	ContractStateDiffs []*protocol.ContractStateDiff
 }
 
+func (x *ProcessTransactionSetOutput) String() string {
+	return fmt.Sprintf("{TransactionReceipts:%s,ContractStateDiffs:%s,}", x.StringTransactionReceipts(), x.StringContractStateDiffs())
+}
+
+func (x *ProcessTransactionSetOutput) StringTransactionReceipts() (res string) {
+	res = "["
+		for _, v := range x.TransactionReceipts {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *ProcessTransactionSetOutput) StringContractStateDiffs() (res string) {
+	res = "["
+		for _, v := range x.ContractStateDiffs {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message RunLocalMethodInput (non serializable)
 
 type RunLocalMethodInput struct {
 	BlockHeight primitives.BlockHeight
 	Transaction *protocol.Transaction
+}
+
+func (x *RunLocalMethodInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,Transaction:%s,}", x.StringBlockHeight(), x.StringTransaction())
+}
+
+func (x *RunLocalMethodInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *RunLocalMethodInput) StringTransaction() (res string) {
+	res = x.Transaction.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,6 +106,34 @@ type RunLocalMethodOutput struct {
 	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
+func (x *RunLocalMethodOutput) String() string {
+	return fmt.Sprintf("{CallResult:%s,OutputArguments:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArguments(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
+}
+
+func (x *RunLocalMethodOutput) StringCallResult() (res string) {
+	res = fmt.Sprintf("%x", x.CallResult)
+	return
+}
+
+func (x *RunLocalMethodOutput) StringOutputArguments() (res string) {
+	res = "["
+		for _, v := range x.OutputArguments {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *RunLocalMethodOutput) StringReferenceBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.ReferenceBlockHeight)
+	return
+}
+
+func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.ReferenceBlockTimestamp)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message TransactionSetPreOrderInput (non serializable)
 
@@ -59,11 +142,42 @@ type TransactionSetPreOrderInput struct {
 	SignedTransactions []*protocol.SignedTransaction
 }
 
+func (x *TransactionSetPreOrderInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+}
+
+func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *TransactionSetPreOrderInput) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message TransactionSetPreOrderOutput (non serializable)
 
 type TransactionSetPreOrderOutput struct {
 	PreOrderResults []protocol.TransactionStatus
+}
+
+func (x *TransactionSetPreOrderOutput) String() string {
+	return fmt.Sprintf("{PreOrderResults:%s,}", x.StringPreOrderResults())
+}
+
+func (x *TransactionSetPreOrderOutput) StringPreOrderResults() (res string) {
+	res = "["
+		for _, v := range x.PreOrderResults {
+		res += fmt.Sprintf("%x", v) + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

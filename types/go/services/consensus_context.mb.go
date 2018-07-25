@@ -2,6 +2,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -28,11 +29,44 @@ type RequestNewTransactionsBlockInput struct {
 	PrevBlockHash primitives.Sha256
 }
 
+func (x *RequestNewTransactionsBlockInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,}", x.StringBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash())
+}
+
+func (x *RequestNewTransactionsBlockInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringMaxBlockSizeKb() (res string) {
+	res = fmt.Sprintf("%x", x.MaxBlockSizeKb)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringMaxNumberOfTransactions() (res string) {
+	res = fmt.Sprintf("%x", x.MaxNumberOfTransactions)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringPrevBlockHash() (res string) {
+	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message RequestNewTransactionsBlockOutput (non serializable)
 
 type RequestNewTransactionsBlockOutput struct {
 	TransactionsBlock *protocol.TransactionsBlockContainer
+}
+
+func (x *RequestNewTransactionsBlockOutput) String() string {
+	return fmt.Sprintf("{TransactionsBlock:%s,}", x.StringTransactionsBlock())
+}
+
+func (x *RequestNewTransactionsBlockOutput) StringTransactionsBlock() (res string) {
+	res = x.TransactionsBlock.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -44,11 +78,39 @@ type RequestNewResultsBlockInput struct {
 	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
+func (x *RequestNewResultsBlockInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
+}
+
+func (x *RequestNewResultsBlockInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *RequestNewResultsBlockInput) StringPrevBlockHash() (res string) {
+	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	return
+}
+
+func (x *RequestNewResultsBlockInput) StringTransactionsBlock() (res string) {
+	res = x.TransactionsBlock.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message RequestNewResultsBlockOutput (non serializable)
 
 type RequestNewResultsBlockOutput struct {
 	ResultsBlock *protocol.ResultsBlockContainer
+}
+
+func (x *RequestNewResultsBlockOutput) String() string {
+	return fmt.Sprintf("{ResultsBlock:%s,}", x.StringResultsBlock())
+}
+
+func (x *RequestNewResultsBlockOutput) StringResultsBlock() (res string) {
+	res = x.ResultsBlock.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,10 +121,28 @@ type ValidateTransactionsBlockInput struct {
 	PrevBlockHash primitives.Sha256
 }
 
+func (x *ValidateTransactionsBlockInput) String() string {
+	return fmt.Sprintf("{TransactionsBlock:%s,PrevBlockHash:%s,}", x.StringTransactionsBlock(), x.StringPrevBlockHash())
+}
+
+func (x *ValidateTransactionsBlockInput) StringTransactionsBlock() (res string) {
+	res = x.TransactionsBlock.String()
+	return
+}
+
+func (x *ValidateTransactionsBlockInput) StringPrevBlockHash() (res string) {
+	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsBlockOutput (non serializable)
 
 type ValidateTransactionsBlockOutput struct {
+}
+
+func (x *ValidateTransactionsBlockOutput) String() string {
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -74,10 +154,33 @@ type ValidateResultsBlockInput struct {
 	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
+func (x *ValidateResultsBlockInput) String() string {
+	return fmt.Sprintf("{ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
+}
+
+func (x *ValidateResultsBlockInput) StringResultsBlock() (res string) {
+	res = x.ResultsBlock.String()
+	return
+}
+
+func (x *ValidateResultsBlockInput) StringPrevBlockHash() (res string) {
+	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	return
+}
+
+func (x *ValidateResultsBlockInput) StringTransactionsBlock() (res string) {
+	res = x.TransactionsBlock.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateResultsBlockOutput (non serializable)
 
 type ValidateResultsBlockOutput struct {
+}
+
+func (x *ValidateResultsBlockOutput) String() string {
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -89,12 +192,53 @@ type RequestCommitteeInput struct {
 	MaxCommitteeSize uint32
 }
 
+func (x *RequestCommitteeInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,}", x.StringBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize())
+}
+
+func (x *RequestCommitteeInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *RequestCommitteeInput) StringRandomSeed() (res string) {
+	res = fmt.Sprintf("%x", x.RandomSeed)
+	return
+}
+
+func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
+	res = fmt.Sprintf("%x", x.MaxCommitteeSize)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message RequestCommitteeOutput (non serializable)
 
 type RequestCommitteeOutput struct {
 	NodePublicKeys []primitives.Ed25519Pkey
 	NodeRandomSeedPublicKeys []primitives.Bls1Pkey
+}
+
+func (x *RequestCommitteeOutput) String() string {
+	return fmt.Sprintf("{NodePublicKeys:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodePublicKeys(), x.StringNodeRandomSeedPublicKeys())
+}
+
+func (x *RequestCommitteeOutput) StringNodePublicKeys() (res string) {
+	res = "["
+		for _, v := range x.NodePublicKeys {
+		res += fmt.Sprintf("%x", v) + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
+	res = "["
+		for _, v := range x.NodeRandomSeedPublicKeys {
+		res += fmt.Sprintf("%x", v) + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
@@ -28,6 +29,15 @@ type AddNewTransactionInput struct {
 	SignedTransaction *protocol.SignedTransaction
 }
 
+func (x *AddNewTransactionInput) String() string {
+	return fmt.Sprintf("{SignedTransaction:%s,}", x.StringSignedTransaction())
+}
+
+func (x *AddNewTransactionInput) StringSignedTransaction() (res string) {
+	res = x.SignedTransaction.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message AddNewTransactionOutput (non serializable)
 
@@ -38,12 +48,50 @@ type AddNewTransactionOutput struct {
 	BlockTimestamp primitives.TimestampNano
 }
 
+func (x *AddNewTransactionOutput) String() string {
+	return fmt.Sprintf("{TransactionStatus:%s,TransactionReceipt:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringTransactionReceipt(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *AddNewTransactionOutput) StringTransactionStatus() (res string) {
+	res = fmt.Sprintf("%x", x.TransactionStatus)
+	return
+}
+
+func (x *AddNewTransactionOutput) StringTransactionReceipt() (res string) {
+	res = x.TransactionReceipt.String()
+	return
+}
+
+func (x *AddNewTransactionOutput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *AddNewTransactionOutput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.BlockTimestamp)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetCommittedTransactionReceiptInput (non serializable)
 
 type GetCommittedTransactionReceiptInput struct {
 	Txhash primitives.Sha256
 	TransactionTimestamp primitives.TimestampNano
+}
+
+func (x *GetCommittedTransactionReceiptInput) String() string {
+	return fmt.Sprintf("{Txhash:%s,TransactionTimestamp:%s,}", x.StringTxhash(), x.StringTransactionTimestamp())
+}
+
+func (x *GetCommittedTransactionReceiptInput) StringTxhash() (res string) {
+	res = fmt.Sprintf("%x", x.Txhash)
+	return
+}
+
+func (x *GetCommittedTransactionReceiptInput) StringTransactionTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.TransactionTimestamp)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -56,6 +104,30 @@ type GetCommittedTransactionReceiptOutput struct {
 	BlockTimestamp primitives.TimestampNano
 }
 
+func (x *GetCommittedTransactionReceiptOutput) String() string {
+	return fmt.Sprintf("{TransactionStatus:%s,TransactionReceipt:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringTransactionReceipt(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *GetCommittedTransactionReceiptOutput) StringTransactionStatus() (res string) {
+	res = fmt.Sprintf("%x", x.TransactionStatus)
+	return
+}
+
+func (x *GetCommittedTransactionReceiptOutput) StringTransactionReceipt() (res string) {
+	res = x.TransactionReceipt.String()
+	return
+}
+
+func (x *GetCommittedTransactionReceiptOutput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.BlockTimestamp)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionsForOrderingInput (non serializable)
 
@@ -65,11 +137,43 @@ type GetTransactionsForOrderingInput struct {
 	MaxNumberOfTransactions uint32
 }
 
+func (x *GetTransactionsForOrderingInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
+}
+
+func (x *GetTransactionsForOrderingInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *GetTransactionsForOrderingInput) StringMaxTransactionsSetSizeKb() (res string) {
+	res = fmt.Sprintf("%x", x.MaxTransactionsSetSizeKb)
+	return
+}
+
+func (x *GetTransactionsForOrderingInput) StringMaxNumberOfTransactions() (res string) {
+	res = fmt.Sprintf("%x", x.MaxNumberOfTransactions)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message GetTransactionsForOrderingOutput (non serializable)
 
 type GetTransactionsForOrderingOutput struct {
 	SignedTransactions []*protocol.SignedTransaction
+}
+
+func (x *GetTransactionsForOrderingOutput) String() string {
+	return fmt.Sprintf("{SignedTransactions:%s,}", x.StringSignedTransactions())
+}
+
+func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,10 +184,32 @@ type ValidateTransactionsForOrderingInput struct {
 	SignedTransactions []*protocol.SignedTransaction
 }
 
+func (x *ValidateTransactionsForOrderingInput) String() string {
+	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+}
+
+func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *ValidateTransactionsForOrderingInput) StringSignedTransactions() (res string) {
+	res = "["
+		for _, v := range x.SignedTransactions {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsForOrderingOutput (non serializable)
 
 type ValidateTransactionsForOrderingOutput struct {
+}
+
+func (x *ValidateTransactionsForOrderingOutput) String() string {
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -95,12 +221,49 @@ type CommitTransactionReceiptsInput struct {
 	LastCommittedBlockHeight primitives.BlockHeight
 }
 
+func (x *CommitTransactionReceiptsInput) String() string {
+	return fmt.Sprintf("{ResultsBlockHeader:%s,TransactionReceipts:%s,LastCommittedBlockHeight:%s,}", x.StringResultsBlockHeader(), x.StringTransactionReceipts(), x.StringLastCommittedBlockHeight())
+}
+
+func (x *CommitTransactionReceiptsInput) StringResultsBlockHeader() (res string) {
+	res = x.ResultsBlockHeader.String()
+	return
+}
+
+func (x *CommitTransactionReceiptsInput) StringTransactionReceipts() (res string) {
+	res = "["
+		for _, v := range x.TransactionReceipts {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *CommitTransactionReceiptsInput) StringLastCommittedBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.LastCommittedBlockHeight)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message CommitTransactionReceiptsOutput (non serializable)
 
 type CommitTransactionReceiptsOutput struct {
 	NextDesiredBlockHeight primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
+}
+
+func (x *CommitTransactionReceiptsOutput) String() string {
+	return fmt.Sprintf("{NextDesiredBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringNextDesiredBlockHeight(), x.StringLastCommittedBlockHeight())
+}
+
+func (x *CommitTransactionReceiptsOutput) StringNextDesiredBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.NextDesiredBlockHeight)
+	return
+}
+
+func (x *CommitTransactionReceiptsOutput) StringLastCommittedBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.LastCommittedBlockHeight)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -22,9 +23,36 @@ type HandleTransactionResultsInput struct {
 	Timestamp primitives.TimestampNano
 }
 
+func (x *HandleTransactionResultsInput) String() string {
+	return fmt.Sprintf("{TransactionReceipts:%s,BlockHeight:%s,Timestamp:%s,}", x.StringTransactionReceipts(), x.StringBlockHeight(), x.StringTimestamp())
+}
+
+func (x *HandleTransactionResultsInput) StringTransactionReceipts() (res string) {
+	res = "["
+		for _, v := range x.TransactionReceipts {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
+func (x *HandleTransactionResultsInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%x", x.BlockHeight)
+	return
+}
+
+func (x *HandleTransactionResultsInput) StringTimestamp() (res string) {
+	res = fmt.Sprintf("%x", x.Timestamp)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message HandleTransactionResultsOutput (non serializable)
 
 type HandleTransactionResultsOutput struct {
+}
+
+func (x *HandleTransactionResultsOutput) String() string {
+	return fmt.Sprintf("{}")
 }
 

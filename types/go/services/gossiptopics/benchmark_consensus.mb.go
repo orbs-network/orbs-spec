@@ -2,6 +2,7 @@
 package gossiptopics
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
@@ -30,11 +31,34 @@ type BenchmarkConsensusCommitInput struct {
 	Message *gossipmessages.BenchmarkConsensusCommitMessage
 }
 
+func (x *BenchmarkConsensusCommitInput) String() string {
+	return fmt.Sprintf("{Message:%s,}", x.StringMessage())
+}
+
+func (x *BenchmarkConsensusCommitInput) StringMessage() (res string) {
+	res = x.Message.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message BenchmarkConsensusCommittedInput (non serializable)
 
 type BenchmarkConsensusCommittedInput struct {
 	RecipientPublicKey primitives.Ed25519Pkey
 	Message *gossipmessages.BenchmarkConsensusCommittedMessage
+}
+
+func (x *BenchmarkConsensusCommittedInput) String() string {
+	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+}
+
+func (x *BenchmarkConsensusCommittedInput) StringRecipientPublicKey() (res string) {
+	res = fmt.Sprintf("%x", x.RecipientPublicKey)
+	return
+}
+
+func (x *BenchmarkConsensusCommittedInput) StringMessage() (res string) {
+	res = x.Message.String()
+	return
 }
 

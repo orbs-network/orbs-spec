@@ -2,6 +2,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 )
@@ -35,9 +36,17 @@ type ConsensusAlgoBenchmark interface {
 type OnNewConsensusRoundInput struct {
 }
 
+func (x *OnNewConsensusRoundInput) String() string {
+	return fmt.Sprintf("{}")
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message OnNewConsensusRoundOutput (non serializable)
 
 type OnNewConsensusRoundOutput struct {
+}
+
+func (x *OnNewConsensusRoundOutput) String() string {
+	return fmt.Sprintf("{}")
 }
 

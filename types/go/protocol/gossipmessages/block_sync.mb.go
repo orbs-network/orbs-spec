@@ -3,8 +3,8 @@ package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -17,12 +17,40 @@ type BlockAvailabilityRequestMessage struct {
 	Sender *SenderSignature
 }
 
+func (x *BlockAvailabilityRequestMessage) String() string {
+	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+}
+
+func (x *BlockAvailabilityRequestMessage) StringSignedRange() (res string) {
+	res = x.SignedRange.String()
+	return
+}
+
+func (x *BlockAvailabilityRequestMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message BlockAvailabilityResponseMessage (non serializable)
 
 type BlockAvailabilityResponseMessage struct {
 	SignedRange *BlockSyncRange
 	Sender *SenderSignature
+}
+
+func (x *BlockAvailabilityResponseMessage) String() string {
+	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+}
+
+func (x *BlockAvailabilityResponseMessage) StringSignedRange() (res string) {
+	res = x.SignedRange.String()
+	return
+}
+
+func (x *BlockAvailabilityResponseMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -33,6 +61,20 @@ type BlockSyncRequestMessage struct {
 	Sender *SenderSignature
 }
 
+func (x *BlockSyncRequestMessage) String() string {
+	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+}
+
+func (x *BlockSyncRequestMessage) StringSignedRange() (res string) {
+	res = x.SignedRange.String()
+	return
+}
+
+func (x *BlockSyncRequestMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message BlockSyncResponseMessage (non serializable)
 
@@ -40,6 +82,29 @@ type BlockSyncResponseMessage struct {
 	SignedRange *BlockSyncRange
 	Sender *SenderSignature
 	BlockPairs []*protocol.BlockPairContainer
+}
+
+func (x *BlockSyncResponseMessage) String() string {
+	return fmt.Sprintf("{SignedRange:%s,Sender:%s,BlockPairs:%s,}", x.StringSignedRange(), x.StringSender(), x.StringBlockPairs())
+}
+
+func (x *BlockSyncResponseMessage) StringSignedRange() (res string) {
+	res = x.SignedRange.String()
+	return
+}
+
+func (x *BlockSyncResponseMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
+}
+
+func (x *BlockSyncResponseMessage) StringBlockPairs() (res string) {
+	res = "["
+		for _, v := range x.BlockPairs {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

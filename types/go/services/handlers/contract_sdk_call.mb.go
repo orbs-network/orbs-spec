@@ -2,6 +2,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -23,11 +24,52 @@ type HandleSdkCallInput struct {
 	InputArguments []*protocol.MethodArgument
 }
 
+func (x *HandleSdkCallInput) String() string {
+	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArguments:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments())
+}
+
+func (x *HandleSdkCallInput) StringContextId() (res string) {
+	res = fmt.Sprintf("%x", x.ContextId)
+	return
+}
+
+func (x *HandleSdkCallInput) StringContractName() (res string) {
+	res = fmt.Sprintf("%x", x.ContractName)
+	return
+}
+
+func (x *HandleSdkCallInput) StringMethodName() (res string) {
+	res = fmt.Sprintf("%x", x.MethodName)
+	return
+}
+
+func (x *HandleSdkCallInput) StringInputArguments() (res string) {
+	res = "["
+		for _, v := range x.InputArguments {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message HandleSdkCallOutput (non serializable)
 
 type HandleSdkCallOutput struct {
 	OutputArguments []*protocol.MethodArgument
+}
+
+func (x *HandleSdkCallOutput) String() string {
+	return fmt.Sprintf("{OutputArguments:%s,}", x.StringOutputArguments())
+}
+
+func (x *HandleSdkCallOutput) StringOutputArguments() (res string) {
+	res = "["
+		for _, v := range x.OutputArguments {
+		res += v.String() + ","
+  }
+	res += "]"
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

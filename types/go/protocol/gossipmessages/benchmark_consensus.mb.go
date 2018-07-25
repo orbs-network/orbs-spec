@@ -3,8 +3,8 @@ package gossipmessages
 
 import (
 	"github.com/orbs-network/membuffers/go"
-	"fmt"
 	"bytes"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -104,12 +104,35 @@ type BenchmarkConsensusCommitMessage struct {
 	BlockPair *protocol.BlockPairContainer
 }
 
+func (x *BenchmarkConsensusCommitMessage) String() string {
+	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
+}
+
+func (x *BenchmarkConsensusCommitMessage) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message BenchmarkConsensusCommittedMessage (non serializable)
 
 type BenchmarkConsensusCommittedMessage struct {
 	Status *BenchmarkConsensusStatus
 	Sender *SenderSignature
+}
+
+func (x *BenchmarkConsensusCommittedMessage) String() string {
+	return fmt.Sprintf("{Status:%s,Sender:%s,}", x.StringStatus(), x.StringSender())
+}
+
+func (x *BenchmarkConsensusCommittedMessage) StringStatus() (res string) {
+	res = x.Status.String()
+	return
+}
+
+func (x *BenchmarkConsensusCommittedMessage) StringSender() (res string) {
+	res = x.Sender.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
