@@ -52,7 +52,6 @@ type GetStateStorageBlockHeightOutput struct {
 type CommitStateDiffInput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
 	ContractStateDiffs []*protocol.ContractStateDiff
-	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,7 +59,6 @@ type CommitStateDiffInput struct {
 
 type CommitStateDiffOutput struct {
 	NextDesiredBlockHeight primitives.BlockHeight
-	LastCommittedBlockHeight primitives.BlockHeight
 }
 
 /////////////////////////////////////////////////////////////////////////////
