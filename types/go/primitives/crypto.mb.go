@@ -62,17 +62,31 @@ func (x Ed25519Sig) KeyForMap() string {
   return string(x)
 }
 
-type Ed25519Pkey []byte
+type Ed25519PublicKey []byte
 
-func (x Ed25519Pkey) String() string {
+func (x Ed25519PublicKey) String() string {
   return fmt.Sprintf("%x", []byte(x))
 }
 
-func (x Ed25519Pkey) Equal(y Ed25519Pkey) bool {
+func (x Ed25519PublicKey) Equal(y Ed25519PublicKey) bool {
   return bytes.Equal(x, y)
 }
 
-func (x Ed25519Pkey) KeyForMap() string {
+func (x Ed25519PublicKey) KeyForMap() string {
+  return string(x)
+}
+
+type Ed25519PrivateKey []byte
+
+func (x Ed25519PrivateKey) String() string {
+  return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x Ed25519PrivateKey) Equal(y Ed25519PrivateKey) bool {
+  return bytes.Equal(x, y)
+}
+
+func (x Ed25519PrivateKey) KeyForMap() string {
   return string(x)
 }
 
@@ -104,17 +118,31 @@ func (x Bls1Sig) KeyForMap() string {
   return string(x)
 }
 
-type Bls1Pkey []byte
+type Bls1PublicKey []byte
 
-func (x Bls1Pkey) String() string {
+func (x Bls1PublicKey) String() string {
   return fmt.Sprintf("%x", []byte(x))
 }
 
-func (x Bls1Pkey) Equal(y Bls1Pkey) bool {
+func (x Bls1PublicKey) Equal(y Bls1PublicKey) bool {
   return bytes.Equal(x, y)
 }
 
-func (x Bls1Pkey) KeyForMap() string {
+func (x Bls1PublicKey) KeyForMap() string {
+  return string(x)
+}
+
+type Bls1PrivateKey []byte
+
+func (x Bls1PrivateKey) String() string {
+  return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x Bls1PrivateKey) Equal(y Bls1PrivateKey) bool {
+  return bytes.Equal(x, y)
+}
+
+func (x Bls1PrivateKey) KeyForMap() string {
   return string(x)
 }
 

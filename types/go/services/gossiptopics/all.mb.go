@@ -11,7 +11,7 @@ import (
 // message RecipientsList (non serializable)
 
 type RecipientsList struct {
-	RecipientPublicKeys []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519PublicKey
 	RecipientMode gossipmessages.RecipientsListMode
 }
 

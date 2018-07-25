@@ -29,7 +29,13 @@ message ed25519_sig {
     // size 64 bytes
 }
 
-message ed25519_pkey {
+message ed25519_public_key {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
+}
+
+message ed25519_private_key {
     option inline_type = "bytes";
     bytes value = 1;
     // size 32 bytes
@@ -47,7 +53,13 @@ message bls1_sig {
     // TODO size
 }
 
-message bls1_pkey {
+message bls1_public_key {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // TODO size
+}
+
+message bls1_private_key {
     option inline_type = "bytes";
     bytes value = 1;
     // TODO size

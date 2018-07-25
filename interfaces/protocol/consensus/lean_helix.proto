@@ -22,7 +22,7 @@ message LeanHelixBlockProof {
 }
 
 message LeanHelixSenderSignature {
-    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_public_key sender_public_key = 1;
     primitives.ed25519_sig signature = 2;
 }
 

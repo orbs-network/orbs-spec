@@ -22,7 +22,7 @@ message Signer {
 
 message EdDSA01Signer {
     SignerNetworkType network_type = 1; // TODO: do we want to move network_type to Signer
-    primitives.ed25519_pkey signer_public_key = 2;
+    primitives.ed25519_public_key signer_public_key = 2;
     // signature = Ed25519Signature(txhash)
 }
 

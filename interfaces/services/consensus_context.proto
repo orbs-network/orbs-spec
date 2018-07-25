@@ -72,7 +72,7 @@ message RequestCommitteeInput {
 
 // returns error code on failure
 message RequestCommitteeOutput {
-    repeated primitives.ed25519_pkey node_public_keys = 1;
-    repeated primitives.bls1_pkey node_random_seed_public_keys = 2;
+    repeated primitives.ed25519_public_key node_public_keys = 1;
+    repeated primitives.bls1_public_key node_random_seed_public_keys = 2;
 
 }

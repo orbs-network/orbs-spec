@@ -124,7 +124,7 @@ func (w *BenchmarkConsensusBlockProofBuilder) Build() *BenchmarkConsensusBlockPr
 // reader
 
 type BenchmarkConsensusSenderSignature struct {
-	// SenderPublicKey primitives.Ed25519Pkey
+	// SenderPublicKey primitives.Ed25519PublicKey
 	// Signature primitives.Ed25519Sig
 
 	// internal
@@ -166,15 +166,15 @@ func (x *BenchmarkConsensusSenderSignature) Equal(y *BenchmarkConsensusSenderSig
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *BenchmarkConsensusSenderSignature) SenderPublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+func (x *BenchmarkConsensusSenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
 }
 
 func (x *BenchmarkConsensusSenderSignature) RawSenderPublicKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *BenchmarkConsensusSenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+func (x *BenchmarkConsensusSenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
@@ -201,7 +201,7 @@ func (x *BenchmarkConsensusSenderSignature) StringSignature() string {
 // builder
 
 type BenchmarkConsensusSenderSignatureBuilder struct {
-	SenderPublicKey primitives.Ed25519Pkey
+	SenderPublicKey primitives.Ed25519PublicKey
 	Signature primitives.Ed25519Sig
 
 	// internal

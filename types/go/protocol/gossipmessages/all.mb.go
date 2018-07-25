@@ -17,7 +17,7 @@ import (
 type Header struct {
 	// ProtocolVersion primitives.ProtocolVersion
 	// VirtualChainId primitives.VirtualChainId
-	// RecipientPublicKeys []primitives.Ed25519Pkey
+	// RecipientPublicKeys []primitives.Ed25519PublicKey
 	// RecipientMode RecipientsListMode
 	// Topic HeaderTopic
 
@@ -104,8 +104,8 @@ func (i *HeaderRecipientPublicKeysIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *HeaderRecipientPublicKeysIterator) NextRecipientPublicKeys() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(i.iterator.NextBytes())
+func (i *HeaderRecipientPublicKeysIterator) NextRecipientPublicKeys() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(i.iterator.NextBytes())
 }
 
 func (x *Header) RawRecipientPublicKeysArray() []byte {
@@ -265,7 +265,7 @@ func (x *Header) StringTopic() string {
 type HeaderBuilder struct {
 	ProtocolVersion primitives.ProtocolVersion
 	VirtualChainId primitives.VirtualChainId
-	RecipientPublicKeys []primitives.Ed25519Pkey
+	RecipientPublicKeys []primitives.Ed25519PublicKey
 	RecipientMode RecipientsListMode
 	Topic HeaderTopic
 	TransactionRelay TransactionsRelayMessageType
@@ -343,7 +343,7 @@ func (w *HeaderBuilder) Build() *Header {
 // reader
 
 type SenderSignature struct {
-	// SenderPublicKey primitives.Ed25519Pkey
+	// SenderPublicKey primitives.Ed25519PublicKey
 	// Signature primitives.Ed25519Sig
 
 	// internal
@@ -385,15 +385,15 @@ func (x *SenderSignature) Equal(y *SenderSignature) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *SenderSignature) SenderPublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+func (x *SenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
 }
 
 func (x *SenderSignature) RawSenderPublicKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *SenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+func (x *SenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
@@ -420,7 +420,7 @@ func (x *SenderSignature) StringSignature() string {
 // builder
 
 type SenderSignatureBuilder struct {
-	SenderPublicKey primitives.Ed25519Pkey
+	SenderPublicKey primitives.Ed25519PublicKey
 	Signature primitives.Ed25519Sig
 
 	// internal

@@ -242,8 +242,8 @@ func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
 // message RequestCommitteeOutput (non serializable)
 
 type RequestCommitteeOutput struct {
-	NodePublicKeys []primitives.Ed25519Pkey
-	NodeRandomSeedPublicKeys []primitives.Bls1Pkey
+	NodePublicKeys []primitives.Ed25519PublicKey
+	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
 }
 
 func (x *RequestCommitteeOutput) String() string {

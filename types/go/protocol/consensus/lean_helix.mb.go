@@ -187,7 +187,7 @@ func (w *LeanHelixBlockProofBuilder) Build() *LeanHelixBlockProof {
 // reader
 
 type LeanHelixSenderSignature struct {
-	// SenderPublicKey primitives.Ed25519Pkey
+	// SenderPublicKey primitives.Ed25519PublicKey
 	// Signature primitives.Ed25519Sig
 
 	// internal
@@ -229,15 +229,15 @@ func (x *LeanHelixSenderSignature) Equal(y *LeanHelixSenderSignature) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixSenderSignature) SenderPublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(0))
+func (x *LeanHelixSenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
 }
 
 func (x *LeanHelixSenderSignature) RawSenderPublicKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixSenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pkey) error {
+func (x *LeanHelixSenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
@@ -264,7 +264,7 @@ func (x *LeanHelixSenderSignature) StringSignature() string {
 // builder
 
 type LeanHelixSenderSignatureBuilder struct {
-	SenderPublicKey primitives.Ed25519Pkey
+	SenderPublicKey primitives.Ed25519PublicKey
 	Signature primitives.Ed25519Sig
 
 	// internal

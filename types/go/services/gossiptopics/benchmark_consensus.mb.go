@@ -47,7 +47,7 @@ func (x *BenchmarkConsensusCommitInput) StringMessage() (res string) {
 // message BenchmarkConsensusCommittedInput (non serializable)
 
 type BenchmarkConsensusCommittedInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519PublicKey
 	Message *gossipmessages.BenchmarkConsensusCommittedMessage
 }
 

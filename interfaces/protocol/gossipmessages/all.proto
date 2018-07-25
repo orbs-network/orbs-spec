@@ -12,7 +12,7 @@ import "../protocol/consensus/benchmark_consensus.proto";
 message Header {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
-    repeated primitives.ed25519_pkey recipient_public_keys = 3;
+    repeated primitives.ed25519_public_key recipient_public_keys = 3;
     RecipientsListMode recipient_mode = 4;
     oneof topic {
         gossipmessages.TransactionsRelayMessageType transaction_relay = 5;
@@ -23,7 +23,7 @@ message Header {
 }
 
 message SenderSignature {
-    primitives.ed25519_pkey sender_public_key = 1;
+    primitives.ed25519_public_key sender_public_key = 1;
     primitives.ed25519_sig signature = 2;
 }
 

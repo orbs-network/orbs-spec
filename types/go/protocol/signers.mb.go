@@ -151,7 +151,7 @@ func (w *SignerBuilder) Build() *Signer {
 
 type EdDSA01Signer struct {
 	// NetworkType SignerNetworkType
-	// SignerPublicKey primitives.Ed25519Pkey
+	// SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
 	// implements membuffers.Message
@@ -208,15 +208,15 @@ func (x *EdDSA01Signer) StringNetworkType() string {
 	return x.NetworkType().String()
 }
 
-func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519Pkey {
-	return primitives.Ed25519Pkey(x._message.GetBytes(1))
+func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(x._message.GetBytes(1))
 }
 
 func (x *EdDSA01Signer) RawSignerPublicKey() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519Pkey) error {
+func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
@@ -228,7 +228,7 @@ func (x *EdDSA01Signer) StringSignerPublicKey() string {
 
 type EdDSA01SignerBuilder struct {
 	NetworkType SignerNetworkType
-	SignerPublicKey primitives.Ed25519Pkey
+	SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
 	// implements membuffers.Builder

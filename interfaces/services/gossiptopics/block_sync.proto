@@ -31,16 +31,16 @@ message BlockAvailabilityRequestInput {
 }
 
 message BlockAvailabilityResponseInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
+    primitives.ed25519_public_key recipient_public_key = 1;
     gossipmessages.BlockAvailabilityResponseMessage message = 2;
 }
 
 message BlockSyncRequestInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
+    primitives.ed25519_public_key recipient_public_key = 1;
     gossipmessages.BlockSyncRequestMessage message = 2;
 }
 
 message BlockSyncResponseInput {
-    primitives.ed25519_pkey recipient_public_key = 1;
+    primitives.ed25519_public_key recipient_public_key = 1;
     gossipmessages.BlockSyncResponseMessage message = 2;
 }

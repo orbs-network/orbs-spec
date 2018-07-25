@@ -51,7 +51,7 @@ func (x *BlockAvailabilityRequestInput) StringMessage() (res string) {
 // message BlockAvailabilityResponseInput (non serializable)
 
 type BlockAvailabilityResponseInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519PublicKey
 	Message *gossipmessages.BlockAvailabilityResponseMessage
 }
 
@@ -76,7 +76,7 @@ func (x *BlockAvailabilityResponseInput) StringMessage() (res string) {
 // message BlockSyncRequestInput (non serializable)
 
 type BlockSyncRequestInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519PublicKey
 	Message *gossipmessages.BlockSyncRequestMessage
 }
 
@@ -101,7 +101,7 @@ func (x *BlockSyncRequestInput) StringMessage() (res string) {
 // message BlockSyncResponseInput (non serializable)
 
 type BlockSyncResponseInput struct {
-	RecipientPublicKey primitives.Ed25519Pkey
+	RecipientPublicKey primitives.Ed25519PublicKey
 	Message *gossipmessages.BlockSyncResponseMessage
 }
 

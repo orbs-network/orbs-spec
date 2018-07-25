@@ -8,7 +8,7 @@ import "../protocol/gossipmessages/all.proto";
 option serialize_messages = false;
 
 message RecipientsList {
-    repeated primitives.ed25519_pkey recipient_public_keys = 1;
+    repeated primitives.ed25519_public_key recipient_public_keys = 1;
     gossipmessages.RecipientsListMode recipient_mode = 2;
 }
 
