@@ -25,6 +25,9 @@ type SendTransactionInput struct {
 }
 
 func (x *SendTransactionInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
@@ -41,6 +44,9 @@ type SendTransactionOutput struct {
 }
 
 func (x *SendTransactionOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 
@@ -57,6 +63,9 @@ type CallMethodInput struct {
 }
 
 func (x *CallMethodInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
@@ -73,6 +82,9 @@ type CallMethodOutput struct {
 }
 
 func (x *CallMethodOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 
@@ -89,6 +101,9 @@ type GetTransactionStatusInput struct {
 }
 
 func (x *GetTransactionStatusInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
@@ -105,6 +120,9 @@ type GetTransactionStatusOutput struct {
 }
 
 func (x *GetTransactionStatusOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 

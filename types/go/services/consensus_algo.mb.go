@@ -37,6 +37,9 @@ type OnNewConsensusRoundInput struct {
 }
 
 func (x *OnNewConsensusRoundInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -47,6 +50,9 @@ type OnNewConsensusRoundOutput struct {
 }
 
 func (x *OnNewConsensusRoundOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

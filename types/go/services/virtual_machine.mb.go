@@ -27,6 +27,9 @@ type ProcessTransactionSetInput struct {
 }
 
 func (x *ProcessTransactionSetInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
 }
 
@@ -53,6 +56,9 @@ type ProcessTransactionSetOutput struct {
 }
 
 func (x *ProcessTransactionSetOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionReceipts:%s,ContractStateDiffs:%s,}", x.StringTransactionReceipts(), x.StringContractStateDiffs())
 }
 
@@ -83,6 +89,9 @@ type RunLocalMethodInput struct {
 }
 
 func (x *RunLocalMethodInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,Transaction:%s,}", x.StringBlockHeight(), x.StringTransaction())
 }
 
@@ -107,6 +116,9 @@ type RunLocalMethodOutput struct {
 }
 
 func (x *RunLocalMethodOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{CallResult:%s,OutputArguments:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArguments(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
 }
 
@@ -143,6 +155,9 @@ type TransactionSetPreOrderInput struct {
 }
 
 func (x *TransactionSetPreOrderInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
 }
 
@@ -168,6 +183,9 @@ type TransactionSetPreOrderOutput struct {
 }
 
 func (x *TransactionSetPreOrderOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{PreOrderResults:%s,}", x.StringPreOrderResults())
 }
 

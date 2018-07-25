@@ -36,6 +36,9 @@ type BlockAvailabilityRequestInput struct {
 }
 
 func (x *BlockAvailabilityRequestInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Message:%s,}", x.StringMessage())
 }
 
@@ -53,6 +56,9 @@ type BlockAvailabilityResponseInput struct {
 }
 
 func (x *BlockAvailabilityResponseInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
 }
 
@@ -75,6 +81,9 @@ type BlockSyncRequestInput struct {
 }
 
 func (x *BlockSyncRequestInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
 }
 
@@ -97,6 +106,9 @@ type BlockSyncResponseInput struct {
 }
 
 func (x *BlockSyncResponseInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
 }
 

@@ -21,6 +21,9 @@ type TempKillMeTransactionRelay struct {
 }
 
 func (x *TempKillMeTransactionRelay) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -105,6 +108,9 @@ type ForwardedTransactionsMessage struct {
 }
 
 func (x *ForwardedTransactionsMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Sender:%s,SignedTransactions:%s,}", x.StringSender(), x.StringSignedTransactions())
 }
 

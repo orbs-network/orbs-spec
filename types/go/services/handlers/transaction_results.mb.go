@@ -24,6 +24,9 @@ type HandleTransactionResultsInput struct {
 }
 
 func (x *HandleTransactionResultsInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionReceipts:%s,BlockHeight:%s,Timestamp:%s,}", x.StringTransactionReceipts(), x.StringBlockHeight(), x.StringTimestamp())
 }
 
@@ -53,6 +56,9 @@ type HandleTransactionResultsOutput struct {
 }
 
 func (x *HandleTransactionResultsOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

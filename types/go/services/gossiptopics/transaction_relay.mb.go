@@ -29,6 +29,9 @@ type ForwardedTransactionsInput struct {
 }
 
 func (x *ForwardedTransactionsInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Message:%s,}", x.StringMessage())
 }
 

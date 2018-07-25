@@ -23,6 +23,9 @@ type SendTransactionRequest struct {
 }
 
 func (x *SendTransactionRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedTransaction:%s,}", x.StringSignedTransaction())
 }
 
@@ -133,6 +136,9 @@ type SendTransactionResponse struct {
 }
 
 func (x *SendTransactionResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -205,7 +211,7 @@ func (x *SendTransactionResponse) MutateBlockHeight(v primitives.BlockHeight) er
 }
 
 func (x *SendTransactionResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *SendTransactionResponse) BlockTimestamp() primitives.TimestampNano {
@@ -221,7 +227,7 @@ func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.TimestampNan
 }
 
 func (x *SendTransactionResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%x", x.BlockTimestamp())
+	return fmt.Sprintf("%s", x.BlockTimestamp())
 }
 
 // builder
@@ -294,6 +300,9 @@ type CallMethodRequest struct {
 }
 
 func (x *CallMethodRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Transaction:%s,}", x.StringTransaction())
 }
 
@@ -404,6 +413,9 @@ type CallMethodResponse struct {
 }
 
 func (x *CallMethodResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -493,7 +505,7 @@ func (x *CallMethodResponse) MutateBlockHeight(v primitives.BlockHeight) error {
 }
 
 func (x *CallMethodResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *CallMethodResponse) BlockTimestamp() primitives.TimestampNano {
@@ -509,7 +521,7 @@ func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.TimestampNano) er
 }
 
 func (x *CallMethodResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%x", x.BlockTimestamp())
+	return fmt.Sprintf("%s", x.BlockTimestamp())
 }
 
 // builder
@@ -591,6 +603,9 @@ type GetTransactionStatusRequest struct {
 }
 
 func (x *GetTransactionStatusRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionTimestamp:%s,Txhash:%s,}", x.StringTransactionTimestamp(), x.StringTxhash())
 }
 
@@ -634,7 +649,7 @@ func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.Ti
 }
 
 func (x *GetTransactionStatusRequest) StringTransactionTimestamp() string {
-	return fmt.Sprintf("%x", x.TransactionTimestamp())
+	return fmt.Sprintf("%s", x.TransactionTimestamp())
 }
 
 func (x *GetTransactionStatusRequest) Txhash() primitives.Sha256 {
@@ -650,7 +665,7 @@ func (x *GetTransactionStatusRequest) MutateTxhash(v primitives.Sha256) error {
 }
 
 func (x *GetTransactionStatusRequest) StringTxhash() string {
-	return fmt.Sprintf("%x", x.Txhash())
+	return fmt.Sprintf("%s", x.Txhash())
 }
 
 // builder
@@ -719,6 +734,9 @@ type GetTransactionStatusResponse struct {
 }
 
 func (x *GetTransactionStatusResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -791,7 +809,7 @@ func (x *GetTransactionStatusResponse) MutateBlockHeight(v primitives.BlockHeigh
 }
 
 func (x *GetTransactionStatusResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.TimestampNano {
@@ -807,7 +825,7 @@ func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.Timesta
 }
 
 func (x *GetTransactionStatusResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%x", x.BlockTimestamp())
+	return fmt.Sprintf("%s", x.BlockTimestamp())
 }
 
 // builder

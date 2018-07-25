@@ -27,6 +27,9 @@ type ReadKeysInput struct {
 }
 
 func (x *ReadKeysInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,ContractName:%s,Keys:%s,}", x.StringBlockHeight(), x.StringContractName(), x.StringKeys())
 }
 
@@ -57,6 +60,9 @@ type ReadKeysOutput struct {
 }
 
 func (x *ReadKeysOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{StateRecords:%s,}", x.StringStateRecords())
 }
 
@@ -76,6 +82,9 @@ type GetStateStorageBlockHeightInput struct {
 }
 
 func (x *GetStateStorageBlockHeightInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -88,6 +97,9 @@ type GetStateStorageBlockHeightOutput struct {
 }
 
 func (x *GetStateStorageBlockHeightOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp())
 }
 
@@ -110,6 +122,9 @@ type CommitStateDiffInput struct {
 }
 
 func (x *CommitStateDiffInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlockHeader:%s,ContractStateDiffs:%s,}", x.StringResultsBlockHeader(), x.StringContractStateDiffs())
 }
 
@@ -135,6 +150,9 @@ type CommitStateDiffOutput struct {
 }
 
 func (x *CommitStateDiffOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{NextDesiredBlockHeight:%s,}", x.StringNextDesiredBlockHeight())
 }
 
@@ -151,6 +169,9 @@ type GetStateHashInput struct {
 }
 
 func (x *GetStateHashInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
 }
 
@@ -167,6 +188,9 @@ type GetStateHashOutput struct {
 }
 
 func (x *GetStateHashOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{StateRootHash:%s,}", x.StringStateRootHash())
 }
 

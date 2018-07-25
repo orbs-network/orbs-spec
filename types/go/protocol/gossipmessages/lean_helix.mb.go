@@ -20,6 +20,9 @@ type LeanHelixPrePrepareMessage struct {
 }
 
 func (x *LeanHelixPrePrepareMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
 }
 
@@ -47,6 +50,9 @@ type LeanHelixPrepareMessage struct {
 }
 
 func (x *LeanHelixPrepareMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,}", x.StringSignedHeader(), x.StringSender())
 }
 
@@ -70,6 +76,9 @@ type LeanHelixCommitMessage struct {
 }
 
 func (x *LeanHelixCommitMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,Share:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringShare())
 }
 
@@ -98,6 +107,9 @@ type LeanHelixViewChangeMessage struct {
 }
 
 func (x *LeanHelixViewChangeMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
 }
 
@@ -126,6 +138,9 @@ type LeanHelixNewViewMessage struct {
 }
 
 func (x *LeanHelixNewViewMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
 }
 
@@ -158,6 +173,9 @@ type LeanHelixRandomSeedShare struct {
 }
 
 func (x *LeanHelixRandomSeedShare) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RandomSeedShare:%s,}", x.StringRandomSeedShare())
 }
 
@@ -201,7 +219,7 @@ func (x *LeanHelixRandomSeedShare) MutateRandomSeedShare(v primitives.Bls1Sig) e
 }
 
 func (x *LeanHelixRandomSeedShare) StringRandomSeedShare() string {
-	return fmt.Sprintf("%x", x.RandomSeedShare())
+	return fmt.Sprintf("%s", x.RandomSeedShare())
 }
 
 // builder
@@ -268,6 +286,9 @@ type LeanHelixViewChangeHeader struct {
 }
 
 func (x *LeanHelixViewChangeHeader) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,PreparedProof:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringPreparedProof())
 }
 
@@ -327,7 +348,7 @@ func (x *LeanHelixViewChangeHeader) MutateBlockHeight(v primitives.BlockHeight) 
 }
 
 func (x *LeanHelixViewChangeHeader) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *LeanHelixViewChangeHeader) View() uint32 {
@@ -430,6 +451,9 @@ type LeanHelixPreparedProof struct {
 }
 
 func (x *LeanHelixPreparedProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockRef:%s,Senders:%s,}", x.StringBlockRef(), x.StringSenders())
 }
 
@@ -585,6 +609,9 @@ type LeanHelixNewViewHeader struct {
 }
 
 func (x *LeanHelixNewViewHeader) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,NewViewProof:%s,NewViewPrePrepareSignedHeader:%s,NewViewPrePrepareSender:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringNewViewProof(), x.StringNewViewPrePrepareSignedHeader(), x.StringNewViewPrePrepareSender())
 }
 
@@ -644,7 +671,7 @@ func (x *LeanHelixNewViewHeader) MutateBlockHeight(v primitives.BlockHeight) err
 }
 
 func (x *LeanHelixNewViewHeader) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *LeanHelixNewViewHeader) View() uint32 {
@@ -783,6 +810,9 @@ type LeanHelixNewViewProof struct {
 }
 
 func (x *LeanHelixNewViewProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ViewChangeSignedHeaders:%s,ViewChangeSenders:%s,}", x.StringViewChangeSignedHeaders(), x.StringViewChangeSenders())
 }
 

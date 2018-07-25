@@ -28,6 +28,9 @@ type Transaction struct {
 }
 
 func (x *Transaction) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,Timestamp:%s,Signer:%s,ContractName:%s,MethodName:%s,InputArguments:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTimestamp(), x.StringSigner(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments())
 }
 
@@ -71,7 +74,7 @@ func (x *Transaction) MutateProtocolVersion(v primitives.ProtocolVersion) error 
 }
 
 func (x *Transaction) StringProtocolVersion() string {
-	return fmt.Sprintf("%x", x.ProtocolVersion())
+	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
 func (x *Transaction) VirtualChainId() primitives.VirtualChainId {
@@ -87,7 +90,7 @@ func (x *Transaction) MutateVirtualChainId(v primitives.VirtualChainId) error {
 }
 
 func (x *Transaction) StringVirtualChainId() string {
-	return fmt.Sprintf("%x", x.VirtualChainId())
+	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
 func (x *Transaction) Timestamp() primitives.TimestampNano {
@@ -103,7 +106,7 @@ func (x *Transaction) MutateTimestamp(v primitives.TimestampNano) error {
 }
 
 func (x *Transaction) StringTimestamp() string {
-	return fmt.Sprintf("%x", x.Timestamp())
+	return fmt.Sprintf("%s", x.Timestamp())
 }
 
 func (x *Transaction) Signer() *Signer {
@@ -132,7 +135,7 @@ func (x *Transaction) MutateContractName(v primitives.ContractName) error {
 }
 
 func (x *Transaction) StringContractName() string {
-	return fmt.Sprintf("%x", x.ContractName())
+	return fmt.Sprintf("%s", x.ContractName())
 }
 
 func (x *Transaction) MethodName() primitives.MethodName {
@@ -148,7 +151,7 @@ func (x *Transaction) MutateMethodName(v primitives.MethodName) error {
 }
 
 func (x *Transaction) StringMethodName() string {
-	return fmt.Sprintf("%x", x.MethodName())
+	return fmt.Sprintf("%s", x.MethodName())
 }
 
 func (x *Transaction) InputArgumentsIterator() *TransactionInputArgumentsIterator {
@@ -269,6 +272,9 @@ type SignedTransaction struct {
 }
 
 func (x *SignedTransaction) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Transaction:%s,Signature:%s,}", x.StringTransaction(), x.StringSignature())
 }
 
@@ -396,6 +402,9 @@ type TransactionReceipt struct {
 }
 
 func (x *TransactionReceipt) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArguments:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArguments())
 }
 
@@ -439,7 +448,7 @@ func (x *TransactionReceipt) MutateTxhash(v primitives.Sha256) error {
 }
 
 func (x *TransactionReceipt) StringTxhash() string {
-	return fmt.Sprintf("%x", x.Txhash())
+	return fmt.Sprintf("%s", x.Txhash())
 }
 
 func (x *TransactionReceipt) ExecutionResult() ExecutionResult {

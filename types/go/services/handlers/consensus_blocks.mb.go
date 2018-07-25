@@ -28,6 +28,9 @@ type HandleTransactionsBlockInput struct {
 }
 
 func (x *HandleTransactionsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionsBlockHeader:%s,TransactionsBlockMetadata:%s,TransactionsBlockProof:%s,PrevCommittedTransactionsBlockHeader:%s,PrevCommittedTransactionsBlockMetadata:%s,PrevCommittedTransactionsBlockProof:%s,PrevCommittedResultsBlockProof:%s,}", x.StringTransactionsBlockHeader(), x.StringTransactionsBlockMetadata(), x.StringTransactionsBlockProof(), x.StringPrevCommittedTransactionsBlockHeader(), x.StringPrevCommittedTransactionsBlockMetadata(), x.StringPrevCommittedTransactionsBlockProof(), x.StringPrevCommittedResultsBlockProof())
 }
 
@@ -73,6 +76,9 @@ type HandleTransactionsBlockOutput struct {
 }
 
 func (x *HandleTransactionsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -89,6 +95,9 @@ type HandleResultsBlockInput struct {
 }
 
 func (x *HandleResultsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlockHeader:%s,ResultsBlockProof:%s,PrevResultsBlockHeader:%s,PrevCommittedTransactionsBlockMetadata:%s,PrevCommittedTransactionsBlockProof:%s,PrevCommittedResultsBlockProof:%s,}", x.StringResultsBlockHeader(), x.StringResultsBlockProof(), x.StringPrevResultsBlockHeader(), x.StringPrevCommittedTransactionsBlockMetadata(), x.StringPrevCommittedTransactionsBlockProof(), x.StringPrevCommittedResultsBlockProof())
 }
 
@@ -129,6 +138,9 @@ type HandleResultsBlockOutput struct {
 }
 
 func (x *HandleResultsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

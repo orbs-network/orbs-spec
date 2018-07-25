@@ -31,6 +31,9 @@ type CommitBlockInput struct {
 }
 
 func (x *CommitBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
 }
 
@@ -46,6 +49,9 @@ type CommitBlockOutput struct {
 }
 
 func (x *CommitBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -57,6 +63,9 @@ type GetTransactionsBlockHeaderInput struct {
 }
 
 func (x *GetTransactionsBlockHeaderInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
 }
 
@@ -75,6 +84,9 @@ type GetTransactionsBlockHeaderOutput struct {
 }
 
 func (x *GetTransactionsBlockHeaderOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionsBlockHeader:%s,TransactionsBlockMetadata:%s,TransactionsBlockProof:%s,}", x.StringTransactionsBlockHeader(), x.StringTransactionsBlockMetadata(), x.StringTransactionsBlockProof())
 }
 
@@ -101,6 +113,9 @@ type GetResultsBlockHeaderInput struct {
 }
 
 func (x *GetResultsBlockHeaderInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
 }
 
@@ -118,6 +133,9 @@ type GetResultsBlockHeaderOutput struct {
 }
 
 func (x *GetResultsBlockHeaderOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlockHeader:%s,ResultsBlockProof:%s,}", x.StringResultsBlockHeader(), x.StringResultsBlockProof())
 }
 
@@ -140,6 +158,9 @@ type GetTransactionReceiptInput struct {
 }
 
 func (x *GetTransactionReceiptInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Txhash:%s,TransactionTimestamp:%s,}", x.StringTxhash(), x.StringTransactionTimestamp())
 }
 
@@ -163,6 +184,9 @@ type GetTransactionReceiptOutput struct {
 }
 
 func (x *GetTransactionReceiptOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionReceipt:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionReceipt(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -188,6 +212,9 @@ type GetLastCommittedBlockHeightInput struct {
 }
 
 func (x *GetLastCommittedBlockHeightInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -200,6 +227,9 @@ type GetLastCommittedBlockHeightOutput struct {
 }
 
 func (x *GetLastCommittedBlockHeightOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp())
 }
 
@@ -221,6 +251,9 @@ type ValidateBlockForCommitInput struct {
 }
 
 func (x *ValidateBlockForCommitInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
 }
 
@@ -236,6 +269,9 @@ type ValidateBlockForCommitOutput struct {
 }
 
 func (x *ValidateBlockForCommitOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

@@ -30,6 +30,9 @@ type AddNewTransactionInput struct {
 }
 
 func (x *AddNewTransactionInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedTransaction:%s,}", x.StringSignedTransaction())
 }
 
@@ -49,6 +52,9 @@ type AddNewTransactionOutput struct {
 }
 
 func (x *AddNewTransactionOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionStatus:%s,TransactionReceipt:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringTransactionReceipt(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -81,6 +87,9 @@ type GetCommittedTransactionReceiptInput struct {
 }
 
 func (x *GetCommittedTransactionReceiptInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Txhash:%s,TransactionTimestamp:%s,}", x.StringTxhash(), x.StringTransactionTimestamp())
 }
 
@@ -105,6 +114,9 @@ type GetCommittedTransactionReceiptOutput struct {
 }
 
 func (x *GetCommittedTransactionReceiptOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionStatus:%s,TransactionReceipt:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringTransactionReceipt(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
@@ -138,6 +150,9 @@ type GetTransactionsForOrderingInput struct {
 }
 
 func (x *GetTransactionsForOrderingInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
 }
 
@@ -164,6 +179,9 @@ type GetTransactionsForOrderingOutput struct {
 }
 
 func (x *GetTransactionsForOrderingOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedTransactions:%s,}", x.StringSignedTransactions())
 }
 
@@ -185,6 +203,9 @@ type ValidateTransactionsForOrderingInput struct {
 }
 
 func (x *ValidateTransactionsForOrderingInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
 }
 
@@ -209,6 +230,9 @@ type ValidateTransactionsForOrderingOutput struct {
 }
 
 func (x *ValidateTransactionsForOrderingOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -222,6 +246,9 @@ type CommitTransactionReceiptsInput struct {
 }
 
 func (x *CommitTransactionReceiptsInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlockHeader:%s,TransactionReceipts:%s,LastCommittedBlockHeight:%s,}", x.StringResultsBlockHeader(), x.StringTransactionReceipts(), x.StringLastCommittedBlockHeight())
 }
 
@@ -253,6 +280,9 @@ type CommitTransactionReceiptsOutput struct {
 }
 
 func (x *CommitTransactionReceiptsOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{NextDesiredBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringNextDesiredBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 

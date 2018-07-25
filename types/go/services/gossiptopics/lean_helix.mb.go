@@ -38,6 +38,9 @@ type LeanHelixPrePrepareInput struct {
 }
 
 func (x *LeanHelixPrePrepareInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientsList:%s,Message:%s,}", x.StringRecipientsList(), x.StringMessage())
 }
 
@@ -60,6 +63,9 @@ type LeanHelixPrepareInput struct {
 }
 
 func (x *LeanHelixPrepareInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientsList:%s,Message:%s,}", x.StringRecipientsList(), x.StringMessage())
 }
 
@@ -82,6 +88,9 @@ type LeanHelixCommitInput struct {
 }
 
 func (x *LeanHelixCommitInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientsList:%s,Message:%s,}", x.StringRecipientsList(), x.StringMessage())
 }
 
@@ -104,6 +113,9 @@ type LeanHelixViewChangeInput struct {
 }
 
 func (x *LeanHelixViewChangeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientsList:%s,Message:%s,}", x.StringRecipientsList(), x.StringMessage())
 }
 
@@ -126,6 +138,9 @@ type LeanHelixNewViewInput struct {
 }
 
 func (x *LeanHelixNewViewInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientsList:%s,Message:%s,}", x.StringRecipientsList(), x.StringMessage())
 }
 

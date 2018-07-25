@@ -27,6 +27,9 @@ type Header struct {
 }
 
 func (x *Header) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic())
 }
 
@@ -70,7 +73,7 @@ func (x *Header) MutateProtocolVersion(v primitives.ProtocolVersion) error {
 }
 
 func (x *Header) StringProtocolVersion() string {
-	return fmt.Sprintf("%x", x.ProtocolVersion())
+	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
 func (x *Header) VirtualChainId() primitives.VirtualChainId {
@@ -86,7 +89,7 @@ func (x *Header) MutateVirtualChainId(v primitives.VirtualChainId) error {
 }
 
 func (x *Header) StringVirtualChainId() string {
-	return fmt.Sprintf("%x", x.VirtualChainId())
+	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
 func (x *Header) RecipientPublicKeysIterator() *HeaderRecipientPublicKeysIterator {
@@ -112,7 +115,7 @@ func (x *Header) RawRecipientPublicKeysArray() []byte {
 func (x *Header) StringRecipientPublicKeys() (res string) {
 	res = "["
 	for i := x.RecipientPublicKeysIterator(); i.HasNext(); {
-		res += fmt.Sprintf("%x", i.NextRecipientPublicKeys()) + ","
+		res += fmt.Sprintf("%s", i.NextRecipientPublicKeys()) + ","
 	}
 	res += "]"
 	return
@@ -349,6 +352,9 @@ type SenderSignature struct {
 }
 
 func (x *SenderSignature) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
@@ -392,7 +398,7 @@ func (x *SenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pkey) error 
 }
 
 func (x *SenderSignature) StringSenderPublicKey() string {
-	return fmt.Sprintf("%x", x.SenderPublicKey())
+	return fmt.Sprintf("%s", x.SenderPublicKey())
 }
 
 func (x *SenderSignature) Signature() primitives.Ed25519Sig {
@@ -408,7 +414,7 @@ func (x *SenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
 }
 
 func (x *SenderSignature) StringSignature() string {
-	return fmt.Sprintf("%x", x.Signature())
+	return fmt.Sprintf("%s", x.Signature())
 }
 
 // builder

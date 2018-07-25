@@ -18,6 +18,9 @@ type BlockAvailabilityRequestMessage struct {
 }
 
 func (x *BlockAvailabilityRequestMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
 }
 
@@ -40,6 +43,9 @@ type BlockAvailabilityResponseMessage struct {
 }
 
 func (x *BlockAvailabilityResponseMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
 }
 
@@ -62,6 +68,9 @@ type BlockSyncRequestMessage struct {
 }
 
 func (x *BlockSyncRequestMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
 }
 
@@ -85,6 +94,9 @@ type BlockSyncResponseMessage struct {
 }
 
 func (x *BlockSyncResponseMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SignedRange:%s,Sender:%s,BlockPairs:%s,}", x.StringSignedRange(), x.StringSender(), x.StringBlockPairs())
 }
 
@@ -124,6 +136,9 @@ type BlockSyncRange struct {
 }
 
 func (x *BlockSyncRange) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockType:%s,FirstAvailableBlockHeight:%s,LastAvailableBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstAvailableBlockHeight(), x.StringLastAvailableBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 
@@ -183,7 +198,7 @@ func (x *BlockSyncRange) MutateFirstAvailableBlockHeight(v primitives.BlockHeigh
 }
 
 func (x *BlockSyncRange) StringFirstAvailableBlockHeight() string {
-	return fmt.Sprintf("%x", x.FirstAvailableBlockHeight())
+	return fmt.Sprintf("%s", x.FirstAvailableBlockHeight())
 }
 
 func (x *BlockSyncRange) LastAvailableBlockHeight() primitives.BlockHeight {
@@ -199,7 +214,7 @@ func (x *BlockSyncRange) MutateLastAvailableBlockHeight(v primitives.BlockHeight
 }
 
 func (x *BlockSyncRange) StringLastAvailableBlockHeight() string {
-	return fmt.Sprintf("%x", x.LastAvailableBlockHeight())
+	return fmt.Sprintf("%s", x.LastAvailableBlockHeight())
 }
 
 func (x *BlockSyncRange) LastCommittedBlockHeight() primitives.BlockHeight {
@@ -215,7 +230,7 @@ func (x *BlockSyncRange) MutateLastCommittedBlockHeight(v primitives.BlockHeight
 }
 
 func (x *BlockSyncRange) StringLastCommittedBlockHeight() string {
-	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
+	return fmt.Sprintf("%s", x.LastCommittedBlockHeight())
 }
 
 // builder

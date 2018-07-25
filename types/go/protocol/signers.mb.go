@@ -22,6 +22,9 @@ type Signer struct {
 }
 
 func (x *Signer) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Scheme:%s,}", x.StringScheme())
 }
 
@@ -156,6 +159,9 @@ type EdDSA01Signer struct {
 }
 
 func (x *EdDSA01Signer) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{NetworkType:%s,SignerPublicKey:%s,}", x.StringNetworkType(), x.StringSignerPublicKey())
 }
 
@@ -215,7 +221,7 @@ func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519Pkey) error {
 }
 
 func (x *EdDSA01Signer) StringSignerPublicKey() string {
-	return fmt.Sprintf("%x", x.SignerPublicKey())
+	return fmt.Sprintf("%s", x.SignerPublicKey())
 }
 
 // builder

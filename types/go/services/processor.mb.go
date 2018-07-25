@@ -32,6 +32,9 @@ type ProcessCallInput struct {
 }
 
 func (x *ProcessCallInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArguments:%s,AccessScope:%s,PermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments(), x.StringAccessScope(), x.StringPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
 }
 
@@ -88,6 +91,9 @@ type ProcessCallOutput struct {
 }
 
 func (x *ProcessCallOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,}", x.StringOutputArguments(), x.StringCallResult())
 }
 
@@ -118,6 +124,9 @@ type DeployNativeServiceInput struct {
 }
 
 func (x *DeployNativeServiceInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ContextId:%s,ContractName:%s,AccessScope:%s,PermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringAccessScope(), x.StringPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
 }
 
@@ -158,6 +167,9 @@ type DeployNativeServiceOutput struct {
 }
 
 func (x *DeployNativeServiceOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

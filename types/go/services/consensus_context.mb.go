@@ -30,6 +30,9 @@ type RequestNewTransactionsBlockInput struct {
 }
 
 func (x *RequestNewTransactionsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,}", x.StringBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash())
 }
 
@@ -61,6 +64,9 @@ type RequestNewTransactionsBlockOutput struct {
 }
 
 func (x *RequestNewTransactionsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionsBlock:%s,}", x.StringTransactionsBlock())
 }
 
@@ -79,6 +85,9 @@ type RequestNewResultsBlockInput struct {
 }
 
 func (x *RequestNewResultsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
 }
 
@@ -105,6 +114,9 @@ type RequestNewResultsBlockOutput struct {
 }
 
 func (x *RequestNewResultsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlock:%s,}", x.StringResultsBlock())
 }
 
@@ -122,6 +134,9 @@ type ValidateTransactionsBlockInput struct {
 }
 
 func (x *ValidateTransactionsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionsBlock:%s,PrevBlockHash:%s,}", x.StringTransactionsBlock(), x.StringPrevBlockHash())
 }
 
@@ -142,6 +157,9 @@ type ValidateTransactionsBlockOutput struct {
 }
 
 func (x *ValidateTransactionsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -155,6 +173,9 @@ type ValidateResultsBlockInput struct {
 }
 
 func (x *ValidateResultsBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
 }
 
@@ -180,6 +201,9 @@ type ValidateResultsBlockOutput struct {
 }
 
 func (x *ValidateResultsBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -193,6 +217,9 @@ type RequestCommitteeInput struct {
 }
 
 func (x *RequestCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,}", x.StringBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize())
 }
 
@@ -220,6 +247,9 @@ type RequestCommitteeOutput struct {
 }
 
 func (x *RequestCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{NodePublicKeys:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodePublicKeys(), x.StringNodeRandomSeedPublicKeys())
 }
 

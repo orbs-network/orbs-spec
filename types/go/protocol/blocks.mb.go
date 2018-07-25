@@ -18,6 +18,9 @@ type BlockPairContainer struct {
 }
 
 func (x *BlockPairContainer) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{TransactionsBlock:%s,ResultsBlock:%s,}", x.StringTransactionsBlock(), x.StringResultsBlock())
 }
 
@@ -42,6 +45,9 @@ type TransactionsBlockContainer struct {
 }
 
 func (x *TransactionsBlockContainer) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Header:%s,Metadata:%s,SignedTransactions:%s,BlockProof:%s,}", x.StringHeader(), x.StringMetadata(), x.StringSignedTransactions(), x.StringBlockProof())
 }
 
@@ -80,6 +86,9 @@ type ResultsBlockContainer struct {
 }
 
 func (x *ResultsBlockContainer) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Header:%s,TransactionReceipts:%s,ContractStateDiffs:%s,BlockProof:%s,}", x.StringHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringBlockProof())
 }
 
@@ -132,6 +141,9 @@ type TransactionsBlockHeader struct {
 }
 
 func (x *TransactionsBlockHeader) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions())
 }
 
@@ -175,7 +187,7 @@ func (x *TransactionsBlockHeader) MutateProtocolVersion(v primitives.ProtocolVer
 }
 
 func (x *TransactionsBlockHeader) StringProtocolVersion() string {
-	return fmt.Sprintf("%x", x.ProtocolVersion())
+	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
 func (x *TransactionsBlockHeader) VirtualChainId() primitives.VirtualChainId {
@@ -191,7 +203,7 @@ func (x *TransactionsBlockHeader) MutateVirtualChainId(v primitives.VirtualChain
 }
 
 func (x *TransactionsBlockHeader) StringVirtualChainId() string {
-	return fmt.Sprintf("%x", x.VirtualChainId())
+	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
 func (x *TransactionsBlockHeader) BlockHeight() primitives.BlockHeight {
@@ -207,7 +219,7 @@ func (x *TransactionsBlockHeader) MutateBlockHeight(v primitives.BlockHeight) er
 }
 
 func (x *TransactionsBlockHeader) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *TransactionsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
@@ -223,7 +235,7 @@ func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) er
 }
 
 func (x *TransactionsBlockHeader) StringPrevBlockHashPtr() string {
-	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
+	return fmt.Sprintf("%s", x.PrevBlockHashPtr())
 }
 
 func (x *TransactionsBlockHeader) Timestamp() primitives.TimestampNano {
@@ -239,7 +251,7 @@ func (x *TransactionsBlockHeader) MutateTimestamp(v primitives.TimestampNano) er
 }
 
 func (x *TransactionsBlockHeader) StringTimestamp() string {
-	return fmt.Sprintf("%x", x.Timestamp())
+	return fmt.Sprintf("%s", x.Timestamp())
 }
 
 func (x *TransactionsBlockHeader) TransactionsRootHash() primitives.MerkleSha256 {
@@ -255,7 +267,7 @@ func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v primitives.Merkle
 }
 
 func (x *TransactionsBlockHeader) StringTransactionsRootHash() string {
-	return fmt.Sprintf("%x", x.TransactionsRootHash())
+	return fmt.Sprintf("%s", x.TransactionsRootHash())
 }
 
 func (x *TransactionsBlockHeader) MetadataHash() primitives.Sha256 {
@@ -271,7 +283,7 @@ func (x *TransactionsBlockHeader) MutateMetadataHash(v primitives.Sha256) error 
 }
 
 func (x *TransactionsBlockHeader) StringMetadataHash() string {
-	return fmt.Sprintf("%x", x.MetadataHash())
+	return fmt.Sprintf("%s", x.MetadataHash())
 }
 
 func (x *TransactionsBlockHeader) NumSignedTransactions() uint32 {
@@ -377,6 +389,9 @@ type ResultsBlockHeader struct {
 }
 
 func (x *ResultsBlockHeader) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,TxhashBloomFilter:%s,TimestampBloomFilter:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringTxhashBloomFilter(), x.StringTimestampBloomFilter(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
 }
 
@@ -420,7 +435,7 @@ func (x *ResultsBlockHeader) MutateProtocolVersion(v primitives.ProtocolVersion)
 }
 
 func (x *ResultsBlockHeader) StringProtocolVersion() string {
-	return fmt.Sprintf("%x", x.ProtocolVersion())
+	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
 func (x *ResultsBlockHeader) VirtualChainId() primitives.VirtualChainId {
@@ -436,7 +451,7 @@ func (x *ResultsBlockHeader) MutateVirtualChainId(v primitives.VirtualChainId) e
 }
 
 func (x *ResultsBlockHeader) StringVirtualChainId() string {
-	return fmt.Sprintf("%x", x.VirtualChainId())
+	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
 func (x *ResultsBlockHeader) BlockHeight() primitives.BlockHeight {
@@ -452,7 +467,7 @@ func (x *ResultsBlockHeader) MutateBlockHeight(v primitives.BlockHeight) error {
 }
 
 func (x *ResultsBlockHeader) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *ResultsBlockHeader) PrevBlockHashPtr() primitives.Sha256 {
@@ -468,7 +483,7 @@ func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 }
 
 func (x *ResultsBlockHeader) StringPrevBlockHashPtr() string {
-	return fmt.Sprintf("%x", x.PrevBlockHashPtr())
+	return fmt.Sprintf("%s", x.PrevBlockHashPtr())
 }
 
 func (x *ResultsBlockHeader) Timestamp() primitives.TimestampNano {
@@ -484,7 +499,7 @@ func (x *ResultsBlockHeader) MutateTimestamp(v primitives.TimestampNano) error {
 }
 
 func (x *ResultsBlockHeader) StringTimestamp() string {
-	return fmt.Sprintf("%x", x.Timestamp())
+	return fmt.Sprintf("%s", x.Timestamp())
 }
 
 func (x *ResultsBlockHeader) ReceiptsRootHash() primitives.MerkleSha256 {
@@ -500,7 +515,7 @@ func (x *ResultsBlockHeader) MutateReceiptsRootHash(v primitives.MerkleSha256) e
 }
 
 func (x *ResultsBlockHeader) StringReceiptsRootHash() string {
-	return fmt.Sprintf("%x", x.ReceiptsRootHash())
+	return fmt.Sprintf("%s", x.ReceiptsRootHash())
 }
 
 func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
@@ -516,7 +531,7 @@ func (x *ResultsBlockHeader) MutateStateDiffHash(v primitives.Sha256) error {
 }
 
 func (x *ResultsBlockHeader) StringStateDiffHash() string {
-	return fmt.Sprintf("%x", x.StateDiffHash())
+	return fmt.Sprintf("%s", x.StateDiffHash())
 }
 
 func (x *ResultsBlockHeader) TransactionsBlockHashPtr() primitives.Sha256 {
@@ -532,7 +547,7 @@ func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v primitives.Sha256)
 }
 
 func (x *ResultsBlockHeader) StringTransactionsBlockHashPtr() string {
-	return fmt.Sprintf("%x", x.TransactionsBlockHashPtr())
+	return fmt.Sprintf("%s", x.TransactionsBlockHashPtr())
 }
 
 func (x *ResultsBlockHeader) PreExecutionStateRootHash() primitives.MerkleSha256 {
@@ -548,7 +563,7 @@ func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v primitives.Merkle
 }
 
 func (x *ResultsBlockHeader) StringPreExecutionStateRootHash() string {
-	return fmt.Sprintf("%x", x.PreExecutionStateRootHash())
+	return fmt.Sprintf("%s", x.PreExecutionStateRootHash())
 }
 
 func (x *ResultsBlockHeader) TxhashBloomFilter() primitives.BloomFilter {
@@ -564,7 +579,7 @@ func (x *ResultsBlockHeader) MutateTxhashBloomFilter(v primitives.BloomFilter) e
 }
 
 func (x *ResultsBlockHeader) StringTxhashBloomFilter() string {
-	return fmt.Sprintf("%x", x.TxhashBloomFilter())
+	return fmt.Sprintf("%s", x.TxhashBloomFilter())
 }
 
 func (x *ResultsBlockHeader) TimestampBloomFilter() primitives.BloomFilter {
@@ -580,7 +595,7 @@ func (x *ResultsBlockHeader) MutateTimestampBloomFilter(v primitives.BloomFilter
 }
 
 func (x *ResultsBlockHeader) StringTimestampBloomFilter() string {
-	return fmt.Sprintf("%x", x.TimestampBloomFilter())
+	return fmt.Sprintf("%s", x.TimestampBloomFilter())
 }
 
 func (x *ResultsBlockHeader) NumTransactionReceipts() uint32 {
@@ -699,6 +714,9 @@ type TransactionsBlockMetadata struct {
 }
 
 func (x *TransactionsBlockMetadata) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -788,6 +806,9 @@ type TransactionsBlockProof struct {
 }
 
 func (x *TransactionsBlockProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Type:%s,}", x.StringType())
 }
 
@@ -942,6 +963,9 @@ type ResultsBlockProof struct {
 }
 
 func (x *ResultsBlockProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Type:%s,}", x.StringType())
 }
 

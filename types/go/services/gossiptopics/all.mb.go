@@ -16,6 +16,9 @@ type RecipientsList struct {
 }
 
 func (x *RecipientsList) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientPublicKeys:%s,RecipientMode:%s,}", x.StringRecipientPublicKeys(), x.StringRecipientMode())
 }
 
@@ -40,6 +43,9 @@ type EmptyOutput struct {
 }
 
 func (x *EmptyOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 

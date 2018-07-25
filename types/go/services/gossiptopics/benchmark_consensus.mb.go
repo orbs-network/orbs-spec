@@ -32,6 +32,9 @@ type BenchmarkConsensusCommitInput struct {
 }
 
 func (x *BenchmarkConsensusCommitInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Message:%s,}", x.StringMessage())
 }
 
@@ -49,6 +52,9 @@ type BenchmarkConsensusCommittedInput struct {
 }
 
 func (x *BenchmarkConsensusCommittedInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
 }
 

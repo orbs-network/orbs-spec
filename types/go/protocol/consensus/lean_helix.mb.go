@@ -24,6 +24,9 @@ type LeanHelixBlockProof struct {
 }
 
 func (x *LeanHelixBlockProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockRef:%s,Nodes:%s,RandomSeedSignature:%s,}", x.StringBlockRef(), x.StringNodes(), x.StringRandomSeedSignature())
 }
 
@@ -110,7 +113,7 @@ func (x *LeanHelixBlockProof) MutateRandomSeedSignature(v primitives.Bls1Sig) er
 }
 
 func (x *LeanHelixBlockProof) StringRandomSeedSignature() string {
-	return fmt.Sprintf("%x", x.RandomSeedSignature())
+	return fmt.Sprintf("%s", x.RandomSeedSignature())
 }
 
 // builder
@@ -193,6 +196,9 @@ type LeanHelixSenderSignature struct {
 }
 
 func (x *LeanHelixSenderSignature) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
@@ -236,7 +242,7 @@ func (x *LeanHelixSenderSignature) MutateSenderPublicKey(v primitives.Ed25519Pke
 }
 
 func (x *LeanHelixSenderSignature) StringSenderPublicKey() string {
-	return fmt.Sprintf("%x", x.SenderPublicKey())
+	return fmt.Sprintf("%s", x.SenderPublicKey())
 }
 
 func (x *LeanHelixSenderSignature) Signature() primitives.Ed25519Sig {
@@ -252,7 +258,7 @@ func (x *LeanHelixSenderSignature) MutateSignature(v primitives.Ed25519Sig) erro
 }
 
 func (x *LeanHelixSenderSignature) StringSignature() string {
-	return fmt.Sprintf("%x", x.Signature())
+	return fmt.Sprintf("%s", x.Signature())
 }
 
 // builder
@@ -321,6 +327,9 @@ type LeanHelixBlockRef struct {
 }
 
 func (x *LeanHelixBlockRef) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,BlockHash:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringBlockHash())
 }
 
@@ -380,7 +389,7 @@ func (x *LeanHelixBlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
 }
 
 func (x *LeanHelixBlockRef) StringBlockHeight() string {
-	return fmt.Sprintf("%x", x.BlockHeight())
+	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
 func (x *LeanHelixBlockRef) View() uint32 {
@@ -412,7 +421,7 @@ func (x *LeanHelixBlockRef) MutateBlockHash(v primitives.Uint256) error {
 }
 
 func (x *LeanHelixBlockRef) StringBlockHash() string {
-	return fmt.Sprintf("%x", x.BlockHash())
+	return fmt.Sprintf("%s", x.BlockHash())
 }
 
 // builder

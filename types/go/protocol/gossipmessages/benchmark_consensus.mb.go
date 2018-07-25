@@ -22,6 +22,9 @@ type TempKillMeBenchmarkConsensus struct {
 }
 
 func (x *TempKillMeBenchmarkConsensus) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{}")
 }
 
@@ -105,6 +108,9 @@ type BenchmarkConsensusCommitMessage struct {
 }
 
 func (x *BenchmarkConsensusCommitMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
 }
 
@@ -122,6 +128,9 @@ type BenchmarkConsensusCommittedMessage struct {
 }
 
 func (x *BenchmarkConsensusCommittedMessage) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Status:%s,Sender:%s,}", x.StringStatus(), x.StringSender())
 }
 
@@ -149,6 +158,9 @@ type BenchmarkConsensusStatus struct {
 }
 
 func (x *BenchmarkConsensusStatus) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{LastCommittedBlockHeight:%s,}", x.StringLastCommittedBlockHeight())
 }
 
@@ -192,7 +204,7 @@ func (x *BenchmarkConsensusStatus) MutateLastCommittedBlockHeight(v primitives.B
 }
 
 func (x *BenchmarkConsensusStatus) StringLastCommittedBlockHeight() string {
-	return fmt.Sprintf("%x", x.LastCommittedBlockHeight())
+	return fmt.Sprintf("%s", x.LastCommittedBlockHeight())
 }
 
 // builder

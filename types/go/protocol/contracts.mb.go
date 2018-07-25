@@ -23,6 +23,9 @@ type MethodArgument struct {
 }
 
 func (x *MethodArgument) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Name:%s,Type:%s,}", x.StringName(), x.StringType())
 }
 
@@ -270,6 +273,9 @@ type StateRecord struct {
 }
 
 func (x *StateRecord) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Key:%s,Value:%s,}", x.StringKey(), x.StringValue())
 }
 
@@ -313,7 +319,7 @@ func (x *StateRecord) MutateKey(v primitives.Ripmd160Sha256) error {
 }
 
 func (x *StateRecord) StringKey() string {
-	return fmt.Sprintf("%x", x.Key())
+	return fmt.Sprintf("%s", x.Key())
 }
 
 func (x *StateRecord) Value() []byte {
@@ -396,6 +402,9 @@ type ContractStateDiff struct {
 }
 
 func (x *ContractStateDiff) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ContractName:%s,StateDiffs:%s,}", x.StringContractName(), x.StringStateDiffs())
 }
 
@@ -439,7 +448,7 @@ func (x *ContractStateDiff) MutateContractName(v primitives.ContractName) error 
 }
 
 func (x *ContractStateDiff) StringContractName() string {
-	return fmt.Sprintf("%x", x.ContractName())
+	return fmt.Sprintf("%s", x.ContractName())
 }
 
 func (x *ContractStateDiff) StateDiffsIterator() *ContractStateDiffStateDiffsIterator {

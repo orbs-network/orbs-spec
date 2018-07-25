@@ -22,6 +22,9 @@ type BenchmarkConsensusBlockProof struct {
 }
 
 func (x *BenchmarkConsensusBlockProof) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{Sender:%s,}", x.StringSender())
 }
 
@@ -130,6 +133,9 @@ type BenchmarkConsensusSenderSignature struct {
 }
 
 func (x *BenchmarkConsensusSenderSignature) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
@@ -173,7 +179,7 @@ func (x *BenchmarkConsensusSenderSignature) MutateSenderPublicKey(v primitives.E
 }
 
 func (x *BenchmarkConsensusSenderSignature) StringSenderPublicKey() string {
-	return fmt.Sprintf("%x", x.SenderPublicKey())
+	return fmt.Sprintf("%s", x.SenderPublicKey())
 }
 
 func (x *BenchmarkConsensusSenderSignature) Signature() primitives.Ed25519Sig {
@@ -189,7 +195,7 @@ func (x *BenchmarkConsensusSenderSignature) MutateSignature(v primitives.Ed25519
 }
 
 func (x *BenchmarkConsensusSenderSignature) StringSignature() string {
-	return fmt.Sprintf("%x", x.Signature())
+	return fmt.Sprintf("%s", x.Signature())
 }
 
 // builder

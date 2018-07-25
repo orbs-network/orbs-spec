@@ -26,6 +26,9 @@ type EthereumCallContractInput struct {
 }
 
 func (x *EthereumCallContractInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{BlockHeight:%s,EthereumContractAddress:%s,EthereumFunctionCanonicalForm:%s,InputArguments:%s,EthereumBlockHeight:%s,}", x.StringBlockHeight(), x.StringEthereumContractAddress(), x.StringEthereumFunctionCanonicalForm(), x.StringInputArguments(), x.StringEthereumBlockHeight())
 }
 
@@ -69,6 +72,9 @@ type EthereumCallContractOutput struct {
 }
 
 func (x *EthereumCallContractOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,EthereumBlockHeight:%s,EthereumBlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringEthereumBlockHeight(), x.StringEthereumBlockTimestamp())
 }
 

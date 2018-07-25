@@ -25,6 +25,9 @@ type HandleSdkCallInput struct {
 }
 
 func (x *HandleSdkCallInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArguments:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments())
 }
 
@@ -60,6 +63,9 @@ type HandleSdkCallOutput struct {
 }
 
 func (x *HandleSdkCallOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("{OutputArguments:%s,}", x.StringOutputArguments())
 }
 
