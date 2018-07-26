@@ -22,7 +22,7 @@ message BenchmarkConsensusCommittedMessage {
     option serialize_message = false;
 
     BenchmarkConsensusStatus status = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on status
+    gossipmessages.SenderSignature sender = 2; // signs on primitives.sha256(status)
 }
 
 // message payloads (serializable)
