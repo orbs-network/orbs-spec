@@ -37,7 +37,7 @@ func (x *RequestNewTransactionsBlockInput) String() string {
 }
 
 func (x *RequestNewTransactionsBlockInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -52,7 +52,7 @@ func (x *RequestNewTransactionsBlockInput) StringMaxNumberOfTransactions() (res 
 }
 
 func (x *RequestNewTransactionsBlockInput) StringPrevBlockHash() (res string) {
-	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	res = fmt.Sprintf("%s", x.PrevBlockHash)
 	return
 }
 
@@ -92,12 +92,12 @@ func (x *RequestNewResultsBlockInput) String() string {
 }
 
 func (x *RequestNewResultsBlockInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
 func (x *RequestNewResultsBlockInput) StringPrevBlockHash() (res string) {
-	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	res = fmt.Sprintf("%s", x.PrevBlockHash)
 	return
 }
 
@@ -146,7 +146,7 @@ func (x *ValidateTransactionsBlockInput) StringTransactionsBlock() (res string) 
 }
 
 func (x *ValidateTransactionsBlockInput) StringPrevBlockHash() (res string) {
-	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	res = fmt.Sprintf("%s", x.PrevBlockHash)
 	return
 }
 
@@ -185,7 +185,7 @@ func (x *ValidateResultsBlockInput) StringResultsBlock() (res string) {
 }
 
 func (x *ValidateResultsBlockInput) StringPrevBlockHash() (res string) {
-	res = fmt.Sprintf("%x", x.PrevBlockHash)
+	res = fmt.Sprintf("%s", x.PrevBlockHash)
 	return
 }
 
@@ -224,7 +224,7 @@ func (x *RequestCommitteeInput) String() string {
 }
 
 func (x *RequestCommitteeInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -256,7 +256,7 @@ func (x *RequestCommitteeOutput) String() string {
 func (x *RequestCommitteeOutput) StringNodePublicKeys() (res string) {
 	res = "["
 		for _, v := range x.NodePublicKeys {
-		res += fmt.Sprintf("%x", v) + ","
+		res += fmt.Sprintf("%s", v) + ","
   }
 	res += "]"
 	return
@@ -265,7 +265,7 @@ func (x *RequestCommitteeOutput) StringNodePublicKeys() (res string) {
 func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	res = "["
 		for _, v := range x.NodeRandomSeedPublicKeys {
-		res += fmt.Sprintf("%x", v) + ","
+		res += fmt.Sprintf("%s", v) + ","
   }
 	res += "]"
 	return

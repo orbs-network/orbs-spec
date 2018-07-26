@@ -70,7 +70,7 @@ func (x *GetTransactionsBlockHeaderInput) String() string {
 }
 
 func (x *GetTransactionsBlockHeaderInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -120,7 +120,7 @@ func (x *GetResultsBlockHeaderInput) String() string {
 }
 
 func (x *GetResultsBlockHeaderInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -165,12 +165,12 @@ func (x *GetTransactionReceiptInput) String() string {
 }
 
 func (x *GetTransactionReceiptInput) StringTxhash() (res string) {
-	res = fmt.Sprintf("%x", x.Txhash)
+	res = fmt.Sprintf("%s", x.Txhash)
 	return
 }
 
 func (x *GetTransactionReceiptInput) StringTransactionTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.TransactionTimestamp)
+	res = fmt.Sprintf("%s", x.TransactionTimestamp)
 	return
 }
 
@@ -196,12 +196,12 @@ func (x *GetTransactionReceiptOutput) StringTransactionReceipt() (res string) {
 }
 
 func (x *GetTransactionReceiptOutput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
 func (x *GetTransactionReceiptOutput) StringBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.BlockTimestamp)
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 
@@ -234,12 +234,12 @@ func (x *GetLastCommittedBlockHeightOutput) String() string {
 }
 
 func (x *GetLastCommittedBlockHeightOutput) StringLastCommittedBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.LastCommittedBlockHeight)
+	res = fmt.Sprintf("%s", x.LastCommittedBlockHeight)
 	return
 }
 
 func (x *GetLastCommittedBlockHeightOutput) StringLastCommittedBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.LastCommittedBlockTimestamp)
+	res = fmt.Sprintf("%s", x.LastCommittedBlockTimestamp)
 	return
 }
 

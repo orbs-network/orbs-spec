@@ -39,17 +39,17 @@ func (x *ProcessCallInput) String() string {
 }
 
 func (x *ProcessCallInput) StringContextId() (res string) {
-	res = fmt.Sprintf("%x", x.ContextId)
+	res = fmt.Sprintf("%s", x.ContextId)
 	return
 }
 
 func (x *ProcessCallInput) StringContractName() (res string) {
-	res = fmt.Sprintf("%x", x.ContractName)
+	res = fmt.Sprintf("%s", x.ContractName)
 	return
 }
 
 func (x *ProcessCallInput) StringMethodName() (res string) {
-	res = fmt.Sprintf("%x", x.MethodName)
+	res = fmt.Sprintf("%s", x.MethodName)
 	return
 }
 
@@ -73,7 +73,7 @@ func (x *ProcessCallInput) StringPermissionScope() (res string) {
 }
 
 func (x *ProcessCallInput) StringCallingService() (res string) {
-	res = fmt.Sprintf("%x", x.CallingService)
+	res = fmt.Sprintf("%s", x.CallingService)
 	return
 }
 
@@ -131,12 +131,12 @@ func (x *DeployNativeServiceInput) String() string {
 }
 
 func (x *DeployNativeServiceInput) StringContextId() (res string) {
-	res = fmt.Sprintf("%x", x.ContextId)
+	res = fmt.Sprintf("%s", x.ContextId)
 	return
 }
 
 func (x *DeployNativeServiceInput) StringContractName() (res string) {
-	res = fmt.Sprintf("%x", x.ContractName)
+	res = fmt.Sprintf("%s", x.ContractName)
 	return
 }
 
@@ -151,7 +151,7 @@ func (x *DeployNativeServiceInput) StringPermissionScope() (res string) {
 }
 
 func (x *DeployNativeServiceInput) StringCallingService() (res string) {
-	res = fmt.Sprintf("%x", x.CallingService)
+	res = fmt.Sprintf("%s", x.CallingService)
 	return
 }
 

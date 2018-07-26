@@ -32,17 +32,17 @@ func (x *HandleSdkCallInput) String() string {
 }
 
 func (x *HandleSdkCallInput) StringContextId() (res string) {
-	res = fmt.Sprintf("%x", x.ContextId)
+	res = fmt.Sprintf("%s", x.ContextId)
 	return
 }
 
 func (x *HandleSdkCallInput) StringContractName() (res string) {
-	res = fmt.Sprintf("%x", x.ContractName)
+	res = fmt.Sprintf("%s", x.ContractName)
 	return
 }
 
 func (x *HandleSdkCallInput) StringMethodName() (res string) {
-	res = fmt.Sprintf("%x", x.MethodName)
+	res = fmt.Sprintf("%s", x.MethodName)
 	return
 }
 

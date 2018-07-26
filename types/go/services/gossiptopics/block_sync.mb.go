@@ -63,7 +63,7 @@ func (x *BlockAvailabilityResponseInput) String() string {
 }
 
 func (x *BlockAvailabilityResponseInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%x", x.RecipientPublicKey)
+	res = fmt.Sprintf("%s", x.RecipientPublicKey)
 	return
 }
 
@@ -88,7 +88,7 @@ func (x *BlockSyncRequestInput) String() string {
 }
 
 func (x *BlockSyncRequestInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%x", x.RecipientPublicKey)
+	res = fmt.Sprintf("%s", x.RecipientPublicKey)
 	return
 }
 
@@ -113,7 +113,7 @@ func (x *BlockSyncResponseInput) String() string {
 }
 
 func (x *BlockSyncResponseInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%x", x.RecipientPublicKey)
+	res = fmt.Sprintf("%s", x.RecipientPublicKey)
 	return
 }
 

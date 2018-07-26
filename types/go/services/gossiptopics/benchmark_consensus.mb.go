@@ -59,7 +59,7 @@ func (x *BenchmarkConsensusCommittedInput) String() string {
 }
 
 func (x *BenchmarkConsensusCommittedInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%x", x.RecipientPublicKey)
+	res = fmt.Sprintf("%s", x.RecipientPublicKey)
 	return
 }
 

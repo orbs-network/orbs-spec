@@ -34,19 +34,19 @@ func (x *ReadKeysInput) String() string {
 }
 
 func (x *ReadKeysInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
 func (x *ReadKeysInput) StringContractName() (res string) {
-	res = fmt.Sprintf("%x", x.ContractName)
+	res = fmt.Sprintf("%s", x.ContractName)
 	return
 }
 
 func (x *ReadKeysInput) StringKeys() (res string) {
 	res = "["
 		for _, v := range x.Keys {
-		res += fmt.Sprintf("%x", v) + ","
+		res += fmt.Sprintf("%s", v) + ","
   }
 	res += "]"
 	return
@@ -104,12 +104,12 @@ func (x *GetStateStorageBlockHeightOutput) String() string {
 }
 
 func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.LastCommittedBlockHeight)
+	res = fmt.Sprintf("%s", x.LastCommittedBlockHeight)
 	return
 }
 
 func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.LastCommittedBlockTimestamp)
+	res = fmt.Sprintf("%s", x.LastCommittedBlockTimestamp)
 	return
 }
 
@@ -157,7 +157,7 @@ func (x *CommitStateDiffOutput) String() string {
 }
 
 func (x *CommitStateDiffOutput) StringNextDesiredBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.NextDesiredBlockHeight)
+	res = fmt.Sprintf("%s", x.NextDesiredBlockHeight)
 	return
 }
 
@@ -176,7 +176,7 @@ func (x *GetStateHashInput) String() string {
 }
 
 func (x *GetStateHashInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -195,7 +195,7 @@ func (x *GetStateHashOutput) String() string {
 }
 
 func (x *GetStateHashOutput) StringStateRootHash() (res string) {
-	res = fmt.Sprintf("%x", x.StateRootHash)
+	res = fmt.Sprintf("%s", x.StateRootHash)
 	return
 }
 

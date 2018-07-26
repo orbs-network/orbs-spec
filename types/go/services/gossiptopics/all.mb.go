@@ -25,7 +25,7 @@ func (x *RecipientsList) String() string {
 func (x *RecipientsList) StringRecipientPublicKeys() (res string) {
 	res = "["
 		for _, v := range x.RecipientPublicKeys {
-		res += fmt.Sprintf("%x", v) + ","
+		res += fmt.Sprintf("%s", v) + ","
   }
 	res += "]"
 	return

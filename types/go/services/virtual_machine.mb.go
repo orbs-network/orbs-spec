@@ -34,7 +34,7 @@ func (x *ProcessTransactionSetInput) String() string {
 }
 
 func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -96,7 +96,7 @@ func (x *RunLocalMethodInput) String() string {
 }
 
 func (x *RunLocalMethodInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
@@ -137,12 +137,12 @@ func (x *RunLocalMethodOutput) StringOutputArguments() (res string) {
 }
 
 func (x *RunLocalMethodOutput) StringReferenceBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.ReferenceBlockHeight)
+	res = fmt.Sprintf("%s", x.ReferenceBlockHeight)
 	return
 }
 
 func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.ReferenceBlockTimestamp)
+	res = fmt.Sprintf("%s", x.ReferenceBlockTimestamp)
 	return
 }
 
@@ -162,7 +162,7 @@ func (x *TransactionSetPreOrderInput) String() string {
 }
 
 func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 

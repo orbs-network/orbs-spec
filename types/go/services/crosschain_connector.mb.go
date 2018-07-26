@@ -33,7 +33,7 @@ func (x *EthereumCallContractInput) String() string {
 }
 
 func (x *EthereumCallContractInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 

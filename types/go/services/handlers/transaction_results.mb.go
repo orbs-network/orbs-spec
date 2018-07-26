@@ -40,12 +40,12 @@ func (x *HandleTransactionResultsInput) StringTransactionReceipts() (res string)
 }
 
 func (x *HandleTransactionResultsInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.BlockHeight)
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
 func (x *HandleTransactionResultsInput) StringTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.Timestamp)
+	res = fmt.Sprintf("%s", x.Timestamp)
 	return
 }
 
