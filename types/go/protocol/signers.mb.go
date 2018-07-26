@@ -62,7 +62,7 @@ const (
 )
 
 func (x *Signer) Scheme() SignerScheme {
-	return SignerScheme(x._message.GetUint16(0))
+	return SignerScheme(x._message.GetUnionIndex(0, 0))
 }
 
 func (x *Signer) IsSchemeEddsa() bool {
@@ -71,7 +71,10 @@ func (x *Signer) IsSchemeEddsa() bool {
 }
 
 func (x *Signer) Eddsa() *EdDSA01Signer {
-	_, off := x._message.IsUnionIndex(0, 0, 0)
+	is, off := x._message.IsUnionIndex(0, 0, 0)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	b, s := x._message.GetMessageInOffset(off)
 	return EdDSA01SignerReader(b[:s])
 }

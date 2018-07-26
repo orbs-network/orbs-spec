@@ -847,7 +847,7 @@ const (
 )
 
 func (x *TransactionsBlockProof) Type() TransactionsBlockProofType {
-	return TransactionsBlockProofType(x._message.GetUint16(0))
+	return TransactionsBlockProofType(x._message.GetUnionIndex(0, 0))
 }
 
 func (x *TransactionsBlockProof) IsTypeBenchmarkConsensus() bool {
@@ -856,7 +856,10 @@ func (x *TransactionsBlockProof) IsTypeBenchmarkConsensus() bool {
 }
 
 func (x *TransactionsBlockProof) BenchmarkConsensus() *consensus.BenchmarkConsensusBlockProof {
-	_, off := x._message.IsUnionIndex(0, 0, 0)
+	is, off := x._message.IsUnionIndex(0, 0, 0)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	b, s := x._message.GetMessageInOffset(off)
 	return consensus.BenchmarkConsensusBlockProofReader(b[:s])
 }
@@ -871,7 +874,10 @@ func (x *TransactionsBlockProof) IsTypeLeanHelix() bool {
 }
 
 func (x *TransactionsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
-	_, off := x._message.IsUnionIndex(0, 0, 1)
+	is, off := x._message.IsUnionIndex(0, 0, 1)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	b, s := x._message.GetMessageInOffset(off)
 	return consensus.LeanHelixBlockProofReader(b[:s])
 }
@@ -1004,7 +1010,7 @@ const (
 )
 
 func (x *ResultsBlockProof) Type() ResultsBlockProofType {
-	return ResultsBlockProofType(x._message.GetUint16(0))
+	return ResultsBlockProofType(x._message.GetUnionIndex(0, 0))
 }
 
 func (x *ResultsBlockProof) IsTypeBenchmarkConsensus() bool {
@@ -1013,7 +1019,10 @@ func (x *ResultsBlockProof) IsTypeBenchmarkConsensus() bool {
 }
 
 func (x *ResultsBlockProof) BenchmarkConsensus() *consensus.BenchmarkConsensusBlockProof {
-	_, off := x._message.IsUnionIndex(0, 0, 0)
+	is, off := x._message.IsUnionIndex(0, 0, 0)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	b, s := x._message.GetMessageInOffset(off)
 	return consensus.BenchmarkConsensusBlockProofReader(b[:s])
 }
@@ -1028,7 +1037,10 @@ func (x *ResultsBlockProof) IsTypeLeanHelix() bool {
 }
 
 func (x *ResultsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
-	_, off := x._message.IsUnionIndex(0, 0, 1)
+	is, off := x._message.IsUnionIndex(0, 0, 1)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	b, s := x._message.GetMessageInOffset(off)
 	return consensus.LeanHelixBlockProofReader(b[:s])
 }

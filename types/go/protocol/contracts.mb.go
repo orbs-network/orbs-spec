@@ -82,7 +82,7 @@ const (
 )
 
 func (x *MethodArgument) Type() MethodArgumentType {
-	return MethodArgumentType(x._message.GetUint16(1))
+	return MethodArgumentType(x._message.GetUnionIndex(1, 0))
 }
 
 func (x *MethodArgument) IsTypeUint32Value() bool {
@@ -91,7 +91,10 @@ func (x *MethodArgument) IsTypeUint32Value() bool {
 }
 
 func (x *MethodArgument) Uint32Value() uint32 {
-	_, off := x._message.IsUnionIndex(1, 0, 0)
+	is, off := x._message.IsUnionIndex(1, 0, 0)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return x._message.GetUint32InOffset(off)
 }
 
@@ -114,7 +117,10 @@ func (x *MethodArgument) IsTypeUint64Value() bool {
 }
 
 func (x *MethodArgument) Uint64Value() uint64 {
-	_, off := x._message.IsUnionIndex(1, 0, 1)
+	is, off := x._message.IsUnionIndex(1, 0, 1)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return x._message.GetUint64InOffset(off)
 }
 
@@ -137,7 +143,10 @@ func (x *MethodArgument) IsTypeStringValue() bool {
 }
 
 func (x *MethodArgument) StringValue() string {
-	_, off := x._message.IsUnionIndex(1, 0, 2)
+	is, off := x._message.IsUnionIndex(1, 0, 2)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return x._message.GetStringInOffset(off)
 }
 
@@ -160,7 +169,10 @@ func (x *MethodArgument) IsTypeBytesValue() bool {
 }
 
 func (x *MethodArgument) BytesValue() []byte {
-	_, off := x._message.IsUnionIndex(1, 0, 3)
+	is, off := x._message.IsUnionIndex(1, 0, 3)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return x._message.GetBytesInOffset(off)
 }
 

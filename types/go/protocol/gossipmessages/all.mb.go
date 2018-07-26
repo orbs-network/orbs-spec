@@ -147,7 +147,7 @@ const (
 )
 
 func (x *Header) Topic() HeaderTopic {
-	return HeaderTopic(x._message.GetUint16(4))
+	return HeaderTopic(x._message.GetUnionIndex(4, 0))
 }
 
 func (x *Header) IsTopicTransactionRelay() bool {
@@ -156,7 +156,10 @@ func (x *Header) IsTopicTransactionRelay() bool {
 }
 
 func (x *Header) TransactionRelay() TransactionsRelayMessageType {
-	_, off := x._message.IsUnionIndex(4, 0, 0)
+	is, off := x._message.IsUnionIndex(4, 0, 0)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return TransactionsRelayMessageType(x._message.GetUint16InOffset(off))
 }
 
@@ -179,7 +182,10 @@ func (x *Header) IsTopicBlockSync() bool {
 }
 
 func (x *Header) BlockSync() BlockSyncMessageType {
-	_, off := x._message.IsUnionIndex(4, 0, 1)
+	is, off := x._message.IsUnionIndex(4, 0, 1)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return BlockSyncMessageType(x._message.GetUint16InOffset(off))
 }
 
@@ -202,7 +208,10 @@ func (x *Header) IsTopicLeanHelix() bool {
 }
 
 func (x *Header) LeanHelix() consensus.LeanHelixMessageType {
-	_, off := x._message.IsUnionIndex(4, 0, 2)
+	is, off := x._message.IsUnionIndex(4, 0, 2)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return consensus.LeanHelixMessageType(x._message.GetUint16InOffset(off))
 }
 
@@ -225,7 +234,10 @@ func (x *Header) IsTopicBenchmarkConsensus() bool {
 }
 
 func (x *Header) BenchmarkConsensus() consensus.BenchmarkConsensusMessageType {
-	_, off := x._message.IsUnionIndex(4, 0, 3)
+	is, off := x._message.IsUnionIndex(4, 0, 3)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
 	return consensus.BenchmarkConsensusMessageType(x._message.GetUint16InOffset(off))
 }
 
