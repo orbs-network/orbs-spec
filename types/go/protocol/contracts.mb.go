@@ -596,3 +596,20 @@ func (n ExecutionPermissionScope) String() string {
 	return "UNKNOWN"
 }
 
+type ProcessorType uint16
+
+const (
+	PROCESSOR_TYPE_RESERVED ProcessorType = 0
+	PROCESSOR_TYPE_NATIVE ProcessorType = 1
+)
+
+func (n ProcessorType) String() string {
+	switch n {
+	case PROCESSOR_TYPE_RESERVED:
+		return "PROCESSOR_TYPE_RESERVED"
+	case PROCESSOR_TYPE_NATIVE:
+		return "PROCESSOR_TYPE_NATIVE"
+	}
+	return "UNKNOWN"
+}
+
