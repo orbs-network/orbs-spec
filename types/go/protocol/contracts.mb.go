@@ -613,3 +613,20 @@ func (n ProcessorType) String() string {
 	return "UNKNOWN"
 }
 
+type CrosschainConnectorType uint16
+
+const (
+	CROSSCHAIN_CONNECTOR_TYPE_RESERVED CrosschainConnectorType = 0
+	CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM CrosschainConnectorType = 1
+)
+
+func (n CrosschainConnectorType) String() string {
+	switch n {
+	case CROSSCHAIN_CONNECTOR_TYPE_RESERVED:
+		return "CROSSCHAIN_CONNECTOR_TYPE_RESERVED"
+	case CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM:
+		return "CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM"
+	}
+	return "UNKNOWN"
+}
+

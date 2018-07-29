@@ -41,3 +41,8 @@ enum ProcessorType {
     PROCESSOR_TYPE_RESERVED = 0;
     PROCESSOR_TYPE_NATIVE = 1;
 }
+
+enum CrosschainConnectorType {
+    CROSSCHAIN_CONNECTOR_TYPE_RESERVED = 0;
+    CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM = 1;
+}
