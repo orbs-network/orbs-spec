@@ -1121,3 +1121,26 @@ func (w *ResultsBlockProofBuilder) Build() *ResultsBlockProof {
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
+type BlockType uint16
+
+const (
+	BLOCK_TYPE_RESERVED BlockType = 0
+	BLOCK_TYPE_BLOCK_PAIR BlockType = 1
+	BLOCK_TYPE_TRANSACTIONS_BLOCK BlockType = 2
+	BLOCK_TYPE_RESULTS_BLOCK BlockType = 3
+)
+
+func (n BlockType) String() string {
+	switch n {
+	case BLOCK_TYPE_RESERVED:
+		return "BLOCK_TYPE_RESERVED"
+	case BLOCK_TYPE_BLOCK_PAIR:
+		return "BLOCK_TYPE_BLOCK_PAIR"
+	case BLOCK_TYPE_TRANSACTIONS_BLOCK:
+		return "BLOCK_TYPE_TRANSACTIONS_BLOCK"
+	case BLOCK_TYPE_RESULTS_BLOCK:
+		return "BLOCK_TYPE_RESULTS_BLOCK"
+	}
+	return "UNKNOWN"
+}
+

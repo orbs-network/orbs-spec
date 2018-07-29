@@ -84,3 +84,10 @@ message ResultsBlockProof {
         consensus.LeanHelixBlockProof lean_helix = 2;
     }
 }
+
+enum BlockType {
+    BLOCK_TYPE_RESERVED = 0;
+    BLOCK_TYPE_BLOCK_PAIR = 1;
+    BLOCK_TYPE_TRANSACTIONS_BLOCK = 2;
+    BLOCK_TYPE_RESULTS_BLOCK = 3;
+}

@@ -275,3 +275,6 @@ func (x *ValidateBlockForCommitOutput) String() string {
 	return fmt.Sprintf("{}")
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// enums
+

@@ -7,33 +7,15 @@ import "../protocol/blocks.proto";
 option serialize_messages = false;
 
 service ConsensusBlocksHandler {
-    rpc HandleTransactionsBlock (HandleTransactionsBlockInput) returns (HandleTransactionsBlockOutput);
-    rpc HandleResultsBlock (HandleResultsBlockInput) returns (HandleResultsBlockOutput);
+    rpc HandleBlockConsensus (HandleBlockConsensusInput) returns (HandleBlockConsensusOutput);
 }
 
-message HandleTransactionsBlockInput {
-    protocol.TransactionsBlockHeader transactions_block_header = 1;
-    protocol.TransactionsBlockMetadata transactions_block_metadata = 2;
-    protocol.TransactionsBlockProof transactions_block_proof = 3;
-    protocol.TransactionsBlockHeader prev_committed_transactions_block_header = 4;
-    protocol.TransactionsBlockMetadata prev_committed_transactions_block_metadata = 5;
-    protocol.TransactionsBlockProof prev_committed_transactions_block_proof = 6;
-    protocol.ResultsBlockProof prev_committed_results_block_proof = 7;
+message HandleBlockConsensusInput {
+    protocol.BlockType block_type = 1;
+    protocol.BlockPairContainer block_pair = 2; // when separate services, do not forward transactions, receipts or state diff.
+    protocol.BlockPairContainer prev_committed_block_pair = 3; // when separate services, do not forward transactions, receipts or state diff.
 }
 
 // returns error code ERROR_CODE_INVALID if not valid
-message HandleTransactionsBlockOutput {
-}
-
-message HandleResultsBlockInput {
-    protocol.ResultsBlockHeader results_block_header = 1;
-    protocol.ResultsBlockProof results_block_proof = 2;
-    protocol.ResultsBlockHeader prev_results_block_header = 3;
-    protocol.TransactionsBlockMetadata prev_committed_transactions_block_metadata = 4;
-    protocol.TransactionsBlockProof prev_committed_transactions_block_proof = 5;
-    protocol.ResultsBlockProof prev_committed_results_block_proof = 6;
-}
-
-// returns error code ERROR_CODE_INVALID if not valid
-message HandleResultsBlockOutput {
+message HandleBlockConsensusOutput {
 }

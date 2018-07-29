@@ -10,72 +10,47 @@ import (
 // service ConsensusBlocksHandler
 
 type ConsensusBlocksHandler interface {
-	HandleTransactionsBlock(input *HandleTransactionsBlockInput) (*HandleTransactionsBlockOutput, error)
-	HandleResultsBlock(input *HandleResultsBlockInput) (*HandleResultsBlockOutput, error)
+	HandleBlockConsensus(input *HandleBlockConsensusInput) (*HandleBlockConsensusOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message HandleTransactionsBlockInput (non serializable)
+// message HandleBlockConsensusInput (non serializable)
 
-type HandleTransactionsBlockInput struct {
-	TransactionsBlockHeader *protocol.TransactionsBlockHeader
-	TransactionsBlockMetadata *protocol.TransactionsBlockMetadata
-	TransactionsBlockProof *protocol.TransactionsBlockProof
-	PrevCommittedTransactionsBlockHeader *protocol.TransactionsBlockHeader
-	PrevCommittedTransactionsBlockMetadata *protocol.TransactionsBlockMetadata
-	PrevCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
-	PrevCommittedResultsBlockProof *protocol.ResultsBlockProof
+type HandleBlockConsensusInput struct {
+	BlockType protocol.BlockType
+	BlockPair *protocol.BlockPairContainer
+	PrevCommittedBlockPair *protocol.BlockPairContainer
 }
 
-func (x *HandleTransactionsBlockInput) String() string {
+func (x *HandleBlockConsensusInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{TransactionsBlockHeader:%s,TransactionsBlockMetadata:%s,TransactionsBlockProof:%s,PrevCommittedTransactionsBlockHeader:%s,PrevCommittedTransactionsBlockMetadata:%s,PrevCommittedTransactionsBlockProof:%s,PrevCommittedResultsBlockProof:%s,}", x.StringTransactionsBlockHeader(), x.StringTransactionsBlockMetadata(), x.StringTransactionsBlockProof(), x.StringPrevCommittedTransactionsBlockHeader(), x.StringPrevCommittedTransactionsBlockMetadata(), x.StringPrevCommittedTransactionsBlockProof(), x.StringPrevCommittedResultsBlockProof())
+	return fmt.Sprintf("{BlockType:%s,BlockPair:%s,PrevCommittedBlockPair:%s,}", x.StringBlockType(), x.StringBlockPair(), x.StringPrevCommittedBlockPair())
 }
 
-func (x *HandleTransactionsBlockInput) StringTransactionsBlockHeader() (res string) {
-	res = x.TransactionsBlockHeader.String()
+func (x *HandleBlockConsensusInput) StringBlockType() (res string) {
+	res = fmt.Sprintf("%x", x.BlockType)
 	return
 }
 
-func (x *HandleTransactionsBlockInput) StringTransactionsBlockMetadata() (res string) {
-	res = x.TransactionsBlockMetadata.String()
+func (x *HandleBlockConsensusInput) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
 	return
 }
 
-func (x *HandleTransactionsBlockInput) StringTransactionsBlockProof() (res string) {
-	res = x.TransactionsBlockProof.String()
-	return
-}
-
-func (x *HandleTransactionsBlockInput) StringPrevCommittedTransactionsBlockHeader() (res string) {
-	res = x.PrevCommittedTransactionsBlockHeader.String()
-	return
-}
-
-func (x *HandleTransactionsBlockInput) StringPrevCommittedTransactionsBlockMetadata() (res string) {
-	res = x.PrevCommittedTransactionsBlockMetadata.String()
-	return
-}
-
-func (x *HandleTransactionsBlockInput) StringPrevCommittedTransactionsBlockProof() (res string) {
-	res = x.PrevCommittedTransactionsBlockProof.String()
-	return
-}
-
-func (x *HandleTransactionsBlockInput) StringPrevCommittedResultsBlockProof() (res string) {
-	res = x.PrevCommittedResultsBlockProof.String()
+func (x *HandleBlockConsensusInput) StringPrevCommittedBlockPair() (res string) {
+	res = x.PrevCommittedBlockPair.String()
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message HandleTransactionsBlockOutput (non serializable)
+// message HandleBlockConsensusOutput (non serializable)
 
-type HandleTransactionsBlockOutput struct {
+type HandleBlockConsensusOutput struct {
 }
 
-func (x *HandleTransactionsBlockOutput) String() string {
+func (x *HandleBlockConsensusOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
@@ -83,64 +58,5 @@ func (x *HandleTransactionsBlockOutput) String() string {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message HandleResultsBlockInput (non serializable)
-
-type HandleResultsBlockInput struct {
-	ResultsBlockHeader *protocol.ResultsBlockHeader
-	ResultsBlockProof *protocol.ResultsBlockProof
-	PrevResultsBlockHeader *protocol.ResultsBlockHeader
-	PrevCommittedTransactionsBlockMetadata *protocol.TransactionsBlockMetadata
-	PrevCommittedTransactionsBlockProof *protocol.TransactionsBlockProof
-	PrevCommittedResultsBlockProof *protocol.ResultsBlockProof
-}
-
-func (x *HandleResultsBlockInput) String() string {
-	if x == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("{ResultsBlockHeader:%s,ResultsBlockProof:%s,PrevResultsBlockHeader:%s,PrevCommittedTransactionsBlockMetadata:%s,PrevCommittedTransactionsBlockProof:%s,PrevCommittedResultsBlockProof:%s,}", x.StringResultsBlockHeader(), x.StringResultsBlockProof(), x.StringPrevResultsBlockHeader(), x.StringPrevCommittedTransactionsBlockMetadata(), x.StringPrevCommittedTransactionsBlockProof(), x.StringPrevCommittedResultsBlockProof())
-}
-
-func (x *HandleResultsBlockInput) StringResultsBlockHeader() (res string) {
-	res = x.ResultsBlockHeader.String()
-	return
-}
-
-func (x *HandleResultsBlockInput) StringResultsBlockProof() (res string) {
-	res = x.ResultsBlockProof.String()
-	return
-}
-
-func (x *HandleResultsBlockInput) StringPrevResultsBlockHeader() (res string) {
-	res = x.PrevResultsBlockHeader.String()
-	return
-}
-
-func (x *HandleResultsBlockInput) StringPrevCommittedTransactionsBlockMetadata() (res string) {
-	res = x.PrevCommittedTransactionsBlockMetadata.String()
-	return
-}
-
-func (x *HandleResultsBlockInput) StringPrevCommittedTransactionsBlockProof() (res string) {
-	res = x.PrevCommittedTransactionsBlockProof.String()
-	return
-}
-
-func (x *HandleResultsBlockInput) StringPrevCommittedResultsBlockProof() (res string) {
-	res = x.PrevCommittedResultsBlockProof.String()
-	return
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// message HandleResultsBlockOutput (non serializable)
-
-type HandleResultsBlockOutput struct {
-}
-
-func (x *HandleResultsBlockOutput) String() string {
-	if x == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("{}")
-}
+// enums
 
