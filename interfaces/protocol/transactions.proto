@@ -8,7 +8,7 @@ import "protocol/signers.proto";
 import "protocol/contracts.proto";
 import "protocol/results.proto";
 
-// txhash = SHA(serialized protocol.Transaction)
+// txhash = SHA256(serialized protocol.Transaction)
 // txid = concatenation of timestamp and txhash (without txhash length)
 
 message Transaction {
