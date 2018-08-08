@@ -19,7 +19,7 @@ Currently a single instance per virtual chain per node.
 * Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
   * Must only hold a single copy of a transaction (`txhash`) regardless of its associated gateway node (the first that added it).
-* No need to be persistent, can re-sync from block storage.
+* No need to be persistent, pending transactions may be lost without impact.
 * [Configurable](../config/services.md) max size.
 * [Configurable](../config/services.md) interval to clear expired transactions.
   * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
@@ -55,11 +55,13 @@ Currently a single instance per virtual chain per node.
 
 #### Check transaction validity
 * Correct protocol version.
-* Valid fields (sender address, contract address).
-* Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
+* Valid fields:
+  * Signer - known scheme, valid key length.
+<!--  * Contract name - TODO . -->
+* Sender virtual chain matches the transaction pool's virtual chain.
 * Check Transaction timestamp:
   * Only accept transactions that haven't expired.
-    * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+    * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Only accept transactions with timestamp in sync with the node (that aren't in the future).
     * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min).
     * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
@@ -108,7 +110,7 @@ Currently a single instance per virtual chain per node.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
   * Check transaction timestamp, accept only transactions that haven't expired.
-    * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+    * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Transaction doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
 
@@ -128,7 +130,7 @@ Currently a single instance per virtual chain per node.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
   * Check transaction timestamp, accept only transactions that haven't expired.
-    * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+    * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Transaction doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
 
@@ -146,9 +148,9 @@ Currently a single instance per virtual chain per node.
 * If not, discard the commit and return the next desired block height (which is the next of `last_committed_block`).
 * Optimization: If transaction pool missed a day, it only needs to receive the last configurable expiration window (eg. 30 min). The beginning of the day can be skipped. This will probably require a new method from block storage that translates past time stamp to block height.
 
-#### Ignore expired blocks
-* If the block is expired (and so are its transactions), it can be ignored.
-  * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+#### Ignore blocks with an expired timestamp
+* If the block timestamp is beyond the expiration time (and so are its transactions), it can be ignored.
+  * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * If the pools contain any expired transactions, they have periodical timers that clear them.
 
 #### Commit receipts
