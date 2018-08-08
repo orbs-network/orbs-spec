@@ -15,10 +15,10 @@ Currently a single instance per virtual chain per node.
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
-* Needs to support efficient query by `tx_id`.
+* Needs to support efficient query by `tx_hash`.
 * Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
-  * Must only hold a single copy of a transaction (`tx_id`) regardless of its associated gateway node (the first that added it).
+  * Must only hold a single copy of a transaction (`tx_hash`) regardless of its associated gateway node (the first that added it).
 * No need to be persistent, can re-sync from block storage.
 * [Configurable](../config/services.md) max size.
 * [Configurable](../config/services.md) interval to clear expired transactions.
