@@ -132,7 +132,7 @@ Currently a single instance per virtual chain per node.
   * Check transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Transaction doesn't already exist in the pending pool or committed pool (duplicate).
-* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`. If _any_ transaction has a non-ok status, fail the entire check.
 
 #### Check proposal policy
 * Future: Verify that the proposal matches the selection policy (current policy is first come first serve).
