@@ -15,10 +15,10 @@ Currently a single instance per virtual chain per node.
 
 #### Pending transaction pool
 * Holds transactions until they are added to a block and helps preventing transaction duplication.
-* Needs to support efficient query by `tx_hash`.
+* Needs to support efficient query by `txhash`.
 * Needs to be sorted by time to allow preparing block proposals according to policy.
 * Associates every transaction with the node id (public key) of the gateway that added it to the network.
-  * Must only hold a single copy of a transaction (`tx_hash`) regardless of its associated gateway node (the first that added it).
+  * Must only hold a single copy of a transaction (`txhash`) regardless of its associated gateway node (the first that added it).
 * No need to be persistent, can re-sync from block storage.
 * [Configurable](../config/services.md) max size.
 * [Configurable](../config/services.md) interval to clear expired transactions.
@@ -31,7 +31,7 @@ Currently a single instance per virtual chain per node.
 #### Committed transaction pool
 * Holds the receipts of committed transactions to return their result and avoid transaction duplication.
   * Also holds the block height and block timestamp for every transaction.
-* Needs to support efficient query by `tx_id`.
+* Needs to support efficient query by `txhash`.
 * No need to be persistent, can re-sync from block storage.
 * No limit on max size (depends on expiration window).
 * [Configurable](../config/services.md) interval to clear expired transactions.
@@ -63,7 +63,7 @@ Currently a single instance per virtual chain per node.
   * Only accept transactions with timestamp in sync with the node (that aren't in the future).
     * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min).
     * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
-* Transaction (`tx_id`) doesn't already exist in the pending pool or committed pool (duplicate).
+* Transaction (`txhash`) doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
 * On any failure, return the relevant error status and an empty receipt.
   * For an already committed transaction, return the receipt.
@@ -157,16 +157,15 @@ Currently a single instance per virtual chain per node.
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
     * If indeed local, update the registered public api service by calling its `HandleTransactionsBlock`.
-  * Remove the corresponding transactions (based on their `tx_id`) from the pending pool.
+  * Remove the corresponding transactions (based on their `txhash`) from the pending pool.
 * Update `last_committed_block` to match the given block.
 
 &nbsp;
 ## `GetTransactionReceipt` (method)
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
-
-* If `tx_id` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
-* If `tx_id` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
+* If `txhash` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
+* If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
 * else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
 
 &nbsp;
