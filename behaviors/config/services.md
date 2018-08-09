@@ -26,7 +26,7 @@ Since the system must remain backwards compatible forever (able to audit the old
 
 ```json
 {
-  "pending-pool-max-size-mb": "20480",
+  "pending-pool-max-size-bytes": "20480000",
   "pending-pool-clear-expired-interval-sec": "10",
   "committed-pool-clear-expired-interval-sec": "30",
   "propagation-batching-transaction-num": "1000",
