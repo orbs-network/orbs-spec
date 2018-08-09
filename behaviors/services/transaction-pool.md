@@ -25,7 +25,7 @@ Currently a single instance per virtual chain per node.
   * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
-    * If indeed local, update the local public api by calling `PublicApi.ReturnTransactionResults`.
+    * If indeed local, update the registered public api service by calling its `HandleTransactionsBlock`.
       * Provide block height and timestamp according to the last committed block.
 
 #### Committed transaction pool
