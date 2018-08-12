@@ -30,7 +30,6 @@ message ProcessTransactionSetInput {
     repeated protocol.SignedTransaction signed_transactions = 2;
 }
 
-// returns error code on failure
 message ProcessTransactionSetOutput {
     repeated protocol.TransactionReceipt transaction_receipts = 1;
     repeated protocol.ContractStateDiff contract_state_diffs = 2;
@@ -53,7 +52,7 @@ message TransactionSetPreOrderInput {
     repeated protocol.SignedTransaction signed_transactions = 2;
 }
 
-// returns error code on failure
+// returns error string if one of the transactions does not pass pre order checks
 message TransactionSetPreOrderOutput {
     repeated protocol.TransactionStatus pre_order_results = 1;
 }
