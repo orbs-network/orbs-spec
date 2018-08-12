@@ -108,11 +108,16 @@ Currently a single instance per virtual chain per node.
 * Successful pre order check should return the transaction status `TRANSACTION_STATUS_PRE_ORDER_VALID`.
 
 #### Run system contract
-* Approve the transaction execution on a global system level (level 1/3).
+* Approval of a transaction for ordering and execution consists of 3 layers:
+  * Approval on a global system level (level 1/3).
+    * Run system smart contract `_GlobalPreOrder.Approve` by calling the `Native` processor's `Processor.ProcessCall`.
+      * Performed once per transaction set, does not depend on the transactions content.
+      * See `_GlobalPreOrder` contract [specification](../smart-contracts/system/_GlobalPreOrder.md).
   * Approval on the virtual chain level (level 2/3) not supported yet.
   * Approval on the smart contract level (level 3/3) not supported yet.
-* Run system smart contract `_GlobalPreOrder.Approve` by calling the `Native` processor's `Processor.ProcessCall`.
-  * See `_GlobalPreOrder` contract [specification](../smart-contracts/system/_GlobalPreOrder.md).
+  
+#### Transaction set status
+* If one of the trasnactions in the set fails its pre-order check, return error
 
 &nbsp;
 ## `SdkCall` (method)
