@@ -32,6 +32,7 @@ Since the system must remain backwards compatible forever (able to audit the old
   "propagation-batching-transaction-num": "1000",
   "propagation-batching-timeout-sec": "5",
   "query-sync-grace-block-num": "0",
+  "query-sync-grace-timeout-sec": "1",
   "future-timestamp-grace-sec": "180"
 }
 ```
@@ -68,7 +69,8 @@ Since the system must remain backwards compatible forever (able to audit the old
 ```json
 {
   "recent-block-snapshot-num": "5",
-  "query-sync-grace-block-num": "0"
+  "query-sync-grace-block-num": "0",
+  "query-sync-grace-timeout-sec": "1"
 }
 ```
 
@@ -79,6 +81,7 @@ Since the system must remain backwards compatible forever (able to audit the old
   "block-sync-commit-timeout-sec": "8",
   "transaction-search-grace-sec": "5",
   "query-sync-grace-block-num": "0",
+  "query-sync-grace-timeout-sec": "1",
   "max-blocks-per-sync-batch": "10000"
 }
 ```

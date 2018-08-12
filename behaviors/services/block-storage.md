@@ -157,7 +157,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Transactions block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the transactions block header, metadata and the transactions block proof.
 
@@ -166,7 +166,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Results block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the results block header, metadata and the results block proof.
 
