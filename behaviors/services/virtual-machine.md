@@ -105,7 +105,7 @@ Currently a single instance per virtual chain per node.
 #### Check transaction signatures
 * Check the transaction signatures according to the supported signature schemes (see transaction format for list).
 * Fail if unsupported signature scheme.
-* Successful pre order check should return the transaction status `TRANSACTION_STATUS_PENDING`.
+* Successful pre order check should return the transaction status `TRANSACTION_STATUS_PRE_ORDER_VALID`.
 
 #### Run system contract
 * Approve the transaction execution on a global system level (level 1/3).
