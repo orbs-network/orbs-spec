@@ -52,7 +52,7 @@ Currently a single instance per virtual chain per node.
 #### Commit state
 * Update the state store according to the block's `state_diff`.
   * Also update the state merkle tree while updating each state value.
-  * When setting the zero value (an empty byte array), delete the entry from both state and merkle tree.
+  * When setting the null value (an empty byte array), delete the entry from both state and merkle tree.
 * Update `last_committed_block` to match the given block.
 
 &nbsp;
@@ -68,7 +68,7 @@ Currently a single instance per virtual chain per node.
 #### Return the values
 * If requested contract name does not exist in storage, fail.
 * Otherwise, respond with the values from the state store.
-* For any requested key not stored return the zero value (an empty byte array)
+* For any requested key not stored return an empty byte array. (implies null value / integer `0` value)
 
 &nbsp;
 ## `GetStateStorageBlockHeight` (method)
