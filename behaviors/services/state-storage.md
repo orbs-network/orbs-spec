@@ -61,7 +61,7 @@ Currently a single instance per virtual chain per node.
 > Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract. This is the main way for other services to query state in the node.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 
@@ -83,7 +83,7 @@ Currently a single instance per virtual chain per node.
 > Returns the state hash (merkle tree root) updated to a certain block height. The latest hash is always written inside blocks so this is needed by block creators.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 

@@ -97,7 +97,7 @@ Currently a single instance per virtual chain per node.
 > Proposes a set of N transaction for block building based on the block building policy (currently first come first served). Called by the block builder during consensus.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past, panic.
 
@@ -120,7 +120,7 @@ Currently a single instance per virtual chain per node.
 > Verifies that an ordered list of transactions complies with the ordering policy, called by the block builder during consensus when validating a new block proposal.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on timeout.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past, panic.
 
