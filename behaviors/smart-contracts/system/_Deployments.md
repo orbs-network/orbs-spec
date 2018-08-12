@@ -8,7 +8,7 @@ Implemented on the `Native` processor.
 * This is a system contract that runs under `System` permissions.
 
 &nbsp;
-## `_Init` (method)
+## `_init` (method)
 
 #### Permissions
 * `Internal` (caller must be the same service).
@@ -18,7 +18,7 @@ Implemented on the `Native` processor.
 * Write state value `Native` in key `_Deployments.Processor` by calling `State.WriteStringKey`.
 
 &nbsp;
-## `DeployService` (method)
+## `deployService` (method)
 
 #### Permissions
 * `External` (caller can be anyone).
@@ -26,6 +26,6 @@ Implemented on the `Native` processor.
 
 #### Contract
 * Make sure the service isn't already deployed by calling `Service.IsDeployed`.
-* Init the service by calling `Service.CallMethod` with method `_Init`.
+* Init the service by calling `Service.CallMethod` with method `_init`.
   * This is an `Internal` method, requires `System` permissions.
 * Write state value `Native` in key `<name>.Processor` by calling `State.WriteStringKey`.

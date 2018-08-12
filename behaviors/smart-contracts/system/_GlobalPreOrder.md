@@ -8,14 +8,14 @@ Implemented on the `Native` processor.
 * This is a system contract that runs under `System` permissions.
 
 &nbsp;
-## `_Init` (method)
+## `_init` (method)
 
 #### Permissions
 * `Internal` (caller must be the same service).
 * `ReadWrite` (potentially changes state).
 
 &nbsp;
-## `Approve` (method)
+## `approve` (method)
 
 #### Permissions
 * `External` (caller can be anyone).
