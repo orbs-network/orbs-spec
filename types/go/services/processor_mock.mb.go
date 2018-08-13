@@ -22,10 +22,10 @@ func (s *MockProcessor) ProcessCall(input *ProcessCallInput) (*ProcessCallOutput
 	}
 }
 
-func (s *MockProcessor) DeployNativeService(input *DeployNativeServiceInput) (*DeployNativeServiceOutput, error) {
+func (s *MockProcessor) GetContractInfo(input *GetContractInfoInput) (*GetContractInfoOutput, error) {
 	ret := s.Called(input)
 	if out := ret.Get(0); out != nil {
-		return out.(*DeployNativeServiceOutput), ret.Error(1)
+		return out.(*GetContractInfoOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
