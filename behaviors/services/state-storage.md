@@ -18,7 +18,7 @@ Currently a single instance per virtual chain per node.
 * Separated into deployed services, for each one:
   * Keep a merkle tree of all state variables (keys and values) under it.
   * Keys are hashes, values are blobs (byte arrays).
-  * A non existent key returns an empty byte array. (implies null value / integer `0` value)
+  * A non existent key or contract name returns an empty byte array. (implies null value / integer `0` value)
 * Default system services:
   * `_Deployments`
     * Contains metadata about every [service](../../terminology.md) and [library](../../terminology.md) smart contracts that were deployed on the system.
@@ -66,7 +66,7 @@ Currently a single instance per virtual chain per node.
 * If requested block height is in the past and beyond the snapshot history, fail.
 
 #### Return the values
-* If requested contract name does not exist in storage, fail.
+* If requested contract name does not exist in storage return an empty byte array. (implies null value / integer `0` value)
 * Otherwise, respond with the values from the state store.
 * For any requested key not stored return an empty byte array. (implies null value / integer `0` value)
 
