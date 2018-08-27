@@ -48,22 +48,24 @@ Currently a single instance per virtual chain per node.
 * Make sure no more than one synchronization process is active at any given time.
 
 #### Synchronization process
+* Synchronization is made of multiple **batches** each comprised of multiple **chunks**.
 * Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.BlockSync.BroadcastBlockAvailabilityRequest`.
   * Request blocks starting from `last_committed_block`.
-  * Since the highest missing block height is probably unknown, set it to `MAX_UINT64`.
+  * Request [configurable](../config/services.md) **batch** range for this session (total number of blocks the syncing node will give in this session).
   * Nodes will respond with a `BLOCK_AVAILABILITY_RESPONSE` message.
-    * Indicating the range from the desired blocks that is available to them and their current top block.
-* Randomly select one of the responding nodes and request a batch of blocks from them.
+    * Indicating the range from the desired blocks that is available to them and their current last committed block.
+    * Also indicating the agreed upon [configurable](../config/services.md) **batch** range for this session.
+* Randomly select one of the responding nodes and request the **batch** of blocks from them.
   * If some of the responders are significantly behind and can't fulfill one batch, avoid them in the random selection.
-  * Request the block batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.BlockSync.SendBlockSyncRequest`.
+  * Request the first [configurable](../config/services.md) **chunk** in the batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.BlockSync.SendBlockSyncRequest`.
   * The receiving node will respond with a `BLOCK_SYNC_RESPONSE` message.
-    * The response includes a steam of the requested blocks and the node's `last_committed_block` height.
-    * The receiving node may limit the number of blocks it is willing to stream in a batch to a [configurable](../config/services.md) amount.
+    * The response includes one **chunk** of requested blocks and the node's `last_committed_block` height.
   * Upon reception of the response:
     * Since the blocks are untrusted, validate each of them for commit by calling `ValidateBlockForCommit`.
     * If valid, commit each block by calling `CommitBlock`.
-* Repeat the process until received all desired blocks.
-  * It is recommended to shuffle the requests among nodes to avoid putting too much burden on a single node.
+  * Repeat the process until all **chunks** in the batch have arrived (from one syncing node).
+* Continue having sessions for more **batches** until all desired blocks have arrived.
+  * It is recommended to shuffle the batches among different nodes to avoid putting too much burden on a single node.
 
 &nbsp;
 ## `Intra Node Block Sync` (flow)

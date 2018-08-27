@@ -13,7 +13,7 @@ import (
 // message BlockAvailabilityRequestMessage (non serializable)
 
 type BlockAvailabilityRequestMessage struct {
-	SignedRange *BlockSyncRange
+	SignedBatchRange *BlockSyncRange
 	Sender *SenderSignature
 }
 
@@ -21,11 +21,11 @@ func (x *BlockAvailabilityRequestMessage) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+	return fmt.Sprintf("{SignedBatchRange:%s,Sender:%s,}", x.StringSignedBatchRange(), x.StringSender())
 }
 
-func (x *BlockAvailabilityRequestMessage) StringSignedRange() (res string) {
-	res = x.SignedRange.String()
+func (x *BlockAvailabilityRequestMessage) StringSignedBatchRange() (res string) {
+	res = x.SignedBatchRange.String()
 	return
 }
 
@@ -38,7 +38,7 @@ func (x *BlockAvailabilityRequestMessage) StringSender() (res string) {
 // message BlockAvailabilityResponseMessage (non serializable)
 
 type BlockAvailabilityResponseMessage struct {
-	SignedRange *BlockSyncRange
+	SignedBatchRange *BlockSyncRange
 	Sender *SenderSignature
 }
 
@@ -46,11 +46,11 @@ func (x *BlockAvailabilityResponseMessage) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+	return fmt.Sprintf("{SignedBatchRange:%s,Sender:%s,}", x.StringSignedBatchRange(), x.StringSender())
 }
 
-func (x *BlockAvailabilityResponseMessage) StringSignedRange() (res string) {
-	res = x.SignedRange.String()
+func (x *BlockAvailabilityResponseMessage) StringSignedBatchRange() (res string) {
+	res = x.SignedBatchRange.String()
 	return
 }
 
@@ -63,7 +63,7 @@ func (x *BlockAvailabilityResponseMessage) StringSender() (res string) {
 // message BlockSyncRequestMessage (non serializable)
 
 type BlockSyncRequestMessage struct {
-	SignedRange *BlockSyncRange
+	SignedChunkRange *BlockSyncRange
 	Sender *SenderSignature
 }
 
@@ -71,11 +71,11 @@ func (x *BlockSyncRequestMessage) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedRange:%s,Sender:%s,}", x.StringSignedRange(), x.StringSender())
+	return fmt.Sprintf("{SignedChunkRange:%s,Sender:%s,}", x.StringSignedChunkRange(), x.StringSender())
 }
 
-func (x *BlockSyncRequestMessage) StringSignedRange() (res string) {
-	res = x.SignedRange.String()
+func (x *BlockSyncRequestMessage) StringSignedChunkRange() (res string) {
+	res = x.SignedChunkRange.String()
 	return
 }
 
@@ -88,7 +88,7 @@ func (x *BlockSyncRequestMessage) StringSender() (res string) {
 // message BlockSyncResponseMessage (non serializable)
 
 type BlockSyncResponseMessage struct {
-	SignedRange *BlockSyncRange
+	SignedChunkRange *BlockSyncRange
 	Sender *SenderSignature
 	BlockPairs []*protocol.BlockPairContainer
 }
@@ -97,11 +97,11 @@ func (x *BlockSyncResponseMessage) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedRange:%s,Sender:%s,BlockPairs:%s,}", x.StringSignedRange(), x.StringSender(), x.StringBlockPairs())
+	return fmt.Sprintf("{SignedChunkRange:%s,Sender:%s,BlockPairs:%s,}", x.StringSignedChunkRange(), x.StringSender(), x.StringBlockPairs())
 }
 
-func (x *BlockSyncResponseMessage) StringSignedRange() (res string) {
-	res = x.SignedRange.String()
+func (x *BlockSyncResponseMessage) StringSignedChunkRange() (res string) {
+	res = x.SignedChunkRange.String()
 	return
 }
 
@@ -126,8 +126,8 @@ func (x *BlockSyncResponseMessage) StringBlockPairs() (res string) {
 
 type BlockSyncRange struct {
 	// BlockType BlockType
-	// FirstAvailableBlockHeight primitives.BlockHeight
-	// LastAvailableBlockHeight primitives.BlockHeight
+	// FirstBlockHeight primitives.BlockHeight
+	// LastBlockHeight primitives.BlockHeight
 	// LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
@@ -139,7 +139,7 @@ func (x *BlockSyncRange) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockType:%s,FirstAvailableBlockHeight:%s,LastAvailableBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstAvailableBlockHeight(), x.StringLastAvailableBlockHeight(), x.StringLastCommittedBlockHeight())
+	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 
 var _BlockSyncRange_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
@@ -185,36 +185,36 @@ func (x *BlockSyncRange) StringBlockType() string {
 	return x.BlockType().String()
 }
 
-func (x *BlockSyncRange) FirstAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncRange) FirstBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *BlockSyncRange) RawFirstAvailableBlockHeight() []byte {
+func (x *BlockSyncRange) RawFirstBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockSyncRange) MutateFirstAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncRange) MutateFirstBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockSyncRange) StringFirstAvailableBlockHeight() string {
-	return fmt.Sprintf("%s", x.FirstAvailableBlockHeight())
+func (x *BlockSyncRange) StringFirstBlockHeight() string {
+	return fmt.Sprintf("%s", x.FirstBlockHeight())
 }
 
-func (x *BlockSyncRange) LastAvailableBlockHeight() primitives.BlockHeight {
+func (x *BlockSyncRange) LastBlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(2))
 }
 
-func (x *BlockSyncRange) RawLastAvailableBlockHeight() []byte {
+func (x *BlockSyncRange) RawLastBlockHeight() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockSyncRange) MutateLastAvailableBlockHeight(v primitives.BlockHeight) error {
+func (x *BlockSyncRange) MutateLastBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *BlockSyncRange) StringLastAvailableBlockHeight() string {
-	return fmt.Sprintf("%s", x.LastAvailableBlockHeight())
+func (x *BlockSyncRange) StringLastBlockHeight() string {
+	return fmt.Sprintf("%s", x.LastBlockHeight())
 }
 
 func (x *BlockSyncRange) LastCommittedBlockHeight() primitives.BlockHeight {
@@ -237,8 +237,8 @@ func (x *BlockSyncRange) StringLastCommittedBlockHeight() string {
 
 type BlockSyncRangeBuilder struct {
 	BlockType BlockType
-	FirstAvailableBlockHeight primitives.BlockHeight
-	LastAvailableBlockHeight primitives.BlockHeight
+	FirstBlockHeight primitives.BlockHeight
+	LastBlockHeight primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
@@ -257,8 +257,8 @@ func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, uint64(w.FirstAvailableBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastAvailableBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
 	return nil
 }

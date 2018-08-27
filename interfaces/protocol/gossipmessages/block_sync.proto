@@ -20,29 +20,29 @@ enum BlockSyncMessageType {
 message BlockAvailabilityRequestMessage {
     option serialize_message = false;
 
-    BlockSyncRange signed_range = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_range
+    BlockSyncRange signed_batch_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_batch_range
 }
 
 message BlockAvailabilityResponseMessage {
     option serialize_message = false;
 
-    BlockSyncRange signed_range = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_range
+    BlockSyncRange signed_batch_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_batch_range
 }
 
 message BlockSyncRequestMessage {
     option serialize_message = false;
 
-    BlockSyncRange signed_range = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_range
+    BlockSyncRange signed_chunk_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_chunk_range
 }
 
 message BlockSyncResponseMessage {
     option serialize_message = false;
 
-    BlockSyncRange signed_range = 1;
-    gossipmessages.SenderSignature sender = 2; // signs on signed_range
+    BlockSyncRange signed_chunk_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_chunk_range
     repeated protocol.BlockPairContainer block_pairs = 3;
 }
 
@@ -50,8 +50,8 @@ message BlockSyncResponseMessage {
 
 message BlockSyncRange {
     BlockType block_type = 1;
-    primitives.block_height first_available_block_height = 2;
-    primitives.block_height last_available_block_height = 3;
+    primitives.block_height first_block_height = 2;
+    primitives.block_height last_block_height = 3;
     primitives.block_height last_committed_block_height = 4;    
 }
 
