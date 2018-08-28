@@ -32,7 +32,7 @@ Currently a single instance per virtual chain per node.
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.
 * If there is persistent data, init `last_commited_block` accordingly.
-  * When consensus algorithms register by calling `BlockStorage.RegisterConsensusBlocksHandler`, update them with the latest persistent block by calling their `HandleBlockConsensus` (no need to provide the `PrevCommittedBlockPair` in input).
+  * When consensus algorithms register by calling `BlockStorage.RegisterConsensusBlocksHandler`, update them with the latest persistent block by calling their `HandleBlockConsensus` (no need to provide the `prev_committed_block_pair` input argument).
 * If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the block database to empty.
 * Subscribe to gossip messages by calling `Gossip.BlockSync.RegisterBlockSyncHandler`.
 * Trigger the block synchronization process in the `Inter Node Block Sync` flow.
