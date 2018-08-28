@@ -91,7 +91,7 @@ Currently a single instance per virtual chain per node.
 #### Final checks before adding
 * We assume here that the caller of this method inside the node is trusted and has already done the tests specified by `ValidateBlockForCommit`.
 * Correct block protocol version.
-* Silently discard the given block if it already exists in the database (panic if it's different from ours under this block height).
+* Silently discard the given block if it already exists in the database by comparing the actual block bytes (panic if it's different from ours under this block height).
 * If it doesn't exist, panic if the given block height isn't the next of `last_committed_block`.
 
 #### Commit the block
