@@ -127,10 +127,8 @@ Currently a single instance per virtual chain per node.
 *Note: The logic up to here also appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.*
 
 #### Check the block consensus
-* Identify the relevant service (consensus algorithm) that is registered to handle TransactionsBlock validation.
-  * Check consensus of the transactions block by calling its `HandleTransactionsBlock`.
-* Identify the relevant service (consensus algorithm) that is registered to handle ResultsBlock validation.
-  * Check consensus of the results block by calling its `HandleResultsBlock`.
+* Identify the relevant service (consensus algorithm) that is registered to handle this block's validation.
+  * Check consensus of the block by calling its `HandleBlockConsensus`.
 
 &nbsp;
 ## `GetLastCommittedBlockHeight` (method)
