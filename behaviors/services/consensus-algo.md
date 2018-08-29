@@ -151,8 +151,8 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 #### Get the block committee
 * Calculate the random seed from the previous block (given).
 * Get the desired committee size from [configuration](../config/services.md).
-* Get a sorted list of committee members for the block by calling `ConsensusContext.RequestOrderingCommittee`.
-* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the Results block random seed.
+* Get a sorted list of committee members for the block by calling `ConsensusContext.RequestValidationCommittee`.
+  * Note: When the consensus algorithm relies on a single committee for both, it uses the  `ConsensusContext.RequestValidationCommittee` based on the Results block random seed.
 
 #### Verify the block proof
 * For both Transaction block and Results block, verify the block proof based on the committee members.
