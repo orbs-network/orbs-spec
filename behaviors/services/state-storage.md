@@ -18,7 +18,7 @@ Currently a single instance per virtual chain per node.
 * Separated into deployed services, for each one:
   * Keep a merkle tree of all state variables (keys and values) under it.
   * Keys are hashes, values are blobs (byte arrays).
-  * A non existent key returns an empty byte array. (implies null value / integer `0` value)
+  * A non existent key or contract name returns an empty byte array. (implies null value / integer `0` value)
 * Default system services:
   * `_Deployments`
     * Contains metadata about every [service](../../terminology.md) and [library](../../terminology.md) smart contracts that were deployed on the system.
@@ -52,6 +52,7 @@ Currently a single instance per virtual chain per node.
 #### Commit state
 * Update the state store according to the block's `state_diff`.
   * Also update the state merkle tree while updating each state value.
+  * When setting the null value (an empty byte array), delete the entry from both state and merkle tree.
 * Update `last_committed_block` to match the given block.
 
 &nbsp;
@@ -60,12 +61,14 @@ Currently a single instance per virtual chain per node.
 > Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract. This is the main way for other services to query state in the node.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 
 #### Return the values
-* Respond with the values from the state store.
+* If requested contract name does not exist in storage return an empty byte array. (implies null value / integer `0` value)
+* Otherwise, respond with the values from the state store.
+* For any requested key not stored return an empty byte array. (implies null value / integer `0` value)
 
 &nbsp;
 ## `GetStateStorageBlockHeight` (method)
@@ -80,7 +83,7 @@ Currently a single instance per virtual chain per node.
 > Returns the state hash (merkle tree root) updated to a certain block height. The latest hash is always written inside blocks so this is needed by block creators.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 

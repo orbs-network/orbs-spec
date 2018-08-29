@@ -63,3 +63,11 @@ Since the system must remain backwards compatible forever (able to audit the old
   "transaction-expiration-window-sec": "1800"
 }
 ```
+
+#### Cross services grace wait timeout
+
+```json
+{
+  "query-grace-timeout-millis": "1000"
+}
+```

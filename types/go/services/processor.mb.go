@@ -13,7 +13,7 @@ import (
 
 type Processor interface {
 	ProcessCall(input *ProcessCallInput) (*ProcessCallOutput, error)
-	DeployNativeService(input *DeployNativeServiceInput) (*DeployNativeServiceOutput, error)
+	GetContractInfo(input *GetContractInfoInput) (*GetContractInfoOutput, error)
 	RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler)
 }
 
@@ -112,65 +112,41 @@ func (x *ProcessCallOutput) StringCallResult() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message DeployNativeServiceInput (non serializable)
+// message GetContractInfoInput (non serializable)
 
-type DeployNativeServiceInput struct {
-	ContextId primitives.ExecutionContextId
+type GetContractInfoInput struct {
 	ContractName primitives.ContractName
-	AccessScope protocol.ExecutionAccessScope
-	PermissionScope protocol.ExecutionPermissionScope
-	CallingService primitives.ContractName
-	TransactionSigner *protocol.Signer
 }
 
-func (x *DeployNativeServiceInput) String() string {
+func (x *GetContractInfoInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContextId:%s,ContractName:%s,AccessScope:%s,PermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringAccessScope(), x.StringPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
+	return fmt.Sprintf("{ContractName:%s,}", x.StringContractName())
 }
 
-func (x *DeployNativeServiceInput) StringContextId() (res string) {
-	res = fmt.Sprintf("%s", x.ContextId)
-	return
-}
-
-func (x *DeployNativeServiceInput) StringContractName() (res string) {
+func (x *GetContractInfoInput) StringContractName() (res string) {
 	res = fmt.Sprintf("%s", x.ContractName)
 	return
 }
 
-func (x *DeployNativeServiceInput) StringAccessScope() (res string) {
-	res = fmt.Sprintf("%x", x.AccessScope)
-	return
-}
-
-func (x *DeployNativeServiceInput) StringPermissionScope() (res string) {
-	res = fmt.Sprintf("%x", x.PermissionScope)
-	return
-}
-
-func (x *DeployNativeServiceInput) StringCallingService() (res string) {
-	res = fmt.Sprintf("%s", x.CallingService)
-	return
-}
-
-func (x *DeployNativeServiceInput) StringTransactionSigner() (res string) {
-	res = x.TransactionSigner.String()
-	return
-}
-
 /////////////////////////////////////////////////////////////////////////////
-// message DeployNativeServiceOutput (non serializable)
+// message GetContractInfoOutput (non serializable)
 
-type DeployNativeServiceOutput struct {
+type GetContractInfoOutput struct {
+	PermissionScope protocol.ExecutionPermissionScope
 }
 
-func (x *DeployNativeServiceOutput) String() string {
+func (x *GetContractInfoOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{}")
+	return fmt.Sprintf("{PermissionScope:%s,}", x.StringPermissionScope())
+}
+
+func (x *GetContractInfoOutput) StringPermissionScope() (res string) {
+	res = fmt.Sprintf("%x", x.PermissionScope)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

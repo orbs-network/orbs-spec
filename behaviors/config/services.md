@@ -79,6 +79,7 @@ Since the system must remain backwards compatible forever (able to audit the old
   "block-sync-commit-timeout-sec": "8",
   "transaction-search-grace-sec": "5",
   "query-sync-grace-block-num": "0",
-  "max-blocks-per-sync-batch": "10000"
+  "max-blocks-per-sync-batch": "1000",
+  "max-blocks-per-sync-chunk": "10"
 }
 ```

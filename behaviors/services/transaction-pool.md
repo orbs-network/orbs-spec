@@ -97,7 +97,7 @@ Currently a single instance per virtual chain per node.
 > Proposes a set of N transaction for block building based on the block building policy (currently first come first served). Called by the block builder during consensus.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past, panic.
 
@@ -111,7 +111,6 @@ Currently a single instance per virtual chain per node.
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
   * Check transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-* Transaction wasn't already committed (exist in the committed pool).
 * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
   * Remove invalid transactions, include only transactions that are valid for pre-order.
   
@@ -121,7 +120,7 @@ Currently a single instance per virtual chain per node.
 > Verifies that an ordered list of transactions complies with the ordering policy, called by the block builder during consensus when validating a new block proposal.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block and wait.
+* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past, panic.
 

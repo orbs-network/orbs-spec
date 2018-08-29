@@ -25,10 +25,12 @@
   * Broadcasts a sync request to all nodes with `Gossip`.
 
 * `BlockStorage` of all nodes willing to help respond if they have missing blocks.
+  * Negotiate **batch** size (total number of blocks the syncing node will give in this session).
 
 * `BlockStorage` of the out of sync node:
   * Chooses randomly one of the nodes to synchronize with.
   * Starts a batched synchronization process with it through `Gossip`.
+  * Negotiate **chunk** size (number of blocks sent together as a chunk during the streaming process of the full batch).
   * Validates the consensus of every untrusted block it receives with `ConsensusAlgo`.
 
   * `ConsensusAlgo` of the out of sync node:
