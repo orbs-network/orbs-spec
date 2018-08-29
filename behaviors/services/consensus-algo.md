@@ -131,10 +131,19 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 &nbsp;
 ## `HandleBlockConsensus` (method)
+> Validates the consensus for an untrusted block header and and updates the algo state based on the requested mode. Called internally and by block storage during block sync or init. 
 
-> Validates the consensus for an untrusted block header and acknoledge its existance for algo state synchronization. Ignores whether the block body (content) is valid and its relevant hash values match the ones in the header. Called internally and by block storage during block sync or init.
+#### Perform checks according to the requested mode
+* If mode = `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE` or `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY`, perform headers checks by calling `VerifyBlockConsensus`.
 
-*Note: Input argument `prev_committed_block_pair` may be empty, this indicates that all tests that rely on the previous block pair should be ignored.*
+#### Update algo state according to the requested mode
+* If mode = `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE` and all checks are valid or if mode = `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`, update the consensus algorithm about the block commit (with block height and consensus dependent data).
+
+
+&nbsp;
+## `VerifyBlockConsensus`
+> Validates the consensus for an untrusted block header. Ignores whether the block body (content) is valid and its relevant hash values match the ones in the header. Called by `HandleBlockConsensus`.
+
 
 #### Check previous block pointer
 * For both Transaction block header and Results block header, verify the previous block hash pointer matches the hash of the previous block (given).
@@ -147,7 +156,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 #### Verify the block proof
 * For both Transaction block and Results block, verify the block proof based on the committee members.
-* If all valid, update the consensus algorithm about the block commit (with block height and consensus dependent data).
+
 
 &nbsp;
 ## `GossipMessageReceived` (method)
