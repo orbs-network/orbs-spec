@@ -17,6 +17,7 @@ type ConsensusBlocksHandler interface {
 // message HandleBlockConsensusInput (non serializable)
 
 type HandleBlockConsensusInput struct {
+	Mode HandleBlockConsensusMode
 	BlockType protocol.BlockType
 	BlockPair *protocol.BlockPairContainer
 	PrevCommittedBlockPair *protocol.BlockPairContainer
@@ -26,7 +27,12 @@ func (x *HandleBlockConsensusInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockType:%s,BlockPair:%s,PrevCommittedBlockPair:%s,}", x.StringBlockType(), x.StringBlockPair(), x.StringPrevCommittedBlockPair())
+	return fmt.Sprintf("{Mode:%s,BlockType:%s,BlockPair:%s,PrevCommittedBlockPair:%s,}", x.StringMode(), x.StringBlockType(), x.StringBlockPair(), x.StringPrevCommittedBlockPair())
+}
+
+func (x *HandleBlockConsensusInput) StringMode() (res string) {
+	res = fmt.Sprintf("%x", x.Mode)
+	return
 }
 
 func (x *HandleBlockConsensusInput) StringBlockType() (res string) {
@@ -59,4 +65,27 @@ func (x *HandleBlockConsensusOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
+
+type HandleBlockConsensusMode uint16
+
+const (
+	HANDLE_BLOCK_CONSENSUS_MODE_RESERVED HandleBlockConsensusMode = 0
+	HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_AND_VERIFY HandleBlockConsensusMode = 1
+	HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY HandleBlockConsensusMode = 2
+	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY HandleBlockConsensusMode = 3
+)
+
+func (n HandleBlockConsensusMode) String() string {
+	switch n {
+	case HANDLE_BLOCK_CONSENSUS_MODE_RESERVED:
+		return "HANDLE_BLOCK_CONSENSUS_MODE_RESERVED"
+	case HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_AND_VERIFY:
+		return "HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_AND_VERIFY"
+	case HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY:
+		return "HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY"
+	case HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY:
+		return "HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY"
+	}
+	return "UNKNOWN"
+}
 
