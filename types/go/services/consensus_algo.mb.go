@@ -56,3 +56,6 @@ func (x *OnNewConsensusRoundOutput) String() string {
 	return fmt.Sprintf("{}")
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// enums
+
