@@ -25,9 +25,9 @@ message ProcessCallInput {
     primitives.method_name method_name = 3;
     repeated protocol.MethodArgument input_arguments = 4;
     protocol.ExecutionAccessScope access_scope = 5;
-    protocol.ExecutionPermissionScope permission_scope = 6; // TODO: move to SDK
-    primitives.contract_name calling_service = 7; // TODO: move to SDK
-    protocol.Signer transaction_signer = 8; // TODO: move to SDK
+    protocol.ExecutionPermissionScope calling_permission_scope = 6;
+    primitives.contract_name calling_service = 7;
+    protocol.Signer transaction_signer = 8;
 }
 
 message ProcessCallOutput {
