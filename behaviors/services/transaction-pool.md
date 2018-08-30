@@ -23,9 +23,9 @@ Currently a single instance per virtual chain per node.
 * [Configurable](../config/services.md) max size.
 * [Configurable](../config/services.md) interval to clear expired transactions.
   * Transaction is expired if its timestamp is later than current time plus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-  * Notify public api about transactions it needs to respond to:
+  * Notify public api about expired transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
-    * If indeed local, update the registered public api service by calling its `HandleTransactionsBlock`.
+    * If indeed local, update the registered public api service by calling its `HandleTransactionError`.
       * Provide block height and timestamp according to the last committed block.
 
 #### Committed transaction pool
@@ -112,8 +112,11 @@ Currently a single instance per virtual chain per node.
   * Check transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
 * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
-  * Remove invalid transactions, include only transactions that are valid for pre-order.
-  
+  * Remove invalid transactions from the block and from the pending pool, include only transactions that are valid for pre-order. 
+* If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
+    * If indeed local, update the registered public api service by calling its `HandleTransactionError`.
+      * Provide block height and timestamp according to the last committed block.
+*   
 &nbsp;
 ## `ValidateTransactionsForOrdering` (method)
 

@@ -60,18 +60,9 @@ Currently a single instance per virtual chain per node.
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
   * On failure, send response to client along with the reference block height and timestamp.
-* Block until `ReturnTransactionResults` is called with the relevant `tx_id`.
+* Block until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.
-  * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `ReturnTransactionResults`.
-
-&nbsp;
-## `UpdateTransactionResults` (method)
-
-> Called by the TransactionResults Handler
-
-* For every transaction:
-  * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
-  * Unblock them to respond to the client using the data from the transaction receipt.
+  * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
 
 &nbsp;
 ## `GetTransactionStatus` (method)
@@ -97,5 +88,15 @@ Currently a single instance per virtual chain per node.
 > Handles transaction results enables the public api to respond to the waiting clients, called by `TransactionPool`. 
 
 #### `HandleTransactionResults`
-* Handle by calling `UpdateTransactionResults`.
+> Returns the results of committed transaction set.
+* For every transaction:
+  * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
+  * Unblock them to respond to the client using the data from the transaction receipt.
+    * Set response.transaction_status = COMMITTTED. 
 
+&nbsp;
+#### `HandleTransactionError`
+> Returns the result of a rejected transaction
+* Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
+  * Unblock them to respond to the client using the data from the response.
+    * Set response.transaction_receipt = NULL.

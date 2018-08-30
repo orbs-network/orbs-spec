@@ -12,6 +12,7 @@ import (
 
 type TransactionResultsHandler interface {
 	HandleTransactionResults(input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error)
+	HandleTransactionError(input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,4 +62,51 @@ func (x *HandleTransactionResultsOutput) String() string {
 	}
 	return fmt.Sprintf("{}")
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// message HandleTransactionErrorInput (non serializable)
+
+type HandleTransactionErrorInput struct {
+	TransactionStatus protocol.TransactionStatus
+	BlockHeight primitives.BlockHeight
+	BlockTimestamp primitives.TimestampNano
+}
+
+func (x *HandleTransactionErrorInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *HandleTransactionErrorInput) StringTransactionStatus() (res string) {
+	res = fmt.Sprintf("%x", x.TransactionStatus)
+	return
+}
+
+func (x *HandleTransactionErrorInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *HandleTransactionErrorInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message HandleTransactionErrorOutput (non serializable)
+
+type HandleTransactionErrorOutput struct {
+}
+
+func (x *HandleTransactionErrorOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{}")
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// enums
 

@@ -3,12 +3,14 @@ package handlers;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
 import "../primitives/protocol.proto";
+import "../protocol/results.proto";
 import "../protocol/transactions.proto";
 
 option serialize_messages = false;
 
 service TransactionResultsHandler {
     rpc HandleTransactionResults(HandleTransactionResultsInput) returns (HandleTransactionResultsOutput);
+    rpc HandleTransactionError(HandleTransactionErrorInput) returns (HandleTransactionErrorOutput);
 }
 
 message HandleTransactionResultsInput {
@@ -19,3 +21,15 @@ message HandleTransactionResultsInput {
 
 message HandleTransactionResultsOutput {
 }
+
+
+message HandleTransactionErrorInput {
+    protocol.TransactionStatus transaction_status = 1;
+    primitives.block_height block_height = 2;
+    primitives.timestamp_nano block_timestamp = 3;
+}
+
+message HandleTransactionErrorOutput {
+    // empty
+}
+

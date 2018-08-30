@@ -21,3 +21,12 @@ func (s *MockTransactionResultsHandler) HandleTransactionResults(input *HandleTr
 	}
 }
 
+func (s *MockTransactionResultsHandler) HandleTransactionError(input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error) {
+	ret := s.Called(input)
+	if out := ret.Get(0); out != nil {
+		return out.(*HandleTransactionErrorOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
