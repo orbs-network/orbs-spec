@@ -65,6 +65,10 @@ func (x *SendTransactionRequest) RawSignedTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *SendTransactionRequest) RawSignedTransactionWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *SendTransactionRequest) StringSignedTransaction() string {
 	return x.SignedTransaction().String()
 }
@@ -176,6 +180,10 @@ func (x *SendTransactionResponse) TransactionReceipt() *protocol.TransactionRece
 
 func (x *SendTransactionResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *SendTransactionResponse) RawTransactionReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *SendTransactionResponse) StringTransactionReceipt() string {
@@ -342,6 +350,10 @@ func (x *CallMethodRequest) RawTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *CallMethodRequest) RawTransactionWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *CallMethodRequest) StringTransaction() string {
 	return x.Transaction().String()
 }
@@ -402,7 +414,7 @@ func (w *CallMethodRequestBuilder) Build() *CallMethodRequest {
 // reader
 
 type CallMethodResponse struct {
-	// OutputArguments []protocol.MethodArgument
+	// OutputArgumentArray []byte
 	// CallResult protocol.ExecutionResult
 	// BlockHeight primitives.BlockHeight
 	// BlockTimestamp primitives.TimestampNano
@@ -416,10 +428,10 @@ func (x *CallMethodResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{OutputArgumentArray:%s,CallResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringOutputArgumentArray(), x.StringCallResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
 var _CallMethodResponse_Unions = [][]membuffers.FieldType{}
 
 func CallMethodResponseReader(buf []byte) *CallMethodResponse {
@@ -446,34 +458,24 @@ func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *CallMethodResponse) OutputArgumentsIterator() *CallMethodResponseOutputArgumentsIterator {
-	return &CallMethodResponseOutputArgumentsIterator{iterator: x._message.GetMessageArrayIterator(0)}
+func (x *CallMethodResponse) OutputArgumentArray() []byte {
+	return x._message.GetBytes(0)
 }
 
-type CallMethodResponseOutputArgumentsIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *CallMethodResponseOutputArgumentsIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *CallMethodResponseOutputArgumentsIterator) NextOutputArguments() *protocol.MethodArgument {
-	b, s := i.iterator.NextMessage()
-	return protocol.MethodArgumentReader(b[:s])
-}
-
-func (x *CallMethodResponse) RawOutputArgumentsArray() []byte {
+func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *CallMethodResponse) StringOutputArguments() (res string) {
-	res = "["
-	for i := x.OutputArgumentsIterator(); i.HasNext(); {
-		res += i.NextOutputArguments().String() + ","
-	}
-	res += "]"
-	return
+func (x *CallMethodResponse) RawOutputArgumentArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *CallMethodResponse) MutateOutputArgumentArray(v []byte) error {
+	return x._message.SetBytes(0, v)
+}
+
+func (x *CallMethodResponse) StringOutputArgumentArray() string {
+	return fmt.Sprintf("%x", x.OutputArgumentArray())
 }
 
 func (x *CallMethodResponse) CallResult() protocol.ExecutionResult {
@@ -527,7 +529,7 @@ func (x *CallMethodResponse) StringBlockTimestamp() string {
 // builder
 
 type CallMethodResponseBuilder struct {
-	OutputArguments []*protocol.MethodArgumentBuilder
+	OutputArgumentArray []byte
 	CallResult protocol.ExecutionResult
 	BlockHeight primitives.BlockHeight
 	BlockTimestamp primitives.TimestampNano
@@ -535,14 +537,6 @@ type CallMethodResponseBuilder struct {
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
-}
-
-func (w *CallMethodResponseBuilder) arrayOfOutputArguments() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.OutputArguments))
-	for i, v := range w.OutputArguments {
-		res[i] = v
-	}
-	return res
 }
 
 func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
@@ -555,10 +549,7 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessageArray(buf, w.arrayOfOutputArguments())
-	if err != nil {
-		return
-	}
+	w._builder.WriteBytes(buf, w.OutputArgumentArray)
 	w._builder.WriteUint16(buf, uint16(w.CallResult))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
@@ -774,6 +765,10 @@ func (x *GetTransactionStatusResponse) TransactionReceipt() *protocol.Transactio
 
 func (x *GetTransactionStatusResponse) RawTransactionReceipt() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetTransactionStatusResponse) RawTransactionReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *GetTransactionStatusResponse) StringTransactionReceipt() string {

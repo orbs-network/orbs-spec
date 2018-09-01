@@ -890,6 +890,10 @@ func (x *TransactionsBlockProof) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *TransactionsBlockProof) RawTypeWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *TransactionsBlockProof) StringType() string {
 	switch x.Type() {
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
@@ -1051,6 +1055,10 @@ func (x *ResultsBlockProof) StringLeanHelix() string {
 
 func (x *ResultsBlockProof) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *ResultsBlockProof) RawTypeWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *ResultsBlockProof) StringType() string {

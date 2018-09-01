@@ -64,6 +64,10 @@ func (x *MethodArgument) RawName() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *MethodArgument) RawNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *MethodArgument) MutateName(v string) error {
 	return x._message.SetString(0, v)
 }
@@ -193,6 +197,10 @@ func (x *MethodArgument) RawType() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
+func (x *MethodArgument) RawTypeWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
 func (x *MethodArgument) StringType() string {
 	switch x.Type() {
 	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
@@ -271,6 +279,145 @@ func (w *MethodArgumentBuilder) Build() *MethodArgument {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message MethodArgumentArray
+
+// reader
+
+type MethodArgumentArray struct {
+	// Arguments []MethodArgument
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *MethodArgumentArray) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Arguments:%s,}", x.StringArguments())
+}
+
+var _MethodArgumentArray_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,}
+var _MethodArgumentArray_Unions = [][]membuffers.FieldType{}
+
+func MethodArgumentArrayReader(buf []byte) *MethodArgumentArray {
+	x := &MethodArgumentArray{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _MethodArgumentArray_Scheme, _MethodArgumentArray_Unions)
+	return x
+}
+
+func (x *MethodArgumentArray) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *MethodArgumentArray) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *MethodArgumentArray) Equal(y *MethodArgumentArray) bool {
+  if x == nil && y == nil {
+    return true
+  }
+  if x == nil || y == nil {
+    return false
+  }
+  return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *MethodArgumentArray) ArgumentsIterator() *MethodArgumentArrayArgumentsIterator {
+	return &MethodArgumentArrayArgumentsIterator{iterator: x._message.GetMessageArrayIterator(0)}
+}
+
+type MethodArgumentArrayArgumentsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *MethodArgumentArrayArgumentsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *MethodArgumentArrayArgumentsIterator) NextArguments() *MethodArgument {
+	b, s := i.iterator.NextMessage()
+	return MethodArgumentReader(b[:s])
+}
+
+func (x *MethodArgumentArray) RawArgumentsArray() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *MethodArgumentArray) RawArgumentsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *MethodArgumentArray) StringArguments() (res string) {
+	res = "["
+	for i := x.ArgumentsIterator(); i.HasNext(); {
+		res += i.NextArguments().String() + ","
+	}
+	res += "]"
+	return
+}
+
+// builder
+
+type MethodArgumentArrayBuilder struct {
+	Arguments []*MethodArgumentBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *MethodArgumentArrayBuilder) arrayOfArguments() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.Arguments))
+	for i, v := range w.Arguments {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *MethodArgumentArrayBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *MethodArgumentArrayBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *MethodArgumentArrayBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *MethodArgumentArrayBuilder) Build() *MethodArgumentArray {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return MethodArgumentArrayReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // message StateRecord
 
 // reader
@@ -340,6 +487,10 @@ func (x *StateRecord) Value() []byte {
 
 func (x *StateRecord) RawValue() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *StateRecord) RawValueWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *StateRecord) MutateValue(v []byte) error {
@@ -482,6 +633,10 @@ func (i *ContractStateDiffStateDiffsIterator) NextStateDiffs() *StateRecord {
 
 func (x *ContractStateDiff) RawStateDiffsArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *ContractStateDiff) RawStateDiffsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *ContractStateDiff) StringStateDiffs() (res string) {

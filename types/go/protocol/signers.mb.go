@@ -87,6 +87,10 @@ func (x *Signer) RawScheme() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *Signer) RawSchemeWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *Signer) StringScheme() string {
 	switch x.Scheme() {
 	case SIGNER_SCHEME_EDDSA:

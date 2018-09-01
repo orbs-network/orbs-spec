@@ -66,6 +66,10 @@ func (x *LeanHelixBlockProof) RawBlockRef() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixBlockProof) RawBlockRefWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *LeanHelixBlockProof) StringBlockRef() string {
 	return x.BlockRef().String()
 }
@@ -89,6 +93,10 @@ func (i *LeanHelixBlockProofNodesIterator) NextNodes() *LeanHelixSenderSignature
 
 func (x *LeanHelixBlockProof) RawNodesArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixBlockProof) RawNodesArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *LeanHelixBlockProof) StringNodes() (res string) {

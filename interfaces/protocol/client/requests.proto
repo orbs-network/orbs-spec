@@ -24,7 +24,7 @@ message CallMethodRequest {
 }
 
 message CallMethodResponse {
-    repeated protocol.MethodArgument output_arguments = 1;
+    bytes output_argument_array = 1; // opaque field of repeated protocol.MethodArgument
     protocol.ExecutionResult call_result = 2;
     primitives.block_height block_height = 3;
     primitives.timestamp_nano block_timestamp = 4;

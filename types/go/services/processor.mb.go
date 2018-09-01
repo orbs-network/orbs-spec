@@ -24,7 +24,7 @@ type ProcessCallInput struct {
 	ContextId primitives.ExecutionContextId
 	ContractName primitives.ContractName
 	MethodName primitives.MethodName
-	InputArguments []*protocol.MethodArgument
+	InputArgumentArray *protocol.MethodArgumentArray
 	AccessScope protocol.ExecutionAccessScope
 	CallingPermissionScope protocol.ExecutionPermissionScope
 	CallingService primitives.ContractName
@@ -35,7 +35,7 @@ func (x *ProcessCallInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArguments:%s,AccessScope:%s,CallingPermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArguments(), x.StringAccessScope(), x.StringCallingPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
+	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,AccessScope:%s,CallingPermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray(), x.StringAccessScope(), x.StringCallingPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
 }
 
 func (x *ProcessCallInput) StringContextId() (res string) {
@@ -53,12 +53,8 @@ func (x *ProcessCallInput) StringMethodName() (res string) {
 	return
 }
 
-func (x *ProcessCallInput) StringInputArguments() (res string) {
-	res = "["
-		for _, v := range x.InputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *ProcessCallInput) StringInputArgumentArray() (res string) {
+	res = x.InputArgumentArray.String()
 	return
 }
 
@@ -86,7 +82,7 @@ func (x *ProcessCallInput) StringTransactionSigner() (res string) {
 // message ProcessCallOutput (non serializable)
 
 type ProcessCallOutput struct {
-	OutputArguments []*protocol.MethodArgument
+	OutputArgumentArray *protocol.MethodArgumentArray
 	CallResult protocol.ExecutionResult
 }
 
@@ -94,15 +90,11 @@ func (x *ProcessCallOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,}", x.StringOutputArguments(), x.StringCallResult())
+	return fmt.Sprintf("{OutputArgumentArray:%s,CallResult:%s,}", x.StringOutputArgumentArray(), x.StringCallResult())
 }
 
-func (x *ProcessCallOutput) StringOutputArguments() (res string) {
-	res = "["
-		for _, v := range x.OutputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *ProcessCallOutput) StringOutputArgumentArray() (res string) {
+	res = x.OutputArgumentArray.String()
 	return
 }
 

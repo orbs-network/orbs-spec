@@ -64,6 +64,10 @@ func (x *BenchmarkConsensusBlockProof) RawSender() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *BenchmarkConsensusBlockProof) RawSenderWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *BenchmarkConsensusBlockProof) StringSender() string {
 	return x.Sender().String()
 }

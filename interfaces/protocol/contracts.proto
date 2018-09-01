@@ -15,6 +15,10 @@ message MethodArgument {
     }
 }
 
+message MethodArgumentArray {
+    repeated MethodArgument arguments = 1;
+}
+
 message StateRecord {
     primitives.ripmd160_sha256 key = 1;
     bytes value = 2;

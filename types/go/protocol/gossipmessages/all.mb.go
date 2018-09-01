@@ -112,6 +112,10 @@ func (x *Header) RawRecipientPublicKeysArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *Header) RawRecipientPublicKeysArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
 func (x *Header) StringRecipientPublicKeys() (res string) {
 	res = "["
 	for i := x.RecipientPublicKeysIterator(); i.HasNext(); {
@@ -256,6 +260,10 @@ func (x *Header) MutateBenchmarkConsensus(v consensus.BenchmarkConsensusMessageT
 
 func (x *Header) RawTopic() []byte {
 	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *Header) RawTopicWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(4, 0)
 }
 
 func (x *Header) StringTopic() string {

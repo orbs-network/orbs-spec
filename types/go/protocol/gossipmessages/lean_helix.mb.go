@@ -376,6 +376,10 @@ func (x *LeanHelixViewChangeHeader) RawPreparedProof() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *LeanHelixViewChangeHeader) RawPreparedProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *LeanHelixViewChangeHeader) StringPreparedProof() string {
 	return x.PreparedProof().String()
 }
@@ -493,6 +497,10 @@ func (x *LeanHelixPreparedProof) RawBlockRef() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixPreparedProof) RawBlockRefWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *LeanHelixPreparedProof) StringBlockRef() string {
 	return x.BlockRef().String()
 }
@@ -516,6 +524,10 @@ func (i *LeanHelixPreparedProofSendersIterator) NextSenders() *consensus.LeanHel
 
 func (x *LeanHelixPreparedProof) RawSendersArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixPreparedProof) RawSendersArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *LeanHelixPreparedProof) StringSenders() (res string) {
@@ -699,6 +711,10 @@ func (x *LeanHelixNewViewHeader) RawNewViewProof() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *LeanHelixNewViewHeader) RawNewViewProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *LeanHelixNewViewHeader) StringNewViewProof() string {
 	return x.NewViewProof().String()
 }
@@ -712,6 +728,10 @@ func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSignedHeader() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
+func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSignedHeaderWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(4, 0)
+}
+
 func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSignedHeader() string {
 	return x.NewViewPrePrepareSignedHeader().String()
 }
@@ -723,6 +743,10 @@ func (x *LeanHelixNewViewHeader) NewViewPrePrepareSender() *consensus.LeanHelixS
 
 func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSender() []byte {
 	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSenderWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
 }
 
 func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSender() string {
@@ -864,6 +888,10 @@ func (x *LeanHelixNewViewProof) RawViewChangeSignedHeadersArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixNewViewProof) RawViewChangeSignedHeadersArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *LeanHelixNewViewProof) StringViewChangeSignedHeaders() (res string) {
 	res = "["
 	for i := x.ViewChangeSignedHeadersIterator(); i.HasNext(); {
@@ -892,6 +920,10 @@ func (i *LeanHelixNewViewProofViewChangeSendersIterator) NextViewChangeSenders()
 
 func (x *LeanHelixNewViewProof) RawViewChangeSendersArray() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixNewViewProof) RawViewChangeSendersArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *LeanHelixNewViewProof) StringViewChangeSenders() (res string) {
