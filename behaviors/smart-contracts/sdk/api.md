@@ -21,30 +21,30 @@ Persistent state variables are available to the contract via the `State` object.
 #### Read
 
 ```ts
-State.ReadBlobAddress(address: SHA256): Blob
-State.ReadBlobKey(key: String): Blob
-State.ReadStringAddress(address: SHA256): String
-State.ReadStringKey(key: String): String
-State.ReadUint64Address(address: SHA256): Uint64
-State.ReadUint64Key(key: String): Uint64
+State.ReadBytesByAddress(address: SHA256): Bytes
+State.ReadBytesByKey(key: String): Bytes
+State.ReadStringByAddress(address: SHA256): String
+State.ReadStringByKey(key: String): String
+State.ReadUint64ByAddress(address: SHA256): Uint64
+State.ReadUint64ByKey(key: String): Uint64
 ```
 
 #### Write
 
 ```ts
-State.WriteBlobAddress(address: SHA256, value: Blob): Error
-State.WriteBlobKey(key: String, value: Blob): Error
-State.WriteStringAddress(address: SHA256, value: String): Error
-State.WriteStringKey(key: String, value: String): Error
-State.WriteUint64Address(address: SHA256, value: Uint64): Error
-State.WriteUint64Key(key: String, value: Uint64): Error
+State.WriteBytesByAddress(address: SHA256, value: Bytes): Error
+State.WriteBytesByKey(key: String, value: Bytes): Error
+State.WriteStringByAddress(address: SHA256, value: String): Error
+State.WriteStringByKey(key: String, value: String): Error
+State.WriteUint64ByAddress(address: SHA256, value: Uint64): Error
+State.WriteUint64ByKey(key: String, value: Uint64): Error
 ```
 
 #### Clear
 
 ```ts
-State.ClearAddress(address: SHA256): Error
-State.ClearKey(key: String): Error
+State.ClearByAddress(address: SHA256): Error
+State.ClearByKey(key: String): Error
 ```
 
 #### Permissions
@@ -59,7 +59,6 @@ Multiple smart contracts can be deployed on one [virtual chain](../../../termino
 #### Services
 
 ```ts
-Service.IsDeployed(service: String): Boolean
 Service.CallMethod(service: String, method: String, arguments: MethodCallArguments): MethodCallResult
 ```
 
@@ -71,7 +70,6 @@ Service.CallMethod(service: String, method: String, arguments: MethodCallArgumen
 #### Libraries
 
 ```ts
-Library.IsDeployed(library: String): Boolean
 Library.CallMethod(library: String, method: String, arguments: MethodCallArguments): MethodCallResult
 ```
 

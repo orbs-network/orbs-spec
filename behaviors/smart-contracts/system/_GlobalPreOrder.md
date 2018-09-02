@@ -14,6 +14,9 @@ Implemented on the `Native` processor.
 * `Internal` (caller must be the same service).
 * `ReadWrite` (potentially changes state).
 
+#### Behavior
+* Empty.
+
 &nbsp;
 ## `approve` (method)
 
@@ -21,7 +24,7 @@ Implemented on the `Native` processor.
 * `External` (caller can be anyone).
 * `ReadOnly` (does not change state).
 
-#### Contract
+#### Behavior
 * Get the virtual chain by calling `Environment.GetVirtualChain`.
 * Read the subscription data from Ethereum by calling `Ethereum.CallContract`.
   * Optimization: Maintain a cached value of the subscription status, refresh it every 1000 blocks.
