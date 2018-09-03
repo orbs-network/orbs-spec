@@ -4,6 +4,8 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 
 Currently a single instance per virtual chain per node.
 
+During shutdown no new calls will be received and pending calls will be completed. Long polling calls (sendTransaction and getTransactionStatus should return immediately with the currently known status to hide the shutdown or with an error indicating the server is shutting down - TBD?)
+
 #### Interacts with services
 
 * `BlockStorage` - Gets the latest committed block height from it and queries old transactions from it.
@@ -63,6 +65,7 @@ Currently a single instance per virtual chain per node.
 * Block until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
+* If during waiting for tx to be committed the node is shut down the call will return with an error. similar to timeout expiration
 
 &nbsp;
 ## `GetTransactionStatus` (method)
@@ -81,6 +84,7 @@ Currently a single instance per virtual chain per node.
 * If not found in transaction pool, it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
+* If during grace period the node is shut down fail with an error message "server shutting down"
 
 &nbsp;
 ## TransactionResults Handler
