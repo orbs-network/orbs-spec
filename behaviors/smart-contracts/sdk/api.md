@@ -8,7 +8,7 @@ API specification for [smart contract](../../../terminology.md) developers. The 
 #### Environment
 
 ```ts
-Environment.GetVirtualChain(): Uint32
+Environment.GetVirtualChainId(): Uint64
 ```
 
 #### Execution arguments
