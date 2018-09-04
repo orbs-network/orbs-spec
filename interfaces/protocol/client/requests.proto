@@ -13,10 +13,10 @@ message SendTransactionRequest {
 }
 
 message SendTransactionResponse {
-    protocol.TransactionReceipt transaction_receipt = 1;
+    protocol.TransactionReceipt transaction_receipt = 1; // empty unless status committed or previously committed
     protocol.TransactionStatus transaction_status = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    primitives.block_height block_height = 3; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 4; // should always be returned even on errors or timeouts
 }
 
 message CallMethodRequest {
@@ -26,8 +26,8 @@ message CallMethodRequest {
 message CallMethodResponse {
     bytes output_argument_array = 1; // opaque field of repeated protocol.MethodArgument
     protocol.ExecutionResult call_result = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    primitives.block_height block_height = 3; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 4; // should always be returned even on errors or timeouts
 }
 
 message GetTransactionStatusRequest {
@@ -38,6 +38,6 @@ message GetTransactionStatusRequest {
 message GetTransactionStatusResponse {
     protocol.TransactionReceipt transaction_receipt = 1;
     protocol.TransactionStatus transaction_status = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    primitives.block_height block_height = 3; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 4; // should always be returned even on errors or timeouts
 }

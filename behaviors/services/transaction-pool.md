@@ -68,6 +68,7 @@ Currently a single instance per virtual chain per node.
 * Transaction (`txhash`) doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
 * On any failure, return the relevant error status and an empty receipt.
+  * Always (even on errors) include reference block height and block timestamp in the response. 
   * For an already committed transaction, return the receipt.
 
 #### Add transaction to pending pool
