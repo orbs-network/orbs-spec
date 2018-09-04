@@ -4,7 +4,7 @@ Provides external public gateway interface (like JSON over HTTP) to the network 
 
 Currently a single instance per virtual chain per node.
 
-During shutdown no new calls will be received and pending calls will be completed. Long polling calls (sendTransaction and getTransactionStatus should return immediately with the currently known status to hide the shutdown or with an error indicating the server is shutting down - TBD?)
+During shutdown no new calls will be received and pending calls will be completed. Long polling calls (sendTransaction and getTransactionStatus) should return immediately with the currently known status in case of a shutdown signal. 
 
 #### Interacts with services
 
@@ -65,7 +65,7 @@ During shutdown no new calls will be received and pending calls will be complete
 * Block until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
-* If during waiting for tx to be committed the node is shut down the call will return with an error. similar to timeout expiration
+* If during waiting for tx to be committed the node is shut down the call will return with status `PENDING` and block height and timestamp will be those received from the TransactionPool upon calling `AddNewTransaction`
 
 &nbsp;
 ## `GetTransactionStatus` (method)
@@ -84,7 +84,7 @@ During shutdown no new calls will be received and pending calls will be complete
 * If not found in transaction pool, it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
-* If during grace period the node is shut down fail with an error message "server shutting down"
+* If during grace period the node is shut down behave as though the timeout had expired - check for the status and return `PENDING` or `COMMITTED` appropriately.
 
 &nbsp;
 ## TransactionResults Handler
