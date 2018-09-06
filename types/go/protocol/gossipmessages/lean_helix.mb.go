@@ -134,14 +134,14 @@ func (x *LeanHelixViewChangeMessage) StringBlockPair() (res string) {
 type LeanHelixNewViewMessage struct {
 	SignedHeader *LeanHelixNewViewHeader
 	Sender *consensus.LeanHelixSenderSignature
-	BlockPair *protocol.BlockPairContainer
+	PrepareMessage *LeanHelixPrePrepareMessage
 }
 
 func (x *LeanHelixNewViewMessage) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,BlockPair:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringBlockPair())
+	return fmt.Sprintf("{SignedHeader:%s,Sender:%s,PrepareMessage:%s,}", x.StringSignedHeader(), x.StringSender(), x.StringPrepareMessage())
 }
 
 func (x *LeanHelixNewViewMessage) StringSignedHeader() (res string) {
@@ -154,8 +154,8 @@ func (x *LeanHelixNewViewMessage) StringSender() (res string) {
 	return
 }
 
-func (x *LeanHelixNewViewMessage) StringBlockPair() (res string) {
-	res = x.BlockPair.String()
+func (x *LeanHelixNewViewMessage) StringPrepareMessage() (res string) {
+	res = x.PrepareMessage.String()
 	return
 }
 
@@ -611,9 +611,7 @@ type LeanHelixNewViewHeader struct {
 	// MessageType consensus.LeanHelixMessageType
 	// BlockHeight primitives.BlockHeight
 	// View uint32
-	// NewViewProof LeanHelixNewViewProof
-	// NewViewPrePrepareSignedHeader consensus.LeanHelixBlockRef
-	// NewViewPrePrepareSender consensus.LeanHelixSenderSignature
+	// ViewChangeConfirmations []LeanHelixViewChangeConfirmation
 
 	// internal
 	// implements membuffers.Message
@@ -624,10 +622,10 @@ func (x *LeanHelixNewViewHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,NewViewProof:%s,NewViewPrePrepareSignedHeader:%s,NewViewPrePrepareSender:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringNewViewProof(), x.StringNewViewPrePrepareSignedHeader(), x.StringNewViewPrePrepareSender())
+	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,ViewChangeConfirmations:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringViewChangeConfirmations())
 }
 
-var _LeanHelixNewViewHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessage,membuffers.TypeMessage,membuffers.TypeMessage,}
+var _LeanHelixNewViewHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeMessageArray,}
 var _LeanHelixNewViewHeader_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixNewViewHeaderReader(buf []byte) *LeanHelixNewViewHeader {
@@ -702,55 +700,38 @@ func (x *LeanHelixNewViewHeader) StringView() string {
 	return fmt.Sprintf("%x", x.View())
 }
 
-func (x *LeanHelixNewViewHeader) NewViewProof() *LeanHelixNewViewProof {
-	b, s := x._message.GetMessage(3)
-	return LeanHelixNewViewProofReader(b[:s])
+func (x *LeanHelixNewViewHeader) ViewChangeConfirmationsIterator() *LeanHelixNewViewHeaderViewChangeConfirmationsIterator {
+	return &LeanHelixNewViewHeaderViewChangeConfirmationsIterator{iterator: x._message.GetMessageArrayIterator(3)}
 }
 
-func (x *LeanHelixNewViewHeader) RawNewViewProof() []byte {
+type LeanHelixNewViewHeaderViewChangeConfirmationsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *LeanHelixNewViewHeaderViewChangeConfirmationsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *LeanHelixNewViewHeaderViewChangeConfirmationsIterator) NextViewChangeConfirmations() *LeanHelixViewChangeConfirmation {
+	b, s := i.iterator.NextMessage()
+	return LeanHelixViewChangeConfirmationReader(b[:s])
+}
+
+func (x *LeanHelixNewViewHeader) RawViewChangeConfirmationsArray() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *LeanHelixNewViewHeader) RawNewViewProofWithHeader() []byte {
+func (x *LeanHelixNewViewHeader) RawViewChangeConfirmationsArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(3, 0)
 }
 
-func (x *LeanHelixNewViewHeader) StringNewViewProof() string {
-	return x.NewViewProof().String()
-}
-
-func (x *LeanHelixNewViewHeader) NewViewPrePrepareSignedHeader() *consensus.LeanHelixBlockRef {
-	b, s := x._message.GetMessage(4)
-	return consensus.LeanHelixBlockRefReader(b[:s])
-}
-
-func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSignedHeader() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSignedHeaderWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(4, 0)
-}
-
-func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSignedHeader() string {
-	return x.NewViewPrePrepareSignedHeader().String()
-}
-
-func (x *LeanHelixNewViewHeader) NewViewPrePrepareSender() *consensus.LeanHelixSenderSignature {
-	b, s := x._message.GetMessage(5)
-	return consensus.LeanHelixSenderSignatureReader(b[:s])
-}
-
-func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSender() []byte {
-	return x._message.RawBufferForField(5, 0)
-}
-
-func (x *LeanHelixNewViewHeader) RawNewViewPrePrepareSenderWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(5, 0)
-}
-
-func (x *LeanHelixNewViewHeader) StringNewViewPrePrepareSender() string {
-	return x.NewViewPrePrepareSender().String()
+func (x *LeanHelixNewViewHeader) StringViewChangeConfirmations() (res string) {
+	res = "["
+	for i := x.ViewChangeConfirmationsIterator(); i.HasNext(); {
+		res += i.NextViewChangeConfirmations().String() + ","
+	}
+	res += "]"
+	return
 }
 
 // builder
@@ -759,13 +740,19 @@ type LeanHelixNewViewHeaderBuilder struct {
 	MessageType consensus.LeanHelixMessageType
 	BlockHeight primitives.BlockHeight
 	View uint32
-	NewViewProof *LeanHelixNewViewProofBuilder
-	NewViewPrePrepareSignedHeader *consensus.LeanHelixBlockRefBuilder
-	NewViewPrePrepareSender *consensus.LeanHelixSenderSignatureBuilder
+	ViewChangeConfirmations []*LeanHelixViewChangeConfirmationBuilder
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
+}
+
+func (w *LeanHelixNewViewHeaderBuilder) arrayOfViewChangeConfirmations() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.ViewChangeConfirmations))
+	for i, v := range w.ViewChangeConfirmations {
+		res[i] = v
+	}
+	return res
 }
 
 func (w *LeanHelixNewViewHeaderBuilder) Write(buf []byte) (err error) {
@@ -781,15 +768,7 @@ func (w *LeanHelixNewViewHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint16(buf, uint16(w.MessageType))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint32(buf, w.View)
-	err = w._builder.WriteMessage(buf, w.NewViewProof)
-	if err != nil {
-		return
-	}
-	err = w._builder.WriteMessage(buf, w.NewViewPrePrepareSignedHeader)
-	if err != nil {
-		return
-	}
-	err = w._builder.WriteMessage(buf, w.NewViewPrePrepareSender)
+	err = w._builder.WriteMessageArray(buf, w.arrayOfViewChangeConfirmations())
 	if err != nil {
 		return
 	}
@@ -820,44 +799,44 @@ func (w *LeanHelixNewViewHeaderBuilder) Build() *LeanHelixNewViewHeader {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message LeanHelixNewViewProof
+// message LeanHelixViewChangeConfirmation
 
 // reader
 
-type LeanHelixNewViewProof struct {
-	// ViewChangeSignedHeaders []LeanHelixViewChangeHeader
-	// ViewChangeSenders []consensus.LeanHelixSenderSignature
+type LeanHelixViewChangeConfirmation struct {
+	// ViewChangeSignedHeader LeanHelixViewChangeHeader
+	// ViewChangeSender consensus.LeanHelixSenderSignature
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *LeanHelixNewViewProof) String() string {
+func (x *LeanHelixViewChangeConfirmation) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ViewChangeSignedHeaders:%s,ViewChangeSenders:%s,}", x.StringViewChangeSignedHeaders(), x.StringViewChangeSenders())
+	return fmt.Sprintf("{ViewChangeSignedHeader:%s,ViewChangeSender:%s,}", x.StringViewChangeSignedHeader(), x.StringViewChangeSender())
 }
 
-var _LeanHelixNewViewProof_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,membuffers.TypeMessageArray,}
-var _LeanHelixNewViewProof_Unions = [][]membuffers.FieldType{}
+var _LeanHelixViewChangeConfirmation_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessage,}
+var _LeanHelixViewChangeConfirmation_Unions = [][]membuffers.FieldType{}
 
-func LeanHelixNewViewProofReader(buf []byte) *LeanHelixNewViewProof {
-	x := &LeanHelixNewViewProof{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixNewViewProof_Scheme, _LeanHelixNewViewProof_Unions)
+func LeanHelixViewChangeConfirmationReader(buf []byte) *LeanHelixViewChangeConfirmation {
+	x := &LeanHelixViewChangeConfirmation{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _LeanHelixViewChangeConfirmation_Scheme, _LeanHelixViewChangeConfirmation_Unions)
 	return x
 }
 
-func (x *LeanHelixNewViewProof) IsValid() bool {
+func (x *LeanHelixViewChangeConfirmation) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *LeanHelixNewViewProof) Raw() []byte {
+func (x *LeanHelixViewChangeConfirmation) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *LeanHelixNewViewProof) Equal(y *LeanHelixNewViewProof) bool {
+func (x *LeanHelixViewChangeConfirmation) Equal(y *LeanHelixViewChangeConfirmation) bool {
   if x == nil && y == nil {
     return true
   }
@@ -867,102 +846,52 @@ func (x *LeanHelixNewViewProof) Equal(y *LeanHelixNewViewProof) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixNewViewProof) ViewChangeSignedHeadersIterator() *LeanHelixNewViewProofViewChangeSignedHeadersIterator {
-	return &LeanHelixNewViewProofViewChangeSignedHeadersIterator{iterator: x._message.GetMessageArrayIterator(0)}
-}
-
-type LeanHelixNewViewProofViewChangeSignedHeadersIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *LeanHelixNewViewProofViewChangeSignedHeadersIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *LeanHelixNewViewProofViewChangeSignedHeadersIterator) NextViewChangeSignedHeaders() *LeanHelixViewChangeHeader {
-	b, s := i.iterator.NextMessage()
+func (x *LeanHelixViewChangeConfirmation) ViewChangeSignedHeader() *LeanHelixViewChangeHeader {
+	b, s := x._message.GetMessage(0)
 	return LeanHelixViewChangeHeaderReader(b[:s])
 }
 
-func (x *LeanHelixNewViewProof) RawViewChangeSignedHeadersArray() []byte {
+func (x *LeanHelixViewChangeConfirmation) RawViewChangeSignedHeader() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixNewViewProof) RawViewChangeSignedHeadersArrayWithHeader() []byte {
+func (x *LeanHelixViewChangeConfirmation) RawViewChangeSignedHeaderWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *LeanHelixNewViewProof) StringViewChangeSignedHeaders() (res string) {
-	res = "["
-	for i := x.ViewChangeSignedHeadersIterator(); i.HasNext(); {
-		res += i.NextViewChangeSignedHeaders().String() + ","
-	}
-	res += "]"
-	return
+func (x *LeanHelixViewChangeConfirmation) StringViewChangeSignedHeader() string {
+	return x.ViewChangeSignedHeader().String()
 }
 
-func (x *LeanHelixNewViewProof) ViewChangeSendersIterator() *LeanHelixNewViewProofViewChangeSendersIterator {
-	return &LeanHelixNewViewProofViewChangeSendersIterator{iterator: x._message.GetMessageArrayIterator(1)}
-}
-
-type LeanHelixNewViewProofViewChangeSendersIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *LeanHelixNewViewProofViewChangeSendersIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *LeanHelixNewViewProofViewChangeSendersIterator) NextViewChangeSenders() *consensus.LeanHelixSenderSignature {
-	b, s := i.iterator.NextMessage()
+func (x *LeanHelixViewChangeConfirmation) ViewChangeSender() *consensus.LeanHelixSenderSignature {
+	b, s := x._message.GetMessage(1)
 	return consensus.LeanHelixSenderSignatureReader(b[:s])
 }
 
-func (x *LeanHelixNewViewProof) RawViewChangeSendersArray() []byte {
+func (x *LeanHelixViewChangeConfirmation) RawViewChangeSender() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *LeanHelixNewViewProof) RawViewChangeSendersArrayWithHeader() []byte {
+func (x *LeanHelixViewChangeConfirmation) RawViewChangeSenderWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
-func (x *LeanHelixNewViewProof) StringViewChangeSenders() (res string) {
-	res = "["
-	for i := x.ViewChangeSendersIterator(); i.HasNext(); {
-		res += i.NextViewChangeSenders().String() + ","
-	}
-	res += "]"
-	return
+func (x *LeanHelixViewChangeConfirmation) StringViewChangeSender() string {
+	return x.ViewChangeSender().String()
 }
 
 // builder
 
-type LeanHelixNewViewProofBuilder struct {
-	ViewChangeSignedHeaders []*LeanHelixViewChangeHeaderBuilder
-	ViewChangeSenders []*consensus.LeanHelixSenderSignatureBuilder
+type LeanHelixViewChangeConfirmationBuilder struct {
+	ViewChangeSignedHeader *LeanHelixViewChangeHeaderBuilder
+	ViewChangeSender *consensus.LeanHelixSenderSignatureBuilder
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *LeanHelixNewViewProofBuilder) arrayOfViewChangeSignedHeaders() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.ViewChangeSignedHeaders))
-	for i, v := range w.ViewChangeSignedHeaders {
-		res[i] = v
-	}
-	return res
-}
-
-func (w *LeanHelixNewViewProofBuilder) arrayOfViewChangeSenders() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.ViewChangeSenders))
-	for i, v := range w.ViewChangeSenders {
-		res[i] = v
-	}
-	return res
-}
-
-func (w *LeanHelixNewViewProofBuilder) Write(buf []byte) (err error) {
+func (w *LeanHelixViewChangeConfirmationBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -972,25 +901,25 @@ func (w *LeanHelixNewViewProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessageArray(buf, w.arrayOfViewChangeSignedHeaders())
+	err = w._builder.WriteMessage(buf, w.ViewChangeSignedHeader)
 	if err != nil {
 		return
 	}
-	err = w._builder.WriteMessageArray(buf, w.arrayOfViewChangeSenders())
+	err = w._builder.WriteMessage(buf, w.ViewChangeSender)
 	if err != nil {
 		return
 	}
 	return nil
 }
 
-func (w *LeanHelixNewViewProofBuilder) GetSize() membuffers.Offset {
+func (w *LeanHelixViewChangeConfirmationBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *LeanHelixNewViewProofBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *LeanHelixViewChangeConfirmationBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -998,12 +927,12 @@ func (w *LeanHelixNewViewProofBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *LeanHelixNewViewProofBuilder) Build() *LeanHelixNewViewProof {
+func (w *LeanHelixViewChangeConfirmationBuilder) Build() *LeanHelixViewChangeConfirmation {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return LeanHelixNewViewProofReader(buf)
+	return LeanHelixViewChangeConfirmationReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
