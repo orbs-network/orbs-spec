@@ -118,7 +118,7 @@ Currently a single instance per virtual chain per node.
 * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
     * If indeed local, update the registered public api service by calling its `HandleTransactionError`.
       * Provide block height and timestamp according to the last committed block.
-*   
+
 &nbsp;
 ## `ValidateTransactionsForOrdering` (method)
 
