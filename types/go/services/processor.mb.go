@@ -107,6 +107,7 @@ func (x *ProcessCallOutput) StringCallResult() (res string) {
 // message GetContractInfoInput (non serializable)
 
 type GetContractInfoInput struct {
+	ContextId primitives.ExecutionContextId
 	ContractName primitives.ContractName
 }
 
@@ -114,7 +115,12 @@ func (x *GetContractInfoInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContractName:%s,}", x.StringContractName())
+	return fmt.Sprintf("{ContextId:%s,ContractName:%s,}", x.StringContextId(), x.StringContractName())
+}
+
+func (x *GetContractInfoInput) StringContextId() (res string) {
+	res = fmt.Sprintf("%s", x.ContextId)
+	return
 }
 
 func (x *GetContractInfoInput) StringContractName() (res string) {
