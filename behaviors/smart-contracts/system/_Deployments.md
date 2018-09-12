@@ -26,6 +26,7 @@ Implemented on the `Native` processor.
 
 #### Behavior
 * Takes service name as argument.
+* For queries about self (service name `_Deployments`) respond with the native processor (chicken and egg).
 * Read processor type from state key `<name>.Processor` by calling `State.ReadUint32ByKey`.
 * If an empty value is read, contract is not deployed.
 
