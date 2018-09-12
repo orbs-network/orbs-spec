@@ -112,6 +112,7 @@ Currently a single instance per virtual chain per node.
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
   * Check transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
+* Transaction wasn't already committed (exist in the committed pool).
 * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
   * Remove invalid transactions from the block and from the pending pool, include only transactions that are valid for pre-order. 
 * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
