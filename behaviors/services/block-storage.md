@@ -31,7 +31,10 @@ Currently a single instance per virtual chain per node.
 
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.
-* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the database to empty.
+* If there is persistent data, init `last_commited_block` accordingly.
+* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the block database to empty.
+* When consensus algorithms register by calling `BlockStorage.RegisterConsensusBlocksHandler`, update them with the latest persistent block by calling their `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`.
+  * If `last_committed_block` is empty pass an empty block.
 * Subscribe to gossip messages by calling `Gossip.BlockSync.RegisterBlockSyncHandler`.
 * Trigger the block synchronization process in the `Inter Node Block Sync` flow.
 
@@ -46,6 +49,10 @@ Currently a single instance per virtual chain per node.
   * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) timeout (eg. 8 sec).
   * During the Init flow.
 * Make sure no more than one synchronization process is active at any given time.
+
+#### Pre-synchornization
+* When synchronization is triggered, update all registered consensus algos with the latest persistent block by calling their `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`.
+  * If `last_committed_block` is empty pass an empty block.
 
 #### Synchronization process
 * Synchronization is made of multiple **batches** each comprised of multiple **chunks**.
