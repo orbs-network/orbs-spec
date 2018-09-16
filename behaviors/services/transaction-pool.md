@@ -106,16 +106,17 @@ Currently a single instance per virtual chain per node.
 * Prepare a transactions list proposal (current policy is first come first serve).
 
 #### Check transactions validity
-* For each transaction:
+* For each transaction, check:
   * Correct protocol version.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-  * Check transaction timestamp, accept only transactions that haven't expired.
+  * Transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-* Transaction wasn't already committed (exist in the committed pool).
-* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
-  * Remove invalid transactions from the block and from the pending pool, include only transactions that are valid for pre-order. 
-* If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
+  * Transaction wasn't already committed (exist in the committed pool).
+  * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+* Transactions that failed the checks, should be excluded from the result and removed from the pending pool.
+  * A best effort should be made to return the requested number of transactions, meaning that if transactions were dropped, further transactions are to be requested from the pending pool.
+  * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
     * If indeed local, update the registered public api service by calling its `HandleTransactionError`.
       * Provide block height and timestamp according to the last committed block.
 
@@ -130,15 +131,15 @@ Currently a single instance per virtual chain per node.
 * If requested block height is in the past, panic.
 
 #### Check transactions validity
-* For each transaction:
+* For each transaction, check:
   * Correct protocol version.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-  * Check transaction timestamp, accept only transactions that haven't expired.
+  * Transaction timestamp, accept only transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-* Transaction wasn't already committed (exist in the committed pool).
-* Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
-  * Upon an error response, fail the check (for all transactions).
+  * Transaction wasn't already committed (exist in the committed pool).
+  * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+* If one of the transactions checks fails, return error (for all transactions).
 
 
 #### Check proposal policy
