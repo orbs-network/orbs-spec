@@ -3,6 +3,7 @@ package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
 import "primitives/crypto.proto";
+import "primitives/protocol.proto";
 import "protocol/contracts.proto";
 
 // address = RIPMD160(SHA(serialized protocol.Signer))
@@ -27,3 +28,5 @@ message EdDSA01Signer {
 message SmartContractCaller { // Can't be sent in a transaction.
     primitives.contract_name contract_name = 1;
 }
+
+
