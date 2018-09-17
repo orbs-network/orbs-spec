@@ -43,7 +43,7 @@ If `tokens` <= BalancesDB[`GetCallerAddress()`] then
 #### `SmartContractCaller`
 > Set when a function is called by a smart contract, can't be sent in a transaction.
 * The Signer includes the smart contract name and scheme.
-* <!-- TODO caller argument -->
+<!-- TODO caller argument -->
 
 &nbsp;
 ## Text encoding scheme
