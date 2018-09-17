@@ -22,7 +22,8 @@ message Signer {
 }
 
 message EdDSA01Signer {
-    primitives.ed25519_public_key signer_public_key = 1;
+    SignerNetworkType network_type = 1;
+    primitives.ed25519_public_key signer_public_key = 2;
 }
 
 message SmartContractCaller { // Can't be sent in a transaction.

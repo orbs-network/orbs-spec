@@ -181,6 +181,7 @@ func (w *SignerBuilder) Build() *Signer {
 // reader
 
 type EdDSA01Signer struct {
+	// NetworkType SignerNetworkType
 	// SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
@@ -192,10 +193,10 @@ func (x *EdDSA01Signer) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignerPublicKey:%s,}", x.StringSignerPublicKey())
+	return fmt.Sprintf("{NetworkType:%s,SignerPublicKey:%s,}", x.StringNetworkType(), x.StringSignerPublicKey())
 }
 
-var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeBytes,}
+var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
 var _EdDSA01Signer_Unions = [][]membuffers.FieldType{}
 
 func EdDSA01SignerReader(buf []byte) *EdDSA01Signer {
@@ -222,16 +223,32 @@ func (x *EdDSA01Signer) Equal(y *EdDSA01Signer) bool {
   return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519PublicKey {
-	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
+func (x *EdDSA01Signer) NetworkType() SignerNetworkType {
+	return SignerNetworkType(x._message.GetUint16(0))
 }
 
-func (x *EdDSA01Signer) RawSignerPublicKey() []byte {
+func (x *EdDSA01Signer) RawNetworkType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *EdDSA01Signer) MutateNetworkType(v SignerNetworkType) error {
+	return x._message.SetUint16(0, uint16(v))
+}
+
+func (x *EdDSA01Signer) StringNetworkType() string {
+	return x.NetworkType().String()
+}
+
+func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519PublicKey {
+	return primitives.Ed25519PublicKey(x._message.GetBytes(1))
+}
+
+func (x *EdDSA01Signer) RawSignerPublicKey() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
 func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519PublicKey) error {
-	return x._message.SetBytes(0, []byte(v))
+	return x._message.SetBytes(1, []byte(v))
 }
 
 func (x *EdDSA01Signer) StringSignerPublicKey() string {
@@ -241,6 +258,7 @@ func (x *EdDSA01Signer) StringSignerPublicKey() string {
 // builder
 
 type EdDSA01SignerBuilder struct {
+	NetworkType SignerNetworkType
 	SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
@@ -258,6 +276,7 @@ func (w *EdDSA01SignerBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.NetworkType))
 	w._builder.WriteBytes(buf, []byte(w.SignerPublicKey))
 	return nil
 }
