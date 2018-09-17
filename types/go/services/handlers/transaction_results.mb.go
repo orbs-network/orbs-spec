@@ -67,6 +67,7 @@ func (x *HandleTransactionResultsOutput) String() string {
 // message HandleTransactionErrorInput (non serializable)
 
 type HandleTransactionErrorInput struct {
+	Txhash primitives.Sha256
 	TransactionStatus protocol.TransactionStatus
 	BlockHeight primitives.BlockHeight
 	BlockTimestamp primitives.TimestampNano
@@ -76,7 +77,12 @@ func (x *HandleTransactionErrorInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{Txhash:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringTxhash(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *HandleTransactionErrorInput) StringTxhash() (res string) {
+	res = fmt.Sprintf("%s", x.Txhash)
+	return
 }
 
 func (x *HandleTransactionErrorInput) StringTransactionStatus() (res string) {

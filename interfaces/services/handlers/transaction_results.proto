@@ -3,6 +3,7 @@ package handlers;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/handlers";
 
 import "../primitives/protocol.proto";
+import "../primitives/crypto.proto";
 import "../protocol/results.proto";
 import "../protocol/transactions.proto";
 
@@ -24,9 +25,10 @@ message HandleTransactionResultsOutput {
 
 
 message HandleTransactionErrorInput {
-    protocol.TransactionStatus transaction_status = 1;
-    primitives.block_height block_height = 2;
-    primitives.timestamp_nano block_timestamp = 3;
+    primitives.sha256 txhash = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    primitives.block_height block_height = 3;
+    primitives.timestamp_nano block_timestamp = 4;
 }
 
 message HandleTransactionErrorOutput {
