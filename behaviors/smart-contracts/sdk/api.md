@@ -97,7 +97,14 @@ The separation between the two methods is due to contracts calling other contrac
 
 Token contracts for example should only use **Caller** address to prevent other contracts calling them on behalf of users and transferring unauthorized amounts.
 
+```ts
+Address.CalledFromContract(): boolean
+```
+
+This function is a shortcut for verifying if `GetSignerAddress()` and `GetCallerAddress` are the same. For example, contract writer can call it if he needs to allow certain methods to be called only by signers, etc.
+
 &nbsp;
+
 ## Crypto operations
 
 &nbsp;
