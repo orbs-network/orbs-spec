@@ -18,32 +18,34 @@ Environment.GetVirtualChain(): Uint32
 
 Persistent state variables are available to the contract via the `State` object. Every [deployed service](../../../terminology.md) has its own isolated variable namespace (address space) that only it can write to.
 
+Raw state addresses are of type `Ripmd160Sha256` which is a double hash of `RIPEMD160(SHA256(data))`. From an API perspective, this is just a typedef to an array of bytes with the expected length of 20.
+
 #### Read
 
 ```ts
-State.ReadBytesByAddress(address: SHA256): Bytes
+State.ReadBytesByAddress(address: Ripmd160Sha256): Bytes
 State.ReadBytesByKey(key: String): Bytes
-State.ReadStringByAddress(address: SHA256): String
+State.ReadStringByAddress(address: Ripmd160Sha256): String
 State.ReadStringByKey(key: String): String
-State.ReadUint64ByAddress(address: SHA256): Uint64
+State.ReadUint64ByAddress(address: Ripmd160Sha256): Uint64
 State.ReadUint64ByKey(key: String): Uint64
 ```
 
 #### Write
 
 ```ts
-State.WriteBytesByAddress(address: SHA256, value: Bytes): Error
+State.WriteBytesByAddress(address: Ripmd160Sha256, value: Bytes): Error
 State.WriteBytesByKey(key: String, value: Bytes): Error
-State.WriteStringByAddress(address: SHA256, value: String): Error
+State.WriteStringByAddress(address: Ripmd160Sha256, value: String): Error
 State.WriteStringByKey(key: String, value: String): Error
-State.WriteUint64ByAddress(address: SHA256, value: Uint64): Error
+State.WriteUint64ByAddress(address: Ripmd160Sha256, value: Uint64): Error
 State.WriteUint64ByKey(key: String, value: Uint64): Error
 ```
 
 #### Clear
 
 ```ts
-State.ClearByAddress(address: SHA256): Error
+State.ClearByAddress(address: Ripmd160Sha256): Error
 State.ClearByKey(key: String): Error
 ```
 
@@ -72,6 +74,28 @@ Service.CallMethod(service: String, method: String, arguments: MethodCallArgumen
 ```ts
 Library.CallMethod(library: String, method: String, arguments: MethodCallArguments): MethodCallResult
 ```
+
+&nbsp;
+## Addresses
+
+System addresses are of type `Ripmd160Sha256` which is a double hash of `RIPEMD160(SHA256(data))`. From an API perspective, this is just a typedef to an array of bytes with the expected length of 20. These addresses may be used to represent accounts and can be derived from transaction signers. The raw state database also uses this addressing format for its keys.
+
+#### Validating addresses
+
+```ts
+Address.ValidateAddress(address: Ripmd160Sha256): Error
+```
+
+#### Querying address of currently running contract
+
+```ts
+Address.GetSignerAddress(): Ripmd160Sha256
+Address.GetCallerAddress(): Ripmd160Sha256
+```
+
+The separation between the two methods is due to contracts calling other contracts. **Signer** address returns the address of the signer of the original transaction accross all contract calls triggered by this transaction. **Caller** address returns the address of the calling contract (which equals to the signer address for the contract specified on the transaction).
+
+Token contracts for example should only use **Caller** address to prevent other contracts calling them on behalf of users and transferring unauthorized amounts.
 
 &nbsp;
 ## Crypto operations
