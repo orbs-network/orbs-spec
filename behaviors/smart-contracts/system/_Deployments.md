@@ -22,7 +22,7 @@ Implemented on the `Native` processor.
 
 #### Permissions
 * `External` (caller can be anyone).
-* `ReadOnly` (potentially changes state).
+* `ReadOnly` (does not change state).
 
 #### Behavior
 * Takes service name as argument.
@@ -50,7 +50,7 @@ Implemented on the `Native` processor.
 
 #### Permissions
 * `External` (caller can be anyone).
-* `ReadOnly` (potentially changes state).
+* `ReadOnly` (does not change state).
 
 #### Behavior
 * Takes service name as argument.
