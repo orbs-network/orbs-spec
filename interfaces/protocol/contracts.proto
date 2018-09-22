@@ -44,6 +44,7 @@ enum ExecutionPermissionScope {
 enum ProcessorType {
     PROCESSOR_TYPE_RESERVED = 0;
     PROCESSOR_TYPE_NATIVE = 1;
+    PROCESSOR_TYPE_JAVASCRIPT = 2;
 }
 
 enum CrosschainConnectorType {
