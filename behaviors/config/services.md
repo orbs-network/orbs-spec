@@ -83,3 +83,11 @@ Since the system must remain backwards compatible forever (able to audit the old
   "max-blocks-per-sync-chunk": "10"
 }
 ```
+
+#### Cross-chain Connector
+
+```json
+{
+  "etheruem-node-address": "ethereum.orbs.network"
+}
+```
