@@ -89,6 +89,6 @@ Since the system must remain backwards compatible forever (able to audit the old
 ```json
 {
   "etheruem-node-dns-address": "ethereum.orbs.network" 
-  "etheruem-node-port" : "8545"
+  "etheruem-node-port": "8545"
 }
 ```
