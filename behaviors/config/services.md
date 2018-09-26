@@ -85,9 +85,10 @@ Since the system must remain backwards compatible forever (able to audit the old
 ```
 
 #### Cross-chain Connector
-
+<!--- TODO: move to per node configuration file --->
 ```json
 {
-  "etheruem-node-address": "ethereum.orbs.network"
+  "etheruem-node-dns-address": "ethereum.orbs.network" 
+  "etheruem-node-port" : "8545"
 }
 ```
