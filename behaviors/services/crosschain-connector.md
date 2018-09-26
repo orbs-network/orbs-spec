@@ -13,7 +13,7 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
 * An official Ethereum node connected to main net.
 * Runs node locally to avoid trust in third party.
 * Node should be kept synchronized and live.
-* Node address to connect to is a [configuration](../config/services.md) value
+* The service connects to the Ethereum node using [configurable](../config/services.md) Node DNS address and port.
 
 &nbsp;
 ## `Init` (flow)
