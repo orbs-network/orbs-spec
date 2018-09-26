@@ -16,9 +16,9 @@ service CrosschainConnector {
 message EthereumCallContractInput {
     primitives.block_height block_height = 1;
     string ethereum_contract_address = 2;
-    string ethereum_function_canonical_form = 3;
-    repeated protocol.MethodArgument input_arguments = 4;
-    uint64 ethereum_block_height = 5; // 0 means default recent block height (eg. 6 blocks back)
+    string ethereum_function_name = 3;
+    string ethereum_abi = 4;
+    repeated protocol.MethodArgument input_arguments = 5;
 }
 
 message EthereumCallContractOutput {
