@@ -63,7 +63,7 @@ Currently a single instance per virtual chain per node.
   * Only accept transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Only accept transactions with timestamp in sync with the node (that aren't in the future).
-    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min).
+    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min). If rejected, return `TIMESTAMP_AHEAD_OF_NODE_TIME`.
     * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
 * Transaction (`txhash`) doesn't already exist in the pending pool or committed pool (duplicate).
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
@@ -174,6 +174,10 @@ Currently a single instance per virtual chain per node.
 ## `GetTransactionReceipt` (method)
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
+
+* Check that the transaction timestamp in sync with the node (that isn't in the future).
+  * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 5 sec). If so return `TIMESTAMP_AHEAD_OF_NODE_TIME`.
+  * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
 * If `txhash` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
 * If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
 * else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
