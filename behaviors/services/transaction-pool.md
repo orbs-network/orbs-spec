@@ -171,7 +171,7 @@ Currently a single instance per virtual chain per node.
 * Update `last_committed_block` to match the given block.
 
 &nbsp;
-## `GetTransactionReceipt` (method)
+## `GetCommittedTransactionReceipt` (method)
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
 
