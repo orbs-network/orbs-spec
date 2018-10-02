@@ -79,7 +79,7 @@ Currently a single instance per virtual chain per node.
   * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Query transaction status
-* Query the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
+* Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
   * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block_hieght and timestamp and an empty receipt.
   * If the return status is `COMMITTED`, return with the receipt and corresponding block_hieght and timestamp. 
 * If not found in transaction pool (`NO_RECORD_FOUND`), it might be an older transaction, widen our search.
