@@ -52,10 +52,12 @@ Currently a single instance per virtual chain per node.
 > Public interface: Execute a transaction on a service under consensus that may change state (write). The call is synchronous.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
-
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
+  
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
@@ -70,15 +72,17 @@ Currently a single instance per virtual chain per node.
 > Public interface: Query the status of previously sent transaction.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
-* Check the transaction timestamp, verifying that it's not a future transaction plus [configurable](../config/services.md) grace (eg. 5 sec).
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Query transaction status
-* Query the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
-  * If found return status `PENDING`, if committed return status `COMMITTED` with the receipt.
-* If not found in transaction pool, it might be an older transaction, widen our search.
+* Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
+  * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block_hieght and timestamp and an empty receipt.
+  * If the return status is `COMMITTED`, return with the receipt and corresponding block_hieght and timestamp. 
+* If not found in transaction pool (`NO_RECORD_FOUND`), it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
 
