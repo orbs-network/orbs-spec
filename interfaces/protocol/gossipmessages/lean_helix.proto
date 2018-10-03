@@ -72,10 +72,6 @@ message LeanHelixNewViewHeader {
     consensus.LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
-    repeated LeanHelixViewChangeConfirmation view_change_confirmations = 4;
-}
-
-message LeanHelixViewChangeConfirmation {
-    LeanHelixViewChangeHeader view_change_signed_header = 1;
-    consensus.LeanHelixSenderSignature view_change_sender = 2;
+    repeated LeanHelixViewChangeHeader view_change_signed_headers = 4;
+    repeated consensus.LeanHelixSenderSignature view_change_senders = 5;
 }
