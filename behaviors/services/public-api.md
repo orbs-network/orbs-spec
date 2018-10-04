@@ -38,9 +38,11 @@ Currently a single instance per virtual chain per node.
 > Public interface: Run a read only service method without consensus based on the current block height. The call is synchronous.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Forward call
 * Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod` indicating recent [block height](../../terminology.md).
