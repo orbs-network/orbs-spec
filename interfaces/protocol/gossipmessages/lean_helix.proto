@@ -47,7 +47,7 @@ message LeanHelixNewViewMessage {
 
     LeanHelixNewViewHeader signed_header = 1;
     consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
-    LeanHelixPrePrepareMessage prepare_message = 3;
+    LeanHelixPrePrepareMessage pre_prepare_message = 3;
 }
 
 // message payloads (serializable)
@@ -64,14 +64,20 @@ message LeanHelixViewChangeHeader {
 }
 
 message LeanHelixPreparedProof {
-    consensus.LeanHelixBlockRef block_ref = 1;
-    repeated consensus.LeanHelixSenderSignature senders = 2;
+    consensus.LeanHelixBlockRef pre_prepare_block_ref = 1;
+    consensus.LeanHelixSenderSignature pre_prepare_sender = 2;
+    consensus.LeanHelixBlockRef prepare_block_ref = 3;
+    repeated consensus.LeanHelixSenderSignature prepare_senders = 4;
 }
 
 message LeanHelixNewViewHeader {
     consensus.LeanHelixMessageType message_type = 1;
     primitives.block_height block_height = 2;
     uint32 view = 3;
-    repeated LeanHelixViewChangeHeader view_change_signed_headers = 4;
-    repeated consensus.LeanHelixSenderSignature view_change_senders = 5;
+    repeated LeanHelixViewChangeConfirmation view_change_confirmations = 4;
+}
+
+message LeanHelixViewChangeConfirmation {
+    LeanHelixViewChangeHeader view_change_signed_header = 1;
+    consensus.LeanHelixSenderSignature view_change_sender = 2;
 }
