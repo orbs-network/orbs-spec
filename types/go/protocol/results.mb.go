@@ -124,6 +124,7 @@ const (
 	REQUEST_STATUS_NOT_FOUND RequestStatus = 3
 	REQUEST_STATUS_REJECTED RequestStatus = 4
 	REQUEST_STATUS_CONGESTION RequestStatus = 5
+	REQUEST_STATUS_SYSTEM_ERROR RequestStatus = 6
 )
 
 func (n RequestStatus) String() string {
@@ -140,6 +141,8 @@ func (n RequestStatus) String() string {
 		return "REQUEST_STATUS_REJECTED"
 	case REQUEST_STATUS_CONGESTION:
 		return "REQUEST_STATUS_CONGESTION"
+	case REQUEST_STATUS_SYSTEM_ERROR:
+		return "REQUEST_STATUS_SYSTEM_ERROR"
 	}
 	return "UNKNOWN"
 }

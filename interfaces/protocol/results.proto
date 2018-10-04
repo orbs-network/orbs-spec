@@ -10,15 +10,15 @@ enum ErrorCodes {
 
 // ExecutionResult is the result of the execution phase of the consensus over a transaction
 enum ExecutionResult {
-    EXECUTION_RESULT_RESERVED = 0;
-    EXECUTION_RESULT_SUCCESS = 1;
-    EXECUTION_RESULT_ERROR_SMART_CONTRACT = 2;
-    EXECUTION_RESULT_ERROR_INPUT = 3; 
-    EXECUTION_RESULT_ERROR_UNEXPECTED = 4; // system error during execution
+    EXECUTION_RESULT_RESERVED = 0;                                  // REQUEST_STATUS_RESERVED
+    EXECUTION_RESULT_SUCCESS = 1;                                   // REQUEST_STATUS_COMPLETED
+    EXECUTION_RESULT_ERROR_SMART_CONTRACT = 2;                      // REQUEST_STATUS_COMPLETED
+    EXECUTION_RESULT_ERROR_INPUT = 3;                               // REQUEST_STATUS_REJECTED
+    EXECUTION_RESULT_ERROR_UNEXPECTED = 4;                          // REQUEST_STATUS_SYSTEM_ERROR (system error during execution)
 }
 
 enum TransactionStatus {
-    TRANSACTION_STATUS_RESERVED = 0;                                // REQUEST_STATUS_RESERVED;
+    TRANSACTION_STATUS_RESERVED = 0;                                // REQUEST_STATUS_RESERVED
     TRANSACTION_STATUS_COMMITTED = 1;                               // REQUEST_STATUS_COMPLETED
     TRANSACTION_STATUS_DUPLICATE_TRANSACTION_ALREADY_COMMITTED = 2; // REQUEST_STATUS_COMPLETED
     TRANSACTION_STATUS_PENDING = 3;                                 // REQUEST_STATUS_IN_PROCESS
@@ -44,6 +44,6 @@ enum RequestStatus {
     REQUEST_STATUS_NOT_FOUND = 3;           // HTTP Status 404
     REQUEST_STATUS_REJECTED = 4;            // HTTP Status 400
     REQUEST_STATUS_CONGESTION = 5;          // HTTP Status 503
-//    REQUEST_STATUS_SYSTEM_ERROR = 6;
+    REQUEST_STATUS_SYSTEM_ERROR = 6;        // HTTP Status 500
 }
 
