@@ -28,8 +28,8 @@ Since the system must remain backwards compatible forever (able to audit the old
   "pending-pool-max-size-bytes": "20480000",
   "pending-pool-clear-expired-interval-sec": "10",
   "committed-pool-clear-expired-interval-sec": "30",
-  "propagation-batching-transaction-num": "1000",
-  "propagation-batching-timeout-sec": "5",
+  "propagation-batch-size": "100",
+  "propagation-batching-timeout-msec": "100",
   "query-sync-grace-block-num": "0",
   "future-timestamp-grace-sec": "5"
 }
