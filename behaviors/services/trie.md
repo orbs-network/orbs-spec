@@ -34,7 +34,7 @@ All trie keys are of a uniform length. This means branch nodes and value nodes a
 ## Node types and structure 
 ### Common properties
 All nodes have a prefix part. A Prefix part is the current node’s contribution to the key prefix represented by a path in the trie 
-* For child nodes (of any type - branch or leaf) if the parent node had an “Even” parity bit, we encode the prefix part with an offset of 4 bits (Even and not Odd because the parent’s branch digit reverses the ).
+* For child nodes (of any type - branch or leaf) if the parent node had an “Even” parity bit, we encode the prefix part with an offset of 4 bits (Even and not Odd because the parent’s branch digit reverses the parity once it is appended to the parent prefix part).
 
 ### Branch nodes
 In addition to the prefix part attribute, a branch node has up to 16 children.
