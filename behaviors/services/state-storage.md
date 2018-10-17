@@ -32,6 +32,12 @@ Currently a single instance per virtual chain per node.
 #### Synchronization state
 * `last_committed_block` - The last valid committed block that the state storage is synchronized to (can be persistent).
 
+#### State Merkle Tree
+> A tree structure capable of generating authenticated proofs for the a state entry. 
+* A contract merkle tree is isolated from other contracts, enbaling to remove or replace a contract state upon upgrade.
+* Each state entry is addressed by a hash of the contract name appended by the key address.
+* Merkle proof based on SHA256 with an overall 2 x 32B key length (contract_name,key)
+
 &nbsp;
 ## `Init` (flow)
 
