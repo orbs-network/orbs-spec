@@ -15,6 +15,7 @@ enum ExecutionResult {
     EXECUTION_RESULT_ERROR_SMART_CONTRACT = 2;                      // REQUEST_STATUS_COMPLETED
     EXECUTION_RESULT_ERROR_INPUT = 3;                               // REQUEST_STATUS_REJECTED
     EXECUTION_RESULT_ERROR_UNEXPECTED = 4;                          // REQUEST_STATUS_SYSTEM_ERROR (system error during execution)
+    EXECUTION_RESULT_STATE_WRITE_IN_A_CALL = 5;                     // REQUEST_STATUS_COMPLETED
 }
 
 enum TransactionStatus {

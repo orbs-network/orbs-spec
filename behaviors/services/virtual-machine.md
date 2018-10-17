@@ -148,6 +148,7 @@ Currently a single instance per virtual chain per node.
 > Writes a variable to (transient) state of the service.
 
 * Make sure the execution context is `ReadWrite` and we have a transient state.
+  * Otherwise, terminate the execution and return ERROR_STATE_WRITE_IN_READONLY_CALL
 * Identify the service we're writing to, it's the top of the execution context's service stack.
 * Write the variable to the transaction transient state.
 
