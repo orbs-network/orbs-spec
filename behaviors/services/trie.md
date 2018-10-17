@@ -12,7 +12,7 @@
     * A merkle proof which is valid may indicate a missing key or indicate the validated hashcode of the value associated with the key  
         * Missing Key indication - if the proof ends with a branch node and the digit in the requested path does not reference any child node, or, if the final node indicates a divergence from the requested key in a way that negates any possibility that the requested key may be present in the trie.
         * Present Key with value hash indication - if the proof ends with a lead node and the assembled key prefix is identical to the requested path
-* Prefixes are represented as hexadecimal digits in base64 encoding.
+* Prefixes are represented as hexadecimal byte arry.
 * Zero values are never represented in the trie because they are not part of the state snapthot
 * Each node in a Merkle Trie is addressable via it’s hash-code (cryptographic digest) in a __content-addressed__ scheme - addresses of nodes are derived from their content as a cryptographic hashcode digest.  
 * Each block height represents a (possibly) distinct state in it’s virtual chain. For any block height  with a full Merkle trie and a Merkle Trie root corresponding to the matching state image.
@@ -88,11 +88,3 @@ A Merkle Proof (for a state key/value) is a hash list of node representations.
 * Nodes in a proof must represent references to their child nodes as hash codes.  
 * The hash of the first node in the list corresponds to the block state hash root
 * The value key collectively represented by the trie nodes included in the proof, and constructed by traversing all nodes from the first to the last    
-
-## State Entry Key structure
-
-Each state entry is addressed by a hash of the contract name appended by the hash of the variable name (contract programming model will determine the logical name of each variable).
-* TBD - contract variable addressing model may include virtual chain id as in with public addresses
-* TBD - What hash function should be used? Should we use two hash functions? What is the length?
-* Example: `[hash_of_contract_name][hash_of_variable_name]` if RIPEMD-160 is used this key would be 40 byte long, and in hexadecimal digits, 80 characters. 
-* We will not support an odd number of hexadecimal digits in a key 
