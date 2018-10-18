@@ -39,3 +39,10 @@
 * The leader starts the process by initializing its last committed block to a genesis block (fake empty block at height 0 with all proper signatures).
 * Nodes that receive a `COMMIT` for the genesis block (height 0) will not commit it locally but will still reply with a `COMMITTED` message.
 * Once the Block Storage of the leader initializes, if it contains persistent blocks, it will notify the Consensus Algo upon registration about the last persistent block.
+  * This is the common case flow of system starts where the leader has existing persistent blocks in storage.
+  * In this case the leader consensus algo initializes with last committed 0 and tries to propose block height 1.
+  * While saving this proposal 1 to block storage, block storage will fail since a different block already exists with height 1.
+  * This process will continue looping endlessly (more proposals of block height 1 that will keep failing during save).
+  * Block sync will eventually trigger (either during startup or because a few seconds without successful commits passed).
+  * During block sync pre-synchronization, block storage will notify consensus algo of the latest persistent block.
+  * Once consensus algo is up to date with the latest persistent block, it can propose new blocks, save them and move forward.
