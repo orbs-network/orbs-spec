@@ -135,7 +135,7 @@ Currently a single instance per virtual chain per node.
 
 #### Check the block consensus
 * Identify the relevant service (consensus algorithm) that is registered to handle this block's validation.
-  * Check consensus of the block by calling its `HandleBlockConsensus`.
+  * Check consensus of the block by calling its `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE`.
 
 &nbsp;
 ## `GetLastCommittedBlockHeight` (method)
