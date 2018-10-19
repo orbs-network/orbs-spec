@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
@@ -20,16 +20,16 @@ type CrosschainConnector interface {
 type EthereumCallContractInput struct {
 	BlockHeight primitives.BlockHeight
 	EthereumContractAddress string
-	EthereumFunctionCanonicalForm string
+	EthereumFunctionName string
+	EthereumAbi string
 	InputArguments []*protocol.MethodArgument
-	EthereumBlockHeight uint64
 }
 
 func (x *EthereumCallContractInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,EthereumContractAddress:%s,EthereumFunctionCanonicalForm:%s,InputArguments:%s,EthereumBlockHeight:%s,}", x.StringBlockHeight(), x.StringEthereumContractAddress(), x.StringEthereumFunctionCanonicalForm(), x.StringInputArguments(), x.StringEthereumBlockHeight())
+	return fmt.Sprintf("{BlockHeight:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumAbi:%s,InputArguments:%s,}", x.StringBlockHeight(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumAbi(), x.StringInputArguments())
 }
 
 func (x *EthereumCallContractInput) StringBlockHeight() (res string) {
@@ -42,8 +42,13 @@ func (x *EthereumCallContractInput) StringEthereumContractAddress() (res string)
 	return
 }
 
-func (x *EthereumCallContractInput) StringEthereumFunctionCanonicalForm() (res string) {
-	res = fmt.Sprintf(x.EthereumFunctionCanonicalForm)
+func (x *EthereumCallContractInput) StringEthereumFunctionName() (res string) {
+	res = fmt.Sprintf(x.EthereumFunctionName)
+	return
+}
+
+func (x *EthereumCallContractInput) StringEthereumAbi() (res string) {
+	res = fmt.Sprintf(x.EthereumAbi)
 	return
 }
 
@@ -53,11 +58,6 @@ func (x *EthereumCallContractInput) StringInputArguments() (res string) {
 		res += v.String() + ","
   }
 	res += "]"
-	return
-}
-
-func (x *EthereumCallContractInput) StringEthereumBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockHeight)
 	return
 }
 

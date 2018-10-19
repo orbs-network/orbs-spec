@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package protocol
 
 import (
@@ -35,6 +35,7 @@ const (
 	EXECUTION_RESULT_ERROR_SMART_CONTRACT ExecutionResult = 2
 	EXECUTION_RESULT_ERROR_INPUT ExecutionResult = 3
 	EXECUTION_RESULT_ERROR_UNEXPECTED ExecutionResult = 4
+	EXECUTION_RESULT_STATE_WRITE_IN_A_CALL ExecutionResult = 5
 )
 
 func (n ExecutionResult) String() string {
@@ -49,6 +50,8 @@ func (n ExecutionResult) String() string {
 		return "EXECUTION_RESULT_ERROR_INPUT"
 	case EXECUTION_RESULT_ERROR_UNEXPECTED:
 		return "EXECUTION_RESULT_ERROR_UNEXPECTED"
+	case EXECUTION_RESULT_STATE_WRITE_IN_A_CALL:
+		return "EXECUTION_RESULT_STATE_WRITE_IN_A_CALL"
 	}
 	return "UNKNOWN"
 }
