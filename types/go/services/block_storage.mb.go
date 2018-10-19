@@ -3,6 +3,7 @@ package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
@@ -14,12 +15,12 @@ import (
 
 type BlockStorage interface {
 	gossiptopics.BlockSyncHandler
-	CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error)
-	GetTransactionsBlockHeader(input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
-	GetResultsBlockHeader(input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
-	GetTransactionReceipt(input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
-	GetLastCommittedBlockHeight(input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
-	ValidateBlockForCommit(input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	CommitBlock(ctx context.Context, input *CommitBlockInput) (*CommitBlockOutput, error)
+	GetTransactionsBlockHeader(ctx context.Context, input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
+	GetResultsBlockHeader(ctx context.Context, input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
+	GetTransactionReceipt(ctx context.Context, input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
+	GetLastCommittedBlockHeight(ctx context.Context, input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
+	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
 

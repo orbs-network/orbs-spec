@@ -3,6 +3,7 @@ package gossiptopics
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -10,11 +11,11 @@ import (
 // service LeanHelix
 
 type LeanHelix interface {
-	SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
-	SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error)
-	SendLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error)
-	SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error)
-	SendLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error)
+	SendLeanHelixPrePrepare(ctx context.Context, input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
+	SendLeanHelixPrepare(ctx context.Context, input *LeanHelixPrepareInput) (*EmptyOutput, error)
+	SendLeanHelixCommit(ctx context.Context, input *LeanHelixCommitInput) (*EmptyOutput, error)
+	SendLeanHelixViewChange(ctx context.Context, input *LeanHelixViewChangeInput) (*EmptyOutput, error)
+	SendLeanHelixNewView(ctx context.Context, input *LeanHelixNewViewInput) (*EmptyOutput, error)
 	RegisterLeanHelixHandler(handler LeanHelixHandler)
 }
 
@@ -22,11 +23,11 @@ type LeanHelix interface {
 // service LeanHelixHandler
 
 type LeanHelixHandler interface {
-	HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
-	HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error)
-	HandleLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error)
-	HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error)
-	HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error)
+	HandleLeanHelixPrePrepare(ctx context.Context, input *LeanHelixPrePrepareInput) (*EmptyOutput, error)
+	HandleLeanHelixPrepare(ctx context.Context, input *LeanHelixPrepareInput) (*EmptyOutput, error)
+	HandleLeanHelixCommit(ctx context.Context, input *LeanHelixCommitInput) (*EmptyOutput, error)
+	HandleLeanHelixViewChange(ctx context.Context, input *LeanHelixViewChangeInput) (*EmptyOutput, error)
+	HandleLeanHelixNewView(ctx context.Context, input *LeanHelixNewViewInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

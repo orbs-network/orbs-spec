@@ -3,6 +3,7 @@ package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -12,8 +13,8 @@ import (
 // service Processor
 
 type Processor interface {
-	ProcessCall(input *ProcessCallInput) (*ProcessCallOutput, error)
-	GetContractInfo(input *GetContractInfoInput) (*GetContractInfoOutput, error)
+	ProcessCall(ctx context.Context, input *ProcessCallInput) (*ProcessCallOutput, error)
+	GetContractInfo(ctx context.Context, input *GetContractInfoInput) (*GetContractInfoOutput, error)
 	RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler)
 }
 

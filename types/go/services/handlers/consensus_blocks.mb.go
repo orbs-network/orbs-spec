@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -10,7 +11,7 @@ import (
 // service ConsensusBlocksHandler
 
 type ConsensusBlocksHandler interface {
-	HandleBlockConsensus(input *HandleBlockConsensusInput) (*HandleBlockConsensusOutput, error)
+	HandleBlockConsensus(ctx context.Context, input *HandleBlockConsensusInput) (*HandleBlockConsensusOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,7 @@ package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/client"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -12,9 +13,9 @@ import (
 
 type PublicApi interface {
 	handlers.TransactionResultsHandler
-	SendTransaction(input *SendTransactionInput) (*SendTransactionOutput, error)
-	CallMethod(input *CallMethodInput) (*CallMethodOutput, error)
-	GetTransactionStatus(input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
+	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
+	CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error)
+	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

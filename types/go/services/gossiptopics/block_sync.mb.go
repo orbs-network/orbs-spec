@@ -3,6 +3,7 @@ package gossiptopics
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
@@ -11,10 +12,10 @@ import (
 // service BlockSync
 
 type BlockSync interface {
-	BroadcastBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
-	SendBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
-	SendBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error)
-	SendBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error)
+	BroadcastBlockAvailabilityRequest(ctx context.Context, input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
+	SendBlockAvailabilityResponse(ctx context.Context, input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
+	SendBlockSyncRequest(ctx context.Context, input *BlockSyncRequestInput) (*EmptyOutput, error)
+	SendBlockSyncResponse(ctx context.Context, input *BlockSyncResponseInput) (*EmptyOutput, error)
 	RegisterBlockSyncHandler(handler BlockSyncHandler)
 }
 
@@ -22,10 +23,10 @@ type BlockSync interface {
 // service BlockSyncHandler
 
 type BlockSyncHandler interface {
-	HandleBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
-	HandleBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
-	HandleBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error)
-	HandleBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error)
+	HandleBlockAvailabilityRequest(ctx context.Context, input *BlockAvailabilityRequestInput) (*EmptyOutput, error)
+	HandleBlockAvailabilityResponse(ctx context.Context, input *BlockAvailabilityResponseInput) (*EmptyOutput, error)
+	HandleBlockSyncRequest(ctx context.Context, input *BlockSyncRequestInput) (*EmptyOutput, error)
+	HandleBlockSyncResponse(ctx context.Context, input *BlockSyncResponseInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

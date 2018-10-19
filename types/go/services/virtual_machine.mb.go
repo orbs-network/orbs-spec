@@ -3,6 +3,7 @@ package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -13,9 +14,9 @@ import (
 
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
-	ProcessTransactionSet(input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
-	RunLocalMethod(input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
-	TransactionSetPreOrder(input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
+	ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
+	RunLocalMethod(ctx context.Context, input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
+	TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

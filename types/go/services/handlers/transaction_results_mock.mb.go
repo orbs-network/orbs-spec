@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,8 @@ type MockTransactionResultsHandler struct {
 	mock.Mock
 }
 
-func (s *MockTransactionResultsHandler) HandleTransactionResults(input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionResultsHandler) HandleTransactionResults(ctx context.Context, input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*HandleTransactionResultsOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockTransactionResultsHandler) HandleTransactionResults(input *HandleTr
 	}
 }
 
-func (s *MockTransactionResultsHandler) HandleTransactionError(input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionResultsHandler) HandleTransactionError(ctx context.Context, input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*HandleTransactionErrorOutput), ret.Error(1)
 	} else {

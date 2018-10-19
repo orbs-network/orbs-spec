@@ -3,6 +3,7 @@ package gossiptopics
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
@@ -11,8 +12,8 @@ import (
 // service BenchmarkConsensus
 
 type BenchmarkConsensus interface {
-	BroadcastBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
-	SendBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
+	BroadcastBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
+	SendBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
 	RegisterBenchmarkConsensusHandler(handler BenchmarkConsensusHandler)
 }
 
@@ -20,8 +21,8 @@ type BenchmarkConsensus interface {
 // service BenchmarkConsensusHandler
 
 type BenchmarkConsensusHandler interface {
-	HandleBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
-	HandleBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
+	HandleBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
+	HandleBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

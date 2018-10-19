@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,8 @@ type MockStateStorage struct {
 	mock.Mock
 }
 
-func (s *MockStateStorage) CommitStateDiff(input *CommitStateDiffInput) (*CommitStateDiffOutput, error) {
-	ret := s.Called(input)
+func (s *MockStateStorage) CommitStateDiff(ctx context.Context, input *CommitStateDiffInput) (*CommitStateDiffOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*CommitStateDiffOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockStateStorage) CommitStateDiff(input *CommitStateDiffInput) (*Commit
 	}
 }
 
-func (s *MockStateStorage) ReadKeys(input *ReadKeysInput) (*ReadKeysOutput, error) {
-	ret := s.Called(input)
+func (s *MockStateStorage) ReadKeys(ctx context.Context, input *ReadKeysInput) (*ReadKeysOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ReadKeysOutput), ret.Error(1)
 	} else {
@@ -30,8 +31,8 @@ func (s *MockStateStorage) ReadKeys(input *ReadKeysInput) (*ReadKeysOutput, erro
 	}
 }
 
-func (s *MockStateStorage) GetStateStorageBlockHeight(input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error) {
-	ret := s.Called(input)
+func (s *MockStateStorage) GetStateStorageBlockHeight(ctx context.Context, input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetStateStorageBlockHeightOutput), ret.Error(1)
 	} else {
@@ -39,8 +40,8 @@ func (s *MockStateStorage) GetStateStorageBlockHeight(input *GetStateStorageBloc
 	}
 }
 
-func (s *MockStateStorage) GetStateHash(input *GetStateHashInput) (*GetStateHashOutput, error) {
-	ret := s.Called(input)
+func (s *MockStateStorage) GetStateHash(ctx context.Context, input *GetStateHashInput) (*GetStateHashOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetStateHashOutput), ret.Error(1)
 	} else {

@@ -3,6 +3,7 @@ package services
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -14,8 +15,8 @@ type MockVirtualMachine struct {
 	handlers.MockContractSdkCallHandler
 }
 
-func (s *MockVirtualMachine) ProcessTransactionSet(input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error) {
-	ret := s.Called(input)
+func (s *MockVirtualMachine) ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ProcessTransactionSetOutput), ret.Error(1)
 	} else {
@@ -23,8 +24,8 @@ func (s *MockVirtualMachine) ProcessTransactionSet(input *ProcessTransactionSetI
 	}
 }
 
-func (s *MockVirtualMachine) RunLocalMethod(input *RunLocalMethodInput) (*RunLocalMethodOutput, error) {
-	ret := s.Called(input)
+func (s *MockVirtualMachine) RunLocalMethod(ctx context.Context, input *RunLocalMethodInput) (*RunLocalMethodOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RunLocalMethodOutput), ret.Error(1)
 	} else {
@@ -32,8 +33,8 @@ func (s *MockVirtualMachine) RunLocalMethod(input *RunLocalMethodInput) (*RunLoc
 	}
 }
 
-func (s *MockVirtualMachine) TransactionSetPreOrder(input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error) {
-	ret := s.Called(input)
+func (s *MockVirtualMachine) TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*TransactionSetPreOrderOutput), ret.Error(1)
 	} else {

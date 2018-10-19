@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -11,7 +12,7 @@ import (
 // service ContractSdkCallHandler
 
 type ContractSdkCallHandler interface {
-	HandleSdkCall(input *HandleSdkCallInput) (*HandleSdkCallOutput, error)
+	HandleSdkCall(ctx context.Context, input *HandleSdkCallInput) (*HandleSdkCallOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

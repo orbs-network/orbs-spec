@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -11,8 +12,8 @@ import (
 // service TransactionResultsHandler
 
 type TransactionResultsHandler interface {
-	HandleTransactionResults(input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error)
-	HandleTransactionError(input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error)
+	HandleTransactionResults(ctx context.Context, input *HandleTransactionResultsInput) (*HandleTransactionResultsOutput, error)
+	HandleTransactionError(ctx context.Context, input *HandleTransactionErrorInput) (*HandleTransactionErrorOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

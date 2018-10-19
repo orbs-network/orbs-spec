@@ -3,6 +3,7 @@ package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -11,7 +12,7 @@ import (
 // service CrosschainConnector
 
 type CrosschainConnector interface {
-	EthereumCallContract(input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
+	EthereumCallContract(ctx context.Context, input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
