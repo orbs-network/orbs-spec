@@ -47,6 +47,7 @@ message TransactionsBlockHeader {
     primitives.merkle_sha256 transactions_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
     uint32 num_signed_transactions = 8;
+    protocol.NetworkType network_type = 9;
 }
 
 message ResultsBlockHeader {
@@ -61,8 +62,9 @@ message ResultsBlockHeader {
     primitives.merkle_sha256 pre_execution_state_root_hash = 9;
     primitives.bloom_filter txhash_bloom_filter = 10;
     primitives.bloom_filter timestamp_bloom_filter = 11;
-    uint32 num_transaction_receipts = 12;
-    uint32 num_contract_state_diffs = 13;
+    protocol.NetworkType network_type = 12;
+    uint32 num_transaction_receipts = 13;
+    uint32 num_contract_state_diffs = 14;
 }
 
 message TransactionsBlockMetadata {

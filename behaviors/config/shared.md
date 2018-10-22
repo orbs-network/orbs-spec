@@ -8,7 +8,8 @@ Since the system must remain backwards compatible forever (able to audit the old
 
 ```json
 {
-  "virtual-chain-id": "0x803E2207"
+  "virtual-chain-id": "0x803E2207",
+  "signer_scheme": 01
 }
 ```
 

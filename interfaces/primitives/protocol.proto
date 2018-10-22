@@ -49,3 +49,9 @@ message execution_context_id {
     uint32 value = 1;
     // size 4 bytes
 }
+
+message signer {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 4 bytes
+}

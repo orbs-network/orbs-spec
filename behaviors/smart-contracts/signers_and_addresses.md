@@ -1,5 +1,5 @@
 # Signers and Addresses
-> A signer scheme determines the way a transaction is signed and the mapping to a public address.
+> A signer scheme determines the way a transaction is signed and the mapping to a public address. The default signer scheme is [configurable](../config/shared.md) per virtual chain.
 
 ## Addresses and accounts
 Orbs platform does not define native accounts only public address. Accounts or other signature based databases can be implemented using the public address as the key for the database. 
@@ -33,16 +33,29 @@ If `tokens` <= BalancesDB[`GetCallerAddress()`] then
 &nbsp;
 ## Signature schemes
 > Determines the signature validation and addressing scheme
-* Address = RIPEMD160(SHA256(serialized signer))
   
 #### `EdDSA01Signer`
 > Ed25519 based signature scheme
 * Signature = Ed25519Signature(private_key, txhash)
-  * txhash = SHA256(Transaction)  
+  * txhash = SHA256(Transaction)
+* signer = 32B Ed25519 Publickey 
+* Address = RIPEMD160(SHA256(serialized signer))
+* Verification: Ed25519
+
+#### `EthereumSigner`
+> Ethereum likesignature scheme
+* Signature = EcDSASignature(private_key, txhash)
+  * txhash = SHA256(Transaction)
+* signer = RIPEMD160(SHA256(32B EcDSA Publickey))
+* Address = signer <!-- compatible with Ethereum -->
+* Verification: signer = RIPEMD160(SHA256(recover(msg, signature))
 
 #### `SmartContractCaller`
 > Set when a function is called by a smart contract, can't be sent in a transaction.
 * The Signer includes the smart contract name and scheme.
+* signer = smart contract name
+* Address = RIPEMD160(SHA256(serialized signer))
+
 <!-- TODO caller argument -->
 
 &nbsp;

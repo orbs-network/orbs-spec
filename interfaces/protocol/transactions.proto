@@ -15,10 +15,11 @@ message Transaction {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.timestamp_nano timestamp = 3;
-    protocol.Signer signer = 4;
+    primitives.signer signer = 4;
     primitives.contract_name contract_name = 5;
     primitives.method_name method_name = 6;
     bytes input_argument_array = 7; // opaque field of repeated protocol.MethodArgument
+    NetworkType network_type = 8;
 }
 
 message SignedTransaction {
@@ -30,4 +31,10 @@ message TransactionReceipt {
     primitives.sha256 txhash = 1;
     protocol.ExecutionResult execution_result = 2;
     bytes output_argument_array = 3; // opaque field of repeated protocol.MethodArgument
+}
+
+enum NetworkType {
+    NETWORK_TYPE_RESERVED = 0;
+    NETWORK_TYPE_MAIN_NET = 77;
+    NETWORK_TYPE_TEST_NET = 84;
 }

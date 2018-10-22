@@ -8,26 +8,20 @@ import "protocol/contracts.proto";
 
 // address = RIPMD160(SHA(serialized protocol.Signer))
 
-enum SignerNetworkType {
-    NETWORK_TYPE_RESERVED = 0;
-    NETWORK_TYPE_MAIN_NET = 77;
-    NETWORK_TYPE_TEST_NET = 84;
-}
-
-message Signer {
-    oneof scheme {
-        EdDSA01Signer eddsa = 1;
-        SmartContractCaller smart_contract_caller = 2;
-    }
-}
-
 message EdDSA01Signer {
-    SignerNetworkType network_type = 1;
-    primitives.ed25519_public_key signer_public_key = 2;
+    primitives.ed25519_public_key signer_public_key = 1;
+}
+
+message EthereumSigner {
+    primitives.ecdsa_public_key signer_public_key = 1;
 }
 
 message SmartContractCaller { // Can't be sent in a transaction.
     primitives.contract_name contract_name = 1;
 }
 
-
+enum SignerScheme {
+    SIGNER_SCHEME_RESERVED = 0;
+    SIGNER_SCHEME_EdDSA01 = 1;
+    SIGNER_SCHEME_ETHEREUM = 2;
+}
