@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
@@ -14,11 +15,11 @@ import (
 
 type TransactionPool interface {
 	gossiptopics.TransactionRelayHandler
-	AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
-	GetCommittedTransactionReceipt(input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
-	GetTransactionsForOrdering(input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
-	ValidateTransactionsForOrdering(input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
-	CommitTransactionReceipts(input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
+	AddNewTransaction(ctx context.Context, input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
+	GetCommittedTransactionReceipt(ctx context.Context, input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
+	GetTransactionsForOrdering(ctx context.Context, input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
+	ValidateTransactionsForOrdering(ctx context.Context, input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
+	CommitTransactionReceipts(ctx context.Context, input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
 	RegisterTransactionResultsHandler(handler handlers.TransactionResultsHandler)
 }
 

@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,8 @@ type MockConsensusContext struct {
 	mock.Mock
 }
 
-func (s *MockConsensusContext) RequestNewTransactionsBlock(input *RequestNewTransactionsBlockInput) (*RequestNewTransactionsBlockOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) RequestNewTransactionsBlock(ctx context.Context, input *RequestNewTransactionsBlockInput) (*RequestNewTransactionsBlockOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RequestNewTransactionsBlockOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockConsensusContext) RequestNewTransactionsBlock(input *RequestNewTran
 	}
 }
 
-func (s *MockConsensusContext) RequestNewResultsBlock(input *RequestNewResultsBlockInput) (*RequestNewResultsBlockOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) RequestNewResultsBlock(ctx context.Context, input *RequestNewResultsBlockInput) (*RequestNewResultsBlockOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RequestNewResultsBlockOutput), ret.Error(1)
 	} else {
@@ -30,8 +31,8 @@ func (s *MockConsensusContext) RequestNewResultsBlock(input *RequestNewResultsBl
 	}
 }
 
-func (s *MockConsensusContext) ValidateTransactionsBlock(input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) ValidateTransactionsBlock(ctx context.Context, input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateTransactionsBlockOutput), ret.Error(1)
 	} else {
@@ -39,8 +40,8 @@ func (s *MockConsensusContext) ValidateTransactionsBlock(input *ValidateTransact
 	}
 }
 
-func (s *MockConsensusContext) ValidateResultsBlock(input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) ValidateResultsBlock(ctx context.Context, input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateResultsBlockOutput), ret.Error(1)
 	} else {
@@ -48,8 +49,8 @@ func (s *MockConsensusContext) ValidateResultsBlock(input *ValidateResultsBlockI
 	}
 }
 
-func (s *MockConsensusContext) RequestOrderingCommittee(input *RequestCommitteeInput) (*RequestCommitteeOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RequestCommitteeOutput), ret.Error(1)
 	} else {
@@ -57,8 +58,8 @@ func (s *MockConsensusContext) RequestOrderingCommittee(input *RequestCommitteeI
 	}
 }
 
-func (s *MockConsensusContext) RequestValidationCommittee(input *RequestCommitteeInput) (*RequestCommitteeOutput, error) {
-	ret := s.Called(input)
+func (s *MockConsensusContext) RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RequestCommitteeOutput), ret.Error(1)
 	} else {

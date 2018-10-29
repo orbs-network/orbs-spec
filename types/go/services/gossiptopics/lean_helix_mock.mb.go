@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package gossiptopics
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,8 @@ type MockLeanHelix struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelix) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelix) SendLeanHelixPrePrepare(ctx context.Context, input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockLeanHelix) SendLeanHelixPrePrepare(input *LeanHelixPrePrepareInput)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelix) SendLeanHelixPrepare(ctx context.Context, input *LeanHelixPrepareInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -30,8 +31,8 @@ func (s *MockLeanHelix) SendLeanHelixPrepare(input *LeanHelixPrepareInput) (*Emp
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelix) SendLeanHelixCommit(ctx context.Context, input *LeanHelixCommitInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -39,8 +40,8 @@ func (s *MockLeanHelix) SendLeanHelixCommit(input *LeanHelixCommitInput) (*Empty
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelix) SendLeanHelixViewChange(ctx context.Context, input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -48,8 +49,8 @@ func (s *MockLeanHelix) SendLeanHelixViewChange(input *LeanHelixViewChangeInput)
 	}
 }
 
-func (s *MockLeanHelix) SendLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelix) SendLeanHelixNewView(ctx context.Context, input *LeanHelixNewViewInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -68,8 +69,8 @@ type MockLeanHelixHandler struct {
 	mock.Mock
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(ctx context.Context, input *LeanHelixPrePrepareInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -77,8 +78,8 @@ func (s *MockLeanHelixHandler) HandleLeanHelixPrePrepare(input *LeanHelixPrePrep
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(ctx context.Context, input *LeanHelixPrepareInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -86,8 +87,8 @@ func (s *MockLeanHelixHandler) HandleLeanHelixPrepare(input *LeanHelixPrepareInp
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelixHandler) HandleLeanHelixCommit(ctx context.Context, input *LeanHelixCommitInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -95,8 +96,8 @@ func (s *MockLeanHelixHandler) HandleLeanHelixCommit(input *LeanHelixCommitInput
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(ctx context.Context, input *LeanHelixViewChangeInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -104,8 +105,8 @@ func (s *MockLeanHelixHandler) HandleLeanHelixViewChange(input *LeanHelixViewCha
 	}
 }
 
-func (s *MockLeanHelixHandler) HandleLeanHelixNewView(input *LeanHelixNewViewInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockLeanHelixHandler) HandleLeanHelixNewView(ctx context.Context, input *LeanHelixNewViewInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {

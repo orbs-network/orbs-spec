@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -14,8 +15,8 @@ type MockPublicApi struct {
 	handlers.MockTransactionResultsHandler
 }
 
-func (s *MockPublicApi) SendTransaction(input *SendTransactionInput) (*SendTransactionOutput, error) {
-	ret := s.Called(input)
+func (s *MockPublicApi) SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*SendTransactionOutput), ret.Error(1)
 	} else {
@@ -23,8 +24,8 @@ func (s *MockPublicApi) SendTransaction(input *SendTransactionInput) (*SendTrans
 	}
 }
 
-func (s *MockPublicApi) CallMethod(input *CallMethodInput) (*CallMethodOutput, error) {
-	ret := s.Called(input)
+func (s *MockPublicApi) CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*CallMethodOutput), ret.Error(1)
 	} else {
@@ -32,8 +33,8 @@ func (s *MockPublicApi) CallMethod(input *CallMethodInput) (*CallMethodOutput, e
 	}
 }
 
-func (s *MockPublicApi) GetTransactionStatus(input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error) {
-	ret := s.Called(input)
+func (s *MockPublicApi) GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetTransactionStatusOutput), ret.Error(1)
 	} else {

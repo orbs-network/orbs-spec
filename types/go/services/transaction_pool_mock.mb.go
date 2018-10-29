@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"github.com/orbs-network/go-mock"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -15,8 +16,8 @@ type MockTransactionPool struct {
 	gossiptopics.MockTransactionRelayHandler
 }
 
-func (s *MockTransactionPool) AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionPool) AddNewTransaction(ctx context.Context, input *AddNewTransactionInput) (*AddNewTransactionOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*AddNewTransactionOutput), ret.Error(1)
 	} else {
@@ -24,8 +25,8 @@ func (s *MockTransactionPool) AddNewTransaction(input *AddNewTransactionInput) (
 	}
 }
 
-func (s *MockTransactionPool) GetCommittedTransactionReceipt(input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionPool) GetCommittedTransactionReceipt(ctx context.Context, input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetCommittedTransactionReceiptOutput), ret.Error(1)
 	} else {
@@ -33,8 +34,8 @@ func (s *MockTransactionPool) GetCommittedTransactionReceipt(input *GetCommitted
 	}
 }
 
-func (s *MockTransactionPool) GetTransactionsForOrdering(input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionPool) GetTransactionsForOrdering(ctx context.Context, input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetTransactionsForOrderingOutput), ret.Error(1)
 	} else {
@@ -42,8 +43,8 @@ func (s *MockTransactionPool) GetTransactionsForOrdering(input *GetTransactionsF
 	}
 }
 
-func (s *MockTransactionPool) ValidateTransactionsForOrdering(input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionPool) ValidateTransactionsForOrdering(ctx context.Context, input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateTransactionsForOrderingOutput), ret.Error(1)
 	} else {
@@ -51,8 +52,8 @@ func (s *MockTransactionPool) ValidateTransactionsForOrdering(input *ValidateTra
 	}
 }
 
-func (s *MockTransactionPool) CommitTransactionReceipts(input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error) {
-	ret := s.Called(input)
+func (s *MockTransactionPool) CommitTransactionReceipts(ctx context.Context, input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*CommitTransactionReceiptsOutput), ret.Error(1)
 	} else {
