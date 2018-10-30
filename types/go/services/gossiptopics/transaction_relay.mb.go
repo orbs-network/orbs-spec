@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package gossiptopics
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -10,7 +11,7 @@ import (
 // service TransactionRelay
 
 type TransactionRelay interface {
-	BroadcastForwardedTransactions(input *ForwardedTransactionsInput) (*EmptyOutput, error)
+	BroadcastForwardedTransactions(ctx context.Context, input *ForwardedTransactionsInput) (*EmptyOutput, error)
 	RegisterTransactionRelayHandler(handler TransactionRelayHandler)
 }
 
@@ -18,7 +19,7 @@ type TransactionRelay interface {
 // service TransactionRelayHandler
 
 type TransactionRelayHandler interface {
-	HandleForwardedTransactions(input *ForwardedTransactionsInput) (*EmptyOutput, error)
+	HandleForwardedTransactions(ctx context.Context, input *ForwardedTransactionsInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

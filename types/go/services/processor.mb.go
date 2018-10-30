@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -12,8 +13,8 @@ import (
 // service Processor
 
 type Processor interface {
-	ProcessCall(input *ProcessCallInput) (*ProcessCallOutput, error)
-	GetContractInfo(input *GetContractInfoInput) (*GetContractInfoOutput, error)
+	ProcessCall(ctx context.Context, input *ProcessCallInput) (*ProcessCallOutput, error)
+	GetContractInfo(ctx context.Context, input *GetContractInfoInput) (*GetContractInfoOutput, error)
 	RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler)
 }
 
@@ -28,14 +29,13 @@ type ProcessCallInput struct {
 	AccessScope protocol.ExecutionAccessScope
 	CallingPermissionScope protocol.ExecutionPermissionScope
 	CallingService primitives.ContractName
-	TransactionSigner *protocol.Signer
 }
 
 func (x *ProcessCallInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,AccessScope:%s,CallingPermissionScope:%s,CallingService:%s,TransactionSigner:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray(), x.StringAccessScope(), x.StringCallingPermissionScope(), x.StringCallingService(), x.StringTransactionSigner())
+	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,AccessScope:%s,CallingPermissionScope:%s,CallingService:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray(), x.StringAccessScope(), x.StringCallingPermissionScope(), x.StringCallingService())
 }
 
 func (x *ProcessCallInput) StringContextId() (res string) {
@@ -70,11 +70,6 @@ func (x *ProcessCallInput) StringCallingPermissionScope() (res string) {
 
 func (x *ProcessCallInput) StringCallingService() (res string) {
 	res = fmt.Sprintf("%s", x.CallingService)
-	return
-}
-
-func (x *ProcessCallInput) StringTransactionSigner() (res string) {
-	res = x.TransactionSigner.String()
 	return
 }
 

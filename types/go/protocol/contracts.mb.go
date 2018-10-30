@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package protocol
 
 import (
@@ -756,6 +756,7 @@ type ProcessorType uint16
 const (
 	PROCESSOR_TYPE_RESERVED ProcessorType = 0
 	PROCESSOR_TYPE_NATIVE ProcessorType = 1
+	PROCESSOR_TYPE_JAVASCRIPT ProcessorType = 2
 )
 
 func (n ProcessorType) String() string {
@@ -764,6 +765,8 @@ func (n ProcessorType) String() string {
 		return "PROCESSOR_TYPE_RESERVED"
 	case PROCESSOR_TYPE_NATIVE:
 		return "PROCESSOR_TYPE_NATIVE"
+	case PROCESSOR_TYPE_JAVASCRIPT:
+		return "PROCESSOR_TYPE_JAVASCRIPT"
 	}
 	return "UNKNOWN"
 }

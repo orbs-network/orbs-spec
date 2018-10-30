@@ -1,8 +1,9 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.19)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
 package services
 
 import (
 	"fmt"
+	"context"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -11,10 +12,10 @@ import (
 // service StateStorage
 
 type StateStorage interface {
-	CommitStateDiff(input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
-	ReadKeys(input *ReadKeysInput) (*ReadKeysOutput, error)
-	GetStateStorageBlockHeight(input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
-	GetStateHash(input *GetStateHashInput) (*GetStateHashOutput, error)
+	CommitStateDiff(ctx context.Context, input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
+	ReadKeys(ctx context.Context, input *ReadKeysInput) (*ReadKeysOutput, error)
+	GetStateStorageBlockHeight(ctx context.Context, input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
+	GetStateHash(ctx context.Context, input *GetStateHashInput) (*GetStateHashOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
