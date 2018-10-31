@@ -11,13 +11,13 @@ import "../protocol/consensus/lean_helix.proto";
 
 // message format
 
-//message LeanHelixPrePrepareMessage {
-//    option serialize_message = false;
-//
-//    consensus.LeanHelixBlockRef signed_header = 1;
-//    consensus.LeanHelixSenderSignature sender = 2; // signs on signed_header
-//    protocol.BlockPairContainer block_pair = 3;
-//}
+message LeanHelixMessage {
+    option serialize_message = false;
+
+    consensus.LeanHelixMessageType message_type = 1;
+    primitives.lean_helix_message_content content = 2;
+    protocol.BlockPairContainer block_pair = 3;
+}
 //
 //message LeanHelixPrepareMessage {
 //    option serialize_message = false;
@@ -82,8 +82,3 @@ message LeanHelixRandomSeedShare {
 //    consensus.LeanHelixSenderSignature view_change_sender = 2;
 //}
 
-message LeanHelixMessage {
-    consensus.LeanHelixMessageType message_type = 1;
-    primitives.lean_helix_message_content content = 2;
-    protocol.BlockPairContainer block_pair = 3;
-}

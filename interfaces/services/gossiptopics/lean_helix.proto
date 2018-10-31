@@ -57,5 +57,5 @@ service LeanHelixHandler {
 
 message LeanHelixInput {
     gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixMessage = 2;
+    gossipmessages.LeanHelixMessage message = 2;
 }
