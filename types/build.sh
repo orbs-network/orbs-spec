@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo "Make sure your membuffers git repo is updated and pulled before building!"
 echo ""
 

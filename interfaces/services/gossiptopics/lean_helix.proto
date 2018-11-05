@@ -13,42 +13,49 @@ service LeanHelix {
     option register_handler = "LeanHelixHandler";
 
     // called by anyone looking to send gossip messages
-    rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
-    rpc SendLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
-    rpc SendLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
-    rpc SendLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
-    rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
+//    rpc SendLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
+//    rpc SendLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
+//    rpc SendLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
+//    rpc SendLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
+//    rpc SendLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
+    rpc SendLeanHelixMessage (LeanHelixInput) returns (gossiptopics.EmptyOutput);
 }
 
 service LeanHelixHandler {
-    rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
-    rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
-    rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
-    rpc HandleLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
-    rpc HandleLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
+//    rpc HandleLeanHelixPrePrepare (LeanHelixPrePrepareInput) returns (gossiptopics.EmptyOutput);
+//    rpc HandleLeanHelixPrepare (LeanHelixPrepareInput) returns (gossiptopics.EmptyOutput);
+//    rpc HandleLeanHelixCommit (LeanHelixCommitInput) returns (gossiptopics.EmptyOutput);
+//    rpc HandleLeanHelixViewChange (LeanHelixViewChangeInput) returns (gossiptopics.EmptyOutput);
+//    rpc HandleLeanHelixNewView (LeanHelixNewViewInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleLeanHelixMessage (LeanHelixInput) returns (gossiptopics.EmptyOutput);
 }
 
-message LeanHelixPrePrepareInput {
-    gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixPrePrepareMessage message = 2;
-}
+//message LeanHelixPrePrepareInput {
+//    gossiptopics.RecipientsList recipients_list = 1;
+//    gossipmessages.LeanHelixPrePrepareMessage message = 2;
+//}
+//
+//message LeanHelixPrepareInput {
+//    gossiptopics.RecipientsList recipients_list = 1;
+//    gossipmessages.LeanHelixPrepareMessage message = 2;
+//}
+//
+//message LeanHelixCommitInput {
+//    gossiptopics.RecipientsList recipients_list = 1;
+//    gossipmessages.LeanHelixCommitMessage message = 2;
+//}
+//
+//message LeanHelixViewChangeInput {
+//    gossiptopics.RecipientsList recipients_list = 1;
+//    gossipmessages.LeanHelixViewChangeMessage message = 2;
+//}
+//
+//message LeanHelixNewViewInput {
+//    gossiptopics.RecipientsList recipients_list = 1;
+//    gossipmessages.LeanHelixNewViewMessage message = 2;
+//}
 
-message LeanHelixPrepareInput {
+message LeanHelixInput {
     gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixPrepareMessage message = 2;
-}
-
-message LeanHelixCommitInput {
-    gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixCommitMessage message = 2;
-}
-
-message LeanHelixViewChangeInput {
-    gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixViewChangeMessage message = 2;
-}
-
-message LeanHelixNewViewInput {
-    gossiptopics.RecipientsList recipients_list = 1;
-    gossipmessages.LeanHelixNewViewMessage message = 2;
+    gossipmessages.LeanHelixMessage message = 2;
 }
