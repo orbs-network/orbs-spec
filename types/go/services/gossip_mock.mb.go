@@ -16,4 +16,3 @@ type MockGossip struct {
 	gossiptopics.MockLeanHelix
 	gossiptopics.MockBenchmarkConsensus
 }
-

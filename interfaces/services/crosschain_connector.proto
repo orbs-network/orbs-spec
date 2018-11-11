@@ -3,8 +3,6 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
-import "protocol/results.proto";
-import "protocol/contracts.proto";
 
 option serialize_messages = false;
 
@@ -14,16 +12,13 @@ service CrosschainConnector {
 }
 
 message EthereumCallContractInput {
-    primitives.block_height block_height = 1;
+    primitives.timestamp_nano reference_timestamp = 1;
     string ethereum_contract_address = 2;
     string ethereum_function_name = 3;
     string ethereum_abi = 4;
-    repeated protocol.MethodArgument input_arguments = 5;
+    bytes ethereum_packed_input_arguments = 5;
 }
 
 message EthereumCallContractOutput {
-    repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionResult call_result = 2;
-    uint64 ethereum_block_height = 3;
-    uint64 ethereum_block_timestamp = 4;
+    bytes ethereum_packed_output = 1;
 }

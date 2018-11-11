@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -95,4 +95,3 @@ func (s *MockBlockSyncHandler) HandleBlockSyncResponse(ctx context.Context, inpu
 		return nil, ret.Error(1)
 	}
 }
-

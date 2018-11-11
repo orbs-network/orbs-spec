@@ -2,8 +2,8 @@
 package handlers
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,4 +30,3 @@ func (s *MockTransactionResultsHandler) HandleTransactionError(ctx context.Conte
 		return nil, ret.Error(1)
 	}
 }
-

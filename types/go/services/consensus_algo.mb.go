@@ -3,8 +3,8 @@ package services
 
 import (
 	"fmt"
-	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -58,4 +58,3 @@ func (x *OnNewConsensusRoundOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

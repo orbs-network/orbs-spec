@@ -2,10 +2,9 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -19,22 +18,22 @@ type CrosschainConnector interface {
 // message EthereumCallContractInput (non serializable)
 
 type EthereumCallContractInput struct {
-	BlockHeight primitives.BlockHeight
-	EthereumContractAddress string
-	EthereumFunctionName string
-	EthereumAbi string
-	InputArguments []*protocol.MethodArgument
+	ReferenceTimestamp           primitives.TimestampNano
+	EthereumContractAddress      string
+	EthereumFunctionName         string
+	EthereumAbi                  string
+	EthereumPackedInputArguments []byte
 }
 
 func (x *EthereumCallContractInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumAbi:%s,InputArguments:%s,}", x.StringBlockHeight(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumAbi(), x.StringInputArguments())
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumAbi:%s,EthereumPackedInputArguments:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumAbi(), x.StringEthereumPackedInputArguments())
 }
 
-func (x *EthereumCallContractInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *EthereumCallContractInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
 	return
 }
 
@@ -53,12 +52,8 @@ func (x *EthereumCallContractInput) StringEthereumAbi() (res string) {
 	return
 }
 
-func (x *EthereumCallContractInput) StringInputArguments() (res string) {
-	res = "["
-		for _, v := range x.InputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *EthereumCallContractInput) StringEthereumPackedInputArguments() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumPackedInputArguments)
 	return
 }
 
@@ -66,43 +61,17 @@ func (x *EthereumCallContractInput) StringInputArguments() (res string) {
 // message EthereumCallContractOutput (non serializable)
 
 type EthereumCallContractOutput struct {
-	OutputArguments []*protocol.MethodArgument
-	CallResult protocol.ExecutionResult
-	EthereumBlockHeight uint64
-	EthereumBlockTimestamp uint64
+	EthereumPackedOutput []byte
 }
 
 func (x *EthereumCallContractOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,EthereumBlockHeight:%s,EthereumBlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringEthereumBlockHeight(), x.StringEthereumBlockTimestamp())
+	return fmt.Sprintf("{EthereumPackedOutput:%s,}", x.StringEthereumPackedOutput())
 }
 
-func (x *EthereumCallContractOutput) StringOutputArguments() (res string) {
-	res = "["
-		for _, v := range x.OutputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *EthereumCallContractOutput) StringEthereumPackedOutput() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumPackedOutput)
 	return
 }
-
-func (x *EthereumCallContractOutput) StringCallResult() (res string) {
-	res = fmt.Sprintf("%x", x.CallResult)
-	return
-}
-
-func (x *EthereumCallContractOutput) StringEthereumBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockHeight)
-	return
-}
-
-func (x *EthereumCallContractOutput) StringEthereumBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockTimestamp)
-	return
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// enums
-

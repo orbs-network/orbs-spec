@@ -2,10 +2,10 @@
 package services
 
 import (
-	"fmt"
 	"context"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -23,7 +23,7 @@ type VirtualMachine interface {
 // message ProcessTransactionSetInput (non serializable)
 
 type ProcessTransactionSetInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -41,9 +41,9 @@ func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
 
 func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -53,7 +53,7 @@ func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
 
 type ProcessTransactionSetOutput struct {
 	TransactionReceipts []*protocol.TransactionReceipt
-	ContractStateDiffs []*protocol.ContractStateDiff
+	ContractStateDiffs  []*protocol.ContractStateDiff
 }
 
 func (x *ProcessTransactionSetOutput) String() string {
@@ -65,18 +65,18 @@ func (x *ProcessTransactionSetOutput) String() string {
 
 func (x *ProcessTransactionSetOutput) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 func (x *ProcessTransactionSetOutput) StringContractStateDiffs() (res string) {
 	res = "["
-		for _, v := range x.ContractStateDiffs {
+	for _, v := range x.ContractStateDiffs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -110,9 +110,9 @@ func (x *RunLocalMethodInput) StringTransaction() (res string) {
 // message RunLocalMethodOutput (non serializable)
 
 type RunLocalMethodOutput struct {
-	CallResult protocol.ExecutionResult
-	OutputArgumentArray []byte
-	ReferenceBlockHeight primitives.BlockHeight
+	CallResult              protocol.ExecutionResult
+	OutputArgumentArray     []byte
+	ReferenceBlockHeight    primitives.BlockHeight
 	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
@@ -147,7 +147,7 @@ func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
 // message TransactionSetPreOrderInput (non serializable)
 
 type TransactionSetPreOrderInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -165,9 +165,9 @@ func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
 
 func (x *TransactionSetPreOrderInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -188,13 +188,12 @@ func (x *TransactionSetPreOrderOutput) String() string {
 
 func (x *TransactionSetPreOrderOutput) StringPreOrderResults() (res string) {
 	res = "["
-		for _, v := range x.PreOrderResults {
+	for _, v := range x.PreOrderResults {
 		res += fmt.Sprintf("%x", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

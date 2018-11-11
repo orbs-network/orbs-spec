@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -24,10 +24,10 @@ type ConsensusContext interface {
 // message RequestNewTransactionsBlockInput (non serializable)
 
 type RequestNewTransactionsBlockInput struct {
-	BlockHeight primitives.BlockHeight
-	MaxBlockSizeKb uint32
+	BlockHeight             primitives.BlockHeight
+	MaxBlockSizeKb          uint32
 	MaxNumberOfTransactions uint32
-	PrevBlockHash primitives.Sha256
+	PrevBlockHash           primitives.Sha256
 }
 
 func (x *RequestNewTransactionsBlockInput) String() string {
@@ -80,8 +80,8 @@ func (x *RequestNewTransactionsBlockOutput) StringTransactionsBlock() (res strin
 // message RequestNewResultsBlockInput (non serializable)
 
 type RequestNewResultsBlockInput struct {
-	BlockHeight primitives.BlockHeight
-	PrevBlockHash primitives.Sha256
+	BlockHeight       primitives.BlockHeight
+	PrevBlockHash     primitives.Sha256
 	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
@@ -131,7 +131,7 @@ func (x *RequestNewResultsBlockOutput) StringResultsBlock() (res string) {
 
 type ValidateTransactionsBlockInput struct {
 	TransactionsBlock *protocol.TransactionsBlockContainer
-	PrevBlockHash primitives.Sha256
+	PrevBlockHash     primitives.Sha256
 }
 
 func (x *ValidateTransactionsBlockInput) String() string {
@@ -168,8 +168,8 @@ func (x *ValidateTransactionsBlockOutput) String() string {
 // message ValidateResultsBlockInput (non serializable)
 
 type ValidateResultsBlockInput struct {
-	ResultsBlock *protocol.ResultsBlockContainer
-	PrevBlockHash primitives.Sha256
+	ResultsBlock      *protocol.ResultsBlockContainer
+	PrevBlockHash     primitives.Sha256
 	TransactionsBlock *protocol.TransactionsBlockContainer
 }
 
@@ -212,8 +212,8 @@ func (x *ValidateResultsBlockOutput) String() string {
 // message RequestCommitteeInput (non serializable)
 
 type RequestCommitteeInput struct {
-	BlockHeight primitives.BlockHeight
-	RandomSeed uint64
+	BlockHeight      primitives.BlockHeight
+	RandomSeed       uint64
 	MaxCommitteeSize uint32
 }
 
@@ -243,7 +243,7 @@ func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
 // message RequestCommitteeOutput (non serializable)
 
 type RequestCommitteeOutput struct {
-	NodePublicKeys []primitives.Ed25519PublicKey
+	NodePublicKeys           []primitives.Ed25519PublicKey
 	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
 }
 
@@ -256,22 +256,21 @@ func (x *RequestCommitteeOutput) String() string {
 
 func (x *RequestCommitteeOutput) StringNodePublicKeys() (res string) {
 	res = "["
-		for _, v := range x.NodePublicKeys {
+	for _, v := range x.NodePublicKeys {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	res = "["
-		for _, v := range x.NodeRandomSeedPublicKeys {
+	for _, v := range x.NodeRandomSeedPublicKeys {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -73,4 +73,3 @@ func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *Va
 func (s *MockBlockStorage) RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler) {
 	s.Called(handler)
 }
-

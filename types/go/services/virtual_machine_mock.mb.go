@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -41,4 +41,3 @@ func (s *MockVirtualMachine) TransactionSetPreOrder(ctx context.Context, input *
 		return nil, ret.Error(1)
 	}
 }
-

@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -35,4 +35,3 @@ func (s *MockProcessor) GetContractInfo(ctx context.Context, input *GetContractI
 func (s *MockProcessor) RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler) {
 	s.Called(handler)
 }
-

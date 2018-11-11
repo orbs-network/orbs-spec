@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -48,4 +48,3 @@ func (s *MockStateStorage) GetStateHash(ctx context.Context, input *GetStateHash
 		return nil, ret.Error(1)
 	}
 }
-

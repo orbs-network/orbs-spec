@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,4 +41,3 @@ func (s *MockTransactionRelayHandler) HandleForwardedTransactions(ctx context.Co
 		return nil, ret.Error(1)
 	}
 }
-

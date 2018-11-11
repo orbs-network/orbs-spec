@@ -2,9 +2,9 @@
 package gossipmessages
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -46,13 +46,13 @@ func (x *TempKillMeBenchmarkConsensus) Raw() []byte {
 }
 
 func (x *TempKillMeBenchmarkConsensus) Equal(y *TempKillMeBenchmarkConsensus) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 // builder
@@ -164,7 +164,7 @@ func (x *BenchmarkConsensusStatus) String() string {
 	return fmt.Sprintf("{LastCommittedBlockHeight:%s,}", x.StringLastCommittedBlockHeight())
 }
 
-var _BenchmarkConsensusStatus_Scheme = []membuffers.FieldType{membuffers.TypeUint64,}
+var _BenchmarkConsensusStatus_Scheme = []membuffers.FieldType{membuffers.TypeUint64}
 var _BenchmarkConsensusStatus_Unions = [][]membuffers.FieldType{}
 
 func BenchmarkConsensusStatusReader(buf []byte) *BenchmarkConsensusStatus {
@@ -182,13 +182,13 @@ func (x *BenchmarkConsensusStatus) Raw() []byte {
 }
 
 func (x *BenchmarkConsensusStatus) Equal(y *BenchmarkConsensusStatus) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *BenchmarkConsensusStatus) LastCommittedBlockHeight() primitives.BlockHeight {
@@ -256,4 +256,3 @@ func (w *BenchmarkConsensusStatusBuilder) Build() *BenchmarkConsensusStatus {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

@@ -2,9 +2,9 @@
 package protocol
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -28,8 +28,8 @@ func (x *Signer) String() string {
 	return fmt.Sprintf("{Scheme:%s,}", x.StringScheme())
 }
 
-var _Signer_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var _Signer_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
+var _Signer_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
+var _Signer_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
 
 func SignerReader(buf []byte) *Signer {
 	x := &Signer{}
@@ -46,19 +46,19 @@ func (x *Signer) Raw() []byte {
 }
 
 func (x *Signer) Equal(y *Signer) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type SignerScheme uint16
 
 const (
-	SIGNER_SCHEME_EDDSA SignerScheme = 0
+	SIGNER_SCHEME_EDDSA                 SignerScheme = 0
 	SIGNER_SCHEME_SMART_CONTRACT_CALLER SignerScheme = 1
 )
 
@@ -123,8 +123,8 @@ func (x *Signer) StringScheme() string {
 // builder
 
 type SignerBuilder struct {
-	Scheme SignerScheme
-	Eddsa *EdDSA01SignerBuilder
+	Scheme              SignerScheme
+	Eddsa               *EdDSA01SignerBuilder
 	SmartContractCaller *SmartContractCallerBuilder
 
 	// internal
@@ -196,7 +196,7 @@ func (x *EdDSA01Signer) String() string {
 	return fmt.Sprintf("{NetworkType:%s,SignerPublicKey:%s,}", x.StringNetworkType(), x.StringSignerPublicKey())
 }
 
-var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,}
+var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes}
 var _EdDSA01Signer_Unions = [][]membuffers.FieldType{}
 
 func EdDSA01SignerReader(buf []byte) *EdDSA01Signer {
@@ -214,13 +214,13 @@ func (x *EdDSA01Signer) Raw() []byte {
 }
 
 func (x *EdDSA01Signer) Equal(y *EdDSA01Signer) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *EdDSA01Signer) NetworkType() SignerNetworkType {
@@ -258,7 +258,7 @@ func (x *EdDSA01Signer) StringSignerPublicKey() string {
 // builder
 
 type EdDSA01SignerBuilder struct {
-	NetworkType SignerNetworkType
+	NetworkType     SignerNetworkType
 	SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
@@ -324,7 +324,7 @@ func (x *SmartContractCaller) String() string {
 	return fmt.Sprintf("{ContractName:%s,}", x.StringContractName())
 }
 
-var _SmartContractCaller_Scheme = []membuffers.FieldType{membuffers.TypeString,}
+var _SmartContractCaller_Scheme = []membuffers.FieldType{membuffers.TypeString}
 var _SmartContractCaller_Unions = [][]membuffers.FieldType{}
 
 func SmartContractCallerReader(buf []byte) *SmartContractCaller {
@@ -342,13 +342,13 @@ func (x *SmartContractCaller) Raw() []byte {
 }
 
 func (x *SmartContractCaller) Equal(y *SmartContractCaller) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SmartContractCaller) ContractName() primitives.ContractName {
@@ -436,4 +436,3 @@ func (n SignerNetworkType) String() string {
 	}
 	return "UNKNOWN"
 }
-

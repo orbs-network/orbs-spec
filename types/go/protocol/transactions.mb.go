@@ -2,9 +2,9 @@
 package protocol
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -34,7 +34,7 @@ func (x *Transaction) String() string {
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,Timestamp:%s,Signer:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTimestamp(), x.StringSigner(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray())
 }
 
-var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeMessage,membuffers.TypeString,membuffers.TypeString,membuffers.TypeBytes,}
+var _Transaction_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeMessage, membuffers.TypeString, membuffers.TypeString, membuffers.TypeBytes}
 var _Transaction_Unions = [][]membuffers.FieldType{}
 
 func TransactionReader(buf []byte) *Transaction {
@@ -52,13 +52,13 @@ func (x *Transaction) Raw() []byte {
 }
 
 func (x *Transaction) Equal(y *Transaction) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *Transaction) ProtocolVersion() primitives.ProtocolVersion {
@@ -181,12 +181,12 @@ func (x *Transaction) StringInputArgumentArray() string {
 // builder
 
 type TransactionBuilder struct {
-	ProtocolVersion primitives.ProtocolVersion
-	VirtualChainId primitives.VirtualChainId
-	Timestamp primitives.TimestampNano
-	Signer *SignerBuilder
-	ContractName primitives.ContractName
-	MethodName primitives.MethodName
+	ProtocolVersion    primitives.ProtocolVersion
+	VirtualChainId     primitives.VirtualChainId
+	Timestamp          primitives.TimestampNano
+	Signer             *SignerBuilder
+	ContractName       primitives.ContractName
+	MethodName         primitives.MethodName
 	InputArgumentArray []byte
 
 	// internal
@@ -261,7 +261,7 @@ func (x *SignedTransaction) String() string {
 	return fmt.Sprintf("{Transaction:%s,Signature:%s,}", x.StringTransaction(), x.StringSignature())
 }
 
-var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeBytes,}
+var _SignedTransaction_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeBytes}
 var _SignedTransaction_Unions = [][]membuffers.FieldType{}
 
 func SignedTransactionReader(buf []byte) *SignedTransaction {
@@ -279,13 +279,13 @@ func (x *SignedTransaction) Raw() []byte {
 }
 
 func (x *SignedTransaction) Equal(y *SignedTransaction) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SignedTransaction) Transaction() *Transaction {
@@ -329,7 +329,7 @@ func (x *SignedTransaction) StringSignature() string {
 
 type SignedTransactionBuilder struct {
 	Transaction *TransactionBuilder
-	Signature []byte
+	Signature   []byte
 
 	// internal
 	// implements membuffers.Builder
@@ -399,7 +399,7 @@ func (x *TransactionReceipt) String() string {
 	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArgumentArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArgumentArray())
 }
 
-var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeUint16,membuffers.TypeBytes,}
+var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeBytes}
 var _TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
 func TransactionReceiptReader(buf []byte) *TransactionReceipt {
@@ -417,13 +417,13 @@ func (x *TransactionReceipt) Raw() []byte {
 }
 
 func (x *TransactionReceipt) Equal(y *TransactionReceipt) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *TransactionReceipt) Txhash() primitives.Sha256 {
@@ -481,8 +481,8 @@ func (x *TransactionReceipt) StringOutputArgumentArray() string {
 // builder
 
 type TransactionReceiptBuilder struct {
-	Txhash primitives.Sha256
-	ExecutionResult ExecutionResult
+	Txhash              primitives.Sha256
+	ExecutionResult     ExecutionResult
 	OutputArgumentArray []byte
 
 	// internal
@@ -531,4 +531,3 @@ func (w *TransactionReceiptBuilder) Build() *TransactionReceipt {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/client"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -22,7 +22,7 @@ type PublicApi interface {
 // message SendTransactionInput (non serializable)
 
 type SendTransactionInput struct {
-	ClientRequest *client.SendTransactionRequest
+	ClientRequest     *client.SendTransactionRequest
 	ReturnImmediately uint32
 }
 
@@ -137,4 +137,3 @@ func (x *GetTransactionStatusOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }
-

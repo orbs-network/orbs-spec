@@ -2,8 +2,8 @@
 package handlers
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -18,9 +18,9 @@ type ConsensusBlocksHandler interface {
 // message HandleBlockConsensusInput (non serializable)
 
 type HandleBlockConsensusInput struct {
-	Mode HandleBlockConsensusMode
-	BlockType protocol.BlockType
-	BlockPair *protocol.BlockPairContainer
+	Mode                   HandleBlockConsensusMode
+	BlockType              protocol.BlockType
+	BlockPair              *protocol.BlockPairContainer
 	PrevCommittedBlockPair *protocol.BlockPairContainer
 }
 
@@ -70,10 +70,10 @@ func (x *HandleBlockConsensusOutput) String() string {
 type HandleBlockConsensusMode uint16
 
 const (
-	HANDLE_BLOCK_CONSENSUS_MODE_RESERVED HandleBlockConsensusMode = 0
+	HANDLE_BLOCK_CONSENSUS_MODE_RESERVED          HandleBlockConsensusMode = 0
 	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE HandleBlockConsensusMode = 1
-	HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY HandleBlockConsensusMode = 2
-	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY HandleBlockConsensusMode = 3
+	HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY       HandleBlockConsensusMode = 2
+	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY       HandleBlockConsensusMode = 3
 )
 
 func (n HandleBlockConsensusMode) String() string {
@@ -89,4 +89,3 @@ func (n HandleBlockConsensusMode) String() string {
 	}
 	return "UNKNOWN"
 }
-

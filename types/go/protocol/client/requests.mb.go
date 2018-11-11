@@ -2,9 +2,9 @@
 package client
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -29,7 +29,7 @@ func (x *SendTransactionRequest) String() string {
 	return fmt.Sprintf("{SignedTransaction:%s,}", x.StringSignedTransaction())
 }
 
-var _SendTransactionRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var _SendTransactionRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
 var _SendTransactionRequest_Unions = [][]membuffers.FieldType{}
 
 func SendTransactionRequestReader(buf []byte) *SendTransactionRequest {
@@ -47,13 +47,13 @@ func (x *SendTransactionRequest) Raw() []byte {
 }
 
 func (x *SendTransactionRequest) Equal(y *SendTransactionRequest) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SendTransactionRequest) SignedTransaction() *protocol.SignedTransaction {
@@ -147,7 +147,7 @@ func (x *SendTransactionResponse) String() string {
 	return fmt.Sprintf("{RequestStatus:%s,TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _SendTransactionResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _SendTransactionResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
 var _SendTransactionResponse_Unions = [][]membuffers.FieldType{}
 
 func SendTransactionResponseReader(buf []byte) *SendTransactionResponse {
@@ -165,13 +165,13 @@ func (x *SendTransactionResponse) Raw() []byte {
 }
 
 func (x *SendTransactionResponse) Equal(y *SendTransactionResponse) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SendTransactionResponse) RequestStatus() protocol.RequestStatus {
@@ -258,11 +258,11 @@ func (x *SendTransactionResponse) StringBlockTimestamp() string {
 // builder
 
 type SendTransactionResponseBuilder struct {
-	RequestStatus protocol.RequestStatus
+	RequestStatus      protocol.RequestStatus
 	TransactionReceipt *protocol.TransactionReceiptBuilder
-	TransactionStatus protocol.TransactionStatus
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	TransactionStatus  protocol.TransactionStatus
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
@@ -333,7 +333,7 @@ func (x *CallMethodRequest) String() string {
 	return fmt.Sprintf("{Transaction:%s,}", x.StringTransaction())
 }
 
-var _CallMethodRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var _CallMethodRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
 var _CallMethodRequest_Unions = [][]membuffers.FieldType{}
 
 func CallMethodRequestReader(buf []byte) *CallMethodRequest {
@@ -351,13 +351,13 @@ func (x *CallMethodRequest) Raw() []byte {
 }
 
 func (x *CallMethodRequest) Equal(y *CallMethodRequest) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *CallMethodRequest) Transaction() *protocol.Transaction {
@@ -451,7 +451,7 @@ func (x *CallMethodResponse) String() string {
 	return fmt.Sprintf("{RequestStatus:%s,OutputArgumentArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputArgumentArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeBytes,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
 var _CallMethodResponse_Unions = [][]membuffers.FieldType{}
 
 func CallMethodResponseReader(buf []byte) *CallMethodResponse {
@@ -469,13 +469,13 @@ func (x *CallMethodResponse) Raw() []byte {
 }
 
 func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *CallMethodResponse) RequestStatus() protocol.RequestStatus {
@@ -565,11 +565,11 @@ func (x *CallMethodResponse) StringBlockTimestamp() string {
 // builder
 
 type CallMethodResponseBuilder struct {
-	RequestStatus protocol.RequestStatus
+	RequestStatus       protocol.RequestStatus
 	OutputArgumentArray []byte
-	CallMethodResult protocol.ExecutionResult
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	CallMethodResult    protocol.ExecutionResult
+	BlockHeight         primitives.BlockHeight
+	BlockTimestamp      primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
@@ -638,7 +638,7 @@ func (x *GetTransactionStatusRequest) String() string {
 	return fmt.Sprintf("{TransactionTimestamp:%s,Txhash:%s,}", x.StringTransactionTimestamp(), x.StringTxhash())
 }
 
-var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint64,membuffers.TypeBytes,}
+var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint64, membuffers.TypeBytes}
 var _GetTransactionStatusRequest_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusRequestReader(buf []byte) *GetTransactionStatusRequest {
@@ -656,13 +656,13 @@ func (x *GetTransactionStatusRequest) Raw() []byte {
 }
 
 func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.TimestampNano {
@@ -701,7 +701,7 @@ func (x *GetTransactionStatusRequest) StringTxhash() string {
 
 type GetTransactionStatusRequestBuilder struct {
 	TransactionTimestamp primitives.TimestampNano
-	Txhash primitives.Sha256
+	Txhash               primitives.Sha256
 
 	// internal
 	// implements membuffers.Builder
@@ -770,7 +770,7 @@ func (x *GetTransactionStatusResponse) String() string {
 	return fmt.Sprintf("{RequestStatus:%s,TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _GetTransactionStatusResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeMessage,membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _GetTransactionStatusResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
 var _GetTransactionStatusResponse_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusResponseReader(buf []byte) *GetTransactionStatusResponse {
@@ -788,13 +788,13 @@ func (x *GetTransactionStatusResponse) Raw() []byte {
 }
 
 func (x *GetTransactionStatusResponse) Equal(y *GetTransactionStatusResponse) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *GetTransactionStatusResponse) RequestStatus() protocol.RequestStatus {
@@ -881,11 +881,11 @@ func (x *GetTransactionStatusResponse) StringBlockTimestamp() string {
 // builder
 
 type GetTransactionStatusResponseBuilder struct {
-	RequestStatus protocol.RequestStatus
+	RequestStatus      protocol.RequestStatus
 	TransactionReceipt *protocol.TransactionReceiptBuilder
-	TransactionStatus protocol.TransactionStatus
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	TransactionStatus  protocol.TransactionStatus
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
@@ -938,4 +938,3 @@ func (w *GetTransactionStatusResponseBuilder) Build() *GetTransactionStatusRespo
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

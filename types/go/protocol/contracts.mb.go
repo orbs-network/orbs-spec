@@ -2,9 +2,9 @@
 package protocol
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -29,8 +29,8 @@ func (x *MethodArgument) String() string {
 	return fmt.Sprintf("{Name:%s,Type:%s,}", x.StringName(), x.StringType())
 }
 
-var _MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeUnion,}
-var _MethodArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeString,membuffers.TypeBytes,}}
+var _MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeUnion}
+var _MethodArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes}}
 
 func MethodArgumentReader(buf []byte) *MethodArgument {
 	x := &MethodArgument{}
@@ -47,13 +47,13 @@ func (x *MethodArgument) Raw() []byte {
 }
 
 func (x *MethodArgument) Equal(y *MethodArgument) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *MethodArgument) Name() string {
@@ -81,8 +81,8 @@ type MethodArgumentType uint16
 const (
 	METHOD_ARGUMENT_TYPE_UINT_32_VALUE MethodArgumentType = 0
 	METHOD_ARGUMENT_TYPE_UINT_64_VALUE MethodArgumentType = 1
-	METHOD_ARGUMENT_TYPE_STRING_VALUE MethodArgumentType = 2
-	METHOD_ARGUMENT_TYPE_BYTES_VALUE MethodArgumentType = 3
+	METHOD_ARGUMENT_TYPE_STRING_VALUE  MethodArgumentType = 2
+	METHOD_ARGUMENT_TYPE_BYTES_VALUE   MethodArgumentType = 3
 )
 
 func (x *MethodArgument) Type() MethodArgumentType {
@@ -218,12 +218,12 @@ func (x *MethodArgument) StringType() string {
 // builder
 
 type MethodArgumentBuilder struct {
-	Name string
-	Type MethodArgumentType
+	Name        string
+	Type        MethodArgumentType
 	Uint32Value uint32
 	Uint64Value uint64
 	StringValue string
-	BytesValue []byte
+	BytesValue  []byte
 
 	// internal
 	// implements membuffers.Builder
@@ -298,7 +298,7 @@ func (x *MethodArgumentArray) String() string {
 	return fmt.Sprintf("{Arguments:%s,}", x.StringArguments())
 }
 
-var _MethodArgumentArray_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray,}
+var _MethodArgumentArray_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray}
 var _MethodArgumentArray_Unions = [][]membuffers.FieldType{}
 
 func MethodArgumentArrayReader(buf []byte) *MethodArgumentArray {
@@ -316,13 +316,13 @@ func (x *MethodArgumentArray) Raw() []byte {
 }
 
 func (x *MethodArgumentArray) Equal(y *MethodArgumentArray) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *MethodArgumentArray) ArgumentsIterator() *MethodArgumentArrayArgumentsIterator {
@@ -438,7 +438,7 @@ func (x *StateRecord) String() string {
 	return fmt.Sprintf("{Key:%s,Value:%s,}", x.StringKey(), x.StringValue())
 }
 
-var _StateRecord_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _StateRecord_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
 var _StateRecord_Unions = [][]membuffers.FieldType{}
 
 func StateRecordReader(buf []byte) *StateRecord {
@@ -456,13 +456,13 @@ func (x *StateRecord) Raw() []byte {
 }
 
 func (x *StateRecord) Equal(y *StateRecord) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *StateRecord) Key() primitives.Ripmd160Sha256 {
@@ -504,7 +504,7 @@ func (x *StateRecord) StringValue() string {
 // builder
 
 type StateRecordBuilder struct {
-	Key primitives.Ripmd160Sha256
+	Key   primitives.Ripmd160Sha256
 	Value []byte
 
 	// internal
@@ -571,7 +571,7 @@ func (x *ContractStateDiff) String() string {
 	return fmt.Sprintf("{ContractName:%s,StateDiffs:%s,}", x.StringContractName(), x.StringStateDiffs())
 }
 
-var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeString,membuffers.TypeMessageArray,}
+var _ContractStateDiff_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeMessageArray}
 var _ContractStateDiff_Unions = [][]membuffers.FieldType{}
 
 func ContractStateDiffReader(buf []byte) *ContractStateDiff {
@@ -589,13 +589,13 @@ func (x *ContractStateDiff) Raw() []byte {
 }
 
 func (x *ContractStateDiff) Equal(y *ContractStateDiff) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *ContractStateDiff) ContractName() primitives.ContractName {
@@ -652,7 +652,7 @@ func (x *ContractStateDiff) StringStateDiffs() (res string) {
 
 type ContractStateDiffBuilder struct {
 	ContractName primitives.ContractName
-	StateDiffs []*StateRecordBuilder
+	StateDiffs   []*StateRecordBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -714,8 +714,8 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 type ExecutionAccessScope uint16
 
 const (
-	ACCESS_SCOPE_RESERVED ExecutionAccessScope = 0
-	ACCESS_SCOPE_READ_ONLY ExecutionAccessScope = 1
+	ACCESS_SCOPE_RESERVED   ExecutionAccessScope = 0
+	ACCESS_SCOPE_READ_ONLY  ExecutionAccessScope = 1
 	ACCESS_SCOPE_READ_WRITE ExecutionAccessScope = 2
 )
 
@@ -735,8 +735,8 @@ type ExecutionPermissionScope uint16
 
 const (
 	PERMISSION_SCOPE_RESERVED ExecutionPermissionScope = 0
-	PERMISSION_SCOPE_SYSTEM ExecutionPermissionScope = 1
-	PERMISSION_SCOPE_SERVICE ExecutionPermissionScope = 2
+	PERMISSION_SCOPE_SYSTEM   ExecutionPermissionScope = 1
+	PERMISSION_SCOPE_SERVICE  ExecutionPermissionScope = 2
 )
 
 func (n ExecutionPermissionScope) String() string {
@@ -754,8 +754,8 @@ func (n ExecutionPermissionScope) String() string {
 type ProcessorType uint16
 
 const (
-	PROCESSOR_TYPE_RESERVED ProcessorType = 0
-	PROCESSOR_TYPE_NATIVE ProcessorType = 1
+	PROCESSOR_TYPE_RESERVED   ProcessorType = 0
+	PROCESSOR_TYPE_NATIVE     ProcessorType = 1
 	PROCESSOR_TYPE_JAVASCRIPT ProcessorType = 2
 )
 
@@ -787,4 +787,3 @@ func (n CrosschainConnectorType) String() string {
 	}
 	return "UNKNOWN"
 }
-

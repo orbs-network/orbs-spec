@@ -2,9 +2,9 @@
 package gossipmessages
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
@@ -45,13 +45,13 @@ func (x *TempKillMeTransactionRelay) Raw() []byte {
 }
 
 func (x *TempKillMeTransactionRelay) Equal(y *TempKillMeTransactionRelay) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 // builder
@@ -103,7 +103,7 @@ func (w *TempKillMeTransactionRelayBuilder) Build() *TempKillMeTransactionRelay 
 // message ForwardedTransactionsMessage (non serializable)
 
 type ForwardedTransactionsMessage struct {
-	Sender *SenderSignature
+	Sender             *SenderSignature
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -121,9 +121,9 @@ func (x *ForwardedTransactionsMessage) StringSender() (res string) {
 
 func (x *ForwardedTransactionsMessage) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -134,7 +134,7 @@ func (x *ForwardedTransactionsMessage) StringSignedTransactions() (res string) {
 type TransactionsRelayMessageType uint16
 
 const (
-	TRANSACTION_RELAY_RESERVED TransactionsRelayMessageType = 0
+	TRANSACTION_RELAY_RESERVED               TransactionsRelayMessageType = 0
 	TRANSACTION_RELAY_FORWARDED_TRANSACTIONS TransactionsRelayMessageType = 1
 )
 
@@ -147,4 +147,3 @@ func (n TransactionsRelayMessageType) String() string {
 	}
 	return "UNKNOWN"
 }
-
