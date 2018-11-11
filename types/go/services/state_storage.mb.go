@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -22,9 +22,9 @@ type StateStorage interface {
 // message ReadKeysInput (non serializable)
 
 type ReadKeysInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight  primitives.BlockHeight
 	ContractName primitives.ContractName
-	Keys []primitives.Ripmd160Sha256
+	Keys         []primitives.Ripmd160Sha256
 }
 
 func (x *ReadKeysInput) String() string {
@@ -46,9 +46,9 @@ func (x *ReadKeysInput) StringContractName() (res string) {
 
 func (x *ReadKeysInput) StringKeys() (res string) {
 	res = "["
-		for _, v := range x.Keys {
+	for _, v := range x.Keys {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -69,9 +69,9 @@ func (x *ReadKeysOutput) String() string {
 
 func (x *ReadKeysOutput) StringStateRecords() (res string) {
 	res = "["
-		for _, v := range x.StateRecords {
+	for _, v := range x.StateRecords {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -93,7 +93,7 @@ func (x *GetStateStorageBlockHeightInput) String() string {
 // message GetStateStorageBlockHeightOutput (non serializable)
 
 type GetStateStorageBlockHeightOutput struct {
-	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight    primitives.BlockHeight
 	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
@@ -136,9 +136,9 @@ func (x *CommitStateDiffInput) StringResultsBlockHeader() (res string) {
 
 func (x *CommitStateDiffInput) StringContractStateDiffs() (res string) {
 	res = "["
-		for _, v := range x.ContractStateDiffs {
+	for _, v := range x.ContractStateDiffs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -202,4 +202,3 @@ func (x *GetStateHashOutput) StringStateRootHash() (res string) {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

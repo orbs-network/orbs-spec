@@ -2,9 +2,9 @@
 package gossipmessages
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
@@ -33,8 +33,8 @@ func (x *Header) String() string {
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic())
 }
 
-var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeBytesArray,membuffers.TypeUint16,membuffers.TypeUnion,}
-var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,membuffers.TypeUint16,}}
+var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeBytesArray, membuffers.TypeUint16, membuffers.TypeUnion}
+var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16}}
 
 func HeaderReader(buf []byte) *Header {
 	x := &Header{}
@@ -51,13 +51,13 @@ func (x *Header) Raw() []byte {
 }
 
 func (x *Header) Equal(y *Header) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *Header) ProtocolVersion() primitives.ProtocolVersion {
@@ -144,9 +144,9 @@ func (x *Header) StringRecipientMode() string {
 type HeaderTopic uint16
 
 const (
-	HEADER_TOPIC_TRANSACTION_RELAY HeaderTopic = 0
-	HEADER_TOPIC_BLOCK_SYNC HeaderTopic = 1
-	HEADER_TOPIC_LEAN_HELIX HeaderTopic = 2
+	HEADER_TOPIC_TRANSACTION_RELAY   HeaderTopic = 0
+	HEADER_TOPIC_BLOCK_SYNC          HeaderTopic = 1
+	HEADER_TOPIC_LEAN_HELIX          HeaderTopic = 2
 	HEADER_TOPIC_BENCHMARK_CONSENSUS HeaderTopic = 3
 )
 
@@ -283,15 +283,15 @@ func (x *Header) StringTopic() string {
 // builder
 
 type HeaderBuilder struct {
-	ProtocolVersion primitives.ProtocolVersion
-	VirtualChainId primitives.VirtualChainId
+	ProtocolVersion     primitives.ProtocolVersion
+	VirtualChainId      primitives.VirtualChainId
 	RecipientPublicKeys []primitives.Ed25519PublicKey
-	RecipientMode RecipientsListMode
-	Topic HeaderTopic
-	TransactionRelay TransactionsRelayMessageType
-	BlockSync BlockSyncMessageType
-	LeanHelix consensus.LeanHelixMessageType
-	BenchmarkConsensus consensus.BenchmarkConsensusMessageType
+	RecipientMode       RecipientsListMode
+	Topic               HeaderTopic
+	TransactionRelay    TransactionsRelayMessageType
+	BlockSync           BlockSyncMessageType
+	LeanHelix           consensus.LeanHelixMessageType
+	BenchmarkConsensus  consensus.BenchmarkConsensusMessageType
 
 	// internal
 	// implements membuffers.Builder
@@ -378,7 +378,7 @@ func (x *SenderSignature) String() string {
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
-var _SenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _SenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
 var _SenderSignature_Unions = [][]membuffers.FieldType{}
 
 func SenderSignatureReader(buf []byte) *SenderSignature {
@@ -396,13 +396,13 @@ func (x *SenderSignature) Raw() []byte {
 }
 
 func (x *SenderSignature) Equal(y *SenderSignature) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *SenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
@@ -441,7 +441,7 @@ func (x *SenderSignature) StringSignature() string {
 
 type SenderSignatureBuilder struct {
 	SenderPublicKey primitives.Ed25519PublicKey
-	Signature primitives.Ed25519Sig
+	Signature       primitives.Ed25519Sig
 
 	// internal
 	// implements membuffers.Builder
@@ -492,8 +492,8 @@ func (w *SenderSignatureBuilder) Build() *SenderSignature {
 type RecipientsListMode uint16
 
 const (
-	RECIPIENT_LIST_MODE_BROADCAST RecipientsListMode = 0
-	RECIPIENT_LIST_MODE_LIST RecipientsListMode = 1
+	RECIPIENT_LIST_MODE_BROADCAST    RecipientsListMode = 0
+	RECIPIENT_LIST_MODE_LIST         RecipientsListMode = 1
 	RECIPIENT_LIST_MODE_ALL_BUT_LIST RecipientsListMode = 2
 )
 
@@ -508,4 +508,3 @@ func (n RecipientsListMode) String() string {
 	}
 	return "UNKNOWN"
 }
-

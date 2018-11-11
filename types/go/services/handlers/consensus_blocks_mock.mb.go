@@ -2,8 +2,8 @@
 package handlers
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -21,4 +21,3 @@ func (s *MockConsensusBlocksHandler) HandleBlockConsensus(ctx context.Context, i
 		return nil, ret.Error(1)
 	}
 }
-

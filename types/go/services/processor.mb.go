@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -22,13 +22,13 @@ type Processor interface {
 // message ProcessCallInput (non serializable)
 
 type ProcessCallInput struct {
-	ContextId primitives.ExecutionContextId
-	ContractName primitives.ContractName
-	MethodName primitives.MethodName
-	InputArgumentArray *protocol.MethodArgumentArray
-	AccessScope protocol.ExecutionAccessScope
+	ContextId              primitives.ExecutionContextId
+	ContractName           primitives.ContractName
+	MethodName             primitives.MethodName
+	InputArgumentArray     *protocol.MethodArgumentArray
+	AccessScope            protocol.ExecutionAccessScope
 	CallingPermissionScope protocol.ExecutionPermissionScope
-	CallingService primitives.ContractName
+	CallingService         primitives.ContractName
 }
 
 func (x *ProcessCallInput) String() string {
@@ -78,7 +78,7 @@ func (x *ProcessCallInput) StringCallingService() (res string) {
 
 type ProcessCallOutput struct {
 	OutputArgumentArray *protocol.MethodArgumentArray
-	CallResult protocol.ExecutionResult
+	CallResult          protocol.ExecutionResult
 }
 
 func (x *ProcessCallOutput) String() string {
@@ -102,7 +102,7 @@ func (x *ProcessCallOutput) StringCallResult() (res string) {
 // message GetContractInfoInput (non serializable)
 
 type GetContractInfoInput struct {
-	ContextId primitives.ExecutionContextId
+	ContextId    primitives.ExecutionContextId
 	ContractName primitives.ContractName
 }
 
@@ -144,4 +144,3 @@ func (x *GetContractInfoOutput) StringPermissionScope() (res string) {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

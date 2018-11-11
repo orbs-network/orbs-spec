@@ -12,6 +12,10 @@ go run $(ls -1 ../../membuffers/go/membufc/*.go | grep -v _test.go) --go --mock 
 rm `find . -name "*.proto"`
 
 echo ""
+echo "Formatting all go files with go fmt:"
+go fmt ./go/...
+
+echo ""
 echo "Building all packages with go build:"
 
 command 2>&1 go build -a -v ./go/... | grep "orbs-network\|.mb.go"

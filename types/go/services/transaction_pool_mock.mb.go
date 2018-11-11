@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -64,4 +64,3 @@ func (s *MockTransactionPool) CommitTransactionReceipts(ctx context.Context, inp
 func (s *MockTransactionPool) RegisterTransactionResultsHandler(handler handlers.TransactionResultsHandler) {
 	s.Called(handler)
 }
-

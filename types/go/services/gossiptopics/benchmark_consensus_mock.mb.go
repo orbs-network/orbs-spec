@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,4 +59,3 @@ func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommitted(ctx co
 		return nil, ret.Error(1)
 	}
 }
-

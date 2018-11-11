@@ -12,7 +12,7 @@ import (
 
 type RecipientsList struct {
 	RecipientPublicKeys []primitives.Ed25519PublicKey
-	RecipientMode gossipmessages.RecipientsListMode
+	RecipientMode       gossipmessages.RecipientsListMode
 }
 
 func (x *RecipientsList) String() string {
@@ -24,9 +24,9 @@ func (x *RecipientsList) String() string {
 
 func (x *RecipientsList) StringRecipientPublicKeys() (res string) {
 	res = "["
-		for _, v := range x.RecipientPublicKeys {
+	for _, v := range x.RecipientPublicKeys {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -51,4 +51,3 @@ func (x *EmptyOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

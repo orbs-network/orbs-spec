@@ -2,9 +2,9 @@
 package consensus
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -28,7 +28,7 @@ func (x *BenchmarkConsensusBlockProof) String() string {
 	return fmt.Sprintf("{Sender:%s,}", x.StringSender())
 }
 
-var _BenchmarkConsensusBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage,}
+var _BenchmarkConsensusBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
 var _BenchmarkConsensusBlockProof_Unions = [][]membuffers.FieldType{}
 
 func BenchmarkConsensusBlockProofReader(buf []byte) *BenchmarkConsensusBlockProof {
@@ -46,13 +46,13 @@ func (x *BenchmarkConsensusBlockProof) Raw() []byte {
 }
 
 func (x *BenchmarkConsensusBlockProof) Equal(y *BenchmarkConsensusBlockProof) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *BenchmarkConsensusBlockProof) Sender() *BenchmarkConsensusSenderSignature {
@@ -143,7 +143,7 @@ func (x *BenchmarkConsensusSenderSignature) String() string {
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
-var _BenchmarkConsensusSenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _BenchmarkConsensusSenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
 var _BenchmarkConsensusSenderSignature_Unions = [][]membuffers.FieldType{}
 
 func BenchmarkConsensusSenderSignatureReader(buf []byte) *BenchmarkConsensusSenderSignature {
@@ -161,13 +161,13 @@ func (x *BenchmarkConsensusSenderSignature) Raw() []byte {
 }
 
 func (x *BenchmarkConsensusSenderSignature) Equal(y *BenchmarkConsensusSenderSignature) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *BenchmarkConsensusSenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
@@ -206,7 +206,7 @@ func (x *BenchmarkConsensusSenderSignature) StringSignature() string {
 
 type BenchmarkConsensusSenderSignatureBuilder struct {
 	SenderPublicKey primitives.Ed25519PublicKey
-	Signature primitives.Ed25519Sig
+	Signature       primitives.Ed25519Sig
 
 	// internal
 	// implements membuffers.Builder
@@ -257,8 +257,8 @@ func (w *BenchmarkConsensusSenderSignatureBuilder) Build() *BenchmarkConsensusSe
 type BenchmarkConsensusMessageType uint16
 
 const (
-	BENCHMARK_CONSENSUS_RESERVED BenchmarkConsensusMessageType = 0
-	BENCHMARK_CONSENSUS_COMMIT BenchmarkConsensusMessageType = 1
+	BENCHMARK_CONSENSUS_RESERVED  BenchmarkConsensusMessageType = 0
+	BENCHMARK_CONSENSUS_COMMIT    BenchmarkConsensusMessageType = 1
 	BENCHMARK_CONSENSUS_COMMITTED BenchmarkConsensusMessageType = 2
 )
 
@@ -273,4 +273,3 @@ func (n BenchmarkConsensusMessageType) String() string {
 	}
 	return "UNKNOWN"
 }
-

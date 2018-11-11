@@ -2,8 +2,8 @@
 package services
 
 import (
-	"github.com/orbs-network/go-mock"
 	"context"
+	"github.com/orbs-network/go-mock"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -21,4 +21,3 @@ func (s *MockCrosschainConnector) EthereumCallContract(ctx context.Context, inpu
 		return nil, ret.Error(1)
 	}
 }
-

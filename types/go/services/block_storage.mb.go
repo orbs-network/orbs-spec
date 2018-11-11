@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
@@ -79,9 +79,9 @@ func (x *GetTransactionsBlockHeaderInput) StringBlockHeight() (res string) {
 // message GetTransactionsBlockHeaderOutput (non serializable)
 
 type GetTransactionsBlockHeaderOutput struct {
-	TransactionsBlockHeader *protocol.TransactionsBlockHeader
+	TransactionsBlockHeader   *protocol.TransactionsBlockHeader
 	TransactionsBlockMetadata *protocol.TransactionsBlockMetadata
-	TransactionsBlockProof *protocol.TransactionsBlockProof
+	TransactionsBlockProof    *protocol.TransactionsBlockProof
 }
 
 func (x *GetTransactionsBlockHeaderOutput) String() string {
@@ -130,7 +130,7 @@ func (x *GetResultsBlockHeaderInput) StringBlockHeight() (res string) {
 
 type GetResultsBlockHeaderOutput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
-	ResultsBlockProof *protocol.ResultsBlockProof
+	ResultsBlockProof  *protocol.ResultsBlockProof
 }
 
 func (x *GetResultsBlockHeaderOutput) String() string {
@@ -154,7 +154,7 @@ func (x *GetResultsBlockHeaderOutput) StringResultsBlockProof() (res string) {
 // message GetTransactionReceiptInput (non serializable)
 
 type GetTransactionReceiptInput struct {
-	Txhash primitives.Sha256
+	Txhash               primitives.Sha256
 	TransactionTimestamp primitives.TimestampNano
 }
 
@@ -180,8 +180,8 @@ func (x *GetTransactionReceiptInput) StringTransactionTimestamp() (res string) {
 
 type GetTransactionReceiptOutput struct {
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *GetTransactionReceiptOutput) String() string {
@@ -223,7 +223,7 @@ func (x *GetLastCommittedBlockHeightInput) String() string {
 // message GetLastCommittedBlockHeightOutput (non serializable)
 
 type GetLastCommittedBlockHeightOutput struct {
-	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight    primitives.BlockHeight
 	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
@@ -278,4 +278,3 @@ func (x *ValidateBlockForCommitOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

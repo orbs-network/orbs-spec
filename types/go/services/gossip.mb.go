@@ -14,4 +14,3 @@ type Gossip interface {
 	gossiptopics.LeanHelix
 	gossiptopics.BenchmarkConsensus
 }
-

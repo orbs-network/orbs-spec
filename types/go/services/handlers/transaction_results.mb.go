@@ -2,8 +2,8 @@
 package handlers
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -21,8 +21,8 @@ type TransactionResultsHandler interface {
 
 type HandleTransactionResultsInput struct {
 	TransactionReceipts []*protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	Timestamp primitives.TimestampNano
+	BlockHeight         primitives.BlockHeight
+	Timestamp           primitives.TimestampNano
 }
 
 func (x *HandleTransactionResultsInput) String() string {
@@ -34,9 +34,9 @@ func (x *HandleTransactionResultsInput) String() string {
 
 func (x *HandleTransactionResultsInput) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -68,10 +68,10 @@ func (x *HandleTransactionResultsOutput) String() string {
 // message HandleTransactionErrorInput (non serializable)
 
 type HandleTransactionErrorInput struct {
-	Txhash primitives.Sha256
+	Txhash            primitives.Sha256
 	TransactionStatus protocol.TransactionStatus
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight       primitives.BlockHeight
+	BlockTimestamp    primitives.TimestampNano
 }
 
 func (x *HandleTransactionErrorInput) String() string {
@@ -116,4 +116,3 @@ func (x *HandleTransactionErrorOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

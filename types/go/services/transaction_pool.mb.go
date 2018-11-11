@@ -2,8 +2,8 @@
 package services
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
@@ -46,10 +46,10 @@ func (x *AddNewTransactionInput) StringSignedTransaction() (res string) {
 // message AddNewTransactionOutput (non serializable)
 
 type AddNewTransactionOutput struct {
-	TransactionStatus protocol.TransactionStatus
+	TransactionStatus  protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *AddNewTransactionOutput) String() string {
@@ -83,7 +83,7 @@ func (x *AddNewTransactionOutput) StringBlockTimestamp() (res string) {
 // message GetCommittedTransactionReceiptInput (non serializable)
 
 type GetCommittedTransactionReceiptInput struct {
-	Txhash primitives.Sha256
+	Txhash               primitives.Sha256
 	TransactionTimestamp primitives.TimestampNano
 }
 
@@ -108,10 +108,10 @@ func (x *GetCommittedTransactionReceiptInput) StringTransactionTimestamp() (res 
 // message GetCommittedTransactionReceiptOutput (non serializable)
 
 type GetCommittedTransactionReceiptOutput struct {
-	TransactionStatus protocol.TransactionStatus
+	TransactionStatus  protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *GetCommittedTransactionReceiptOutput) String() string {
@@ -145,9 +145,9 @@ func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res strin
 // message GetTransactionsForOrderingInput (non serializable)
 
 type GetTransactionsForOrderingInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight              primitives.BlockHeight
 	MaxTransactionsSetSizeKb uint32
-	MaxNumberOfTransactions uint32
+	MaxNumberOfTransactions  uint32
 }
 
 func (x *GetTransactionsForOrderingInput) String() string {
@@ -188,9 +188,9 @@ func (x *GetTransactionsForOrderingOutput) String() string {
 
 func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -199,7 +199,7 @@ func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res strin
 // message ValidateTransactionsForOrderingInput (non serializable)
 
 type ValidateTransactionsForOrderingInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -217,9 +217,9 @@ func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) 
 
 func (x *ValidateTransactionsForOrderingInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -241,8 +241,8 @@ func (x *ValidateTransactionsForOrderingOutput) String() string {
 // message CommitTransactionReceiptsInput (non serializable)
 
 type CommitTransactionReceiptsInput struct {
-	ResultsBlockHeader *protocol.ResultsBlockHeader
-	TransactionReceipts []*protocol.TransactionReceipt
+	ResultsBlockHeader       *protocol.ResultsBlockHeader
+	TransactionReceipts      []*protocol.TransactionReceipt
 	LastCommittedBlockHeight primitives.BlockHeight
 }
 
@@ -260,9 +260,9 @@ func (x *CommitTransactionReceiptsInput) StringResultsBlockHeader() (res string)
 
 func (x *CommitTransactionReceiptsInput) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -276,7 +276,7 @@ func (x *CommitTransactionReceiptsInput) StringLastCommittedBlockHeight() (res s
 // message CommitTransactionReceiptsOutput (non serializable)
 
 type CommitTransactionReceiptsOutput struct {
-	NextDesiredBlockHeight primitives.BlockHeight
+	NextDesiredBlockHeight   primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
 }
 
@@ -299,4 +299,3 @@ func (x *CommitTransactionReceiptsOutput) StringLastCommittedBlockHeight() (res 
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

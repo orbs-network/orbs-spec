@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
@@ -53,7 +53,7 @@ func (x *BlockAvailabilityRequestInput) StringMessage() (res string) {
 
 type BlockAvailabilityResponseInput struct {
 	RecipientPublicKey primitives.Ed25519PublicKey
-	Message *gossipmessages.BlockAvailabilityResponseMessage
+	Message            *gossipmessages.BlockAvailabilityResponseMessage
 }
 
 func (x *BlockAvailabilityResponseInput) String() string {
@@ -78,7 +78,7 @@ func (x *BlockAvailabilityResponseInput) StringMessage() (res string) {
 
 type BlockSyncRequestInput struct {
 	RecipientPublicKey primitives.Ed25519PublicKey
-	Message *gossipmessages.BlockSyncRequestMessage
+	Message            *gossipmessages.BlockSyncRequestMessage
 }
 
 func (x *BlockSyncRequestInput) String() string {
@@ -103,7 +103,7 @@ func (x *BlockSyncRequestInput) StringMessage() (res string) {
 
 type BlockSyncResponseInput struct {
 	RecipientPublicKey primitives.Ed25519PublicKey
-	Message *gossipmessages.BlockSyncResponseMessage
+	Message            *gossipmessages.BlockSyncResponseMessage
 }
 
 func (x *BlockSyncResponseInput) String() string {
@@ -125,4 +125,3 @@ func (x *BlockSyncResponseInput) StringMessage() (res string) {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

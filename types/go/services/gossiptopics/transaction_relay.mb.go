@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
 
@@ -43,4 +43,3 @@ func (x *ForwardedTransactionsInput) StringMessage() (res string) {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

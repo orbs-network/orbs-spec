@@ -3,8 +3,6 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
-import "protocol/results.proto";
-import "protocol/contracts.proto";
 
 option serialize_messages = false;
 

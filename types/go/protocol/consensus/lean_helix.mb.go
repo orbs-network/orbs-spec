@@ -2,9 +2,9 @@
 package consensus
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 )
 
@@ -30,7 +30,7 @@ func (x *LeanHelixBlockProof) String() string {
 	return fmt.Sprintf("{BlockRef:%s,Nodes:%s,RandomSeedSignature:%s,}", x.StringBlockRef(), x.StringNodes(), x.StringRandomSeedSignature())
 }
 
-var _LeanHelixBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage,membuffers.TypeMessageArray,membuffers.TypeBytes,}
+var _LeanHelixBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessageArray, membuffers.TypeBytes}
 var _LeanHelixBlockProof_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixBlockProofReader(buf []byte) *LeanHelixBlockProof {
@@ -48,13 +48,13 @@ func (x *LeanHelixBlockProof) Raw() []byte {
 }
 
 func (x *LeanHelixBlockProof) Equal(y *LeanHelixBlockProof) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixBlockProof) BlockRef() *LeanHelixBlockRef {
@@ -127,8 +127,8 @@ func (x *LeanHelixBlockProof) StringRandomSeedSignature() string {
 // builder
 
 type LeanHelixBlockProofBuilder struct {
-	BlockRef *LeanHelixBlockRefBuilder
-	Nodes []*LeanHelixSenderSignatureBuilder
+	BlockRef            *LeanHelixBlockRefBuilder
+	Nodes               []*LeanHelixSenderSignatureBuilder
 	RandomSeedSignature primitives.Bls1Sig
 
 	// internal
@@ -210,7 +210,7 @@ func (x *LeanHelixSenderSignature) String() string {
 	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
 }
 
-var _LeanHelixSenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes,membuffers.TypeBytes,}
+var _LeanHelixSenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
 var _LeanHelixSenderSignature_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixSenderSignatureReader(buf []byte) *LeanHelixSenderSignature {
@@ -228,13 +228,13 @@ func (x *LeanHelixSenderSignature) Raw() []byte {
 }
 
 func (x *LeanHelixSenderSignature) Equal(y *LeanHelixSenderSignature) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixSenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
@@ -273,7 +273,7 @@ func (x *LeanHelixSenderSignature) StringSignature() string {
 
 type LeanHelixSenderSignatureBuilder struct {
 	SenderPublicKey primitives.Ed25519PublicKey
-	Signature primitives.Ed25519Sig
+	Signature       primitives.Ed25519Sig
 
 	// internal
 	// implements membuffers.Builder
@@ -341,7 +341,7 @@ func (x *LeanHelixBlockRef) String() string {
 	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,BlockHash:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringBlockHash())
 }
 
-var _LeanHelixBlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint32,membuffers.TypeBytes,}
+var _LeanHelixBlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint32, membuffers.TypeBytes}
 var _LeanHelixBlockRef_Unions = [][]membuffers.FieldType{}
 
 func LeanHelixBlockRefReader(buf []byte) *LeanHelixBlockRef {
@@ -359,13 +359,13 @@ func (x *LeanHelixBlockRef) Raw() []byte {
 }
 
 func (x *LeanHelixBlockRef) Equal(y *LeanHelixBlockRef) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *LeanHelixBlockRef) MessageType() LeanHelixMessageType {
@@ -437,8 +437,8 @@ func (x *LeanHelixBlockRef) StringBlockHash() string {
 type LeanHelixBlockRefBuilder struct {
 	MessageType LeanHelixMessageType
 	BlockHeight primitives.BlockHeight
-	View uint32
-	BlockHash primitives.Uint256
+	View        uint32
+	BlockHash   primitives.Uint256
 
 	// internal
 	// implements membuffers.Builder
@@ -491,11 +491,11 @@ func (w *LeanHelixBlockRefBuilder) Build() *LeanHelixBlockRef {
 type LeanHelixMessageType uint16
 
 const (
-	LEAN_HELIX_RESERVED LeanHelixMessageType = 0
+	LEAN_HELIX_RESERVED    LeanHelixMessageType = 0
 	LEAN_HELIX_PRE_PREPARE LeanHelixMessageType = 1
-	LEAN_HELIX_PREPARE LeanHelixMessageType = 2
-	LEAN_HELIX_COMMIT LeanHelixMessageType = 3
-	LEAN_HELIX_NEW_VIEW LeanHelixMessageType = 4
+	LEAN_HELIX_PREPARE     LeanHelixMessageType = 2
+	LEAN_HELIX_COMMIT      LeanHelixMessageType = 3
+	LEAN_HELIX_NEW_VIEW    LeanHelixMessageType = 4
 	LEAN_HELIX_VIEW_CHANGE LeanHelixMessageType = 5
 )
 
@@ -516,4 +516,3 @@ func (n LeanHelixMessageType) String() string {
 	}
 	return "UNKNOWN"
 }
-

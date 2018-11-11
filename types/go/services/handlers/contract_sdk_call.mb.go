@@ -2,8 +2,8 @@
 package handlers
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -19,10 +19,10 @@ type ContractSdkCallHandler interface {
 // message HandleSdkCallInput (non serializable)
 
 type HandleSdkCallInput struct {
-	ContextId primitives.ExecutionContextId
-	OperationName primitives.ContractName
-	MethodName primitives.MethodName
-	InputArguments []*protocol.MethodArgument
+	ContextId       primitives.ExecutionContextId
+	OperationName   primitives.ContractName
+	MethodName      primitives.MethodName
+	InputArguments  []*protocol.MethodArgument
 	PermissionScope protocol.ExecutionPermissionScope
 }
 
@@ -50,9 +50,9 @@ func (x *HandleSdkCallInput) StringMethodName() (res string) {
 
 func (x *HandleSdkCallInput) StringInputArguments() (res string) {
 	res = "["
-		for _, v := range x.InputArguments {
+	for _, v := range x.InputArguments {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -78,13 +78,12 @@ func (x *HandleSdkCallOutput) String() string {
 
 func (x *HandleSdkCallOutput) StringOutputArguments() (res string) {
 	res = "["
-		for _, v := range x.OutputArguments {
+	for _, v := range x.OutputArguments {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

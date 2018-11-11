@@ -2,9 +2,9 @@
 package protocol
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 )
@@ -14,7 +14,7 @@ import (
 
 type BlockPairContainer struct {
 	TransactionsBlock *TransactionsBlockContainer
-	ResultsBlock *ResultsBlockContainer
+	ResultsBlock      *ResultsBlockContainer
 }
 
 func (x *BlockPairContainer) String() string {
@@ -38,10 +38,10 @@ func (x *BlockPairContainer) StringResultsBlock() (res string) {
 // message TransactionsBlockContainer (non serializable)
 
 type TransactionsBlockContainer struct {
-	Header *TransactionsBlockHeader
-	Metadata *TransactionsBlockMetadata
+	Header             *TransactionsBlockHeader
+	Metadata           *TransactionsBlockMetadata
 	SignedTransactions []*SignedTransaction
-	BlockProof *TransactionsBlockProof
+	BlockProof         *TransactionsBlockProof
 }
 
 func (x *TransactionsBlockContainer) String() string {
@@ -63,9 +63,9 @@ func (x *TransactionsBlockContainer) StringMetadata() (res string) {
 
 func (x *TransactionsBlockContainer) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -79,10 +79,10 @@ func (x *TransactionsBlockContainer) StringBlockProof() (res string) {
 // message ResultsBlockContainer (non serializable)
 
 type ResultsBlockContainer struct {
-	Header *ResultsBlockHeader
+	Header              *ResultsBlockHeader
 	TransactionReceipts []*TransactionReceipt
-	ContractStateDiffs []*ContractStateDiff
-	BlockProof *ResultsBlockProof
+	ContractStateDiffs  []*ContractStateDiff
+	BlockProof          *ResultsBlockProof
 }
 
 func (x *ResultsBlockContainer) String() string {
@@ -99,18 +99,18 @@ func (x *ResultsBlockContainer) StringHeader() (res string) {
 
 func (x *ResultsBlockContainer) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 func (x *ResultsBlockContainer) StringContractStateDiffs() (res string) {
 	res = "["
-		for _, v := range x.ContractStateDiffs {
+	for _, v := range x.ContractStateDiffs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -147,7 +147,7 @@ func (x *TransactionsBlockHeader) String() string {
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions())
 }
 
-var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeUint32,}
+var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32}
 var _TransactionsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockHeaderReader(buf []byte) *TransactionsBlockHeader {
@@ -165,13 +165,13 @@ func (x *TransactionsBlockHeader) Raw() []byte {
 }
 
 func (x *TransactionsBlockHeader) Equal(y *TransactionsBlockHeader) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *TransactionsBlockHeader) ProtocolVersion() primitives.ProtocolVersion {
@@ -305,13 +305,13 @@ func (x *TransactionsBlockHeader) StringNumSignedTransactions() string {
 // builder
 
 type TransactionsBlockHeaderBuilder struct {
-	ProtocolVersion primitives.ProtocolVersion
-	VirtualChainId primitives.VirtualChainId
-	BlockHeight primitives.BlockHeight
-	PrevBlockHashPtr primitives.Sha256
-	Timestamp primitives.TimestampNano
-	TransactionsRootHash primitives.MerkleSha256
-	MetadataHash primitives.Sha256
+	ProtocolVersion       primitives.ProtocolVersion
+	VirtualChainId        primitives.VirtualChainId
+	BlockHeight           primitives.BlockHeight
+	PrevBlockHashPtr      primitives.Sha256
+	Timestamp             primitives.TimestampNano
+	TransactionsRootHash  primitives.MerkleSha256
+	MetadataHash          primitives.Sha256
 	NumSignedTransactions uint32
 
 	// internal
@@ -395,7 +395,7 @@ func (x *ResultsBlockHeader) String() string {
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,TxhashBloomFilter:%s,TimestampBloomFilter:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringTxhashBloomFilter(), x.StringTimestampBloomFilter(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
 }
 
-var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32,membuffers.TypeUint32,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeUint64,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeBytes,membuffers.TypeUint32,membuffers.TypeUint32,}
+var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeUint32}
 var _ResultsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockHeaderReader(buf []byte) *ResultsBlockHeader {
@@ -413,13 +413,13 @@ func (x *ResultsBlockHeader) Raw() []byte {
 }
 
 func (x *ResultsBlockHeader) Equal(y *ResultsBlockHeader) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *ResultsBlockHeader) ProtocolVersion() primitives.ProtocolVersion {
@@ -633,19 +633,19 @@ func (x *ResultsBlockHeader) StringNumContractStateDiffs() string {
 // builder
 
 type ResultsBlockHeaderBuilder struct {
-	ProtocolVersion primitives.ProtocolVersion
-	VirtualChainId primitives.VirtualChainId
-	BlockHeight primitives.BlockHeight
-	PrevBlockHashPtr primitives.Sha256
-	Timestamp primitives.TimestampNano
-	ReceiptsRootHash primitives.MerkleSha256
-	StateDiffHash primitives.Sha256
-	TransactionsBlockHashPtr primitives.Sha256
+	ProtocolVersion           primitives.ProtocolVersion
+	VirtualChainId            primitives.VirtualChainId
+	BlockHeight               primitives.BlockHeight
+	PrevBlockHashPtr          primitives.Sha256
+	Timestamp                 primitives.TimestampNano
+	ReceiptsRootHash          primitives.MerkleSha256
+	StateDiffHash             primitives.Sha256
+	TransactionsBlockHashPtr  primitives.Sha256
 	PreExecutionStateRootHash primitives.MerkleSha256
-	TxhashBloomFilter primitives.BloomFilter
-	TimestampBloomFilter primitives.BloomFilter
-	NumTransactionReceipts uint32
-	NumContractStateDiffs uint32
+	TxhashBloomFilter         primitives.BloomFilter
+	TimestampBloomFilter      primitives.BloomFilter
+	NumTransactionReceipts    uint32
+	NumContractStateDiffs     uint32
 
 	// internal
 	// implements membuffers.Builder
@@ -738,13 +738,13 @@ func (x *TransactionsBlockMetadata) Raw() []byte {
 }
 
 func (x *TransactionsBlockMetadata) Equal(y *TransactionsBlockMetadata) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 // builder
@@ -812,8 +812,8 @@ func (x *TransactionsBlockProof) String() string {
 	return fmt.Sprintf("{Type:%s,}", x.StringType())
 }
 
-var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
+var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
+var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
 
 func TransactionsBlockProofReader(buf []byte) *TransactionsBlockProof {
 	x := &TransactionsBlockProof{}
@@ -830,20 +830,20 @@ func (x *TransactionsBlockProof) Raw() []byte {
 }
 
 func (x *TransactionsBlockProof) Equal(y *TransactionsBlockProof) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type TransactionsBlockProofType uint16
 
 const (
 	TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS TransactionsBlockProofType = 0
-	TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX TransactionsBlockProofType = 1
+	TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX          TransactionsBlockProofType = 1
 )
 
 func (x *TransactionsBlockProof) Type() TransactionsBlockProofType {
@@ -907,9 +907,9 @@ func (x *TransactionsBlockProof) StringType() string {
 // builder
 
 type TransactionsBlockProofBuilder struct {
-	Type TransactionsBlockProofType
+	Type               TransactionsBlockProofType
 	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix *consensus.LeanHelixBlockProofBuilder
+	LeanHelix          *consensus.LeanHelixBlockProofBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -979,8 +979,8 @@ func (x *ResultsBlockProof) String() string {
 	return fmt.Sprintf("{Type:%s,}", x.StringType())
 }
 
-var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion,}
-var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage,membuffers.TypeMessage,}}
+var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
+var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
 
 func ResultsBlockProofReader(buf []byte) *ResultsBlockProof {
 	x := &ResultsBlockProof{}
@@ -997,20 +997,20 @@ func (x *ResultsBlockProof) Raw() []byte {
 }
 
 func (x *ResultsBlockProof) Equal(y *ResultsBlockProof) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 type ResultsBlockProofType uint16
 
 const (
 	RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS ResultsBlockProofType = 0
-	RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX ResultsBlockProofType = 1
+	RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX          ResultsBlockProofType = 1
 )
 
 func (x *ResultsBlockProof) Type() ResultsBlockProofType {
@@ -1074,9 +1074,9 @@ func (x *ResultsBlockProof) StringType() string {
 // builder
 
 type ResultsBlockProofBuilder struct {
-	Type ResultsBlockProofType
+	Type               ResultsBlockProofType
 	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix *consensus.LeanHelixBlockProofBuilder
+	LeanHelix          *consensus.LeanHelixBlockProofBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -1132,10 +1132,10 @@ func (w *ResultsBlockProofBuilder) Build() *ResultsBlockProof {
 type BlockType uint16
 
 const (
-	BLOCK_TYPE_RESERVED BlockType = 0
-	BLOCK_TYPE_BLOCK_PAIR BlockType = 1
+	BLOCK_TYPE_RESERVED           BlockType = 0
+	BLOCK_TYPE_BLOCK_PAIR         BlockType = 1
 	BLOCK_TYPE_TRANSACTIONS_BLOCK BlockType = 2
-	BLOCK_TYPE_RESULTS_BLOCK BlockType = 3
+	BLOCK_TYPE_RESULTS_BLOCK      BlockType = 3
 )
 
 func (n BlockType) String() string {
@@ -1151,4 +1151,3 @@ func (n BlockType) String() string {
 	}
 	return "UNKNOWN"
 }
-

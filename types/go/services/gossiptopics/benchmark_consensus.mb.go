@@ -2,8 +2,8 @@
 package gossiptopics
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
 )
@@ -49,7 +49,7 @@ func (x *BenchmarkConsensusCommitInput) StringMessage() (res string) {
 
 type BenchmarkConsensusCommittedInput struct {
 	RecipientPublicKey primitives.Ed25519PublicKey
-	Message *gossipmessages.BenchmarkConsensusCommittedMessage
+	Message            *gossipmessages.BenchmarkConsensusCommittedMessage
 }
 
 func (x *BenchmarkConsensusCommittedInput) String() string {
@@ -68,4 +68,3 @@ func (x *BenchmarkConsensusCommittedInput) StringMessage() (res string) {
 	res = x.Message.String()
 	return
 }
-
