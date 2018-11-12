@@ -59,8 +59,8 @@ message ResultsBlockHeader {
     primitives.sha256 state_diff_hash = 7;
     primitives.sha256 transactions_block_hash_ptr = 8;
     primitives.merkle_sha256 pre_execution_state_root_hash = 9;
-    primitives.bloom_filter txhash_bloom_filter = 10;
-    primitives.bloom_filter timestamp_bloom_filter = 11;
+    primitives.sha256 receipts_bloom_filter_hash = 10;
+    primitives.merkle_sha256 crosschain_messages_root_hash = 11;
     uint32 num_transaction_receipts = 12;
     uint32 num_contract_state_diffs = 13;
 }
@@ -71,17 +71,42 @@ message TransactionsBlockMetadata {
     // repeated uint32 nodes_reputation = 2;
 }
 
+message CrosschainMessages {
+    repeated CrosschainMessage message = 1;
+}
+
+message CrosschainMessage {
+    CrosschainMessageType type = 1;
+    uint32 tx_index = 2;
+    primitives.contract_name contract_name = 3;
+    bytes data = 4;
+}
+
+enum CrosschainMessageType {
+    CROSSCHAIN_MESSAGE_TYPE_RESERVED = 0;
+    CROSSCHAIN_MESSAGE_TYPE_ETHEREUM = 1;
+}
+
+message ReceiptsBloomFilter {
+    primitives.bloom_filter txhash_bloom_filter = 1;
+    primitives.bloom_filter timestamp_bloom_filter = 2;
+}
+
+
+
 message TransactionsBlockProof {
+    primitives.sha256 results_block_hash = 1;
     oneof type {
-        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 1;
-        consensus.LeanHelixBlockProof lean_helix = 2;
+        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
+        consensus.LeanHelixBlockProof lean_helix = 3;
     }
 }
 
 message ResultsBlockProof {
+    primitives.sha256 transactions_block_hash = 1;
     oneof type {
-        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 1;
-        consensus.LeanHelixBlockProof lean_helix = 2;
+        consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
+        consensus.LeanHelixBlockProof lean_helix = 3;
     }
 }
 

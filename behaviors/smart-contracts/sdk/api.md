@@ -109,6 +109,9 @@ Traditionally, smart contracts can only access state variables from the blockcha
 
 ```ts
 Ethereum.CallContract(...)
+Ethereum.CallContract(contract_address: string, function_name: string, abi: string, arguments: MethodCallArguments): MethodCallResult
+Ethereum.GetTransactionLogs(txhash: uint256, contract_address: string, event_signature: string) : EventLogs
+Ethereum.EmitMessage(arguments: EventArguments)
 ```
 
 &nbsp;

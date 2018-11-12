@@ -3,12 +3,14 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
+import "primitives/integers.proto";
 
 option serialize_messages = false;
 
 service CrosschainConnector {
     // called by VirtualMachine
     rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput); // TODO: don't we need implementation per connector
+    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput); 
 }
 
 message EthereumCallContractInput {
@@ -21,4 +23,19 @@ message EthereumCallContractInput {
 
 message EthereumCallContractOutput {
     bytes ethereum_packed_output = 1;
+}
+
+message EthereumGetTransactionLogsInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    primitives.uint256 txhash = 2;
+    string ethereum_contract_address = 3;  // a NULL value indicates no filter
+    string event_signature = 4; // a NULL value indicates no filter
+}
+
+message EthereumGetTransactionLogsOutput {
+    repeated EthereumLogEntry log_entries = 1;
+}
+
+message EthereumLogEntry {
+    repeated bytes arguments = 1;
 }
