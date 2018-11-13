@@ -24,6 +24,7 @@ type VirtualMachine interface {
 
 type ProcessTransactionSetInput struct {
 	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -31,11 +32,16 @@ func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 
@@ -148,6 +154,7 @@ func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
 
 type TransactionSetPreOrderInput struct {
 	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -155,11 +162,16 @@ func (x *TransactionSetPreOrderInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *TransactionSetPreOrderInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 

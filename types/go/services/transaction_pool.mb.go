@@ -146,6 +146,7 @@ func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res strin
 
 type GetTransactionsForOrderingInput struct {
 	BlockHeight              primitives.BlockHeight
+	BlockTimestamp           primitives.TimestampNano
 	MaxTransactionsSetSizeKb uint32
 	MaxNumberOfTransactions  uint32
 }
@@ -154,11 +155,16 @@ func (x *GetTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
 }
 
 func (x *GetTransactionsForOrderingInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *GetTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 
@@ -200,6 +206,7 @@ func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res strin
 
 type ValidateTransactionsForOrderingInput struct {
 	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -207,11 +214,16 @@ func (x *ValidateTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *ValidateTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 

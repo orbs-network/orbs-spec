@@ -13,6 +13,12 @@ Environment.GetVirtualChain(): Uint32
 
 #### Execution arguments
 
+#### Block properties
+
+```ts
+Block.GetTime(): Uint64
+```
+
 &nbsp;
 ## Persistent state
 

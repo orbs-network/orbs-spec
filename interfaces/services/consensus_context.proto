@@ -25,6 +25,7 @@ message RequestNewTransactionsBlockInput {
     uint32 max_block_size_kb = 2;
     uint32 max_number_of_transactions = 3;
     primitives.sha256 prev_block_hash = 4;
+    primitives.timestamp_nano prev_block_timestamp = 5;
 }
 
 // returns error code on failure
@@ -37,6 +38,7 @@ message RequestNewResultsBlockInput {
     primitives.sha256 prev_block_hash = 2;
     // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
     protocol.TransactionsBlockContainer transactions_block = 3;
+    primitives.timestamp_nano prev_block_timestamp = 4;
 }
 
 // returns error code on failure
@@ -45,8 +47,10 @@ message RequestNewResultsBlockOutput {
 }
 
 message ValidateTransactionsBlockInput {
-    protocol.TransactionsBlockContainer transactions_block = 1;
-    primitives.sha256 prev_block_hash = 2;
+    primitives.block_height block_height = 1;
+    protocol.TransactionsBlockContainer transactions_block = 2;
+    primitives.sha256 prev_block_hash = 3;
+    primitives.timestamp_nano prev_block_timestamp = 4;
 }
 
 // returns error code on failure
@@ -54,10 +58,12 @@ message ValidateTransactionsBlockOutput {
 }
 
 message ValidateResultsBlockInput {
-    protocol.ResultsBlockContainer results_block = 1;
-    primitives.sha256 prev_block_hash = 2;
+    primitives.block_height block_height = 1;
+    protocol.ResultsBlockContainer results_block = 2;
+    primitives.sha256 prev_block_hash = 3;
     // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
-    protocol.TransactionsBlockContainer transactions_block = 3;
+    protocol.TransactionsBlockContainer transactions_block = 4;
+    primitives.timestamp_nano prev_block_timestamp = 5;
 }
 
 // returns error code on failure

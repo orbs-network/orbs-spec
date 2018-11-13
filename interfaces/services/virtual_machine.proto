@@ -27,7 +27,8 @@ service VirtualMachine {
 
 message ProcessTransactionSetInput {
     primitives.block_height block_height = 1;
-    repeated protocol.SignedTransaction signed_transactions = 2;
+    primitives.timestamp_nano block_timestamp = 2;
+    repeated protocol.SignedTransaction signed_transactions = 3;
 }
 
 message ProcessTransactionSetOutput {
@@ -49,7 +50,8 @@ message RunLocalMethodOutput {
 
 message TransactionSetPreOrderInput {
     primitives.block_height block_height = 1;
-    repeated protocol.SignedTransaction signed_transactions = 2;
+    primitives.timestamp_nano block_timestamp = 2;
+    repeated protocol.SignedTransaction signed_transactions = 3;
 }
 
 // returns error string if one of the transactions does not pass pre order checks
