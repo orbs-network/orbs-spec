@@ -39,6 +39,9 @@ Currently a single instance per virtual chain per node.
 
 > Performed by consensus leader only, upon request from consensus algo to perform the ordering phase of the consensus during a live round.
 
+* Get the block reference timestamp by reading the 64b unix timestamp.  
+  * If the uinx timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
+
 #### Choose pending transactions
 * Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
   * If there are too little transactions to append (minimal block according to a [configurable](../config/services.md) amount):
@@ -50,7 +53,7 @@ Currently a single instance per virtual chain per node.
 * Current virtual chain.
 * Block height is given.
 * Hash pointer to the previous (latest) Transactions block is given.
-* 64b unix timestamp.
+* Block timestamp.
 * The merkle root hash of the transactions in the block.
 * Placeholder: metadata - holds reputation / algorithm data.
 * Hash of the block metadata.
@@ -70,6 +73,8 @@ Currently a single instance per virtual chain per node.
 <!-->
 * The Transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
 -->
+* Get the block reference timestamp from the `TransactionsBlock` header.
+  
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
 
 #### Build Results block
@@ -77,7 +82,7 @@ Currently a single instance per virtual chain per node.
 * Current virtual chain.
 * Block height is given.
 * Hash pointer to the previous (latest) Results block is given.
-* 64b unix timestamp.
+* Block timestamp.
 * The merkle root hash of the transaction receipts in the block.
 * The hash of the state diff in the block.
 * Hash pointer to the Transactions block of the same height.
@@ -93,14 +98,15 @@ Currently a single instance per virtual chain per node.
 #### Check Transactions block
 * Check protocol version.
 * Check virtual chain.
-* Check block height is the next of the previous block's height.
-* Check hash pointer indeed points to previous block.
+* Check that the header's block height matches the provided one.  
+* Check that the header's previous block hash pointer mathes the provided one.
 * Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
 * Check transaction merkle root hash.
 * Check metadata hash.
 
 #### Validate transaction choice
 * Call `TransactionPool.ValidateTransactionsForOrdering` to validate pre order checks, expiration and no duplication.
+  * Using the provided header timestamp as a reference timestamp.
 
 &nbsp;
 ## `ValidateResultsBlock` (method)
@@ -111,8 +117,8 @@ Currently a single instance per virtual chain per node.
 * Check protocol version.
 * Check virtual chain.
 * Check block height is the next of the previous block's height.
-* Check hash pointer indeed points to previous block.
-* Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
+* Check hash pointer indeed matches the given previous block hash.
+* Check timestamp equals the `TransactionsBlock` timestamp.
 * Check transaction receipts merkle root hash.
 * Check the hash of the state diff in the block.
 * Check hash pointer to the Transactions block of the same height.
@@ -122,6 +128,7 @@ Currently a single instance per virtual chain per node.
 
 #### Validate transaction execution
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
+  * Using the provided header timestamp as a reference timestamp.
 * Compare the receipts merkle root hash to the one in the block.
 * Compare the state diff hash to the one in the block (supports only deterministic execution).
 

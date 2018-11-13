@@ -28,13 +28,14 @@ type RequestNewTransactionsBlockInput struct {
 	MaxBlockSizeKb          uint32
 	MaxNumberOfTransactions uint32
 	PrevBlockHash           primitives.Sha256
+	PrevBlockTimestamp      primitives.TimestampNano
 }
 
 func (x *RequestNewTransactionsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,}", x.StringBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash())
+	return fmt.Sprintf("{BlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,}", x.StringBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp())
 }
 
 func (x *RequestNewTransactionsBlockInput) StringBlockHeight() (res string) {
@@ -54,6 +55,11 @@ func (x *RequestNewTransactionsBlockInput) StringMaxNumberOfTransactions() (res 
 
 func (x *RequestNewTransactionsBlockInput) StringPrevBlockHash() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockHash)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringPrevBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
 	return
 }
 
@@ -80,16 +86,17 @@ func (x *RequestNewTransactionsBlockOutput) StringTransactionsBlock() (res strin
 // message RequestNewResultsBlockInput (non serializable)
 
 type RequestNewResultsBlockInput struct {
-	BlockHeight       primitives.BlockHeight
-	PrevBlockHash     primitives.Sha256
-	TransactionsBlock *protocol.TransactionsBlockContainer
+	BlockHeight        primitives.BlockHeight
+	PrevBlockHash      primitives.Sha256
+	TransactionsBlock  *protocol.TransactionsBlockContainer
+	PrevBlockTimestamp primitives.TimestampNano
 }
 
 func (x *RequestNewResultsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
+	return fmt.Sprintf("{BlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,}", x.StringBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp())
 }
 
 func (x *RequestNewResultsBlockInput) StringBlockHeight() (res string) {
@@ -104,6 +111,11 @@ func (x *RequestNewResultsBlockInput) StringPrevBlockHash() (res string) {
 
 func (x *RequestNewResultsBlockInput) StringTransactionsBlock() (res string) {
 	res = x.TransactionsBlock.String()
+	return
+}
+
+func (x *RequestNewResultsBlockInput) StringPrevBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
 	return
 }
 
@@ -130,15 +142,22 @@ func (x *RequestNewResultsBlockOutput) StringResultsBlock() (res string) {
 // message ValidateTransactionsBlockInput (non serializable)
 
 type ValidateTransactionsBlockInput struct {
-	TransactionsBlock *protocol.TransactionsBlockContainer
-	PrevBlockHash     primitives.Sha256
+	BlockHeight        primitives.BlockHeight
+	TransactionsBlock  *protocol.TransactionsBlockContainer
+	PrevBlockHash      primitives.Sha256
+	PrevBlockTimestamp primitives.TimestampNano
 }
 
 func (x *ValidateTransactionsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{TransactionsBlock:%s,PrevBlockHash:%s,}", x.StringTransactionsBlock(), x.StringPrevBlockHash())
+	return fmt.Sprintf("{BlockHeight:%s,TransactionsBlock:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,}", x.StringBlockHeight(), x.StringTransactionsBlock(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp())
+}
+
+func (x *ValidateTransactionsBlockInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
 }
 
 func (x *ValidateTransactionsBlockInput) StringTransactionsBlock() (res string) {
@@ -148,6 +167,11 @@ func (x *ValidateTransactionsBlockInput) StringTransactionsBlock() (res string) 
 
 func (x *ValidateTransactionsBlockInput) StringPrevBlockHash() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockHash)
+	return
+}
+
+func (x *ValidateTransactionsBlockInput) StringPrevBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
 	return
 }
 
@@ -168,16 +192,23 @@ func (x *ValidateTransactionsBlockOutput) String() string {
 // message ValidateResultsBlockInput (non serializable)
 
 type ValidateResultsBlockInput struct {
-	ResultsBlock      *protocol.ResultsBlockContainer
-	PrevBlockHash     primitives.Sha256
-	TransactionsBlock *protocol.TransactionsBlockContainer
+	BlockHeight        primitives.BlockHeight
+	ResultsBlock       *protocol.ResultsBlockContainer
+	PrevBlockHash      primitives.Sha256
+	TransactionsBlock  *protocol.TransactionsBlockContainer
+	PrevBlockTimestamp primitives.TimestampNano
 }
 
 func (x *ValidateResultsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,}", x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock())
+	return fmt.Sprintf("{BlockHeight:%s,ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,}", x.StringBlockHeight(), x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp())
+}
+
+func (x *ValidateResultsBlockInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
 }
 
 func (x *ValidateResultsBlockInput) StringResultsBlock() (res string) {
@@ -192,6 +223,11 @@ func (x *ValidateResultsBlockInput) StringPrevBlockHash() (res string) {
 
 func (x *ValidateResultsBlockInput) StringTransactionsBlock() (res string) {
 	res = x.TransactionsBlock.String()
+	return
+}
+
+func (x *ValidateResultsBlockInput) StringPrevBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
 	return
 }
 
