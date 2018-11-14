@@ -623,6 +623,8 @@ func (w *CallMethodResponseBuilder) Build() *CallMethodResponse {
 // reader
 
 type GetTransactionStatusRequest struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
 	// TransactionTimestamp primitives.TimestampNano
 	// Txhash primitives.Sha256
 
@@ -635,10 +637,10 @@ func (x *GetTransactionStatusRequest) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{TransactionTimestamp:%s,Txhash:%s,}", x.StringTransactionTimestamp(), x.StringTxhash())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash())
 }
 
-var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint64, membuffers.TypeBytes}
+var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes}
 var _GetTransactionStatusRequest_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusRequestReader(buf []byte) *GetTransactionStatusRequest {
@@ -665,16 +667,48 @@ func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(0))
+func (x *GetTransactionStatusRequest) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
 }
 
-func (x *GetTransactionStatusRequest) RawTransactionTimestamp() []byte {
+func (x *GetTransactionStatusRequest) RawProtocolVersion() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *GetTransactionStatusRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
+}
+
+func (x *GetTransactionStatusRequest) StringProtocolVersion() string {
+	return fmt.Sprintf("%s", x.ProtocolVersion())
+}
+
+func (x *GetTransactionStatusRequest) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
+}
+
+func (x *GetTransactionStatusRequest) RawVirtualChainId() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetTransactionStatusRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *GetTransactionStatusRequest) StringVirtualChainId() string {
+	return fmt.Sprintf("%s", x.VirtualChainId())
+}
+
+func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(2))
+}
+
+func (x *GetTransactionStatusRequest) RawTransactionTimestamp() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
 func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(0, uint64(v))
+	return x._message.SetUint64(2, uint64(v))
 }
 
 func (x *GetTransactionStatusRequest) StringTransactionTimestamp() string {
@@ -682,15 +716,15 @@ func (x *GetTransactionStatusRequest) StringTransactionTimestamp() string {
 }
 
 func (x *GetTransactionStatusRequest) Txhash() primitives.Sha256 {
-	return primitives.Sha256(x._message.GetBytes(1))
+	return primitives.Sha256(x._message.GetBytes(3))
 }
 
 func (x *GetTransactionStatusRequest) RawTxhash() []byte {
-	return x._message.RawBufferForField(1, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *GetTransactionStatusRequest) MutateTxhash(v primitives.Sha256) error {
-	return x._message.SetBytes(1, []byte(v))
+	return x._message.SetBytes(3, []byte(v))
 }
 
 func (x *GetTransactionStatusRequest) StringTxhash() string {
@@ -700,6 +734,8 @@ func (x *GetTransactionStatusRequest) StringTxhash() string {
 // builder
 
 type GetTransactionStatusRequestBuilder struct {
+	ProtocolVersion      primitives.ProtocolVersion
+	VirtualChainId       primitives.VirtualChainId
 	TransactionTimestamp primitives.TimestampNano
 	Txhash               primitives.Sha256
 
@@ -718,6 +754,8 @@ func (w *GetTransactionStatusRequestBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
 	w._builder.WriteUint64(buf, uint64(w.TransactionTimestamp))
 	w._builder.WriteBytes(buf, []byte(w.Txhash))
 	return nil

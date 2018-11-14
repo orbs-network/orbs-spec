@@ -33,8 +33,10 @@ message CallMethodResponse {
 }
 
 message GetTransactionStatusRequest {
-    primitives.timestamp_nano transaction_timestamp = 1;
-    primitives.sha256 txhash = 2;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp_nano transaction_timestamp = 3;
+    primitives.sha256 txhash = 4;
 }
 
 message GetTransactionStatusResponse {
