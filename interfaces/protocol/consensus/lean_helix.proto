@@ -6,14 +6,7 @@ import "../primitives/crypto.proto";
 import "../primitives/integers.proto";
 import "../primitives/protocol.proto";
 
-enum LeanHelixMessageType {
-    LEAN_HELIX_RESERVED = 0;
-    LEAN_HELIX_PRE_PREPARE = 1;
-    LEAN_HELIX_PREPARE = 2;
-    LEAN_HELIX_COMMIT = 3;
-    LEAN_HELIX_NEW_VIEW = 4;
-    LEAN_HELIX_VIEW_CHANGE = 5;
-}
+enum LeanHelixMessageType {};
 
 message LeanHelixBlockProof {
     LeanHelixBlockRef block_ref = 1;
