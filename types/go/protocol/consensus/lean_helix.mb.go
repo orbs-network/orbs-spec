@@ -490,29 +490,10 @@ func (w *LeanHelixBlockRefBuilder) Build() *LeanHelixBlockRef {
 
 type LeanHelixMessageType uint16
 
-const (
-	LEAN_HELIX_RESERVED    LeanHelixMessageType = 0
-	LEAN_HELIX_PRE_PREPARE LeanHelixMessageType = 1
-	LEAN_HELIX_PREPARE     LeanHelixMessageType = 2
-	LEAN_HELIX_COMMIT      LeanHelixMessageType = 3
-	LEAN_HELIX_NEW_VIEW    LeanHelixMessageType = 4
-	LEAN_HELIX_VIEW_CHANGE LeanHelixMessageType = 5
-)
+const ()
 
 func (n LeanHelixMessageType) String() string {
 	switch n {
-	case LEAN_HELIX_RESERVED:
-		return "LEAN_HELIX_RESERVED"
-	case LEAN_HELIX_PRE_PREPARE:
-		return "LEAN_HELIX_PRE_PREPARE"
-	case LEAN_HELIX_PREPARE:
-		return "LEAN_HELIX_PREPARE"
-	case LEAN_HELIX_COMMIT:
-		return "LEAN_HELIX_COMMIT"
-	case LEAN_HELIX_NEW_VIEW:
-		return "LEAN_HELIX_NEW_VIEW"
-	case LEAN_HELIX_VIEW_CHANGE:
-		return "LEAN_HELIX_VIEW_CHANGE"
 	}
 	return "UNKNOWN"
 }
