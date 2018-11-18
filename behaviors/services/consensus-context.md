@@ -116,7 +116,7 @@ Currently a single instance per virtual chain per node.
 #### Check Results block
 * Check protocol version.
 * Check virtual chain.
-* Check block height is the next of the previous block's height.
+* Check that the header's block height matches the provided one.  
 * Check hash pointer indeed matches the given previous block hash.
 * Check timestamp equals the `TransactionsBlock` timestamp.
 * Check transaction receipts merkle root hash.
