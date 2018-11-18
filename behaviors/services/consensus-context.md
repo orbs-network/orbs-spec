@@ -95,13 +95,13 @@ Currently a single instance per virtual chain per node.
 
 > Validates another node's proposed block. Performed upon request from consensus algo when receiving a proposal during a live consensus round.
 
-#### Check Transactions block
+#### Check Transactions block header
 * Check protocol version.
 * Check virtual chain.
 * Check that the header's block height matches the provided one.  
 * Check that the header's previous block hash pointer mathes the provided one.
 * Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
-* Check transaction merkle root hash.
+* Check the transactions merkle root matches the transactions.
 * Check metadata hash.
 
 #### Validate transaction choice
@@ -113,13 +113,13 @@ Currently a single instance per virtual chain per node.
 
 > Validates another node's proposed block. Performed upon request from consensus algo when receiving a proposal during a live consensus round.
 
-#### Check Results block
+#### Check Results block header
 * Check protocol version.
 * Check virtual chain.
 * Check that the header's block height matches the provided one.  
 * Check hash pointer indeed matches the given previous block hash.
 * Check timestamp equals the `TransactionsBlock` timestamp.
-* Check transaction receipts merkle root hash.
+* Check the receipts merkle root matches the receipts.
 * Check the hash of the state diff in the block.
 * Check hash pointer to the Transactions block of the same height.
 * Check merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
