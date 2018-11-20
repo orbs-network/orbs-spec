@@ -72,7 +72,6 @@ Currently a single instance per virtual chain per node.
 #### Execute transactions
 <!-->
 * The Transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
--->
 * Get the block reference timestamp from the `TransactionsBlock` header.
   
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
