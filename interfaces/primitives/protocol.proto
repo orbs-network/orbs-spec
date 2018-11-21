@@ -55,3 +55,9 @@ message lean_helix_message_content {
     bytes value = 1;
     // variable size
 }
+
+message merkle_tree_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}

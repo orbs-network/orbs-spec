@@ -33,6 +33,10 @@ Currently a single instance per virtual chain per node.
 * Batch transient state pointer (points to the batch transient state which is defined outside the execution context).
   * The combined transient state of the entire batch (normally an entire block of transactions).
   * Relevant for `ReadWrite` execution contexts only.
+* Events logs
+  * Logs events emitted by the SDK `Log.Emit` function and are relevant only for `ReadWrite` execution contexts.
+  * Each event is associated with the contract that triggered it.
+  * The events functionality is initially reserved for crosschain operations. Only a single event may be emitted per transaction, a second emit fails the transaction execution.
 
 &nbsp;
 ## `Init` (flow)
@@ -90,7 +94,9 @@ Currently a single instance per virtual chain per node.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
   * Note: Execution permissions are checked by the processor.
 * Pop service from the execution context's service stack.
-* If the transaction was successful, apply the transaction transient state to the batch transient state.
+* If the transaction was successful:
+  * Apply the transaction transient state to the batch transient state.
+  * Add the event logs to the transaction receipt.
 * Remember the result of the method call and generate a transaction receipt.
 
 #### Prepare combined state diff

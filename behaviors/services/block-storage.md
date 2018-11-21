@@ -178,6 +178,19 @@ Currently a single instance per virtual chain per node.
 * Return the results block header, metadata and the results block proof.
 
 &nbsp;
+## `GenerateReceiptProof` (method)
+
+> Generates a proof for a receipt inclusion in a block. Returns the transaction receipt for a past transaction based on its id and time stamp, along with the signed block header and receipt merkle proof.
+
+* Get the relevant block and look for the receipt that matches the `txhash`.
+  * If no matching receipt was found, return an empty proof. 
+* Calculate the receipt merkle proof based on the receipt index
+  * Calculate the merkle tree of the block's receipts, using the receipts [Merkle tree format](../data-structures/merkle-tree.md).
+    * Consider to maintain a cache of recently calculated merkle trees.
+  * Generate a proof for the receipt inclusion based on its index in the block.
+* Return the `ResultBlock` header, `ResultBlock` proof, merkle proof and receipt.
+
+&nbsp;
 ## Gossip Messages Handlers
 
 > Handles gossip messages from other nodes. Relevant messages include block sync messages.

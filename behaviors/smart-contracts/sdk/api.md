@@ -121,3 +121,12 @@ Ethereum.CallContract(...)
 ## System operations
 
 Special operations that can only be called from system contracts (a special permission).
+
+&nbsp;
+## Event logs
+
+The event logs are logged as part of the transaction receipt. 
+
+```ts
+Log.EmitEvent(arguments: EventArguments)
+```

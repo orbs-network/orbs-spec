@@ -30,4 +30,19 @@ message TransactionReceipt {
     primitives.sha256 txhash = 1;
     protocol.ExecutionResult execution_result = 2;
     bytes output_argument_array = 3; // opaque field of repeated protocol.MethodArgument
+    repeated bytes output_events = 4; // opaque field of repeated OutputEvent
+}
+
+message OutputEvent {
+    primitives.contract_name contract_name = 1;
+    repeated EventArgument arguments = 2;
+}
+
+message EventArgument {
+    oneof type {
+        uint32 uint32_value = 1;
+        uint64 uint64_value = 2;
+        string string_value = 3;
+        bytes bytes_value = 4;
+    }
 }

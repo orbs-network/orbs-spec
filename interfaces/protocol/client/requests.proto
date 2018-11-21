@@ -7,6 +7,8 @@ import "../primitives/protocol.proto";
 import "../protocol/transactions.proto";
 import "../protocol/results.proto";
 import "../protocol/contracts.proto";
+import "../protocol/proofs.proto";
+
 
 message SendTransactionRequest {
     protocol.SignedTransaction signed_transaction = 1;
@@ -45,4 +47,20 @@ message GetTransactionStatusResponse {
     protocol.TransactionStatus transaction_status = 3;
     primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
     primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+}
+
+message GetTransactionReceiptProofRequest {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp_nano transaction_timestamp = 3;
+    primitives.sha256 txhash = 4;
+    primitives.block_height block_height = 5;
+}
+
+message GetTransactionReceiptProofResponse {
+    protocol.RequestStatus request_status = 1;
+    protocol.ReceiptProof proof = 2;
+    protocol.TransactionStatus transaction_status = 3;
+    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts    
 }

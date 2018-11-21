@@ -89,6 +89,27 @@ Currently a single instance per virtual chain per node.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
 
 &nbsp;
+## `GetTransactionReceiptProof` (method)
+<!-- TODO: consider providing the receipt as an input -->
+
+> Public interface: Returns a receipt along with a proof for its inclusion in a block.
+
+#### Check request validity
+* Correct protocol version.
+* Correct virtual chain.
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, return an error status with empty block height and timestamp (as they may not be relevant).
+
+#### Query the transaction status and receipt
+* Query the transaction status by calling `GetTransactionStatus`.
+  * If no receipt was found return `NO_RECORD_FOUND` along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
+
+#### Get a receipt proof
+* Get a receipt proof by calling `BlockStorage.GenerateReceiptProof`.
+* Return status `COMMITTED` along with the provided proof, block_height and timestamp.
+
+&nbsp;
 ## TransactionResults Handler
 
 > Handles transaction results enables the public api to respond to the waiting clients, called by `TransactionPool`. 
