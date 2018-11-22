@@ -4,6 +4,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
 import "primitives/integers.proto";
+import "protocol/transactions.proto";
 
 option serialize_messages = false;
 
@@ -27,7 +28,7 @@ message EthereumCallContractOutput {
 
 message EthereumGetTransactionLogsInput {
     primitives.timestamp_nano reference_timestamp = 1;
-    primitives.uint256 txhash = 2;
+    primitives.uint256 ethereum_txhash = 2;
     string ethereum_contract_address = 3;  // a NULL value indicates no filter
     string event_signature = 4; // a NULL value indicates no filter
 }
@@ -37,5 +38,5 @@ message EthereumGetTransactionLogsOutput {
 }
 
 message EthereumLogEntry {
-    repeated bytes arguments = 1;
+    repeated protocol.EventArgument arguments = 1;
 }

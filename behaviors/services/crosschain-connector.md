@@ -36,5 +36,7 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
 
 * Query the Ethereum node using the given arguments through IPC.
 * Filters:
-    * Contract address (a NULL value indicates no filter)
-    * Event signature (a NULL value indicates no filter). EventSignature is the canonical format for Ethereum events. (e.g. `TransferOutEvent(uint32, byte32, uint256)`).
+  * Contract address (a NULL value indicates no filter)
+  * Event signature (a NULL value indicates no filter). EventSignature is the canonical format for Ethereum events. (e.g. `TransferOutEvent(uint32, byte32, uint256)`).
+    * The event signatrue hash is represmted in the log.topics[0]
+* Returns a list of events cast based on the event signature.
