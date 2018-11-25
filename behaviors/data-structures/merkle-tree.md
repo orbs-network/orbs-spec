@@ -15,7 +15,7 @@
 > Maintains the transactions within a block, calculated on block creation and validation.
 * Tree type: Binary Merkle tree
 * Key: tx_index (the index of the transaction in the block)
-* Key size: 4B
+* Key size: ceil(log(max_index))
 * Value: txhash
 * Hash: SHA256 (32B)
 
@@ -23,7 +23,7 @@
 > Maintains the receipts within a block, calculated on block creation and validation.
 * Tree type: Binary Merkle tree
 * Key: tx_index (the index of the corresponding transaction in the block)
-* Key size: 4B
+* Key size: ceil(log(max_index))
 * Value: SHA256(receipt)
 * Hash: SHA256 (32B)
 
