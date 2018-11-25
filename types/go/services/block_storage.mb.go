@@ -20,6 +20,7 @@ type BlockStorage interface {
 	GetResultsBlockHeader(ctx context.Context, input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
 	GetTransactionReceipt(ctx context.Context, input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
 	GetLastCommittedBlockHeight(ctx context.Context, input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
+	GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error)
 	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
@@ -274,6 +275,50 @@ func (x *ValidateBlockForCommitOutput) String() string {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{}")
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GenerateReceiptProofInput (non serializable)
+
+type GenerateReceiptProofInput struct {
+	Txhash      primitives.Sha256
+	BlockHeight primitives.BlockHeight
+}
+
+func (x *GenerateReceiptProofInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Txhash:%s,BlockHeight:%s,}", x.StringTxhash(), x.StringBlockHeight())
+}
+
+func (x *GenerateReceiptProofInput) StringTxhash() (res string) {
+	res = fmt.Sprintf("%s", x.Txhash)
+	return
+}
+
+func (x *GenerateReceiptProofInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GenerateReceiptProofOutput (non serializable)
+
+type GenerateReceiptProofOutput struct {
+	Proof *protocol.ReceiptProof
+}
+
+func (x *GenerateReceiptProofOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Proof:%s,}", x.StringProof())
+}
+
+func (x *GenerateReceiptProofOutput) StringProof() (res string) {
+	res = x.Proof.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

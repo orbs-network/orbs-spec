@@ -975,4 +975,380 @@ func (w *GetTransactionStatusResponseBuilder) Build() *GetTransactionStatusRespo
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofRequest
+
+// reader
+
+type GetTransactionReceiptProofRequest struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// TransactionTimestamp primitives.TimestampNano
+	// Txhash primitives.Sha256
+	// BlockHeight primitives.BlockHeight
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetTransactionReceiptProofRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,BlockHeight:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash(), x.StringBlockHeight())
+}
+
+var _GetTransactionReceiptProofRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64}
+var _GetTransactionReceiptProofRequest_Unions = [][]membuffers.FieldType{}
+
+func GetTransactionReceiptProofRequestReader(buf []byte) *GetTransactionReceiptProofRequest {
+	x := &GetTransactionReceiptProofRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionReceiptProofRequest_Scheme, _GetTransactionReceiptProofRequest_Unions)
+	return x
+}
+
+func (x *GetTransactionReceiptProofRequest) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetTransactionReceiptProofRequest) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionReceiptProofRequest) Equal(y *GetTransactionReceiptProofRequest) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetTransactionReceiptProofRequest) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
+}
+
+func (x *GetTransactionReceiptProofRequest) RawProtocolVersion() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetTransactionReceiptProofRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
+}
+
+func (x *GetTransactionReceiptProofRequest) StringProtocolVersion() string {
+	return fmt.Sprintf("%s", x.ProtocolVersion())
+}
+
+func (x *GetTransactionReceiptProofRequest) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
+}
+
+func (x *GetTransactionReceiptProofRequest) RawVirtualChainId() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetTransactionReceiptProofRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *GetTransactionReceiptProofRequest) StringVirtualChainId() string {
+	return fmt.Sprintf("%s", x.VirtualChainId())
+}
+
+func (x *GetTransactionReceiptProofRequest) TransactionTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(2))
+}
+
+func (x *GetTransactionReceiptProofRequest) RawTransactionTimestamp() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *GetTransactionReceiptProofRequest) MutateTransactionTimestamp(v primitives.TimestampNano) error {
+	return x._message.SetUint64(2, uint64(v))
+}
+
+func (x *GetTransactionReceiptProofRequest) StringTransactionTimestamp() string {
+	return fmt.Sprintf("%s", x.TransactionTimestamp())
+}
+
+func (x *GetTransactionReceiptProofRequest) Txhash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(3))
+}
+
+func (x *GetTransactionReceiptProofRequest) RawTxhash() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *GetTransactionReceiptProofRequest) MutateTxhash(v primitives.Sha256) error {
+	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *GetTransactionReceiptProofRequest) StringTxhash() string {
+	return fmt.Sprintf("%s", x.Txhash())
+}
+
+func (x *GetTransactionReceiptProofRequest) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(4))
+}
+
+func (x *GetTransactionReceiptProofRequest) RawBlockHeight() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *GetTransactionReceiptProofRequest) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(4, uint64(v))
+}
+
+func (x *GetTransactionReceiptProofRequest) StringBlockHeight() string {
+	return fmt.Sprintf("%s", x.BlockHeight())
+}
+
+// builder
+
+type GetTransactionReceiptProofRequestBuilder struct {
+	ProtocolVersion      primitives.ProtocolVersion
+	VirtualChainId       primitives.VirtualChainId
+	TransactionTimestamp primitives.TimestampNano
+	Txhash               primitives.Sha256
+	BlockHeight          primitives.BlockHeight
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *GetTransactionReceiptProofRequestBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.TransactionTimestamp))
+	w._builder.WriteBytes(buf, []byte(w.Txhash))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	return nil
+}
+
+func (w *GetTransactionReceiptProofRequestBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionReceiptProofRequestBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionReceiptProofRequestBuilder) Build() *GetTransactionReceiptProofRequest {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetTransactionReceiptProofRequestReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofResponse
+
+// reader
+
+type GetTransactionReceiptProofResponse struct {
+	// RequestStatus protocol.RequestStatus
+	// Proof protocol.ReceiptProof
+	// TransactionStatus protocol.TransactionStatus
+	// BlockHeight primitives.BlockHeight
+	// BlockTimestamp primitives.TimestampNano
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetTransactionReceiptProofResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{RequestStatus:%s,Proof:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringProof(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _GetTransactionReceiptProofResponse_Unions = [][]membuffers.FieldType{}
+
+func GetTransactionReceiptProofResponseReader(buf []byte) *GetTransactionReceiptProofResponse {
+	x := &GetTransactionReceiptProofResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionReceiptProofResponse_Scheme, _GetTransactionReceiptProofResponse_Unions)
+	return x
+}
+
+func (x *GetTransactionReceiptProofResponse) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetTransactionReceiptProofResponse) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionReceiptProofResponse) Equal(y *GetTransactionReceiptProofResponse) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetTransactionReceiptProofResponse) RequestStatus() protocol.RequestStatus {
+	return protocol.RequestStatus(x._message.GetUint16(0))
+}
+
+func (x *GetTransactionReceiptProofResponse) RawRequestStatus() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) MutateRequestStatus(v protocol.RequestStatus) error {
+	return x._message.SetUint16(0, uint16(v))
+}
+
+func (x *GetTransactionReceiptProofResponse) StringRequestStatus() string {
+	return x.RequestStatus().String()
+}
+
+func (x *GetTransactionReceiptProofResponse) Proof() *protocol.ReceiptProof {
+	b, s := x._message.GetMessage(1)
+	return protocol.ReceiptProofReader(b[:s])
+}
+
+func (x *GetTransactionReceiptProofResponse) RawProof() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) RawProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) StringProof() string {
+	return x.Proof().String()
+}
+
+func (x *GetTransactionReceiptProofResponse) TransactionStatus() protocol.TransactionStatus {
+	return protocol.TransactionStatus(x._message.GetUint16(2))
+}
+
+func (x *GetTransactionReceiptProofResponse) RawTransactionStatus() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
+	return x._message.SetUint16(2, uint16(v))
+}
+
+func (x *GetTransactionReceiptProofResponse) StringTransactionStatus() string {
+	return x.TransactionStatus().String()
+}
+
+func (x *GetTransactionReceiptProofResponse) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(3))
+}
+
+func (x *GetTransactionReceiptProofResponse) RawBlockHeight() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(3, uint64(v))
+}
+
+func (x *GetTransactionReceiptProofResponse) StringBlockHeight() string {
+	return fmt.Sprintf("%s", x.BlockHeight())
+}
+
+func (x *GetTransactionReceiptProofResponse) BlockTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(4))
+}
+
+func (x *GetTransactionReceiptProofResponse) RawBlockTimestamp() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
+	return x._message.SetUint64(4, uint64(v))
+}
+
+func (x *GetTransactionReceiptProofResponse) StringBlockTimestamp() string {
+	return fmt.Sprintf("%s", x.BlockTimestamp())
+}
+
+// builder
+
+type GetTransactionReceiptProofResponseBuilder struct {
+	RequestStatus     protocol.RequestStatus
+	Proof             *protocol.ReceiptProofBuilder
+	TransactionStatus protocol.TransactionStatus
+	BlockHeight       primitives.BlockHeight
+	BlockTimestamp    primitives.TimestampNano
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *GetTransactionReceiptProofResponseBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
+	err = w._builder.WriteMessage(buf, w.Proof)
+	if err != nil {
+		return
+	}
+	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
+	return nil
+}
+
+func (w *GetTransactionReceiptProofResponseBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionReceiptProofResponseBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionReceiptProofResponseBuilder) Build() *GetTransactionReceiptProofResponse {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetTransactionReceiptProofResponseReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums

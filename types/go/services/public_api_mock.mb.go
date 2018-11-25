@@ -41,3 +41,12 @@ func (s *MockPublicApi) GetTransactionStatus(ctx context.Context, input *GetTran
 		return nil, ret.Error(1)
 	}
 }
+
+func (s *MockPublicApi) GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*GetTransactionReceiptProofOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

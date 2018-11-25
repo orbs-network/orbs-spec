@@ -16,6 +16,7 @@ type PublicApi interface {
 	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
 	CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error)
 	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
+	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -134,6 +135,44 @@ func (x *GetTransactionStatusOutput) String() string {
 }
 
 func (x *GetTransactionStatusOutput) StringClientResponse() (res string) {
+	res = x.ClientResponse.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofInput (non serializable)
+
+type GetTransactionReceiptProofInput struct {
+	ClientRequest *client.GetTransactionStatusRequest
+}
+
+func (x *GetTransactionReceiptProofInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
+}
+
+func (x *GetTransactionReceiptProofInput) StringClientRequest() (res string) {
+	res = x.ClientRequest.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofOutput (non serializable)
+
+type GetTransactionReceiptProofOutput struct {
+	ClientResponse *client.GetTransactionStatusResponse
+}
+
+func (x *GetTransactionReceiptProofOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
+}
+
+func (x *GetTransactionReceiptProofOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }

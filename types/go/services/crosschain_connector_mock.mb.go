@@ -21,3 +21,12 @@ func (s *MockCrosschainConnector) EthereumCallContract(ctx context.Context, inpu
 		return nil, ret.Error(1)
 	}
 }
+
+func (s *MockCrosschainConnector) EthereumGetTransactionLogs(ctx context.Context, input *EthereumGetTransactionLogsInput) (*EthereumGetTransactionLogsOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*EthereumGetTransactionLogsOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

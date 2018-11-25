@@ -61,6 +61,15 @@ func (s *MockBlockStorage) GetLastCommittedBlockHeight(ctx context.Context, inpu
 	}
 }
 
+func (s *MockBlockStorage) GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*GenerateReceiptProofOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {

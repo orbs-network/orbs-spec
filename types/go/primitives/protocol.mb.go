@@ -117,3 +117,17 @@ func (x LeanHelixMessageContent) Equal(y LeanHelixMessageContent) bool {
 func (x LeanHelixMessageContent) KeyForMap() string {
 	return string(x)
 }
+
+type MerkleTreeProof []byte
+
+func (x MerkleTreeProof) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x MerkleTreeProof) Equal(y MerkleTreeProof) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x MerkleTreeProof) KeyForMap() string {
+	return string(x)
+}
