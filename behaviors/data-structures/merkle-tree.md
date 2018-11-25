@@ -46,9 +46,9 @@
   * key_bit = 0
   * For each node in the proof starting from the bottom
     * if key[key_bit] = 0
-      * node_hash = hash(hash_state, node)
+      * hash_state = hash(hash_state, node)
     * Else
-      * node_hash = hash(node, hash_state)
+      * hash_state = hash(node, hash_state)
     * key_bit++
     * Pop node
   * Compare the hash_state with the tree root.
