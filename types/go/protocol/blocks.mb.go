@@ -79,17 +79,18 @@ func (x *TransactionsBlockContainer) StringBlockProof() (res string) {
 // message ResultsBlockContainer (non serializable)
 
 type ResultsBlockContainer struct {
-	Header              *ResultsBlockHeader
-	TransactionReceipts []*TransactionReceipt
-	ContractStateDiffs  []*ContractStateDiff
-	BlockProof          *ResultsBlockProof
+	Header                  *ResultsBlockHeader
+	TransactionReceipts     []*TransactionReceipt
+	ContractStateDiffs      []*ContractStateDiff
+	TransactionsBloomFilter *TransactionsBloomFilter
+	BlockProof              *ResultsBlockProof
 }
 
 func (x *ResultsBlockContainer) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Header:%s,TransactionReceipts:%s,ContractStateDiffs:%s,BlockProof:%s,}", x.StringHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringBlockProof())
+	return fmt.Sprintf("{Header:%s,TransactionReceipts:%s,ContractStateDiffs:%s,TransactionsBloomFilter:%s,BlockProof:%s,}", x.StringHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringTransactionsBloomFilter(), x.StringBlockProof())
 }
 
 func (x *ResultsBlockContainer) StringHeader() (res string) {
@@ -112,6 +113,11 @@ func (x *ResultsBlockContainer) StringContractStateDiffs() (res string) {
 		res += v.String() + ","
 	}
 	res += "]"
+	return
+}
+
+func (x *ResultsBlockContainer) StringTransactionsBloomFilter() (res string) {
+	res = x.TransactionsBloomFilter.String()
 	return
 }
 
@@ -378,7 +384,7 @@ type ResultsBlockHeader struct {
 	// StateDiffHash primitives.Sha256
 	// TransactionsBlockHashPtr primitives.Sha256
 	// PreExecutionStateRootHash primitives.MerkleSha256
-	// ReceiptsBloomFilterHash primitives.Sha256
+	// TransactionsBloomFilterHash primitives.Sha256
 	// NumTransactionReceipts uint32
 	// NumContractStateDiffs uint32
 
@@ -391,7 +397,7 @@ func (x *ResultsBlockHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,ReceiptsBloomFilterHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringReceiptsBloomFilterHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,TransactionsBloomFilterHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringTransactionsBloomFilterHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
 }
 
 var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeUint32}
@@ -565,20 +571,20 @@ func (x *ResultsBlockHeader) StringPreExecutionStateRootHash() string {
 	return fmt.Sprintf("%s", x.PreExecutionStateRootHash())
 }
 
-func (x *ResultsBlockHeader) ReceiptsBloomFilterHash() primitives.Sha256 {
+func (x *ResultsBlockHeader) TransactionsBloomFilterHash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(9))
 }
 
-func (x *ResultsBlockHeader) RawReceiptsBloomFilterHash() []byte {
+func (x *ResultsBlockHeader) RawTransactionsBloomFilterHash() []byte {
 	return x._message.RawBufferForField(9, 0)
 }
 
-func (x *ResultsBlockHeader) MutateReceiptsBloomFilterHash(v primitives.Sha256) error {
+func (x *ResultsBlockHeader) MutateTransactionsBloomFilterHash(v primitives.Sha256) error {
 	return x._message.SetBytes(9, []byte(v))
 }
 
-func (x *ResultsBlockHeader) StringReceiptsBloomFilterHash() string {
-	return fmt.Sprintf("%s", x.ReceiptsBloomFilterHash())
+func (x *ResultsBlockHeader) StringTransactionsBloomFilterHash() string {
+	return fmt.Sprintf("%s", x.TransactionsBloomFilterHash())
 }
 
 func (x *ResultsBlockHeader) NumTransactionReceipts() uint32 {
@@ -616,18 +622,18 @@ func (x *ResultsBlockHeader) StringNumContractStateDiffs() string {
 // builder
 
 type ResultsBlockHeaderBuilder struct {
-	ProtocolVersion           primitives.ProtocolVersion
-	VirtualChainId            primitives.VirtualChainId
-	BlockHeight               primitives.BlockHeight
-	PrevBlockHashPtr          primitives.Sha256
-	Timestamp                 primitives.TimestampNano
-	ReceiptsRootHash          primitives.MerkleSha256
-	StateDiffHash             primitives.Sha256
-	TransactionsBlockHashPtr  primitives.Sha256
-	PreExecutionStateRootHash primitives.MerkleSha256
-	ReceiptsBloomFilterHash   primitives.Sha256
-	NumTransactionReceipts    uint32
-	NumContractStateDiffs     uint32
+	ProtocolVersion             primitives.ProtocolVersion
+	VirtualChainId              primitives.VirtualChainId
+	BlockHeight                 primitives.BlockHeight
+	PrevBlockHashPtr            primitives.Sha256
+	Timestamp                   primitives.TimestampNano
+	ReceiptsRootHash            primitives.MerkleSha256
+	StateDiffHash               primitives.Sha256
+	TransactionsBlockHashPtr    primitives.Sha256
+	PreExecutionStateRootHash   primitives.MerkleSha256
+	TransactionsBloomFilterHash primitives.Sha256
+	NumTransactionReceipts      uint32
+	NumContractStateDiffs       uint32
 
 	// internal
 	// implements membuffers.Builder
@@ -653,7 +659,7 @@ func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteBytes(buf, []byte(w.StateDiffHash))
 	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHashPtr))
 	w._builder.WriteBytes(buf, []byte(w.PreExecutionStateRootHash))
-	w._builder.WriteBytes(buf, []byte(w.ReceiptsBloomFilterHash))
+	w._builder.WriteBytes(buf, []byte(w.TransactionsBloomFilterHash))
 	w._builder.WriteUint32(buf, w.NumTransactionReceipts)
 	w._builder.WriteUint32(buf, w.NumContractStateDiffs)
 	return nil
@@ -774,11 +780,11 @@ func (w *TransactionsBlockMetadataBuilder) Build() *TransactionsBlockMetadata {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message ReceiptsBloomFilter
+// message TransactionsBloomFilter
 
 // reader
 
-type ReceiptsBloomFilter struct {
+type TransactionsBloomFilter struct {
 	// TxhashBloomFilter primitives.BloomFilter
 	// TimestampBloomFilter primitives.BloomFilter
 
@@ -787,31 +793,31 @@ type ReceiptsBloomFilter struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *ReceiptsBloomFilter) String() string {
+func (x *TransactionsBloomFilter) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{TxhashBloomFilter:%s,TimestampBloomFilter:%s,}", x.StringTxhashBloomFilter(), x.StringTimestampBloomFilter())
 }
 
-var _ReceiptsBloomFilter_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
-var _ReceiptsBloomFilter_Unions = [][]membuffers.FieldType{}
+var _TransactionsBloomFilter_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
+var _TransactionsBloomFilter_Unions = [][]membuffers.FieldType{}
 
-func ReceiptsBloomFilterReader(buf []byte) *ReceiptsBloomFilter {
-	x := &ReceiptsBloomFilter{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _ReceiptsBloomFilter_Scheme, _ReceiptsBloomFilter_Unions)
+func TransactionsBloomFilterReader(buf []byte) *TransactionsBloomFilter {
+	x := &TransactionsBloomFilter{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _TransactionsBloomFilter_Scheme, _TransactionsBloomFilter_Unions)
 	return x
 }
 
-func (x *ReceiptsBloomFilter) IsValid() bool {
+func (x *TransactionsBloomFilter) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *ReceiptsBloomFilter) Raw() []byte {
+func (x *TransactionsBloomFilter) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *ReceiptsBloomFilter) Equal(y *ReceiptsBloomFilter) bool {
+func (x *TransactionsBloomFilter) Equal(y *TransactionsBloomFilter) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -821,41 +827,41 @@ func (x *ReceiptsBloomFilter) Equal(y *ReceiptsBloomFilter) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *ReceiptsBloomFilter) TxhashBloomFilter() primitives.BloomFilter {
+func (x *TransactionsBloomFilter) TxhashBloomFilter() primitives.BloomFilter {
 	return primitives.BloomFilter(x._message.GetBytes(0))
 }
 
-func (x *ReceiptsBloomFilter) RawTxhashBloomFilter() []byte {
+func (x *TransactionsBloomFilter) RawTxhashBloomFilter() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *ReceiptsBloomFilter) MutateTxhashBloomFilter(v primitives.BloomFilter) error {
+func (x *TransactionsBloomFilter) MutateTxhashBloomFilter(v primitives.BloomFilter) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *ReceiptsBloomFilter) StringTxhashBloomFilter() string {
+func (x *TransactionsBloomFilter) StringTxhashBloomFilter() string {
 	return fmt.Sprintf("%s", x.TxhashBloomFilter())
 }
 
-func (x *ReceiptsBloomFilter) TimestampBloomFilter() primitives.BloomFilter {
+func (x *TransactionsBloomFilter) TimestampBloomFilter() primitives.BloomFilter {
 	return primitives.BloomFilter(x._message.GetBytes(1))
 }
 
-func (x *ReceiptsBloomFilter) RawTimestampBloomFilter() []byte {
+func (x *TransactionsBloomFilter) RawTimestampBloomFilter() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *ReceiptsBloomFilter) MutateTimestampBloomFilter(v primitives.BloomFilter) error {
+func (x *TransactionsBloomFilter) MutateTimestampBloomFilter(v primitives.BloomFilter) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
-func (x *ReceiptsBloomFilter) StringTimestampBloomFilter() string {
+func (x *TransactionsBloomFilter) StringTimestampBloomFilter() string {
 	return fmt.Sprintf("%s", x.TimestampBloomFilter())
 }
 
 // builder
 
-type ReceiptsBloomFilterBuilder struct {
+type TransactionsBloomFilterBuilder struct {
 	TxhashBloomFilter    primitives.BloomFilter
 	TimestampBloomFilter primitives.BloomFilter
 
@@ -864,7 +870,7 @@ type ReceiptsBloomFilterBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *ReceiptsBloomFilterBuilder) Write(buf []byte) (err error) {
+func (w *TransactionsBloomFilterBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -879,14 +885,14 @@ func (w *ReceiptsBloomFilterBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *ReceiptsBloomFilterBuilder) GetSize() membuffers.Offset {
+func (w *TransactionsBloomFilterBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *ReceiptsBloomFilterBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *TransactionsBloomFilterBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -894,12 +900,12 @@ func (w *ReceiptsBloomFilterBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *ReceiptsBloomFilterBuilder) Build() *ReceiptsBloomFilter {
+func (w *TransactionsBloomFilterBuilder) Build() *TransactionsBloomFilter {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return ReceiptsBloomFilterReader(buf)
+	return TransactionsBloomFilterReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
