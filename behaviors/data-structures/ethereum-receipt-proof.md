@@ -1,4 +1,4 @@
-# Receipt Proof for Etehreum Interoperability
+# Receipt Proof for Ethereum Interoperability
 
 &nbsp;
 ## Proof data

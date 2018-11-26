@@ -104,7 +104,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
 * `Client` sends a `TransferIn` transaction to Ethereum `ASB` contract.
 
   * `ASB` Contract `TransferIn`:
-    * Calls the `Orbs Proof Validator` contract to verify the proof, see [ethereum-receipt-proof](ethereum-receipt-proof.md).
+    * Calls the `Orbs Proof Validator` contract to verify the proof, see [ethereum-receipt-proof](../data-structures/ethereum-receipt-proof.md).
       * Calls the `Federation contract` to retrieve the proof criteria.
     * Checks that the `orbs_tuid` was not already spent.
     * Transfers the tokens to the requested address by calling the `ERC20.transfer`.
