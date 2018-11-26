@@ -4,9 +4,8 @@
 ## Proof data
 * protocol.ResultsBlockHeader header
 * protocol.ResultsBlockProof block_proof
-* primitives.merkle_tree_proof receipt_proof
-* protocol.TransactionReceipt receipt_index
 * protocol.TransactionReceipt receipt
+* primitives.merkle_tree_proof receipt_proof
 
 &nbsp;
 ### ResultsBlockHeader 
@@ -16,7 +15,9 @@
 | protocol_version | 0 | 4 | uint32 | |
 | virtual_chain_id | 4 | 8 | uint64 | |
 | network_type | TBD | 2 | enum (4 bytes) | |
+<!--
 | block_height | 8 | 8 | uint64 | To be replaced with version |
+-->
 | timestamp | 16 | 8 | uint64 | unix 64b time |
 | receipt_merkle_root | 64 | 32 | bytes (32B) | |
 
@@ -27,7 +28,7 @@
 * Check that the `protocol_version` matches the configuration.
 * Check that the `virtual_chain_id` matches the configuration.
 * Check that the `network_type` matches the configuration.
-<!-->
+<!--
   * Check that the `timestamp` >`time` - `timeout_value`. 
 -->
 * Extract the `receipt_merkle_root`.
@@ -37,12 +38,12 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| proof_version | 0 | 4 | uint32 | |
+| block_proof_version | 0 | 4 | uint32 | |
 | transactions_block_hash | 8 | 32 | bytes (32B)| |
 | blockref_message | 52 | 52 | bytes (52B)|  |
 | block_hash | 72 | 32 | bytes (32B)|  |
-| node_pk | 112 + 108n | 32 | bytes (32B) |
-| node_sig | 148 + 108n | 64 | bytes (64B) |
+| node_pk | 112 + 112n | 32 | bytes (32B) |
+| node_sig | 148 + 112n | 65 | bytes (65B) |
 
 #### ResultsBlockProof Validation
 * Calcualte `calcualted_block_hash` = SHA256(`transactions_block_hash`,`result_header_hash`).
@@ -51,7 +52,7 @@
 * For each node:
   * Extract `node_pk` and `node_sig`
   * Check that `node_pk` is part of the federation by querying the `federation contract`
-	* based on the given `proof_version`.
+	* based on the given `block_proof_version`.
   * Check that the signature matches the `blockref_hash`.
 * Get the proof threshold from the `federation contract` and check that the number of valid nodes mathes the threshold.
 
@@ -73,8 +74,8 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| receipt_index | 0 | 4 | uint32
-| #of nodes | 4 | 8 | uint32 | |
+| receipt_index | 0 | 4 | uint32 | |
+| total_length  | 4 | 8 | uint32 | |
 | merkle_node   | 8 + 32n | 32 | bytes (32B)| |
 
 #### MerkleProof Validation
@@ -101,7 +102,7 @@
 | event_id | TBD | 4 | uint32 | |
 | tuid | TBD | 8 | uint64 | |
 | ethereum_address | TBD | 20 | bytes (20B) | |
-| tokens | TBD | 32 | byte (32B) | uint256 |
+| tokens | TBD | 32 | bytes (32B) | uint256 |
 
 &nbsp;
 #### Event Data Validation
