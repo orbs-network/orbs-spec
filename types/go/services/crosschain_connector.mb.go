@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -119,44 +118,27 @@ func (x *EthereumGetTransactionLogsInput) StringEventSignature() (res string) {
 // message EthereumGetTransactionLogsOutput (non serializable)
 
 type EthereumGetTransactionLogsOutput struct {
-	LogEntries []*EthereumLogEntry
+	EthereumPackedEventTopics [][]byte
+	EthereumPackedEventData   []byte
 }
 
 func (x *EthereumGetTransactionLogsOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{LogEntries:%s,}", x.StringLogEntries())
+	return fmt.Sprintf("{EthereumPackedEventTopics:%s,EthereumPackedEventData:%s,}", x.StringEthereumPackedEventTopics(), x.StringEthereumPackedEventData())
 }
 
-func (x *EthereumGetTransactionLogsOutput) StringLogEntries() (res string) {
+func (x *EthereumGetTransactionLogsOutput) StringEthereumPackedEventTopics() (res string) {
 	res = "["
-	for _, v := range x.LogEntries {
-		res += v.String() + ","
+	for _, v := range x.EthereumPackedEventTopics {
+		res += fmt.Sprintf("%x", v) + ","
 	}
 	res += "]"
 	return
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// message EthereumLogEntry (non serializable)
-
-type EthereumLogEntry struct {
-	Arguments []*protocol.EventArgument
-}
-
-func (x *EthereumLogEntry) String() string {
-	if x == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("{Arguments:%s,}", x.StringArguments())
-}
-
-func (x *EthereumLogEntry) StringArguments() (res string) {
-	res = "["
-	for _, v := range x.Arguments {
-		res += v.String() + ","
-	}
-	res += "]"
+func (x *EthereumGetTransactionLogsOutput) StringEthereumPackedEventData() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumPackedEventData)
 	return
 }

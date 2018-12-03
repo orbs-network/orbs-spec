@@ -107,6 +107,6 @@
 &nbsp;
 #### Event Data Validation
 * Check that the `contract name` matches the configuration.
-* Check `event_id` = TRANSFER_OUT (1)
+* Check `event_id` = TRANSFERED_OUT (0x1)
 * Check that the`ethereum_address` is valid - TBD.
 

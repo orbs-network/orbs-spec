@@ -4,7 +4,6 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
 import "primitives/integers.proto";
-import "protocol/transactions.proto";
 
 option serialize_messages = false;
 

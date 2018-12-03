@@ -162,7 +162,7 @@ func (x *GetTransactionReceiptProofInput) StringClientRequest() (res string) {
 // message GetTransactionReceiptProofOutput (non serializable)
 
 type GetTransactionReceiptProofOutput struct {
-	ClientResponse *client.GetTransactionStatusResponse
+	ClientResponse *client.GetTransactionReceiptProofResponse
 }
 
 func (x *GetTransactionReceiptProofOutput) String() string {
