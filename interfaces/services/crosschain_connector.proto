@@ -34,9 +34,6 @@ message EthereumGetTransactionLogsInput {
 }
 
 message EthereumGetTransactionLogsOutput {
-    repeated EthereumLogEntry log_entries = 1;
-}
-
-message EthereumLogEntry {
-    repeated protocol.EventArgument arguments = 1;
+    repeated bytes ethereum_packed_event_topics = 1; // indexed topics (including the first topic which is the event signatrue hash)
+    bytes ethereum_packed_event_data = 2; // event non-indexed data 
 }
