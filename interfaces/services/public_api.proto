@@ -45,7 +45,7 @@ message GetTransactionStatusOutput {
 }
 
 message GetTransactionReceiptProofInput {
-    client.GetTransactionStatusRequest client_request = 1;
+    client.GetTransactionReceiptProofRequest client_request = 1;
 }
 
 message GetTransactionReceiptProofOutput {
