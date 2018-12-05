@@ -37,6 +37,7 @@ Currently a single instance per virtual chain per node.
   * If `last_committed_block` is empty pass an empty block.
 * Subscribe to gossip messages by calling `Gossip.BlockSync.RegisterBlockSyncHandler`.
 * Trigger the block synchronization process in the `Inter Node Block Sync` flow.
+  * Indicating update only mode.
 
 &nbsp;
 ## `Inter Node Block Sync` (flow)

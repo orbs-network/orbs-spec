@@ -30,6 +30,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 * Load persistent data (if present)
 * Subscribe to gossip messages by calling `Gossip.LeanHelix.RegisterLeanHelixHandler`.
 * Register to handle transactions and results blocks validation by calling `BlockStorage.ConsensusBlocksHandler`.
+  * Wait until registered successfully.
 * Wait for `HandleConsensusBlock` from `BlockStorage` to start the consensus algorithm.
 
 &nbsp;
