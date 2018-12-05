@@ -29,8 +29,8 @@ message SignedTransaction {
 message TransactionReceipt {
     primitives.sha256 txhash = 1;
     protocol.ExecutionResult execution_result = 2;
-    bytes output_argument_array = 3; // opaque field of repeated protocol.MethodArgument
-    bytes output_events = 4; // opaque field of repeated OutputEvent
+    bytes output_event = 3; // opaque field of repeated OutputEvent
+    bytes output_argument_array = 4; // opaque field of repeated protocol.MethodArgument
 }
 
 message OutputEvent {
