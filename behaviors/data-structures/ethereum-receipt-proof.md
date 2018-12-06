@@ -39,11 +39,16 @@
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
 | block_proof_version | 0 | 4 | uint32 | |
+| transactions_block_hash length | 4 | always 4 | reserved |
 | transactions_block_hash | 8 | 32 | bytes (32B)| |
-| blockref_message | 52 | 52 | bytes (52B)|  |
+| oneof + nesting | 40 | 12 | reserved | oneof + proof + blockref | 
+| blockref_message | 52 | 52 | bytes (52B) |  |
 | block_hash | 72 | 32 | bytes (32B)|  |
-| node_pk | 112 + 112n | 32 | bytes (32B) |
-| node_sig | 148 + 112n | 65 | bytes (65B) |
+| node_pk_sig nesting | 104 + 100n | reserved | |
+| node_pk_length | 108 + 100n | 4 | always 20 | reserved |
+| node_pk | 112 + 100n | 20 | bytes (20B) | Ethereum address |
+| node_sig_length | 132 + 100n | 4 | always 65 | reserved |
+| node_sig | 136 + 100n | 65 | bytes (65B) |
 
 #### ResultsBlockProof Validation
 * Calcualte `calcualted_block_hash` = SHA256(`transactions_block_hash`,`result_header_hash`).
