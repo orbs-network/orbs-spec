@@ -61,7 +61,11 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| event   | 40 |  | | |
+| execution_result | 36 | 4 | enum | 0x1 indicates success |
+| event length  | 40 | 4 | uint32 | |
+| event data  | 44 | variable | bytes | |
+
+
 
 * Total size: variable size. 
 
@@ -74,7 +78,6 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| receipt_index | 0 | 4 | uint32 | |
 | total_length  | 4 | 8 | uint32 | |
 | merkle_node   | 8 + 32n | 32 | bytes (32B)| |
 
@@ -97,12 +100,14 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| contract name length | 0 | 4 | uint32 | |
+| contract name length (N)| 0 | 4 | uint32 | |
 | contract name | 4 | N | string | |
-| event_id | TBD | 4 | uint32 | |
-| tuid | TBD | 8 | uint64 | |
-| ethereum_address | TBD | 20 | bytes (20B) | |
-| tokens | TBD | 32 | bytes (32B) | uint256 |
+| event_id | 4+N | 4 | enum | 0x1 indicates TRANSFERED_OUT|
+| tuid | 8+N | 8 | uint64 | |
+| ethereum_address length| N+16 | 4 | always 20 | reserved |
+| ethereum_address | N+20 | 20 | bytes (20B) | |
+| tokens length | N+40 | 4 | always 32 | reserved |
+| tokens | N+44 | 32 | uint256 | |
 
 &nbsp;
 #### Event Data Validation
