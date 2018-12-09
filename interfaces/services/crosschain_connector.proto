@@ -27,12 +27,12 @@ message EthereumCallContractOutput {
 
 message EthereumGetTransactionLogsInput {
     primitives.timestamp_nano reference_timestamp = 1;
-    primitives.uint256 ethereum_txhash = 2;
-    string ethereum_contract_address = 3;  // a NULL value indicates no filter
-    string event_signature = 4; // a NULL value indicates no filter
+    string ethereum_contract_address = 2;
+    string ethereum_event_name = 3;
+    string ethereum_abi = 4;
+    primitives.uint256 ethereum_txhash = 5;
 }
 
 message EthereumGetTransactionLogsOutput {
-    repeated bytes ethereum_packed_event_topics = 1; // indexed topics (including the first topic which is the event signatrue hash)
-    bytes ethereum_packed_event_data = 2; // event non-indexed data 
+    bytes ethereum_packed_output = 1;
 }
