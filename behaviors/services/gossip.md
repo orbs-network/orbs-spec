@@ -73,6 +73,13 @@ Currently a single instance per virtual chain per node.
   * Call `Target.GossipMessageReceived` with message content.
   * The target service is responsible to identify the message type and process the message accordingly.
 
+### Check message validity
+
+* Correct block protocol version.
+* Correct virtual chain.
+* Correct recipient public keys
+* Correct recipient list mode
+
 &nbsp;
 ## `SendMessage` (method)
 
