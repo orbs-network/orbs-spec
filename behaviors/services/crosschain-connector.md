@@ -27,16 +27,18 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
 
 * Read only call to the Ethereum node using given arguments through IPC.
 * The ABI needs to be defined for the ethereum connector to be able to make the call
+  * The ABI must contain only one function with the provided function name.
 * The contract address need to be supplied
 * Needs to support calling with arguments and receiving any output supported by etheruem (solidity)
 
 &nbsp;
 ## `EthereumGetTransactionLogs` (method)
-> Query the log associated with a transaction, with optional filter on contract, event signature.
+> Query the log associated with a transaction.
 
 * Query the Ethereum node using the given arguments through IPC.
+* The ABI needs to be defined for the ethereum connector to be able to make the call
+  * The ABI must contain only one event with the provided event name.
 * Filters:
-  * Contract address (a NULL value indicates no filter)
-  * Event signature (a NULL value indicates no filter). EventSignature is the canonical format for Ethereum events. (e.g. `TransferOutEvent(uint32, byte32, uint256)`).
-    * The event signatrue hash is represmted in the log.topics[0]
-* Returns a list of events cast based on the event signature.
+  * Emitting contract address
+  * Event name
+* Returns a list of events from the desried transaction's receipt that matches the event signature and emitting contract.
