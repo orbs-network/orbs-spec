@@ -82,25 +82,21 @@ func (x *EthereumCallContractOutput) StringEthereumPackedOutput() (res string) {
 
 type EthereumGetTransactionLogsInput struct {
 	ReferenceTimestamp      primitives.TimestampNano
-	EthereumTxhash          primitives.Uint256
 	EthereumContractAddress string
-	EventSignature          string
+	EthereumEventName       string
+	EthereumAbi             string
+	EthereumTxhash          primitives.Uint256
 }
 
 func (x *EthereumGetTransactionLogsInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumTxhash:%s,EthereumContractAddress:%s,EventSignature:%s,}", x.StringReferenceTimestamp(), x.StringEthereumTxhash(), x.StringEthereumContractAddress(), x.StringEventSignature())
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumEventName:%s,EthereumAbi:%s,EthereumTxhash:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumEventName(), x.StringEthereumAbi(), x.StringEthereumTxhash())
 }
 
 func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
-	return
-}
-
-func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
-	res = fmt.Sprintf("%s", x.EthereumTxhash)
 	return
 }
 
@@ -109,8 +105,18 @@ func (x *EthereumGetTransactionLogsInput) StringEthereumContractAddress() (res s
 	return
 }
 
-func (x *EthereumGetTransactionLogsInput) StringEventSignature() (res string) {
-	res = fmt.Sprintf(x.EventSignature)
+func (x *EthereumGetTransactionLogsInput) StringEthereumEventName() (res string) {
+	res = fmt.Sprintf(x.EthereumEventName)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumAbi() (res string) {
+	res = fmt.Sprintf(x.EthereumAbi)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
+	res = fmt.Sprintf("%s", x.EthereumTxhash)
 	return
 }
 
@@ -118,27 +124,17 @@ func (x *EthereumGetTransactionLogsInput) StringEventSignature() (res string) {
 // message EthereumGetTransactionLogsOutput (non serializable)
 
 type EthereumGetTransactionLogsOutput struct {
-	EthereumPackedEventTopics [][]byte
-	EthereumPackedEventData   []byte
+	EthereumPackedOutput []byte
 }
 
 func (x *EthereumGetTransactionLogsOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{EthereumPackedEventTopics:%s,EthereumPackedEventData:%s,}", x.StringEthereumPackedEventTopics(), x.StringEthereumPackedEventData())
+	return fmt.Sprintf("{EthereumPackedOutput:%s,}", x.StringEthereumPackedOutput())
 }
 
-func (x *EthereumGetTransactionLogsOutput) StringEthereumPackedEventTopics() (res string) {
-	res = "["
-	for _, v := range x.EthereumPackedEventTopics {
-		res += fmt.Sprintf("%x", v) + ","
-	}
-	res += "]"
-	return
-}
-
-func (x *EthereumGetTransactionLogsOutput) StringEthereumPackedEventData() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumPackedEventData)
+func (x *EthereumGetTransactionLogsOutput) StringEthereumPackedOutput() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumPackedOutput)
 	return
 }
