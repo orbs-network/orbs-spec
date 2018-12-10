@@ -23,25 +23,25 @@ type VirtualMachine interface {
 // message ProcessTransactionSetInput (non serializable)
 
 type ProcessTransactionSetInput struct {
-	BlockHeight        primitives.BlockHeight
-	BlockTimestamp     primitives.TimestampNano
-	SignedTransactions []*protocol.SignedTransaction
+	CurrentBlockHeight    primitives.BlockHeight
+	CurrentBlockTimestamp primitives.TimestampNano
+	SignedTransactions    []*protocol.SignedTransaction
 }
 
 func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions())
 }
 
-func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *ProcessTransactionSetInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
 	return
 }
 
-func (x *ProcessTransactionSetInput) StringBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.BlockTimestamp)
+func (x *ProcessTransactionSetInput) StringCurrentBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
 	return
 }
 
@@ -153,25 +153,25 @@ func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
 // message TransactionSetPreOrderInput (non serializable)
 
 type TransactionSetPreOrderInput struct {
-	BlockHeight        primitives.BlockHeight
-	BlockTimestamp     primitives.TimestampNano
-	SignedTransactions []*protocol.SignedTransaction
+	CurrentBlockHeight    primitives.BlockHeight
+	CurrentBlockTimestamp primitives.TimestampNano
+	SignedTransactions    []*protocol.SignedTransaction
 }
 
 func (x *TransactionSetPreOrderInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions())
 }
 
-func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *TransactionSetPreOrderInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
 	return
 }
 
-func (x *TransactionSetPreOrderInput) StringBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.BlockTimestamp)
+func (x *TransactionSetPreOrderInput) StringCurrentBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
 	return
 }
 

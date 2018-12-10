@@ -145,8 +145,8 @@ func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res strin
 // message GetTransactionsForOrderingInput (non serializable)
 
 type GetTransactionsForOrderingInput struct {
-	BlockHeight              primitives.BlockHeight
-	BlockTimestamp           primitives.TimestampNano
+	CurrentBlockHeight       primitives.BlockHeight
+	CurrentBlockTimestamp    primitives.TimestampNano
 	MaxTransactionsSetSizeKb uint32
 	MaxNumberOfTransactions  uint32
 }
@@ -155,16 +155,16 @@ func (x *GetTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
 }
 
-func (x *GetTransactionsForOrderingInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *GetTransactionsForOrderingInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
 	return
 }
 
-func (x *GetTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.BlockTimestamp)
+func (x *GetTransactionsForOrderingInput) StringCurrentBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
 	return
 }
 
@@ -205,25 +205,25 @@ func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res strin
 // message ValidateTransactionsForOrderingInput (non serializable)
 
 type ValidateTransactionsForOrderingInput struct {
-	BlockHeight        primitives.BlockHeight
-	BlockTimestamp     primitives.TimestampNano
-	SignedTransactions []*protocol.SignedTransaction
+	CurrentBlockHeight    primitives.BlockHeight
+	CurrentBlockTimestamp primitives.TimestampNano
+	SignedTransactions    []*protocol.SignedTransaction
 }
 
 func (x *ValidateTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions())
 }
 
-func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *ValidateTransactionsForOrderingInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
 	return
 }
 
-func (x *ValidateTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.BlockTimestamp)
+func (x *ValidateTransactionsForOrderingInput) StringCurrentBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
 	return
 }
 

@@ -148,6 +148,7 @@ Currently a single instance per virtual chain per node.
 * Try to read the variable from the transaction transient state (if found there).
 * If not found, try to read the variable from the batch transient state (if found there).
 * If not found, read the variable from state storage by calling `StateStorage.ReadKeys`.
+  * Called with block_height equals to the last committed block (current block height - 1)
 
 #### `State.Write`
 

@@ -55,8 +55,8 @@ message GetCommittedTransactionReceiptOutput {
 }
 
 message GetTransactionsForOrderingInput {
-    primitives.block_height block_height = 1;
-    primitives.timestamp_nano block_timestamp = 2;
+    primitives.block_height current_block_height = 1;
+    primitives.timestamp_nano current_block_timestamp = 2;
     uint32 max_transactions_set_size_kb = 3;
     uint32 max_number_of_transactions = 4;
 }
@@ -67,8 +67,8 @@ message GetTransactionsForOrderingOutput {
 }
 
 message ValidateTransactionsForOrderingInput {
-    primitives.block_height block_height = 1;
-    primitives.timestamp_nano block_timestamp = 2;
+    primitives.block_height current_block_height = 1;
+    primitives.timestamp_nano current_block_timestamp = 2;
     repeated protocol.SignedTransaction signed_transactions = 3;
 }
 

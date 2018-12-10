@@ -21,7 +21,7 @@ service ConsensusContext {
 }
 
 message RequestNewTransactionsBlockInput {
-    primitives.block_height block_height = 1;
+    primitives.block_height current_block_height = 1;
     uint32 max_block_size_kb = 2;
     uint32 max_number_of_transactions = 3;
     primitives.sha256 prev_block_hash = 4;
@@ -34,7 +34,7 @@ message RequestNewTransactionsBlockOutput {
 }
 
 message RequestNewResultsBlockInput {
-    primitives.block_height block_height = 1;
+    primitives.block_height current_block_height = 1;
     primitives.sha256 prev_block_hash = 2;
     // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
     protocol.TransactionsBlockContainer transactions_block = 3;
@@ -47,7 +47,7 @@ message RequestNewResultsBlockOutput {
 }
 
 message ValidateTransactionsBlockInput {
-    primitives.block_height block_height = 1;
+    primitives.block_height current_block_height = 1;
     protocol.TransactionsBlockContainer transactions_block = 2;
     primitives.sha256 prev_block_hash = 3;
     primitives.timestamp_nano prev_block_timestamp = 4;
@@ -58,7 +58,7 @@ message ValidateTransactionsBlockOutput {
 }
 
 message ValidateResultsBlockInput {
-    primitives.block_height block_height = 1;
+    primitives.block_height current_block_height = 1;
     protocol.ResultsBlockContainer results_block = 2;
     primitives.sha256 prev_block_hash = 3;
     // TODO: when moving to micro-services, stop sending the transactions because expensive and unneeded
@@ -71,7 +71,7 @@ message ValidateResultsBlockOutput {
 }
 
 message RequestCommitteeInput {
-    primitives.block_height block_height = 1;
+    primitives.block_height current_block_height = 1;
     uint64 random_seed = 2;
     uint32 max_committee_size = 3;
 }
