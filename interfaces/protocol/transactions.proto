@@ -32,8 +32,3 @@ message TransactionReceipt {
     bytes output_events_array = 3; // opaque field of repeated Event
     bytes output_argument_array = 4; // opaque field of repeated protocol.MethodArgument
 }
-
-message Event {
-    primitives.contract_name contract_name = 1;
-    repeated protocol.MethodArgument arguments = 2; // TODO: rename to protocol.Argument
-}

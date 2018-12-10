@@ -5,7 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 
-message MethodArgument {
+message MethodArgument { // TODO: rename to Argument
     string name = 1; // TODO: delete this
     oneof type {
         uint32 uint32_value = 2;
@@ -27,6 +27,16 @@ message StateRecord {
 message ContractStateDiff {
     primitives.contract_name contract_name = 1;
     repeated StateRecord state_diffs = 2;
+}
+
+message Event {
+    primitives.contract_name contract_name = 1;
+    primitives.event_name event_name = 2;
+    repeated protocol.MethodArgument arguments = 3; // TODO: rename to protocol.Argument
+}
+
+message EventsArray {
+    repeated Event events = 1;
 }
 
 enum ExecutionAccessScope {
