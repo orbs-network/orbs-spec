@@ -6,7 +6,7 @@ import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 
 message MethodArgument {
-    string name = 1;
+    string name = 1; // TODO: delete this
     oneof type {
         uint32 uint32_value = 2;
         uint64 uint64_value = 3;
