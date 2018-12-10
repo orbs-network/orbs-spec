@@ -61,3 +61,9 @@ message merkle_tree_proof {
     bytes value = 1;
     // variable size
 }
+
+message lean_helix_block_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
