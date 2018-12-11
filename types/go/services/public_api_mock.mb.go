@@ -24,10 +24,10 @@ func (s *MockPublicApi) SendTransaction(ctx context.Context, input *SendTransact
 	}
 }
 
-func (s *MockPublicApi) CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error) {
+func (s *MockPublicApi) RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*CallMethodOutput), ret.Error(1)
+		return out.(*RunQueryOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
@@ -42,10 +42,10 @@ func (s *MockPublicApi) GetTransactionStatus(ctx context.Context, input *GetTran
 	}
 }
 
-func (s *MockPublicApi) GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error) {
+func (s *MockPublicApi) GetTransactionProof(ctx context.Context, input *GetTransactionProofInput) (*GetTransactionProofOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*GetTransactionReceiptProofOutput), ret.Error(1)
+		return out.(*GetTransactionProofOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

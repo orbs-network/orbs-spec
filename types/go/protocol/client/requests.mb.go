@@ -129,11 +129,9 @@ func (w *SendTransactionRequestBuilder) Build() *SendTransactionRequest {
 // reader
 
 type SendTransactionResponse struct {
-	// RequestStatus protocol.RequestStatus
-	// TransactionReceipt protocol.TransactionReceipt
+	// RequestResult RequestResult
 	// TransactionStatus protocol.TransactionStatus
-	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.TimestampNano
+	// TransactionReceipt protocol.TransactionReceipt
 
 	// internal
 	// implements membuffers.Message
@@ -144,10 +142,10 @@ func (x *SendTransactionResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestResult:%s,TransactionStatus:%s,TransactionReceipt:%s,}", x.StringRequestResult(), x.StringTransactionStatus(), x.StringTransactionReceipt())
 }
 
-var _SendTransactionResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _SendTransactionResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeMessage}
 var _SendTransactionResponse_Unions = [][]membuffers.FieldType{}
 
 func SendTransactionResponseReader(buf []byte) *SendTransactionResponse {
@@ -174,95 +172,62 @@ func (x *SendTransactionResponse) Equal(y *SendTransactionResponse) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *SendTransactionResponse) RequestStatus() protocol.RequestStatus {
-	return protocol.RequestStatus(x._message.GetUint16(0))
+func (x *SendTransactionResponse) RequestResult() *RequestResult {
+	b, s := x._message.GetMessage(0)
+	return RequestResultReader(b[:s])
 }
 
-func (x *SendTransactionResponse) RawRequestStatus() []byte {
+func (x *SendTransactionResponse) RawRequestResult() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *SendTransactionResponse) MutateRequestStatus(v protocol.RequestStatus) error {
-	return x._message.SetUint16(0, uint16(v))
+func (x *SendTransactionResponse) RawRequestResultWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *SendTransactionResponse) StringRequestStatus() string {
-	return x.RequestStatus().String()
-}
-
-func (x *SendTransactionResponse) TransactionReceipt() *protocol.TransactionReceipt {
-	b, s := x._message.GetMessage(1)
-	return protocol.TransactionReceiptReader(b[:s])
-}
-
-func (x *SendTransactionResponse) RawTransactionReceipt() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *SendTransactionResponse) RawTransactionReceiptWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
-}
-
-func (x *SendTransactionResponse) StringTransactionReceipt() string {
-	return x.TransactionReceipt().String()
+func (x *SendTransactionResponse) StringRequestResult() string {
+	return x.RequestResult().String()
 }
 
 func (x *SendTransactionResponse) TransactionStatus() protocol.TransactionStatus {
-	return protocol.TransactionStatus(x._message.GetUint16(2))
+	return protocol.TransactionStatus(x._message.GetUint16(1))
 }
 
 func (x *SendTransactionResponse) RawTransactionStatus() []byte {
-	return x._message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *SendTransactionResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
-	return x._message.SetUint16(2, uint16(v))
+	return x._message.SetUint16(1, uint16(v))
 }
 
 func (x *SendTransactionResponse) StringTransactionStatus() string {
 	return x.TransactionStatus().String()
 }
 
-func (x *SendTransactionResponse) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(3))
+func (x *SendTransactionResponse) TransactionReceipt() *protocol.TransactionReceipt {
+	b, s := x._message.GetMessage(2)
+	return protocol.TransactionReceiptReader(b[:s])
 }
 
-func (x *SendTransactionResponse) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(3, 0)
+func (x *SendTransactionResponse) RawTransactionReceipt() []byte {
+	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *SendTransactionResponse) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(3, uint64(v))
+func (x *SendTransactionResponse) RawTransactionReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
-func (x *SendTransactionResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%s", x.BlockHeight())
-}
-
-func (x *SendTransactionResponse) BlockTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(4))
-}
-
-func (x *SendTransactionResponse) RawBlockTimestamp() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *SendTransactionResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(4, uint64(v))
-}
-
-func (x *SendTransactionResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%s", x.BlockTimestamp())
+func (x *SendTransactionResponse) StringTransactionReceipt() string {
+	return x.TransactionReceipt().String()
 }
 
 // builder
 
 type SendTransactionResponseBuilder struct {
-	RequestStatus      protocol.RequestStatus
-	TransactionReceipt *protocol.TransactionReceiptBuilder
+	RequestResult      *RequestResultBuilder
 	TransactionStatus  protocol.TransactionStatus
-	BlockHeight        primitives.BlockHeight
-	BlockTimestamp     primitives.TimestampNano
+	TransactionReceipt *protocol.TransactionReceiptBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -279,14 +244,15 @@ func (w *SendTransactionResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
+	err = w._builder.WriteMessage(buf, w.RequestResult)
 	if err != nil {
 		return
 	}
 	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
+	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
+	if err != nil {
+		return
+	}
 	return nil
 }
 
@@ -314,43 +280,43 @@ func (w *SendTransactionResponseBuilder) Build() *SendTransactionResponse {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodRequest
+// message RunQueryRequest
 
 // reader
 
-type CallMethodRequest struct {
-	// Transaction protocol.Transaction
+type RunQueryRequest struct {
+	// SignedQuery protocol.SignedQuery
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *CallMethodRequest) String() string {
+func (x *RunQueryRequest) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Transaction:%s,}", x.StringTransaction())
+	return fmt.Sprintf("{SignedQuery:%s,}", x.StringSignedQuery())
 }
 
-var _CallMethodRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
-var _CallMethodRequest_Unions = [][]membuffers.FieldType{}
+var _RunQueryRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
+var _RunQueryRequest_Unions = [][]membuffers.FieldType{}
 
-func CallMethodRequestReader(buf []byte) *CallMethodRequest {
-	x := &CallMethodRequest{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _CallMethodRequest_Scheme, _CallMethodRequest_Unions)
+func RunQueryRequestReader(buf []byte) *RunQueryRequest {
+	x := &RunQueryRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _RunQueryRequest_Scheme, _RunQueryRequest_Unions)
 	return x
 }
 
-func (x *CallMethodRequest) IsValid() bool {
+func (x *RunQueryRequest) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *CallMethodRequest) Raw() []byte {
+func (x *RunQueryRequest) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *CallMethodRequest) Equal(y *CallMethodRequest) bool {
+func (x *RunQueryRequest) Equal(y *RunQueryRequest) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -360,34 +326,34 @@ func (x *CallMethodRequest) Equal(y *CallMethodRequest) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *CallMethodRequest) Transaction() *protocol.Transaction {
+func (x *RunQueryRequest) SignedQuery() *protocol.SignedQuery {
 	b, s := x._message.GetMessage(0)
-	return protocol.TransactionReader(b[:s])
+	return protocol.SignedQueryReader(b[:s])
 }
 
-func (x *CallMethodRequest) RawTransaction() []byte {
+func (x *RunQueryRequest) RawSignedQuery() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *CallMethodRequest) RawTransactionWithHeader() []byte {
+func (x *RunQueryRequest) RawSignedQueryWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *CallMethodRequest) StringTransaction() string {
-	return x.Transaction().String()
+func (x *RunQueryRequest) StringSignedQuery() string {
+	return x.SignedQuery().String()
 }
 
 // builder
 
-type CallMethodRequestBuilder struct {
-	Transaction *protocol.TransactionBuilder
+type RunQueryRequestBuilder struct {
+	SignedQuery *protocol.SignedQueryBuilder
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *CallMethodRequestBuilder) Write(buf []byte) (err error) {
+func (w *RunQueryRequestBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -397,21 +363,21 @@ func (w *CallMethodRequestBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Transaction)
+	err = w._builder.WriteMessage(buf, w.SignedQuery)
 	if err != nil {
 		return
 	}
 	return nil
 }
 
-func (w *CallMethodRequestBuilder) GetSize() membuffers.Offset {
+func (w *RunQueryRequestBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *CallMethodRequestBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *RunQueryRequestBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -419,56 +385,53 @@ func (w *CallMethodRequestBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *CallMethodRequestBuilder) Build() *CallMethodRequest {
+func (w *RunQueryRequestBuilder) Build() *RunQueryRequest {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return CallMethodRequestReader(buf)
+	return RunQueryRequestReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodResponse
+// message RunQueryResponse
 
 // reader
 
-type CallMethodResponse struct {
-	// RequestStatus protocol.RequestStatus
-	// OutputArgumentArray []byte
-	// CallMethodResult protocol.ExecutionResult
-	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.TimestampNano
+type RunQueryResponse struct {
+	// RequestResult RequestResult
+	// QueryResult protocol.QueryResult
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *CallMethodResponse) String() string {
+func (x *RunQueryResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,OutputArgumentArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputArgumentArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestResult:%s,QueryResult:%s,}", x.StringRequestResult(), x.StringQueryResult())
 }
 
-var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
-var _CallMethodResponse_Unions = [][]membuffers.FieldType{}
+var _RunQueryResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessage}
+var _RunQueryResponse_Unions = [][]membuffers.FieldType{}
 
-func CallMethodResponseReader(buf []byte) *CallMethodResponse {
-	x := &CallMethodResponse{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _CallMethodResponse_Scheme, _CallMethodResponse_Unions)
+func RunQueryResponseReader(buf []byte) *RunQueryResponse {
+	x := &RunQueryResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _RunQueryResponse_Scheme, _RunQueryResponse_Unions)
 	return x
 }
 
-func (x *CallMethodResponse) IsValid() bool {
+func (x *RunQueryResponse) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *CallMethodResponse) Raw() []byte {
+func (x *RunQueryResponse) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
+func (x *RunQueryResponse) Equal(y *RunQueryResponse) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -478,105 +441,52 @@ func (x *CallMethodResponse) Equal(y *CallMethodResponse) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *CallMethodResponse) RequestStatus() protocol.RequestStatus {
-	return protocol.RequestStatus(x._message.GetUint16(0))
+func (x *RunQueryResponse) RequestResult() *RequestResult {
+	b, s := x._message.GetMessage(0)
+	return RequestResultReader(b[:s])
 }
 
-func (x *CallMethodResponse) RawRequestStatus() []byte {
+func (x *RunQueryResponse) RawRequestResult() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *CallMethodResponse) MutateRequestStatus(v protocol.RequestStatus) error {
-	return x._message.SetUint16(0, uint16(v))
+func (x *RunQueryResponse) RawRequestResultWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *CallMethodResponse) StringRequestStatus() string {
-	return x.RequestStatus().String()
+func (x *RunQueryResponse) StringRequestResult() string {
+	return x.RequestResult().String()
 }
 
-func (x *CallMethodResponse) OutputArgumentArray() []byte {
-	return x._message.GetBytes(1)
+func (x *RunQueryResponse) QueryResult() *protocol.QueryResult {
+	b, s := x._message.GetMessage(1)
+	return protocol.QueryResultReader(b[:s])
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
+func (x *RunQueryResponse) RawQueryResult() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArrayWithHeader() []byte {
+func (x *RunQueryResponse) RawQueryResultWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
-func (x *CallMethodResponse) MutateOutputArgumentArray(v []byte) error {
-	return x._message.SetBytes(1, v)
-}
-
-func (x *CallMethodResponse) StringOutputArgumentArray() string {
-	return fmt.Sprintf("%x", x.OutputArgumentArray())
-}
-
-func (x *CallMethodResponse) CallMethodResult() protocol.ExecutionResult {
-	return protocol.ExecutionResult(x._message.GetUint16(2))
-}
-
-func (x *CallMethodResponse) RawCallMethodResult() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *CallMethodResponse) MutateCallMethodResult(v protocol.ExecutionResult) error {
-	return x._message.SetUint16(2, uint16(v))
-}
-
-func (x *CallMethodResponse) StringCallMethodResult() string {
-	return x.CallMethodResult().String()
-}
-
-func (x *CallMethodResponse) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(3))
-}
-
-func (x *CallMethodResponse) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(3, 0)
-}
-
-func (x *CallMethodResponse) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(3, uint64(v))
-}
-
-func (x *CallMethodResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%s", x.BlockHeight())
-}
-
-func (x *CallMethodResponse) BlockTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(4))
-}
-
-func (x *CallMethodResponse) RawBlockTimestamp() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(4, uint64(v))
-}
-
-func (x *CallMethodResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%s", x.BlockTimestamp())
+func (x *RunQueryResponse) StringQueryResult() string {
+	return x.QueryResult().String()
 }
 
 // builder
 
-type CallMethodResponseBuilder struct {
-	RequestStatus       protocol.RequestStatus
-	OutputArgumentArray []byte
-	CallMethodResult    protocol.ExecutionResult
-	BlockHeight         primitives.BlockHeight
-	BlockTimestamp      primitives.TimestampNano
+type RunQueryResponseBuilder struct {
+	RequestResult *RequestResultBuilder
+	QueryResult   *protocol.QueryResultBuilder
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
+func (w *RunQueryResponseBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -586,22 +496,25 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	w._builder.WriteBytes(buf, w.OutputArgumentArray)
-	w._builder.WriteUint16(buf, uint16(w.CallMethodResult))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
+	err = w._builder.WriteMessage(buf, w.RequestResult)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.QueryResult)
+	if err != nil {
+		return
+	}
 	return nil
 }
 
-func (w *CallMethodResponseBuilder) GetSize() membuffers.Offset {
+func (w *RunQueryResponseBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *CallMethodResponseBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *RunQueryResponseBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -609,12 +522,12 @@ func (w *CallMethodResponseBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *CallMethodResponseBuilder) Build() *CallMethodResponse {
+func (w *RunQueryResponseBuilder) Build() *RunQueryResponse {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return CallMethodResponseReader(buf)
+	return RunQueryResponseReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -623,10 +536,7 @@ func (w *CallMethodResponseBuilder) Build() *CallMethodResponse {
 // reader
 
 type GetTransactionStatusRequest struct {
-	// ProtocolVersion primitives.ProtocolVersion
-	// VirtualChainId primitives.VirtualChainId
-	// TransactionTimestamp primitives.TimestampNano
-	// Txhash primitives.Sha256
+	// TransactionRef TransactionRef
 
 	// internal
 	// implements membuffers.Message
@@ -637,10 +547,10 @@ func (x *GetTransactionStatusRequest) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash())
+	return fmt.Sprintf("{TransactionRef:%s,}", x.StringTransactionRef())
 }
 
-var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes}
+var _GetTransactionStatusRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
 var _GetTransactionStatusRequest_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusRequestReader(buf []byte) *GetTransactionStatusRequest {
@@ -667,77 +577,27 @@ func (x *GetTransactionStatusRequest) Equal(y *GetTransactionStatusRequest) bool
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionStatusRequest) ProtocolVersion() primitives.ProtocolVersion {
-	return primitives.ProtocolVersion(x._message.GetUint32(0))
+func (x *GetTransactionStatusRequest) TransactionRef() *TransactionRef {
+	b, s := x._message.GetMessage(0)
+	return TransactionRefReader(b[:s])
 }
 
-func (x *GetTransactionStatusRequest) RawProtocolVersion() []byte {
+func (x *GetTransactionStatusRequest) RawTransactionRef() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
-	return x._message.SetUint32(0, uint32(v))
+func (x *GetTransactionStatusRequest) RawTransactionRefWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *GetTransactionStatusRequest) StringProtocolVersion() string {
-	return fmt.Sprintf("%s", x.ProtocolVersion())
-}
-
-func (x *GetTransactionStatusRequest) VirtualChainId() primitives.VirtualChainId {
-	return primitives.VirtualChainId(x._message.GetUint32(1))
-}
-
-func (x *GetTransactionStatusRequest) RawVirtualChainId() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *GetTransactionStatusRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
-	return x._message.SetUint32(1, uint32(v))
-}
-
-func (x *GetTransactionStatusRequest) StringVirtualChainId() string {
-	return fmt.Sprintf("%s", x.VirtualChainId())
-}
-
-func (x *GetTransactionStatusRequest) TransactionTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(2))
-}
-
-func (x *GetTransactionStatusRequest) RawTransactionTimestamp() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *GetTransactionStatusRequest) MutateTransactionTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(2, uint64(v))
-}
-
-func (x *GetTransactionStatusRequest) StringTransactionTimestamp() string {
-	return fmt.Sprintf("%s", x.TransactionTimestamp())
-}
-
-func (x *GetTransactionStatusRequest) Txhash() primitives.Sha256 {
-	return primitives.Sha256(x._message.GetBytes(3))
-}
-
-func (x *GetTransactionStatusRequest) RawTxhash() []byte {
-	return x._message.RawBufferForField(3, 0)
-}
-
-func (x *GetTransactionStatusRequest) MutateTxhash(v primitives.Sha256) error {
-	return x._message.SetBytes(3, []byte(v))
-}
-
-func (x *GetTransactionStatusRequest) StringTxhash() string {
-	return fmt.Sprintf("%s", x.Txhash())
+func (x *GetTransactionStatusRequest) StringTransactionRef() string {
+	return x.TransactionRef().String()
 }
 
 // builder
 
 type GetTransactionStatusRequestBuilder struct {
-	ProtocolVersion      primitives.ProtocolVersion
-	VirtualChainId       primitives.VirtualChainId
-	TransactionTimestamp primitives.TimestampNano
-	Txhash               primitives.Sha256
+	TransactionRef *TransactionRefBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -754,10 +614,10 @@ func (w *GetTransactionStatusRequestBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
-	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
-	w._builder.WriteUint64(buf, uint64(w.TransactionTimestamp))
-	w._builder.WriteBytes(buf, []byte(w.Txhash))
+	err = w._builder.WriteMessage(buf, w.TransactionRef)
+	if err != nil {
+		return
+	}
 	return nil
 }
 
@@ -790,11 +650,9 @@ func (w *GetTransactionStatusRequestBuilder) Build() *GetTransactionStatusReques
 // reader
 
 type GetTransactionStatusResponse struct {
-	// RequestStatus protocol.RequestStatus
-	// TransactionReceipt protocol.TransactionReceipt
+	// RequestResult RequestResult
 	// TransactionStatus protocol.TransactionStatus
-	// BlockHeight primitives.BlockHeight
-	// BlockTimestamp primitives.TimestampNano
+	// TransactionReceipt protocol.TransactionReceipt
 
 	// internal
 	// implements membuffers.Message
@@ -805,10 +663,10 @@ func (x *GetTransactionStatusResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,TransactionReceipt:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringTransactionReceipt(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestResult:%s,TransactionStatus:%s,TransactionReceipt:%s,}", x.StringRequestResult(), x.StringTransactionStatus(), x.StringTransactionReceipt())
 }
 
-var _GetTransactionStatusResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _GetTransactionStatusResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeMessage}
 var _GetTransactionStatusResponse_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionStatusResponseReader(buf []byte) *GetTransactionStatusResponse {
@@ -835,95 +693,62 @@ func (x *GetTransactionStatusResponse) Equal(y *GetTransactionStatusResponse) bo
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionStatusResponse) RequestStatus() protocol.RequestStatus {
-	return protocol.RequestStatus(x._message.GetUint16(0))
+func (x *GetTransactionStatusResponse) RequestResult() *RequestResult {
+	b, s := x._message.GetMessage(0)
+	return RequestResultReader(b[:s])
 }
 
-func (x *GetTransactionStatusResponse) RawRequestStatus() []byte {
+func (x *GetTransactionStatusResponse) RawRequestResult() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateRequestStatus(v protocol.RequestStatus) error {
-	return x._message.SetUint16(0, uint16(v))
+func (x *GetTransactionStatusResponse) RawRequestResultWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *GetTransactionStatusResponse) StringRequestStatus() string {
-	return x.RequestStatus().String()
-}
-
-func (x *GetTransactionStatusResponse) TransactionReceipt() *protocol.TransactionReceipt {
-	b, s := x._message.GetMessage(1)
-	return protocol.TransactionReceiptReader(b[:s])
-}
-
-func (x *GetTransactionStatusResponse) RawTransactionReceipt() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *GetTransactionStatusResponse) RawTransactionReceiptWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
-}
-
-func (x *GetTransactionStatusResponse) StringTransactionReceipt() string {
-	return x.TransactionReceipt().String()
+func (x *GetTransactionStatusResponse) StringRequestResult() string {
+	return x.RequestResult().String()
 }
 
 func (x *GetTransactionStatusResponse) TransactionStatus() protocol.TransactionStatus {
-	return protocol.TransactionStatus(x._message.GetUint16(2))
+	return protocol.TransactionStatus(x._message.GetUint16(1))
 }
 
 func (x *GetTransactionStatusResponse) RawTransactionStatus() []byte {
-	return x._message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
 func (x *GetTransactionStatusResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
-	return x._message.SetUint16(2, uint16(v))
+	return x._message.SetUint16(1, uint16(v))
 }
 
 func (x *GetTransactionStatusResponse) StringTransactionStatus() string {
 	return x.TransactionStatus().String()
 }
 
-func (x *GetTransactionStatusResponse) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(3))
+func (x *GetTransactionStatusResponse) TransactionReceipt() *protocol.TransactionReceipt {
+	b, s := x._message.GetMessage(2)
+	return protocol.TransactionReceiptReader(b[:s])
 }
 
-func (x *GetTransactionStatusResponse) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(3, 0)
+func (x *GetTransactionStatusResponse) RawTransactionReceipt() []byte {
+	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *GetTransactionStatusResponse) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(3, uint64(v))
+func (x *GetTransactionStatusResponse) RawTransactionReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
-func (x *GetTransactionStatusResponse) StringBlockHeight() string {
-	return fmt.Sprintf("%s", x.BlockHeight())
-}
-
-func (x *GetTransactionStatusResponse) BlockTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(4))
-}
-
-func (x *GetTransactionStatusResponse) RawBlockTimestamp() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *GetTransactionStatusResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(4, uint64(v))
-}
-
-func (x *GetTransactionStatusResponse) StringBlockTimestamp() string {
-	return fmt.Sprintf("%s", x.BlockTimestamp())
+func (x *GetTransactionStatusResponse) StringTransactionReceipt() string {
+	return x.TransactionReceipt().String()
 }
 
 // builder
 
 type GetTransactionStatusResponseBuilder struct {
-	RequestStatus      protocol.RequestStatus
-	TransactionReceipt *protocol.TransactionReceiptBuilder
+	RequestResult      *RequestResultBuilder
 	TransactionStatus  protocol.TransactionStatus
-	BlockHeight        primitives.BlockHeight
-	BlockTimestamp     primitives.TimestampNano
+	TransactionReceipt *protocol.TransactionReceiptBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -940,14 +765,15 @@ func (w *GetTransactionStatusResponseBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
+	err = w._builder.WriteMessage(buf, w.RequestResult)
 	if err != nil {
 		return
 	}
 	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
+	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
+	if err != nil {
+		return
+	}
 	return nil
 }
 
@@ -975,11 +801,300 @@ func (w *GetTransactionStatusResponseBuilder) Build() *GetTransactionStatusRespo
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetTransactionReceiptProofRequest
+// message GetTransactionProofRequest
 
 // reader
 
-type GetTransactionReceiptProofRequest struct {
+type GetTransactionProofRequest struct {
+	// TransactionRef TransactionRef
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetTransactionProofRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{TransactionRef:%s,}", x.StringTransactionRef())
+}
+
+var _GetTransactionProofRequest_Scheme = []membuffers.FieldType{membuffers.TypeMessage}
+var _GetTransactionProofRequest_Unions = [][]membuffers.FieldType{}
+
+func GetTransactionProofRequestReader(buf []byte) *GetTransactionProofRequest {
+	x := &GetTransactionProofRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionProofRequest_Scheme, _GetTransactionProofRequest_Unions)
+	return x
+}
+
+func (x *GetTransactionProofRequest) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetTransactionProofRequest) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionProofRequest) Equal(y *GetTransactionProofRequest) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetTransactionProofRequest) TransactionRef() *TransactionRef {
+	b, s := x._message.GetMessage(0)
+	return TransactionRefReader(b[:s])
+}
+
+func (x *GetTransactionProofRequest) RawTransactionRef() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetTransactionProofRequest) RawTransactionRefWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *GetTransactionProofRequest) StringTransactionRef() string {
+	return x.TransactionRef().String()
+}
+
+// builder
+
+type GetTransactionProofRequestBuilder struct {
+	TransactionRef *TransactionRefBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *GetTransactionProofRequestBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.TransactionRef)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *GetTransactionProofRequestBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionProofRequestBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionProofRequestBuilder) Build() *GetTransactionProofRequest {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetTransactionProofRequestReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionProofResponse
+
+// reader
+
+type GetTransactionProofResponse struct {
+	// RequestResult RequestResult
+	// TransactionStatus protocol.TransactionStatus
+	// TransactionReceipt protocol.TransactionReceipt
+	// Proof primitives.PackedReceiptProof
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetTransactionProofResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{RequestResult:%s,TransactionStatus:%s,TransactionReceipt:%s,Proof:%s,}", x.StringRequestResult(), x.StringTransactionStatus(), x.StringTransactionReceipt(), x.StringProof())
+}
+
+var _GetTransactionProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeBytes}
+var _GetTransactionProofResponse_Unions = [][]membuffers.FieldType{}
+
+func GetTransactionProofResponseReader(buf []byte) *GetTransactionProofResponse {
+	x := &GetTransactionProofResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionProofResponse_Scheme, _GetTransactionProofResponse_Unions)
+	return x
+}
+
+func (x *GetTransactionProofResponse) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetTransactionProofResponse) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetTransactionProofResponse) Equal(y *GetTransactionProofResponse) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetTransactionProofResponse) RequestResult() *RequestResult {
+	b, s := x._message.GetMessage(0)
+	return RequestResultReader(b[:s])
+}
+
+func (x *GetTransactionProofResponse) RawRequestResult() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetTransactionProofResponse) RawRequestResultWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *GetTransactionProofResponse) StringRequestResult() string {
+	return x.RequestResult().String()
+}
+
+func (x *GetTransactionProofResponse) TransactionStatus() protocol.TransactionStatus {
+	return protocol.TransactionStatus(x._message.GetUint16(1))
+}
+
+func (x *GetTransactionProofResponse) RawTransactionStatus() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetTransactionProofResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
+	return x._message.SetUint16(1, uint16(v))
+}
+
+func (x *GetTransactionProofResponse) StringTransactionStatus() string {
+	return x.TransactionStatus().String()
+}
+
+func (x *GetTransactionProofResponse) TransactionReceipt() *protocol.TransactionReceipt {
+	b, s := x._message.GetMessage(2)
+	return protocol.TransactionReceiptReader(b[:s])
+}
+
+func (x *GetTransactionProofResponse) RawTransactionReceipt() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *GetTransactionProofResponse) RawTransactionReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
+func (x *GetTransactionProofResponse) StringTransactionReceipt() string {
+	return x.TransactionReceipt().String()
+}
+
+func (x *GetTransactionProofResponse) Proof() primitives.PackedReceiptProof {
+	return primitives.PackedReceiptProof(x._message.GetBytes(3))
+}
+
+func (x *GetTransactionProofResponse) RawProof() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *GetTransactionProofResponse) MutateProof(v primitives.PackedReceiptProof) error {
+	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *GetTransactionProofResponse) StringProof() string {
+	return fmt.Sprintf("%s", x.Proof())
+}
+
+// builder
+
+type GetTransactionProofResponseBuilder struct {
+	RequestResult      *RequestResultBuilder
+	TransactionStatus  protocol.TransactionStatus
+	TransactionReceipt *protocol.TransactionReceiptBuilder
+	Proof              primitives.PackedReceiptProof
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *GetTransactionProofResponseBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.RequestResult)
+	if err != nil {
+		return
+	}
+	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
+	err = w._builder.WriteMessage(buf, w.TransactionReceipt)
+	if err != nil {
+		return
+	}
+	w._builder.WriteBytes(buf, []byte(w.Proof))
+	return nil
+}
+
+func (w *GetTransactionProofResponseBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionProofResponseBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetTransactionProofResponseBuilder) Build() *GetTransactionProofResponse {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetTransactionProofResponseReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message TransactionRef
+
+// reader
+
+type TransactionRef struct {
 	// ProtocolVersion primitives.ProtocolVersion
 	// VirtualChainId primitives.VirtualChainId
 	// TransactionTimestamp primitives.TimestampNano
@@ -990,31 +1105,31 @@ type GetTransactionReceiptProofRequest struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *GetTransactionReceiptProofRequest) String() string {
+func (x *TransactionRef) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash())
 }
 
-var _GetTransactionReceiptProofRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes}
-var _GetTransactionReceiptProofRequest_Unions = [][]membuffers.FieldType{}
+var _TransactionRef_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes}
+var _TransactionRef_Unions = [][]membuffers.FieldType{}
 
-func GetTransactionReceiptProofRequestReader(buf []byte) *GetTransactionReceiptProofRequest {
-	x := &GetTransactionReceiptProofRequest{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionReceiptProofRequest_Scheme, _GetTransactionReceiptProofRequest_Unions)
+func TransactionRefReader(buf []byte) *TransactionRef {
+	x := &TransactionRef{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _TransactionRef_Scheme, _TransactionRef_Unions)
 	return x
 }
 
-func (x *GetTransactionReceiptProofRequest) IsValid() bool {
+func (x *TransactionRef) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *GetTransactionReceiptProofRequest) Raw() []byte {
+func (x *TransactionRef) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *GetTransactionReceiptProofRequest) Equal(y *GetTransactionReceiptProofRequest) bool {
+func (x *TransactionRef) Equal(y *TransactionRef) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -1024,73 +1139,73 @@ func (x *GetTransactionReceiptProofRequest) Equal(y *GetTransactionReceiptProofR
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionReceiptProofRequest) ProtocolVersion() primitives.ProtocolVersion {
+func (x *TransactionRef) ProtocolVersion() primitives.ProtocolVersion {
 	return primitives.ProtocolVersion(x._message.GetUint32(0))
 }
 
-func (x *GetTransactionReceiptProofRequest) RawProtocolVersion() []byte {
+func (x *TransactionRef) RawProtocolVersion() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionReceiptProofRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+func (x *TransactionRef) MutateProtocolVersion(v primitives.ProtocolVersion) error {
 	return x._message.SetUint32(0, uint32(v))
 }
 
-func (x *GetTransactionReceiptProofRequest) StringProtocolVersion() string {
+func (x *TransactionRef) StringProtocolVersion() string {
 	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
-func (x *GetTransactionReceiptProofRequest) VirtualChainId() primitives.VirtualChainId {
+func (x *TransactionRef) VirtualChainId() primitives.VirtualChainId {
 	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
 
-func (x *GetTransactionReceiptProofRequest) RawVirtualChainId() []byte {
+func (x *TransactionRef) RawVirtualChainId() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionReceiptProofRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
+func (x *TransactionRef) MutateVirtualChainId(v primitives.VirtualChainId) error {
 	return x._message.SetUint32(1, uint32(v))
 }
 
-func (x *GetTransactionReceiptProofRequest) StringVirtualChainId() string {
+func (x *TransactionRef) StringVirtualChainId() string {
 	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
-func (x *GetTransactionReceiptProofRequest) TransactionTimestamp() primitives.TimestampNano {
+func (x *TransactionRef) TransactionTimestamp() primitives.TimestampNano {
 	return primitives.TimestampNano(x._message.GetUint64(2))
 }
 
-func (x *GetTransactionReceiptProofRequest) RawTransactionTimestamp() []byte {
+func (x *TransactionRef) RawTransactionTimestamp() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *GetTransactionReceiptProofRequest) MutateTransactionTimestamp(v primitives.TimestampNano) error {
+func (x *TransactionRef) MutateTransactionTimestamp(v primitives.TimestampNano) error {
 	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *GetTransactionReceiptProofRequest) StringTransactionTimestamp() string {
+func (x *TransactionRef) StringTransactionTimestamp() string {
 	return fmt.Sprintf("%s", x.TransactionTimestamp())
 }
 
-func (x *GetTransactionReceiptProofRequest) Txhash() primitives.Sha256 {
+func (x *TransactionRef) Txhash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(3))
 }
 
-func (x *GetTransactionReceiptProofRequest) RawTxhash() []byte {
+func (x *TransactionRef) RawTxhash() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *GetTransactionReceiptProofRequest) MutateTxhash(v primitives.Sha256) error {
+func (x *TransactionRef) MutateTxhash(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
 
-func (x *GetTransactionReceiptProofRequest) StringTxhash() string {
+func (x *TransactionRef) StringTxhash() string {
 	return fmt.Sprintf("%s", x.Txhash())
 }
 
 // builder
 
-type GetTransactionReceiptProofRequestBuilder struct {
+type TransactionRefBuilder struct {
 	ProtocolVersion      primitives.ProtocolVersion
 	VirtualChainId       primitives.VirtualChainId
 	TransactionTimestamp primitives.TimestampNano
@@ -1101,7 +1216,7 @@ type GetTransactionReceiptProofRequestBuilder struct {
 	_builder membuffers.InternalBuilder
 }
 
-func (w *GetTransactionReceiptProofRequestBuilder) Write(buf []byte) (err error) {
+func (w *TransactionRefBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -1118,14 +1233,14 @@ func (w *GetTransactionReceiptProofRequestBuilder) Write(buf []byte) (err error)
 	return nil
 }
 
-func (w *GetTransactionReceiptProofRequestBuilder) GetSize() membuffers.Offset {
+func (w *TransactionRefBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *GetTransactionReceiptProofRequestBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *TransactionRefBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -1133,23 +1248,21 @@ func (w *GetTransactionReceiptProofRequestBuilder) CalcRequiredSize() membuffers
 	return w._builder.GetSize()
 }
 
-func (w *GetTransactionReceiptProofRequestBuilder) Build() *GetTransactionReceiptProofRequest {
+func (w *TransactionRefBuilder) Build() *TransactionRef {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return GetTransactionReceiptProofRequestReader(buf)
+	return TransactionRefReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetTransactionReceiptProofResponse
+// message RequestResult
 
 // reader
 
-type GetTransactionReceiptProofResponse struct {
+type RequestResult struct {
 	// RequestStatus protocol.RequestStatus
-	// Proof protocol.ReceiptProof
-	// TransactionStatus protocol.TransactionStatus
 	// BlockHeight primitives.BlockHeight
 	// BlockTimestamp primitives.TimestampNano
 
@@ -1158,31 +1271,31 @@ type GetTransactionReceiptProofResponse struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *GetTransactionReceiptProofResponse) String() string {
+func (x *RequestResult) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,Proof:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringProof(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
-var _GetTransactionReceiptProofResponse_Unions = [][]membuffers.FieldType{}
+var _RequestResult_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _RequestResult_Unions = [][]membuffers.FieldType{}
 
-func GetTransactionReceiptProofResponseReader(buf []byte) *GetTransactionReceiptProofResponse {
-	x := &GetTransactionReceiptProofResponse{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _GetTransactionReceiptProofResponse_Scheme, _GetTransactionReceiptProofResponse_Unions)
+func RequestResultReader(buf []byte) *RequestResult {
+	x := &RequestResult{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _RequestResult_Scheme, _RequestResult_Unions)
 	return x
 }
 
-func (x *GetTransactionReceiptProofResponse) IsValid() bool {
+func (x *RequestResult) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *GetTransactionReceiptProofResponse) Raw() []byte {
+func (x *RequestResult) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *GetTransactionReceiptProofResponse) Equal(y *GetTransactionReceiptProofResponse) bool {
+func (x *RequestResult) Equal(y *RequestResult) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -1192,102 +1305,67 @@ func (x *GetTransactionReceiptProofResponse) Equal(y *GetTransactionReceiptProof
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *GetTransactionReceiptProofResponse) RequestStatus() protocol.RequestStatus {
+func (x *RequestResult) RequestStatus() protocol.RequestStatus {
 	return protocol.RequestStatus(x._message.GetUint16(0))
 }
 
-func (x *GetTransactionReceiptProofResponse) RawRequestStatus() []byte {
+func (x *RequestResult) RawRequestStatus() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) MutateRequestStatus(v protocol.RequestStatus) error {
+func (x *RequestResult) MutateRequestStatus(v protocol.RequestStatus) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *GetTransactionReceiptProofResponse) StringRequestStatus() string {
+func (x *RequestResult) StringRequestStatus() string {
 	return x.RequestStatus().String()
 }
 
-func (x *GetTransactionReceiptProofResponse) Proof() *protocol.ReceiptProof {
-	b, s := x._message.GetMessage(1)
-	return protocol.ReceiptProofReader(b[:s])
+func (x *RequestResult) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *GetTransactionReceiptProofResponse) RawProof() []byte {
+func (x *RequestResult) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) RawProofWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
+func (x *RequestResult) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *GetTransactionReceiptProofResponse) StringProof() string {
-	return x.Proof().String()
-}
-
-func (x *GetTransactionReceiptProofResponse) TransactionStatus() protocol.TransactionStatus {
-	return protocol.TransactionStatus(x._message.GetUint16(2))
-}
-
-func (x *GetTransactionReceiptProofResponse) RawTransactionStatus() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *GetTransactionReceiptProofResponse) MutateTransactionStatus(v protocol.TransactionStatus) error {
-	return x._message.SetUint16(2, uint16(v))
-}
-
-func (x *GetTransactionReceiptProofResponse) StringTransactionStatus() string {
-	return x.TransactionStatus().String()
-}
-
-func (x *GetTransactionReceiptProofResponse) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(3))
-}
-
-func (x *GetTransactionReceiptProofResponse) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(3, 0)
-}
-
-func (x *GetTransactionReceiptProofResponse) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(3, uint64(v))
-}
-
-func (x *GetTransactionReceiptProofResponse) StringBlockHeight() string {
+func (x *RequestResult) StringBlockHeight() string {
 	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
-func (x *GetTransactionReceiptProofResponse) BlockTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(4))
+func (x *RequestResult) BlockTimestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(2))
 }
 
-func (x *GetTransactionReceiptProofResponse) RawBlockTimestamp() []byte {
-	return x._message.RawBufferForField(4, 0)
+func (x *RequestResult) RawBlockTimestamp() []byte {
+	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(4, uint64(v))
+func (x *RequestResult) MutateBlockTimestamp(v primitives.TimestampNano) error {
+	return x._message.SetUint64(2, uint64(v))
 }
 
-func (x *GetTransactionReceiptProofResponse) StringBlockTimestamp() string {
+func (x *RequestResult) StringBlockTimestamp() string {
 	return fmt.Sprintf("%s", x.BlockTimestamp())
 }
 
 // builder
 
-type GetTransactionReceiptProofResponseBuilder struct {
-	RequestStatus     protocol.RequestStatus
-	Proof             *protocol.ReceiptProofBuilder
-	TransactionStatus protocol.TransactionStatus
-	BlockHeight       primitives.BlockHeight
-	BlockTimestamp    primitives.TimestampNano
+type RequestResultBuilder struct {
+	RequestStatus  protocol.RequestStatus
+	BlockHeight    primitives.BlockHeight
+	BlockTimestamp primitives.TimestampNano
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *GetTransactionReceiptProofResponseBuilder) Write(buf []byte) (err error) {
+func (w *RequestResultBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -1298,24 +1376,19 @@ func (w *GetTransactionReceiptProofResponseBuilder) Write(buf []byte) (err error
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	err = w._builder.WriteMessage(buf, w.Proof)
-	if err != nil {
-		return
-	}
-	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
 	return nil
 }
 
-func (w *GetTransactionReceiptProofResponseBuilder) GetSize() membuffers.Offset {
+func (w *RequestResultBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *GetTransactionReceiptProofResponseBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *RequestResultBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -1323,12 +1396,12 @@ func (w *GetTransactionReceiptProofResponseBuilder) CalcRequiredSize() membuffer
 	return w._builder.GetSize()
 }
 
-func (w *GetTransactionReceiptProofResponseBuilder) Build() *GetTransactionReceiptProofResponse {
+func (w *RequestResultBuilder) Build() *RequestResult {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return GetTransactionReceiptProofResponseReader(buf)
+	return RequestResultReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////

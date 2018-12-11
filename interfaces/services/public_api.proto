@@ -14,9 +14,9 @@ service PublicApi {
 
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
-    rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
+    rpc RunQuery (RunQueryInput) returns (RunQueryOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-    rpc GetTransactionReceiptProof (GetTransactionReceiptProofInput) returns (GetTransactionReceiptProofOutput);    
+    rpc GetTransactionProof (GetTransactionProofInput) returns (GetTransactionProofOutput);    
 }
 
 message SendTransactionInput {
@@ -28,12 +28,12 @@ message SendTransactionOutput {
     client.SendTransactionResponse client_response = 1;
 }
 
-message CallMethodInput {
-    client.CallMethodRequest client_request = 1;
+message RunQueryInput {
+    client.RunQueryRequest client_request = 1;
 }
 
-message CallMethodOutput {
-    client.CallMethodResponse client_response = 1;
+message RunQueryOutput {
+    client.RunQueryResponse client_response = 1;
 }
 
 message GetTransactionStatusInput {
@@ -44,10 +44,10 @@ message GetTransactionStatusOutput {
     client.GetTransactionStatusResponse client_response = 1;
 }
 
-message GetTransactionReceiptProofInput {
-    client.GetTransactionReceiptProofRequest client_request = 1;
+message GetTransactionProofInput {
+    client.GetTransactionProofRequest client_request = 1;
 }
 
-message GetTransactionReceiptProofOutput {
-    client.GetTransactionReceiptProofResponse client_response = 1;
+message GetTransactionProofOutput {
+    client.GetTransactionProofResponse client_response = 1;
 }

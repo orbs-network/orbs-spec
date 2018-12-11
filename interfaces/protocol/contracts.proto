@@ -51,3 +51,8 @@ enum CrosschainConnectorType {
     CROSSCHAIN_CONNECTOR_TYPE_RESERVED = 0;
     CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM = 1;
 }
+
+message OutputEvent {
+    primitives.contract_name contract_name = 1;
+    repeated MethodArgument arguments = 2;
+}

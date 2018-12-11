@@ -15,51 +15,50 @@ message SendTransactionRequest {
 }
 
 message SendTransactionResponse {
-    protocol.RequestStatus request_status = 1;
-    protocol.TransactionReceipt transaction_receipt = 2; // empty unless status committed or previously committed
-    protocol.TransactionStatus transaction_status = 3;
-    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+    RequestResult request_result = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    protocol.TransactionReceipt transaction_receipt = 3;
 }
 
-message CallMethodRequest {
-    protocol.Transaction transaction = 1;
+message RunQueryRequest {
+    protocol.SignedQuery signed_query = 1;
 }
 
-message CallMethodResponse {
-    protocol.RequestStatus request_status = 1;
-    bytes output_argument_array = 2; // opaque field of repeated protocol.MethodArgument
-    protocol.ExecutionResult call_method_result = 3;
-    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+message RunQueryResponse {
+    RequestResult request_result = 1;
+    protocol.QueryResult query_result = 2;
 }
 
 message GetTransactionStatusRequest {
-    primitives.protocol_version protocol_version = 1;
-    primitives.virtual_chain_id virtual_chain_id = 2;
-    primitives.timestamp_nano transaction_timestamp = 3;
-    primitives.sha256 txhash = 4;
+    TransactionRef transaction_ref = 1;
 }
 
 message GetTransactionStatusResponse {
-    protocol.RequestStatus request_status = 1;
-    protocol.TransactionReceipt transaction_receipt = 2;
-    protocol.TransactionStatus transaction_status = 3;
-    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+    RequestResult request_result = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    protocol.TransactionReceipt transaction_receipt = 3;
 }
 
-message GetTransactionReceiptProofRequest {
+message GetTransactionProofRequest {
+    TransactionRef transaction_ref = 1;
+}
+
+message GetTransactionProofResponse {
+    RequestResult request_result = 1;
+    protocol.TransactionStatus transaction_status = 2;
+    protocol.TransactionReceipt transaction_receipt = 3;
+    primitives.packed_receipt_proof proof = 4;
+}
+
+message TransactionRef {
     primitives.protocol_version protocol_version = 1;
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.timestamp_nano transaction_timestamp = 3;
     primitives.sha256 txhash = 4;
 }
 
-message GetTransactionReceiptProofResponse {
+message RequestResult { // used to be duplicated in all responses
     protocol.RequestStatus request_status = 1;
-    protocol.ReceiptProof proof = 2;
-    protocol.TransactionStatus transaction_status = 3;
-    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts    
+    primitives.block_height block_height = 2;
+    primitives.timestamp_nano block_timestamp = 3;
 }

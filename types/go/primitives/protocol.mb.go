@@ -131,3 +131,17 @@ func (x MerkleTreeProof) Equal(y MerkleTreeProof) bool {
 func (x MerkleTreeProof) KeyForMap() string {
 	return string(x)
 }
+
+type PackedReceiptProof []byte
+
+func (x PackedReceiptProof) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedReceiptProof) Equal(y PackedReceiptProof) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedReceiptProof) KeyForMap() string {
+	return string(x)
+}

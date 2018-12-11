@@ -709,6 +709,164 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message OutputEvent
+
+// reader
+
+type OutputEvent struct {
+	// ContractName primitives.ContractName
+	// Arguments []MethodArgument
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *OutputEvent) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ContractName:%s,Arguments:%s,}", x.StringContractName(), x.StringArguments())
+}
+
+var _OutputEvent_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeMessageArray}
+var _OutputEvent_Unions = [][]membuffers.FieldType{}
+
+func OutputEventReader(buf []byte) *OutputEvent {
+	x := &OutputEvent{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _OutputEvent_Scheme, _OutputEvent_Unions)
+	return x
+}
+
+func (x *OutputEvent) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *OutputEvent) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *OutputEvent) Equal(y *OutputEvent) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *OutputEvent) ContractName() primitives.ContractName {
+	return primitives.ContractName(x._message.GetString(0))
+}
+
+func (x *OutputEvent) RawContractName() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *OutputEvent) MutateContractName(v primitives.ContractName) error {
+	return x._message.SetString(0, string(v))
+}
+
+func (x *OutputEvent) StringContractName() string {
+	return fmt.Sprintf("%s", x.ContractName())
+}
+
+func (x *OutputEvent) ArgumentsIterator() *OutputEventArgumentsIterator {
+	return &OutputEventArgumentsIterator{iterator: x._message.GetMessageArrayIterator(1)}
+}
+
+type OutputEventArgumentsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *OutputEventArgumentsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *OutputEventArgumentsIterator) NextArguments() *MethodArgument {
+	b, s := i.iterator.NextMessage()
+	return MethodArgumentReader(b[:s])
+}
+
+func (x *OutputEvent) RawArgumentsArray() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *OutputEvent) RawArgumentsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *OutputEvent) StringArguments() (res string) {
+	res = "["
+	for i := x.ArgumentsIterator(); i.HasNext(); {
+		res += i.NextArguments().String() + ","
+	}
+	res += "]"
+	return
+}
+
+// builder
+
+type OutputEventBuilder struct {
+	ContractName primitives.ContractName
+	Arguments    []*MethodArgumentBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *OutputEventBuilder) arrayOfArguments() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.Arguments))
+	for i, v := range w.Arguments {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *OutputEventBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteString(buf, string(w.ContractName))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *OutputEventBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *OutputEventBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *OutputEventBuilder) Build() *OutputEvent {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return OutputEventReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums
 
 type ExecutionAccessScope uint16

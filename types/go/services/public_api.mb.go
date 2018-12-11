@@ -14,9 +14,9 @@ import (
 type PublicApi interface {
 	handlers.TransactionResultsHandler
 	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
-	CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error)
+	RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error)
 	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
-	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
+	GetTransactionProof(ctx context.Context, input *GetTransactionProofInput) (*GetTransactionProofOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,39 +64,39 @@ func (x *SendTransactionOutput) StringClientResponse() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodInput (non serializable)
+// message RunQueryInput (non serializable)
 
-type CallMethodInput struct {
-	ClientRequest *client.CallMethodRequest
+type RunQueryInput struct {
+	ClientRequest *client.RunQueryRequest
 }
 
-func (x *CallMethodInput) String() string {
+func (x *RunQueryInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
-func (x *CallMethodInput) StringClientRequest() (res string) {
+func (x *RunQueryInput) StringClientRequest() (res string) {
 	res = x.ClientRequest.String()
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodOutput (non serializable)
+// message RunQueryOutput (non serializable)
 
-type CallMethodOutput struct {
-	ClientResponse *client.CallMethodResponse
+type RunQueryOutput struct {
+	ClientResponse *client.RunQueryResponse
 }
 
-func (x *CallMethodOutput) String() string {
+func (x *RunQueryOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 
-func (x *CallMethodOutput) StringClientResponse() (res string) {
+func (x *RunQueryOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }
@@ -140,39 +140,39 @@ func (x *GetTransactionStatusOutput) StringClientResponse() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetTransactionReceiptProofInput (non serializable)
+// message GetTransactionProofInput (non serializable)
 
-type GetTransactionReceiptProofInput struct {
-	ClientRequest *client.GetTransactionReceiptProofRequest
+type GetTransactionProofInput struct {
+	ClientRequest *client.GetTransactionProofRequest
 }
 
-func (x *GetTransactionReceiptProofInput) String() string {
+func (x *GetTransactionProofInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
-func (x *GetTransactionReceiptProofInput) StringClientRequest() (res string) {
+func (x *GetTransactionProofInput) StringClientRequest() (res string) {
 	res = x.ClientRequest.String()
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetTransactionReceiptProofOutput (non serializable)
+// message GetTransactionProofOutput (non serializable)
 
-type GetTransactionReceiptProofOutput struct {
-	ClientResponse *client.GetTransactionReceiptProofResponse
+type GetTransactionProofOutput struct {
+	ClientResponse *client.GetTransactionProofResponse
 }
 
-func (x *GetTransactionReceiptProofOutput) String() string {
+func (x *GetTransactionProofOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 
-func (x *GetTransactionReceiptProofOutput) StringClientResponse() (res string) {
+func (x *GetTransactionProofOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }

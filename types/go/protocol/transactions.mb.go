@@ -385,7 +385,7 @@ func (w *SignedTransactionBuilder) Build() *SignedTransaction {
 type TransactionReceipt struct {
 	// Txhash primitives.Sha256
 	// ExecutionResult ExecutionResult
-	// OutputEvent []byte
+	// OutputEventsArray []byte
 	// OutputArgumentArray []byte
 
 	// internal
@@ -397,7 +397,7 @@ func (x *TransactionReceipt) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputEvent:%s,OutputArgumentArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputEvent(), x.StringOutputArgumentArray())
+	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputEventsArray:%s,OutputArgumentArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputEventsArray(), x.StringOutputArgumentArray())
 }
 
 var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes}
@@ -459,24 +459,24 @@ func (x *TransactionReceipt) StringExecutionResult() string {
 	return x.ExecutionResult().String()
 }
 
-func (x *TransactionReceipt) OutputEvent() []byte {
+func (x *TransactionReceipt) OutputEventsArray() []byte {
 	return x._message.GetBytes(2)
 }
 
-func (x *TransactionReceipt) RawOutputEvent() []byte {
+func (x *TransactionReceipt) RawOutputEventsArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *TransactionReceipt) RawOutputEventWithHeader() []byte {
+func (x *TransactionReceipt) RawOutputEventsArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
-func (x *TransactionReceipt) MutateOutputEvent(v []byte) error {
+func (x *TransactionReceipt) MutateOutputEventsArray(v []byte) error {
 	return x._message.SetBytes(2, v)
 }
 
-func (x *TransactionReceipt) StringOutputEvent() string {
-	return fmt.Sprintf("%x", x.OutputEvent())
+func (x *TransactionReceipt) StringOutputEventsArray() string {
+	return fmt.Sprintf("%x", x.OutputEventsArray())
 }
 
 func (x *TransactionReceipt) OutputArgumentArray() []byte {
@@ -504,7 +504,7 @@ func (x *TransactionReceipt) StringOutputArgumentArray() string {
 type TransactionReceiptBuilder struct {
 	Txhash              primitives.Sha256
 	ExecutionResult     ExecutionResult
-	OutputEvent         []byte
+	OutputEventsArray   []byte
 	OutputArgumentArray []byte
 
 	// internal
@@ -524,7 +524,7 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteBytes(buf, []byte(w.Txhash))
 	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
-	w._builder.WriteBytes(buf, w.OutputEvent)
+	w._builder.WriteBytes(buf, w.OutputEventsArray)
 	w._builder.WriteBytes(buf, w.OutputArgumentArray)
 	return nil
 }
@@ -553,44 +553,49 @@ func (w *TransactionReceiptBuilder) Build() *TransactionReceipt {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message OutputEvent
+// message Query
 
 // reader
 
-type OutputEvent struct {
+type Query struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// Timestamp primitives.TimestampNano
+	// Signer Signer
 	// ContractName primitives.ContractName
-	// Arguments []EventArgument
+	// MethodName primitives.MethodName
+	// InputArgumentArray []byte
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *OutputEvent) String() string {
+func (x *Query) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContractName:%s,Arguments:%s,}", x.StringContractName(), x.StringArguments())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,Timestamp:%s,Signer:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTimestamp(), x.StringSigner(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray())
 }
 
-var _OutputEvent_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeMessageArray}
-var _OutputEvent_Unions = [][]membuffers.FieldType{}
+var _Query_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeMessage, membuffers.TypeString, membuffers.TypeString, membuffers.TypeBytes}
+var _Query_Unions = [][]membuffers.FieldType{}
 
-func OutputEventReader(buf []byte) *OutputEvent {
-	x := &OutputEvent{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _OutputEvent_Scheme, _OutputEvent_Unions)
+func QueryReader(buf []byte) *Query {
+	x := &Query{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _Query_Scheme, _Query_Unions)
 	return x
 }
 
-func (x *OutputEvent) IsValid() bool {
+func (x *Query) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *OutputEvent) Raw() []byte {
+func (x *Query) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *OutputEvent) Equal(y *OutputEvent) bool {
+func (x *Query) Equal(y *Query) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -600,76 +605,140 @@ func (x *OutputEvent) Equal(y *OutputEvent) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *OutputEvent) ContractName() primitives.ContractName {
-	return primitives.ContractName(x._message.GetString(0))
+func (x *Query) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
 }
 
-func (x *OutputEvent) RawContractName() []byte {
+func (x *Query) RawProtocolVersion() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *OutputEvent) MutateContractName(v primitives.ContractName) error {
-	return x._message.SetString(0, string(v))
+func (x *Query) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
 }
 
-func (x *OutputEvent) StringContractName() string {
-	return fmt.Sprintf("%s", x.ContractName())
+func (x *Query) StringProtocolVersion() string {
+	return fmt.Sprintf("%s", x.ProtocolVersion())
 }
 
-func (x *OutputEvent) ArgumentsIterator() *OutputEventArgumentsIterator {
-	return &OutputEventArgumentsIterator{iterator: x._message.GetMessageArrayIterator(1)}
+func (x *Query) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
 }
 
-type OutputEventArgumentsIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *OutputEventArgumentsIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *OutputEventArgumentsIterator) NextArguments() *EventArgument {
-	b, s := i.iterator.NextMessage()
-	return EventArgumentReader(b[:s])
-}
-
-func (x *OutputEvent) RawArgumentsArray() []byte {
+func (x *Query) RawVirtualChainId() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *OutputEvent) RawArgumentsArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
+func (x *Query) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
 }
 
-func (x *OutputEvent) StringArguments() (res string) {
-	res = "["
-	for i := x.ArgumentsIterator(); i.HasNext(); {
-		res += i.NextArguments().String() + ","
-	}
-	res += "]"
-	return
+func (x *Query) StringVirtualChainId() string {
+	return fmt.Sprintf("%s", x.VirtualChainId())
+}
+
+func (x *Query) Timestamp() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(2))
+}
+
+func (x *Query) RawTimestamp() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *Query) MutateTimestamp(v primitives.TimestampNano) error {
+	return x._message.SetUint64(2, uint64(v))
+}
+
+func (x *Query) StringTimestamp() string {
+	return fmt.Sprintf("%s", x.Timestamp())
+}
+
+func (x *Query) Signer() *Signer {
+	b, s := x._message.GetMessage(3)
+	return SignerReader(b[:s])
+}
+
+func (x *Query) RawSigner() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *Query) RawSignerWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
+func (x *Query) StringSigner() string {
+	return x.Signer().String()
+}
+
+func (x *Query) ContractName() primitives.ContractName {
+	return primitives.ContractName(x._message.GetString(4))
+}
+
+func (x *Query) RawContractName() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *Query) MutateContractName(v primitives.ContractName) error {
+	return x._message.SetString(4, string(v))
+}
+
+func (x *Query) StringContractName() string {
+	return fmt.Sprintf("%s", x.ContractName())
+}
+
+func (x *Query) MethodName() primitives.MethodName {
+	return primitives.MethodName(x._message.GetString(5))
+}
+
+func (x *Query) RawMethodName() []byte {
+	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *Query) MutateMethodName(v primitives.MethodName) error {
+	return x._message.SetString(5, string(v))
+}
+
+func (x *Query) StringMethodName() string {
+	return fmt.Sprintf("%s", x.MethodName())
+}
+
+func (x *Query) InputArgumentArray() []byte {
+	return x._message.GetBytes(6)
+}
+
+func (x *Query) RawInputArgumentArray() []byte {
+	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *Query) RawInputArgumentArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
+}
+
+func (x *Query) MutateInputArgumentArray(v []byte) error {
+	return x._message.SetBytes(6, v)
+}
+
+func (x *Query) StringInputArgumentArray() string {
+	return fmt.Sprintf("%x", x.InputArgumentArray())
 }
 
 // builder
 
-type OutputEventBuilder struct {
-	ContractName primitives.ContractName
-	Arguments    []*EventArgumentBuilder
+type QueryBuilder struct {
+	ProtocolVersion    primitives.ProtocolVersion
+	VirtualChainId     primitives.VirtualChainId
+	Timestamp          primitives.TimestampNano
+	Signer             *SignerBuilder
+	ContractName       primitives.ContractName
+	MethodName         primitives.MethodName
+	InputArgumentArray []byte
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *OutputEventBuilder) arrayOfArguments() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.Arguments))
-	for i, v := range w.Arguments {
-		res[i] = v
-	}
-	return res
-}
-
-func (w *OutputEventBuilder) Write(buf []byte) (err error) {
+func (w *QueryBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -679,22 +748,27 @@ func (w *OutputEventBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteString(buf, string(w.ContractName))
-	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.Timestamp))
+	err = w._builder.WriteMessage(buf, w.Signer)
 	if err != nil {
 		return
 	}
+	w._builder.WriteString(buf, string(w.ContractName))
+	w._builder.WriteString(buf, string(w.MethodName))
+	w._builder.WriteBytes(buf, w.InputArgumentArray)
 	return nil
 }
 
-func (w *OutputEventBuilder) GetSize() membuffers.Offset {
+func (w *QueryBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *OutputEventBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *QueryBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -702,52 +776,53 @@ func (w *OutputEventBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *OutputEventBuilder) Build() *OutputEvent {
+func (w *QueryBuilder) Build() *Query {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return OutputEventReader(buf)
+	return QueryReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message EventArgument
+// message SignedQuery
 
 // reader
 
-type EventArgument struct {
-	// Type EventArgumentType
+type SignedQuery struct {
+	// Transaction Transaction
+	// Signature []byte
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *EventArgument) String() string {
+func (x *SignedQuery) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Type:%s,}", x.StringType())
+	return fmt.Sprintf("{Transaction:%s,Signature:%s,}", x.StringTransaction(), x.StringSignature())
 }
 
-var _EventArgument_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
-var _EventArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes}}
+var _SignedQuery_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeBytes}
+var _SignedQuery_Unions = [][]membuffers.FieldType{}
 
-func EventArgumentReader(buf []byte) *EventArgument {
-	x := &EventArgument{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _EventArgument_Scheme, _EventArgument_Unions)
+func SignedQueryReader(buf []byte) *SignedQuery {
+	x := &SignedQuery{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _SignedQuery_Scheme, _SignedQuery_Unions)
 	return x
 }
 
-func (x *EventArgument) IsValid() bool {
+func (x *SignedQuery) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *EventArgument) Raw() []byte {
+func (x *SignedQuery) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *EventArgument) Equal(y *EventArgument) bool {
+func (x *SignedQuery) Equal(y *SignedQuery) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -757,160 +832,55 @@ func (x *EventArgument) Equal(y *EventArgument) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-type EventArgumentType uint16
-
-const (
-	EVENT_ARGUMENT_TYPE_UINT_32_VALUE EventArgumentType = 0
-	EVENT_ARGUMENT_TYPE_UINT_64_VALUE EventArgumentType = 1
-	EVENT_ARGUMENT_TYPE_STRING_VALUE  EventArgumentType = 2
-	EVENT_ARGUMENT_TYPE_BYTES_VALUE   EventArgumentType = 3
-)
-
-func (x *EventArgument) Type() EventArgumentType {
-	return EventArgumentType(x._message.GetUnionIndex(0, 0))
+func (x *SignedQuery) Transaction() *Transaction {
+	b, s := x._message.GetMessage(0)
+	return TransactionReader(b[:s])
 }
 
-func (x *EventArgument) IsTypeUint32Value() bool {
-	is, _ := x._message.IsUnionIndex(0, 0, 0)
-	return is
-}
-
-func (x *EventArgument) Uint32Value() uint32 {
-	is, off := x._message.IsUnionIndex(0, 0, 0)
-	if !is {
-		panic("Accessed union field of incorrect type, did you check which union type it is first?")
-	}
-	return x._message.GetUint32InOffset(off)
-}
-
-func (x *EventArgument) StringUint32Value() string {
-	return fmt.Sprintf("%x", x.Uint32Value())
-}
-
-func (x *EventArgument) MutateUint32Value(v uint32) error {
-	is, off := x._message.IsUnionIndex(0, 0, 0)
-	if !is {
-		return &membuffers.ErrInvalidField{}
-	}
-	x._message.SetUint32InOffset(off, v)
-	return nil
-}
-
-func (x *EventArgument) IsTypeUint64Value() bool {
-	is, _ := x._message.IsUnionIndex(0, 0, 1)
-	return is
-}
-
-func (x *EventArgument) Uint64Value() uint64 {
-	is, off := x._message.IsUnionIndex(0, 0, 1)
-	if !is {
-		panic("Accessed union field of incorrect type, did you check which union type it is first?")
-	}
-	return x._message.GetUint64InOffset(off)
-}
-
-func (x *EventArgument) StringUint64Value() string {
-	return fmt.Sprintf("%x", x.Uint64Value())
-}
-
-func (x *EventArgument) MutateUint64Value(v uint64) error {
-	is, off := x._message.IsUnionIndex(0, 0, 1)
-	if !is {
-		return &membuffers.ErrInvalidField{}
-	}
-	x._message.SetUint64InOffset(off, v)
-	return nil
-}
-
-func (x *EventArgument) IsTypeStringValue() bool {
-	is, _ := x._message.IsUnionIndex(0, 0, 2)
-	return is
-}
-
-func (x *EventArgument) StringValue() string {
-	is, off := x._message.IsUnionIndex(0, 0, 2)
-	if !is {
-		panic("Accessed union field of incorrect type, did you check which union type it is first?")
-	}
-	return x._message.GetStringInOffset(off)
-}
-
-func (x *EventArgument) StringStringValue() string {
-	return fmt.Sprintf(x.StringValue())
-}
-
-func (x *EventArgument) MutateStringValue(v string) error {
-	is, off := x._message.IsUnionIndex(0, 0, 2)
-	if !is {
-		return &membuffers.ErrInvalidField{}
-	}
-	x._message.SetStringInOffset(off, v)
-	return nil
-}
-
-func (x *EventArgument) IsTypeBytesValue() bool {
-	is, _ := x._message.IsUnionIndex(0, 0, 3)
-	return is
-}
-
-func (x *EventArgument) BytesValue() []byte {
-	is, off := x._message.IsUnionIndex(0, 0, 3)
-	if !is {
-		panic("Accessed union field of incorrect type, did you check which union type it is first?")
-	}
-	return x._message.GetBytesInOffset(off)
-}
-
-func (x *EventArgument) StringBytesValue() string {
-	return fmt.Sprintf("%x", x.BytesValue())
-}
-
-func (x *EventArgument) MutateBytesValue(v []byte) error {
-	is, off := x._message.IsUnionIndex(0, 0, 3)
-	if !is {
-		return &membuffers.ErrInvalidField{}
-	}
-	x._message.SetBytesInOffset(off, v)
-	return nil
-}
-
-func (x *EventArgument) RawType() []byte {
+func (x *SignedQuery) RawTransaction() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *EventArgument) RawTypeWithHeader() []byte {
+func (x *SignedQuery) RawTransactionWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *EventArgument) StringType() string {
-	switch x.Type() {
-	case EVENT_ARGUMENT_TYPE_UINT_32_VALUE:
-		return "(Uint32Value)" + x.StringUint32Value()
-	case EVENT_ARGUMENT_TYPE_UINT_64_VALUE:
-		return "(Uint64Value)" + x.StringUint64Value()
-	case EVENT_ARGUMENT_TYPE_STRING_VALUE:
-		return "(StringValue)" + x.StringStringValue()
-	case EVENT_ARGUMENT_TYPE_BYTES_VALUE:
-		return "(BytesValue)" + x.StringBytesValue()
-	}
-	return "(Unknown)"
+func (x *SignedQuery) StringTransaction() string {
+	return x.Transaction().String()
+}
+
+func (x *SignedQuery) Signature() []byte {
+	return x._message.GetBytes(1)
+}
+
+func (x *SignedQuery) RawSignature() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *SignedQuery) RawSignatureWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *SignedQuery) MutateSignature(v []byte) error {
+	return x._message.SetBytes(1, v)
+}
+
+func (x *SignedQuery) StringSignature() string {
+	return fmt.Sprintf("%x", x.Signature())
 }
 
 // builder
 
-type EventArgumentBuilder struct {
-	Type        EventArgumentType
-	Uint32Value uint32
-	Uint64Value uint64
-	StringValue string
-	BytesValue  []byte
+type SignedQueryBuilder struct {
+	Transaction *TransactionBuilder
+	Signature   []byte
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
 }
 
-func (w *EventArgumentBuilder) Write(buf []byte) (err error) {
+func (w *SignedQueryBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -920,28 +890,22 @@ func (w *EventArgumentBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
-	switch w.Type {
-	case EVENT_ARGUMENT_TYPE_UINT_32_VALUE:
-		w._builder.WriteUint32(buf, w.Uint32Value)
-	case EVENT_ARGUMENT_TYPE_UINT_64_VALUE:
-		w._builder.WriteUint64(buf, w.Uint64Value)
-	case EVENT_ARGUMENT_TYPE_STRING_VALUE:
-		w._builder.WriteString(buf, w.StringValue)
-	case EVENT_ARGUMENT_TYPE_BYTES_VALUE:
-		w._builder.WriteBytes(buf, w.BytesValue)
+	err = w._builder.WriteMessage(buf, w.Transaction)
+	if err != nil {
+		return
 	}
+	w._builder.WriteBytes(buf, w.Signature)
 	return nil
 }
 
-func (w *EventArgumentBuilder) GetSize() membuffers.Offset {
+func (w *SignedQueryBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *EventArgumentBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *SignedQueryBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -949,12 +913,168 @@ func (w *EventArgumentBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *EventArgumentBuilder) Build() *EventArgument {
+func (w *SignedQueryBuilder) Build() *SignedQuery {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return EventArgumentReader(buf)
+	return SignedQueryReader(buf)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message QueryResult
+
+// reader
+
+type QueryResult struct {
+	// ExecutionResult ExecutionResult
+	// OutputEventsArray []byte
+	// OutputArgumentArray []byte
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *QueryResult) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ExecutionResult:%s,OutputEventsArray:%s,OutputArgumentArray:%s,}", x.StringExecutionResult(), x.StringOutputEventsArray(), x.StringOutputArgumentArray())
+}
+
+var _QueryResult_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes}
+var _QueryResult_Unions = [][]membuffers.FieldType{}
+
+func QueryResultReader(buf []byte) *QueryResult {
+	x := &QueryResult{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _QueryResult_Scheme, _QueryResult_Unions)
+	return x
+}
+
+func (x *QueryResult) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *QueryResult) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *QueryResult) Equal(y *QueryResult) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *QueryResult) ExecutionResult() ExecutionResult {
+	return ExecutionResult(x._message.GetUint16(0))
+}
+
+func (x *QueryResult) RawExecutionResult() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *QueryResult) MutateExecutionResult(v ExecutionResult) error {
+	return x._message.SetUint16(0, uint16(v))
+}
+
+func (x *QueryResult) StringExecutionResult() string {
+	return x.ExecutionResult().String()
+}
+
+func (x *QueryResult) OutputEventsArray() []byte {
+	return x._message.GetBytes(1)
+}
+
+func (x *QueryResult) RawOutputEventsArray() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *QueryResult) RawOutputEventsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *QueryResult) MutateOutputEventsArray(v []byte) error {
+	return x._message.SetBytes(1, v)
+}
+
+func (x *QueryResult) StringOutputEventsArray() string {
+	return fmt.Sprintf("%x", x.OutputEventsArray())
+}
+
+func (x *QueryResult) OutputArgumentArray() []byte {
+	return x._message.GetBytes(2)
+}
+
+func (x *QueryResult) RawOutputArgumentArray() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *QueryResult) RawOutputArgumentArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
+func (x *QueryResult) MutateOutputArgumentArray(v []byte) error {
+	return x._message.SetBytes(2, v)
+}
+
+func (x *QueryResult) StringOutputArgumentArray() string {
+	return fmt.Sprintf("%x", x.OutputArgumentArray())
+}
+
+// builder
+
+type QueryResultBuilder struct {
+	ExecutionResult     ExecutionResult
+	OutputEventsArray   []byte
+	OutputArgumentArray []byte
+
+	// internal
+	// implements membuffers.Builder
+	_builder membuffers.InternalBuilder
+}
+
+func (w *QueryResultBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
+	w._builder.WriteBytes(buf, w.OutputEventsArray)
+	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	return nil
+}
+
+func (w *QueryResultBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *QueryResultBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *QueryResultBuilder) Build() *QueryResult {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return QueryResultReader(buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////
