@@ -716,7 +716,7 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 type Event struct {
 	// ContractName primitives.ContractName
 	// EventName primitives.EventName
-	// Arguments []MethodArgument
+	// OutputArgumentArray []byte
 
 	// internal
 	// implements membuffers.Message
@@ -727,10 +727,10 @@ func (x *Event) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContractName:%s,EventName:%s,Arguments:%s,}", x.StringContractName(), x.StringEventName(), x.StringArguments())
+	return fmt.Sprintf("{ContractName:%s,EventName:%s,OutputArgumentArray:%s,}", x.StringContractName(), x.StringEventName(), x.StringOutputArgumentArray())
 }
 
-var _Event_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeString, membuffers.TypeMessageArray}
+var _Event_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeString, membuffers.TypeBytes}
 var _Event_Unions = [][]membuffers.FieldType{}
 
 func EventReader(buf []byte) *Event {
@@ -789,58 +789,36 @@ func (x *Event) StringEventName() string {
 	return fmt.Sprintf("%s", x.EventName())
 }
 
-func (x *Event) ArgumentsIterator() *EventArgumentsIterator {
-	return &EventArgumentsIterator{iterator: x._message.GetMessageArrayIterator(2)}
+func (x *Event) OutputArgumentArray() []byte {
+	return x._message.GetBytes(2)
 }
 
-type EventArgumentsIterator struct {
-	iterator *membuffers.Iterator
-}
-
-func (i *EventArgumentsIterator) HasNext() bool {
-	return i.iterator.HasNext()
-}
-
-func (i *EventArgumentsIterator) NextArguments() *MethodArgument {
-	b, s := i.iterator.NextMessage()
-	return MethodArgumentReader(b[:s])
-}
-
-func (x *Event) RawArgumentsArray() []byte {
+func (x *Event) RawOutputArgumentArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *Event) RawArgumentsArrayWithHeader() []byte {
+func (x *Event) RawOutputArgumentArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
-func (x *Event) StringArguments() (res string) {
-	res = "["
-	for i := x.ArgumentsIterator(); i.HasNext(); {
-		res += i.NextArguments().String() + ","
-	}
-	res += "]"
-	return
+func (x *Event) MutateOutputArgumentArray(v []byte) error {
+	return x._message.SetBytes(2, v)
+}
+
+func (x *Event) StringOutputArgumentArray() string {
+	return fmt.Sprintf("%x", x.OutputArgumentArray())
 }
 
 // builder
 
 type EventBuilder struct {
-	ContractName primitives.ContractName
-	EventName    primitives.EventName
-	Arguments    []*MethodArgumentBuilder
+	ContractName        primitives.ContractName
+	EventName           primitives.EventName
+	OutputArgumentArray []byte
 
 	// internal
 	// implements membuffers.Builder
 	_builder membuffers.InternalBuilder
-}
-
-func (w *EventBuilder) arrayOfArguments() []membuffers.MessageWriter {
-	res := make([]membuffers.MessageWriter, len(w.Arguments))
-	for i, v := range w.Arguments {
-		res[i] = v
-	}
-	return res
 }
 
 func (w *EventBuilder) Write(buf []byte) (err error) {
@@ -855,10 +833,7 @@ func (w *EventBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteString(buf, string(w.ContractName))
 	w._builder.WriteString(buf, string(w.EventName))
-	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
-	if err != nil {
-		return
-	}
+	w._builder.WriteBytes(buf, w.OutputArgumentArray)
 	return nil
 }
 
