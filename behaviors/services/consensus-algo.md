@@ -146,6 +146,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 * Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the Results block random seed.
 
 #### Verify the block proof
+* Verify that the block hash in the proof matches the block.
 * Verify the block proof based on the committee members.
 * If all valid, update the consensus algorithm about the block commit (with block height and consensus dependent data).
 
