@@ -434,6 +434,7 @@ func (w *CallMethodRequestBuilder) Build() *CallMethodRequest {
 
 type CallMethodResponse struct {
 	// RequestStatus protocol.RequestStatus
+	// OutputEventsArray []byte
 	// OutputArgumentArray []byte
 	// CallMethodResult protocol.ExecutionResult
 	// BlockHeight primitives.BlockHeight
@@ -448,10 +449,10 @@ func (x *CallMethodResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,OutputArgumentArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputArgumentArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestStatus:%s,OutputEventsArray:%s,OutputArgumentArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputEventsArray(), x.StringOutputArgumentArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
 var _CallMethodResponse_Unions = [][]membuffers.FieldType{}
 
 func CallMethodResponseReader(buf []byte) *CallMethodResponse {
@@ -494,20 +495,40 @@ func (x *CallMethodResponse) StringRequestStatus() string {
 	return x.RequestStatus().String()
 }
 
-func (x *CallMethodResponse) OutputArgumentArray() []byte {
+func (x *CallMethodResponse) OutputEventsArray() []byte {
 	return x._message.GetBytes(1)
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
+func (x *CallMethodResponse) RawOutputEventsArray() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArrayWithHeader() []byte {
+func (x *CallMethodResponse) RawOutputEventsArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
-func (x *CallMethodResponse) MutateOutputArgumentArray(v []byte) error {
+func (x *CallMethodResponse) MutateOutputEventsArray(v []byte) error {
 	return x._message.SetBytes(1, v)
+}
+
+func (x *CallMethodResponse) StringOutputEventsArray() string {
+	return fmt.Sprintf("%x", x.OutputEventsArray())
+}
+
+func (x *CallMethodResponse) OutputArgumentArray() []byte {
+	return x._message.GetBytes(2)
+}
+
+func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *CallMethodResponse) RawOutputArgumentArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
+func (x *CallMethodResponse) MutateOutputArgumentArray(v []byte) error {
+	return x._message.SetBytes(2, v)
 }
 
 func (x *CallMethodResponse) StringOutputArgumentArray() string {
@@ -515,15 +536,15 @@ func (x *CallMethodResponse) StringOutputArgumentArray() string {
 }
 
 func (x *CallMethodResponse) CallMethodResult() protocol.ExecutionResult {
-	return protocol.ExecutionResult(x._message.GetUint16(2))
+	return protocol.ExecutionResult(x._message.GetUint16(3))
 }
 
 func (x *CallMethodResponse) RawCallMethodResult() []byte {
-	return x._message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(3, 0)
 }
 
 func (x *CallMethodResponse) MutateCallMethodResult(v protocol.ExecutionResult) error {
-	return x._message.SetUint16(2, uint16(v))
+	return x._message.SetUint16(3, uint16(v))
 }
 
 func (x *CallMethodResponse) StringCallMethodResult() string {
@@ -531,15 +552,15 @@ func (x *CallMethodResponse) StringCallMethodResult() string {
 }
 
 func (x *CallMethodResponse) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(3))
+	return primitives.BlockHeight(x._message.GetUint64(4))
 }
 
 func (x *CallMethodResponse) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(4, 0)
 }
 
 func (x *CallMethodResponse) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(3, uint64(v))
+	return x._message.SetUint64(4, uint64(v))
 }
 
 func (x *CallMethodResponse) StringBlockHeight() string {
@@ -547,15 +568,15 @@ func (x *CallMethodResponse) StringBlockHeight() string {
 }
 
 func (x *CallMethodResponse) BlockTimestamp() primitives.TimestampNano {
-	return primitives.TimestampNano(x._message.GetUint64(4))
+	return primitives.TimestampNano(x._message.GetUint64(5))
 }
 
 func (x *CallMethodResponse) RawBlockTimestamp() []byte {
-	return x._message.RawBufferForField(4, 0)
+	return x._message.RawBufferForField(5, 0)
 }
 
 func (x *CallMethodResponse) MutateBlockTimestamp(v primitives.TimestampNano) error {
-	return x._message.SetUint64(4, uint64(v))
+	return x._message.SetUint64(5, uint64(v))
 }
 
 func (x *CallMethodResponse) StringBlockTimestamp() string {
@@ -566,6 +587,7 @@ func (x *CallMethodResponse) StringBlockTimestamp() string {
 
 type CallMethodResponseBuilder struct {
 	RequestStatus       protocol.RequestStatus
+	OutputEventsArray   []byte
 	OutputArgumentArray []byte
 	CallMethodResult    protocol.ExecutionResult
 	BlockHeight         primitives.BlockHeight
@@ -587,6 +609,7 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
+	w._builder.WriteBytes(buf, w.OutputEventsArray)
 	w._builder.WriteBytes(buf, w.OutputArgumentArray)
 	w._builder.WriteUint16(buf, uint16(w.CallMethodResult))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
