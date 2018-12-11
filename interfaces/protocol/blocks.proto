@@ -33,8 +33,7 @@ message ResultsBlockContainer {
     ResultsBlockHeader header = 1;
     repeated protocol.TransactionReceipt transaction_receipts = 2;
     repeated protocol.ContractStateDiff contract_state_diffs = 3;
-    TransactionsBloomFilter transactions_bloom_filter = 4;
-    ResultsBlockProof block_proof = 5;
+    ResultsBlockProof block_proof = 4;
 }
 
 // payloads
@@ -60,20 +59,14 @@ message ResultsBlockHeader {
     primitives.sha256 state_diff_hash = 7;
     primitives.sha256 transactions_block_hash_ptr = 8;
     primitives.merkle_sha256 pre_execution_state_root_hash = 9;
-    primitives.sha256 transactions_bloom_filter_hash = 10;
-    uint32 num_transaction_receipts = 11;
-    uint32 num_contract_state_diffs = 12;
+    uint32 num_transaction_receipts = 10;
+    uint32 num_contract_state_diffs = 11;
 }
 
 message TransactionsBlockMetadata {
     // TODO: complete me
     // uint32 version = 1;
     // repeated uint32 nodes_reputation = 2;
-}
-
-message TransactionsBloomFilter {
-    primitives.bloom_filter txhash_bloom_filter = 1;
-    primitives.bloom_filter timestamp_bloom_filter = 2;
 }
 
 message TransactionsBlockProof {
