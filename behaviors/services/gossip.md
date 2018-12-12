@@ -67,18 +67,20 @@ Currently a single instance per virtual chain per node.
 
 > Called internally when a gossip message is received from another node (inter node).
 
+#### Check message validity
+
+* Correct block protocol version.
+* Correct virtual chain.
+* Check that the node is one of the message recipients.
+  * According to the recipient list mode and recipient list mode.
+
+#### Deliver the message
+
 * Lookup the the list of subscribed services for this topic in the topic subscription table.
 * For each service id:
   * Rely on service topology [configuration](../config/shared.md) to locate the service endpoint by service id.
   * Call `Target.GossipMessageReceived` with message content.
   * The target service is responsible to identify the message type and process the message accordingly.
-
-### Check message validity
-
-* Correct block protocol version.
-* Correct virtual chain.
-* Correct recipient public keys
-* Correct recipient list mode
 
 &nbsp;
 ## `SendMessage` (method)
