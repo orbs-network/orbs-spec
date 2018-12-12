@@ -108,7 +108,7 @@
 |:-------------------------|:------:|:----:|:------------:|:------------------------------|
 | contract name length (N) | 0      | 4    | uint32       |                               |
 | contract name            | 4      | N    | string       |                               |
-| event name length (N)    | N+4    | 4    | uint32       |                               |
+| event name length (K)    | N+4    | 4    | uint32       |                               |
 | event name               | N+8    | K    | string       |                               |
 | arguments_length         | N+K+8  | 4    | uint32       |                               |
 | tuid_type                | N+K+12 | 2(4) | enum (oneof) |                               |
