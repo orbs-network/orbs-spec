@@ -44,6 +44,12 @@ message method_name {
     // variable size
 }
 
+message event_name {
+    option inline_type = "string";
+    string value = 1;
+    // variable size
+}
+
 message execution_context_id {
     option inline_type = "uint32";
     uint32 value = 1;
