@@ -55,7 +55,6 @@ message GetTransactionReceiptProofRequest {
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.timestamp_nano transaction_timestamp = 3;
     primitives.sha256 txhash = 4;
-    primitives.block_height block_height = 5;
 }
 
 message GetTransactionReceiptProofResponse {

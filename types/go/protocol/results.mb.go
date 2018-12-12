@@ -35,6 +35,7 @@ const (
 	EXECUTION_RESULT_ERROR_INPUT           ExecutionResult = 3
 	EXECUTION_RESULT_ERROR_UNEXPECTED      ExecutionResult = 4
 	EXECUTION_RESULT_STATE_WRITE_IN_A_CALL ExecutionResult = 5
+	EXECUTION_RESULT_CONTRACT_NOT_DEPLOYED ExecutionResult = 6
 )
 
 func (n ExecutionResult) String() string {
@@ -51,6 +52,8 @@ func (n ExecutionResult) String() string {
 		return "EXECUTION_RESULT_ERROR_UNEXPECTED"
 	case EXECUTION_RESULT_STATE_WRITE_IN_A_CALL:
 		return "EXECUTION_RESULT_STATE_WRITE_IN_A_CALL"
+	case EXECUTION_RESULT_CONTRACT_NOT_DEPLOYED:
+		return "EXECUTION_RESULT_CONTRACT_NOT_DEPLOYED"
 	}
 	return "UNKNOWN"
 }

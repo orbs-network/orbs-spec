@@ -34,7 +34,7 @@ Currently a single instance per virtual chain per node.
   * The combined transient state of the entire batch (normally an entire block of transactions).
   * Relevant for `ReadWrite` execution contexts only.
 * Events logs
-  * Logs events emitted by the SDK `Log.Emit` function and are relevant only for `ReadWrite` execution contexts.
+  * Logs events emitted by the SDK `Log.EmitEvent` function and are relevant only for `ReadWrite` execution contexts.
   * Each event is associated with the contract that triggered it.
   * The events functionality is initially reserved for crosschain operations. Only a single event may be emitted per transaction, a second emit fails the transaction execution.
 

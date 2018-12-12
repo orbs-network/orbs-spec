@@ -39,11 +39,16 @@
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
 | block_proof_version | 0 | 4 | uint32 | |
+| transactions_block_hash length | 4 | always 4 | reserved |
 | transactions_block_hash | 8 | 32 | bytes (32B)| |
-| blockref_message | 52 | 52 | bytes (52B)|  |
+| oneof + nesting | 40 | 12 | reserved | oneof + proof + blockref | 
+| blockref_message | 52 | 52 | bytes (52B) |  |
 | block_hash | 72 | 32 | bytes (32B)|  |
-| node_pk | 112 + 112n | 32 | bytes (32B) |
-| node_sig | 148 + 112n | 65 | bytes (65B) |
+| node_pk_sig nesting | 104 + 100n | reserved | |
+| node_pk_length | 108 + 100n | 4 | always 20 | reserved |
+| node_pk | 112 + 100n | 20 | bytes (20B) | Ethereum address |
+| node_sig_length | 132 + 100n | 4 | always 65 | reserved |
+| node_sig | 136 + 100n | 65 | bytes (65B) |
 
 #### ResultsBlockProof Validation
 * Calcualte `calcualted_block_hash` = SHA256(`transactions_block_hash`,`result_header_hash`).
@@ -61,7 +66,11 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| event   | 40 |  | | |
+| execution_result | 36 | 4 | enum | 0x1 indicates success |
+| event length  | 40 | 4 | uint32 | |
+| event data  | 44 | variable | bytes | |
+
+
 
 * Total size: variable size. 
 
@@ -74,7 +83,6 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| receipt_index | 0 | 4 | uint32 | |
 | total_length  | 4 | 8 | uint32 | |
 | merkle_node   | 8 + 32n | 32 | bytes (32B)| |
 
@@ -97,12 +105,14 @@
 
 | Feild         | Offset        | Size          | Encoding      | Notes         |
 |:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| contract name length | 0 | 4 | uint32 | |
+| contract name length (N)| 0 | 4 | uint32 | |
 | contract name | 4 | N | string | |
-| event_id | TBD | 4 | uint32 | |
-| tuid | TBD | 8 | uint64 | |
-| ethereum_address | TBD | 20 | bytes (20B) | |
-| tokens | TBD | 32 | bytes (32B) | uint256 |
+| event_id | 4+N | 4 | enum | 0x1 indicates TRANSFERED_OUT|
+| tuid | 8+N | 8 | uint64 | |
+| ethereum_address length| N+16 | 4 | always 20 | reserved |
+| ethereum_address | N+20 | 20 | bytes (20B) | |
+| tokens length | N+40 | 4 | always 32 | reserved |
+| tokens | N+44 | 32 | uint256 | |
 
 &nbsp;
 #### Event Data Validation

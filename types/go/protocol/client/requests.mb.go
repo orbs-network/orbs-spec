@@ -1007,7 +1007,6 @@ type GetTransactionReceiptProofRequest struct {
 	// VirtualChainId primitives.VirtualChainId
 	// TransactionTimestamp primitives.TimestampNano
 	// Txhash primitives.Sha256
-	// BlockHeight primitives.BlockHeight
 
 	// internal
 	// implements membuffers.Message
@@ -1018,10 +1017,10 @@ func (x *GetTransactionReceiptProofRequest) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,BlockHeight:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash(), x.StringBlockHeight())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,TransactionTimestamp:%s,Txhash:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringTransactionTimestamp(), x.StringTxhash())
 }
 
-var _GetTransactionReceiptProofRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64}
+var _GetTransactionReceiptProofRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes}
 var _GetTransactionReceiptProofRequest_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionReceiptProofRequestReader(buf []byte) *GetTransactionReceiptProofRequest {
@@ -1112,22 +1111,6 @@ func (x *GetTransactionReceiptProofRequest) StringTxhash() string {
 	return fmt.Sprintf("%s", x.Txhash())
 }
 
-func (x *GetTransactionReceiptProofRequest) BlockHeight() primitives.BlockHeight {
-	return primitives.BlockHeight(x._message.GetUint64(4))
-}
-
-func (x *GetTransactionReceiptProofRequest) RawBlockHeight() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *GetTransactionReceiptProofRequest) MutateBlockHeight(v primitives.BlockHeight) error {
-	return x._message.SetUint64(4, uint64(v))
-}
-
-func (x *GetTransactionReceiptProofRequest) StringBlockHeight() string {
-	return fmt.Sprintf("%s", x.BlockHeight())
-}
-
 // builder
 
 type GetTransactionReceiptProofRequestBuilder struct {
@@ -1135,7 +1118,6 @@ type GetTransactionReceiptProofRequestBuilder struct {
 	VirtualChainId       primitives.VirtualChainId
 	TransactionTimestamp primitives.TimestampNano
 	Txhash               primitives.Sha256
-	BlockHeight          primitives.BlockHeight
 
 	// internal
 	// implements membuffers.Builder
@@ -1156,7 +1138,6 @@ func (w *GetTransactionReceiptProofRequestBuilder) Write(buf []byte) (err error)
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
 	w._builder.WriteUint64(buf, uint64(w.TransactionTimestamp))
 	w._builder.WriteBytes(buf, []byte(w.Txhash))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	return nil
 }
 
