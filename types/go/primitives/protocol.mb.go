@@ -90,6 +90,20 @@ func (x MethodName) KeyForMap() string {
 	return string(x)
 }
 
+type EventName string
+
+func (x EventName) String() string {
+	return fmt.Sprintf(string(x))
+}
+
+func (x EventName) Equal(y EventName) bool {
+	return x == y
+}
+
+func (x EventName) KeyForMap() string {
+	return string(x)
+}
+
 type ExecutionContextId uint32
 
 func (x ExecutionContextId) String() string {
