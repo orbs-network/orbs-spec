@@ -64,13 +64,14 @@
 &nbsp;
 ### Receipt
 
-| Feild         | Offset        | Size          | Encoding      | Notes         |
-|:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| execution_result | 36 | 4 | enum | 0x1 indicates success |
-| event length  | 40 | 4 | uint32 | |
-| event data  | 44 | variable | bytes | |
-
-
+| Feild               | Offset        | Size          | Encoding      | Notes                                 |
+|:--------------------|:-------------:|:-------------:|:-------------:|:--------------------------------------|
+| txhash length       | 0             | 4             | uint32        | reserved                              |
+| txhash              | 4             | 32            | bytes(32B)    | reserved                              |
+| execution_result    | 36            | 4             | enum          | 0x1 indicates success                 |
+| events array length | 40            | 4             | uint32        |                                       |
+| event length        | 44+event_len  | 4             | uint32        | next offset based on the event length |
+| event data          | 48+event_len  | variable      | bytes         |                                       |
 
 * Total size: variable size. 
 
@@ -81,10 +82,10 @@
 &nbsp;
 ### Receipt MerkleProof
 
-| Feild         | Offset        | Size          | Encoding      | Notes         |
-|:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| total_length  | 4 | 8 | uint32 | |
-| merkle_node   | 8 + 32n | 32 | bytes (32B)| |
+| Feild         | Offset   | Size | Encoding     | Notes         |
+|:------------- |:--------:|:----:|:------------:|:--------------|
+| total_length  | 4        | 8    | uint32       |               |
+| merkle_node   | 8 + 32n  | 32   | bytes (32B)  |               |
 
 #### MerkleProof Validation
 * Binary merkel tree validation:
@@ -103,20 +104,28 @@
 &nbsp;
 ### Autonomous Swap Event Data
 
-| Feild         | Offset        | Size          | Encoding      | Notes         |
-|:------------- |:-------------:|:-------------:|:-------------:|:--------------|
-| contract name length (N)| 0 | 4 | uint32 | |
-| contract name | 4 | N | string | |
-| event_id | 4+N | 4 | enum | 0x1 indicates TRANSFERED_OUT|
-| tuid | 8+N | 8 | uint64 | |
-| ethereum_address length| N+16 | 4 | always 20 | reserved |
-| ethereum_address | N+20 | 20 | bytes (20B) | |
-| tokens length | N+40 | 4 | always 32 | reserved |
-| tokens | N+44 | 32 | uint256 | |
+|          Field           | Offset | Size |  Encoding    |             Notes             |
+|:-------------------------|:------:|:----:|:------------:|:------------------------------|
+| contract name length (N) | 0      | 4    | uint32       |                               |
+| contract name            | 4      | N    | string       |                               |
+| event name length (K)    | N+4    | 4    | uint32       |                               |
+| event name               | N+8    | K    | string       |                               |
+| arguments_length         | N+K+8  | 4    | uint32       |                               |
+| tuid_type                | N+K+12 | 2(4) | enum (oneof) |                               |
+| tuid                     | N+K+16 | 8    | uint64       |                               |
+| ethereum_address_type    | N+K+24 | 2(4) | enum (oneof) |                               |
+| ethereum_address_length  | N+K+28 | 4    | always 20    | reserved                      |
+| ethereum_address         | N+K+32 | 20   | bytes (20B)  |                               |
+| orbs_address_type        | N+K+52 | 2(4) | enum (oneof) | reserved                      |
+| orbs_address_length      | N+K+56 | 4    | always 20    | reserved                      |
+| orbs_address             | N+K+60 | 20   | bytes (20B)  | reserved                      |
+| tokens_type              | N+K+80 | 2(4) | enum (oneof) |                               |
+| tokens_length            | N+K+84 | 4    | always 32    | reserved                      |
+| tokens                   | N+K+88 | 32   | uint256      |                               |
 
 &nbsp;
 #### Event Data Validation
 * Check that the `contract name` matches the configuration.
-* Check `event_id` = TRANSFERED_OUT (0x1)
+* Check `event_name` matches "TransferedOut" (string)
 * Check that the`ethereum_address` is valid - TBD.
 
