@@ -67,3 +67,9 @@ message merkle_tree_proof {
     bytes value = 1;
     // variable size
 }
+
+message packed_receipt_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}

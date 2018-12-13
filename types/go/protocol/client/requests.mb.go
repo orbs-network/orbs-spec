@@ -1171,7 +1171,7 @@ func (w *GetTransactionReceiptProofRequestBuilder) Build() *GetTransactionReceip
 
 type GetTransactionReceiptProofResponse struct {
 	// RequestStatus protocol.RequestStatus
-	// Proof protocol.ReceiptProof
+	// Proof primitives.PackedReceiptProof
 	// TransactionStatus protocol.TransactionStatus
 	// BlockHeight primitives.BlockHeight
 	// BlockTimestamp primitives.TimestampNano
@@ -1188,7 +1188,7 @@ func (x *GetTransactionReceiptProofResponse) String() string {
 	return fmt.Sprintf("{RequestStatus:%s,Proof:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringProof(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
-var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeMessage, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
 var _GetTransactionReceiptProofResponse_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionReceiptProofResponseReader(buf []byte) *GetTransactionReceiptProofResponse {
@@ -1231,21 +1231,20 @@ func (x *GetTransactionReceiptProofResponse) StringRequestStatus() string {
 	return x.RequestStatus().String()
 }
 
-func (x *GetTransactionReceiptProofResponse) Proof() *protocol.ReceiptProof {
-	b, s := x._message.GetMessage(1)
-	return protocol.ReceiptProofReader(b[:s])
+func (x *GetTransactionReceiptProofResponse) Proof() primitives.PackedReceiptProof {
+	return primitives.PackedReceiptProof(x._message.GetBytes(1))
 }
 
 func (x *GetTransactionReceiptProofResponse) RawProof() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) RawProofWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
+func (x *GetTransactionReceiptProofResponse) MutateProof(v primitives.PackedReceiptProof) error {
+	return x._message.SetBytes(1, []byte(v))
 }
 
 func (x *GetTransactionReceiptProofResponse) StringProof() string {
-	return x.Proof().String()
+	return fmt.Sprintf("%s", x.Proof())
 }
 
 func (x *GetTransactionReceiptProofResponse) TransactionStatus() protocol.TransactionStatus {
@@ -1300,7 +1299,7 @@ func (x *GetTransactionReceiptProofResponse) StringBlockTimestamp() string {
 
 type GetTransactionReceiptProofResponseBuilder struct {
 	RequestStatus     protocol.RequestStatus
-	Proof             *protocol.ReceiptProofBuilder
+	Proof             primitives.PackedReceiptProof
 	TransactionStatus protocol.TransactionStatus
 	BlockHeight       primitives.BlockHeight
 	BlockTimestamp    primitives.TimestampNano
@@ -1321,10 +1320,7 @@ func (w *GetTransactionReceiptProofResponseBuilder) Write(buf []byte) (err error
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	err = w._builder.WriteMessage(buf, w.Proof)
-	if err != nil {
-		return
-	}
+	w._builder.WriteBytes(buf, []byte(w.Proof))
 	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
