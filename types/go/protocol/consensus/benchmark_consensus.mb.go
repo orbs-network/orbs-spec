@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package consensus
 
 import (
@@ -79,10 +79,33 @@ type BenchmarkConsensusBlockProofBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *BenchmarkConsensusBlockProofBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Sender)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *BenchmarkConsensusBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -92,7 +115,7 @@ func (w *BenchmarkConsensusBlockProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Sender)
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "BenchmarkConsensusBlockProof.Sender", w.Sender)
 	if err != nil {
 		return
 	}
@@ -120,6 +143,10 @@ func (w *BenchmarkConsensusBlockProofBuilder) Build() *BenchmarkConsensusBlockPr
 		return nil
 	}
 	return BenchmarkConsensusBlockProofReader(buf)
+}
+
+func BenchmarkConsensusBlockProofBuilderFromRaw(raw []byte) *BenchmarkConsensusBlockProofBuilder {
+	return &BenchmarkConsensusBlockProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -178,6 +205,10 @@ func (x *BenchmarkConsensusSenderSignature) RawSenderPublicKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *BenchmarkConsensusSenderSignature) RawSenderPublicKeyWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *BenchmarkConsensusSenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(0, []byte(v))
 }
@@ -192,6 +223,10 @@ func (x *BenchmarkConsensusSenderSignature) Signature() primitives.Ed25519Sig {
 
 func (x *BenchmarkConsensusSenderSignature) RawSignature() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *BenchmarkConsensusSenderSignature) RawSignatureWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *BenchmarkConsensusSenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
@@ -210,10 +245,31 @@ type BenchmarkConsensusSenderSignatureBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *BenchmarkConsensusSenderSignatureBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *BenchmarkConsensusSenderSignatureBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -223,8 +279,8 @@ func (w *BenchmarkConsensusSenderSignatureBuilder) Write(buf []byte) (err error)
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
-	w._builder.WriteBytes(buf, []byte(w.Signature))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "BenchmarkConsensusSenderSignature.SenderPublicKey", []byte(w.SenderPublicKey))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "BenchmarkConsensusSenderSignature.Signature", []byte(w.Signature))
 	return nil
 }
 
@@ -249,6 +305,10 @@ func (w *BenchmarkConsensusSenderSignatureBuilder) Build() *BenchmarkConsensusSe
 		return nil
 	}
 	return BenchmarkConsensusSenderSignatureReader(buf)
+}
+
+func BenchmarkConsensusSenderSignatureBuilderFromRaw(raw []byte) *BenchmarkConsensusSenderSignatureBuilder {
+	return &BenchmarkConsensusSenderSignatureBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

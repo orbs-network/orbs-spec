@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -227,18 +227,24 @@ type MethodArgumentBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	w._builder.WriteString(buf, w.Name)
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
@@ -251,6 +257,31 @@ func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteString(buf, w.StringValue)
 	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
 		w._builder.WriteBytes(buf, w.BytesValue)
+	}
+	return nil
+}
+
+func (w *MethodArgumentBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpString(prefix, offsetFromStart, "MethodArgument.Name", w.Name)
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "MethodArgument.Type", uint16(w.Type))
+	switch w.Type {
+	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
+		w._builder.HexDumpUint32(prefix, offsetFromStart, "MethodArgument.Uint32Value", w.Uint32Value)
+	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
+		w._builder.HexDumpUint64(prefix, offsetFromStart, "MethodArgument.Uint64Value", w.Uint64Value)
+	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
+		w._builder.HexDumpString(prefix, offsetFromStart, "MethodArgument.StringValue", w.StringValue)
+	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "MethodArgument.BytesValue", w.BytesValue)
 	}
 	return nil
 }
@@ -276,6 +307,10 @@ func (w *MethodArgumentBuilder) Build() *MethodArgument {
 		return nil
 	}
 	return MethodArgumentReader(buf)
+}
+
+func MethodArgumentBuilderFromRaw(raw []byte) *MethodArgumentBuilder {
+	return &MethodArgumentBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -366,7 +401,8 @@ type MethodArgumentArrayBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *MethodArgumentArrayBuilder) arrayOfArguments() []membuffers.MessageWriter {
@@ -381,13 +417,35 @@ func (w *MethodArgumentArrayBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *MethodArgumentArrayBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessageArray(buf, w.arrayOfArguments())
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "MethodArgumentArray.Arguments", w.arrayOfArguments())
 	if err != nil {
 		return
 	}
@@ -415,6 +473,10 @@ func (w *MethodArgumentArrayBuilder) Build() *MethodArgumentArray {
 		return nil
 	}
 	return MethodArgumentArrayReader(buf)
+}
+
+func MethodArgumentArrayBuilderFromRaw(raw []byte) *MethodArgumentArrayBuilder {
+	return &MethodArgumentArrayBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -473,6 +535,10 @@ func (x *StateRecord) RawKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *StateRecord) RawKeyWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *StateRecord) MutateKey(v primitives.Ripmd160Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
@@ -509,10 +575,31 @@ type StateRecordBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *StateRecordBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.Key))
+	w._builder.WriteBytes(buf, w.Value)
+	return nil
+}
+
+func (w *StateRecordBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -522,8 +609,8 @@ func (w *StateRecordBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.Key))
-	w._builder.WriteBytes(buf, w.Value)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "StateRecord.Key", []byte(w.Key))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "StateRecord.Value", w.Value)
 	return nil
 }
 
@@ -548,6 +635,10 @@ func (w *StateRecordBuilder) Build() *StateRecord {
 		return nil
 	}
 	return StateRecordReader(buf)
+}
+
+func StateRecordBuilderFromRaw(raw []byte) *StateRecordBuilder {
+	return &StateRecordBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -606,6 +697,10 @@ func (x *ContractStateDiff) RawContractName() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *ContractStateDiff) RawContractNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *ContractStateDiff) MutateContractName(v primitives.ContractName) error {
 	return x._message.SetString(0, string(v))
 }
@@ -656,7 +751,8 @@ type ContractStateDiffBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ContractStateDiffBuilder) arrayOfStateDiffs() []membuffers.MessageWriter {
@@ -671,14 +767,37 @@ func (w *ContractStateDiffBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteString(buf, string(w.ContractName))
+	err = w._builder.WriteMessageArray(buf, w.arrayOfStateDiffs())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *ContractStateDiffBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteString(buf, string(w.ContractName))
-	err = w._builder.WriteMessageArray(buf, w.arrayOfStateDiffs())
+	w._builder.HexDumpString(prefix, offsetFromStart, "ContractStateDiff.ContractName", string(w.ContractName))
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "ContractStateDiff.StateDiffs", w.arrayOfStateDiffs())
 	if err != nil {
 		return
 	}
@@ -706,6 +825,10 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 		return nil
 	}
 	return ContractStateDiffReader(buf)
+}
+
+func ContractStateDiffBuilderFromRaw(raw []byte) *ContractStateDiffBuilder {
+	return &ContractStateDiffBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -765,6 +888,10 @@ func (x *Event) RawContractName() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *Event) RawContractNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *Event) MutateContractName(v primitives.ContractName) error {
 	return x._message.SetString(0, string(v))
 }
@@ -781,6 +908,10 @@ func (x *Event) RawEventName() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
+func (x *Event) RawEventNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
 func (x *Event) MutateEventName(v primitives.EventName) error {
 	return x._message.SetString(1, string(v))
 }
@@ -795,6 +926,10 @@ func (x *Event) OutputArgumentArray() primitives.PackedArgumentArray {
 
 func (x *Event) RawOutputArgumentArray() []byte {
 	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *Event) RawOutputArgumentArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
 func (x *Event) MutateOutputArgumentArray(v primitives.PackedArgumentArray) error {
@@ -814,10 +949,32 @@ type EventBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *EventBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteString(buf, string(w.ContractName))
+	w._builder.WriteString(buf, string(w.EventName))
+	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
+	return nil
+}
+
+func (w *EventBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -827,9 +984,9 @@ func (w *EventBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteString(buf, string(w.ContractName))
-	w._builder.WriteString(buf, string(w.EventName))
-	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
+	w._builder.HexDumpString(prefix, offsetFromStart, "Event.ContractName", string(w.ContractName))
+	w._builder.HexDumpString(prefix, offsetFromStart, "Event.EventName", string(w.EventName))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "Event.OutputArgumentArray", []byte(w.OutputArgumentArray))
 	return nil
 }
 
@@ -854,6 +1011,10 @@ func (w *EventBuilder) Build() *Event {
 		return nil
 	}
 	return EventReader(buf)
+}
+
+func EventBuilderFromRaw(raw []byte) *EventBuilder {
+	return &EventBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -944,7 +1105,8 @@ type EventsArrayBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *EventsArrayBuilder) arrayOfEvents() []membuffers.MessageWriter {
@@ -959,13 +1121,35 @@ func (w *EventsArrayBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfEvents())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *EventsArrayBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessageArray(buf, w.arrayOfEvents())
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "EventsArray.Events", w.arrayOfEvents())
 	if err != nil {
 		return
 	}
@@ -993,6 +1177,10 @@ func (w *EventsArrayBuilder) Build() *EventsArray {
 		return nil
 	}
 	return EventsArrayReader(buf)
+}
+
+func EventsArrayBuilderFromRaw(raw []byte) *EventsArrayBuilder {
+	return &EventsArrayBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package consensus
 
 import (
@@ -116,6 +116,10 @@ func (x *LeanHelixBlockProof) RawRandomSeedSignature() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *LeanHelixBlockProof) RawRandomSeedSignatureWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
 func (x *LeanHelixBlockProof) MutateRandomSeedSignature(v primitives.Bls1Sig) error {
 	return x._message.SetBytes(2, []byte(v))
 }
@@ -133,7 +137,8 @@ type LeanHelixBlockProofBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *LeanHelixBlockProofBuilder) arrayOfNodes() []membuffers.MessageWriter {
@@ -148,11 +153,16 @@ func (w *LeanHelixBlockProofBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	err = w._builder.WriteMessage(buf, w.BlockRef)
 	if err != nil {
@@ -163,6 +173,28 @@ func (w *LeanHelixBlockProofBuilder) Write(buf []byte) (err error) {
 		return
 	}
 	w._builder.WriteBytes(buf, []byte(w.RandomSeedSignature))
+	return nil
+}
+
+func (w *LeanHelixBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "LeanHelixBlockProof.BlockRef", w.BlockRef)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "LeanHelixBlockProof.Nodes", w.arrayOfNodes())
+	if err != nil {
+		return
+	}
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixBlockProof.RandomSeedSignature", []byte(w.RandomSeedSignature))
 	return nil
 }
 
@@ -187,6 +219,10 @@ func (w *LeanHelixBlockProofBuilder) Build() *LeanHelixBlockProof {
 		return nil
 	}
 	return LeanHelixBlockProofReader(buf)
+}
+
+func LeanHelixBlockProofBuilderFromRaw(raw []byte) *LeanHelixBlockProofBuilder {
+	return &LeanHelixBlockProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -245,6 +281,10 @@ func (x *LeanHelixSenderSignature) RawSenderPublicKey() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixSenderSignature) RawSenderPublicKeyWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *LeanHelixSenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(0, []byte(v))
 }
@@ -259,6 +299,10 @@ func (x *LeanHelixSenderSignature) Signature() primitives.Ed25519Sig {
 
 func (x *LeanHelixSenderSignature) RawSignature() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *LeanHelixSenderSignature) RawSignatureWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *LeanHelixSenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
@@ -277,10 +321,31 @@ type LeanHelixSenderSignatureBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *LeanHelixSenderSignatureBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *LeanHelixSenderSignatureBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -290,8 +355,8 @@ func (w *LeanHelixSenderSignatureBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
-	w._builder.WriteBytes(buf, []byte(w.Signature))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixSenderSignature.SenderPublicKey", []byte(w.SenderPublicKey))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixSenderSignature.Signature", []byte(w.Signature))
 	return nil
 }
 
@@ -316,6 +381,10 @@ func (w *LeanHelixSenderSignatureBuilder) Build() *LeanHelixSenderSignature {
 		return nil
 	}
 	return LeanHelixSenderSignatureReader(buf)
+}
+
+func LeanHelixSenderSignatureBuilderFromRaw(raw []byte) *LeanHelixSenderSignatureBuilder {
+	return &LeanHelixSenderSignatureBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -424,6 +493,10 @@ func (x *LeanHelixBlockRef) RawBlockHash() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *LeanHelixBlockRef) RawBlockHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *LeanHelixBlockRef) MutateBlockHash(v primitives.Uint256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
@@ -442,10 +515,33 @@ type LeanHelixBlockRefBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *LeanHelixBlockRefBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.MessageType))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteUint32(buf, w.View)
+	w._builder.WriteBytes(buf, []byte(w.BlockHash))
+	return nil
+}
+
+func (w *LeanHelixBlockRefBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -455,10 +551,10 @@ func (w *LeanHelixBlockRefBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.MessageType))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint32(buf, w.View)
-	w._builder.WriteBytes(buf, []byte(w.BlockHash))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "LeanHelixBlockRef.MessageType", uint16(w.MessageType))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "LeanHelixBlockRef.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "LeanHelixBlockRef.View", w.View)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixBlockRef.BlockHash", []byte(w.BlockHash))
 	return nil
 }
 
@@ -483,6 +579,10 @@ func (w *LeanHelixBlockRefBuilder) Build() *LeanHelixBlockRef {
 		return nil
 	}
 	return LeanHelixBlockRefReader(buf)
+}
+
+func LeanHelixBlockRefBuilderFromRaw(raw []byte) *LeanHelixBlockRefBuilder {
+	return &LeanHelixBlockRefBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

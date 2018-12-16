@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
@@ -60,10 +60,29 @@ type TempKillMeTransactionRelayBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TempKillMeTransactionRelayBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	return nil
+}
+
+func (w *TempKillMeTransactionRelayBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -97,6 +116,10 @@ func (w *TempKillMeTransactionRelayBuilder) Build() *TempKillMeTransactionRelay 
 		return nil
 	}
 	return TempKillMeTransactionRelayReader(buf)
+}
+
+func TempKillMeTransactionRelayBuilderFromRaw(raw []byte) *TempKillMeTransactionRelayBuilder {
+	return &TempKillMeTransactionRelayBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

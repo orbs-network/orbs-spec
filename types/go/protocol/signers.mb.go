@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -129,10 +129,36 @@ type SignerBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *SignerBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUnionIndex(buf, uint16(w.Scheme))
+	switch w.Scheme {
+	case SIGNER_SCHEME_EDDSA:
+		w._builder.WriteMessage(buf, w.Eddsa)
+	case SIGNER_SCHEME_SMART_CONTRACT_CALLER:
+		w._builder.WriteMessage(buf, w.SmartContractCaller)
+	}
+	return nil
+}
+
+func (w *SignerBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -142,12 +168,12 @@ func (w *SignerBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUnionIndex(buf, uint16(w.Scheme))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "Signer.Scheme", uint16(w.Scheme))
 	switch w.Scheme {
 	case SIGNER_SCHEME_EDDSA:
-		w._builder.WriteMessage(buf, w.Eddsa)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "Signer.Eddsa", w.Eddsa)
 	case SIGNER_SCHEME_SMART_CONTRACT_CALLER:
-		w._builder.WriteMessage(buf, w.SmartContractCaller)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "Signer.SmartContractCaller", w.SmartContractCaller)
 	}
 	return nil
 }
@@ -173,6 +199,10 @@ func (w *SignerBuilder) Build() *Signer {
 		return nil
 	}
 	return SignerReader(buf)
+}
+
+func SignerBuilderFromRaw(raw []byte) *SignerBuilder {
+	return &SignerBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -247,6 +277,10 @@ func (x *EdDSA01Signer) RawSignerPublicKey() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
+func (x *EdDSA01Signer) RawSignerPublicKeyWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
 func (x *EdDSA01Signer) MutateSignerPublicKey(v primitives.Ed25519PublicKey) error {
 	return x._message.SetBytes(1, []byte(v))
 }
@@ -263,10 +297,31 @@ type EdDSA01SignerBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *EdDSA01SignerBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.NetworkType))
+	w._builder.WriteBytes(buf, []byte(w.SignerPublicKey))
+	return nil
+}
+
+func (w *EdDSA01SignerBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -276,8 +331,8 @@ func (w *EdDSA01SignerBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.NetworkType))
-	w._builder.WriteBytes(buf, []byte(w.SignerPublicKey))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "EdDSA01Signer.NetworkType", uint16(w.NetworkType))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "EdDSA01Signer.SignerPublicKey", []byte(w.SignerPublicKey))
 	return nil
 }
 
@@ -302,6 +357,10 @@ func (w *EdDSA01SignerBuilder) Build() *EdDSA01Signer {
 		return nil
 	}
 	return EdDSA01SignerReader(buf)
+}
+
+func EdDSA01SignerBuilderFromRaw(raw []byte) *EdDSA01SignerBuilder {
+	return &EdDSA01SignerBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -359,6 +418,10 @@ func (x *SmartContractCaller) RawContractName() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *SmartContractCaller) RawContractNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *SmartContractCaller) MutateContractName(v primitives.ContractName) error {
 	return x._message.SetString(0, string(v))
 }
@@ -374,10 +437,30 @@ type SmartContractCallerBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *SmartContractCallerBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteString(buf, string(w.ContractName))
+	return nil
+}
+
+func (w *SmartContractCallerBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -387,7 +470,7 @@ func (w *SmartContractCallerBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteString(buf, string(w.ContractName))
+	w._builder.HexDumpString(prefix, offsetFromStart, "SmartContractCaller.ContractName", string(w.ContractName))
 	return nil
 }
 
@@ -412,6 +495,10 @@ func (w *SmartContractCallerBuilder) Build() *SmartContractCaller {
 		return nil
 	}
 	return SmartContractCallerReader(buf)
+}
+
+func SmartContractCallerBuilderFromRaw(raw []byte) *SmartContractCallerBuilder {
+	return &SmartContractCallerBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

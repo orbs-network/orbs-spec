@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -236,6 +236,10 @@ func (x *TransactionsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *TransactionsBlockHeader) RawPrevBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
@@ -268,6 +272,10 @@ func (x *TransactionsBlockHeader) RawTransactionsRootHash() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
+func (x *TransactionsBlockHeader) RawTransactionsRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
 func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v primitives.MerkleSha256) error {
 	return x._message.SetBytes(5, []byte(v))
 }
@@ -282,6 +290,10 @@ func (x *TransactionsBlockHeader) MetadataHash() primitives.Sha256 {
 
 func (x *TransactionsBlockHeader) RawMetadataHash() []byte {
 	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *TransactionsBlockHeader) RawMetadataHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
 }
 
 func (x *TransactionsBlockHeader) MutateMetadataHash(v primitives.Sha256) error {
@@ -322,18 +334,24 @@ type TransactionsBlockHeaderBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
@@ -343,6 +361,27 @@ func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteBytes(buf, []byte(w.TransactionsRootHash))
 	w._builder.WriteBytes(buf, []byte(w.MetadataHash))
 	w._builder.WriteUint32(buf, w.NumSignedTransactions)
+	return nil
+}
+
+func (w *TransactionsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "TransactionsBlockHeader.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.PrevBlockHashPtr", []byte(w.PrevBlockHashPtr))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "TransactionsBlockHeader.Timestamp", uint64(w.Timestamp))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.TransactionsRootHash", []byte(w.TransactionsRootHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.MetadataHash", []byte(w.MetadataHash))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.NumSignedTransactions", w.NumSignedTransactions)
 	return nil
 }
 
@@ -367,6 +406,10 @@ func (w *TransactionsBlockHeaderBuilder) Build() *TransactionsBlockHeader {
 		return nil
 	}
 	return TransactionsBlockHeaderReader(buf)
+}
+
+func TransactionsBlockHeaderBuilderFromRaw(raw []byte) *TransactionsBlockHeaderBuilder {
+	return &TransactionsBlockHeaderBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -483,6 +526,10 @@ func (x *ResultsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *ResultsBlockHeader) RawPrevBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
@@ -515,6 +562,10 @@ func (x *ResultsBlockHeader) RawReceiptsRootHash() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
+func (x *ResultsBlockHeader) RawReceiptsRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
 func (x *ResultsBlockHeader) MutateReceiptsRootHash(v primitives.MerkleSha256) error {
 	return x._message.SetBytes(5, []byte(v))
 }
@@ -529,6 +580,10 @@ func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
 
 func (x *ResultsBlockHeader) RawStateDiffHash() []byte {
 	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *ResultsBlockHeader) RawStateDiffHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
 }
 
 func (x *ResultsBlockHeader) MutateStateDiffHash(v primitives.Sha256) error {
@@ -547,6 +602,10 @@ func (x *ResultsBlockHeader) RawTransactionsBlockHashPtr() []byte {
 	return x._message.RawBufferForField(7, 0)
 }
 
+func (x *ResultsBlockHeader) RawTransactionsBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(7, 0)
+}
+
 func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(7, []byte(v))
 }
@@ -563,6 +622,10 @@ func (x *ResultsBlockHeader) RawPreExecutionStateRootHash() []byte {
 	return x._message.RawBufferForField(8, 0)
 }
 
+func (x *ResultsBlockHeader) RawPreExecutionStateRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(8, 0)
+}
+
 func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v primitives.MerkleSha256) error {
 	return x._message.SetBytes(8, []byte(v))
 }
@@ -577,6 +640,10 @@ func (x *ResultsBlockHeader) TransactionsBloomFilterHash() primitives.Sha256 {
 
 func (x *ResultsBlockHeader) RawTransactionsBloomFilterHash() []byte {
 	return x._message.RawBufferForField(9, 0)
+}
+
+func (x *ResultsBlockHeader) RawTransactionsBloomFilterHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(9, 0)
 }
 
 func (x *ResultsBlockHeader) MutateTransactionsBloomFilterHash(v primitives.Sha256) error {
@@ -637,18 +704,24 @@ type ResultsBlockHeaderBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
@@ -662,6 +735,31 @@ func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteBytes(buf, []byte(w.TransactionsBloomFilterHash))
 	w._builder.WriteUint32(buf, w.NumTransactionReceipts)
 	w._builder.WriteUint32(buf, w.NumContractStateDiffs)
+	return nil
+}
+
+func (w *ResultsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "ResultsBlockHeader.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.PrevBlockHashPtr", []byte(w.PrevBlockHashPtr))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "ResultsBlockHeader.Timestamp", uint64(w.Timestamp))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.ReceiptsRootHash", []byte(w.ReceiptsRootHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.StateDiffHash", []byte(w.StateDiffHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.TransactionsBlockHashPtr", []byte(w.TransactionsBlockHashPtr))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.PreExecutionStateRootHash", []byte(w.PreExecutionStateRootHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.TransactionsBloomFilterHash", []byte(w.TransactionsBloomFilterHash))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumTransactionReceipts", w.NumTransactionReceipts)
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumContractStateDiffs", w.NumContractStateDiffs)
 	return nil
 }
 
@@ -686,6 +784,10 @@ func (w *ResultsBlockHeaderBuilder) Build() *ResultsBlockHeader {
 		return nil
 	}
 	return ResultsBlockHeaderReader(buf)
+}
+
+func ResultsBlockHeaderBuilderFromRaw(raw []byte) *ResultsBlockHeaderBuilder {
+	return &ResultsBlockHeaderBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -740,10 +842,29 @@ type TransactionsBlockMetadataBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockMetadataBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	return nil
+}
+
+func (w *TransactionsBlockMetadataBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -777,6 +898,10 @@ func (w *TransactionsBlockMetadataBuilder) Build() *TransactionsBlockMetadata {
 		return nil
 	}
 	return TransactionsBlockMetadataReader(buf)
+}
+
+func TransactionsBlockMetadataBuilderFromRaw(raw []byte) *TransactionsBlockMetadataBuilder {
+	return &TransactionsBlockMetadataBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -835,6 +960,10 @@ func (x *TransactionsBloomFilter) RawTxhashBloomFilter() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *TransactionsBloomFilter) RawTxhashBloomFilterWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *TransactionsBloomFilter) MutateTxhashBloomFilter(v primitives.BloomFilter) error {
 	return x._message.SetBytes(0, []byte(v))
 }
@@ -849,6 +978,10 @@ func (x *TransactionsBloomFilter) TimestampBloomFilter() primitives.BloomFilter 
 
 func (x *TransactionsBloomFilter) RawTimestampBloomFilter() []byte {
 	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *TransactionsBloomFilter) RawTimestampBloomFilterWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
 func (x *TransactionsBloomFilter) MutateTimestampBloomFilter(v primitives.BloomFilter) error {
@@ -867,10 +1000,31 @@ type TransactionsBloomFilterBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBloomFilterBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.TxhashBloomFilter))
+	w._builder.WriteBytes(buf, []byte(w.TimestampBloomFilter))
+	return nil
+}
+
+func (w *TransactionsBloomFilterBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -880,8 +1034,8 @@ func (w *TransactionsBloomFilterBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.TxhashBloomFilter))
-	w._builder.WriteBytes(buf, []byte(w.TimestampBloomFilter))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBloomFilter.TxhashBloomFilter", []byte(w.TxhashBloomFilter))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBloomFilter.TimestampBloomFilter", []byte(w.TimestampBloomFilter))
 	return nil
 }
 
@@ -906,6 +1060,10 @@ func (w *TransactionsBloomFilterBuilder) Build() *TransactionsBloomFilter {
 		return nil
 	}
 	return TransactionsBloomFilterReader(buf)
+}
+
+func TransactionsBloomFilterBuilderFromRaw(raw []byte) *TransactionsBloomFilterBuilder {
+	return &TransactionsBloomFilterBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -962,6 +1120,10 @@ func (x *TransactionsBlockProof) ResultsBlockHash() primitives.Sha256 {
 
 func (x *TransactionsBlockProof) RawResultsBlockHash() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *TransactionsBlockProof) RawResultsBlockHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *TransactionsBlockProof) MutateResultsBlockHash(v primitives.Sha256) error {
@@ -1047,10 +1209,37 @@ type TransactionsBlockProofBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.ResultsBlockHash))
+	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	switch w.Type {
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		w._builder.WriteMessage(buf, w.LeanHelix)
+	}
+	return nil
+}
+
+func (w *TransactionsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -1060,13 +1249,13 @@ func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.ResultsBlockHash))
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockProof.ResultsBlockHash", []byte(w.ResultsBlockHash))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "TransactionsBlockProof.Type", uint16(w.Type))
 	switch w.Type {
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.LeanHelix", w.LeanHelix)
 	}
 	return nil
 }
@@ -1092,6 +1281,10 @@ func (w *TransactionsBlockProofBuilder) Build() *TransactionsBlockProof {
 		return nil
 	}
 	return TransactionsBlockProofReader(buf)
+}
+
+func TransactionsBlockProofBuilderFromRaw(raw []byte) *TransactionsBlockProofBuilder {
+	return &TransactionsBlockProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1148,6 +1341,10 @@ func (x *ResultsBlockProof) TransactionsBlockHash() primitives.Sha256 {
 
 func (x *ResultsBlockProof) RawTransactionsBlockHash() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *ResultsBlockProof) RawTransactionsBlockHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *ResultsBlockProof) MutateTransactionsBlockHash(v primitives.Sha256) error {
@@ -1233,10 +1430,37 @@ type ResultsBlockProofBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHash))
+	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	switch w.Type {
+	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		w._builder.WriteMessage(buf, w.LeanHelix)
+	}
+	return nil
+}
+
+func (w *ResultsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -1246,13 +1470,13 @@ func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHash))
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.TransactionsBlockHash", []byte(w.TransactionsBlockHash))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "ResultsBlockProof.Type", uint16(w.Type))
 	switch w.Type {
 	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", w.LeanHelix)
 	}
 	return nil
 }
@@ -1278,6 +1502,10 @@ func (w *ResultsBlockProofBuilder) Build() *ResultsBlockProof {
 		return nil
 	}
 	return ResultsBlockProofReader(buf)
+}
+
+func ResultsBlockProofBuilderFromRaw(raw []byte) *ResultsBlockProofBuilder {
+	return &ResultsBlockProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

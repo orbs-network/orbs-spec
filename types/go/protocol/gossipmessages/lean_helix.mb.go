@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
@@ -96,6 +96,10 @@ func (x *LeanHelixRandomSeedShare) RawRandomSeedShare() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
+func (x *LeanHelixRandomSeedShare) RawRandomSeedShareWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
 func (x *LeanHelixRandomSeedShare) MutateRandomSeedShare(v primitives.Bls1Sig) error {
 	return x._message.SetBytes(0, []byte(v))
 }
@@ -111,10 +115,30 @@ type LeanHelixRandomSeedShareBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *LeanHelixRandomSeedShareBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.RandomSeedShare))
+	return nil
+}
+
+func (w *LeanHelixRandomSeedShareBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -124,7 +148,7 @@ func (w *LeanHelixRandomSeedShareBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.RandomSeedShare))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixRandomSeedShare.RandomSeedShare", []byte(w.RandomSeedShare))
 	return nil
 }
 
@@ -149,6 +173,10 @@ func (w *LeanHelixRandomSeedShareBuilder) Build() *LeanHelixRandomSeedShare {
 		return nil
 	}
 	return LeanHelixRandomSeedShareReader(buf)
+}
+
+func LeanHelixRandomSeedShareBuilderFromRaw(raw []byte) *LeanHelixRandomSeedShareBuilder {
+	return &LeanHelixRandomSeedShareBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
