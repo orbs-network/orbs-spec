@@ -41,7 +41,7 @@ message ed25519_private_key {
     // size 32 bytes
 }
 
-message ripmd160_sha256 {
+message ripemd160_sha256 {
     option inline_type = "bytes";
     bytes value = 1;
     // size 20 bytes

@@ -25,7 +25,7 @@ service StateStorage {
 message ReadKeysInput {
     primitives.block_height block_height = 1;
     primitives.contract_name contract_name = 2;
-    repeated primitives.ripmd160_sha256 keys = 3;
+    repeated primitives.ripemd160_sha256 keys = 3;
 }
 
 // returns error code on failure
