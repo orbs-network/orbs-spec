@@ -68,7 +68,7 @@ message bls1_private_key {
 message ecdsa_secp256k1_sig {
     option inline_type = "bytes";
     bytes value = 1;
-    // size 64 bytes
+    // size 65 bytes
 }
 
 message ecdsa_secp256k1_public_key {
