@@ -74,12 +74,14 @@ message packed_receipt_proof {
     // variable size
 }
 
+// opaque field of repeated protocol.Event
 message packed_events_array {
     option inline_type = "bytes";
     bytes value = 1;
     // variable size
 }
 
+// opaque field of repeated protocol.MethodArgument
 message packed_argument_array {
     option inline_type = "bytes";
     bytes value = 1;

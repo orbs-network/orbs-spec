@@ -28,8 +28,8 @@ message CallMethodRequest {
 
 message CallMethodResponse {
     protocol.RequestStatus request_status = 1;
-    primitives.packed_argument_array output_argument_array = 2; // opaque field of repeated protocol.MethodArgument
-    primitives.packed_events_array output_events_array = 3; // opaque field of repeated protocol.Event
+    primitives.packed_argument_array output_argument_array = 2;
+    primitives.packed_events_array output_events_array = 3;
     protocol.ExecutionResult call_method_result = 4;
     primitives.block_height block_height = 5; // should always be returned even on errors or timeouts
     primitives.timestamp_nano block_timestamp = 6; // should always be returned even on errors or timeouts
