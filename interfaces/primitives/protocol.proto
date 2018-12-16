@@ -73,3 +73,15 @@ message packed_receipt_proof {
     bytes value = 1;
     // variable size
 }
+
+message packed_events_array {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+message packed_argument_array {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}

@@ -20,7 +20,7 @@ type Transaction struct {
 	// Signer Signer
 	// ContractName primitives.ContractName
 	// MethodName primitives.MethodName
-	// InputArgumentArray []byte
+	// InputArgumentArray primitives.PackedArgumentArray
 
 	// internal
 	// implements membuffers.Message
@@ -158,24 +158,20 @@ func (x *Transaction) StringMethodName() string {
 	return fmt.Sprintf("%s", x.MethodName())
 }
 
-func (x *Transaction) InputArgumentArray() []byte {
-	return x._message.GetBytes(6)
+func (x *Transaction) InputArgumentArray() primitives.PackedArgumentArray {
+	return primitives.PackedArgumentArray(x._message.GetBytes(6))
 }
 
 func (x *Transaction) RawInputArgumentArray() []byte {
 	return x._message.RawBufferForField(6, 0)
 }
 
-func (x *Transaction) RawInputArgumentArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(6, 0)
-}
-
-func (x *Transaction) MutateInputArgumentArray(v []byte) error {
-	return x._message.SetBytes(6, v)
+func (x *Transaction) MutateInputArgumentArray(v primitives.PackedArgumentArray) error {
+	return x._message.SetBytes(6, []byte(v))
 }
 
 func (x *Transaction) StringInputArgumentArray() string {
-	return fmt.Sprintf("%x", x.InputArgumentArray())
+	return fmt.Sprintf("%s", x.InputArgumentArray())
 }
 
 // builder
@@ -187,7 +183,7 @@ type TransactionBuilder struct {
 	Signer             *SignerBuilder
 	ContractName       primitives.ContractName
 	MethodName         primitives.MethodName
-	InputArgumentArray []byte
+	InputArgumentArray primitives.PackedArgumentArray
 
 	// internal
 	// implements membuffers.Builder
@@ -213,7 +209,7 @@ func (w *TransactionBuilder) Write(buf []byte) (err error) {
 	}
 	w._builder.WriteString(buf, string(w.ContractName))
 	w._builder.WriteString(buf, string(w.MethodName))
-	w._builder.WriteBytes(buf, w.InputArgumentArray)
+	w._builder.WriteBytes(buf, []byte(w.InputArgumentArray))
 	return nil
 }
 
@@ -385,8 +381,8 @@ func (w *SignedTransactionBuilder) Build() *SignedTransaction {
 type TransactionReceipt struct {
 	// Txhash primitives.Sha256
 	// ExecutionResult ExecutionResult
-	// OutputEventsArray []byte
-	// OutputArgumentArray []byte
+	// OutputArgumentArray primitives.PackedArgumentArray
+	// OutputEventsArray primitives.PackedEventsArray
 
 	// internal
 	// implements membuffers.Message
@@ -397,7 +393,7 @@ func (x *TransactionReceipt) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputEventsArray:%s,OutputArgumentArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputEventsArray(), x.StringOutputArgumentArray())
+	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray())
 }
 
 var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes}
@@ -459,44 +455,36 @@ func (x *TransactionReceipt) StringExecutionResult() string {
 	return x.ExecutionResult().String()
 }
 
-func (x *TransactionReceipt) OutputEventsArray() []byte {
-	return x._message.GetBytes(2)
-}
-
-func (x *TransactionReceipt) RawOutputEventsArray() []byte {
-	return x._message.RawBufferForField(2, 0)
-}
-
-func (x *TransactionReceipt) RawOutputEventsArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(2, 0)
-}
-
-func (x *TransactionReceipt) MutateOutputEventsArray(v []byte) error {
-	return x._message.SetBytes(2, v)
-}
-
-func (x *TransactionReceipt) StringOutputEventsArray() string {
-	return fmt.Sprintf("%x", x.OutputEventsArray())
-}
-
-func (x *TransactionReceipt) OutputArgumentArray() []byte {
-	return x._message.GetBytes(3)
+func (x *TransactionReceipt) OutputArgumentArray() primitives.PackedArgumentArray {
+	return primitives.PackedArgumentArray(x._message.GetBytes(2))
 }
 
 func (x *TransactionReceipt) RawOutputArgumentArray() []byte {
-	return x._message.RawBufferForField(3, 0)
+	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *TransactionReceipt) RawOutputArgumentArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(3, 0)
-}
-
-func (x *TransactionReceipt) MutateOutputArgumentArray(v []byte) error {
-	return x._message.SetBytes(3, v)
+func (x *TransactionReceipt) MutateOutputArgumentArray(v primitives.PackedArgumentArray) error {
+	return x._message.SetBytes(2, []byte(v))
 }
 
 func (x *TransactionReceipt) StringOutputArgumentArray() string {
-	return fmt.Sprintf("%x", x.OutputArgumentArray())
+	return fmt.Sprintf("%s", x.OutputArgumentArray())
+}
+
+func (x *TransactionReceipt) OutputEventsArray() primitives.PackedEventsArray {
+	return primitives.PackedEventsArray(x._message.GetBytes(3))
+}
+
+func (x *TransactionReceipt) RawOutputEventsArray() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *TransactionReceipt) MutateOutputEventsArray(v primitives.PackedEventsArray) error {
+	return x._message.SetBytes(3, []byte(v))
+}
+
+func (x *TransactionReceipt) StringOutputEventsArray() string {
+	return fmt.Sprintf("%s", x.OutputEventsArray())
 }
 
 // builder
@@ -504,8 +492,8 @@ func (x *TransactionReceipt) StringOutputArgumentArray() string {
 type TransactionReceiptBuilder struct {
 	Txhash              primitives.Sha256
 	ExecutionResult     ExecutionResult
-	OutputEventsArray   []byte
-	OutputArgumentArray []byte
+	OutputArgumentArray primitives.PackedArgumentArray
+	OutputEventsArray   primitives.PackedEventsArray
 
 	// internal
 	// implements membuffers.Builder
@@ -524,8 +512,8 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteBytes(buf, []byte(w.Txhash))
 	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
-	w._builder.WriteBytes(buf, w.OutputEventsArray)
-	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
+	w._builder.WriteBytes(buf, []byte(w.OutputEventsArray))
 	return nil
 }
 

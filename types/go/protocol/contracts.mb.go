@@ -716,7 +716,7 @@ func (w *ContractStateDiffBuilder) Build() *ContractStateDiff {
 type Event struct {
 	// ContractName primitives.ContractName
 	// EventName primitives.EventName
-	// OutputArgumentArray []byte
+	// OutputArgumentArray primitives.PackedArgumentArray
 
 	// internal
 	// implements membuffers.Message
@@ -789,24 +789,20 @@ func (x *Event) StringEventName() string {
 	return fmt.Sprintf("%s", x.EventName())
 }
 
-func (x *Event) OutputArgumentArray() []byte {
-	return x._message.GetBytes(2)
+func (x *Event) OutputArgumentArray() primitives.PackedArgumentArray {
+	return primitives.PackedArgumentArray(x._message.GetBytes(2))
 }
 
 func (x *Event) RawOutputArgumentArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *Event) RawOutputArgumentArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(2, 0)
-}
-
-func (x *Event) MutateOutputArgumentArray(v []byte) error {
-	return x._message.SetBytes(2, v)
+func (x *Event) MutateOutputArgumentArray(v primitives.PackedArgumentArray) error {
+	return x._message.SetBytes(2, []byte(v))
 }
 
 func (x *Event) StringOutputArgumentArray() string {
-	return fmt.Sprintf("%x", x.OutputArgumentArray())
+	return fmt.Sprintf("%s", x.OutputArgumentArray())
 }
 
 // builder
@@ -814,7 +810,7 @@ func (x *Event) StringOutputArgumentArray() string {
 type EventBuilder struct {
 	ContractName        primitives.ContractName
 	EventName           primitives.EventName
-	OutputArgumentArray []byte
+	OutputArgumentArray primitives.PackedArgumentArray
 
 	// internal
 	// implements membuffers.Builder
@@ -833,7 +829,7 @@ func (w *EventBuilder) Write(buf []byte) (err error) {
 	w._builder.Reset()
 	w._builder.WriteString(buf, string(w.ContractName))
 	w._builder.WriteString(buf, string(w.EventName))
-	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
 	return nil
 }
 

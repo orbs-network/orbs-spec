@@ -434,8 +434,8 @@ func (w *CallMethodRequestBuilder) Build() *CallMethodRequest {
 
 type CallMethodResponse struct {
 	// RequestStatus protocol.RequestStatus
-	// OutputEventsArray []byte
-	// OutputArgumentArray []byte
+	// OutputArgumentArray primitives.PackedArgumentArray
+	// OutputEventsArray primitives.PackedEventsArray
 	// CallMethodResult protocol.ExecutionResult
 	// BlockHeight primitives.BlockHeight
 	// BlockTimestamp primitives.TimestampNano
@@ -449,7 +449,7 @@ func (x *CallMethodResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,OutputEventsArray:%s,OutputArgumentArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputEventsArray(), x.StringOutputArgumentArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestStatus:%s,OutputArgumentArray:%s,OutputEventsArray:%s,CallMethodResult:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringCallMethodResult(), x.StringBlockHeight(), x.StringBlockTimestamp())
 }
 
 var _CallMethodResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
@@ -495,44 +495,36 @@ func (x *CallMethodResponse) StringRequestStatus() string {
 	return x.RequestStatus().String()
 }
 
-func (x *CallMethodResponse) OutputEventsArray() []byte {
-	return x._message.GetBytes(1)
-}
-
-func (x *CallMethodResponse) RawOutputEventsArray() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *CallMethodResponse) RawOutputEventsArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
-}
-
-func (x *CallMethodResponse) MutateOutputEventsArray(v []byte) error {
-	return x._message.SetBytes(1, v)
-}
-
-func (x *CallMethodResponse) StringOutputEventsArray() string {
-	return fmt.Sprintf("%x", x.OutputEventsArray())
-}
-
-func (x *CallMethodResponse) OutputArgumentArray() []byte {
-	return x._message.GetBytes(2)
+func (x *CallMethodResponse) OutputArgumentArray() primitives.PackedArgumentArray {
+	return primitives.PackedArgumentArray(x._message.GetBytes(1))
 }
 
 func (x *CallMethodResponse) RawOutputArgumentArray() []byte {
-	return x._message.RawBufferForField(2, 0)
+	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *CallMethodResponse) RawOutputArgumentArrayWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(2, 0)
-}
-
-func (x *CallMethodResponse) MutateOutputArgumentArray(v []byte) error {
-	return x._message.SetBytes(2, v)
+func (x *CallMethodResponse) MutateOutputArgumentArray(v primitives.PackedArgumentArray) error {
+	return x._message.SetBytes(1, []byte(v))
 }
 
 func (x *CallMethodResponse) StringOutputArgumentArray() string {
-	return fmt.Sprintf("%x", x.OutputArgumentArray())
+	return fmt.Sprintf("%s", x.OutputArgumentArray())
+}
+
+func (x *CallMethodResponse) OutputEventsArray() primitives.PackedEventsArray {
+	return primitives.PackedEventsArray(x._message.GetBytes(2))
+}
+
+func (x *CallMethodResponse) RawOutputEventsArray() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *CallMethodResponse) MutateOutputEventsArray(v primitives.PackedEventsArray) error {
+	return x._message.SetBytes(2, []byte(v))
+}
+
+func (x *CallMethodResponse) StringOutputEventsArray() string {
+	return fmt.Sprintf("%s", x.OutputEventsArray())
 }
 
 func (x *CallMethodResponse) CallMethodResult() protocol.ExecutionResult {
@@ -587,8 +579,8 @@ func (x *CallMethodResponse) StringBlockTimestamp() string {
 
 type CallMethodResponseBuilder struct {
 	RequestStatus       protocol.RequestStatus
-	OutputEventsArray   []byte
-	OutputArgumentArray []byte
+	OutputArgumentArray primitives.PackedArgumentArray
+	OutputEventsArray   primitives.PackedEventsArray
 	CallMethodResult    protocol.ExecutionResult
 	BlockHeight         primitives.BlockHeight
 	BlockTimestamp      primitives.TimestampNano
@@ -609,8 +601,8 @@ func (w *CallMethodResponseBuilder) Write(buf []byte) (err error) {
 	}()
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	w._builder.WriteBytes(buf, w.OutputEventsArray)
-	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
+	w._builder.WriteBytes(buf, []byte(w.OutputEventsArray))
 	w._builder.WriteUint16(buf, uint16(w.CallMethodResult))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))

@@ -159,3 +159,31 @@ func (x PackedReceiptProof) Equal(y PackedReceiptProof) bool {
 func (x PackedReceiptProof) KeyForMap() string {
 	return string(x)
 }
+
+type PackedEventsArray []byte
+
+func (x PackedEventsArray) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedEventsArray) Equal(y PackedEventsArray) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedEventsArray) KeyForMap() string {
+	return string(x)
+}
+
+type PackedArgumentArray []byte
+
+func (x PackedArgumentArray) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedArgumentArray) Equal(y PackedArgumentArray) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedArgumentArray) KeyForMap() string {
+	return string(x)
+}

@@ -18,7 +18,7 @@ message Transaction {
     protocol.Signer signer = 4;
     primitives.contract_name contract_name = 5;
     primitives.method_name method_name = 6;
-    bytes input_argument_array = 7; // opaque field of repeated protocol.MethodArgument
+    primitives.packed_argument_array input_argument_array = 7; // opaque field of repeated protocol.MethodArgument
 }
 
 message SignedTransaction {
@@ -29,6 +29,6 @@ message SignedTransaction {
 message TransactionReceipt {
     primitives.sha256 txhash = 1;
     protocol.ExecutionResult execution_result = 2;
-    bytes output_events_array = 3; // opaque field of repeated protocol.Event
-    bytes output_argument_array = 4; // opaque field of repeated protocol.MethodArgument
+    primitives.packed_argument_array output_argument_array = 3; // opaque field of repeated protocol.MethodArgument
+    primitives.packed_events_array output_events_array = 4; // opaque field of repeated protocol.Event
 }
