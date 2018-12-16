@@ -17,8 +17,6 @@ type ReceiptProof struct {
 	// Header ResultsBlockHeader
 	// BlockProof ResultsBlockProof
 	// ReceiptProof primitives.MerkleTreeProof
-	// ReceiptIndex TransactionReceipt
-	// Receipt TransactionReceipt
 
 	// internal
 	// implements membuffers.Message
@@ -29,10 +27,10 @@ func (x *ReceiptProof) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Header:%s,BlockProof:%s,ReceiptProof:%s,ReceiptIndex:%s,Receipt:%s,}", x.StringHeader(), x.StringBlockProof(), x.StringReceiptProof(), x.StringReceiptIndex(), x.StringReceipt())
+	return fmt.Sprintf("{Header:%s,BlockProof:%s,ReceiptProof:%s,}", x.StringHeader(), x.StringBlockProof(), x.StringReceiptProof())
 }
 
-var _ReceiptProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessage, membuffers.TypeBytes, membuffers.TypeMessage, membuffers.TypeMessage}
+var _ReceiptProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessage, membuffers.TypeBytes}
 var _ReceiptProof_Unions = [][]membuffers.FieldType{}
 
 func ReceiptProofReader(buf []byte) *ReceiptProof {
@@ -109,48 +107,12 @@ func (x *ReceiptProof) StringReceiptProof() string {
 	return fmt.Sprintf("%s", x.ReceiptProof())
 }
 
-func (x *ReceiptProof) ReceiptIndex() *TransactionReceipt {
-	b, s := x._message.GetMessage(3)
-	return TransactionReceiptReader(b[:s])
-}
-
-func (x *ReceiptProof) RawReceiptIndex() []byte {
-	return x._message.RawBufferForField(3, 0)
-}
-
-func (x *ReceiptProof) RawReceiptIndexWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(3, 0)
-}
-
-func (x *ReceiptProof) StringReceiptIndex() string {
-	return x.ReceiptIndex().String()
-}
-
-func (x *ReceiptProof) Receipt() *TransactionReceipt {
-	b, s := x._message.GetMessage(4)
-	return TransactionReceiptReader(b[:s])
-}
-
-func (x *ReceiptProof) RawReceipt() []byte {
-	return x._message.RawBufferForField(4, 0)
-}
-
-func (x *ReceiptProof) RawReceiptWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(4, 0)
-}
-
-func (x *ReceiptProof) StringReceipt() string {
-	return x.Receipt().String()
-}
-
 // builder
 
 type ReceiptProofBuilder struct {
 	Header       *ResultsBlockHeaderBuilder
 	BlockProof   *ResultsBlockProofBuilder
 	ReceiptProof primitives.MerkleTreeProof
-	ReceiptIndex *TransactionReceiptBuilder
-	Receipt      *TransactionReceiptBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -176,14 +138,6 @@ func (w *ReceiptProofBuilder) Write(buf []byte) (err error) {
 		return
 	}
 	w._builder.WriteBytes(buf, []byte(w.ReceiptProof))
-	err = w._builder.WriteMessage(buf, w.ReceiptIndex)
-	if err != nil {
-		return
-	}
-	err = w._builder.WriteMessage(buf, w.Receipt)
-	if err != nil {
-		return
-	}
 	return nil
 }
 
