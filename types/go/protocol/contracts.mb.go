@@ -485,7 +485,7 @@ func MethodArgumentArrayBuilderFromRaw(raw []byte) *MethodArgumentArrayBuilder {
 // reader
 
 type StateRecord struct {
-	// Key primitives.Ripmd160Sha256
+	// Key primitives.Ripemd160Sha256
 	// Value []byte
 
 	// internal
@@ -527,8 +527,8 @@ func (x *StateRecord) Equal(y *StateRecord) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *StateRecord) Key() primitives.Ripmd160Sha256 {
-	return primitives.Ripmd160Sha256(x._message.GetBytes(0))
+func (x *StateRecord) Key() primitives.Ripemd160Sha256 {
+	return primitives.Ripemd160Sha256(x._message.GetBytes(0))
 }
 
 func (x *StateRecord) RawKey() []byte {
@@ -539,7 +539,7 @@ func (x *StateRecord) RawKeyWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *StateRecord) MutateKey(v primitives.Ripmd160Sha256) error {
+func (x *StateRecord) MutateKey(v primitives.Ripemd160Sha256) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
@@ -570,7 +570,7 @@ func (x *StateRecord) StringValue() string {
 // builder
 
 type StateRecordBuilder struct {
-	Key   primitives.Ripmd160Sha256
+	Key   primitives.Ripemd160Sha256
 	Value []byte
 
 	// internal

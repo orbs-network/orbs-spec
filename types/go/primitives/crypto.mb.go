@@ -90,17 +90,17 @@ func (x Ed25519PrivateKey) KeyForMap() string {
 	return string(x)
 }
 
-type Ripmd160Sha256 []byte
+type Ripemd160Sha256 []byte
 
-func (x Ripmd160Sha256) String() string {
+func (x Ripemd160Sha256) String() string {
 	return fmt.Sprintf("%x", []byte(x))
 }
 
-func (x Ripmd160Sha256) Equal(y Ripmd160Sha256) bool {
+func (x Ripemd160Sha256) Equal(y Ripemd160Sha256) bool {
 	return bytes.Equal(x, y)
 }
 
-func (x Ripmd160Sha256) KeyForMap() string {
+func (x Ripemd160Sha256) KeyForMap() string {
 	return string(x)
 }
 
@@ -143,6 +143,48 @@ func (x Bls1PrivateKey) Equal(y Bls1PrivateKey) bool {
 }
 
 func (x Bls1PrivateKey) KeyForMap() string {
+	return string(x)
+}
+
+type EcdsaSecp256K1Sig []byte
+
+func (x EcdsaSecp256K1Sig) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x EcdsaSecp256K1Sig) Equal(y EcdsaSecp256K1Sig) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x EcdsaSecp256K1Sig) KeyForMap() string {
+	return string(x)
+}
+
+type EcdsaSecp256K1PublicKey []byte
+
+func (x EcdsaSecp256K1PublicKey) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x EcdsaSecp256K1PublicKey) Equal(y EcdsaSecp256K1PublicKey) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x EcdsaSecp256K1PublicKey) KeyForMap() string {
+	return string(x)
+}
+
+type EcdsaSecp256K1PrivateKey []byte
+
+func (x EcdsaSecp256K1PrivateKey) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x EcdsaSecp256K1PrivateKey) Equal(y EcdsaSecp256K1PrivateKey) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x EcdsaSecp256K1PrivateKey) KeyForMap() string {
 	return string(x)
 }
 
