@@ -231,8 +231,8 @@ func LeanHelixBlockProofBuilderFromRaw(raw []byte) *LeanHelixBlockProofBuilder {
 // reader
 
 type LeanHelixSenderSignature struct {
-	// SenderPublicKey primitives.Ed25519PublicKey
-	// Signature primitives.Ed25519Sig
+	// SenderNodeAddress primitives.NodeAddress
+	// Signature primitives.EcdsaSecp256K1Sig
 
 	// internal
 	// implements membuffers.Message
@@ -243,7 +243,7 @@ func (x *LeanHelixSenderSignature) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+	return fmt.Sprintf("{SenderNodeAddress:%s,Signature:%s,}", x.StringSenderNodeAddress(), x.StringSignature())
 }
 
 var _LeanHelixSenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
@@ -273,28 +273,28 @@ func (x *LeanHelixSenderSignature) Equal(y *LeanHelixSenderSignature) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *LeanHelixSenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
-	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
+func (x *LeanHelixSenderSignature) SenderNodeAddress() primitives.NodeAddress {
+	return primitives.NodeAddress(x._message.GetBytes(0))
 }
 
-func (x *LeanHelixSenderSignature) RawSenderPublicKey() []byte {
+func (x *LeanHelixSenderSignature) RawSenderNodeAddress() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *LeanHelixSenderSignature) RawSenderPublicKeyWithHeader() []byte {
+func (x *LeanHelixSenderSignature) RawSenderNodeAddressWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *LeanHelixSenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
+func (x *LeanHelixSenderSignature) MutateSenderNodeAddress(v primitives.NodeAddress) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *LeanHelixSenderSignature) StringSenderPublicKey() string {
-	return fmt.Sprintf("%s", x.SenderPublicKey())
+func (x *LeanHelixSenderSignature) StringSenderNodeAddress() string {
+	return fmt.Sprintf("%s", x.SenderNodeAddress())
 }
 
-func (x *LeanHelixSenderSignature) Signature() primitives.Ed25519Sig {
-	return primitives.Ed25519Sig(x._message.GetBytes(1))
+func (x *LeanHelixSenderSignature) Signature() primitives.EcdsaSecp256K1Sig {
+	return primitives.EcdsaSecp256K1Sig(x._message.GetBytes(1))
 }
 
 func (x *LeanHelixSenderSignature) RawSignature() []byte {
@@ -305,7 +305,7 @@ func (x *LeanHelixSenderSignature) RawSignatureWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
-func (x *LeanHelixSenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
+func (x *LeanHelixSenderSignature) MutateSignature(v primitives.EcdsaSecp256K1Sig) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
@@ -316,8 +316,8 @@ func (x *LeanHelixSenderSignature) StringSignature() string {
 // builder
 
 type LeanHelixSenderSignatureBuilder struct {
-	SenderPublicKey primitives.Ed25519PublicKey
-	Signature       primitives.Ed25519Sig
+	SenderNodeAddress primitives.NodeAddress
+	Signature         primitives.EcdsaSecp256K1Sig
 
 	// internal
 	// implements membuffers.Builder
@@ -340,7 +340,7 @@ func (w *LeanHelixSenderSignatureBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
+	w._builder.WriteBytes(buf, []byte(w.SenderNodeAddress))
 	w._builder.WriteBytes(buf, []byte(w.Signature))
 	return nil
 }
@@ -355,7 +355,7 @@ func (w *LeanHelixSenderSignatureBuilder) HexDump(prefix string, offsetFromStart
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixSenderSignature.SenderPublicKey", []byte(w.SenderPublicKey))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixSenderSignature.SenderNodeAddress", []byte(w.SenderNodeAddress))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "LeanHelixSenderSignature.Signature", []byte(w.Signature))
 	return nil
 }
