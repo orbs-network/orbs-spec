@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
@@ -243,10 +243,33 @@ type BlockSyncRangeBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.BlockType))
+	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	return nil
+}
+
+func (w *BlockSyncRangeBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -256,10 +279,10 @@ func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "BlockSyncRange.BlockType", uint16(w.BlockType))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.FirstBlockHeight", uint64(w.FirstBlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastBlockHeight", uint64(w.LastBlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastCommittedBlockHeight", uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
@@ -284,6 +307,10 @@ func (w *BlockSyncRangeBuilder) Build() *BlockSyncRange {
 		return nil
 	}
 	return BlockSyncRangeReader(buf)
+}
+
+func BlockSyncRangeBuilderFromRaw(raw []byte) *BlockSyncRangeBuilder {
+	return &BlockSyncRangeBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -101,6 +101,10 @@ func (x *ReceiptProof) RawReceiptProof() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
+func (x *ReceiptProof) RawReceiptProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
 func (x *ReceiptProof) MutateReceiptProof(v primitives.MerkleTreeProof) error {
 	return x._message.SetBytes(2, []byte(v))
 }
@@ -154,18 +158,24 @@ type ReceiptProofBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ReceiptProofBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	err = w._builder.WriteMessage(buf, w.Header)
 	if err != nil {
@@ -181,6 +191,36 @@ func (w *ReceiptProofBuilder) Write(buf []byte) (err error) {
 		return
 	}
 	err = w._builder.WriteMessage(buf, w.Receipt)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *ReceiptProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.Header", w.Header)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.BlockProof", w.BlockProof)
+	if err != nil {
+		return
+	}
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ReceiptProof.ReceiptProof", []byte(w.ReceiptProof))
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.ReceiptIndex", w.ReceiptIndex)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.Receipt", w.Receipt)
 	if err != nil {
 		return
 	}
@@ -208,6 +248,10 @@ func (w *ReceiptProofBuilder) Build() *ReceiptProof {
 		return nil
 	}
 	return ReceiptProofReader(buf)
+}
+
+func ReceiptProofBuilderFromRaw(raw []byte) *ReceiptProofBuilder {
+	return &ReceiptProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

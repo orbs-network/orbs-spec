@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -134,6 +134,10 @@ func (x *Transaction) RawContractName() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
 
+func (x *Transaction) RawContractNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(4, 0)
+}
+
 func (x *Transaction) MutateContractName(v primitives.ContractName) error {
 	return x._message.SetString(4, string(v))
 }
@@ -148,6 +152,10 @@ func (x *Transaction) MethodName() primitives.MethodName {
 
 func (x *Transaction) RawMethodName() []byte {
 	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *Transaction) RawMethodNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
 }
 
 func (x *Transaction) MutateMethodName(v primitives.MethodName) error {
@@ -191,18 +199,24 @@ type TransactionBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
@@ -214,6 +228,29 @@ func (w *TransactionBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteString(buf, string(w.ContractName))
 	w._builder.WriteString(buf, string(w.MethodName))
 	w._builder.WriteBytes(buf, w.InputArgumentArray)
+	return nil
+}
+
+func (w *TransactionBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "Transaction.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "Transaction.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "Transaction.Timestamp", uint64(w.Timestamp))
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "Transaction.Signer", w.Signer)
+	if err != nil {
+		return
+	}
+	w._builder.HexDumpString(prefix, offsetFromStart, "Transaction.ContractName", string(w.ContractName))
+	w._builder.HexDumpString(prefix, offsetFromStart, "Transaction.MethodName", string(w.MethodName))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "Transaction.InputArgumentArray", w.InputArgumentArray)
 	return nil
 }
 
@@ -238,6 +275,10 @@ func (w *TransactionBuilder) Build() *Transaction {
 		return nil
 	}
 	return TransactionReader(buf)
+}
+
+func TransactionBuilderFromRaw(raw []byte) *TransactionBuilder {
+	return &TransactionBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -333,10 +374,34 @@ type SignedTransactionBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *SignedTransactionBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.Transaction)
+	if err != nil {
+		return
+	}
+	w._builder.WriteBytes(buf, w.Signature)
+	return nil
+}
+
+func (w *SignedTransactionBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -346,11 +411,11 @@ func (w *SignedTransactionBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Transaction)
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "SignedTransaction.Transaction", w.Transaction)
 	if err != nil {
 		return
 	}
-	w._builder.WriteBytes(buf, w.Signature)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "SignedTransaction.Signature", w.Signature)
 	return nil
 }
 
@@ -375,6 +440,10 @@ func (w *SignedTransactionBuilder) Build() *SignedTransaction {
 		return nil
 	}
 	return SignedTransactionReader(buf)
+}
+
+func SignedTransactionBuilderFromRaw(raw []byte) *SignedTransactionBuilder {
+	return &SignedTransactionBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -433,6 +502,10 @@ func (x *TransactionReceipt) Txhash() primitives.Sha256 {
 
 func (x *TransactionReceipt) RawTxhash() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *TransactionReceipt) RawTxhashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *TransactionReceipt) MutateTxhash(v primitives.Sha256) error {
@@ -509,10 +582,33 @@ type TransactionReceiptBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.Txhash))
+	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
+	w._builder.WriteBytes(buf, w.OutputEventsArray)
+	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	return nil
+}
+
+func (w *TransactionReceiptBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -522,10 +618,10 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.Txhash))
-	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
-	w._builder.WriteBytes(buf, w.OutputEventsArray)
-	w._builder.WriteBytes(buf, w.OutputArgumentArray)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.Txhash", []byte(w.Txhash))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "TransactionReceipt.ExecutionResult", uint16(w.ExecutionResult))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputEventsArray", w.OutputEventsArray)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputArgumentArray", w.OutputArgumentArray)
 	return nil
 }
 
@@ -550,6 +646,10 @@ func (w *TransactionReceiptBuilder) Build() *TransactionReceipt {
 		return nil
 	}
 	return TransactionReceiptReader(buf)
+}
+
+func TransactionReceiptBuilderFromRaw(raw []byte) *TransactionReceiptBuilder {
+	return &TransactionReceiptBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
