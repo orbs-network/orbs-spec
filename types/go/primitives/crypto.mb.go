@@ -48,17 +48,17 @@ func (x MerkleSha256) KeyForMap() string {
 	return string(x)
 }
 
-type Sha3256 []byte
+type Keccak256 []byte
 
-func (x Sha3256) String() string {
+func (x Keccak256) String() string {
 	return fmt.Sprintf("%x", []byte(x))
 }
 
-func (x Sha3256) Equal(y Sha3256) bool {
+func (x Keccak256) Equal(y Keccak256) bool {
 	return bytes.Equal(x, y)
 }
 
-func (x Sha3256) KeyForMap() string {
+func (x Keccak256) KeyForMap() string {
 	return string(x)
 }
 
