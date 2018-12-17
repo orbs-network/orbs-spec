@@ -43,8 +43,8 @@ message RunLocalMethodInput {
 
 message RunLocalMethodOutput {
     protocol.ExecutionResult call_result = 1;
-    bytes output_events_array = 2; // opaque field of repeated protocol.Event
-    bytes output_argument_array = 3; // opaque field of repeated protocol.MethodArgument
+    primitives.packed_argument_array output_argument_array = 2;
+    primitives.packed_events_array output_events_array = 3;
     primitives.block_height reference_block_height = 4;
     primitives.timestamp_nano reference_block_timestamp = 5;
 }

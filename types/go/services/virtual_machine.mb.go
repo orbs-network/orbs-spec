@@ -117,8 +117,8 @@ func (x *RunLocalMethodInput) StringTransaction() (res string) {
 
 type RunLocalMethodOutput struct {
 	CallResult              protocol.ExecutionResult
-	OutputEventsArray       []byte
-	OutputArgumentArray     []byte
+	OutputArgumentArray     primitives.PackedArgumentArray
+	OutputEventsArray       primitives.PackedEventsArray
 	ReferenceBlockHeight    primitives.BlockHeight
 	ReferenceBlockTimestamp primitives.TimestampNano
 }
@@ -127,7 +127,7 @@ func (x *RunLocalMethodOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CallResult:%s,OutputEventsArray:%s,OutputArgumentArray:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputEventsArray(), x.StringOutputArgumentArray(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
+	return fmt.Sprintf("{CallResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
 }
 
 func (x *RunLocalMethodOutput) StringCallResult() (res string) {
@@ -135,13 +135,13 @@ func (x *RunLocalMethodOutput) StringCallResult() (res string) {
 	return
 }
 
-func (x *RunLocalMethodOutput) StringOutputEventsArray() (res string) {
-	res = fmt.Sprintf("%x", x.OutputEventsArray)
+func (x *RunLocalMethodOutput) StringOutputArgumentArray() (res string) {
+	res = fmt.Sprintf("%s", x.OutputArgumentArray)
 	return
 }
 
-func (x *RunLocalMethodOutput) StringOutputArgumentArray() (res string) {
-	res = fmt.Sprintf("%x", x.OutputArgumentArray)
+func (x *RunLocalMethodOutput) StringOutputEventsArray() (res string) {
+	res = fmt.Sprintf("%s", x.OutputEventsArray)
 	return
 }
 

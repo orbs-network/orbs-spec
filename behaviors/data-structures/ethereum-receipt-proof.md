@@ -111,15 +111,15 @@
 | event name length (K)    | N+4    | 4    | uint32       |                               |
 | event name               | N+8    | K    | string       |                               |
 | arguments_length         | N+K+8  | 4    | uint32       |                               |
-| tuid_type                | N+K+12 | 2(4) | enum (oneof) |                               |
+| tuid_type                | N+K+12 | 2(4) | enum (oneof) | reserved                      |
 | tuid                     | N+K+16 | 8    | uint64       |                               |
-| ethereum_address_type    | N+K+24 | 2(4) | enum (oneof) |                               |
+| ethereum_address_type    | N+K+24 | 2(4) | enum (oneof) | reserved                      |
 | ethereum_address_length  | N+K+28 | 4    | always 20    | reserved                      |
 | ethereum_address         | N+K+32 | 20   | bytes (20B)  |                               |
 | orbs_address_type        | N+K+52 | 2(4) | enum (oneof) | reserved                      |
 | orbs_address_length      | N+K+56 | 4    | always 20    | reserved                      |
 | orbs_address             | N+K+60 | 20   | bytes (20B)  | reserved                      |
-| tokens_type              | N+K+80 | 2(4) | enum (oneof) |                               |
+| tokens_type              | N+K+80 | 2(4) | enum (oneof) | reserved                      |
 | tokens_length            | N+K+84 | 4    | always 32    | reserved                      |
 | tokens                   | N+K+88 | 32   | uint256      |                               |
 
