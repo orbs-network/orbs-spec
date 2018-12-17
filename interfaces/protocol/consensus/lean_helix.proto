@@ -15,8 +15,8 @@ message LeanHelixBlockProof {
 }
 
 message LeanHelixSenderSignature {
-    primitives.ed25519_public_key sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
+    primitives.node_address sender_node_address = 1;
+    primitives.ecdsa_secp256k1_sig signature = 2;
 }
 
 message LeanHelixBlockRef {
