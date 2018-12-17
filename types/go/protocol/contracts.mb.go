@@ -990,22 +990,6 @@ func (w *EventBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset)
 	return nil
 }
 
-func (w *EventBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.HexDumpString(prefix, offsetFromStart, "Event.ContractName", string(w.ContractName))
-	w._builder.HexDumpString(prefix, offsetFromStart, "Event.EventName", string(w.EventName))
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "Event.OutputArgumentArray", w.OutputArgumentArray)
-	return nil
-}
-
 func (w *EventBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0

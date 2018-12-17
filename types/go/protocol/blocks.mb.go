@@ -1268,27 +1268,6 @@ func (w *TransactionsBlockProofBuilder) HexDump(prefix string, offsetFromStart m
 	return nil
 }
 
-func (w *TransactionsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockProof.ResultsBlockHash", []byte(w.ResultsBlockHash))
-	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "TransactionsBlockProof.Type", uint16(w.Type))
-	switch w.Type {
-	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
-	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.LeanHelix", w.LeanHelix)
-	}
-	return nil
-}
-
 func (w *TransactionsBlockProofBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
@@ -1514,27 +1493,6 @@ func (w *ResultsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuf
 		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
 		w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", []byte(w.LeanHelix))
-	}
-	return nil
-}
-
-func (w *ResultsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.TransactionsBlockHash", []byte(w.TransactionsBlockHash))
-	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "ResultsBlockProof.Type", uint16(w.Type))
-	switch w.Type {
-	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
-	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", w.LeanHelix)
 	}
 	return nil
 }

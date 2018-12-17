@@ -254,29 +254,6 @@ func (w *TransactionBuilder) HexDump(prefix string, offsetFromStart membuffers.O
 	return nil
 }
 
-func (w *TransactionBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.HexDumpUint32(prefix, offsetFromStart, "Transaction.ProtocolVersion", uint32(w.ProtocolVersion))
-	w._builder.HexDumpUint32(prefix, offsetFromStart, "Transaction.VirtualChainId", uint32(w.VirtualChainId))
-	w._builder.HexDumpUint64(prefix, offsetFromStart, "Transaction.Timestamp", uint64(w.Timestamp))
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "Transaction.Signer", w.Signer)
-	if err != nil {
-		return
-	}
-	w._builder.HexDumpString(prefix, offsetFromStart, "Transaction.ContractName", string(w.ContractName))
-	w._builder.HexDumpString(prefix, offsetFromStart, "Transaction.MethodName", string(w.MethodName))
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "Transaction.InputArgumentArray", w.InputArgumentArray)
-	return nil
-}
-
 func (w *TransactionBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
@@ -645,23 +622,6 @@ func (w *TransactionReceiptBuilder) HexDump(prefix string, offsetFromStart membu
 	w._builder.HexDumpUint16(prefix, offsetFromStart, "TransactionReceipt.ExecutionResult", uint16(w.ExecutionResult))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputArgumentArray", []byte(w.OutputArgumentArray))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputEventsArray", []byte(w.OutputEventsArray))
-	return nil
-}
-
-func (w *TransactionReceiptBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.Txhash", []byte(w.Txhash))
-	w._builder.HexDumpUint16(prefix, offsetFromStart, "TransactionReceipt.ExecutionResult", uint16(w.ExecutionResult))
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputEventsArray", w.OutputEventsArray)
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputArgumentArray", w.OutputArgumentArray)
 	return nil
 }
 

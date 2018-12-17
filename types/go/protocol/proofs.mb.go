@@ -173,36 +173,6 @@ func (w *ReceiptProofBuilder) HexDump(prefix string, offsetFromStart membuffers.
 	return nil
 }
 
-func (w *ReceiptProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.Header", w.Header)
-	if err != nil {
-		return
-	}
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.BlockProof", w.BlockProof)
-	if err != nil {
-		return
-	}
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "ReceiptProof.ReceiptProof", []byte(w.ReceiptProof))
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.ReceiptIndex", w.ReceiptIndex)
-	if err != nil {
-		return
-	}
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ReceiptProof.Receipt", w.Receipt)
-	if err != nil {
-		return
-	}
-	return nil
-}
-
 func (w *ReceiptProofBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
