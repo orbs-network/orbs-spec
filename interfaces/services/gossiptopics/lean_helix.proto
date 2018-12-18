@@ -2,10 +2,8 @@ syntax = "proto3";
 package gossiptopics;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
-import "../protocol/gossipmessages/all.proto";
 import "../protocol/gossipmessages/lean_helix.proto";
 import "../services/gossiptopics/all.proto";
-import "../protocol/consensus/lean_helix.proto";
 
 option serialize_messages = false;
 
@@ -20,7 +18,6 @@ service LeanHelixHandler {
 }
 
 message LeanHelixInput {
-    consensus.LeanHelixMessageType message_type = 1;
-    gossiptopics.RecipientsList recipients_list = 2;
-    gossipmessages.LeanHelixMessage message = 3;
+    gossiptopics.RecipientsList recipients_list = 1;
+    gossipmessages.LeanHelixMessage message = 2;
 }

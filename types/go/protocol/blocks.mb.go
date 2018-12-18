@@ -1088,7 +1088,7 @@ func (x *TransactionsBlockProof) String() string {
 }
 
 var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUnion}
-var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
+var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeBytes}}
 
 func TransactionsBlockProofReader(buf []byte) *TransactionsBlockProof {
 	x := &TransactionsBlockProof{}
@@ -1168,17 +1168,25 @@ func (x *TransactionsBlockProof) IsTypeLeanHelix() bool {
 	return is
 }
 
-func (x *TransactionsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+func (x *TransactionsBlockProof) LeanHelix() primitives.LeanHelixBlockProof {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
-	b, s := x._message.GetMessageInOffset(off)
-	return consensus.LeanHelixBlockProofReader(b[:s])
+	return primitives.LeanHelixBlockProof(x._message.GetBytesInOffset(off))
 }
 
 func (x *TransactionsBlockProof) StringLeanHelix() string {
-	return x.LeanHelix().String()
+	return fmt.Sprintf("%s", x.LeanHelix())
+}
+
+func (x *TransactionsBlockProof) MutateLeanHelix(v primitives.LeanHelixBlockProof) error {
+	is, off := x._message.IsUnionIndex(1, 0, 1)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetBytesInOffset(off, []byte(v))
+	return nil
 }
 
 func (x *TransactionsBlockProof) RawType() []byte {
@@ -1205,7 +1213,7 @@ type TransactionsBlockProofBuilder struct {
 	ResultsBlockHash   primitives.Sha256
 	Type               TransactionsBlockProofType
 	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix          *consensus.LeanHelixBlockProofBuilder
+	LeanHelix          primitives.LeanHelixBlockProof
 
 	// internal
 	// implements membuffers.Builder
@@ -1234,7 +1242,7 @@ func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
 		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.WriteBytes(buf, []byte(w.LeanHelix))
 	}
 	return nil
 }
@@ -1255,7 +1263,7 @@ func (w *TransactionsBlockProofBuilder) HexDump(prefix string, offsetFromStart m
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
 		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.LeanHelix", w.LeanHelix)
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockProof.LeanHelix", []byte(w.LeanHelix))
 	}
 	return nil
 }
@@ -1309,7 +1317,7 @@ func (x *ResultsBlockProof) String() string {
 }
 
 var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUnion}
-var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
+var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeBytes}}
 
 func ResultsBlockProofReader(buf []byte) *ResultsBlockProof {
 	x := &ResultsBlockProof{}
@@ -1389,17 +1397,25 @@ func (x *ResultsBlockProof) IsTypeLeanHelix() bool {
 	return is
 }
 
-func (x *ResultsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+func (x *ResultsBlockProof) LeanHelix() primitives.LeanHelixBlockProof {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
-	b, s := x._message.GetMessageInOffset(off)
-	return consensus.LeanHelixBlockProofReader(b[:s])
+	return primitives.LeanHelixBlockProof(x._message.GetBytesInOffset(off))
 }
 
 func (x *ResultsBlockProof) StringLeanHelix() string {
-	return x.LeanHelix().String()
+	return fmt.Sprintf("%s", x.LeanHelix())
+}
+
+func (x *ResultsBlockProof) MutateLeanHelix(v primitives.LeanHelixBlockProof) error {
+	is, off := x._message.IsUnionIndex(1, 0, 1)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetBytesInOffset(off, []byte(v))
+	return nil
 }
 
 func (x *ResultsBlockProof) RawType() []byte {
@@ -1426,7 +1442,7 @@ type ResultsBlockProofBuilder struct {
 	TransactionsBlockHash primitives.Sha256
 	Type                  ResultsBlockProofType
 	BenchmarkConsensus    *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix             *consensus.LeanHelixBlockProofBuilder
+	LeanHelix             primitives.LeanHelixBlockProof
 
 	// internal
 	// implements membuffers.Builder
@@ -1455,7 +1471,7 @@ func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
 	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
 		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.WriteBytes(buf, []byte(w.LeanHelix))
 	}
 	return nil
 }
@@ -1476,7 +1492,7 @@ func (w *ResultsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuf
 	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
 		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", w.LeanHelix)
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", []byte(w.LeanHelix))
 	}
 	return nil
 }

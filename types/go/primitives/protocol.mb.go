@@ -146,6 +146,20 @@ func (x MerkleTreeProof) KeyForMap() string {
 	return string(x)
 }
 
+type LeanHelixBlockProof []byte
+
+func (x LeanHelixBlockProof) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x LeanHelixBlockProof) Equal(y LeanHelixBlockProof) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x LeanHelixBlockProof) KeyForMap() string {
+	return string(x)
+}
+
 type PackedReceiptProof []byte
 
 func (x PackedReceiptProof) String() string {

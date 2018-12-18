@@ -2,23 +2,16 @@ syntax = "proto3";
 package gossipmessages;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
 
-import "../primitives/crypto.proto";
 import "../primitives/protocol.proto";
-import "../primitives/integers.proto";
-import "../protocol/gossipmessages/all.proto";
 import "../protocol/blocks.proto";
-import "../protocol/consensus/lean_helix.proto";
 
 // message format
 
+option serialize_messages = false;
+
 message LeanHelixMessage {
-    option serialize_message = false;
+//    option serialize_message = false;
 
-    consensus.LeanHelixMessageType message_type = 1;
-    primitives.lean_helix_message_content content = 2;
-    protocol.BlockPairContainer block_pair = 3;
-}
-
-message LeanHelixRandomSeedShare {
-    primitives.bls1_sig random_seed_share = 1;
+    primitives.lean_helix_message_content content = 1;
+    protocol.BlockPairContainer block_pair = 2;
 }

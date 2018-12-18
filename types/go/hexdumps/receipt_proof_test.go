@@ -26,7 +26,7 @@ func TestReceiptProof(t *testing.T) {
 		BlockProof: &protocol.ResultsBlockProofBuilder{
 			TransactionsBlockHash: stubByteArrayWithLength(16, 0x99),
 			Type:      protocol.RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX,
-			LeanHelix: []byte{1, 2, 3, 4}, // TODO Consider changing to something meaningful
+			LeanHelix: []byte{0x01, 0x02, 0x03, 0x04},
 		},
 		ReceiptProof: stubByteArrayWithLength(16, 0x11),
 	}
