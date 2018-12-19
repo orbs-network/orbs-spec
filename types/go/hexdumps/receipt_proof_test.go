@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
+	"github.com/orbs-network/orbs-spec/types/go/protocol/consensus"
 	"testing"
 )
 
@@ -25,8 +26,26 @@ func TestReceiptProof(t *testing.T) {
 		},
 		BlockProof: &protocol.ResultsBlockProofBuilder{
 			TransactionsBlockHash: stubByteArrayWithLength(16, 0x99),
-			Type:      protocol.RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX,
-			LeanHelix: []byte{1, 2, 3, 4}, // TODO Consider changing to something meaningful
+			Type:                  protocol.RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX,
+			LeanHelix: &consensus.LeanHelixBlockProofBuilder{
+				BlockRef: &consensus.LeanHelixBlockRefBuilder{
+					MessageType: 0x79,
+					BlockHeight: 0x2223,
+					View:        0xaa,
+					BlockHash:   stubByteArrayWithLength(16, 0xaa),
+				},
+				Nodes: []*consensus.LeanHelixSenderSignatureBuilder{
+					{
+						SenderPublicKey: stubByteArrayWithLength(16, 0xbb),
+						Signature:       stubByteArrayWithLength(16, 0xcc),
+					},
+					{
+						SenderPublicKey: stubByteArrayWithLength(16, 0xdd),
+						Signature:       stubByteArrayWithLength(16, 0xee),
+					},
+				},
+				RandomSeedSignature: stubByteArrayWithLength(16, 0xff),
+			},
 		},
 		ReceiptProof: stubByteArrayWithLength(16, 0x11),
 	}

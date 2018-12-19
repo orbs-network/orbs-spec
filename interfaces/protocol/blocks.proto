@@ -80,7 +80,7 @@ message TransactionsBlockProof {
     primitives.sha256 results_block_hash = 1;
     oneof type {
         consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
-        consensus.LeanHelixBlockProof lean_helix = 3;
+        primitives.lean_helix_block_proof lean_helix = 3;
     }
 }
 
@@ -88,7 +88,7 @@ message ResultsBlockProof {
     primitives.sha256 transactions_block_hash = 1;
     oneof type {
         consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
-        consensus.LeanHelixBlockProof lean_helix = 3;
+        primitives.lean_helix_block_proof lean_helix = 3;
     }
 }
 
