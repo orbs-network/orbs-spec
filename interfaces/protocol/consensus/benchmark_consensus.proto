@@ -13,7 +13,7 @@ enum BenchmarkConsensusMessageType {
 
 // this was updated to resemble lean helix block proof to aid with Solidity verifications
 message BenchmarkConsensusBlockProof {
-    BlockRef block_ref = 1;
+    BenchmarkConsensusBlockRef block_ref = 1;
     repeated BenchmarkConsensusSenderSignature nodes = 2; // signs on BlockRef
     bytes placeholder = 3;
 }
@@ -23,10 +23,10 @@ message BenchmarkConsensusSenderSignature {
     primitives.ecdsa_secp256k1_sig signature = 2;
 }
 
-message BlockRef {
-    BenchmarkConsensusPlaceholder message_type = 1;
+message BenchmarkConsensusBlockRef {
+    BenchmarkConsensusPlaceholder placeholder_type = 1;
     primitives.block_height block_height = 2;
-    uint64 view = 3;
+    uint64 placeholder_view = 3;
     primitives.sha256 block_hash = 4;
 }
 

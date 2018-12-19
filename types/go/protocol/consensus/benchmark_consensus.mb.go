@@ -14,7 +14,7 @@ import (
 // reader
 
 type BenchmarkConsensusBlockProof struct {
-	// BlockRef BlockRef
+	// BlockRef BenchmarkConsensusBlockRef
 	// Nodes []BenchmarkConsensusSenderSignature
 	// Placeholder []byte
 
@@ -57,9 +57,9 @@ func (x *BenchmarkConsensusBlockProof) Equal(y *BenchmarkConsensusBlockProof) bo
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *BenchmarkConsensusBlockProof) BlockRef() *BlockRef {
+func (x *BenchmarkConsensusBlockProof) BlockRef() *BenchmarkConsensusBlockRef {
 	b, s := x._message.GetMessage(0)
-	return BlockRefReader(b[:s])
+	return BenchmarkConsensusBlockRefReader(b[:s])
 }
 
 func (x *BenchmarkConsensusBlockProof) RawBlockRef() []byte {
@@ -131,7 +131,7 @@ func (x *BenchmarkConsensusBlockProof) StringPlaceholder() string {
 // builder
 
 type BenchmarkConsensusBlockProofBuilder struct {
-	BlockRef    *BlockRefBuilder
+	BlockRef    *BenchmarkConsensusBlockRefBuilder
 	Nodes       []*BenchmarkConsensusSenderSignatureBuilder
 	Placeholder []byte
 
@@ -388,14 +388,14 @@ func BenchmarkConsensusSenderSignatureBuilderFromRaw(raw []byte) *BenchmarkConse
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message BlockRef
+// message BenchmarkConsensusBlockRef
 
 // reader
 
-type BlockRef struct {
-	// MessageType BenchmarkConsensusPlaceholder
+type BenchmarkConsensusBlockRef struct {
+	// PlaceholderType BenchmarkConsensusPlaceholder
 	// BlockHeight primitives.BlockHeight
-	// View uint64
+	// PlaceholderView uint64
 	// BlockHash primitives.Sha256
 
 	// internal
@@ -403,31 +403,31 @@ type BlockRef struct {
 	_message membuffers.InternalMessage
 }
 
-func (x *BlockRef) String() string {
+func (x *BenchmarkConsensusBlockRef) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{MessageType:%s,BlockHeight:%s,View:%s,BlockHash:%s,}", x.StringMessageType(), x.StringBlockHeight(), x.StringView(), x.StringBlockHash())
+	return fmt.Sprintf("{PlaceholderType:%s,BlockHeight:%s,PlaceholderView:%s,BlockHash:%s,}", x.StringPlaceholderType(), x.StringBlockHeight(), x.StringPlaceholderView(), x.StringBlockHash())
 }
 
-var _BlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeBytes}
-var _BlockRef_Unions = [][]membuffers.FieldType{}
+var _BenchmarkConsensusBlockRef_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeBytes}
+var _BenchmarkConsensusBlockRef_Unions = [][]membuffers.FieldType{}
 
-func BlockRefReader(buf []byte) *BlockRef {
-	x := &BlockRef{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _BlockRef_Scheme, _BlockRef_Unions)
+func BenchmarkConsensusBlockRefReader(buf []byte) *BenchmarkConsensusBlockRef {
+	x := &BenchmarkConsensusBlockRef{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _BenchmarkConsensusBlockRef_Scheme, _BenchmarkConsensusBlockRef_Unions)
 	return x
 }
 
-func (x *BlockRef) IsValid() bool {
+func (x *BenchmarkConsensusBlockRef) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *BlockRef) Raw() []byte {
+func (x *BenchmarkConsensusBlockRef) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *BlockRef) Equal(y *BlockRef) bool {
+func (x *BenchmarkConsensusBlockRef) Equal(y *BenchmarkConsensusBlockRef) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -437,81 +437,81 @@ func (x *BlockRef) Equal(y *BlockRef) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *BlockRef) MessageType() BenchmarkConsensusPlaceholder {
+func (x *BenchmarkConsensusBlockRef) PlaceholderType() BenchmarkConsensusPlaceholder {
 	return BenchmarkConsensusPlaceholder(x._message.GetUint16(0))
 }
 
-func (x *BlockRef) RawMessageType() []byte {
+func (x *BenchmarkConsensusBlockRef) RawPlaceholderType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *BlockRef) MutateMessageType(v BenchmarkConsensusPlaceholder) error {
+func (x *BenchmarkConsensusBlockRef) MutatePlaceholderType(v BenchmarkConsensusPlaceholder) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *BlockRef) StringMessageType() string {
-	return x.MessageType().String()
+func (x *BenchmarkConsensusBlockRef) StringPlaceholderType() string {
+	return x.PlaceholderType().String()
 }
 
-func (x *BlockRef) BlockHeight() primitives.BlockHeight {
+func (x *BenchmarkConsensusBlockRef) BlockHeight() primitives.BlockHeight {
 	return primitives.BlockHeight(x._message.GetUint64(1))
 }
 
-func (x *BlockRef) RawBlockHeight() []byte {
+func (x *BenchmarkConsensusBlockRef) RawBlockHeight() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *BlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
+func (x *BenchmarkConsensusBlockRef) MutateBlockHeight(v primitives.BlockHeight) error {
 	return x._message.SetUint64(1, uint64(v))
 }
 
-func (x *BlockRef) StringBlockHeight() string {
+func (x *BenchmarkConsensusBlockRef) StringBlockHeight() string {
 	return fmt.Sprintf("%s", x.BlockHeight())
 }
 
-func (x *BlockRef) View() uint64 {
+func (x *BenchmarkConsensusBlockRef) PlaceholderView() uint64 {
 	return x._message.GetUint64(2)
 }
 
-func (x *BlockRef) RawView() []byte {
+func (x *BenchmarkConsensusBlockRef) RawPlaceholderView() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *BlockRef) MutateView(v uint64) error {
+func (x *BenchmarkConsensusBlockRef) MutatePlaceholderView(v uint64) error {
 	return x._message.SetUint64(2, v)
 }
 
-func (x *BlockRef) StringView() string {
-	return fmt.Sprintf("%x", x.View())
+func (x *BenchmarkConsensusBlockRef) StringPlaceholderView() string {
+	return fmt.Sprintf("%x", x.PlaceholderView())
 }
 
-func (x *BlockRef) BlockHash() primitives.Sha256 {
+func (x *BenchmarkConsensusBlockRef) BlockHash() primitives.Sha256 {
 	return primitives.Sha256(x._message.GetBytes(3))
 }
 
-func (x *BlockRef) RawBlockHash() []byte {
+func (x *BenchmarkConsensusBlockRef) RawBlockHash() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
-func (x *BlockRef) RawBlockHashWithHeader() []byte {
+func (x *BenchmarkConsensusBlockRef) RawBlockHashWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(3, 0)
 }
 
-func (x *BlockRef) MutateBlockHash(v primitives.Sha256) error {
+func (x *BenchmarkConsensusBlockRef) MutateBlockHash(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
 
-func (x *BlockRef) StringBlockHash() string {
+func (x *BenchmarkConsensusBlockRef) StringBlockHash() string {
 	return fmt.Sprintf("%s", x.BlockHash())
 }
 
 // builder
 
-type BlockRefBuilder struct {
-	MessageType BenchmarkConsensusPlaceholder
-	BlockHeight primitives.BlockHeight
-	View        uint64
-	BlockHash   primitives.Sha256
+type BenchmarkConsensusBlockRefBuilder struct {
+	PlaceholderType BenchmarkConsensusPlaceholder
+	BlockHeight     primitives.BlockHeight
+	PlaceholderView uint64
+	BlockHash       primitives.Sha256
 
 	// internal
 	// implements membuffers.Builder
@@ -519,7 +519,7 @@ type BlockRefBuilder struct {
 	_overrideWithRawBuffer []byte
 }
 
-func (w *BlockRefBuilder) Write(buf []byte) (err error) {
+func (w *BenchmarkConsensusBlockRefBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -534,14 +534,14 @@ func (w *BlockRefBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.MessageType))
+	w._builder.WriteUint16(buf, uint16(w.PlaceholderType))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteUint64(buf, w.View)
+	w._builder.WriteUint64(buf, w.PlaceholderView)
 	w._builder.WriteBytes(buf, []byte(w.BlockHash))
 	return nil
 }
 
-func (w *BlockRefBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+func (w *BenchmarkConsensusBlockRefBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -551,21 +551,21 @@ func (w *BlockRefBuilder) HexDump(prefix string, offsetFromStart membuffers.Offs
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpUint16(prefix, offsetFromStart, "BlockRef.MessageType", uint16(w.MessageType))
-	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockRef.BlockHeight", uint64(w.BlockHeight))
-	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockRef.View", w.View)
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "BlockRef.BlockHash", []byte(w.BlockHash))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "BenchmarkConsensusBlockRef.PlaceholderType", uint16(w.PlaceholderType))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BenchmarkConsensusBlockRef.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BenchmarkConsensusBlockRef.PlaceholderView", w.PlaceholderView)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "BenchmarkConsensusBlockRef.BlockHash", []byte(w.BlockHash))
 	return nil
 }
 
-func (w *BlockRefBuilder) GetSize() membuffers.Offset {
+func (w *BenchmarkConsensusBlockRefBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *BlockRefBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *BenchmarkConsensusBlockRefBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -573,16 +573,16 @@ func (w *BlockRefBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *BlockRefBuilder) Build() *BlockRef {
+func (w *BenchmarkConsensusBlockRefBuilder) Build() *BenchmarkConsensusBlockRef {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return BlockRefReader(buf)
+	return BenchmarkConsensusBlockRefReader(buf)
 }
 
-func BlockRefBuilderFromRaw(raw []byte) *BlockRefBuilder {
-	return &BlockRefBuilder{_overrideWithRawBuffer: raw}
+func BenchmarkConsensusBlockRefBuilderFromRaw(raw []byte) *BenchmarkConsensusBlockRefBuilder {
+	return &BenchmarkConsensusBlockRefBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
