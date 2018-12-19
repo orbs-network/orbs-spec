@@ -20,7 +20,7 @@ message MethodArgumentArray {
 }
 
 message StateRecord {
-    primitives.ripmd160_sha256 key = 1;
+    primitives.ripemd160_sha256 key = 1;
     bytes value = 2;
 }
 

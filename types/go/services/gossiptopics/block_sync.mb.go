@@ -52,19 +52,19 @@ func (x *BlockAvailabilityRequestInput) StringMessage() (res string) {
 // message BlockAvailabilityResponseInput (non serializable)
 
 type BlockAvailabilityResponseInput struct {
-	RecipientPublicKey primitives.Ed25519PublicKey
-	Message            *gossipmessages.BlockAvailabilityResponseMessage
+	RecipientNodeAddress primitives.NodeAddress
+	Message              *gossipmessages.BlockAvailabilityResponseMessage
 }
 
 func (x *BlockAvailabilityResponseInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+	return fmt.Sprintf("{RecipientNodeAddress:%s,Message:%s,}", x.StringRecipientNodeAddress(), x.StringMessage())
 }
 
-func (x *BlockAvailabilityResponseInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%s", x.RecipientPublicKey)
+func (x *BlockAvailabilityResponseInput) StringRecipientNodeAddress() (res string) {
+	res = fmt.Sprintf("%s", x.RecipientNodeAddress)
 	return
 }
 
@@ -77,19 +77,19 @@ func (x *BlockAvailabilityResponseInput) StringMessage() (res string) {
 // message BlockSyncRequestInput (non serializable)
 
 type BlockSyncRequestInput struct {
-	RecipientPublicKey primitives.Ed25519PublicKey
-	Message            *gossipmessages.BlockSyncRequestMessage
+	RecipientNodeAddress primitives.NodeAddress
+	Message              *gossipmessages.BlockSyncRequestMessage
 }
 
 func (x *BlockSyncRequestInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+	return fmt.Sprintf("{RecipientNodeAddress:%s,Message:%s,}", x.StringRecipientNodeAddress(), x.StringMessage())
 }
 
-func (x *BlockSyncRequestInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%s", x.RecipientPublicKey)
+func (x *BlockSyncRequestInput) StringRecipientNodeAddress() (res string) {
+	res = fmt.Sprintf("%s", x.RecipientNodeAddress)
 	return
 }
 
@@ -102,19 +102,19 @@ func (x *BlockSyncRequestInput) StringMessage() (res string) {
 // message BlockSyncResponseInput (non serializable)
 
 type BlockSyncResponseInput struct {
-	RecipientPublicKey primitives.Ed25519PublicKey
-	Message            *gossipmessages.BlockSyncResponseMessage
+	RecipientNodeAddress primitives.NodeAddress
+	Message              *gossipmessages.BlockSyncResponseMessage
 }
 
 func (x *BlockSyncResponseInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+	return fmt.Sprintf("{RecipientNodeAddress:%s,Message:%s,}", x.StringRecipientNodeAddress(), x.StringMessage())
 }
 
-func (x *BlockSyncResponseInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%s", x.RecipientPublicKey)
+func (x *BlockSyncResponseInput) StringRecipientNodeAddress() (res string) {
+	res = fmt.Sprintf("%s", x.RecipientNodeAddress)
 	return
 }
 

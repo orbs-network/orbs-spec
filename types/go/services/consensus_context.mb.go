@@ -279,7 +279,7 @@ func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
 // message RequestCommitteeOutput (non serializable)
 
 type RequestCommitteeOutput struct {
-	NodePublicKeys           []primitives.Ed25519PublicKey
+	NodeAddresses            []primitives.NodeAddress
 	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
 }
 
@@ -287,12 +287,12 @@ func (x *RequestCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NodePublicKeys:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodePublicKeys(), x.StringNodeRandomSeedPublicKeys())
+	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys())
 }
 
-func (x *RequestCommitteeOutput) StringNodePublicKeys() (res string) {
+func (x *RequestCommitteeOutput) StringNodeAddresses() (res string) {
 	res = "["
-	for _, v := range x.NodePublicKeys {
+	for _, v := range x.NodeAddresses {
 		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"
