@@ -13,7 +13,7 @@
 
 #### Transaction Merkle Tree
 > Maintains the transactions within a block, calculated on block creation and validation.
-* Tree type: Binary Merkle tree
+* Tree type: Binary Merkle tree (sorted min/max)
 * Key: tx_index (the index of the transaction in the block)
 * Key size: ceil(log(max_index))
 * Value: txhash
@@ -21,7 +21,7 @@
 
 #### Receipt Merkle Tree
 > Maintains the receipts within a block, calculated on block creation and validation.
-* Tree type: Binary Merkle tree
+* Tree type: Binary Merkle tree (sorted min/max)
 * Key: tx_index (the index of the corresponding transaction in the block)
 * Key size: ceil(log(max_index))
 * Value: SHA256(receipt)
@@ -36,20 +36,22 @@
 > Provides inclusion authentication for sequential keys (0 - max_index).
 * Leaf node serialization: {Value}
 * Core node serialization: {left_child_hash, right_child_hash}
+  * For sorted min/max trees the node serialization is: {min_hash_child, max_hash_child}
+* Notes:
+  * An empty tree root equals `uint256(0)`.
+  * A tree with a single value has a single node which is the root node. i.e. the proof is an empty array of nodes.
 
-#### Binary Merkle Proof:
+#### Binary Merkle Proof (sorted min/max):
 * Structure:
   * List of log(max_index) core nodes' hash.
 
 * Proof validation:
   * hash_state = the Leaf node hash
-  * key_bit = 0
   * For each node in the proof starting from the bottom
-    * if key[key_bit] = 0
+    * if (hash_state < node)
       * hash_state = hash(hash_state, node)
     * Else
       * hash_state = hash(node, hash_state)
-    * key_bit++
     * Pop node
   * Compare the hash_state with the tree root.
 
