@@ -84,6 +84,7 @@ message packed_receipt_proof {
 
 // opaque field of repeated protocol.Event
 // encode in golang: packed := protocol.EventsArray.RawEventsArray()
+// decode in golang: protocol.EventsArrayReader(parent.RawOutputEventsArrayWithHeader())
 message packed_events_array {
     option inline_type = "bytes";
     bytes value = 1;
@@ -92,6 +93,7 @@ message packed_events_array {
 
 // opaque field of repeated protocol.MethodArgument
 // encode in golang: packed := protocol.MethodArgumentArray.RawArgumentsArray()
+// decode in golang: protocol.MethodArgumentArrayReader(parent.RawOutputArgumentArrayWithHeader())
 message packed_argument_array {
     option inline_type = "bytes";
     bytes value = 1;
