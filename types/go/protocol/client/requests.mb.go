@@ -1378,10 +1378,11 @@ func GetTransactionReceiptProofRequestBuilderFromRaw(raw []byte) *GetTransaction
 
 type GetTransactionReceiptProofResponse struct {
 	// RequestStatus protocol.RequestStatus
-	// Proof primitives.PackedReceiptProof
+	// PackedProof primitives.PackedReceiptProof
 	// TransactionStatus protocol.TransactionStatus
 	// BlockHeight primitives.BlockHeight
 	// BlockTimestamp primitives.TimestampNano
+	// PackedReceipt primitives.PackedReceipt
 
 	// internal
 	// implements membuffers.Message
@@ -1392,10 +1393,10 @@ func (x *GetTransactionReceiptProofResponse) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RequestStatus:%s,Proof:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringProof(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestStatus:%s,PackedProof:%s,TransactionStatus:%s,BlockHeight:%s,BlockTimestamp:%s,PackedReceipt:%s,}", x.StringRequestStatus(), x.StringPackedProof(), x.StringTransactionStatus(), x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringPackedReceipt())
 }
 
-var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64}
+var _GetTransactionReceiptProofResponse_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeBytes}
 var _GetTransactionReceiptProofResponse_Unions = [][]membuffers.FieldType{}
 
 func GetTransactionReceiptProofResponseReader(buf []byte) *GetTransactionReceiptProofResponse {
@@ -1438,24 +1439,24 @@ func (x *GetTransactionReceiptProofResponse) StringRequestStatus() string {
 	return x.RequestStatus().String()
 }
 
-func (x *GetTransactionReceiptProofResponse) Proof() primitives.PackedReceiptProof {
+func (x *GetTransactionReceiptProofResponse) PackedProof() primitives.PackedReceiptProof {
 	return primitives.PackedReceiptProof(x._message.GetBytes(1))
 }
 
-func (x *GetTransactionReceiptProofResponse) RawProof() []byte {
+func (x *GetTransactionReceiptProofResponse) RawPackedProof() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) RawProofWithHeader() []byte {
+func (x *GetTransactionReceiptProofResponse) RawPackedProofWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(1, 0)
 }
 
-func (x *GetTransactionReceiptProofResponse) MutateProof(v primitives.PackedReceiptProof) error {
+func (x *GetTransactionReceiptProofResponse) MutatePackedProof(v primitives.PackedReceiptProof) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
-func (x *GetTransactionReceiptProofResponse) StringProof() string {
-	return fmt.Sprintf("%s", x.Proof())
+func (x *GetTransactionReceiptProofResponse) StringPackedProof() string {
+	return fmt.Sprintf("%s", x.PackedProof())
 }
 
 func (x *GetTransactionReceiptProofResponse) TransactionStatus() protocol.TransactionStatus {
@@ -1506,14 +1507,35 @@ func (x *GetTransactionReceiptProofResponse) StringBlockTimestamp() string {
 	return fmt.Sprintf("%s", x.BlockTimestamp())
 }
 
+func (x *GetTransactionReceiptProofResponse) PackedReceipt() primitives.PackedReceipt {
+	return primitives.PackedReceipt(x._message.GetBytes(5))
+}
+
+func (x *GetTransactionReceiptProofResponse) RawPackedReceipt() []byte {
+	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) RawPackedReceiptWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
+func (x *GetTransactionReceiptProofResponse) MutatePackedReceipt(v primitives.PackedReceipt) error {
+	return x._message.SetBytes(5, []byte(v))
+}
+
+func (x *GetTransactionReceiptProofResponse) StringPackedReceipt() string {
+	return fmt.Sprintf("%s", x.PackedReceipt())
+}
+
 // builder
 
 type GetTransactionReceiptProofResponseBuilder struct {
 	RequestStatus     protocol.RequestStatus
-	Proof             primitives.PackedReceiptProof
+	PackedProof       primitives.PackedReceiptProof
 	TransactionStatus protocol.TransactionStatus
 	BlockHeight       primitives.BlockHeight
 	BlockTimestamp    primitives.TimestampNano
+	PackedReceipt     primitives.PackedReceipt
 
 	// internal
 	// implements membuffers.Builder
@@ -1537,10 +1559,11 @@ func (w *GetTransactionReceiptProofResponseBuilder) Write(buf []byte) (err error
 	}
 	w._builder.Reset()
 	w._builder.WriteUint16(buf, uint16(w.RequestStatus))
-	w._builder.WriteBytes(buf, []byte(w.Proof))
+	w._builder.WriteBytes(buf, []byte(w.PackedProof))
 	w._builder.WriteUint16(buf, uint16(w.TransactionStatus))
 	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.BlockTimestamp))
+	w._builder.WriteBytes(buf, []byte(w.PackedReceipt))
 	return nil
 }
 
@@ -1555,10 +1578,11 @@ func (w *GetTransactionReceiptProofResponseBuilder) HexDump(prefix string, offse
 	}()
 	w._builder.Reset()
 	w._builder.HexDumpUint16(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.RequestStatus", uint16(w.RequestStatus))
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.Proof", []byte(w.Proof))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.PackedProof", []byte(w.PackedProof))
 	w._builder.HexDumpUint16(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.TransactionStatus", uint16(w.TransactionStatus))
 	w._builder.HexDumpUint64(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.BlockHeight", uint64(w.BlockHeight))
 	w._builder.HexDumpUint64(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.BlockTimestamp", uint64(w.BlockTimestamp))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "GetTransactionReceiptProofResponse.PackedReceipt", []byte(w.PackedReceipt))
 	return nil
 }
 
