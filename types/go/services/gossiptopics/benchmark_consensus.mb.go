@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossiptopics
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages"
@@ -11,8 +12,8 @@ import (
 // service BenchmarkConsensus
 
 type BenchmarkConsensus interface {
-	BroadcastBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
-	SendBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
+	BroadcastBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
+	SendBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
 	RegisterBenchmarkConsensusHandler(handler BenchmarkConsensusHandler)
 }
 
@@ -20,8 +21,8 @@ type BenchmarkConsensus interface {
 // service BenchmarkConsensusHandler
 
 type BenchmarkConsensusHandler interface {
-	HandleBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
-	HandleBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
+	HandleBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error)
+	HandleBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,19 +48,19 @@ func (x *BenchmarkConsensusCommitInput) StringMessage() (res string) {
 // message BenchmarkConsensusCommittedInput (non serializable)
 
 type BenchmarkConsensusCommittedInput struct {
-	RecipientPublicKey primitives.Ed25519PublicKey
-	Message *gossipmessages.BenchmarkConsensusCommittedMessage
+	RecipientNodeAddress primitives.NodeAddress
+	Message              *gossipmessages.BenchmarkConsensusCommittedMessage
 }
 
 func (x *BenchmarkConsensusCommittedInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+	return fmt.Sprintf("{RecipientNodeAddress:%s,Message:%s,}", x.StringRecipientNodeAddress(), x.StringMessage())
 }
 
-func (x *BenchmarkConsensusCommittedInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%s", x.RecipientPublicKey)
+func (x *BenchmarkConsensusCommittedInput) StringRecipientNodeAddress() (res string) {
+	res = fmt.Sprintf("%s", x.RecipientNodeAddress)
 	return
 }
 
@@ -67,4 +68,3 @@ func (x *BenchmarkConsensusCommittedInput) StringMessage() (res string) {
 	res = x.Message.String()
 	return
 }
-

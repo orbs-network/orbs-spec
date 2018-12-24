@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossiptopics
 
 import (
+	"context"
 	"github.com/orbs-network/go-mock"
 )
 
@@ -12,8 +13,8 @@ type MockBlockSync struct {
 	mock.Mock
 }
 
-func (s *MockBlockSync) BroadcastBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSync) BroadcastBlockAvailabilityRequest(ctx context.Context, input *BlockAvailabilityRequestInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockBlockSync) BroadcastBlockAvailabilityRequest(input *BlockAvailabili
 	}
 }
 
-func (s *MockBlockSync) SendBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSync) SendBlockAvailabilityResponse(ctx context.Context, input *BlockAvailabilityResponseInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -30,8 +31,8 @@ func (s *MockBlockSync) SendBlockAvailabilityResponse(input *BlockAvailabilityRe
 	}
 }
 
-func (s *MockBlockSync) SendBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSync) SendBlockSyncRequest(ctx context.Context, input *BlockSyncRequestInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -39,8 +40,8 @@ func (s *MockBlockSync) SendBlockSyncRequest(input *BlockSyncRequestInput) (*Emp
 	}
 }
 
-func (s *MockBlockSync) SendBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSync) SendBlockSyncResponse(ctx context.Context, input *BlockSyncResponseInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -59,8 +60,8 @@ type MockBlockSyncHandler struct {
 	mock.Mock
 }
 
-func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(input *BlockAvailabilityRequestInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(ctx context.Context, input *BlockAvailabilityRequestInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -68,8 +69,8 @@ func (s *MockBlockSyncHandler) HandleBlockAvailabilityRequest(input *BlockAvaila
 	}
 }
 
-func (s *MockBlockSyncHandler) HandleBlockAvailabilityResponse(input *BlockAvailabilityResponseInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSyncHandler) HandleBlockAvailabilityResponse(ctx context.Context, input *BlockAvailabilityResponseInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -77,8 +78,8 @@ func (s *MockBlockSyncHandler) HandleBlockAvailabilityResponse(input *BlockAvail
 	}
 }
 
-func (s *MockBlockSyncHandler) HandleBlockSyncRequest(input *BlockSyncRequestInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSyncHandler) HandleBlockSyncRequest(ctx context.Context, input *BlockSyncRequestInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -86,12 +87,11 @@ func (s *MockBlockSyncHandler) HandleBlockSyncRequest(input *BlockSyncRequestInp
 	}
 }
 
-func (s *MockBlockSyncHandler) HandleBlockSyncResponse(input *BlockSyncResponseInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockSyncHandler) HandleBlockSyncResponse(ctx context.Context, input *BlockSyncResponseInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
-

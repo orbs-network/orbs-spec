@@ -18,7 +18,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 ## `Data Structures`
 
 #### Algorithm-specific data
-* Needs to be persistent.
+* Not persistent.
 
 #### Synchronization state
 * `last_committed_block` - The last valid committed block from the previous round (persistent).
@@ -27,10 +27,11 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 ## `Init` (flow)
 
 * Initialize the [configuration](../config/services.md).
-* Load persistent data.
+* Load persistent data (if present)
 * Subscribe to gossip messages by calling `Gossip.LeanHelix.RegisterLeanHelixHandler`.
 * Register to handle transactions and results blocks validation by calling `BlockStorage.ConsensusBlocksHandler`.
-* Start the consensus algorithm.
+  * Wait until registered successfully.
+* Wait for `HandleConsensusBlock` from `BlockStorage` to start the consensus algorithm.
 
 &nbsp;
 ## `OnNewConsensusRound` (method)

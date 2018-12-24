@@ -1,10 +1,11 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
@@ -13,16 +14,17 @@ import (
 
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
-	ProcessTransactionSet(input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
-	RunLocalMethod(input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
-	TransactionSetPreOrder(input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
+	ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
+	RunLocalMethod(ctx context.Context, input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
+	TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ProcessTransactionSetInput (non serializable)
 
 type ProcessTransactionSetInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -30,7 +32,7 @@ func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
@@ -38,11 +40,16 @@ func (x *ProcessTransactionSetInput) StringBlockHeight() (res string) {
 	return
 }
 
+func (x *ProcessTransactionSetInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
 func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -52,7 +59,7 @@ func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
 
 type ProcessTransactionSetOutput struct {
 	TransactionReceipts []*protocol.TransactionReceipt
-	ContractStateDiffs []*protocol.ContractStateDiff
+	ContractStateDiffs  []*protocol.ContractStateDiff
 }
 
 func (x *ProcessTransactionSetOutput) String() string {
@@ -64,18 +71,18 @@ func (x *ProcessTransactionSetOutput) String() string {
 
 func (x *ProcessTransactionSetOutput) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 func (x *ProcessTransactionSetOutput) StringContractStateDiffs() (res string) {
 	res = "["
-		for _, v := range x.ContractStateDiffs {
+	for _, v := range x.ContractStateDiffs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -109,9 +116,10 @@ func (x *RunLocalMethodInput) StringTransaction() (res string) {
 // message RunLocalMethodOutput (non serializable)
 
 type RunLocalMethodOutput struct {
-	CallResult protocol.ExecutionResult
-	OutputArguments []*protocol.MethodArgument
-	ReferenceBlockHeight primitives.BlockHeight
+	CallResult              protocol.ExecutionResult
+	OutputArgumentArray     primitives.PackedArgumentArray
+	OutputEventsArray       primitives.PackedEventsArray
+	ReferenceBlockHeight    primitives.BlockHeight
 	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
@@ -119,7 +127,7 @@ func (x *RunLocalMethodOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CallResult:%s,OutputArguments:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArguments(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
+	return fmt.Sprintf("{CallResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
 }
 
 func (x *RunLocalMethodOutput) StringCallResult() (res string) {
@@ -127,12 +135,13 @@ func (x *RunLocalMethodOutput) StringCallResult() (res string) {
 	return
 }
 
-func (x *RunLocalMethodOutput) StringOutputArguments() (res string) {
-	res = "["
-		for _, v := range x.OutputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *RunLocalMethodOutput) StringOutputArgumentArray() (res string) {
+	res = fmt.Sprintf("%s", x.OutputArgumentArray)
+	return
+}
+
+func (x *RunLocalMethodOutput) StringOutputEventsArray() (res string) {
+	res = fmt.Sprintf("%s", x.OutputEventsArray)
 	return
 }
 
@@ -150,7 +159,8 @@ func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
 // message TransactionSetPreOrderInput (non serializable)
 
 type TransactionSetPreOrderInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -158,7 +168,7 @@ func (x *TransactionSetPreOrderInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
@@ -166,11 +176,16 @@ func (x *TransactionSetPreOrderInput) StringBlockHeight() (res string) {
 	return
 }
 
+func (x *TransactionSetPreOrderInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
 func (x *TransactionSetPreOrderInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -191,13 +206,12 @@ func (x *TransactionSetPreOrderOutput) String() string {
 
 func (x *TransactionSetPreOrderOutput) StringPreOrderResults() (res string) {
 	res = "["
-		for _, v := range x.PreOrderResults {
+	for _, v := range x.PreOrderResults {
 		res += fmt.Sprintf("%x", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

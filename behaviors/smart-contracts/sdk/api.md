@@ -13,38 +13,46 @@ Environment.GetVirtualChain(): Uint32
 
 #### Execution arguments
 
+#### Block properties
+
+```ts
+Block.GetTime(): Uint64
+```
+
 &nbsp;
 ## Persistent state
 
 Persistent state variables are available to the contract via the `State` object. Every [deployed service](../../../terminology.md) has its own isolated variable namespace (address space) that only it can write to.
 
+Raw state addresses are of type `Ripmd160Sha256` which is a double hash of `RIPEMD160(SHA256(data))`. From an API perspective, this is just a typedef to an array of bytes with the expected length of 20.
+
 #### Read
 
 ```ts
-State.ReadBlobAddress(address: SHA256): Blob
-State.ReadBlobKey(key: String): Blob
-State.ReadStringAddress(address: SHA256): String
-State.ReadStringKey(key: String): String
-State.ReadUint64Address(address: SHA256): Uint64
-State.ReadUint64Key(key: String): Uint64
+State.ReadBytesByAddress(address: Ripmd160Sha256): Bytes
+State.ReadBytesByKey(key: String): Bytes
+State.ReadStringByAddress(address: Ripmd160Sha256): String
+State.ReadStringByKey(key: String): String
+State.ReadUint64ByAddress(address: Ripmd160Sha256): Uint64
+State.ReadUint64ByKey(key: String): Uint64
 ```
 
 #### Write
 
 ```ts
-State.WriteBlobAddress(address: SHA256, value: Blob): Error
-State.WriteBlobKey(key: String, value: Blob): Error
-State.WriteStringAddress(address: SHA256, value: String): Error
-State.WriteStringKey(key: String, value: String): Error
-State.WriteUint64Address(address: SHA256, value: Uint64): Error
-State.WriteUint64Key(key: String, value: Uint64): Error
+State.WriteBytesByAddress(address: Ripmd160Sha256, value: Bytes): Error
+State.WriteBytesByKey(key: String, value: Bytes): Error
+State.WriteStringByAddress(address: Ripmd160Sha256, value: String): Error
+State.WriteStringByKey(key: String, value: String): Error
+State.WriteUint64ByAddress(address: Ripmd160Sha256, value: Uint64): Error
+State.WriteUint64ByKey(key: String, value: Uint64): Error
 ```
 
 #### Clear
 
 ```ts
-State.ClearAddress(address: SHA256): Error
-State.ClearKey(key: String): Error
+State.ClearByAddress(address: Ripmd160Sha256): Error
+State.ClearByKey(key: String): Error
 ```
 
 #### Permissions
@@ -59,7 +67,6 @@ Multiple smart contracts can be deployed on one [virtual chain](../../../termino
 #### Services
 
 ```ts
-Service.IsDeployed(service: String): Boolean
 Service.CallMethod(service: String, method: String, arguments: MethodCallArguments): MethodCallResult
 ```
 
@@ -71,9 +78,30 @@ Service.CallMethod(service: String, method: String, arguments: MethodCallArgumen
 #### Libraries
 
 ```ts
-Library.IsDeployed(library: String): Boolean
 Library.CallMethod(library: String, method: String, arguments: MethodCallArguments): MethodCallResult
 ```
+
+&nbsp;
+## Addresses
+
+System addresses are of type `Ripmd160Sha256` which is a double hash of `RIPEMD160(SHA256(data))`. From an API perspective, this is just a typedef to an array of bytes with the expected length of 20. These addresses may be used to represent accounts and can be derived from transaction signers. The raw state database also uses this addressing format for its keys.
+
+#### Validating addresses
+
+```ts
+Address.ValidateAddress(address: Ripmd160Sha256): Error
+```
+
+#### Querying address of currently running contract
+
+```ts
+Address.GetSignerAddress(): Ripmd160Sha256
+Address.GetCallerAddress(): Ripmd160Sha256
+```
+
+The separation between the two methods is due to contracts calling other contracts. **Signer** address returns the address of the signer of the original transaction accross all contract calls triggered by this transaction. **Caller** address returns the address of the calling contract (which equals to the signer address for the contract specified on the transaction).
+
+Token contracts for example should only use **Caller** address to prevent other contracts calling them on behalf of users and transferring unauthorized amounts.
 
 &nbsp;
 ## Crypto operations
@@ -86,10 +114,20 @@ Traditionally, smart contracts can only access state variables from the blockcha
 #### Ethereum
 
 ```ts
-Ethereum.CallContract(...)
+Ethereum.CallContract(contract_address: string, function_name: string, abi: string, arguments: MethodCallArguments): MethodCallResult
+Ethereum.GetTransactionLogs(txhash: uint256, contract_address: string, event_signature: string) : EventLogs
 ```
 
 &nbsp;
 ## System operations
 
 Special operations that can only be called from system contracts (a special permission).
+
+&nbsp;
+## Event logs
+
+The event logs are logged as part of the transaction receipt. 
+
+```ts
+Log.EmitEvent(arguments: EventArguments)
+```

@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/protocol/client"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -12,27 +13,34 @@ import (
 
 type PublicApi interface {
 	handlers.TransactionResultsHandler
-	SendTransaction(input *SendTransactionInput) (*SendTransactionOutput, error)
-	CallMethod(input *CallMethodInput) (*CallMethodOutput, error)
-	GetTransactionStatus(input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
+	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
+	CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error)
+	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
+	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message SendTransactionInput (non serializable)
 
 type SendTransactionInput struct {
-	ClientRequest *client.SendTransactionRequest
+	ClientRequest     *client.SendTransactionRequest
+	ReturnImmediately uint32
 }
 
 func (x *SendTransactionInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
+	return fmt.Sprintf("{ClientRequest:%s,ReturnImmediately:%s,}", x.StringClientRequest(), x.StringReturnImmediately())
 }
 
 func (x *SendTransactionInput) StringClientRequest() (res string) {
 	res = x.ClientRequest.String()
+	return
+}
+
+func (x *SendTransactionInput) StringReturnImmediately() (res string) {
+	res = fmt.Sprintf("%x", x.ReturnImmediately)
 	return
 }
 
@@ -131,3 +139,40 @@ func (x *GetTransactionStatusOutput) StringClientResponse() (res string) {
 	return
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofInput (non serializable)
+
+type GetTransactionReceiptProofInput struct {
+	ClientRequest *client.GetTransactionReceiptProofRequest
+}
+
+func (x *GetTransactionReceiptProofInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
+}
+
+func (x *GetTransactionReceiptProofInput) StringClientRequest() (res string) {
+	res = x.ClientRequest.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetTransactionReceiptProofOutput (non serializable)
+
+type GetTransactionReceiptProofOutput struct {
+	ClientResponse *client.GetTransactionReceiptProofResponse
+}
+
+func (x *GetTransactionReceiptProofOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
+}
+
+func (x *GetTransactionReceiptProofOutput) StringClientResponse() (res string) {
+	res = x.ClientResponse.String()
+	return
+}

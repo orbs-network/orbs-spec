@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"github.com/orbs-network/go-mock"
 )
 
@@ -12,8 +13,8 @@ type MockCrosschainConnector struct {
 	mock.Mock
 }
 
-func (s *MockCrosschainConnector) EthereumCallContract(input *EthereumCallContractInput) (*EthereumCallContractOutput, error) {
-	ret := s.Called(input)
+func (s *MockCrosschainConnector) EthereumCallContract(ctx context.Context, input *EthereumCallContractInput) (*EthereumCallContractOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EthereumCallContractOutput), ret.Error(1)
 	} else {
@@ -21,3 +22,11 @@ func (s *MockCrosschainConnector) EthereumCallContract(input *EthereumCallContra
 	}
 }
 
+func (s *MockCrosschainConnector) EthereumGetTransactionLogs(ctx context.Context, input *EthereumGetTransactionLogsInput) (*EthereumGetTransactionLogsOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*EthereumGetTransactionLogsOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

@@ -1,8 +1,7 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package consensus
 
-import (
-)
+import ()
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
@@ -10,9 +9,9 @@ import (
 type ConsensusAlgoType uint16
 
 const (
-	CONSENSUS_ALGO_TYPE_RESERVED ConsensusAlgoType = 0
+	CONSENSUS_ALGO_TYPE_RESERVED            ConsensusAlgoType = 0
 	CONSENSUS_ALGO_TYPE_BENCHMARK_CONSENSUS ConsensusAlgoType = 1
-	CONSENSUS_ALGO_TYPE_LEAN_HELIX ConsensusAlgoType = 2
+	CONSENSUS_ALGO_TYPE_LEAN_HELIX          ConsensusAlgoType = 2
 )
 
 func (n ConsensusAlgoType) String() string {
@@ -26,4 +25,3 @@ func (n ConsensusAlgoType) String() string {
 	}
 	return "UNKNOWN"
 }
-

@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
@@ -15,8 +16,8 @@ type MockBlockStorage struct {
 	gossiptopics.MockBlockSyncHandler
 }
 
-func (s *MockBlockStorage) CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) CommitBlock(ctx context.Context, input *CommitBlockInput) (*CommitBlockOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*CommitBlockOutput), ret.Error(1)
 	} else {
@@ -24,8 +25,8 @@ func (s *MockBlockStorage) CommitBlock(input *CommitBlockInput) (*CommitBlockOut
 	}
 }
 
-func (s *MockBlockStorage) GetTransactionsBlockHeader(input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) GetTransactionsBlockHeader(ctx context.Context, input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetTransactionsBlockHeaderOutput), ret.Error(1)
 	} else {
@@ -33,8 +34,8 @@ func (s *MockBlockStorage) GetTransactionsBlockHeader(input *GetTransactionsBloc
 	}
 }
 
-func (s *MockBlockStorage) GetResultsBlockHeader(input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) GetResultsBlockHeader(ctx context.Context, input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetResultsBlockHeaderOutput), ret.Error(1)
 	} else {
@@ -42,8 +43,8 @@ func (s *MockBlockStorage) GetResultsBlockHeader(input *GetResultsBlockHeaderInp
 	}
 }
 
-func (s *MockBlockStorage) GetTransactionReceipt(input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) GetTransactionReceipt(ctx context.Context, input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetTransactionReceiptOutput), ret.Error(1)
 	} else {
@@ -51,8 +52,8 @@ func (s *MockBlockStorage) GetTransactionReceipt(input *GetTransactionReceiptInp
 	}
 }
 
-func (s *MockBlockStorage) GetLastCommittedBlockHeight(input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) GetLastCommittedBlockHeight(ctx context.Context, input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetLastCommittedBlockHeightOutput), ret.Error(1)
 	} else {
@@ -60,8 +61,17 @@ func (s *MockBlockStorage) GetLastCommittedBlockHeight(input *GetLastCommittedBl
 	}
 }
 
-func (s *MockBlockStorage) ValidateBlockForCommit(input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error) {
-	ret := s.Called(input)
+func (s *MockBlockStorage) GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*GenerateReceiptProofOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateBlockForCommitOutput), ret.Error(1)
 	} else {
@@ -72,4 +82,3 @@ func (s *MockBlockStorage) ValidateBlockForCommit(input *ValidateBlockForCommitI
 func (s *MockBlockStorage) RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler) {
 	s.Called(handler)
 }
-

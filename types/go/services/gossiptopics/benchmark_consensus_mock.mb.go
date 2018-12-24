@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossiptopics
 
 import (
+	"context"
 	"github.com/orbs-network/go-mock"
 )
 
@@ -12,8 +13,8 @@ type MockBenchmarkConsensus struct {
 	mock.Mock
 }
 
-func (s *MockBenchmarkConsensus) BroadcastBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBenchmarkConsensus) BroadcastBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -21,8 +22,8 @@ func (s *MockBenchmarkConsensus) BroadcastBenchmarkConsensusCommit(input *Benchm
 	}
 }
 
-func (s *MockBenchmarkConsensus) SendBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBenchmarkConsensus) SendBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -41,8 +42,8 @@ type MockBenchmarkConsensusHandler struct {
 	mock.Mock
 }
 
-func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommit(input *BenchmarkConsensusCommitInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommit(ctx context.Context, input *BenchmarkConsensusCommitInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
@@ -50,12 +51,11 @@ func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommit(input *Be
 	}
 }
 
-func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommitted(input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error) {
-	ret := s.Called(input)
+func (s *MockBenchmarkConsensusHandler) HandleBenchmarkConsensusCommitted(ctx context.Context, input *BenchmarkConsensusCommittedInput) (*EmptyOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*EmptyOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
 }
-

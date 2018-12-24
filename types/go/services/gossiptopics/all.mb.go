@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossiptopics
 
 import (
@@ -11,22 +11,22 @@ import (
 // message RecipientsList (non serializable)
 
 type RecipientsList struct {
-	RecipientPublicKeys []primitives.Ed25519PublicKey
-	RecipientMode gossipmessages.RecipientsListMode
+	RecipientNodeAddresses []primitives.NodeAddress
+	RecipientMode          gossipmessages.RecipientsListMode
 }
 
 func (x *RecipientsList) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKeys:%s,RecipientMode:%s,}", x.StringRecipientPublicKeys(), x.StringRecipientMode())
+	return fmt.Sprintf("{RecipientNodeAddresses:%s,RecipientMode:%s,}", x.StringRecipientNodeAddresses(), x.StringRecipientMode())
 }
 
-func (x *RecipientsList) StringRecipientPublicKeys() (res string) {
+func (x *RecipientsList) StringRecipientNodeAddresses() (res string) {
 	res = "["
-		for _, v := range x.RecipientPublicKeys {
+	for _, v := range x.RecipientNodeAddresses {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -51,4 +51,3 @@ func (x *EmptyOutput) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

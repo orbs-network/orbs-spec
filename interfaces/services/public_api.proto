@@ -16,10 +16,12 @@ service PublicApi {
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
     rpc CallMethod (CallMethodInput) returns (CallMethodOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
+    rpc GetTransactionReceiptProof (GetTransactionReceiptProofInput) returns (GetTransactionReceiptProofOutput);    
 }
 
 message SendTransactionInput {
     client.SendTransactionRequest client_request = 1;
+    uint32 return_immediately = 2;
 }
 
 message SendTransactionOutput {
@@ -40,4 +42,12 @@ message GetTransactionStatusInput {
 
 message GetTransactionStatusOutput {
     client.GetTransactionStatusResponse client_response = 1;
+}
+
+message GetTransactionReceiptProofInput {
+    client.GetTransactionReceiptProofRequest client_request = 1;
+}
+
+message GetTransactionReceiptProofOutput {
+    client.GetTransactionReceiptProofResponse client_response = 1;
 }

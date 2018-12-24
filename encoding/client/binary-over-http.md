@@ -8,19 +8,21 @@
   * Example: If node fails on out of sync, returns `503 Service Unavailable` with text "node out of sync".
   
 &nbsp;
-## `/v1/api/call-method`
+## `/api/v1/call-method`
 
 * Calls `PublicApi.CallMethod`.
 * Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).
 
 &nbsp;
-## `/v1/api/send-transaction`
+## `/api/v1/send-transaction`
 
 * Calls `PublicApi.SendTransaction`.
 * Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).
+* Takes an optional URL parameter `immediate=true` if the client does not want to wait until the transaction is processed.
+* This API is synchronous and can take a long time to process (until a block containing the transaction is closed), unless immediate mode is requested and then it will only wait until the transaction was stored successfully in the transaction pool.
 
 &nbsp;
-### `/v1/api/get-transaction-status`
+### `/api/v1/get-transaction-status`
 
 * Calls `PublicApi.GetTransactionStatus`.
 * Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).

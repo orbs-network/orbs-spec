@@ -7,16 +7,19 @@ import "../primitives/protocol.proto";
 import "../protocol/transactions.proto";
 import "../protocol/results.proto";
 import "../protocol/contracts.proto";
+import "../protocol/proofs.proto";
+
 
 message SendTransactionRequest {
     protocol.SignedTransaction signed_transaction = 1;
 }
 
 message SendTransactionResponse {
-    protocol.TransactionReceipt transaction_receipt = 1;
-    protocol.TransactionStatus transaction_status = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    protocol.RequestStatus request_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2; // empty unless status committed or previously committed
+    protocol.TransactionStatus transaction_status = 3;
+    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
 }
 
 message CallMethodRequest {
@@ -24,20 +27,41 @@ message CallMethodRequest {
 }
 
 message CallMethodResponse {
-    repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionResult call_result = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    protocol.RequestStatus request_status = 1;
+    primitives.packed_argument_array output_argument_array = 2;
+    primitives.packed_events_array output_events_array = 3;
+    protocol.ExecutionResult call_method_result = 4;
+    primitives.block_height block_height = 5; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 6; // should always be returned even on errors or timeouts
 }
 
 message GetTransactionStatusRequest {
-    primitives.timestamp_nano transaction_timestamp = 1;
-    primitives.sha256 txhash = 2;
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp_nano transaction_timestamp = 3;
+    primitives.sha256 txhash = 4;
 }
 
 message GetTransactionStatusResponse {
-    protocol.TransactionReceipt transaction_receipt = 1;
-    protocol.TransactionStatus transaction_status = 2;
-    primitives.block_height block_height = 3;
-    primitives.timestamp_nano block_timestamp = 4;
+    protocol.RequestStatus request_status = 1;
+    protocol.TransactionReceipt transaction_receipt = 2;
+    protocol.TransactionStatus transaction_status = 3;
+    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+}
+
+message GetTransactionReceiptProofRequest {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp_nano transaction_timestamp = 3;
+    primitives.sha256 txhash = 4;
+}
+
+message GetTransactionReceiptProofResponse {
+    protocol.RequestStatus request_status = 1;
+    primitives.packed_receipt_proof packed_proof = 2;
+    protocol.TransactionStatus transaction_status = 3;
+    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+    primitives.packed_receipt packed_receipt = 6; // TODO(v1): a bit messy, this was added in a hurry
 }

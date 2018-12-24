@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
@@ -14,12 +15,13 @@ import (
 
 type BlockStorage interface {
 	gossiptopics.BlockSyncHandler
-	CommitBlock(input *CommitBlockInput) (*CommitBlockOutput, error)
-	GetTransactionsBlockHeader(input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
-	GetResultsBlockHeader(input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
-	GetTransactionReceipt(input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
-	GetLastCommittedBlockHeight(input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
-	ValidateBlockForCommit(input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	CommitBlock(ctx context.Context, input *CommitBlockInput) (*CommitBlockOutput, error)
+	GetTransactionsBlockHeader(ctx context.Context, input *GetTransactionsBlockHeaderInput) (*GetTransactionsBlockHeaderOutput, error)
+	GetResultsBlockHeader(ctx context.Context, input *GetResultsBlockHeaderInput) (*GetResultsBlockHeaderOutput, error)
+	GetTransactionReceipt(ctx context.Context, input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
+	GetLastCommittedBlockHeight(ctx context.Context, input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
+	GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error)
+	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
 
@@ -78,9 +80,9 @@ func (x *GetTransactionsBlockHeaderInput) StringBlockHeight() (res string) {
 // message GetTransactionsBlockHeaderOutput (non serializable)
 
 type GetTransactionsBlockHeaderOutput struct {
-	TransactionsBlockHeader *protocol.TransactionsBlockHeader
+	TransactionsBlockHeader   *protocol.TransactionsBlockHeader
 	TransactionsBlockMetadata *protocol.TransactionsBlockMetadata
-	TransactionsBlockProof *protocol.TransactionsBlockProof
+	TransactionsBlockProof    *protocol.TransactionsBlockProof
 }
 
 func (x *GetTransactionsBlockHeaderOutput) String() string {
@@ -129,7 +131,7 @@ func (x *GetResultsBlockHeaderInput) StringBlockHeight() (res string) {
 
 type GetResultsBlockHeaderOutput struct {
 	ResultsBlockHeader *protocol.ResultsBlockHeader
-	ResultsBlockProof *protocol.ResultsBlockProof
+	ResultsBlockProof  *protocol.ResultsBlockProof
 }
 
 func (x *GetResultsBlockHeaderOutput) String() string {
@@ -153,7 +155,7 @@ func (x *GetResultsBlockHeaderOutput) StringResultsBlockProof() (res string) {
 // message GetTransactionReceiptInput (non serializable)
 
 type GetTransactionReceiptInput struct {
-	Txhash primitives.Sha256
+	Txhash               primitives.Sha256
 	TransactionTimestamp primitives.TimestampNano
 }
 
@@ -179,8 +181,8 @@ func (x *GetTransactionReceiptInput) StringTransactionTimestamp() (res string) {
 
 type GetTransactionReceiptOutput struct {
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *GetTransactionReceiptOutput) String() string {
@@ -222,7 +224,7 @@ func (x *GetLastCommittedBlockHeightInput) String() string {
 // message GetLastCommittedBlockHeightOutput (non serializable)
 
 type GetLastCommittedBlockHeightOutput struct {
-	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight    primitives.BlockHeight
 	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
@@ -276,5 +278,48 @@ func (x *ValidateBlockForCommitOutput) String() string {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// enums
+// message GenerateReceiptProofInput (non serializable)
 
+type GenerateReceiptProofInput struct {
+	Txhash      primitives.Sha256
+	BlockHeight primitives.BlockHeight
+}
+
+func (x *GenerateReceiptProofInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Txhash:%s,BlockHeight:%s,}", x.StringTxhash(), x.StringBlockHeight())
+}
+
+func (x *GenerateReceiptProofInput) StringTxhash() (res string) {
+	res = fmt.Sprintf("%s", x.Txhash)
+	return
+}
+
+func (x *GenerateReceiptProofInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GenerateReceiptProofOutput (non serializable)
+
+type GenerateReceiptProofOutput struct {
+	Proof *protocol.ReceiptProof
+}
+
+func (x *GenerateReceiptProofOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Proof:%s,}", x.StringProof())
+}
+
+func (x *GenerateReceiptProofOutput) StringProof() (res string) {
+	res = x.Proof.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// enums

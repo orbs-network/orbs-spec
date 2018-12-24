@@ -18,7 +18,7 @@ Currently a single instance per virtual chain per node.
 * Implemented in native language of the node for efficiency and performance.
 * Name space code is stored in a registry which is loaded on initialization and cached by the processor.
 
-#### `Ethereum Solidity`
+#### `Ethereum Solidity (EVM)`
 * Coming soon.
 
 &nbsp;
@@ -61,14 +61,13 @@ Currently a single instance per virtual chain per node.
   * External SDK calls are performed by blocking execution and calling the registered virtual machine service by calling its `HandleSdkCall`.
 
 &nbsp;
-## `DeployNativeService` (method)
+## `GetContractInfo` (method)
 
-> Deploys a native service (smart contract). Methods of a new service cannot be called until it is deployed to the virtual chain. This method only exists on the native processor. Other processors deploy via transaction, not RPC.
+> Provides information (like contract permission) about a specific contract on a processor.
 
 #### Native smart contracts
 * Make sure a native smart contract exists with the service name.
-* Run system smart contract `_Deployments.Deploy` by calling the `Native` processor's `Processor.ProcessCall`.
-  * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md).
+* Retrieve the contract permission (`Service` or `System`) from the repository and return it.
 
 
 <!-- TODO: oded add the diagrams again

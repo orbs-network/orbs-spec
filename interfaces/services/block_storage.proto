@@ -6,6 +6,7 @@ import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 import "protocol/transactions.proto";
 import "protocol/blocks.proto";
+import "protocol/proofs.proto";
 import "services/gossiptopics/block_sync.proto";
 import "services/handlers/consensus_blocks.proto";
 
@@ -26,6 +27,7 @@ service BlockStorage {
     // called by PublicApi
     rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
     rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
+    rpc GenerateReceiptProof (GenerateReceiptProofInput) returns (GenerateReceiptProofOutput);
 
     // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
@@ -83,4 +85,13 @@ message ValidateBlockForCommitInput {
 // returns error code ERROR_CODE_INVALID if not valid
 message ValidateBlockForCommitOutput {
 
+}
+
+message GenerateReceiptProofInput {
+    primitives.sha256 txhash = 1;
+    primitives.block_height block_height = 2;
+}
+
+message GenerateReceiptProofOutput {
+    protocol.ReceiptProof proof = 1;
 }

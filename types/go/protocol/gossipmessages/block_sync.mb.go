@@ -1,10 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
-	"github.com/orbs-network/membuffers/go"
 	"bytes"
 	"fmt"
+	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
@@ -14,7 +14,7 @@ import (
 
 type BlockAvailabilityRequestMessage struct {
 	SignedBatchRange *BlockSyncRange
-	Sender *SenderSignature
+	Sender           *SenderSignature
 }
 
 func (x *BlockAvailabilityRequestMessage) String() string {
@@ -39,7 +39,7 @@ func (x *BlockAvailabilityRequestMessage) StringSender() (res string) {
 
 type BlockAvailabilityResponseMessage struct {
 	SignedBatchRange *BlockSyncRange
-	Sender *SenderSignature
+	Sender           *SenderSignature
 }
 
 func (x *BlockAvailabilityResponseMessage) String() string {
@@ -64,7 +64,7 @@ func (x *BlockAvailabilityResponseMessage) StringSender() (res string) {
 
 type BlockSyncRequestMessage struct {
 	SignedChunkRange *BlockSyncRange
-	Sender *SenderSignature
+	Sender           *SenderSignature
 }
 
 func (x *BlockSyncRequestMessage) String() string {
@@ -89,8 +89,8 @@ func (x *BlockSyncRequestMessage) StringSender() (res string) {
 
 type BlockSyncResponseMessage struct {
 	SignedChunkRange *BlockSyncRange
-	Sender *SenderSignature
-	BlockPairs []*protocol.BlockPairContainer
+	Sender           *SenderSignature
+	BlockPairs       []*protocol.BlockPairContainer
 }
 
 func (x *BlockSyncResponseMessage) String() string {
@@ -112,9 +112,9 @@ func (x *BlockSyncResponseMessage) StringSender() (res string) {
 
 func (x *BlockSyncResponseMessage) StringBlockPairs() (res string) {
 	res = "["
-		for _, v := range x.BlockPairs {
+	for _, v := range x.BlockPairs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -142,7 +142,7 @@ func (x *BlockSyncRange) String() string {
 	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight())
 }
 
-var _BlockSyncRange_Scheme = []membuffers.FieldType{membuffers.TypeUint16,membuffers.TypeUint64,membuffers.TypeUint64,membuffers.TypeUint64,}
+var _BlockSyncRange_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint64}
 var _BlockSyncRange_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncRangeReader(buf []byte) *BlockSyncRange {
@@ -160,13 +160,13 @@ func (x *BlockSyncRange) Raw() []byte {
 }
 
 func (x *BlockSyncRange) Equal(y *BlockSyncRange) bool {
-  if x == nil && y == nil {
-    return true
-  }
-  if x == nil || y == nil {
-    return false
-  }
-  return bytes.Equal(x.Raw(), y.Raw())
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
 }
 
 func (x *BlockSyncRange) BlockType() BlockType {
@@ -236,17 +236,40 @@ func (x *BlockSyncRange) StringLastCommittedBlockHeight() string {
 // builder
 
 type BlockSyncRangeBuilder struct {
-	BlockType BlockType
-	FirstBlockHeight primitives.BlockHeight
-	LastBlockHeight primitives.BlockHeight
+	BlockType                BlockType
+	FirstBlockHeight         primitives.BlockHeight
+	LastBlockHeight          primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint16(buf, uint16(w.BlockType))
+	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	return nil
+}
+
+func (w *BlockSyncRangeBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -256,10 +279,10 @@ func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.BlockType))
-	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
-	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "BlockSyncRange.BlockType", uint16(w.BlockType))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.FirstBlockHeight", uint64(w.FirstBlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastBlockHeight", uint64(w.LastBlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastCommittedBlockHeight", uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
@@ -286,17 +309,21 @@ func (w *BlockSyncRangeBuilder) Build() *BlockSyncRange {
 	return BlockSyncRangeReader(buf)
 }
 
+func BlockSyncRangeBuilderFromRaw(raw []byte) *BlockSyncRangeBuilder {
+	return &BlockSyncRangeBuilder{_overrideWithRawBuffer: raw}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
 type BlockSyncMessageType uint16
 
 const (
-	BLOCK_SYNC_RESERVED BlockSyncMessageType = 0
-	BLOCK_SYNC_AVAILABILITY_REQUEST BlockSyncMessageType = 1
+	BLOCK_SYNC_RESERVED              BlockSyncMessageType = 0
+	BLOCK_SYNC_AVAILABILITY_REQUEST  BlockSyncMessageType = 1
 	BLOCK_SYNC_AVAILABILITY_RESPONSE BlockSyncMessageType = 2
-	BLOCK_SYNC_REQUEST BlockSyncMessageType = 3
-	BLOCK_SYNC_RESPONSE BlockSyncMessageType = 4
+	BLOCK_SYNC_REQUEST               BlockSyncMessageType = 3
+	BLOCK_SYNC_RESPONSE              BlockSyncMessageType = 4
 )
 
 func (n BlockSyncMessageType) String() string {
@@ -318,10 +345,10 @@ func (n BlockSyncMessageType) String() string {
 type BlockType uint16
 
 const (
-	BLOCK_TYPE_RESERVED BlockType = 0
-	BLOCK_TYPE_BLOCK_PAIR BlockType = 1
+	BLOCK_TYPE_RESERVED           BlockType = 0
+	BLOCK_TYPE_BLOCK_PAIR         BlockType = 1
 	BLOCK_TYPE_TRANSACTIONS_BLOCK BlockType = 2
-	BLOCK_TYPE_RESULTS_BLOCK BlockType = 3
+	BLOCK_TYPE_RESULTS_BLOCK      BlockType = 3
 )
 
 func (n BlockType) String() string {
@@ -337,4 +364,3 @@ func (n BlockType) String() string {
 	}
 	return "UNKNOWN"
 }
-

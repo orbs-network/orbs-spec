@@ -33,6 +33,10 @@ Currently a single instance per virtual chain per node.
 * Batch transient state pointer (points to the batch transient state which is defined outside the execution context).
   * The combined transient state of the entire batch (normally an entire block of transactions).
   * Relevant for `ReadWrite` execution contexts only.
+* Events logs
+  * Logs events emitted by the SDK `Log.EmitEvent` function and are relevant only for `ReadWrite` execution contexts.
+  * Each event is associated with the contract that triggered it.
+  * The events functionality is initially reserved for crosschain operations. Only a single event may be emitted per transaction, a second emit fails the transaction execution.
 
 &nbsp;
 ## `Init` (flow)
@@ -51,9 +55,8 @@ Currently a single instance per virtual chain per node.
   * Note that the reference block height and timestamp are returned to the caller on successful execution and on failure.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
   * Currently `PublicApi.CallMethod` calls are not signed.
-* Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
-  * The key is hash(`<service-name>.Processor`).
-  * If the service is not found, fail.
+* Retrieve the service processor by calling system contract `_Deployments.getInfo` and fail if not deployed.
+  * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md).
 * Allocate an execution context:
   * `ReadOnly` (cannot update state since not under consensus).
   * No transient state (no transaction transient state and no batch transient state).
@@ -77,10 +80,11 @@ Currently a single instance per virtual chain per node.
 * Go over all transactions in the set (in order) and for each one:  
 
 #### Prepare for execution (each transaction)
-* Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
-  * The key is hash(`<service-name>.Processor`).
-  * If the service is not found, try to deploy it (only relevant for native services):
-    * Check if it's a native service by calling the `Native` processor's `Processor.DeployNativeService`.
+* Retrieve the service processor by calling system contract `_Deployments.getInfo`.
+  * If the service is not found, try to auto deploy it (only relevant for native services):
+    * Check if it's a native service by calling the `Native` processor's `Processor.GetContractInfo`.
+    * If so, auto deploy the service by calling system contract `_Deployments.deployService`.
+    * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md). 
 * Allocate an execution context:
   * `ReadWrite` (can update state since under consensus).
   * New transaction transient state and pointer to the batch transient state.
@@ -90,7 +94,9 @@ Currently a single instance per virtual chain per node.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
   * Note: Execution permissions are checked by the processor.
 * Pop service from the execution context's service stack.
-* If the transaction was successful, apply the transaction transient state to the batch transient state.
+* If the transaction was successful:
+  * Apply the transaction transient state to the batch transient state.
+  * Add the event logs to the transaction receipt.
 * Remember the result of the method call and generate a transaction receipt.
 
 #### Prepare combined state diff
@@ -128,10 +134,6 @@ Currently a single instance per virtual chain per node.
 
 > Calls a method of another service on the virtual chain.
 
-* Retrieve the service processor by calling `StateStorage.ReadKeys` on the `_Deployments` service.
-  * The key is hash(`<service-name>.Processor`).
-  * If the service is not found, try to deploy it (only relevant for native services):
-    * Check if it's a native service by calling the `Native` processor's `Processor.DeployNativeService`.
 * Push service to the execution context's service stack.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
   * Note: Execution permissions are checked by the processor.
@@ -152,6 +154,7 @@ Currently a single instance per virtual chain per node.
 > Writes a variable to (transient) state of the service.
 
 * Make sure the execution context is `ReadWrite` and we have a transient state.
+  * Otherwise, terminate the execution and return ERROR_STATE_WRITE_IN_READONLY_CALL
 * Identify the service we're writing to, it's the top of the execution context's service stack.
 * Write the variable to the transaction transient state.
 

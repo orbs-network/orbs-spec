@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
@@ -13,8 +14,8 @@ type MockProcessor struct {
 	mock.Mock
 }
 
-func (s *MockProcessor) ProcessCall(input *ProcessCallInput) (*ProcessCallOutput, error) {
-	ret := s.Called(input)
+func (s *MockProcessor) ProcessCall(ctx context.Context, input *ProcessCallInput) (*ProcessCallOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ProcessCallOutput), ret.Error(1)
 	} else {
@@ -22,8 +23,8 @@ func (s *MockProcessor) ProcessCall(input *ProcessCallInput) (*ProcessCallOutput
 	}
 }
 
-func (s *MockProcessor) GetContractInfo(input *GetContractInfoInput) (*GetContractInfoOutput, error) {
-	ret := s.Called(input)
+func (s *MockProcessor) GetContractInfo(ctx context.Context, input *GetContractInfoInput) (*GetContractInfoOutput, error) {
+	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*GetContractInfoOutput), ret.Error(1)
 	} else {
@@ -34,4 +35,3 @@ func (s *MockProcessor) GetContractInfo(input *GetContractInfoInput) (*GetContra
 func (s *MockProcessor) RegisterContractSdkCallHandler(handler handlers.ContractSdkCallHandler) {
 	s.Called(handler)
 }
-

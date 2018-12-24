@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
@@ -11,19 +12,19 @@ import (
 // service StateStorage
 
 type StateStorage interface {
-	CommitStateDiff(input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
-	ReadKeys(input *ReadKeysInput) (*ReadKeysOutput, error)
-	GetStateStorageBlockHeight(input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
-	GetStateHash(input *GetStateHashInput) (*GetStateHashOutput, error)
+	CommitStateDiff(ctx context.Context, input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
+	ReadKeys(ctx context.Context, input *ReadKeysInput) (*ReadKeysOutput, error)
+	GetStateStorageBlockHeight(ctx context.Context, input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
+	GetStateHash(ctx context.Context, input *GetStateHashInput) (*GetStateHashOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message ReadKeysInput (non serializable)
 
 type ReadKeysInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight  primitives.BlockHeight
 	ContractName primitives.ContractName
-	Keys []primitives.Ripmd160Sha256
+	Keys         []primitives.Ripemd160Sha256
 }
 
 func (x *ReadKeysInput) String() string {
@@ -45,9 +46,9 @@ func (x *ReadKeysInput) StringContractName() (res string) {
 
 func (x *ReadKeysInput) StringKeys() (res string) {
 	res = "["
-		for _, v := range x.Keys {
+	for _, v := range x.Keys {
 		res += fmt.Sprintf("%s", v) + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -68,9 +69,9 @@ func (x *ReadKeysOutput) String() string {
 
 func (x *ReadKeysOutput) StringStateRecords() (res string) {
 	res = "["
-		for _, v := range x.StateRecords {
+	for _, v := range x.StateRecords {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -92,7 +93,7 @@ func (x *GetStateStorageBlockHeightInput) String() string {
 // message GetStateStorageBlockHeightOutput (non serializable)
 
 type GetStateStorageBlockHeightOutput struct {
-	LastCommittedBlockHeight primitives.BlockHeight
+	LastCommittedBlockHeight    primitives.BlockHeight
 	LastCommittedBlockTimestamp primitives.TimestampNano
 }
 
@@ -135,9 +136,9 @@ func (x *CommitStateDiffInput) StringResultsBlockHeader() (res string) {
 
 func (x *CommitStateDiffInput) StringContractStateDiffs() (res string) {
 	res = "["
-		for _, v := range x.ContractStateDiffs {
+	for _, v := range x.ContractStateDiffs {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -201,4 +202,3 @@ func (x *GetStateHashOutput) StringStateRootHash() (res string) {
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

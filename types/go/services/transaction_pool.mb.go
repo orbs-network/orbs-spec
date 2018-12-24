@@ -1,7 +1,8 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
 	"github.com/orbs-network/orbs-spec/types/go/protocol"
@@ -14,11 +15,11 @@ import (
 
 type TransactionPool interface {
 	gossiptopics.TransactionRelayHandler
-	AddNewTransaction(input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
-	GetCommittedTransactionReceipt(input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
-	GetTransactionsForOrdering(input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
-	ValidateTransactionsForOrdering(input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
-	CommitTransactionReceipts(input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
+	AddNewTransaction(ctx context.Context, input *AddNewTransactionInput) (*AddNewTransactionOutput, error)
+	GetCommittedTransactionReceipt(ctx context.Context, input *GetCommittedTransactionReceiptInput) (*GetCommittedTransactionReceiptOutput, error)
+	GetTransactionsForOrdering(ctx context.Context, input *GetTransactionsForOrderingInput) (*GetTransactionsForOrderingOutput, error)
+	ValidateTransactionsForOrdering(ctx context.Context, input *ValidateTransactionsForOrderingInput) (*ValidateTransactionsForOrderingOutput, error)
+	CommitTransactionReceipts(ctx context.Context, input *CommitTransactionReceiptsInput) (*CommitTransactionReceiptsOutput, error)
 	RegisterTransactionResultsHandler(handler handlers.TransactionResultsHandler)
 }
 
@@ -45,10 +46,10 @@ func (x *AddNewTransactionInput) StringSignedTransaction() (res string) {
 // message AddNewTransactionOutput (non serializable)
 
 type AddNewTransactionOutput struct {
-	TransactionStatus protocol.TransactionStatus
+	TransactionStatus  protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *AddNewTransactionOutput) String() string {
@@ -82,7 +83,7 @@ func (x *AddNewTransactionOutput) StringBlockTimestamp() (res string) {
 // message GetCommittedTransactionReceiptInput (non serializable)
 
 type GetCommittedTransactionReceiptInput struct {
-	Txhash primitives.Sha256
+	Txhash               primitives.Sha256
 	TransactionTimestamp primitives.TimestampNano
 }
 
@@ -107,10 +108,10 @@ func (x *GetCommittedTransactionReceiptInput) StringTransactionTimestamp() (res 
 // message GetCommittedTransactionReceiptOutput (non serializable)
 
 type GetCommittedTransactionReceiptOutput struct {
-	TransactionStatus protocol.TransactionStatus
+	TransactionStatus  protocol.TransactionStatus
 	TransactionReceipt *protocol.TransactionReceipt
-	BlockHeight primitives.BlockHeight
-	BlockTimestamp primitives.TimestampNano
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 }
 
 func (x *GetCommittedTransactionReceiptOutput) String() string {
@@ -144,20 +145,26 @@ func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res strin
 // message GetTransactionsForOrderingInput (non serializable)
 
 type GetTransactionsForOrderingInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight              primitives.BlockHeight
+	BlockTimestamp           primitives.TimestampNano
 	MaxTransactionsSetSizeKb uint32
-	MaxNumberOfTransactions uint32
+	MaxNumberOfTransactions  uint32
 }
 
 func (x *GetTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
 }
 
 func (x *GetTransactionsForOrderingInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *GetTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
 	return
 }
 
@@ -187,9 +194,9 @@ func (x *GetTransactionsForOrderingOutput) String() string {
 
 func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -198,7 +205,8 @@ func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res strin
 // message ValidateTransactionsForOrderingInput (non serializable)
 
 type ValidateTransactionsForOrderingInput struct {
-	BlockHeight primitives.BlockHeight
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
 	SignedTransactions []*protocol.SignedTransaction
 }
 
@@ -206,7 +214,7 @@ func (x *ValidateTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringSignedTransactions())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,SignedTransactions:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringSignedTransactions())
 }
 
 func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) {
@@ -214,11 +222,16 @@ func (x *ValidateTransactionsForOrderingInput) StringBlockHeight() (res string) 
 	return
 }
 
+func (x *ValidateTransactionsForOrderingInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
 func (x *ValidateTransactionsForOrderingInput) StringSignedTransactions() (res string) {
 	res = "["
-		for _, v := range x.SignedTransactions {
+	for _, v := range x.SignedTransactions {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -240,8 +253,8 @@ func (x *ValidateTransactionsForOrderingOutput) String() string {
 // message CommitTransactionReceiptsInput (non serializable)
 
 type CommitTransactionReceiptsInput struct {
-	ResultsBlockHeader *protocol.ResultsBlockHeader
-	TransactionReceipts []*protocol.TransactionReceipt
+	ResultsBlockHeader       *protocol.ResultsBlockHeader
+	TransactionReceipts      []*protocol.TransactionReceipt
 	LastCommittedBlockHeight primitives.BlockHeight
 }
 
@@ -259,9 +272,9 @@ func (x *CommitTransactionReceiptsInput) StringResultsBlockHeader() (res string)
 
 func (x *CommitTransactionReceiptsInput) StringTransactionReceipts() (res string) {
 	res = "["
-		for _, v := range x.TransactionReceipts {
+	for _, v := range x.TransactionReceipts {
 		res += v.String() + ","
-  }
+	}
 	res += "]"
 	return
 }
@@ -275,7 +288,7 @@ func (x *CommitTransactionReceiptsInput) StringLastCommittedBlockHeight() (res s
 // message CommitTransactionReceiptsOutput (non serializable)
 
 type CommitTransactionReceiptsOutput struct {
-	NextDesiredBlockHeight primitives.BlockHeight
+	NextDesiredBlockHeight   primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
 }
 
@@ -298,4 +311,3 @@ func (x *CommitTransactionReceiptsOutput) StringLastCommittedBlockHeight() (res 
 
 /////////////////////////////////////////////////////////////////////////////
 // enums
-

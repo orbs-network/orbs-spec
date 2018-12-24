@@ -1,10 +1,10 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
 	"github.com/orbs-network/go-mock"
-	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 	"github.com/orbs-network/orbs-spec/types/go/services/gossiptopics"
+	"github.com/orbs-network/orbs-spec/types/go/services/handlers"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -32,4 +32,3 @@ type MockConsensusAlgoBenchmark struct {
 	MockConsensusAlgo
 	gossiptopics.MockBenchmarkConsensusHandler
 }
-

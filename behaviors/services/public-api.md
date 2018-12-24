@@ -38,9 +38,11 @@ Currently a single instance per virtual chain per node.
 > Public interface: Run a read only service method without consensus based on the current block height. The call is synchronous.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Forward call
 * Execute call on the virtual machine by calling `VirtualMachine.RunLocalMethod` indicating recent [block height](../../terminology.md).
@@ -52,26 +54,19 @@ Currently a single instance per virtual chain per node.
 > Public interface: Execute a transaction on a service under consensus that may change state (write). The call is synchronous.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
-
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
+  
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
   * On failure, send response to client along with the reference block height and timestamp.
-* Block until `ReturnTransactionResults` is called with the relevant `tx_id`.
+* Block until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
 * If a [configurable](../config/services.md) timeout expires during the block, fail.
-  * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `ReturnTransactionResults`.
-
-&nbsp;
-## `UpdateTransactionResults` (method)
-
-> Called by the TransactionResults Handler
-
-* For every transaction:
-  * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
-  * Unblock them to respond to the client using the data from the transaction receipt.
+  * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
 
 &nbsp;
 ## `GetTransactionStatus` (method)
@@ -79,17 +74,40 @@ Currently a single instance per virtual chain per node.
 > Public interface: Query the status of previously sent transaction.
 
 #### Check request validity
-* Correct request format.
 * Correct protocol version.
 * Correct virtual chain.
-* Check the transaction timestamp, verifying that it's not a future transaction plus [configurable](../config/services.md) grace (eg. 5 sec).
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Query transaction status
-* Query the transactions pool by calling `TransactionPool.GetTransactionReceipt`.
-  * If found return status `PENDING`, if committed return status `COMMITTED` with the receipt.
-* If not found in transaction pool, it might be an older transaction, widen our search.
+* Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
+  * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block_hieght and timestamp and an empty receipt.
+  * If the return status is `COMMITTED`, return with the receipt and corresponding block_hieght and timestamp. 
+* If not found in transaction pool (`NO_RECORD_FOUND`), it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
+
+&nbsp;
+## `GetTransactionReceiptProof` (method)
+<!-- TODO: consider providing the receipt as an input -->
+
+> Public interface: Returns a receipt along with a proof for its inclusion in a block.
+
+#### Check request validity
+* Correct protocol version.
+* Correct virtual chain.
+* Notes: 
+  * The request format is validated by the HTTP server.
+  * Upon a validity error, return an error status with empty block height and timestamp (as they may not be relevant).
+
+#### Query the transaction status and receipt
+* Query the transaction status by calling `GetTransactionStatus`.
+  * If no receipt was found return `NO_RECORD_FOUND` along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
+
+#### Get a receipt proof
+* Get a receipt proof by calling `BlockStorage.GenerateReceiptProof`.
+* Return status `COMMITTED` along with the provided proof, block_height and timestamp.
 
 &nbsp;
 ## TransactionResults Handler
@@ -97,5 +115,15 @@ Currently a single instance per virtual chain per node.
 > Handles transaction results enables the public api to respond to the waiting clients, called by `TransactionPool`. 
 
 #### `HandleTransactionResults`
-* Handle by calling `UpdateTransactionResults`.
+> Returns the results of committed transaction set.
+* For every transaction:
+  * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
+  * Unblock them to respond to the client using the data from the transaction receipt.
+    * Set response.transaction_status = COMMITTTED. 
 
+&nbsp;
+#### `HandleTransactionError`
+> Returns the result of a rejected transaction
+* Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
+  * Unblock them to respond to the client using the data from the response.
+    * Set response.transaction_receipt = NULL.

@@ -1,39 +1,40 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
+	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
-	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
 // service CrosschainConnector
 
 type CrosschainConnector interface {
-	EthereumCallContract(input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
+	EthereumCallContract(ctx context.Context, input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
+	EthereumGetTransactionLogs(ctx context.Context, input *EthereumGetTransactionLogsInput) (*EthereumGetTransactionLogsOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // message EthereumCallContractInput (non serializable)
 
 type EthereumCallContractInput struct {
-	BlockHeight primitives.BlockHeight
-	EthereumContractAddress string
-	EthereumFunctionCanonicalForm string
-	InputArguments []*protocol.MethodArgument
-	EthereumBlockHeight uint64
+	ReferenceTimestamp              primitives.TimestampNano
+	EthereumContractAddress         string
+	EthereumFunctionName            string
+	EthereumJsonAbi                 string
+	EthereumAbiPackedInputArguments []byte
 }
 
 func (x *EthereumCallContractInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,EthereumContractAddress:%s,EthereumFunctionCanonicalForm:%s,InputArguments:%s,EthereumBlockHeight:%s,}", x.StringBlockHeight(), x.StringEthereumContractAddress(), x.StringEthereumFunctionCanonicalForm(), x.StringInputArguments(), x.StringEthereumBlockHeight())
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumJsonAbi:%s,EthereumAbiPackedInputArguments:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumJsonAbi(), x.StringEthereumAbiPackedInputArguments())
 }
 
-func (x *EthereumCallContractInput) StringBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.BlockHeight)
+func (x *EthereumCallContractInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
 	return
 }
 
@@ -42,22 +43,18 @@ func (x *EthereumCallContractInput) StringEthereumContractAddress() (res string)
 	return
 }
 
-func (x *EthereumCallContractInput) StringEthereumFunctionCanonicalForm() (res string) {
-	res = fmt.Sprintf(x.EthereumFunctionCanonicalForm)
+func (x *EthereumCallContractInput) StringEthereumFunctionName() (res string) {
+	res = fmt.Sprintf(x.EthereumFunctionName)
 	return
 }
 
-func (x *EthereumCallContractInput) StringInputArguments() (res string) {
-	res = "["
-		for _, v := range x.InputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
+func (x *EthereumCallContractInput) StringEthereumJsonAbi() (res string) {
+	res = fmt.Sprintf(x.EthereumJsonAbi)
 	return
 }
 
-func (x *EthereumCallContractInput) StringEthereumBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockHeight)
+func (x *EthereumCallContractInput) StringEthereumAbiPackedInputArguments() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumAbiPackedInputArguments)
 	return
 }
 
@@ -65,43 +62,79 @@ func (x *EthereumCallContractInput) StringEthereumBlockHeight() (res string) {
 // message EthereumCallContractOutput (non serializable)
 
 type EthereumCallContractOutput struct {
-	OutputArguments []*protocol.MethodArgument
-	CallResult protocol.ExecutionResult
-	EthereumBlockHeight uint64
-	EthereumBlockTimestamp uint64
+	EthereumAbiPackedOutput []byte
 }
 
 func (x *EthereumCallContractOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{OutputArguments:%s,CallResult:%s,EthereumBlockHeight:%s,EthereumBlockTimestamp:%s,}", x.StringOutputArguments(), x.StringCallResult(), x.StringEthereumBlockHeight(), x.StringEthereumBlockTimestamp())
+	return fmt.Sprintf("{EthereumAbiPackedOutput:%s,}", x.StringEthereumAbiPackedOutput())
 }
 
-func (x *EthereumCallContractOutput) StringOutputArguments() (res string) {
-	res = "["
-		for _, v := range x.OutputArguments {
-		res += v.String() + ","
-  }
-	res += "]"
-	return
-}
-
-func (x *EthereumCallContractOutput) StringCallResult() (res string) {
-	res = fmt.Sprintf("%x", x.CallResult)
-	return
-}
-
-func (x *EthereumCallContractOutput) StringEthereumBlockHeight() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockHeight)
-	return
-}
-
-func (x *EthereumCallContractOutput) StringEthereumBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockTimestamp)
+func (x *EthereumCallContractOutput) StringEthereumAbiPackedOutput() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumAbiPackedOutput)
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// enums
+// message EthereumGetTransactionLogsInput (non serializable)
 
+type EthereumGetTransactionLogsInput struct {
+	ReferenceTimestamp      primitives.TimestampNano
+	EthereumContractAddress string
+	EthereumEventName       string
+	EthereumJsonAbi         string
+	EthereumTxhash          primitives.Uint256
+}
+
+func (x *EthereumGetTransactionLogsInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumEventName:%s,EthereumJsonAbi:%s,EthereumTxhash:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumEventName(), x.StringEthereumJsonAbi(), x.StringEthereumTxhash())
+}
+
+func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumContractAddress() (res string) {
+	res = fmt.Sprintf(x.EthereumContractAddress)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumEventName() (res string) {
+	res = fmt.Sprintf(x.EthereumEventName)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumJsonAbi() (res string) {
+	res = fmt.Sprintf(x.EthereumJsonAbi)
+	return
+}
+
+func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
+	res = fmt.Sprintf("%s", x.EthereumTxhash)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetTransactionLogsOutput (non serializable)
+
+type EthereumGetTransactionLogsOutput struct {
+	EthereumAbiPackedOutput []byte
+}
+
+func (x *EthereumGetTransactionLogsOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumAbiPackedOutput:%s,}", x.StringEthereumAbiPackedOutput())
+}
+
+func (x *EthereumGetTransactionLogsOutput) StringEthereumAbiPackedOutput() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumAbiPackedOutput)
+	return
+}

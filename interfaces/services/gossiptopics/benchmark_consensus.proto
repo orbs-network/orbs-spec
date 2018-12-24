@@ -27,6 +27,6 @@ message BenchmarkConsensusCommitInput {
 }
 
 message BenchmarkConsensusCommittedInput {
-    primitives.ed25519_public_key recipient_public_key = 1;
+    primitives.node_address recipient_node_address = 1;
     gossipmessages.BenchmarkConsensusCommittedMessage message = 2;
 }

@@ -18,7 +18,6 @@ Since the system must remain backwards compatible forever (able to audit the old
 ```json
 {
   "send-transaction-timeout-sec": "300",
-  "get-transaction-status-grace-sec": "5"
 }
 ```
 
@@ -29,10 +28,10 @@ Since the system must remain backwards compatible forever (able to audit the old
   "pending-pool-max-size-bytes": "20480000",
   "pending-pool-clear-expired-interval-sec": "10",
   "committed-pool-clear-expired-interval-sec": "30",
-  "propagation-batching-transaction-num": "1000",
-  "propagation-batching-timeout-sec": "5",
+  "propagation-batch-size": "100",
+  "propagation-batching-timeout-msec": "100",
   "query-sync-grace-block-num": "0",
-  "future-timestamp-grace-sec": "180"
+  "future-timestamp-grace-sec": "5"
 }
 ```
 
@@ -81,5 +80,15 @@ Since the system must remain backwards compatible forever (able to audit the old
   "query-sync-grace-block-num": "0",
   "max-blocks-per-sync-batch": "1000",
   "max-blocks-per-sync-chunk": "10"
+}
+```
+
+#### Cross-chain Connector
+<!--- TODO: move to per node configuration file --->
+```json
+{
+  "etheruem-node-dns-address": "ethereum.orbs.network",
+  "etheruem-node-port": "8545",
+  "number-of-blocks-for-finality": "20"
 }
 ```

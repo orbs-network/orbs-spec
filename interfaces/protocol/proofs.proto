@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/protocol.proto";
+import "protocol/blocks.proto";
+import "protocol/transactions.proto";
+
+message ReceiptProof {
+    protocol.ResultsBlockHeader header = 1;
+    protocol.ResultsBlockProof block_proof = 2;
+    primitives.merkle_tree_proof receipt_proof = 3;
+}

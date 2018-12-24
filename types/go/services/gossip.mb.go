@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.18)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
@@ -14,4 +14,3 @@ type Gossip interface {
 	gossiptopics.LeanHelix
 	gossiptopics.BenchmarkConsensus
 }
-

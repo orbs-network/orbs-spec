@@ -11,11 +11,19 @@ service ConsensusBlocksHandler {
 }
 
 message HandleBlockConsensusInput {
-    protocol.BlockType block_type = 1;
-    protocol.BlockPairContainer block_pair = 2; // when separate services, do not forward transactions, receipts or state diff.
-    protocol.BlockPairContainer prev_committed_block_pair = 3; // when separate services, do not forward transactions, receipts or state diff.
+    HandleBlockConsensusMode mode = 1;
+    protocol.BlockType block_type = 2;
+    protocol.BlockPairContainer block_pair = 3; // when separate services, do not forward transactions, receipts or state diff.
+    protocol.BlockPairContainer prev_committed_block_pair = 4; // when separate services, do not forward transactions, receipts or state diff.
 }
 
 // returns error code ERROR_CODE_INVALID if not valid
 message HandleBlockConsensusOutput {
+}
+
+enum HandleBlockConsensusMode {
+    HANDLE_BLOCK_CONSENSUS_MODE_RESERVED = 0;
+    HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE = 1;
+    HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY = 2;
+    HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY = 3;
 }

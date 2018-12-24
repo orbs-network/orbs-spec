@@ -3,27 +3,36 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
-import "protocol/results.proto";
-import "protocol/contracts.proto";
+import "primitives/integers.proto";
 
 option serialize_messages = false;
 
 service CrosschainConnector {
     // called by VirtualMachine
-    rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput); // TODO: don't we need implementation per connector
+    rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
+    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput); 
 }
 
 message EthereumCallContractInput {
-    primitives.block_height block_height = 1;
+    primitives.timestamp_nano reference_timestamp = 1;
     string ethereum_contract_address = 2;
-    string ethereum_function_canonical_form = 3;
-    repeated protocol.MethodArgument input_arguments = 4;
-    uint64 ethereum_block_height = 5; // 0 means default recent block height (eg. 6 blocks back)
+    string ethereum_function_name = 3;
+    string ethereum_json_abi = 4;
+    bytes ethereum_abi_packed_input_arguments = 5;
 }
 
 message EthereumCallContractOutput {
-    repeated protocol.MethodArgument output_arguments = 1;
-    protocol.ExecutionResult call_result = 2;
-    uint64 ethereum_block_height = 3;
-    uint64 ethereum_block_timestamp = 4;
+    bytes ethereum_abi_packed_output = 1;
+}
+
+message EthereumGetTransactionLogsInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    string ethereum_contract_address = 2;
+    string ethereum_event_name = 3;
+    string ethereum_json_abi = 4;
+    primitives.uint256 ethereum_txhash = 5;
+}
+
+message EthereumGetTransactionLogsOutput {
+    bytes ethereum_abi_packed_output = 1;
 }

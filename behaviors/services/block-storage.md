@@ -31,9 +31,13 @@ Currently a single instance per virtual chain per node.
 
 * Initialize the [configuration](../config/services.md).
 * Load persistent data.
-* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the database to empty.
+* If there is persistent data, init `last_commited_block` accordingly.
+* If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the block database to empty.
+* When consensus algorithms register by calling `BlockStorage.RegisterConsensusBlocksHandler`, update them with the latest persistent block by calling their `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`.
+  * If `last_committed_block` is empty pass an empty block.
 * Subscribe to gossip messages by calling `Gossip.BlockSync.RegisterBlockSyncHandler`.
 * Trigger the block synchronization process in the `Inter Node Block Sync` flow.
+  * Indicating update only mode.
 
 &nbsp;
 ## `Inter Node Block Sync` (flow)
@@ -46,6 +50,10 @@ Currently a single instance per virtual chain per node.
   * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) timeout (eg. 8 sec).
   * During the Init flow.
 * Make sure no more than one synchronization process is active at any given time.
+
+#### Pre-synchornization
+* When synchronization is triggered, update all registered consensus algos with the latest persistent block by calling their `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`.
+  * If `last_committed_block` is empty pass an empty block.
 
 #### Synchronization process
 * Synchronization is made of multiple **batches** each comprised of multiple **chunks**.
@@ -127,10 +135,8 @@ Currently a single instance per virtual chain per node.
 *Note: The logic up to here also appears in `ConsensusAlgo` and should probably be extracted to avoid duplication.*
 
 #### Check the block consensus
-* Identify the relevant service (consensus algorithm) that is registered to handle TransactionsBlock validation.
-  * Check consensus of the transactions block by calling its `HandleTransactionsBlock`.
-* Identify the relevant service (consensus algorithm) that is registered to handle ResultsBlock validation.
-  * Check consensus of the results block by calling its `HandleResultsBlock`.
+* Identify the relevant service (consensus algorithm) that is registered to handle this block's validation.
+  * Check consensus of the block by calling its `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE`.
 
 &nbsp;
 ## `GetLastCommittedBlockHeight` (method)
@@ -171,6 +177,19 @@ Currently a single instance per virtual chain per node.
 * If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the results block header, metadata and the results block proof.
+
+&nbsp;
+## `GenerateReceiptProof` (method)
+
+> Generates a proof for a receipt inclusion in a block. Returns the transaction receipt for a past transaction based on its id and time stamp, along with the signed block header and receipt merkle proof.
+
+* Get the relevant block and look for the receipt that matches the `txhash`.
+  * If no matching receipt was found, return an empty proof. 
+* Calculate the receipt merkle proof based on the receipt index
+  * Calculate the merkle tree of the block's receipts, using the receipts [Merkle tree format](../data-structures/merkle-tree.md).
+    * Consider to maintain a cache of recently calculated merkle trees.
+  * Generate a proof for the receipt inclusion based on its index in the block.
+* Return the `ResultBlock` header, `ResultBlock` proof, merkle proof and receipt.
 
 &nbsp;
 ## Gossip Messages Handlers
