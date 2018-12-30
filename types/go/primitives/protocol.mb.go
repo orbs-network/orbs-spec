@@ -104,18 +104,18 @@ func (x EventName) KeyForMap() string {
 	return string(x)
 }
 
-type ExecutionContextId uint32
+type ExecutionContextId []byte
 
 func (x ExecutionContextId) String() string {
-	return fmt.Sprintf("%x", uint32(x))
+	return fmt.Sprintf("%x", []byte(x))
 }
 
 func (x ExecutionContextId) Equal(y ExecutionContextId) bool {
-	return x == y
+	return bytes.Equal(x, y)
 }
 
-func (x ExecutionContextId) KeyForMap() uint32 {
-	return uint32(x)
+func (x ExecutionContextId) KeyForMap() string {
+	return string(x)
 }
 
 type LeanHelixMessageContent []byte

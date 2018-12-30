@@ -51,9 +51,9 @@ message event_name {
 }
 
 message execution_context_id {
-    option inline_type = "uint32";
+    option inline_type = "bytes";
     uint32 value = 1;
-    // size 4 bytes
+    // size undecided
 }
 
 message lean_helix_message_content {
