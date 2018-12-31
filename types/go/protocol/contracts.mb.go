@@ -9,44 +9,43 @@ import (
 )
 
 /////////////////////////////////////////////////////////////////////////////
-// message MethodArgument
+// message Argument
 
 // reader
 
-type MethodArgument struct {
-	// Name string
-	// Type MethodArgumentType
+type Argument struct {
+	// Type ArgumentType
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *MethodArgument) String() string {
+func (x *Argument) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Name:%s,Type:%s,}", x.StringName(), x.StringType())
+	return fmt.Sprintf("{Type:%s,}", x.StringType())
 }
 
-var _MethodArgument_Scheme = []membuffers.FieldType{membuffers.TypeString, membuffers.TypeUnion}
-var _MethodArgument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes}}
+var _Argument_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
+var _Argument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes}}
 
-func MethodArgumentReader(buf []byte) *MethodArgument {
-	x := &MethodArgument{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _MethodArgument_Scheme, _MethodArgument_Unions)
+func ArgumentReader(buf []byte) *Argument {
+	x := &Argument{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _Argument_Scheme, _Argument_Unions)
 	return x
 }
 
-func (x *MethodArgument) IsValid() bool {
+func (x *Argument) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *MethodArgument) Raw() []byte {
+func (x *Argument) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *MethodArgument) Equal(y *MethodArgument) bool {
+func (x *Argument) Equal(y *Argument) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -56,58 +55,38 @@ func (x *MethodArgument) Equal(y *MethodArgument) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *MethodArgument) Name() string {
-	return x._message.GetString(0)
-}
-
-func (x *MethodArgument) RawName() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *MethodArgument) RawNameWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(0, 0)
-}
-
-func (x *MethodArgument) MutateName(v string) error {
-	return x._message.SetString(0, v)
-}
-
-func (x *MethodArgument) StringName() string {
-	return fmt.Sprintf(x.Name())
-}
-
-type MethodArgumentType uint16
+type ArgumentType uint16
 
 const (
-	METHOD_ARGUMENT_TYPE_UINT_32_VALUE MethodArgumentType = 0
-	METHOD_ARGUMENT_TYPE_UINT_64_VALUE MethodArgumentType = 1
-	METHOD_ARGUMENT_TYPE_STRING_VALUE  MethodArgumentType = 2
-	METHOD_ARGUMENT_TYPE_BYTES_VALUE   MethodArgumentType = 3
+	ARGUMENT_TYPE_UINT_32_VALUE ArgumentType = 0
+	ARGUMENT_TYPE_UINT_64_VALUE ArgumentType = 1
+	ARGUMENT_TYPE_STRING_VALUE  ArgumentType = 2
+	ARGUMENT_TYPE_BYTES_VALUE   ArgumentType = 3
 )
 
-func (x *MethodArgument) Type() MethodArgumentType {
-	return MethodArgumentType(x._message.GetUnionIndex(1, 0))
+func (x *Argument) Type() ArgumentType {
+	return ArgumentType(x._message.GetUnionIndex(0, 0))
 }
 
-func (x *MethodArgument) IsTypeUint32Value() bool {
-	is, _ := x._message.IsUnionIndex(1, 0, 0)
+func (x *Argument) IsTypeUint32Value() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 0)
 	return is
 }
 
-func (x *MethodArgument) Uint32Value() uint32 {
-	is, off := x._message.IsUnionIndex(1, 0, 0)
+func (x *Argument) Uint32Value() uint32 {
+	is, off := x._message.IsUnionIndex(0, 0, 0)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
 	return x._message.GetUint32InOffset(off)
 }
 
-func (x *MethodArgument) StringUint32Value() string {
+func (x *Argument) StringUint32Value() string {
 	return fmt.Sprintf("%x", x.Uint32Value())
 }
 
-func (x *MethodArgument) MutateUint32Value(v uint32) error {
-	is, off := x._message.IsUnionIndex(1, 0, 0)
+func (x *Argument) MutateUint32Value(v uint32) error {
+	is, off := x._message.IsUnionIndex(0, 0, 0)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -115,25 +94,25 @@ func (x *MethodArgument) MutateUint32Value(v uint32) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeUint64Value() bool {
-	is, _ := x._message.IsUnionIndex(1, 0, 1)
+func (x *Argument) IsTypeUint64Value() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 1)
 	return is
 }
 
-func (x *MethodArgument) Uint64Value() uint64 {
-	is, off := x._message.IsUnionIndex(1, 0, 1)
+func (x *Argument) Uint64Value() uint64 {
+	is, off := x._message.IsUnionIndex(0, 0, 1)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
 	return x._message.GetUint64InOffset(off)
 }
 
-func (x *MethodArgument) StringUint64Value() string {
+func (x *Argument) StringUint64Value() string {
 	return fmt.Sprintf("%x", x.Uint64Value())
 }
 
-func (x *MethodArgument) MutateUint64Value(v uint64) error {
-	is, off := x._message.IsUnionIndex(1, 0, 1)
+func (x *Argument) MutateUint64Value(v uint64) error {
+	is, off := x._message.IsUnionIndex(0, 0, 1)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -141,25 +120,25 @@ func (x *MethodArgument) MutateUint64Value(v uint64) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeStringValue() bool {
-	is, _ := x._message.IsUnionIndex(1, 0, 2)
+func (x *Argument) IsTypeStringValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 2)
 	return is
 }
 
-func (x *MethodArgument) StringValue() string {
-	is, off := x._message.IsUnionIndex(1, 0, 2)
+func (x *Argument) StringValue() string {
+	is, off := x._message.IsUnionIndex(0, 0, 2)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
 	return x._message.GetStringInOffset(off)
 }
 
-func (x *MethodArgument) StringStringValue() string {
+func (x *Argument) StringStringValue() string {
 	return fmt.Sprintf(x.StringValue())
 }
 
-func (x *MethodArgument) MutateStringValue(v string) error {
-	is, off := x._message.IsUnionIndex(1, 0, 2)
+func (x *Argument) MutateStringValue(v string) error {
+	is, off := x._message.IsUnionIndex(0, 0, 2)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -167,25 +146,25 @@ func (x *MethodArgument) MutateStringValue(v string) error {
 	return nil
 }
 
-func (x *MethodArgument) IsTypeBytesValue() bool {
-	is, _ := x._message.IsUnionIndex(1, 0, 3)
+func (x *Argument) IsTypeBytesValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 3)
 	return is
 }
 
-func (x *MethodArgument) BytesValue() []byte {
-	is, off := x._message.IsUnionIndex(1, 0, 3)
+func (x *Argument) BytesValue() []byte {
+	is, off := x._message.IsUnionIndex(0, 0, 3)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
 	return x._message.GetBytesInOffset(off)
 }
 
-func (x *MethodArgument) StringBytesValue() string {
+func (x *Argument) StringBytesValue() string {
 	return fmt.Sprintf("%x", x.BytesValue())
 }
 
-func (x *MethodArgument) MutateBytesValue(v []byte) error {
-	is, off := x._message.IsUnionIndex(1, 0, 3)
+func (x *Argument) MutateBytesValue(v []byte) error {
+	is, off := x._message.IsUnionIndex(0, 0, 3)
 	if !is {
 		return &membuffers.ErrInvalidField{}
 	}
@@ -193,23 +172,23 @@ func (x *MethodArgument) MutateBytesValue(v []byte) error {
 	return nil
 }
 
-func (x *MethodArgument) RawType() []byte {
-	return x._message.RawBufferForField(1, 0)
+func (x *Argument) RawType() []byte {
+	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *MethodArgument) RawTypeWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
+func (x *Argument) RawTypeWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *MethodArgument) StringType() string {
+func (x *Argument) StringType() string {
 	switch x.Type() {
-	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
+	case ARGUMENT_TYPE_UINT_32_VALUE:
 		return "(Uint32Value)" + x.StringUint32Value()
-	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
+	case ARGUMENT_TYPE_UINT_64_VALUE:
 		return "(Uint64Value)" + x.StringUint64Value()
-	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
+	case ARGUMENT_TYPE_STRING_VALUE:
 		return "(StringValue)" + x.StringStringValue()
-	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
+	case ARGUMENT_TYPE_BYTES_VALUE:
 		return "(BytesValue)" + x.StringBytesValue()
 	}
 	return "(Unknown)"
@@ -217,9 +196,8 @@ func (x *MethodArgument) StringType() string {
 
 // builder
 
-type MethodArgumentBuilder struct {
-	Name        string
-	Type        MethodArgumentType
+type ArgumentBuilder struct {
+	Type        ArgumentType
 	Uint32Value uint32
 	Uint64Value uint64
 	StringValue string
@@ -231,7 +209,7 @@ type MethodArgumentBuilder struct {
 	_overrideWithRawBuffer []byte
 }
 
-func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
+func (w *ArgumentBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -246,22 +224,21 @@ func (w *MethodArgumentBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteString(buf, w.Name)
 	w._builder.WriteUnionIndex(buf, uint16(w.Type))
 	switch w.Type {
-	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
+	case ARGUMENT_TYPE_UINT_32_VALUE:
 		w._builder.WriteUint32(buf, w.Uint32Value)
-	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
+	case ARGUMENT_TYPE_UINT_64_VALUE:
 		w._builder.WriteUint64(buf, w.Uint64Value)
-	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
+	case ARGUMENT_TYPE_STRING_VALUE:
 		w._builder.WriteString(buf, w.StringValue)
-	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
+	case ARGUMENT_TYPE_BYTES_VALUE:
 		w._builder.WriteBytes(buf, w.BytesValue)
 	}
 	return nil
 }
 
-func (w *MethodArgumentBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+func (w *ArgumentBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -271,29 +248,28 @@ func (w *MethodArgumentBuilder) HexDump(prefix string, offsetFromStart membuffer
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpString(prefix, offsetFromStart, "MethodArgument.Name", w.Name)
-	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "MethodArgument.Type", uint16(w.Type))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "Argument.Type", uint16(w.Type))
 	switch w.Type {
-	case METHOD_ARGUMENT_TYPE_UINT_32_VALUE:
-		w._builder.HexDumpUint32(prefix, offsetFromStart, "MethodArgument.Uint32Value", w.Uint32Value)
-	case METHOD_ARGUMENT_TYPE_UINT_64_VALUE:
-		w._builder.HexDumpUint64(prefix, offsetFromStart, "MethodArgument.Uint64Value", w.Uint64Value)
-	case METHOD_ARGUMENT_TYPE_STRING_VALUE:
-		w._builder.HexDumpString(prefix, offsetFromStart, "MethodArgument.StringValue", w.StringValue)
-	case METHOD_ARGUMENT_TYPE_BYTES_VALUE:
-		w._builder.HexDumpBytes(prefix, offsetFromStart, "MethodArgument.BytesValue", w.BytesValue)
+	case ARGUMENT_TYPE_UINT_32_VALUE:
+		w._builder.HexDumpUint32(prefix, offsetFromStart, "Argument.Uint32Value", w.Uint32Value)
+	case ARGUMENT_TYPE_UINT_64_VALUE:
+		w._builder.HexDumpUint64(prefix, offsetFromStart, "Argument.Uint64Value", w.Uint64Value)
+	case ARGUMENT_TYPE_STRING_VALUE:
+		w._builder.HexDumpString(prefix, offsetFromStart, "Argument.StringValue", w.StringValue)
+	case ARGUMENT_TYPE_BYTES_VALUE:
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "Argument.BytesValue", w.BytesValue)
 	}
 	return nil
 }
 
-func (w *MethodArgumentBuilder) GetSize() membuffers.Offset {
+func (w *ArgumentBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *MethodArgumentBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *ArgumentBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -301,56 +277,56 @@ func (w *MethodArgumentBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *MethodArgumentBuilder) Build() *MethodArgument {
+func (w *ArgumentBuilder) Build() *Argument {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return MethodArgumentReader(buf)
+	return ArgumentReader(buf)
 }
 
-func MethodArgumentBuilderFromRaw(raw []byte) *MethodArgumentBuilder {
-	return &MethodArgumentBuilder{_overrideWithRawBuffer: raw}
+func ArgumentBuilderFromRaw(raw []byte) *ArgumentBuilder {
+	return &ArgumentBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message MethodArgumentArray
+// message ArgumentArray
 
 // reader
 
-type MethodArgumentArray struct {
-	// Arguments []MethodArgument
+type ArgumentArray struct {
+	// Arguments []Argument
 
 	// internal
 	// implements membuffers.Message
 	_message membuffers.InternalMessage
 }
 
-func (x *MethodArgumentArray) String() string {
+func (x *ArgumentArray) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{Arguments:%s,}", x.StringArguments())
 }
 
-var _MethodArgumentArray_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray}
-var _MethodArgumentArray_Unions = [][]membuffers.FieldType{}
+var _ArgumentArray_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray}
+var _ArgumentArray_Unions = [][]membuffers.FieldType{}
 
-func MethodArgumentArrayReader(buf []byte) *MethodArgumentArray {
-	x := &MethodArgumentArray{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _MethodArgumentArray_Scheme, _MethodArgumentArray_Unions)
+func ArgumentArrayReader(buf []byte) *ArgumentArray {
+	x := &ArgumentArray{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _ArgumentArray_Scheme, _ArgumentArray_Unions)
 	return x
 }
 
-func (x *MethodArgumentArray) IsValid() bool {
+func (x *ArgumentArray) IsValid() bool {
 	return x._message.IsValid()
 }
 
-func (x *MethodArgumentArray) Raw() []byte {
+func (x *ArgumentArray) Raw() []byte {
 	return x._message.RawBuffer()
 }
 
-func (x *MethodArgumentArray) Equal(y *MethodArgumentArray) bool {
+func (x *ArgumentArray) Equal(y *ArgumentArray) bool {
 	if x == nil && y == nil {
 		return true
 	}
@@ -360,32 +336,32 @@ func (x *MethodArgumentArray) Equal(y *MethodArgumentArray) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *MethodArgumentArray) ArgumentsIterator() *MethodArgumentArrayArgumentsIterator {
-	return &MethodArgumentArrayArgumentsIterator{iterator: x._message.GetMessageArrayIterator(0)}
+func (x *ArgumentArray) ArgumentsIterator() *ArgumentArrayArgumentsIterator {
+	return &ArgumentArrayArgumentsIterator{iterator: x._message.GetMessageArrayIterator(0)}
 }
 
-type MethodArgumentArrayArgumentsIterator struct {
+type ArgumentArrayArgumentsIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *MethodArgumentArrayArgumentsIterator) HasNext() bool {
+func (i *ArgumentArrayArgumentsIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *MethodArgumentArrayArgumentsIterator) NextArguments() *MethodArgument {
+func (i *ArgumentArrayArgumentsIterator) NextArguments() *Argument {
 	b, s := i.iterator.NextMessage()
-	return MethodArgumentReader(b[:s])
+	return ArgumentReader(b[:s])
 }
 
-func (x *MethodArgumentArray) RawArgumentsArray() []byte {
+func (x *ArgumentArray) RawArgumentsArray() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *MethodArgumentArray) RawArgumentsArrayWithHeader() []byte {
+func (x *ArgumentArray) RawArgumentsArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *MethodArgumentArray) StringArguments() (res string) {
+func (x *ArgumentArray) StringArguments() (res string) {
 	res = "["
 	for i := x.ArgumentsIterator(); i.HasNext(); {
 		res += i.NextArguments().String() + ","
@@ -396,8 +372,8 @@ func (x *MethodArgumentArray) StringArguments() (res string) {
 
 // builder
 
-type MethodArgumentArrayBuilder struct {
-	Arguments []*MethodArgumentBuilder
+type ArgumentArrayBuilder struct {
+	Arguments []*ArgumentBuilder
 
 	// internal
 	// implements membuffers.Builder
@@ -405,7 +381,7 @@ type MethodArgumentArrayBuilder struct {
 	_overrideWithRawBuffer []byte
 }
 
-func (w *MethodArgumentArrayBuilder) arrayOfArguments() []membuffers.MessageWriter {
+func (w *ArgumentArrayBuilder) arrayOfArguments() []membuffers.MessageWriter {
 	res := make([]membuffers.MessageWriter, len(w.Arguments))
 	for i, v := range w.Arguments {
 		res[i] = v
@@ -413,7 +389,7 @@ func (w *MethodArgumentArrayBuilder) arrayOfArguments() []membuffers.MessageWrit
 	return res
 }
 
-func (w *MethodArgumentArrayBuilder) Write(buf []byte) (err error) {
+func (w *ArgumentArrayBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
@@ -435,7 +411,7 @@ func (w *MethodArgumentArrayBuilder) Write(buf []byte) (err error) {
 	return nil
 }
 
-func (w *MethodArgumentArrayBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+func (w *ArgumentArrayBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -445,21 +421,21 @@ func (w *MethodArgumentArrayBuilder) HexDump(prefix string, offsetFromStart memb
 		}
 	}()
 	w._builder.Reset()
-	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "MethodArgumentArray.Arguments", w.arrayOfArguments())
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "ArgumentArray.Arguments", w.arrayOfArguments())
 	if err != nil {
 		return
 	}
 	return nil
 }
 
-func (w *MethodArgumentArrayBuilder) GetSize() membuffers.Offset {
+func (w *ArgumentArrayBuilder) GetSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
 	return w._builder.GetSize()
 }
 
-func (w *MethodArgumentArrayBuilder) CalcRequiredSize() membuffers.Offset {
+func (w *ArgumentArrayBuilder) CalcRequiredSize() membuffers.Offset {
 	if w == nil {
 		return 0
 	}
@@ -467,16 +443,16 @@ func (w *MethodArgumentArrayBuilder) CalcRequiredSize() membuffers.Offset {
 	return w._builder.GetSize()
 }
 
-func (w *MethodArgumentArrayBuilder) Build() *MethodArgumentArray {
+func (w *ArgumentArrayBuilder) Build() *ArgumentArray {
 	buf := make([]byte, w.CalcRequiredSize())
 	if w.Write(buf) != nil {
 		return nil
 	}
-	return MethodArgumentArrayReader(buf)
+	return ArgumentArrayReader(buf)
 }
 
-func MethodArgumentArrayBuilderFromRaw(raw []byte) *MethodArgumentArrayBuilder {
-	return &MethodArgumentArrayBuilder{_overrideWithRawBuffer: raw}
+func ArgumentArrayBuilderFromRaw(raw []byte) *ArgumentArrayBuilder {
+	return &ArgumentArrayBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

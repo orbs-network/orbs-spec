@@ -99,9 +99,9 @@ message packed_events_array {
     // variable size
 }
 
-// opaque field of repeated protocol.MethodArgument
-// encode in golang: packed := protocol.MethodArgumentArray.RawArgumentsArray()
-// decode in golang: protocol.MethodArgumentArrayReader(parent.RawOutputArgumentArrayWithHeader())
+// opaque field of repeated protocol.Argument
+// encode in golang: packed := protocol.ArgumentArray.RawArgumentsArray()
+// decode in golang: protocol.ArgumentArrayReader(parent.RawOutputArgumentArrayWithHeader())
 message packed_argument_array {
     option inline_type = "bytes";
     bytes value = 1;

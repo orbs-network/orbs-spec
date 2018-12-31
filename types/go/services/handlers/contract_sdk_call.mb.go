@@ -22,7 +22,7 @@ type HandleSdkCallInput struct {
 	ContextId       primitives.ExecutionContextId
 	OperationName   primitives.ContractName
 	MethodName      primitives.MethodName
-	InputArguments  []*protocol.MethodArgument
+	InputArguments  []*protocol.Argument
 	PermissionScope protocol.ExecutionPermissionScope
 }
 
@@ -66,7 +66,7 @@ func (x *HandleSdkCallInput) StringPermissionScope() (res string) {
 // message HandleSdkCallOutput (non serializable)
 
 type HandleSdkCallOutput struct {
-	OutputArguments []*protocol.MethodArgument
+	OutputArguments []*protocol.Argument
 }
 
 func (x *HandleSdkCallOutput) String() string {

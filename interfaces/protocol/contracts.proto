@@ -5,8 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 
-message MethodArgument { // TODO: rename to Argument
-    string name = 1; // TODO: delete this
+message Argument {
     oneof type {
         uint32 uint32_value = 2;
         uint64 uint64_value = 3;
@@ -15,8 +14,8 @@ message MethodArgument { // TODO: rename to Argument
     }
 }
 
-message MethodArgumentArray {
-    repeated MethodArgument arguments = 1;
+message ArgumentArray {
+    repeated Argument arguments = 1;
 }
 
 message StateRecord {

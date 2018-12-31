@@ -25,7 +25,7 @@ type ProcessCallInput struct {
 	ContextId              primitives.ExecutionContextId
 	ContractName           primitives.ContractName
 	MethodName             primitives.MethodName
-	InputArgumentArray     *protocol.MethodArgumentArray
+	InputArgumentArray     *protocol.ArgumentArray
 	AccessScope            protocol.ExecutionAccessScope
 	CallingPermissionScope protocol.ExecutionPermissionScope
 	CallingService         primitives.ContractName
@@ -77,7 +77,7 @@ func (x *ProcessCallInput) StringCallingService() (res string) {
 // message ProcessCallOutput (non serializable)
 
 type ProcessCallOutput struct {
-	OutputArgumentArray *protocol.MethodArgumentArray
+	OutputArgumentArray *protocol.ArgumentArray
 	CallResult          protocol.ExecutionResult
 }
 
