@@ -485,7 +485,7 @@ func MethodArgumentArrayBuilderFromRaw(raw []byte) *MethodArgumentArrayBuilder {
 // reader
 
 type StateRecord struct {
-	// Key primitives.Ripemd160Sha256
+	// Key []byte
 	// Value []byte
 
 	// internal
@@ -527,8 +527,8 @@ func (x *StateRecord) Equal(y *StateRecord) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *StateRecord) Key() primitives.Ripemd160Sha256 {
-	return primitives.Ripemd160Sha256(x._message.GetBytes(0))
+func (x *StateRecord) Key() []byte {
+	return x._message.GetBytes(0)
 }
 
 func (x *StateRecord) RawKey() []byte {
@@ -539,12 +539,12 @@ func (x *StateRecord) RawKeyWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *StateRecord) MutateKey(v primitives.Ripemd160Sha256) error {
-	return x._message.SetBytes(0, []byte(v))
+func (x *StateRecord) MutateKey(v []byte) error {
+	return x._message.SetBytes(0, v)
 }
 
 func (x *StateRecord) StringKey() string {
-	return fmt.Sprintf("%s", x.Key())
+	return fmt.Sprintf("%x", x.Key())
 }
 
 func (x *StateRecord) Value() []byte {
@@ -570,7 +570,7 @@ func (x *StateRecord) StringValue() string {
 // builder
 
 type StateRecordBuilder struct {
-	Key   primitives.Ripemd160Sha256
+	Key   []byte
 	Value []byte
 
 	// internal
@@ -594,7 +594,7 @@ func (w *StateRecordBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.Key))
+	w._builder.WriteBytes(buf, w.Key)
 	w._builder.WriteBytes(buf, w.Value)
 	return nil
 }
@@ -609,7 +609,7 @@ func (w *StateRecordBuilder) HexDump(prefix string, offsetFromStart membuffers.O
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "StateRecord.Key", []byte(w.Key))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "StateRecord.Key", w.Key)
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "StateRecord.Value", w.Value)
 	return nil
 }

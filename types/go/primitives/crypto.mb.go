@@ -104,20 +104,6 @@ func (x Ed25519PrivateKey) KeyForMap() string {
 	return string(x)
 }
 
-type Ripemd160Sha256 []byte
-
-func (x Ripemd160Sha256) String() string {
-	return fmt.Sprintf("%x", []byte(x))
-}
-
-func (x Ripemd160Sha256) Equal(y Ripemd160Sha256) bool {
-	return bytes.Equal(x, y)
-}
-
-func (x Ripemd160Sha256) KeyForMap() string {
-	return string(x)
-}
-
 type Bls1Sig []byte
 
 func (x Bls1Sig) String() string {
