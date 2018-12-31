@@ -2,7 +2,7 @@ syntax = "proto3";
 package gossiptopics;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
 
-import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
 import "../protocol/gossipmessages/all.proto";
 
 option serialize_messages = false;

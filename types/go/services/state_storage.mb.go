@@ -24,7 +24,7 @@ type StateStorage interface {
 type ReadKeysInput struct {
 	BlockHeight  primitives.BlockHeight
 	ContractName primitives.ContractName
-	Keys         []primitives.Ripemd160Sha256
+	Keys         [][]byte
 }
 
 func (x *ReadKeysInput) String() string {
@@ -47,7 +47,7 @@ func (x *ReadKeysInput) StringContractName() (res string) {
 func (x *ReadKeysInput) StringKeys() (res string) {
 	res = "["
 	for _, v := range x.Keys {
-		res += fmt.Sprintf("%s", v) + ","
+		res += fmt.Sprintf("%x", v) + ","
 	}
 	res += "]"
 	return

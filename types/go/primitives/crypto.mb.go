@@ -6,20 +6,6 @@ import (
 	"fmt"
 )
 
-type NodeAddress []byte
-
-func (x NodeAddress) String() string {
-	return fmt.Sprintf("%x", []byte(x))
-}
-
-func (x NodeAddress) Equal(y NodeAddress) bool {
-	return bytes.Equal(x, y)
-}
-
-func (x NodeAddress) KeyForMap() string {
-	return string(x)
-}
-
 type Sha256 []byte
 
 func (x Sha256) String() string {
@@ -101,20 +87,6 @@ func (x Ed25519PrivateKey) Equal(y Ed25519PrivateKey) bool {
 }
 
 func (x Ed25519PrivateKey) KeyForMap() string {
-	return string(x)
-}
-
-type Ripemd160Sha256 []byte
-
-func (x Ripemd160Sha256) String() string {
-	return fmt.Sprintf("%x", []byte(x))
-}
-
-func (x Ripemd160Sha256) Equal(y Ripemd160Sha256) bool {
-	return bytes.Equal(x, y)
-}
-
-func (x Ripemd160Sha256) KeyForMap() string {
 	return string(x)
 }
 

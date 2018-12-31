@@ -30,6 +30,20 @@ message timestamp_nano {
     // size 8 bytes
 }
 
+// equal to a 20 byte ethereum address
+// encode in golang: CalcKeccak256(ecdsa_secp256k1_public_key)[12:]
+message node_address {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 20 bytes
+}
+
+message client_address {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 20 bytes
+}
+
 // contract_name is ascii only, it's not allowed to have 2 contracts with same case insensitive name on a virtual chain
 message contract_name {
     option inline_type = "string";

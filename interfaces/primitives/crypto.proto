@@ -5,14 +5,6 @@ package primitives;
 
 option inline = true;
 
-// equal to a 20 byte ethereum address
-// encode in golang: CalcKeccak256(ecdsa_secp256k1_public_key)[12:]
-message node_address {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 20 bytes
-}
-
 message sha256 {
     option inline_type = "bytes";
     bytes value = 1;
@@ -47,12 +39,6 @@ message ed25519_private_key {
     option inline_type = "bytes";
     bytes value = 1;
     // size 32 bytes
-}
-
-message ripemd160_sha256 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 20 bytes
 }
 
 message bls1_sig {

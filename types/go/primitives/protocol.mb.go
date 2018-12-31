@@ -62,6 +62,34 @@ func (x TimestampNano) KeyForMap() uint64 {
 	return uint64(x)
 }
 
+type NodeAddress []byte
+
+func (x NodeAddress) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x NodeAddress) Equal(y NodeAddress) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x NodeAddress) KeyForMap() string {
+	return string(x)
+}
+
+type ClientAddress []byte
+
+func (x ClientAddress) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x ClientAddress) Equal(y ClientAddress) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x ClientAddress) KeyForMap() string {
+	return string(x)
+}
+
 type ContractName string
 
 func (x ContractName) String() string {
