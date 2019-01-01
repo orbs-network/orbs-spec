@@ -28,10 +28,11 @@ message CallMethodRequest {
 
 message CallMethodResponse {
     protocol.RequestStatus request_status = 1;
-    bytes output_argument_array = 2; // opaque field of repeated protocol.MethodArgument
-    protocol.ExecutionResult call_method_result = 3;
-    primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+    primitives.packed_argument_array output_argument_array = 2;
+    primitives.packed_events_array output_events_array = 3;
+    protocol.ExecutionResult call_method_result = 4;
+    primitives.block_height block_height = 5; // should always be returned even on errors or timeouts
+    primitives.timestamp_nano block_timestamp = 6; // should always be returned even on errors or timeouts
 }
 
 message GetTransactionStatusRequest {
@@ -58,8 +59,9 @@ message GetTransactionReceiptProofRequest {
 
 message GetTransactionReceiptProofResponse {
     protocol.RequestStatus request_status = 1;
-    protocol.ReceiptProof proof = 2;
+    primitives.packed_receipt_proof packed_proof = 2;
     protocol.TransactionStatus transaction_status = 3;
     primitives.block_height block_height = 4; // should always be returned even on errors or timeouts
-    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts    
+    primitives.timestamp_nano block_timestamp = 5; // should always be returned even on errors or timeouts
+    primitives.packed_receipt packed_receipt = 6; // TODO(v1): a bit messy, this was added in a hurry
 }

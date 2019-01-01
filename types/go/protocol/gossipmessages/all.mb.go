@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
@@ -17,7 +17,7 @@ import (
 type Header struct {
 	// ProtocolVersion primitives.ProtocolVersion
 	// VirtualChainId primitives.VirtualChainId
-	// RecipientPublicKeys []primitives.Ed25519PublicKey
+	// RecipientNodeAddresses []primitives.NodeAddress
 	// RecipientMode RecipientsListMode
 	// Topic HeaderTopic
 
@@ -30,7 +30,7 @@ func (x *Header) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientPublicKeys:%s,RecipientMode:%s,Topic:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientPublicKeys(), x.StringRecipientMode(), x.StringTopic())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,RecipientNodeAddresses:%s,RecipientMode:%s,Topic:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringRecipientNodeAddresses(), x.StringRecipientMode(), x.StringTopic())
 }
 
 var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeBytesArray, membuffers.TypeUint16, membuffers.TypeUnion}
@@ -92,34 +92,34 @@ func (x *Header) StringVirtualChainId() string {
 	return fmt.Sprintf("%s", x.VirtualChainId())
 }
 
-func (x *Header) RecipientPublicKeysIterator() *HeaderRecipientPublicKeysIterator {
-	return &HeaderRecipientPublicKeysIterator{iterator: x._message.GetBytesArrayIterator(2)}
+func (x *Header) RecipientNodeAddressesIterator() *HeaderRecipientNodeAddressesIterator {
+	return &HeaderRecipientNodeAddressesIterator{iterator: x._message.GetBytesArrayIterator(2)}
 }
 
-type HeaderRecipientPublicKeysIterator struct {
+type HeaderRecipientNodeAddressesIterator struct {
 	iterator *membuffers.Iterator
 }
 
-func (i *HeaderRecipientPublicKeysIterator) HasNext() bool {
+func (i *HeaderRecipientNodeAddressesIterator) HasNext() bool {
 	return i.iterator.HasNext()
 }
 
-func (i *HeaderRecipientPublicKeysIterator) NextRecipientPublicKeys() primitives.Ed25519PublicKey {
-	return primitives.Ed25519PublicKey(i.iterator.NextBytes())
+func (i *HeaderRecipientNodeAddressesIterator) NextRecipientNodeAddresses() primitives.NodeAddress {
+	return primitives.NodeAddress(i.iterator.NextBytes())
 }
 
-func (x *Header) RawRecipientPublicKeysArray() []byte {
+func (x *Header) RawRecipientNodeAddressesArray() []byte {
 	return x._message.RawBufferForField(2, 0)
 }
 
-func (x *Header) RawRecipientPublicKeysArrayWithHeader() []byte {
+func (x *Header) RawRecipientNodeAddressesArrayWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(2, 0)
 }
 
-func (x *Header) StringRecipientPublicKeys() (res string) {
+func (x *Header) StringRecipientNodeAddresses() (res string) {
 	res = "["
-	for i := x.RecipientPublicKeysIterator(); i.HasNext(); {
-		res += fmt.Sprintf("%s", i.NextRecipientPublicKeys()) + ","
+	for i := x.RecipientNodeAddressesIterator(); i.HasNext(); {
+		res += fmt.Sprintf("%s", i.NextRecipientNodeAddresses()) + ","
 	}
 	res += "]"
 	return
@@ -283,24 +283,25 @@ func (x *Header) StringTopic() string {
 // builder
 
 type HeaderBuilder struct {
-	ProtocolVersion     primitives.ProtocolVersion
-	VirtualChainId      primitives.VirtualChainId
-	RecipientPublicKeys []primitives.Ed25519PublicKey
-	RecipientMode       RecipientsListMode
-	Topic               HeaderTopic
-	TransactionRelay    TransactionsRelayMessageType
-	BlockSync           BlockSyncMessageType
-	LeanHelix           consensus.LeanHelixMessageType
-	BenchmarkConsensus  consensus.BenchmarkConsensusMessageType
+	ProtocolVersion        primitives.ProtocolVersion
+	VirtualChainId         primitives.VirtualChainId
+	RecipientNodeAddresses []primitives.NodeAddress
+	RecipientMode          RecipientsListMode
+	Topic                  HeaderTopic
+	TransactionRelay       TransactionsRelayMessageType
+	BlockSync              BlockSyncMessageType
+	LeanHelix              consensus.LeanHelixMessageType
+	BenchmarkConsensus     consensus.BenchmarkConsensusMessageType
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
-func (w *HeaderBuilder) arrayOfRecipientPublicKeys() [][]byte {
-	res := make([][]byte, len(w.RecipientPublicKeys))
-	for i, v := range w.RecipientPublicKeys {
+func (w *HeaderBuilder) arrayOfRecipientNodeAddresses() [][]byte {
+	res := make([][]byte, len(w.RecipientNodeAddresses))
+	for i, v := range w.RecipientNodeAddresses {
 		res[i] = v
 	}
 	return res
@@ -310,15 +311,20 @@ func (w *HeaderBuilder) Write(buf []byte) (err error) {
 	if w == nil {
 		return
 	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
 	defer func() {
 		if r := recover(); r != nil {
 			err = &membuffers.ErrBufferOverrun{}
 		}
 	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
 	w._builder.Reset()
 	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
 	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
-	w._builder.WriteBytesArray(buf, w.arrayOfRecipientPublicKeys())
+	w._builder.WriteBytesArray(buf, w.arrayOfRecipientNodeAddresses())
 	w._builder.WriteUint16(buf, uint16(w.RecipientMode))
 	w._builder.WriteUnionIndex(buf, uint16(w.Topic))
 	switch w.Topic {
@@ -330,6 +336,34 @@ func (w *HeaderBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteUint16(buf, uint16(w.LeanHelix))
 	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
 		w._builder.WriteUint16(buf, uint16(w.BenchmarkConsensus))
+	}
+	return nil
+}
+
+func (w *HeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "Header.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "Header.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpBytesArray(prefix, offsetFromStart, "Header.RecipientNodeAddresses", w.arrayOfRecipientNodeAddresses())
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.RecipientMode", uint16(w.RecipientMode))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "Header.Topic", uint16(w.Topic))
+	switch w.Topic {
+	case HEADER_TOPIC_TRANSACTION_RELAY:
+		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.TransactionRelay", uint16(w.TransactionRelay))
+	case HEADER_TOPIC_BLOCK_SYNC:
+		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.BlockSync", uint16(w.BlockSync))
+	case HEADER_TOPIC_LEAN_HELIX:
+		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.LeanHelix", uint16(w.LeanHelix))
+	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
+		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.BenchmarkConsensus", uint16(w.BenchmarkConsensus))
 	}
 	return nil
 }
@@ -357,14 +391,18 @@ func (w *HeaderBuilder) Build() *Header {
 	return HeaderReader(buf)
 }
 
+func HeaderBuilderFromRaw(raw []byte) *HeaderBuilder {
+	return &HeaderBuilder{_overrideWithRawBuffer: raw}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message SenderSignature
 
 // reader
 
 type SenderSignature struct {
-	// SenderPublicKey primitives.Ed25519PublicKey
-	// Signature primitives.Ed25519Sig
+	// SenderNodeAddress primitives.NodeAddress
+	// Signature primitives.EcdsaSecp256K1Sig
 
 	// internal
 	// implements membuffers.Message
@@ -375,7 +413,7 @@ func (x *SenderSignature) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SenderPublicKey:%s,Signature:%s,}", x.StringSenderPublicKey(), x.StringSignature())
+	return fmt.Sprintf("{SenderNodeAddress:%s,Signature:%s,}", x.StringSenderNodeAddress(), x.StringSignature())
 }
 
 var _SenderSignature_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
@@ -405,31 +443,39 @@ func (x *SenderSignature) Equal(y *SenderSignature) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *SenderSignature) SenderPublicKey() primitives.Ed25519PublicKey {
-	return primitives.Ed25519PublicKey(x._message.GetBytes(0))
+func (x *SenderSignature) SenderNodeAddress() primitives.NodeAddress {
+	return primitives.NodeAddress(x._message.GetBytes(0))
 }
 
-func (x *SenderSignature) RawSenderPublicKey() []byte {
+func (x *SenderSignature) RawSenderNodeAddress() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *SenderSignature) MutateSenderPublicKey(v primitives.Ed25519PublicKey) error {
+func (x *SenderSignature) RawSenderNodeAddressWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *SenderSignature) MutateSenderNodeAddress(v primitives.NodeAddress) error {
 	return x._message.SetBytes(0, []byte(v))
 }
 
-func (x *SenderSignature) StringSenderPublicKey() string {
-	return fmt.Sprintf("%s", x.SenderPublicKey())
+func (x *SenderSignature) StringSenderNodeAddress() string {
+	return fmt.Sprintf("%s", x.SenderNodeAddress())
 }
 
-func (x *SenderSignature) Signature() primitives.Ed25519Sig {
-	return primitives.Ed25519Sig(x._message.GetBytes(1))
+func (x *SenderSignature) Signature() primitives.EcdsaSecp256K1Sig {
+	return primitives.EcdsaSecp256K1Sig(x._message.GetBytes(1))
 }
 
 func (x *SenderSignature) RawSignature() []byte {
 	return x._message.RawBufferForField(1, 0)
 }
 
-func (x *SenderSignature) MutateSignature(v primitives.Ed25519Sig) error {
+func (x *SenderSignature) RawSignatureWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *SenderSignature) MutateSignature(v primitives.EcdsaSecp256K1Sig) error {
 	return x._message.SetBytes(1, []byte(v))
 }
 
@@ -440,15 +486,36 @@ func (x *SenderSignature) StringSignature() string {
 // builder
 
 type SenderSignatureBuilder struct {
-	SenderPublicKey primitives.Ed25519PublicKey
-	Signature       primitives.Ed25519Sig
+	SenderNodeAddress primitives.NodeAddress
+	Signature         primitives.EcdsaSecp256K1Sig
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *SenderSignatureBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.SenderNodeAddress))
+	w._builder.WriteBytes(buf, []byte(w.Signature))
+	return nil
+}
+
+func (w *SenderSignatureBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -458,8 +525,8 @@ func (w *SenderSignatureBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.SenderPublicKey))
-	w._builder.WriteBytes(buf, []byte(w.Signature))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "SenderSignature.SenderNodeAddress", []byte(w.SenderNodeAddress))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "SenderSignature.Signature", []byte(w.Signature))
 	return nil
 }
 
@@ -484,6 +551,10 @@ func (w *SenderSignatureBuilder) Build() *SenderSignature {
 		return nil
 	}
 	return SenderSignatureReader(buf)
+}
+
+func SenderSignatureBuilderFromRaw(raw []byte) *SenderSignatureBuilder {
+	return &SenderSignatureBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

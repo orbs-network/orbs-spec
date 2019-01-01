@@ -2,26 +2,7 @@ syntax = "proto3";
 package consensus;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/consensus";
 
-import "../primitives/crypto.proto";
-import "../primitives/integers.proto";
-import "../primitives/protocol.proto";
-
-enum LeanHelixMessageType {}
-
-message LeanHelixBlockProof {
-    LeanHelixBlockRef block_ref = 1;
-    repeated LeanHelixSenderSignature nodes = 2;
-    primitives.bls1_sig random_seed_signature = 3;
-}
-
-message LeanHelixSenderSignature {
-    primitives.ed25519_public_key sender_public_key = 1;
-    primitives.ed25519_sig signature = 2;
-}
-
-message LeanHelixBlockRef {
-    LeanHelixMessageType message_type = 1;
-    primitives.block_height block_height = 2;
-    uint32 view = 3;
-    primitives.uint256 block_hash = 4; // primitives.sha256({primitives.sha256(TransactionBlockHeader,primitives.sha256(ResultsBlockHeader)})
+enum LeanHelixMessageType {
+    LEAN_HELIX_MESSAGE_TYPE_RESERVED = 0;
+    LEAN_HELIX_MESSAGE_TYPE_LEAN_HELIX = 1;
 }

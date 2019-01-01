@@ -11,13 +11,7 @@ message sha256 {
     // size 32 bytes
 }
 
-message merkle_sha256 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 32 bytes
-}
-
-message sha3_256 {
+message keccak256 {
     option inline_type = "bytes";
     bytes value = 1;
     // size 32 bytes
@@ -41,12 +35,6 @@ message ed25519_private_key {
     // size 32 bytes
 }
 
-message ripmd160_sha256 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 20 bytes
-}
-
 message bls1_sig {
     option inline_type = "bytes";
     bytes value = 1;
@@ -63,6 +51,24 @@ message bls1_private_key {
     option inline_type = "bytes";
     bytes value = 1;
     // TODO size
+}
+
+message ecdsa_secp256k1_sig {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 65 bytes
+}
+
+message ecdsa_secp256k1_public_key {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 64 bytes
+}
+
+message ecdsa_secp256k1_private_key {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 32 bytes
 }
 
 message bloom_filter {

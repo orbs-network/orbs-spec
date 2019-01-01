@@ -44,7 +44,7 @@ message TransactionsBlockHeader {
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(TransactionBlockHeader)
     primitives.timestamp_nano timestamp = 5;
-    primitives.merkle_sha256 transactions_root_hash = 6;
+    primitives.sha256 transactions_merkle_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
     uint32 num_signed_transactions = 8;
 }
@@ -55,10 +55,10 @@ message ResultsBlockHeader {
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(ResultsBlockHeader)
     primitives.timestamp_nano timestamp = 5;
-    primitives.merkle_sha256 receipts_root_hash = 6;
+    primitives.sha256 receipts_merkle_root_hash = 6;
     primitives.sha256 state_diff_hash = 7;
     primitives.sha256 transactions_block_hash_ptr = 8;
-    primitives.merkle_sha256 pre_execution_state_root_hash = 9;
+    primitives.sha256 pre_execution_state_merkle_root_hash = 9;
     uint32 num_transaction_receipts = 10;
     uint32 num_contract_state_diffs = 11;
 }
@@ -73,7 +73,7 @@ message TransactionsBlockProof {
     primitives.sha256 results_block_hash = 1;
     oneof type {
         consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
-        consensus.LeanHelixBlockProof lean_helix = 3;
+        primitives.lean_helix_block_proof lean_helix = 3;
     }
 }
 
@@ -81,7 +81,7 @@ message ResultsBlockProof {
     primitives.sha256 transactions_block_hash = 1;
     oneof type {
         consensus.BenchmarkConsensusBlockProof benchmark_consensus = 2;
-        consensus.LeanHelixBlockProof lean_helix = 3;
+        primitives.lean_helix_block_proof lean_helix = 3;
     }
 }
 

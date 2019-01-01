@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package protocol
 
 import (
@@ -131,7 +131,7 @@ type TransactionsBlockHeader struct {
 	// BlockHeight primitives.BlockHeight
 	// PrevBlockHashPtr primitives.Sha256
 	// Timestamp primitives.TimestampNano
-	// TransactionsRootHash primitives.MerkleSha256
+	// TransactionsMerkleRootHash primitives.Sha256
 	// MetadataHash primitives.Sha256
 	// NumSignedTransactions uint32
 
@@ -144,7 +144,7 @@ func (x *TransactionsBlockHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsMerkleRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsMerkleRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions())
 }
 
 var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32}
@@ -230,6 +230,10 @@ func (x *TransactionsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *TransactionsBlockHeader) RawPrevBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *TransactionsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
@@ -254,20 +258,24 @@ func (x *TransactionsBlockHeader) StringTimestamp() string {
 	return fmt.Sprintf("%s", x.Timestamp())
 }
 
-func (x *TransactionsBlockHeader) TransactionsRootHash() primitives.MerkleSha256 {
-	return primitives.MerkleSha256(x._message.GetBytes(5))
+func (x *TransactionsBlockHeader) TransactionsMerkleRootHash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(5))
 }
 
-func (x *TransactionsBlockHeader) RawTransactionsRootHash() []byte {
+func (x *TransactionsBlockHeader) RawTransactionsMerkleRootHash() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
-func (x *TransactionsBlockHeader) MutateTransactionsRootHash(v primitives.MerkleSha256) error {
+func (x *TransactionsBlockHeader) RawTransactionsMerkleRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
+func (x *TransactionsBlockHeader) MutateTransactionsMerkleRootHash(v primitives.Sha256) error {
 	return x._message.SetBytes(5, []byte(v))
 }
 
-func (x *TransactionsBlockHeader) StringTransactionsRootHash() string {
-	return fmt.Sprintf("%s", x.TransactionsRootHash())
+func (x *TransactionsBlockHeader) StringTransactionsMerkleRootHash() string {
+	return fmt.Sprintf("%s", x.TransactionsMerkleRootHash())
 }
 
 func (x *TransactionsBlockHeader) MetadataHash() primitives.Sha256 {
@@ -276,6 +284,10 @@ func (x *TransactionsBlockHeader) MetadataHash() primitives.Sha256 {
 
 func (x *TransactionsBlockHeader) RawMetadataHash() []byte {
 	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *TransactionsBlockHeader) RawMetadataHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
 }
 
 func (x *TransactionsBlockHeader) MutateMetadataHash(v primitives.Sha256) error {
@@ -305,21 +317,48 @@ func (x *TransactionsBlockHeader) StringNumSignedTransactions() string {
 // builder
 
 type TransactionsBlockHeaderBuilder struct {
-	ProtocolVersion       primitives.ProtocolVersion
-	VirtualChainId        primitives.VirtualChainId
-	BlockHeight           primitives.BlockHeight
-	PrevBlockHashPtr      primitives.Sha256
-	Timestamp             primitives.TimestampNano
-	TransactionsRootHash  primitives.MerkleSha256
-	MetadataHash          primitives.Sha256
-	NumSignedTransactions uint32
+	ProtocolVersion            primitives.ProtocolVersion
+	VirtualChainId             primitives.VirtualChainId
+	BlockHeight                primitives.BlockHeight
+	PrevBlockHashPtr           primitives.Sha256
+	Timestamp                  primitives.TimestampNano
+	TransactionsMerkleRootHash primitives.Sha256
+	MetadataHash               primitives.Sha256
+	NumSignedTransactions      uint32
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteBytes(buf, []byte(w.PrevBlockHashPtr))
+	w._builder.WriteUint64(buf, uint64(w.Timestamp))
+	w._builder.WriteBytes(buf, []byte(w.TransactionsMerkleRootHash))
+	w._builder.WriteBytes(buf, []byte(w.MetadataHash))
+	w._builder.WriteUint32(buf, w.NumSignedTransactions)
+	return nil
+}
+
+func (w *TransactionsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -329,14 +368,14 @@ func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
-	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteBytes(buf, []byte(w.PrevBlockHashPtr))
-	w._builder.WriteUint64(buf, uint64(w.Timestamp))
-	w._builder.WriteBytes(buf, []byte(w.TransactionsRootHash))
-	w._builder.WriteBytes(buf, []byte(w.MetadataHash))
-	w._builder.WriteUint32(buf, w.NumSignedTransactions)
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "TransactionsBlockHeader.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.PrevBlockHashPtr", []byte(w.PrevBlockHashPtr))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "TransactionsBlockHeader.Timestamp", uint64(w.Timestamp))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.TransactionsMerkleRootHash", []byte(w.TransactionsMerkleRootHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.MetadataHash", []byte(w.MetadataHash))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.NumSignedTransactions", w.NumSignedTransactions)
 	return nil
 }
 
@@ -363,6 +402,10 @@ func (w *TransactionsBlockHeaderBuilder) Build() *TransactionsBlockHeader {
 	return TransactionsBlockHeaderReader(buf)
 }
 
+func TransactionsBlockHeaderBuilderFromRaw(raw []byte) *TransactionsBlockHeaderBuilder {
+	return &TransactionsBlockHeaderBuilder{_overrideWithRawBuffer: raw}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ResultsBlockHeader
 
@@ -374,10 +417,10 @@ type ResultsBlockHeader struct {
 	// BlockHeight primitives.BlockHeight
 	// PrevBlockHashPtr primitives.Sha256
 	// Timestamp primitives.TimestampNano
-	// ReceiptsRootHash primitives.MerkleSha256
+	// ReceiptsMerkleRootHash primitives.Sha256
 	// StateDiffHash primitives.Sha256
 	// TransactionsBlockHashPtr primitives.Sha256
-	// PreExecutionStateRootHash primitives.MerkleSha256
+	// PreExecutionStateMerkleRootHash primitives.Sha256
 	// NumTransactionReceipts uint32
 	// NumContractStateDiffs uint32
 
@@ -390,7 +433,7 @@ func (x *ResultsBlockHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateRootHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateRootHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsMerkleRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateMerkleRootHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsMerkleRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateMerkleRootHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs())
 }
 
 var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeUint32}
@@ -476,6 +519,10 @@ func (x *ResultsBlockHeader) RawPrevBlockHashPtr() []byte {
 	return x._message.RawBufferForField(3, 0)
 }
 
+func (x *ResultsBlockHeader) RawPrevBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
 func (x *ResultsBlockHeader) MutatePrevBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(3, []byte(v))
 }
@@ -500,20 +547,24 @@ func (x *ResultsBlockHeader) StringTimestamp() string {
 	return fmt.Sprintf("%s", x.Timestamp())
 }
 
-func (x *ResultsBlockHeader) ReceiptsRootHash() primitives.MerkleSha256 {
-	return primitives.MerkleSha256(x._message.GetBytes(5))
+func (x *ResultsBlockHeader) ReceiptsMerkleRootHash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(5))
 }
 
-func (x *ResultsBlockHeader) RawReceiptsRootHash() []byte {
+func (x *ResultsBlockHeader) RawReceiptsMerkleRootHash() []byte {
 	return x._message.RawBufferForField(5, 0)
 }
 
-func (x *ResultsBlockHeader) MutateReceiptsRootHash(v primitives.MerkleSha256) error {
+func (x *ResultsBlockHeader) RawReceiptsMerkleRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
+func (x *ResultsBlockHeader) MutateReceiptsMerkleRootHash(v primitives.Sha256) error {
 	return x._message.SetBytes(5, []byte(v))
 }
 
-func (x *ResultsBlockHeader) StringReceiptsRootHash() string {
-	return fmt.Sprintf("%s", x.ReceiptsRootHash())
+func (x *ResultsBlockHeader) StringReceiptsMerkleRootHash() string {
+	return fmt.Sprintf("%s", x.ReceiptsMerkleRootHash())
 }
 
 func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
@@ -522,6 +573,10 @@ func (x *ResultsBlockHeader) StateDiffHash() primitives.Sha256 {
 
 func (x *ResultsBlockHeader) RawStateDiffHash() []byte {
 	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *ResultsBlockHeader) RawStateDiffHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
 }
 
 func (x *ResultsBlockHeader) MutateStateDiffHash(v primitives.Sha256) error {
@@ -540,6 +595,10 @@ func (x *ResultsBlockHeader) RawTransactionsBlockHashPtr() []byte {
 	return x._message.RawBufferForField(7, 0)
 }
 
+func (x *ResultsBlockHeader) RawTransactionsBlockHashPtrWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(7, 0)
+}
+
 func (x *ResultsBlockHeader) MutateTransactionsBlockHashPtr(v primitives.Sha256) error {
 	return x._message.SetBytes(7, []byte(v))
 }
@@ -548,20 +607,24 @@ func (x *ResultsBlockHeader) StringTransactionsBlockHashPtr() string {
 	return fmt.Sprintf("%s", x.TransactionsBlockHashPtr())
 }
 
-func (x *ResultsBlockHeader) PreExecutionStateRootHash() primitives.MerkleSha256 {
-	return primitives.MerkleSha256(x._message.GetBytes(8))
+func (x *ResultsBlockHeader) PreExecutionStateMerkleRootHash() primitives.Sha256 {
+	return primitives.Sha256(x._message.GetBytes(8))
 }
 
-func (x *ResultsBlockHeader) RawPreExecutionStateRootHash() []byte {
+func (x *ResultsBlockHeader) RawPreExecutionStateMerkleRootHash() []byte {
 	return x._message.RawBufferForField(8, 0)
 }
 
-func (x *ResultsBlockHeader) MutatePreExecutionStateRootHash(v primitives.MerkleSha256) error {
+func (x *ResultsBlockHeader) RawPreExecutionStateMerkleRootHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(8, 0)
+}
+
+func (x *ResultsBlockHeader) MutatePreExecutionStateMerkleRootHash(v primitives.Sha256) error {
 	return x._message.SetBytes(8, []byte(v))
 }
 
-func (x *ResultsBlockHeader) StringPreExecutionStateRootHash() string {
-	return fmt.Sprintf("%s", x.PreExecutionStateRootHash())
+func (x *ResultsBlockHeader) StringPreExecutionStateMerkleRootHash() string {
+	return fmt.Sprintf("%s", x.PreExecutionStateMerkleRootHash())
 }
 
 func (x *ResultsBlockHeader) NumTransactionReceipts() uint32 {
@@ -599,24 +662,54 @@ func (x *ResultsBlockHeader) StringNumContractStateDiffs() string {
 // builder
 
 type ResultsBlockHeaderBuilder struct {
-	ProtocolVersion           primitives.ProtocolVersion
-	VirtualChainId            primitives.VirtualChainId
-	BlockHeight               primitives.BlockHeight
-	PrevBlockHashPtr          primitives.Sha256
-	Timestamp                 primitives.TimestampNano
-	ReceiptsRootHash          primitives.MerkleSha256
-	StateDiffHash             primitives.Sha256
-	TransactionsBlockHashPtr  primitives.Sha256
-	PreExecutionStateRootHash primitives.MerkleSha256
-	NumTransactionReceipts    uint32
-	NumContractStateDiffs     uint32
+	ProtocolVersion                 primitives.ProtocolVersion
+	VirtualChainId                  primitives.VirtualChainId
+	BlockHeight                     primitives.BlockHeight
+	PrevBlockHashPtr                primitives.Sha256
+	Timestamp                       primitives.TimestampNano
+	ReceiptsMerkleRootHash          primitives.Sha256
+	StateDiffHash                   primitives.Sha256
+	TransactionsBlockHashPtr        primitives.Sha256
+	PreExecutionStateMerkleRootHash primitives.Sha256
+	NumTransactionReceipts          uint32
+	NumContractStateDiffs           uint32
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	w._builder.WriteBytes(buf, []byte(w.PrevBlockHashPtr))
+	w._builder.WriteUint64(buf, uint64(w.Timestamp))
+	w._builder.WriteBytes(buf, []byte(w.ReceiptsMerkleRootHash))
+	w._builder.WriteBytes(buf, []byte(w.StateDiffHash))
+	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHashPtr))
+	w._builder.WriteBytes(buf, []byte(w.PreExecutionStateMerkleRootHash))
+	w._builder.WriteUint32(buf, w.NumTransactionReceipts)
+	w._builder.WriteUint32(buf, w.NumContractStateDiffs)
+	return nil
+}
+
+func (w *ResultsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -626,17 +719,17 @@ func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
-	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
-	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
-	w._builder.WriteBytes(buf, []byte(w.PrevBlockHashPtr))
-	w._builder.WriteUint64(buf, uint64(w.Timestamp))
-	w._builder.WriteBytes(buf, []byte(w.ReceiptsRootHash))
-	w._builder.WriteBytes(buf, []byte(w.StateDiffHash))
-	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHashPtr))
-	w._builder.WriteBytes(buf, []byte(w.PreExecutionStateRootHash))
-	w._builder.WriteUint32(buf, w.NumTransactionReceipts)
-	w._builder.WriteUint32(buf, w.NumContractStateDiffs)
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "ResultsBlockHeader.BlockHeight", uint64(w.BlockHeight))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.PrevBlockHashPtr", []byte(w.PrevBlockHashPtr))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "ResultsBlockHeader.Timestamp", uint64(w.Timestamp))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.ReceiptsMerkleRootHash", []byte(w.ReceiptsMerkleRootHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.StateDiffHash", []byte(w.StateDiffHash))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.TransactionsBlockHashPtr", []byte(w.TransactionsBlockHashPtr))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.PreExecutionStateMerkleRootHash", []byte(w.PreExecutionStateMerkleRootHash))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumTransactionReceipts", w.NumTransactionReceipts)
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumContractStateDiffs", w.NumContractStateDiffs)
 	return nil
 }
 
@@ -661,6 +754,10 @@ func (w *ResultsBlockHeaderBuilder) Build() *ResultsBlockHeader {
 		return nil
 	}
 	return ResultsBlockHeaderReader(buf)
+}
+
+func ResultsBlockHeaderBuilderFromRaw(raw []byte) *ResultsBlockHeaderBuilder {
+	return &ResultsBlockHeaderBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -715,10 +812,29 @@ type TransactionsBlockMetadataBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockMetadataBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	return nil
+}
+
+func (w *TransactionsBlockMetadataBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -754,6 +870,10 @@ func (w *TransactionsBlockMetadataBuilder) Build() *TransactionsBlockMetadata {
 	return TransactionsBlockMetadataReader(buf)
 }
 
+func TransactionsBlockMetadataBuilderFromRaw(raw []byte) *TransactionsBlockMetadataBuilder {
+	return &TransactionsBlockMetadataBuilder{_overrideWithRawBuffer: raw}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message TransactionsBlockProof
 
@@ -776,7 +896,7 @@ func (x *TransactionsBlockProof) String() string {
 }
 
 var _TransactionsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUnion}
-var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
+var _TransactionsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeBytes}}
 
 func TransactionsBlockProofReader(buf []byte) *TransactionsBlockProof {
 	x := &TransactionsBlockProof{}
@@ -808,6 +928,10 @@ func (x *TransactionsBlockProof) ResultsBlockHash() primitives.Sha256 {
 
 func (x *TransactionsBlockProof) RawResultsBlockHash() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *TransactionsBlockProof) RawResultsBlockHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *TransactionsBlockProof) MutateResultsBlockHash(v primitives.Sha256) error {
@@ -852,17 +976,25 @@ func (x *TransactionsBlockProof) IsTypeLeanHelix() bool {
 	return is
 }
 
-func (x *TransactionsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+func (x *TransactionsBlockProof) LeanHelix() primitives.LeanHelixBlockProof {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
-	b, s := x._message.GetMessageInOffset(off)
-	return consensus.LeanHelixBlockProofReader(b[:s])
+	return primitives.LeanHelixBlockProof(x._message.GetBytesInOffset(off))
 }
 
 func (x *TransactionsBlockProof) StringLeanHelix() string {
-	return x.LeanHelix().String()
+	return fmt.Sprintf("%s", x.LeanHelix())
+}
+
+func (x *TransactionsBlockProof) MutateLeanHelix(v primitives.LeanHelixBlockProof) error {
+	is, off := x._message.IsUnionIndex(1, 0, 1)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetBytesInOffset(off, []byte(v))
+	return nil
 }
 
 func (x *TransactionsBlockProof) RawType() []byte {
@@ -889,14 +1021,41 @@ type TransactionsBlockProofBuilder struct {
 	ResultsBlockHash   primitives.Sha256
 	Type               TransactionsBlockProofType
 	BenchmarkConsensus *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix          *consensus.LeanHelixBlockProofBuilder
+	LeanHelix          primitives.LeanHelixBlockProof
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.ResultsBlockHash))
+	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	switch w.Type {
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		w._builder.WriteBytes(buf, []byte(w.LeanHelix))
+	}
+	return nil
+}
+
+func (w *TransactionsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -906,13 +1065,13 @@ func (w *TransactionsBlockProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.ResultsBlockHash))
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockProof.ResultsBlockHash", []byte(w.ResultsBlockHash))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "TransactionsBlockProof.Type", uint16(w.Type))
 	switch w.Type {
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "TransactionsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case TRANSACTIONS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockProof.LeanHelix", []byte(w.LeanHelix))
 	}
 	return nil
 }
@@ -940,6 +1099,10 @@ func (w *TransactionsBlockProofBuilder) Build() *TransactionsBlockProof {
 	return TransactionsBlockProofReader(buf)
 }
 
+func TransactionsBlockProofBuilderFromRaw(raw []byte) *TransactionsBlockProofBuilder {
+	return &TransactionsBlockProofBuilder{_overrideWithRawBuffer: raw}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ResultsBlockProof
 
@@ -962,7 +1125,7 @@ func (x *ResultsBlockProof) String() string {
 }
 
 var _ResultsBlockProof_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUnion}
-var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeMessage}}
+var _ResultsBlockProof_Unions = [][]membuffers.FieldType{{membuffers.TypeMessage, membuffers.TypeBytes}}
 
 func ResultsBlockProofReader(buf []byte) *ResultsBlockProof {
 	x := &ResultsBlockProof{}
@@ -994,6 +1157,10 @@ func (x *ResultsBlockProof) TransactionsBlockHash() primitives.Sha256 {
 
 func (x *ResultsBlockProof) RawTransactionsBlockHash() []byte {
 	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *ResultsBlockProof) RawTransactionsBlockHashWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
 func (x *ResultsBlockProof) MutateTransactionsBlockHash(v primitives.Sha256) error {
@@ -1038,17 +1205,25 @@ func (x *ResultsBlockProof) IsTypeLeanHelix() bool {
 	return is
 }
 
-func (x *ResultsBlockProof) LeanHelix() *consensus.LeanHelixBlockProof {
+func (x *ResultsBlockProof) LeanHelix() primitives.LeanHelixBlockProof {
 	is, off := x._message.IsUnionIndex(1, 0, 1)
 	if !is {
 		panic("Accessed union field of incorrect type, did you check which union type it is first?")
 	}
-	b, s := x._message.GetMessageInOffset(off)
-	return consensus.LeanHelixBlockProofReader(b[:s])
+	return primitives.LeanHelixBlockProof(x._message.GetBytesInOffset(off))
 }
 
 func (x *ResultsBlockProof) StringLeanHelix() string {
-	return x.LeanHelix().String()
+	return fmt.Sprintf("%s", x.LeanHelix())
+}
+
+func (x *ResultsBlockProof) MutateLeanHelix(v primitives.LeanHelixBlockProof) error {
+	is, off := x._message.IsUnionIndex(1, 0, 1)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetBytesInOffset(off, []byte(v))
+	return nil
 }
 
 func (x *ResultsBlockProof) RawType() []byte {
@@ -1075,14 +1250,41 @@ type ResultsBlockProofBuilder struct {
 	TransactionsBlockHash primitives.Sha256
 	Type                  ResultsBlockProofType
 	BenchmarkConsensus    *consensus.BenchmarkConsensusBlockProofBuilder
-	LeanHelix             *consensus.LeanHelixBlockProofBuilder
+	LeanHelix             primitives.LeanHelixBlockProof
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHash))
+	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	switch w.Type {
+	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
+		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
+		w._builder.WriteBytes(buf, []byte(w.LeanHelix))
+	}
+	return nil
+}
+
+func (w *ResultsBlockProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -1092,13 +1294,13 @@ func (w *ResultsBlockProofBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, []byte(w.TransactionsBlockHash))
-	w._builder.WriteUnionIndex(buf, uint16(w.Type))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.TransactionsBlockHash", []byte(w.TransactionsBlockHash))
+	w._builder.HexDumpUnionIndex(prefix, offsetFromStart, "ResultsBlockProof.Type", uint16(w.Type))
 	switch w.Type {
 	case RESULTS_BLOCK_PROOF_TYPE_BENCHMARK_CONSENSUS:
-		w._builder.WriteMessage(buf, w.BenchmarkConsensus)
+		w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockProof.BenchmarkConsensus", w.BenchmarkConsensus)
 	case RESULTS_BLOCK_PROOF_TYPE_LEAN_HELIX:
-		w._builder.WriteMessage(buf, w.LeanHelix)
+		w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockProof.LeanHelix", []byte(w.LeanHelix))
 	}
 	return nil
 }
@@ -1124,6 +1326,10 @@ func (w *ResultsBlockProofBuilder) Build() *ResultsBlockProof {
 		return nil
 	}
 	return ResultsBlockProofReader(buf)
+}
+
+func ResultsBlockProofBuilderFromRaw(raw []byte) *ResultsBlockProofBuilder {
+	return &ResultsBlockProofBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
