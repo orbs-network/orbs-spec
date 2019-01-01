@@ -44,12 +44,12 @@ message GetStateStorageBlockHeightOutput {
 message CommitStateDiffInput {
     protocol.ResultsBlockHeader results_block_header = 1;
     repeated protocol.ContractStateDiff contract_state_diffs = 2;
-//    primitives.block_height last_committed_block_height = 3;
+    // primitives.block_height last_committed_block_height = 3;
 }
 
 message CommitStateDiffOutput {
     primitives.block_height next_desired_block_height = 1;
-//    primitives.block_height last_committed_block_height = 2;
+    // primitives.block_height last_committed_block_height = 2;
 }
 
 message GetStateHashInput {
@@ -58,5 +58,5 @@ message GetStateHashInput {
 
 // returns error code on failure
 message GetStateHashOutput {
-    primitives.merkle_sha256 state_root_hash = 1;
+    primitives.sha256 state_merkle_root_hash = 1;
 }

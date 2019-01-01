@@ -185,18 +185,18 @@ func (x *GetStateHashInput) StringBlockHeight() (res string) {
 // message GetStateHashOutput (non serializable)
 
 type GetStateHashOutput struct {
-	StateRootHash primitives.MerkleSha256
+	StateMerkleRootHash primitives.Sha256
 }
 
 func (x *GetStateHashOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{StateRootHash:%s,}", x.StringStateRootHash())
+	return fmt.Sprintf("{StateMerkleRootHash:%s,}", x.StringStateMerkleRootHash())
 }
 
-func (x *GetStateHashOutput) StringStateRootHash() (res string) {
-	res = fmt.Sprintf("%s", x.StateRootHash)
+func (x *GetStateHashOutput) StringStateMerkleRootHash() (res string) {
+	res = fmt.Sprintf("%s", x.StateMerkleRootHash)
 	return
 }
 

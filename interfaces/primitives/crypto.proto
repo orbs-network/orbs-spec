@@ -11,12 +11,6 @@ message sha256 {
     // size 32 bytes
 }
 
-message merkle_sha256 {
-    option inline_type = "bytes";
-    bytes value = 1;
-    // size 32 bytes
-}
-
 message keccak256 {
     option inline_type = "bytes";
     bytes value = 1;
