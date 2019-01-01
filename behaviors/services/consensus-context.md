@@ -70,7 +70,6 @@ Currently a single instance per virtual chain per node.
 > Performed by the leader only, upon request from consensus algo to perform the execution phase of the consensus during a live round.
 
 #### Execute transactions
-<!-->
 * The Transactions block for this block height should be cached from previous call to `RequestNewTransactionsBlock`.
 * Get the block reference timestamp from the `TransactionsBlock` header.
   
@@ -86,8 +85,6 @@ Currently a single instance per virtual chain per node.
 * The hash of the state diff in the block.
 * Hash pointer to the Transactions block of the same height.
 * Merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
-* Transaction id bloom filter (see block format for structure).
-* Transaction timestamp bloom filter (see block format for structure).
 
 &nbsp;
 ## `ValidateTransactionsBlock` (method)
@@ -122,8 +119,6 @@ Currently a single instance per virtual chain per node.
 * Check the hash of the state diff in the block.
 * Check hash pointer to the Transactions block of the same height.
 * Check merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
-* Check transaction id bloom filter (see block format for structure).
-* Check transaction timestamp bloom filter (see block format for structure).
 
 #### Validate transaction execution
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
