@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossipmessages
 
 import (
@@ -61,10 +61,29 @@ type TempKillMeBenchmarkConsensusBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *TempKillMeBenchmarkConsensusBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	return nil
+}
+
+func (w *TempKillMeBenchmarkConsensusBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -98,6 +117,10 @@ func (w *TempKillMeBenchmarkConsensusBuilder) Build() *TempKillMeBenchmarkConsen
 		return nil
 	}
 	return TempKillMeBenchmarkConsensusReader(buf)
+}
+
+func TempKillMeBenchmarkConsensusBuilderFromRaw(raw []byte) *TempKillMeBenchmarkConsensusBuilder {
+	return &TempKillMeBenchmarkConsensusBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -214,10 +237,30 @@ type BenchmarkConsensusStatusBuilder struct {
 
 	// internal
 	// implements membuffers.Builder
-	_builder membuffers.InternalBuilder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
 }
 
 func (w *BenchmarkConsensusStatusBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	return nil
+}
+
+func (w *BenchmarkConsensusStatusBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
 	if w == nil {
 		return
 	}
@@ -227,7 +270,7 @@ func (w *BenchmarkConsensusStatusBuilder) Write(buf []byte) (err error) {
 		}
 	}()
 	w._builder.Reset()
-	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "BenchmarkConsensusStatus.LastCommittedBlockHeight", uint64(w.LastCommittedBlockHeight))
 	return nil
 }
 
@@ -252,6 +295,10 @@ func (w *BenchmarkConsensusStatusBuilder) Build() *BenchmarkConsensusStatus {
 		return nil
 	}
 	return BenchmarkConsensusStatusReader(buf)
+}
+
+func BenchmarkConsensusStatusBuilderFromRaw(raw []byte) *BenchmarkConsensusStatusBuilder {
+	return &BenchmarkConsensusStatusBuilder{_overrideWithRawBuffer: raw}
 }
 
 /////////////////////////////////////////////////////////////////////////////

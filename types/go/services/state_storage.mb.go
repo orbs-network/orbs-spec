@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package services
 
 import (
@@ -24,7 +24,7 @@ type StateStorage interface {
 type ReadKeysInput struct {
 	BlockHeight  primitives.BlockHeight
 	ContractName primitives.ContractName
-	Keys         []primitives.Ripmd160Sha256
+	Keys         [][]byte
 }
 
 func (x *ReadKeysInput) String() string {
@@ -47,7 +47,7 @@ func (x *ReadKeysInput) StringContractName() (res string) {
 func (x *ReadKeysInput) StringKeys() (res string) {
 	res = "["
 	for _, v := range x.Keys {
-		res += fmt.Sprintf("%s", v) + ","
+		res += fmt.Sprintf("%x", v) + ","
 	}
 	res += "]"
 	return
@@ -185,18 +185,18 @@ func (x *GetStateHashInput) StringBlockHeight() (res string) {
 // message GetStateHashOutput (non serializable)
 
 type GetStateHashOutput struct {
-	StateRootHash primitives.MerkleSha256
+	StateMerkleRootHash primitives.Sha256
 }
 
 func (x *GetStateHashOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{StateRootHash:%s,}", x.StringStateRootHash())
+	return fmt.Sprintf("{StateMerkleRootHash:%s,}", x.StringStateMerkleRootHash())
 }
 
-func (x *GetStateHashOutput) StringStateRootHash() (res string) {
-	res = fmt.Sprintf("%s", x.StateRootHash)
+func (x *GetStateHashOutput) StringStateMerkleRootHash() (res string) {
+	res = fmt.Sprintf("%s", x.StateMerkleRootHash)
 	return
 }
 

@@ -30,6 +30,20 @@ message timestamp_nano {
     // size 8 bytes
 }
 
+// equal to a 20 byte ethereum address
+// encode in golang: CalcKeccak256(ecdsa_secp256k1_public_key)[12:]
+message node_address {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 20 bytes
+}
+
+message client_address {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // size 20 bytes
+}
+
 // contract_name is ascii only, it's not allowed to have 2 contracts with same case insensitive name on a virtual chain
 message contract_name {
     option inline_type = "string";
@@ -44,10 +58,16 @@ message method_name {
     // variable size
 }
 
+message event_name {
+    option inline_type = "string";
+    string value = 1;
+    // variable size
+}
+
 message execution_context_id {
-    option inline_type = "uint32";
+    option inline_type = "bytes";
     uint32 value = 1;
-    // size 4 bytes
+    // size undecided
 }
 
 message lean_helix_message_content {
@@ -57,6 +77,46 @@ message lean_helix_message_content {
 }
 
 message merkle_tree_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+message lean_helix_block_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+// opaque field of protocol.ReceiptProof
+// encode in golang: packed := protocol.ReceiptProof.Raw()
+message packed_receipt_proof {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+// opaque field of protocol.Receipt
+// encode in golang: packed := protocol.Receipt.Raw()
+message packed_receipt {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+// opaque field of repeated protocol.Event
+// encode in golang: packed := protocol.EventsArray.RawEventsArray()
+// decode in golang: protocol.EventsArrayReader(parent.RawOutputEventsArrayWithHeader())
+message packed_events_array {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}
+
+// opaque field of repeated protocol.Argument
+// encode in golang: packed := protocol.ArgumentArray.RawArgumentsArray()
+// decode in golang: protocol.ArgumentArrayReader(parent.RawOutputArgumentArrayWithHeader())
+message packed_argument_array {
     option inline_type = "bytes";
     bytes value = 1;
     // variable size

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package gossiptopics
 
 import (
@@ -48,19 +48,19 @@ func (x *BenchmarkConsensusCommitInput) StringMessage() (res string) {
 // message BenchmarkConsensusCommittedInput (non serializable)
 
 type BenchmarkConsensusCommittedInput struct {
-	RecipientPublicKey primitives.Ed25519PublicKey
-	Message            *gossipmessages.BenchmarkConsensusCommittedMessage
+	RecipientNodeAddress primitives.NodeAddress
+	Message              *gossipmessages.BenchmarkConsensusCommittedMessage
 }
 
 func (x *BenchmarkConsensusCommittedInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{RecipientPublicKey:%s,Message:%s,}", x.StringRecipientPublicKey(), x.StringMessage())
+	return fmt.Sprintf("{RecipientNodeAddress:%s,Message:%s,}", x.StringRecipientNodeAddress(), x.StringMessage())
 }
 
-func (x *BenchmarkConsensusCommittedInput) StringRecipientPublicKey() (res string) {
-	res = fmt.Sprintf("%s", x.RecipientPublicKey)
+func (x *BenchmarkConsensusCommittedInput) StringRecipientNodeAddress() (res string) {
+	res = fmt.Sprintf("%s", x.RecipientNodeAddress)
 	return
 }
 

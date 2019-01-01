@@ -153,11 +153,8 @@ Currently a single instance per virtual chain per node.
 * Go over all the blocks where the transaction could be found:
   * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).
   * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window (eg. 30 min) plus small grace (eg. 5 sec).
-* For each relevant block, look for the transaction in the block header's bloom filters:
-  * The transaction timestamp in the timestamp bloom filter (see block format for structure).
-  * The transaction `txhash` in the txhash bloom filter (see block format for structure).
-  * On match, fetch the block and search for the `txhash` in the block receipts.
-    * If found, returns the receipt along with its block height and timestamp.
+* For each relevant block, look for the transaction `txhash` in the block receipts.
+  * The node may maintain indexing of txhash to blocks or maintain bloom filters on the blocks relevant timestamps and/or txhash.
 * If not found on all relevant blocks, returns an empty receipt along with the last committed block height and timestamp.
 
 &nbsp;

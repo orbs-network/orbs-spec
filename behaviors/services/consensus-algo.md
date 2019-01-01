@@ -125,46 +125,39 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 *Note: The logic up to here also appears in `BlockStorage` and should probably be extracted to avoid duplication.*
 
 #### Check the block consensus
-* Check consensus of the Transactions block header by calling `AcknowledgeTransactionsBlockConsensus`.
-* Check consensus of the Results block header by calling `AcknowledgeResultsBlockConsensus`.
+* Check consensus of the block by calling `HandleBlockConsensus`.
 
 #### Commit block
 * Pass the committed block (including the block proofs) to block storage by calling `BlockStorage.CommitBlock`.
 
 &nbsp;
-## `AcknowledgeTransactionsBlockConsensus` (method)
+## `HandleBlockConsensus` (method)
+> Validates the consensus for an untrusted block header and and updates the algo state based on the requested mode. Called internally and by block storage during block sync or init. 
 
-> Validates the consensus for an untrusted block header. Ignores whether the block body (content) is valid and its relevant hash values match the ones in the header. Called internally and by block storage during block sync.
+#### Perform checks according to the requested mode
+* If mode = `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE` or `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY`, perform headers checks by calling `VerifyBlockConsensus`.
 
-#### Check previous block pointer
-* Verify the previous block hash pointer matches the hash of the previous block (given).
+#### Update algo state according to the requested mode
+* If mode = `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE` and all checks are valid or if mode = `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`, update the consensus algorithm about the block commit (with block height and consensus dependent data).
 
-#### Get the block committee
-* Calculate the random seed from the previous block (given).
-* Get the desired committee size from [configuration](../config/services.md).
-* Get a sorted list of committee members for the block by calling `ConsensusContext.RequestOrderingCommittee`.
-* Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the Results block random seed.
-
-#### Verify the block proof
-* Verify the block proof based on the committee members.
-* If all valid, update the consensus algorithm about the block commit (with block height and consensus dependent data).
 
 &nbsp;
-## `AcknowledgeResultsBlockConsensus` (method)
+## `VerifyBlockConsensus`
+> Validates the consensus for an untrusted block header. Ignores whether the block body (content) is valid and its relevant hash values match the ones in the header. Called by `HandleBlockConsensus`.
 
-> Validates the consensus for an untrusted block header. Ignores whether the block body (content) is valid and its relevant hash values match the ones in the header. Called internally and by block storage during block sync.
 
 #### Check previous block pointer
-* Verify the previous block hash pointer matches the hash of the previous block (given).
+* For both Transaction block header and Results block header, verify the previous block hash pointer matches the hash of the previous block (given).
 
 #### Get the block committee
 * Calculate the random seed from the previous block (given).
 * Get the desired committee size from [configuration](../config/services.md).
 * Get a sorted list of committee members for the block by calling `ConsensusContext.RequestValidationCommittee`.
+  * Note: When the consensus algorithm relies on a single committee for both, it uses the  `ConsensusContext.RequestValidationCommittee` based on the Results block random seed.
 
 #### Verify the block proof
-* Verify the block proof based on the committee members.
-* If all valid, update the consensus algorithm about the block commit (with block height and consensus dependent data).
+* For both Transaction block and Results block, verify the block proof based on the committee members.
+
 
 &nbsp;
 ## `GossipMessageReceived` (method)
@@ -178,12 +171,8 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 > Handles transactions and results blocks validation requests, called by `BlockStorage`. 
 
-#### `HandleTransactionsBlock`
-* Handle by calling `AcknowledgeTransactionsBlockConsensus`.
-
-#### `HandleResultsBlock`
-* Handle by calling `AcknowledgeResultsBlockConsensus`.
-
+#### `HandleBlockConsensus`
+* Handle by calling `HandleBlockConsensus`.
 
 &nbsp;
 ## Gossip Messages Handlers

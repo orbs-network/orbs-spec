@@ -17,6 +17,6 @@ message TempKillMeTransactionRelay {}
 message ForwardedTransactionsMessage {
     option serialize_message = false;
 
-    gossipmessages.SenderSignature sender = 1; // signs on crc64 in parallel chunks over txhash of each transaction
+    gossipmessages.SenderSignature sender = 1; // signs contenated txhash of all transactions
     repeated protocol.SignedTransaction signed_transactions = 2;
 }

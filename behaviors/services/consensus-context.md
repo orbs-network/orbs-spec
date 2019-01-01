@@ -85,9 +85,7 @@ Currently a single instance per virtual chain per node.
 * The hash of the state diff in the block.
 * Hash pointer to the Transactions block of the same height.
 * Merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
-  * Called with block_height equals to the last committed block height (current block height - 1)
-* Transaction id bloom filter (see block format for structure).
-* Transaction timestamp bloom filter (see block format for structure).
+  * Called with block height equals to the last committed block height (current block height - 1)
 
 &nbsp;
 ## `ValidateTransactionsBlock` (method)
@@ -122,9 +120,7 @@ Currently a single instance per virtual chain per node.
 * Check the hash of the state diff in the block.
 * Check hash pointer to the Transactions block of the same height.
 * Check merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
-  * Called with block_height equals to the last committed block height (current block height - 1)
-* Check transaction id bloom filter (see block format for structure).
-* Check transaction timestamp bloom filter (see block format for structure).
+  * Called with block height equals to the last committed block height (current block height - 1)
 
 #### Validate transaction execution
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.20)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
 package primitives
 
 import (
@@ -62,6 +62,34 @@ func (x TimestampNano) KeyForMap() uint64 {
 	return uint64(x)
 }
 
+type NodeAddress []byte
+
+func (x NodeAddress) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x NodeAddress) Equal(y NodeAddress) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x NodeAddress) KeyForMap() string {
+	return string(x)
+}
+
+type ClientAddress []byte
+
+func (x ClientAddress) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x ClientAddress) Equal(y ClientAddress) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x ClientAddress) KeyForMap() string {
+	return string(x)
+}
+
 type ContractName string
 
 func (x ContractName) String() string {
@@ -90,18 +118,32 @@ func (x MethodName) KeyForMap() string {
 	return string(x)
 }
 
-type ExecutionContextId uint32
+type EventName string
 
-func (x ExecutionContextId) String() string {
-	return fmt.Sprintf("%x", uint32(x))
+func (x EventName) String() string {
+	return fmt.Sprintf(string(x))
 }
 
-func (x ExecutionContextId) Equal(y ExecutionContextId) bool {
+func (x EventName) Equal(y EventName) bool {
 	return x == y
 }
 
-func (x ExecutionContextId) KeyForMap() uint32 {
-	return uint32(x)
+func (x EventName) KeyForMap() string {
+	return string(x)
+}
+
+type ExecutionContextId []byte
+
+func (x ExecutionContextId) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x ExecutionContextId) Equal(y ExecutionContextId) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x ExecutionContextId) KeyForMap() string {
+	return string(x)
 }
 
 type LeanHelixMessageContent []byte
@@ -129,5 +171,75 @@ func (x MerkleTreeProof) Equal(y MerkleTreeProof) bool {
 }
 
 func (x MerkleTreeProof) KeyForMap() string {
+	return string(x)
+}
+
+type LeanHelixBlockProof []byte
+
+func (x LeanHelixBlockProof) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x LeanHelixBlockProof) Equal(y LeanHelixBlockProof) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x LeanHelixBlockProof) KeyForMap() string {
+	return string(x)
+}
+
+type PackedReceiptProof []byte
+
+func (x PackedReceiptProof) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedReceiptProof) Equal(y PackedReceiptProof) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedReceiptProof) KeyForMap() string {
+	return string(x)
+}
+
+type PackedReceipt []byte
+
+func (x PackedReceipt) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedReceipt) Equal(y PackedReceipt) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedReceipt) KeyForMap() string {
+	return string(x)
+}
+
+type PackedEventsArray []byte
+
+func (x PackedEventsArray) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedEventsArray) Equal(y PackedEventsArray) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedEventsArray) KeyForMap() string {
+	return string(x)
+}
+
+type PackedArgumentArray []byte
+
+func (x PackedArgumentArray) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedArgumentArray) Equal(y PackedArgumentArray) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedArgumentArray) KeyForMap() string {
 	return string(x)
 }
