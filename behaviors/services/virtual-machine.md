@@ -111,7 +111,8 @@ Currently a single instance per virtual chain per node.
 #### Check transaction signatures
 * Check the transaction signatures according to the supported signature schemes (see transaction format for list).
 * Fail if unsupported signature scheme.
-* Successful pre order check should return the transaction status `TRANSACTION_STATUS_PRE_ORDER_VALID`.
+* Perform signatrue scheme specific checks:
+  * EdDSA01Signer: check the network_id according to the [configurable](../config/shared.md) network_id.
 
 #### Run system contract
 * Approval of a transaction for ordering and execution consists of 3 layers:
@@ -124,6 +125,7 @@ Currently a single instance per virtual chain per node.
   
 #### Transaction set status
 * If one of the trasnactions in the set fails its pre-order check, return error
+* Successful pre order check should return the transaction status `TRANSACTION_STATUS_PRE_ORDER_VALID`.
 
 &nbsp;
 ## `SdkCall` (method)

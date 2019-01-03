@@ -211,7 +211,7 @@ func SignerBuilderFromRaw(raw []byte) *SignerBuilder {
 // reader
 
 type EdDSA01Signer struct {
-	// NetworkType SignerNetworkType
+	// NetworkId NetworkID
 	// SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
@@ -223,7 +223,7 @@ func (x *EdDSA01Signer) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NetworkType:%s,SignerPublicKey:%s,}", x.StringNetworkType(), x.StringSignerPublicKey())
+	return fmt.Sprintf("{NetworkId:%s,SignerPublicKey:%s,}", x.StringNetworkId(), x.StringSignerPublicKey())
 }
 
 var _EdDSA01Signer_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeBytes}
@@ -253,20 +253,20 @@ func (x *EdDSA01Signer) Equal(y *EdDSA01Signer) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *EdDSA01Signer) NetworkType() SignerNetworkType {
-	return SignerNetworkType(x._message.GetUint16(0))
+func (x *EdDSA01Signer) NetworkId() NetworkID {
+	return NetworkID(x._message.GetUint16(0))
 }
 
-func (x *EdDSA01Signer) RawNetworkType() []byte {
+func (x *EdDSA01Signer) RawNetworkId() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *EdDSA01Signer) MutateNetworkType(v SignerNetworkType) error {
+func (x *EdDSA01Signer) MutateNetworkId(v NetworkID) error {
 	return x._message.SetUint16(0, uint16(v))
 }
 
-func (x *EdDSA01Signer) StringNetworkType() string {
-	return x.NetworkType().String()
+func (x *EdDSA01Signer) StringNetworkId() string {
+	return x.NetworkId().String()
 }
 
 func (x *EdDSA01Signer) SignerPublicKey() primitives.Ed25519PublicKey {
@@ -292,7 +292,7 @@ func (x *EdDSA01Signer) StringSignerPublicKey() string {
 // builder
 
 type EdDSA01SignerBuilder struct {
-	NetworkType     SignerNetworkType
+	NetworkId       NetworkID
 	SignerPublicKey primitives.Ed25519PublicKey
 
 	// internal
@@ -316,7 +316,7 @@ func (w *EdDSA01SignerBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteUint16(buf, uint16(w.NetworkType))
+	w._builder.WriteUint16(buf, uint16(w.NetworkId))
 	w._builder.WriteBytes(buf, []byte(w.SignerPublicKey))
 	return nil
 }
@@ -331,7 +331,7 @@ func (w *EdDSA01SignerBuilder) HexDump(prefix string, offsetFromStart membuffers
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpUint16(prefix, offsetFromStart, "EdDSA01Signer.NetworkType", uint16(w.NetworkType))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "EdDSA01Signer.NetworkId", uint16(w.NetworkId))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "EdDSA01Signer.SignerPublicKey", []byte(w.SignerPublicKey))
 	return nil
 }
@@ -504,22 +504,22 @@ func SmartContractCallerBuilderFromRaw(raw []byte) *SmartContractCallerBuilder {
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
-type SignerNetworkType uint16
+type NetworkID uint16
 
 const (
-	NETWORK_TYPE_RESERVED SignerNetworkType = 0
-	NETWORK_TYPE_MAIN_NET SignerNetworkType = 77
-	NETWORK_TYPE_TEST_NET SignerNetworkType = 84
+	NETWORK_ID_RESERVED NetworkID = 0
+	NETWORK_ID_MAIN_NET NetworkID = 77
+	NETWORK_ID_TEST_NET NetworkID = 84
 )
 
-func (n SignerNetworkType) String() string {
+func (n NetworkID) String() string {
 	switch n {
-	case NETWORK_TYPE_RESERVED:
-		return "NETWORK_TYPE_RESERVED"
-	case NETWORK_TYPE_MAIN_NET:
-		return "NETWORK_TYPE_MAIN_NET"
-	case NETWORK_TYPE_TEST_NET:
-		return "NETWORK_TYPE_TEST_NET"
+	case NETWORK_ID_RESERVED:
+		return "NETWORK_ID_RESERVED"
+	case NETWORK_ID_MAIN_NET:
+		return "NETWORK_ID_MAIN_NET"
+	case NETWORK_ID_TEST_NET:
+		return "NETWORK_ID_TEST_NET"
 	}
 	return "UNKNOWN"
 }

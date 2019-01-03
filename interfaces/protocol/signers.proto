@@ -8,10 +8,10 @@ import "protocol/contracts.proto";
 
 // address = RIPMD160(SHA(serialized protocol.Signer))
 
-enum SignerNetworkType {
-    NETWORK_TYPE_RESERVED = 0;
-    NETWORK_TYPE_MAIN_NET = 77;
-    NETWORK_TYPE_TEST_NET = 84;
+enum NetworkID {
+    NETWORK_ID_RESERVED = 0;
+    NETWORK_ID_MAIN_NET = 77;
+    NETWORK_ID_TEST_NET = 84;
 }
 
 message Signer {
@@ -22,7 +22,7 @@ message Signer {
 }
 
 message EdDSA01Signer {
-    SignerNetworkType network_type = 1;
+    NetworkID network_id = 1;
     primitives.ed25519_public_key signer_public_key = 2;
 }
 

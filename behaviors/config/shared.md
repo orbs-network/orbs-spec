@@ -4,6 +4,14 @@ Configuration is an in-memory object given to every service on initialization. T
 
 Since the system must remain backwards compatible forever (able to audit the old blocks in the chain), changes in configuration can only take place from a certain block height. Until that block height is reached, the original configuration must remain in the system. One way to implement this is place the entire configuration dictionary as a key of a parent map containing block ranges.
 
+#### Network id
+
+```json
+{
+  "network-id": "Mainnet"
+}
+```
+
 #### Virtual chain
 
 ```json
