@@ -14,7 +14,7 @@ import (
 type PublicApi interface {
 	handlers.TransactionResultsHandler
 	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
-	CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error)
+	RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error)
 	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
 	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
 }
@@ -64,39 +64,39 @@ func (x *SendTransactionOutput) StringClientResponse() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodInput (non serializable)
+// message RunQueryInput (non serializable)
 
-type CallMethodInput struct {
-	ClientRequest *client.CallMethodRequest
+type RunQueryInput struct {
+	ClientRequest *client.RunQueryRequest
 }
 
-func (x *CallMethodInput) String() string {
+func (x *RunQueryInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
-func (x *CallMethodInput) StringClientRequest() (res string) {
+func (x *RunQueryInput) StringClientRequest() (res string) {
 	res = x.ClientRequest.String()
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message CallMethodOutput (non serializable)
+// message RunQueryOutput (non serializable)
 
-type CallMethodOutput struct {
-	ClientResponse *client.CallMethodResponse
+type RunQueryOutput struct {
+	ClientResponse *client.RunQueryResponse
 }
 
-func (x *CallMethodOutput) String() string {
+func (x *RunQueryOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
 }
 
-func (x *CallMethodOutput) StringClientResponse() (res string) {
+func (x *RunQueryOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }

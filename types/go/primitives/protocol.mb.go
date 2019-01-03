@@ -202,20 +202,6 @@ func (x PackedReceiptProof) KeyForMap() string {
 	return string(x)
 }
 
-type PackedReceipt []byte
-
-func (x PackedReceipt) String() string {
-	return fmt.Sprintf("%x", []byte(x))
-}
-
-func (x PackedReceipt) Equal(y PackedReceipt) bool {
-	return bytes.Equal(x, y)
-}
-
-func (x PackedReceipt) KeyForMap() string {
-	return string(x)
-}
-
 type PackedEventsArray []byte
 
 func (x PackedEventsArray) String() string {

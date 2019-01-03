@@ -24,10 +24,10 @@ func (s *MockPublicApi) SendTransaction(ctx context.Context, input *SendTransact
 	}
 }
 
-func (s *MockPublicApi) CallMethod(ctx context.Context, input *CallMethodInput) (*CallMethodOutput, error) {
+func (s *MockPublicApi) RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*CallMethodOutput), ret.Error(1)
+		return out.(*RunQueryOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

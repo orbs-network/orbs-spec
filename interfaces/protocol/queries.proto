@@ -1,0 +1,30 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/protocol.proto";
+import "primitives/crypto.proto";
+import "protocol/signers.proto";
+import "protocol/contracts.proto";
+import "protocol/results.proto";
+
+message Query {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.timestamp_nano timestamp = 3;
+    protocol.Signer signer = 4;
+    primitives.contract_name contract_name = 5;
+    primitives.method_name method_name = 6;
+    primitives.packed_argument_array input_argument_array = 7;
+}
+
+message SignedQuery {
+    Query query = 1;
+    bytes signature = 2; // depends on query.signer scheme
+}
+
+message QueryResult {
+    protocol.ExecutionResult execution_result = 1;
+    primitives.packed_argument_array output_argument_array = 2;
+    primitives.packed_events_array output_events_array = 3;
+}
