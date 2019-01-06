@@ -56,8 +56,6 @@ Since the system must remain backwards compatible forever (able to audit the old
 
 ```json
 {
-  "minimal-block-transaction-num": "0",
-  "minimal-block-delay-sec": "0.5",
   "system-timestamp-allowed-jitter-sec": "2"
 }
 ```
@@ -75,7 +73,7 @@ Since the system must remain backwards compatible forever (able to audit the old
 
 ```json
 {
-  "block-sync-commit-timeout-sec": "8",
+  "block-sync-commit-timeout-empty-blocks-time": "4",
   "transaction-search-grace-sec": "5",
   "query-sync-grace-block-num": "0",
   "max-blocks-per-sync-batch": "1000",

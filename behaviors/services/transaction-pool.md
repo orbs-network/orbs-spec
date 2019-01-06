@@ -120,6 +120,10 @@ Currently a single instance per virtual chain per node.
     * If indeed local, update the registered public api service by calling its `HandleTransactionError`.
       * Provide block height and timestamp according to the last committed block.
 
+#### Check minimal number of valid transactions
+* Check that there are valid transactions 
+  * If there are no valid transactions, repeat the `GetTransactionsForOrdering` flow until reaching the threshold or reaching the ([configurable](../config/shared.md) minimal time between blocks.
+
 &nbsp;
 ## `ValidateTransactionsForOrdering` (method)
 

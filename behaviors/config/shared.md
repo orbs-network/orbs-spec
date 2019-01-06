@@ -71,3 +71,11 @@ Since the system must remain backwards compatible forever (able to audit the old
   "query-grace-timeout-millis": "1000"
 }
 ```
+
+#### Cross services grace wait timeout
+
+```json
+{
+  "minimum-time-between-empty-blocks-sec": "10"
+}
+```

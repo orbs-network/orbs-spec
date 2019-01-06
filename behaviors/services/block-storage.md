@@ -47,7 +47,7 @@ Currently a single instance per virtual chain per node.
 #### Trigger
 * Endless loop which is continuously waiting for a trigger marking the node as out of sync.
 * The synchronization process is triggered upon:
-  * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) timeout (eg. 8 sec).
+  * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) number of periods of minimal time between empty blocks [configurable](../config/shared.md) 
   * During the Init flow.
 * Make sure no more than one synchronization process is active at any given time.
 

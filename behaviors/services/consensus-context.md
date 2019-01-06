@@ -42,11 +42,10 @@ Currently a single instance per virtual chain per node.
 * Get the block reference timestamp by reading the 64b unix timestamp.  
   * If the uinx timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
 
-#### Choose pending transactions
+#### Get pending transactions
 * Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
-  * If there are too little transactions to append (minimal block according to a [configurable](../config/services.md) amount):
-    * Wait [configurable](../config/services.md) time (eg. 0.5 sec) and retry once.
-    * If no transactions continue with an empty block (number of transactions is 0).
+  * If there are no valid transactions, the `TransactionPool` holds the response until tehre are transactions to send or timeout.
+  * If a response is returned with no transactions, build an empty block.
 
 #### Build Transactions block
 * Current protocol version (`0x1`).
