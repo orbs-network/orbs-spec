@@ -28,14 +28,13 @@ type ProcessCallInput struct {
 	InputArgumentArray     *protocol.ArgumentArray
 	AccessScope            protocol.ExecutionAccessScope
 	CallingPermissionScope protocol.ExecutionPermissionScope
-	CallingService         primitives.ContractName
 }
 
 func (x *ProcessCallInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,AccessScope:%s,CallingPermissionScope:%s,CallingService:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray(), x.StringAccessScope(), x.StringCallingPermissionScope(), x.StringCallingService())
+	return fmt.Sprintf("{ContextId:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,AccessScope:%s,CallingPermissionScope:%s,}", x.StringContextId(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray(), x.StringAccessScope(), x.StringCallingPermissionScope())
 }
 
 func (x *ProcessCallInput) StringContextId() (res string) {
@@ -65,11 +64,6 @@ func (x *ProcessCallInput) StringAccessScope() (res string) {
 
 func (x *ProcessCallInput) StringCallingPermissionScope() (res string) {
 	res = fmt.Sprintf("%x", x.CallingPermissionScope)
-	return
-}
-
-func (x *ProcessCallInput) StringCallingService() (res string) {
-	res = fmt.Sprintf("%s", x.CallingService)
 	return
 }
 
