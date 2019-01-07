@@ -82,8 +82,8 @@ Currently a single instance per virtual chain per node.
 
 #### Query transaction status
 * Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
-  * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block_hieght and timestamp and an empty receipt.
-  * If the return status is `COMMITTED`, return with the receipt and corresponding block_hieght and timestamp. 
+  * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block height and timestamp and an empty receipt.
+  * If the return status is `COMMITTED`, return with the receipt and corresponding block height and timestamp. 
 * If not found in transaction pool (`NO_RECORD_FOUND`), it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
@@ -107,7 +107,7 @@ Currently a single instance per virtual chain per node.
 
 #### Get a receipt proof
 * Get a receipt proof by calling `BlockStorage.GenerateReceiptProof`.
-* Return status `COMMITTED` along with the provided proof, block_height and timestamp.
+* Return status `COMMITTED` along with the provided proof, block height and timestamp.
 
 &nbsp;
 ## TransactionResults Handler

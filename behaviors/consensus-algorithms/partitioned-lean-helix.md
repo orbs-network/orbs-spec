@@ -6,10 +6,10 @@
 #### Consensu Algo
 * Interfaces:
   * `GossipMessageReceived` - triggered by the gossip service upon message received with Conensus topic.
-  * `RequestNewBlock() : block` - called by the One hieght PBFT, returns a block proposal.
-  * `ValidateBlock(block) : valid` - called by the One hieght PBFT, valdiates a block proposal.
-  * `CalcBlockHash (block) : block_hash` - called by the One hieght PBFT, calculates the hash on a block based on the hashing scheme.
-  * `CommitBlock(block, pbft_proof, random_seed_database)` - called by the One hieght PBFT, generates a block proof and commits the block
+  * `RequestNewBlock() : block` - called by the One height PBFT, returns a block proposal.
+  * `ValidateBlock(block) : valid` - called by the One height PBFT, validates a block proposal.
+  * `CalcBlockHash (block) : block_hash` - called by the One height PBFT, calculates the hash on a block based on the hashing scheme.
+  * `CommitBlock(block, pbft_proof, random_seed_database)` - called by the One height PBFT, generates a block proof and commits the block
   * `ValidateRandomSeedData(random_seed_data, sender)`
   * `AcknowledgeTransactionsBlockConsensus (block headers + proof)` - called by the Block storage s part of block sync.
   * `AcknowledgeResultsBlockConsensus ((block headers + proof)` - called by the Block storage s part of block sync.
@@ -44,11 +44,11 @@
 
 
 ## Design Notes
-* All nodes particiapte in every committee, no `OnCommitBlockOutsideCommittee` flow.
-* A random seed for a block / round is calcualted by a hash on the aggregated threshold signature of the previous block random seed.
-  * The threshold signatrues are passed as part of the COMMIT messaage.
+* All nodes participate in every committee, no `OnCommitBlockOutsideCommittee` flow.
+* A random seed for a block / round is calculated by a hash on the aggregated threshold signature of the previous block random seed.
+  * The threshold signatures are passed as part of the COMMIT message.
   * The threshold is set to 2f+1.
-* Node sync is perfromed by the Block storage. The consensus algorithm does not store past block_height data.
+* Node sync is performed by the Block storage. The consensus algorithm does not store past block height data.
 
 
 ## Configuration <!-- TBD - Oded to add -->
@@ -56,14 +56,14 @@
 ## Databases
 
 #### Future Messages Cache
-> Stores messages of future block_heights until block_height update.
-* Accessed by (Block_height, View, Sender)
-* Persistnet
-* Stores messages with valid signature, i.e. an honest sender may only send one valid message type per {Block_height, View}
-  * Should avoid storing duplciates which may be sent as part of an attack.
+> Stores messages of future block heights until block height update.
+* Accessed by (BlockHeight, View, Sender)
+* Persistent
+* Stores messages with valid signature, i.e. an honest sender may only send one valid message type per {BlockHeight, View}
+  * Should avoid storing duplicates which may be sent as part of an attack.
 
 #### Previous block cache
-* Stores required data from the previous block_height.
+* Stores required data from the previous block height.
 
 
 &nbsp;
@@ -75,10 +75,10 @@
 #### Get Committee
 * Calculate the `random_seed` for the upcoming block:
   * `random_seed` = SHA256(Previous block.random_seed_signature).
-* Get an ordered list fo committee members for the block_height by calling `ConsensusContext.RequestValidationCommittee`.
+* Get an ordered list fo committee members for the block height by calling `ConsensusContext.RequestValidationCommittee`.
 
 #### Init a One Height PBFT
-* Init One Height PBFT with the current block_height and the committee by calling `OneHeightPBFT.PerformConsensus`.
+* Init One Height PBFT with the current block height and the committee by calling `OneHeightPBFT.PerformConsensus`.
 * Send all messages from the Future Message Cache with matching block height to the OneHeightPBFT
   * For each message in Future Message Cache with with matching block height
     * Determine the message type
@@ -152,9 +152,9 @@
 * Append the corresponding LeanHelixBlockProof to the TransactionsBlock and ResultsBlockHeader.
 * Commit the BlockPair by calling `BlockStorage.CommitBlock`.
 
-#### Triger the next block height
-* Cache the required fields from the block headers for the next block_height.
-* Increment current_block_height.
+#### Trigger the next block height
+* Cache the required fields from the block headers for the next block height.
+* Increment current block height.
 * Initiate the next block height round by calling `OneHeightPBFT.PerformConsensus`.
 
 
@@ -210,10 +210,10 @@
 > See consensus-algo.md, upon valid block
 
 #### Check Block_height
-* Ignore if recevied block_height <= my_state.block_height
+* Ignore if received block_height <= my_state.block_height
 
-#### Triger the next block height round
-* Update my_state.Block_height = recevied block_height.
+#### Trigger the next block height round
+* Update my_state.Block_height = received block_height.
 * Cache the required fields from the block headers for the next round.
 * Clear all messages with block_height <= my_state.block_height from the log.
 * Initiate the next block height round by triggering `OnNewConsensusRound`.
