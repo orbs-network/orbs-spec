@@ -5,6 +5,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 import "protocol/results.proto";
 import "primitives/protocol.proto";
 import "protocol/transactions.proto";
+import "protocol/queries.proto";
 import "protocol/contracts.proto";
 import "services/handlers/contract_sdk_call.proto";
 
@@ -19,7 +20,7 @@ service VirtualMachine {
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
 
     // called by PublicApi
-    rpc RunLocalMethod (RunLocalMethodInput) returns (RunLocalMethodOutput);
+    rpc ProcessQuery (ProcessQueryInput) returns (ProcessQueryOutput);
 
     // called by TransactionPool
     rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
@@ -36,12 +37,12 @@ message ProcessTransactionSetOutput {
     repeated protocol.ContractStateDiff contract_state_diffs = 2;
 }
 
-message RunLocalMethodInput {
+message ProcessQueryInput {
     primitives.block_height block_height = 1; // block_height = 0, indicates using a recent block height (best effort latest)
-    protocol.Transaction transaction = 2;
+    protocol.SignedQuery signed_query = 2;
 }
 
-message RunLocalMethodOutput {
+message ProcessQueryOutput {
     protocol.ExecutionResult call_result = 1;
     primitives.packed_argument_array output_argument_array = 2;
     primitives.packed_events_array output_events_array = 3;

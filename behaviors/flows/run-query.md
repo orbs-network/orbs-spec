@@ -1,4 +1,4 @@
-# Call Method Flow
+# Run Query Flow
 
 The client performs a read only method call on a service. This returns the result based on a somewhat latest block (might miss by a couple of blocks). Nevertheless, the block this is based upon is returned in the result.
 
@@ -38,7 +38,7 @@ This read is not under consensus. Multiple reads can take place at the same time
   * Responds to the client.
 
 &nbsp;
-## Call Method Flow Diagram
+## Run Query Flow Diagram
 
 ![alt text][run_local_method_flow] <br/><br/>
 

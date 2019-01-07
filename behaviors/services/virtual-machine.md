@@ -45,7 +45,7 @@ Currently a single instance per virtual chain per node.
 * For each processor, register to handle the processor's SDK calls by calling `Processor.ContractSdkCallHandler`.
 
 &nbsp;
-## `RunLocalMethod` (method)
+## `ProcessQuery` (method)
 
 > Executes a read only method of a deployed service and returns its result (not under consensus).
 
@@ -54,7 +54,7 @@ Currently a single instance per virtual chain per node.
   * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind.
   * Note that the reference block height and timestamp are returned to the caller on successful execution and on failure.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
-  * Currently `PublicApi.CallMethod` calls are not signed.
+  * Currently `PublicApi.RunQuery` calls are not required to be signed and therefore not checked for signature.
 * Retrieve the service processor by calling system contract `_Deployments.getInfo` and fail if not deployed.
   * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md).
 * Allocate an execution context:

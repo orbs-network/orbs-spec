@@ -79,7 +79,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `GetStateStorageBlockHeight` (method)
 
-> Returns the last committed height and timestamp, called by the Virtual Machine as part of the CallMethod flow.
+> Returns the last committed height and timestamp, called by the Virtual Machine as part of the RunQuery flow.
 
 * Return the height and timestamp of `last_committed_block`.
 

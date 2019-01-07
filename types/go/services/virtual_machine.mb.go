@@ -15,7 +15,7 @@ import (
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
 	ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
-	RunLocalMethod(ctx context.Context, input *RunLocalMethodInput) (*RunLocalMethodOutput, error)
+	ProcessQuery(ctx context.Context, input *ProcessQueryInput) (*ProcessQueryOutput, error)
 	TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
 
@@ -88,34 +88,34 @@ func (x *ProcessTransactionSetOutput) StringContractStateDiffs() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message RunLocalMethodInput (non serializable)
+// message ProcessQueryInput (non serializable)
 
-type RunLocalMethodInput struct {
+type ProcessQueryInput struct {
 	BlockHeight primitives.BlockHeight
-	Transaction *protocol.Transaction
+	SignedQuery *protocol.SignedQuery
 }
 
-func (x *RunLocalMethodInput) String() string {
+func (x *ProcessQueryInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,Transaction:%s,}", x.StringBlockHeight(), x.StringTransaction())
+	return fmt.Sprintf("{BlockHeight:%s,SignedQuery:%s,}", x.StringBlockHeight(), x.StringSignedQuery())
 }
 
-func (x *RunLocalMethodInput) StringBlockHeight() (res string) {
+func (x *ProcessQueryInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
-func (x *RunLocalMethodInput) StringTransaction() (res string) {
-	res = x.Transaction.String()
+func (x *ProcessQueryInput) StringSignedQuery() (res string) {
+	res = x.SignedQuery.String()
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message RunLocalMethodOutput (non serializable)
+// message ProcessQueryOutput (non serializable)
 
-type RunLocalMethodOutput struct {
+type ProcessQueryOutput struct {
 	CallResult              protocol.ExecutionResult
 	OutputArgumentArray     primitives.PackedArgumentArray
 	OutputEventsArray       primitives.PackedEventsArray
@@ -123,34 +123,34 @@ type RunLocalMethodOutput struct {
 	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
-func (x *RunLocalMethodOutput) String() string {
+func (x *ProcessQueryOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{CallResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
 }
 
-func (x *RunLocalMethodOutput) StringCallResult() (res string) {
+func (x *ProcessQueryOutput) StringCallResult() (res string) {
 	res = fmt.Sprintf("%x", x.CallResult)
 	return
 }
 
-func (x *RunLocalMethodOutput) StringOutputArgumentArray() (res string) {
+func (x *ProcessQueryOutput) StringOutputArgumentArray() (res string) {
 	res = fmt.Sprintf("%s", x.OutputArgumentArray)
 	return
 }
 
-func (x *RunLocalMethodOutput) StringOutputEventsArray() (res string) {
+func (x *ProcessQueryOutput) StringOutputEventsArray() (res string) {
 	res = fmt.Sprintf("%s", x.OutputEventsArray)
 	return
 }
 
-func (x *RunLocalMethodOutput) StringReferenceBlockHeight() (res string) {
+func (x *ProcessQueryOutput) StringReferenceBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.ReferenceBlockHeight)
 	return
 }
 
-func (x *RunLocalMethodOutput) StringReferenceBlockTimestamp() (res string) {
+func (x *ProcessQueryOutput) StringReferenceBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.ReferenceBlockTimestamp)
 	return
 }

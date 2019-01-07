@@ -23,7 +23,7 @@ Overview of the entire system with brief introduction to all services is availab
 
   Node and all services init (fresh start or after a restart).
 
-* [Call Method](behaviors/flows/call-method.md)
+* [Run Query](behaviors/flows/run-query.md)
 
   Client calls a read-only method of a service (not under consensus).
 

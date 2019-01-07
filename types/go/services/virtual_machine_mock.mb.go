@@ -24,10 +24,10 @@ func (s *MockVirtualMachine) ProcessTransactionSet(ctx context.Context, input *P
 	}
 }
 
-func (s *MockVirtualMachine) RunLocalMethod(ctx context.Context, input *RunLocalMethodInput) (*RunLocalMethodOutput, error) {
+func (s *MockVirtualMachine) ProcessQuery(ctx context.Context, input *ProcessQueryInput) (*ProcessQueryOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*RunLocalMethodOutput), ret.Error(1)
+		return out.(*ProcessQueryOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
