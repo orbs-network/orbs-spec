@@ -5,8 +5,8 @@
 
 * The following HTTP headers are encouraged to be returned for verbosity:
   * `X-ORBS-REQUEST-RESULT` - human readable description of the result.
-  * `X-ORBS-REQUEST-RESULT-BLOCK-HEIGHT` - the reference block height for the result as a decimal number.
-  * `X-ORBS-REQUEST-RESULT-BLOCK-TIMESTAMP` - human readable timestamp of the reference block of the result (RFC3339). 
+  * `X-ORBS-BLOCK-HEIGHT` - the reference block height for the result as a decimal number.
+  * `X-ORBS-BLOCK-TIMESTAMP` - human readable timestamp of the reference block of the result (RFC3339). 
   * `X-ORBS-ERROR-DETAILS` - human readable description of any error if relevant.
 
 * Errors that are non-application level return: 
