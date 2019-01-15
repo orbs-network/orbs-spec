@@ -6,26 +6,6 @@ import ()
 /////////////////////////////////////////////////////////////////////////////
 // enums
 
-type ErrorCodes uint16
-
-const (
-	ERROR_CODE_RESERVED    ErrorCodes = 0
-	ERROR_CODE_OUT_OF_SYNC ErrorCodes = 1
-	ERROR_CODE_INVALID     ErrorCodes = 2
-)
-
-func (n ErrorCodes) String() string {
-	switch n {
-	case ERROR_CODE_RESERVED:
-		return "ERROR_CODE_RESERVED"
-	case ERROR_CODE_OUT_OF_SYNC:
-		return "ERROR_CODE_OUT_OF_SYNC"
-	case ERROR_CODE_INVALID:
-		return "ERROR_CODE_INVALID"
-	}
-	return "UNKNOWN"
-}
-
 type ExecutionResult uint16
 
 const (
@@ -75,6 +55,7 @@ const (
 	TRANSACTION_STATUS_REJECTED_SMART_CONTRACT_PRE_ORDER       TransactionStatus = 14
 	TRANSACTION_STATUS_REJECTED_TIMESTAMP_AHEAD_OF_NODE_TIME   TransactionStatus = 15
 	TRANSACTION_STATUS_REJECTED_CONGESTION                     TransactionStatus = 16
+	TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC               TransactionStatus = 17
 )
 
 func (n TransactionStatus) String() string {
@@ -113,6 +94,8 @@ func (n TransactionStatus) String() string {
 		return "TRANSACTION_STATUS_REJECTED_TIMESTAMP_AHEAD_OF_NODE_TIME"
 	case TRANSACTION_STATUS_REJECTED_CONGESTION:
 		return "TRANSACTION_STATUS_REJECTED_CONGESTION"
+	case TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC:
+		return "TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC"
 	}
 	return "UNKNOWN"
 }
@@ -126,6 +109,7 @@ const (
 	REQUEST_STATUS_BAD_REQUEST  RequestStatus = 3
 	REQUEST_STATUS_CONGESTION   RequestStatus = 4
 	REQUEST_STATUS_SYSTEM_ERROR RequestStatus = 5
+	REQUEST_STATUS_OUT_OF_SYNC  RequestStatus = 6
 )
 
 func (n RequestStatus) String() string {
@@ -142,6 +126,8 @@ func (n RequestStatus) String() string {
 		return "REQUEST_STATUS_CONGESTION"
 	case REQUEST_STATUS_SYSTEM_ERROR:
 		return "REQUEST_STATUS_SYSTEM_ERROR"
+	case REQUEST_STATUS_OUT_OF_SYNC:
+		return "REQUEST_STATUS_OUT_OF_SYNC"
 	}
 	return "UNKNOWN"
 }

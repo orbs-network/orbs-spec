@@ -54,19 +54,23 @@ Currently a single instance per virtual chain per node.
 > Add a new transaction from a client to the network (propagate to all pending transaction pools). Runs on the gateway node.
 
 #### Check transaction validity
-* Correct protocol version.
-* Valid fields:
-  * Signer - known scheme, valid key length.
-<!--  * Contract name - TODO . -->
-* Sender virtual chain matches the transaction pool's virtual chain.
+* Correct protocol version. If incorrect, return `REJECTED_UNSUPPORTED_VERSION`.
+* Sender virtual chain matches the transaction pool's virtual chain. If mismatch, return `REJECTED_VIRTUAL_CHAIN_MISMATCH`.
+* Check that the node is in sync:
+  * Node is considered out of sync if current time is later than the last committed block timestamp + [configurable](../config/services.md) node sync time (eg. 2 min).
+  * If out of sync, return `REJECTED_NODE_OUT_OF_SYNC`.
 * Check Transaction timestamp:
   * Only accept transactions that haven't expired.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
-  * Only accept transactions with timestamp in sync with the node (that aren't in the future).
-    * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 3 min). If rejected, return `TIMESTAMP_AHEAD_OF_NODE_TIME`.
-    * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
+    * If expired, return `REJECTED_TIMESTAMP_WINDOW_EXCEEDED`.
+  * Only accept transactions that aren't in the future (according to the node's clock).
+    * Transaction timestamp is in future if it is later than current time + [configurable](../config/services.md) clock jitter grace window (eg. 3 min).
+    * If in future, return `REJECTED_TIMESTAMP_AHEAD_OF_NODE_TIME`.
 * Transaction (`txhash`) doesn't already exist in the pending pool or committed pool (duplicate).
+  * If already exists, return `DUPLICATE_TRANSACTION_ALREADY_PENDING` or `DUPLICATE_TRANSACTION_ALREADY_COMMITTED`.
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
+  * Reference block provided to virtual machine is projected next block (height last committed + 1 with timestamp of current time).  
+  * If fails, return the returned status.
 * On any failure, return the relevant error status and an empty receipt.
   * Always (even on errors) include reference block height and block timestamp in the response. 
   * For an already committed transaction, return the receipt.
@@ -139,6 +143,7 @@ Currently a single instance per virtual chain per node.
     * Transaction is expired if its timestamp is earlier than current time minus the [configurable](../config/shared.md) expiration window (eg. 30 min).
   * Transaction wasn't already committed (exist in the committed pool).
   * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+    * Reference block provided to virtual machine is the current block and its timestamp received as argument.
 * If one of the transactions checks fails, return error (for all transactions).
 
 
@@ -175,11 +180,8 @@ Currently a single instance per virtual chain per node.
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
 
-* Check that the transaction timestamp in sync with the node (that isn't in the future).
-  * Transaction timestamp is in sync if it is earlier than the last committed block timestamp + [configurable](../config/services.md) sync grace window (eg. 5 sec). If so return `TIMESTAMP_AHEAD_OF_NODE_TIME`.
-  * Note that a transaction may be rejected due to either future timestamp or node's loss of sync.
 * If `txhash` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
-* If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
+* If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt along with the block height and timestamp of the receipt.
 * else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
 
 &nbsp;

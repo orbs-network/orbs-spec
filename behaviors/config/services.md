@@ -18,6 +18,7 @@ Since the system must remain backwards compatible forever (able to audit the old
 ```json
 {
   "send-transaction-timeout-sec": "300",
+  "client-response-out-of-sync-threshold-sec": "300"
 }
 ```
 
@@ -31,7 +32,8 @@ Since the system must remain backwards compatible forever (able to audit the old
   "propagation-batch-size": "100",
   "propagation-batching-timeout-msec": "100",
   "query-sync-grace-block-num": "0",
-  "future-timestamp-grace-sec": "5"
+  "future-timestamp-grace-sec": "5",
+  "transactions-relay-out-of-sync-threshold-sec": "300"
 }
 ```
 
