@@ -78,15 +78,18 @@ Currently a single instance per virtual chain per node.
 * Correct virtual chain.
 * Notes: 
   * The request format is validated by the HTTP server.
-  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
+  * Upon a validity error, return an error status with empty block height and timestamp (as they may not be relevant).
 
 #### Query transaction status
 * Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
-  * If the return status is `PENDING` or `TIMESTAMP_AHEAD_OF_NODE_TIME`, return with the corresponding block height and timestamp and an empty receipt.
-  * If the return status is `COMMITTED`, return with the receipt and corresponding block height and timestamp. 
-* If not found in transaction pool (`NO_RECORD_FOUND`), it might be an older transaction, widen our search.
-* Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
-  * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
+  * If the return status is `COMMITTED`, return with the receipt.
+  * If the return status is `PENDING`, return an empty receipt with the corresponding block height and timestamp. 
+  * If return status is `NO_RECORD_FOUND` or `UNKNOWN_NODE_OUT_OF_SYNC`, widen search to block storage.
+* Widen search to block storage by calling `BlockStorage.GetTransactionReceipt`.
+  * If found, return status `COMMITTED` with the receipt.
+  * If not found:
+    * Return the status from the transaction pool (`NO_RECORD_FOUND` or `UNKNOWN_OUT_OF_SYNC`).
+    * Return the reference block height and timestamp from block storage.
 
 &nbsp;
 ## `GetTransactionReceiptProof` (method)
@@ -103,10 +106,10 @@ Currently a single instance per virtual chain per node.
 
 #### Query the transaction status and receipt
 * Query the transaction status by calling `GetTransactionStatus`.
-  * If no receipt was found return `NO_RECORD_FOUND` along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
+  * If no receipt was found return the status along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
 
 #### Get a receipt proof
-* Get a receipt proof by calling `BlockStorage.GenerateReceiptProof`.
+* Get a receipt proof for the receipt by calling `BlockStorage.GenerateReceiptProof`.
 * Return status `COMMITTED` along with the provided proof, block height and timestamp.
 
 &nbsp;
