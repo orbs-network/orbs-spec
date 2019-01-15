@@ -29,7 +29,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * Register to handle transactions results blocks by calling `TransactionPool.TransactionResultsHandler`.
 
 &nbsp;
@@ -58,14 +58,14 @@ Currently a single instance per virtual chain per node.
 * Correct virtual chain.
 * Notes: 
   * The request format is validated by the HTTP server.
-  * Upon a validity error, retrun an error status with empty block height and timestamp (as they may not be relevant).
+  * Upon a validity error, return an error status with empty block height and timestamp (as they may not be relevant).
   
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
   * On failure, send response to client along with the reference block height and timestamp.
-* Block until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
-* If a [configurable](../config/services.md) timeout expires during the block, fail.
+* Block and wait until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
+* If `config.PUBLIC_API_SEND_TRANSACTION_TIMEOUT` expires during the wait, fail.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
 
 &nbsp;
@@ -88,7 +88,7 @@ Currently a single instance per virtual chain per node.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
 * If the node is potentially out of sync, warn the user and override the request result to status `OUT_OF_SYNC`.
-  * Node is considered out of sync if current time is later than the returned reference block timestamp + [configurable](../config/services.md) sync warning time (eg. 5 min).
+  * Node is considered out of sync if current time is later than the returned reference block timestamp + `config.PUBLIC_API_NODE_SYNC_WARNING_TIME` (eg. 5 min).
 
 &nbsp;
 ## `GetTransactionReceiptProof` (method)

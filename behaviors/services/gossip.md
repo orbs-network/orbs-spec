@@ -17,13 +17,13 @@ Currently a single instance per virtual chain per node.
   * Fully connected, every node is connected to every other node.
   * All communication is direct.
     * Optimization: Forwarding scheme for large messages like `PRE_PREPARE`.
-* Network topology is known in advance and [configurable](../config/shared.md).
+* Network topology is known in advance and controlled by the configuration.
   * Currently assume all services are found on all nodes.
   * Currently assume single instance of a service on a node.
 * No special support for retransmission except standard TCP stack.
 * Recommended: Socket connections should be signed by nodes and authenticated when opened (via TLS).
   * Not a hard requirement because all communication is signed in the application level.
-* Reconnect to topology peers when disconnected with a [configurable](../config/services.md) polling interval.
+* Reconnect to topology peers when disconnected with `config.GOSSIP_CONNECTION_KEEP_ALIVE_INTERVAL` polling interval.
 * Calls `OnMessageReceived` when a gossip message is received.
 * Wire format encoding is [Protobuf over TCP](../../encoding/gossip/protobuf-over-tcp.md).
 
@@ -34,7 +34,7 @@ Currently a single instance per virtual chain per node.
 * Maps between node id (public key) to an active socket to the Gossip service of this node.
 * Used for inter node communication.
 * Assumes every node has a single gossip instance.
-* Initialized based on the public gossip endpoints from node topology [configuration](../config/shared.md).
+* Initialized based on the public gossip endpoints from node topology configuration.
 
 #### Topic subscription table
 * Map between topic to list of service ids that are subscribed to this topic.
@@ -45,7 +45,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * Connect to the gossip endpoints of all relevant peer nodes.
 
 &nbsp;
@@ -78,7 +78,7 @@ Currently a single instance per virtual chain per node.
 
 * Lookup the the list of subscribed services for this topic in the topic subscription table.
 * For each service id:
-  * Rely on service topology [configuration](../config/shared.md) to locate the service endpoint by service id.
+  * Rely on service topology configuration to locate the service endpoint by service id.
   * Call `Target.GossipMessageReceived` with message content.
   * The target service is responsible to identify the message type and process the message accordingly.
 

@@ -26,7 +26,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * Load persistent data (if present)
 * Subscribe to gossip messages by calling `Gossip.LeanHelix.RegisterLeanHelixHandler`.
 * Register to handle transactions and results blocks validation by calling `BlockStorage.ConsensusBlocksHandler`.
@@ -44,14 +44,14 @@ Currently a single instance per virtual chain per node (per supported algorithm)
   * It is recommended to cache the committed block from the previous round in order to prevent fetching this data.
   * If fails or times out, skip this round and don't participate (the node is probably out of sync).
 * Calculate the random seed from the previous block.
-* Get the desired committee size from [configuration](../config/services.md).
+* Get the desired committee size from `config.LEAN_HELIX_CONSENSUS_MINIMUM_COMMITTEE_SIZE`.
 * Get a sorted list of committee members for the upcoming Transactions block (ordering phase) by calling `ConsensusContext.RequestOrderingCommittee`.
 * Get a sorted list of committee members for the upcoming Results block (validation phase) by calling `ConsensusContext.RequestValidationCommittee`.
 * Note: If the consensus algorithm relies on a single committee for both, call `ConsensusContext.RequestValidationCommittee` only based on the Results block random seed.
 
 #### If leader
 * Note to self that participating in this round as leader.
-* Get the desired block size from [configuration](../config/services.md).
+* Get the desired block size from `config.DESIRED_BLOCK_SIZE_IN_BYTES`.
 * Request new Transactions block proposal (ordering phase) by calling `ConsensusContext.RequestNewTransactionsBlock`.
 * Request new Results block proposal (validation phase) by calling `ConsensusContext.RequestNewResultsBlock`.
 * Sign both proposals (according to the algo spec) - on hash of the header.
@@ -75,7 +75,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 #### Validate the proposal
 * Perform algorithm related checks on the proposal:
   * Signature, block height, previous block pair hash pointers.
-* Get the desired block size from [configuration](../config/services.md) and validate it.
+* Get the desired block size from `config.DESIRED_BLOCK_SIZE_IN_BYTES` and validate it.
 * Validate the Transactions block (ordering phase) by calling `ConsensusContext.ValidateTransactionsBlock`.
 * Validate the Results block (validation phase) by calling `ConsensusContext.ValidateResultsBlock`.
 
@@ -151,7 +151,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 #### Get the block committee
 * Calculate the random seed from the previous block (given).
-* Get the desired committee size from [configuration](../config/services.md).
+* Get the desired committee size from `config.LEAN_HELIX_CONSENSUS_MINIMUM_COMMITTEE_SIZE`.
 * Get a sorted list of committee members for the block by calling `ConsensusContext.RequestValidationCommittee`.
   * Note: When the consensus algorithm relies on a single committee for both, it uses the  `ConsensusContext.RequestValidationCommittee` based on the Results block random seed.
 
