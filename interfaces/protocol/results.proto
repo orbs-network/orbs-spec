@@ -2,12 +2,6 @@ syntax = "proto3";
 package protocol;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
-enum ErrorCodes {
-    ERROR_CODE_RESERVED = 0;
-    ERROR_CODE_OUT_OF_SYNC = 1;
-    ERROR_CODE_INVALID = 2;
-}
-
 enum ExecutionResult {
     EXECUTION_RESULT_RESERVED = 0;                                  // REQUEST_STATUS_RESERVED
     EXECUTION_RESULT_SUCCESS = 1;                                   // REQUEST_STATUS_COMPLETED
