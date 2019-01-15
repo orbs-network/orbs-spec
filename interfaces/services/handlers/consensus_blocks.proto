@@ -13,8 +13,8 @@ service ConsensusBlocksHandler {
 message HandleBlockConsensusInput {
     HandleBlockConsensusMode mode = 1;
     protocol.BlockType block_type = 2;
-    protocol.BlockPairContainer block_pair = 3; // when separate services, do not forward transactions, receipts or state diff.
-    protocol.BlockPairContainer prev_committed_block_pair = 4; // when separate services, do not forward transactions, receipts or state diff.
+    protocol.BlockPairContainer block_pair = 3; // TODO: when separate services, do not forward transactions, receipts or state diff.
+    protocol.BlockPairContainer prev_committed_block_pair = 4; // TODO: when separate services, do not forward transactions, receipts or state diff.
 }
 
 // returns error code ERROR_CODE_INVALID if not valid
