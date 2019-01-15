@@ -56,7 +56,6 @@ const (
 	TRANSACTION_STATUS_REJECTED_TIMESTAMP_AHEAD_OF_NODE_TIME   TransactionStatus = 15
 	TRANSACTION_STATUS_REJECTED_CONGESTION                     TransactionStatus = 16
 	TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC               TransactionStatus = 17
-	TRANSACTION_STATUS_UNKNOWN_NODE_OUT_OF_SYNC                TransactionStatus = 18
 )
 
 func (n TransactionStatus) String() string {
@@ -97,8 +96,6 @@ func (n TransactionStatus) String() string {
 		return "TRANSACTION_STATUS_REJECTED_CONGESTION"
 	case TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC:
 		return "TRANSACTION_STATUS_REJECTED_NODE_OUT_OF_SYNC"
-	case TRANSACTION_STATUS_UNKNOWN_NODE_OUT_OF_SYNC:
-		return "TRANSACTION_STATUS_UNKNOWN_NODE_OUT_OF_SYNC"
 	}
 	return "UNKNOWN"
 }

@@ -180,13 +180,9 @@ Currently a single instance per virtual chain per node.
 
 > Returns the transaction receipt for a past transaction based on its id. Used when a client asks to query transaction status for an older transaction.
 
-* If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt.
-* If the transaction is not known to be committed:
-  * Check that the node is in sync:
-    * Node is considered out of sync if current time is later than the last committed block timestamp + [configurable](../config/services.md) node sync time (eg. 2 min).
-    * If out of sync, return `UNKNOWN_NODE_OUT_OF_SYNC`.
-  * If `txhash` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
-  * else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
+* If `txhash` is present in the pending transaction pool, return status `PENDING` along with the last committed block height and timestamp.
+* If `txhash` is present in the committed transaction pool, return status `COMMITTED` and the receipt along with the block height and timestamp of the receipt.
+* else return status `NO_RECORD_FOUND` along with the last committed block height and timestamp.
 
 &nbsp;
 ## Gossip Messages Handlers

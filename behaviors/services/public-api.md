@@ -82,14 +82,13 @@ Currently a single instance per virtual chain per node.
 
 #### Query transaction status
 * Query the transactions pool by calling `TransactionPool.GetCommittedTransactionReceipt`.
-  * If the return status is `COMMITTED`, return with the receipt.
-  * If the return status is `PENDING`, return an empty receipt with the corresponding block height and timestamp. 
-  * If return status is `NO_RECORD_FOUND` or `UNKNOWN_NODE_OUT_OF_SYNC`, widen search to block storage.
-* Widen search to block storage by calling `BlockStorage.GetTransactionReceipt`.
-  * If found, return status `COMMITTED` with the receipt.
-  * If not found:
-    * Return the status from the transaction pool (`NO_RECORD_FOUND` or `UNKNOWN_OUT_OF_SYNC`).
-    * Return the reference block height and timestamp from block storage.
+  * If the return status is `PENDING`, return with the corresponding block height and timestamp and an empty receipt.
+  * If the return status is `COMMITTED`, return with the receipt and corresponding block height and timestamp. 
+* If the return status is `NO_RECORD_FOUND` (not found in transaction pool), it might be an older transaction, widen our search.
+* Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
+  * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
+* If the node is potentially out of sync, warn the user and override the request result to status `OUT_OF_SYNC`.
+  * Node is considered out of sync if current time is later than the returned reference block timestamp + [configurable](../config/services.md) sync warning time (eg. 5 min).
 
 &nbsp;
 ## `GetTransactionReceiptProof` (method)
