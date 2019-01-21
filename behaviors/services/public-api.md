@@ -87,7 +87,7 @@ Currently a single instance per virtual chain per node.
 * If the return status is `NO_RECORD_FOUND` (not found in transaction pool), it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
-* If the node is potentially out of sync, warn the user and override the request result to status `OUT_OF_SYNC`.
+* If no receipt found, if the node is potentially out of sync, warn the user and override the request result to status `OUT_OF_SYNC`.
   * Node is considered out of sync if current time is later than the returned reference block timestamp + `config.PUBLIC_API_NODE_SYNC_WARNING_TIME` (eg. 5 min).
 
 &nbsp;
