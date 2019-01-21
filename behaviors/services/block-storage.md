@@ -29,7 +29,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * Load persistent data.
 * If there is persistent data, init `last_commited_block` accordingly.
 * If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the block database to empty.
@@ -47,7 +47,7 @@ Currently a single instance per virtual chain per node.
 #### Trigger
 * Endless loop which is continuously waiting for a trigger marking the node as out of sync.
 * The synchronization process is triggered upon:
-  * Too much time has passed without a commit with `CommitBlock`. Based on a [configurable](../config/services.md) timeout (eg. 8 sec).
+  * Too much time has passed without a commit with `CommitBlock`. Based on `config.BLOCK_SYNC_NO_COMMIT_INTERVAL` (eg. 8 sec).
   * During the Init flow.
 * Make sure no more than one synchronization process is active at any given time.
 
@@ -59,13 +59,13 @@ Currently a single instance per virtual chain per node.
 * Synchronization is made of multiple **batches** each comprised of multiple **chunks**.
 * Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.BlockSync.BroadcastBlockAvailabilityRequest`.
   * Request blocks starting from `last_committed_block`.
-  * Request [configurable](../config/services.md) **batch** range for this session (total number of blocks the syncing node will give in this session).
+  * Request `config.BLOCK_SYNC_NUM_BLOCKS_IN_BATCH` **batch** range for this session (total number of blocks the syncing node will give in this session).
   * Nodes will respond with a `BLOCK_AVAILABILITY_RESPONSE` message.
     * Indicating the range from the desired blocks that is available to them and their current last committed block.
-    * Also indicating the agreed upon [configurable](../config/services.md) **batch** range for this session.
+    * Also indicating the agreed upon `config.BLOCK_SYNC_NUM_BLOCKS_IN_BATCH` **batch** range for this session.
 * Randomly select one of the responding nodes and request the **batch** of blocks from them.
   * If some of the responders are significantly behind and can't fulfill one batch, avoid them in the random selection.
-  * Request the first [configurable](../config/services.md) **chunk** in the batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.BlockSync.SendBlockSyncRequest`.
+  * Request the first `config.BLOCK_SYNC_NUM_BLOCKS_IN_CHUNK` **chunk** in the batch by sending a `BLOCK_SYNC_REQUEST` message with `Gossip.BlockSync.SendBlockSyncRequest`.
   * The receiving node will respond with a `BLOCK_SYNC_RESPONSE` message.
     * The response includes one **chunk** of requested blocks and the node's `last_committed_block` height.
   * Upon reception of the response:
@@ -151,8 +151,8 @@ Currently a single instance per virtual chain per node.
 > Returns the transaction receipt for a past transaction based on its id and time stamp. Used when a client asks to query transaction status for an older transaction.
 
 * Go over all the blocks where the transaction could be found:
-  * Starting where block timestamp is transaction timestamp minus [configurable](../config/services.md) small grace (eg. 5 sec).
-  * Finishing where block timestamp is transaction timestamp plus [configurable](../config/shared.md) transaction expiration window (eg. 30 min) plus small grace (eg. 5 sec).
+  * Starting where block timestamp is transaction timestamp minus `config.BLOCK_STORAGE_TRANSACTION_RECEIPT_QUERY_TIMESTAMP_GRACE` (eg. 5 sec).
+  * Finishing where block timestamp is transaction timestamp plus `config.TRANSACTION_EXPIRATION_WINDOW` (eg. 30 min) plus `config.BLOCK_STORAGE_TRANSACTION_RECEIPT_QUERY_TIMESTAMP_GRACE` (eg. 5 sec).
 * For each relevant block, look for the transaction `txhash` in the block receipts.
   * The node may maintain indexing of txhash to blocks or maintain bloom filters on the blocks relevant timestamps and/or txhash.
 * If not found on all relevant blocks, returns an empty receipt along with the last committed block height and timestamp.
@@ -162,7 +162,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Transactions block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
+* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the transactions block header, metadata and the transactions block proof.
 
@@ -171,7 +171,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Results block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
+* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * Return the results block header, metadata and the results block proof.
 

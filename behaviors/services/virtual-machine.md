@@ -41,7 +41,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * For each processor, register to handle the processor's SDK calls by calling `Processor.ContractSdkCallHandler`.
 
 &nbsp;

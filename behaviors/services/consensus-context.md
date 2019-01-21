@@ -14,14 +14,14 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 
 &nbsp;
 ## `RequestOrderingCommittee` (method)
 
 > Returns a sorted list of nodes (public keys) that participate in the approval committee for the ordering of a given block height. Called by consensus algo.
 
-* The current list of nodes (per [block height](../../terminology.md)) is managed by the [configuration](../config/shared.md).
+* The current list of nodes (per [block height](../../terminology.md)) is managed by the configuration.
 * If the size of requested committee is larger than total nodes, select all nodes as the committee.
 * Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
 
@@ -30,7 +30,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a sorted list of nodes (public keys) that participate in the approval committee for the execution validation of a given block height. Called by consensus algo.
 
-* The current list of nodes (per [block height](../../terminology.md)) is managed by the [configuration](../config/shared.md).
+* The current list of nodes (per [block height](../../terminology.md)) is managed by the configuration.
 * If the size of requested committee is larger than total nodes, select all nodes as the committee.
 * Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
 
@@ -39,14 +39,15 @@ Currently a single instance per virtual chain per node.
 
 > Performed by consensus leader only, upon request from consensus algo to perform the ordering phase of the consensus during a live round.
 
-* Get the block reference timestamp by reading the 64b unix timestamp.  
-  * If the uinx timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
+* Get the block reference timestamp by reading the 64b unix timestamp in nanoseconds.  
+  * If the unix timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
 
 #### Choose pending transactions
 * Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
-  * If there are too little transactions to append (minimal block according to a [configurable](../config/services.md) amount):
-    * Wait [configurable](../config/services.md) time (eg. 0.5 sec) and retry once.
-    * If no transactions continue with an empty block (number of transactions is 0).
+  * If there are no pending transactions:
+    * Wait up to `config.TRANSACTION_POOL_TIME_BETWEEN_EMPTY_BLOCKS` (eg. 5 sec).
+    * If any transactions arrive before the wait is over, stop waiting and return them immediately.
+    * If no transactions after the wait, continue with an empty block (number of transactions is 0).
 
 #### Build Transactions block
 * Current protocol version (`0x1`).
@@ -97,7 +98,7 @@ Currently a single instance per virtual chain per node.
 * Check virtual chain.
 * Check that the header's block height matches the provided one.  
 * Check that the header's previous block hash pointer mathes the provided one.
-* Check timestamp is within [configurable](../config/services.md) allowed jitter of system timestamp, and later than previous block.
+* Check timestamp is within `config.CONSENSUS_CONTEXT_SYSTEM_TIMESTAMP_ALLOWED_JITTER` of current system time, and later than the previous block.
 * Check the transactions merkle root matches the transactions.
 * Check metadata hash.
 

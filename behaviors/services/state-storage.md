@@ -14,7 +14,7 @@ Currently a single instance per virtual chain per node.
 #### State store
 * Stores state data per [deployed service](../../terminology.md) by key (key-value store).
 * Up to date for a specific [block height](../../terminology.md).
-* Maintains an efficient snapshot history of [configurable](../config/services.md) number of past blocks (eg. 5).
+* Maintains an efficient snapshot history of `config.STATE_STORAGE_HISTORY_SNAPSHOT_NUM` of past blocks (eg. 5).
 * Separated into deployed services, for each one:
   * Keep a merkle tree of all state variables (keys and values) under it.
   * Keys are hashes, values are blobs (byte arrays).
@@ -41,7 +41,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `Init` (flow)
 
-* Initialize the [configuration](../config/services.md).
+* Initialize the configuration.
 * Load persistent data.
 * If no persistent data, init `last_committed_block` to empty (symbolize the empty genesis block) and the state store to empty.
 
@@ -67,7 +67,7 @@ Currently a single instance per virtual chain per node.
 > Retrieve the values (updated to a certain block height) from a set of keys belonging to a contract. This is the main way for other services to query state in the node.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
+* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 
@@ -89,7 +89,7 @@ Currently a single instance per virtual chain per node.
 > Returns the state hash (merkle tree root) updated to a certain block height. The latest hash is always written inside blocks so this is needed by block creators.
 
 #### Check synchronization status
-* If requested block height is in the future but `last_committed_block` is close to it ([configurable](../config/services.md) sync grace distance) block the call until requested height is committed. Or fail on [configurable](../config/shared.md) timeout.
+* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
 * If requested block height is in the future but `last_committed_block` is far, fail.
 * If requested block height is in the past and beyond the snapshot history, fail.
 
