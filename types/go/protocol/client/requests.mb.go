@@ -1702,4 +1702,610 @@ func GetTransactionReceiptProofResponseBuilderFromRaw(raw []byte) *GetTransactio
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message GetBlockRequest
+
+// reader
+
+type GetBlockRequest struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// BlockHeight primitives.BlockHeight
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetBlockRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight())
+}
+
+var _GetBlockRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64}
+var _GetBlockRequest_Unions = [][]membuffers.FieldType{}
+
+func GetBlockRequestReader(buf []byte) *GetBlockRequest {
+	x := &GetBlockRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetBlockRequest_Scheme, _GetBlockRequest_Unions)
+	return x
+}
+
+func (x *GetBlockRequest) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetBlockRequest) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetBlockRequest) Equal(y *GetBlockRequest) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetBlockRequest) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
+}
+
+func (x *GetBlockRequest) RawProtocolVersion() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetBlockRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
+}
+
+func (x *GetBlockRequest) StringProtocolVersion() string {
+	return fmt.Sprintf("%s", x.ProtocolVersion())
+}
+
+func (x *GetBlockRequest) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
+}
+
+func (x *GetBlockRequest) RawVirtualChainId() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetBlockRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *GetBlockRequest) StringVirtualChainId() string {
+	return fmt.Sprintf("%s", x.VirtualChainId())
+}
+
+func (x *GetBlockRequest) BlockHeight() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(2))
+}
+
+func (x *GetBlockRequest) RawBlockHeight() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *GetBlockRequest) MutateBlockHeight(v primitives.BlockHeight) error {
+	return x._message.SetUint64(2, uint64(v))
+}
+
+func (x *GetBlockRequest) StringBlockHeight() string {
+	return fmt.Sprintf("%s", x.BlockHeight())
+}
+
+// builder
+
+type GetBlockRequestBuilder struct {
+	ProtocolVersion primitives.ProtocolVersion
+	VirtualChainId  primitives.VirtualChainId
+	BlockHeight     primitives.BlockHeight
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *GetBlockRequestBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteUint64(buf, uint64(w.BlockHeight))
+	return nil
+}
+
+func (w *GetBlockRequestBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "GetBlockRequest.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "GetBlockRequest.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "GetBlockRequest.BlockHeight", uint64(w.BlockHeight))
+	return nil
+}
+
+func (w *GetBlockRequestBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetBlockRequestBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetBlockRequestBuilder) Build() *GetBlockRequest {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetBlockRequestReader(buf)
+}
+
+func GetBlockRequestBuilderFromRaw(raw []byte) *GetBlockRequestBuilder {
+	return &GetBlockRequestBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetBlockResponse
+
+// reader
+
+type GetBlockResponse struct {
+	// RequestResult RequestResult
+	// TransactionsBlockHeader protocol.TransactionsBlockHeader
+	// TransactionsBlockMetadata protocol.TransactionsBlockMetadata
+	// SignedTransactions []protocol.SignedTransaction
+	// TransactionsBlockProof protocol.TransactionsBlockProof
+	// ResultsBlockHeader protocol.ResultsBlockHeader
+	// TransactionReceipts []protocol.TransactionReceipt
+	// ContractStateDiffs []protocol.ContractStateDiff
+	// ResultsBlockProof protocol.ResultsBlockProof
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *GetBlockResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{RequestResult:%s,TransactionsBlockHeader:%s,TransactionsBlockMetadata:%s,SignedTransactions:%s,TransactionsBlockProof:%s,ResultsBlockHeader:%s,TransactionReceipts:%s,ContractStateDiffs:%s,ResultsBlockProof:%s,}", x.StringRequestResult(), x.StringTransactionsBlockHeader(), x.StringTransactionsBlockMetadata(), x.StringSignedTransactions(), x.StringTransactionsBlockProof(), x.StringResultsBlockHeader(), x.StringTransactionReceipts(), x.StringContractStateDiffs(), x.StringResultsBlockProof())
+}
+
+var _GetBlockResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessage, membuffers.TypeMessage, membuffers.TypeMessageArray, membuffers.TypeMessage, membuffers.TypeMessage, membuffers.TypeMessageArray, membuffers.TypeMessageArray, membuffers.TypeMessage}
+var _GetBlockResponse_Unions = [][]membuffers.FieldType{}
+
+func GetBlockResponseReader(buf []byte) *GetBlockResponse {
+	x := &GetBlockResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _GetBlockResponse_Scheme, _GetBlockResponse_Unions)
+	return x
+}
+
+func (x *GetBlockResponse) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *GetBlockResponse) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *GetBlockResponse) Equal(y *GetBlockResponse) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *GetBlockResponse) RequestResult() *RequestResult {
+	b, s := x._message.GetMessage(0)
+	return RequestResultReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawRequestResult() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *GetBlockResponse) RawRequestResultWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *GetBlockResponse) StringRequestResult() string {
+	return x.RequestResult().String()
+}
+
+func (x *GetBlockResponse) TransactionsBlockHeader() *protocol.TransactionsBlockHeader {
+	b, s := x._message.GetMessage(1)
+	return protocol.TransactionsBlockHeaderReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockHeader() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockHeaderWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *GetBlockResponse) StringTransactionsBlockHeader() string {
+	return x.TransactionsBlockHeader().String()
+}
+
+func (x *GetBlockResponse) TransactionsBlockMetadata() *protocol.TransactionsBlockMetadata {
+	b, s := x._message.GetMessage(2)
+	return protocol.TransactionsBlockMetadataReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockMetadata() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockMetadataWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
+func (x *GetBlockResponse) StringTransactionsBlockMetadata() string {
+	return x.TransactionsBlockMetadata().String()
+}
+
+func (x *GetBlockResponse) SignedTransactionsIterator() *GetBlockResponseSignedTransactionsIterator {
+	return &GetBlockResponseSignedTransactionsIterator{iterator: x._message.GetMessageArrayIterator(3)}
+}
+
+type GetBlockResponseSignedTransactionsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *GetBlockResponseSignedTransactionsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *GetBlockResponseSignedTransactionsIterator) NextSignedTransactions() *protocol.SignedTransaction {
+	b, s := i.iterator.NextMessage()
+	return protocol.SignedTransactionReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawSignedTransactionsArray() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *GetBlockResponse) RawSignedTransactionsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
+func (x *GetBlockResponse) StringSignedTransactions() (res string) {
+	res = "["
+	for i := x.SignedTransactionsIterator(); i.HasNext(); {
+		res += i.NextSignedTransactions().String() + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *GetBlockResponse) TransactionsBlockProof() *protocol.TransactionsBlockProof {
+	b, s := x._message.GetMessage(4)
+	return protocol.TransactionsBlockProofReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockProof() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *GetBlockResponse) RawTransactionsBlockProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(4, 0)
+}
+
+func (x *GetBlockResponse) StringTransactionsBlockProof() string {
+	return x.TransactionsBlockProof().String()
+}
+
+func (x *GetBlockResponse) ResultsBlockHeader() *protocol.ResultsBlockHeader {
+	b, s := x._message.GetMessage(5)
+	return protocol.ResultsBlockHeaderReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawResultsBlockHeader() []byte {
+	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *GetBlockResponse) RawResultsBlockHeaderWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(5, 0)
+}
+
+func (x *GetBlockResponse) StringResultsBlockHeader() string {
+	return x.ResultsBlockHeader().String()
+}
+
+func (x *GetBlockResponse) TransactionReceiptsIterator() *GetBlockResponseTransactionReceiptsIterator {
+	return &GetBlockResponseTransactionReceiptsIterator{iterator: x._message.GetMessageArrayIterator(6)}
+}
+
+type GetBlockResponseTransactionReceiptsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *GetBlockResponseTransactionReceiptsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *GetBlockResponseTransactionReceiptsIterator) NextTransactionReceipts() *protocol.TransactionReceipt {
+	b, s := i.iterator.NextMessage()
+	return protocol.TransactionReceiptReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawTransactionReceiptsArray() []byte {
+	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *GetBlockResponse) RawTransactionReceiptsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(6, 0)
+}
+
+func (x *GetBlockResponse) StringTransactionReceipts() (res string) {
+	res = "["
+	for i := x.TransactionReceiptsIterator(); i.HasNext(); {
+		res += i.NextTransactionReceipts().String() + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *GetBlockResponse) ContractStateDiffsIterator() *GetBlockResponseContractStateDiffsIterator {
+	return &GetBlockResponseContractStateDiffsIterator{iterator: x._message.GetMessageArrayIterator(7)}
+}
+
+type GetBlockResponseContractStateDiffsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *GetBlockResponseContractStateDiffsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *GetBlockResponseContractStateDiffsIterator) NextContractStateDiffs() *protocol.ContractStateDiff {
+	b, s := i.iterator.NextMessage()
+	return protocol.ContractStateDiffReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawContractStateDiffsArray() []byte {
+	return x._message.RawBufferForField(7, 0)
+}
+
+func (x *GetBlockResponse) RawContractStateDiffsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(7, 0)
+}
+
+func (x *GetBlockResponse) StringContractStateDiffs() (res string) {
+	res = "["
+	for i := x.ContractStateDiffsIterator(); i.HasNext(); {
+		res += i.NextContractStateDiffs().String() + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *GetBlockResponse) ResultsBlockProof() *protocol.ResultsBlockProof {
+	b, s := x._message.GetMessage(8)
+	return protocol.ResultsBlockProofReader(b[:s])
+}
+
+func (x *GetBlockResponse) RawResultsBlockProof() []byte {
+	return x._message.RawBufferForField(8, 0)
+}
+
+func (x *GetBlockResponse) RawResultsBlockProofWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(8, 0)
+}
+
+func (x *GetBlockResponse) StringResultsBlockProof() string {
+	return x.ResultsBlockProof().String()
+}
+
+// builder
+
+type GetBlockResponseBuilder struct {
+	RequestResult             *RequestResultBuilder
+	TransactionsBlockHeader   *protocol.TransactionsBlockHeaderBuilder
+	TransactionsBlockMetadata *protocol.TransactionsBlockMetadataBuilder
+	SignedTransactions        []*protocol.SignedTransactionBuilder
+	TransactionsBlockProof    *protocol.TransactionsBlockProofBuilder
+	ResultsBlockHeader        *protocol.ResultsBlockHeaderBuilder
+	TransactionReceipts       []*protocol.TransactionReceiptBuilder
+	ContractStateDiffs        []*protocol.ContractStateDiffBuilder
+	ResultsBlockProof         *protocol.ResultsBlockProofBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *GetBlockResponseBuilder) arrayOfSignedTransactions() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.SignedTransactions))
+	for i, v := range w.SignedTransactions {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *GetBlockResponseBuilder) arrayOfTransactionReceipts() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.TransactionReceipts))
+	for i, v := range w.TransactionReceipts {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *GetBlockResponseBuilder) arrayOfContractStateDiffs() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.ContractStateDiffs))
+	for i, v := range w.ContractStateDiffs {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *GetBlockResponseBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessage(buf, w.RequestResult)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.TransactionsBlockHeader)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.TransactionsBlockMetadata)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessageArray(buf, w.arrayOfSignedTransactions())
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.TransactionsBlockProof)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.ResultsBlockHeader)
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessageArray(buf, w.arrayOfTransactionReceipts())
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessageArray(buf, w.arrayOfContractStateDiffs())
+	if err != nil {
+		return
+	}
+	err = w._builder.WriteMessage(buf, w.ResultsBlockProof)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *GetBlockResponseBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.RequestResult", w.RequestResult)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.TransactionsBlockHeader", w.TransactionsBlockHeader)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.TransactionsBlockMetadata", w.TransactionsBlockMetadata)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "GetBlockResponse.SignedTransactions", w.arrayOfSignedTransactions())
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.TransactionsBlockProof", w.TransactionsBlockProof)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.ResultsBlockHeader", w.ResultsBlockHeader)
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "GetBlockResponse.TransactionReceipts", w.arrayOfTransactionReceipts())
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "GetBlockResponse.ContractStateDiffs", w.arrayOfContractStateDiffs())
+	if err != nil {
+		return
+	}
+	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "GetBlockResponse.ResultsBlockProof", w.ResultsBlockProof)
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *GetBlockResponseBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *GetBlockResponseBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *GetBlockResponseBuilder) Build() *GetBlockResponse {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return GetBlockResponseReader(buf)
+}
+
+func GetBlockResponseBuilderFromRaw(raw []byte) *GetBlockResponseBuilder {
+	return &GetBlockResponseBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums

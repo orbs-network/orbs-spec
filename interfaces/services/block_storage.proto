@@ -28,6 +28,7 @@ service BlockStorage {
     rpc GetTransactionReceipt (GetTransactionReceiptInput) returns (GetTransactionReceiptOutput);
     rpc GetLastCommittedBlockHeight (GetLastCommittedBlockHeightInput) returns (GetLastCommittedBlockHeightOutput);
     rpc GenerateReceiptProof (GenerateReceiptProofInput) returns (GenerateReceiptProofOutput);
+    rpc GetBlockPair (GetBlockPairInput) returns (GetBlockPairOutput);
 
     // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
@@ -94,4 +95,12 @@ message GenerateReceiptProofInput {
 
 message GenerateReceiptProofOutput {
     protocol.ReceiptProof proof = 1;
+}
+
+message GetBlockPairInput {
+    primitives.block_height block_height = 1;
+}
+
+message GetBlockPairOutput {
+    protocol.BlockPairContainer block_pair = 1;
 }

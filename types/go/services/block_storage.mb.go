@@ -21,6 +21,7 @@ type BlockStorage interface {
 	GetTransactionReceipt(ctx context.Context, input *GetTransactionReceiptInput) (*GetTransactionReceiptOutput, error)
 	GetLastCommittedBlockHeight(ctx context.Context, input *GetLastCommittedBlockHeightInput) (*GetLastCommittedBlockHeightOutput, error)
 	GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error)
+	GetBlockPair(ctx context.Context, input *GetBlockPairInput) (*GetBlockPairOutput, error)
 	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
@@ -318,6 +319,44 @@ func (x *GenerateReceiptProofOutput) String() string {
 
 func (x *GenerateReceiptProofOutput) StringProof() (res string) {
 	res = x.Proof.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetBlockPairInput (non serializable)
+
+type GetBlockPairInput struct {
+	BlockHeight primitives.BlockHeight
+}
+
+func (x *GetBlockPairInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
+}
+
+func (x *GetBlockPairInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetBlockPairOutput (non serializable)
+
+type GetBlockPairOutput struct {
+	BlockPair *protocol.BlockPairContainer
+}
+
+func (x *GetBlockPairOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
+}
+
+func (x *GetBlockPairOutput) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
 	return
 }
 

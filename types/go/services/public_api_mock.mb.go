@@ -50,3 +50,12 @@ func (s *MockPublicApi) GetTransactionReceiptProof(ctx context.Context, input *G
 		return nil, ret.Error(1)
 	}
 }
+
+func (s *MockPublicApi) GetBlock(ctx context.Context, input *GetBlockInput) (*GetBlockOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*GetBlockOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

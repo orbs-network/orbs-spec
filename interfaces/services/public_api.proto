@@ -16,7 +16,8 @@ service PublicApi {
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
     rpc RunQuery (RunQueryInput) returns (RunQueryOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
-    rpc GetTransactionReceiptProof (GetTransactionReceiptProofInput) returns (GetTransactionReceiptProofOutput);    
+    rpc GetTransactionReceiptProof (GetTransactionReceiptProofInput) returns (GetTransactionReceiptProofOutput);
+    rpc GetBlock (GetBlockInput) returns (GetBlockOutput);
 }
 
 message SendTransactionInput {
@@ -50,4 +51,12 @@ message GetTransactionReceiptProofInput {
 
 message GetTransactionReceiptProofOutput {
     client.GetTransactionReceiptProofResponse client_response = 1;
+}
+
+message GetBlockInput {
+    client.GetBlockRequest client_request = 1;
+}
+
+message GetBlockOutput {
+    client.GetBlockResponse client_response = 1;
 }

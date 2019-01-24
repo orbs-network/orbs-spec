@@ -9,6 +9,7 @@ import "../protocol/queries.proto";
 import "../protocol/results.proto";
 import "../protocol/contracts.proto";
 import "../protocol/proofs.proto";
+import "../protocol/blocks.proto";
 
 message RequestResult {
     protocol.RequestStatus request_status = 1;
@@ -61,4 +62,22 @@ message GetTransactionReceiptProofResponse {
     protocol.TransactionStatus transaction_status = 2;
     protocol.TransactionReceipt transaction_receipt = 3; // empty unless status committed or previously committed
     primitives.packed_receipt_proof packed_proof = 4;
+}
+
+message GetBlockRequest {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.block_height block_height = 3;
+}
+
+message GetBlockResponse {
+    RequestResult request_result = 1;
+    protocol.TransactionsBlockHeader transactions_block_header = 2;
+    protocol.TransactionsBlockMetadata transactions_block_metadata = 3;
+    repeated protocol.SignedTransaction signed_transactions = 4;
+    protocol.TransactionsBlockProof transactions_block_proof = 5;
+    protocol.ResultsBlockHeader results_block_header = 6;
+    repeated protocol.TransactionReceipt transaction_receipts = 7;
+    repeated protocol.ContractStateDiff contract_state_diffs = 8;
+    protocol.ResultsBlockProof results_block_proof = 9;
 }

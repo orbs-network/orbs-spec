@@ -17,6 +17,7 @@ type PublicApi interface {
 	RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error)
 	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
 	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
+	GetBlock(ctx context.Context, input *GetBlockInput) (*GetBlockOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,44 @@ func (x *GetTransactionReceiptProofOutput) String() string {
 }
 
 func (x *GetTransactionReceiptProofOutput) StringClientResponse() (res string) {
+	res = x.ClientResponse.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetBlockInput (non serializable)
+
+type GetBlockInput struct {
+	ClientRequest *client.GetBlockRequest
+}
+
+func (x *GetBlockInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
+}
+
+func (x *GetBlockInput) StringClientRequest() (res string) {
+	res = x.ClientRequest.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetBlockOutput (non serializable)
+
+type GetBlockOutput struct {
+	ClientResponse *client.GetBlockResponse
+}
+
+func (x *GetBlockOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ClientResponse:%s,}", x.StringClientResponse())
+}
+
+func (x *GetBlockOutput) StringClientResponse() (res string) {
 	res = x.ClientResponse.String()
 	return
 }

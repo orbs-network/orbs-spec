@@ -70,6 +70,15 @@ func (s *MockBlockStorage) GenerateReceiptProof(ctx context.Context, input *Gene
 	}
 }
 
+func (s *MockBlockStorage) GetBlockPair(ctx context.Context, input *GetBlockPairInput) (*GetBlockPairOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*GetBlockPairOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
