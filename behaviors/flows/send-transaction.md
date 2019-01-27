@@ -40,7 +40,7 @@ Transaction is processed under consensus (this is part of the [continuous block 
 
     * `VirtualMachine` of gateway node:
       * Executes the subscription check smart contract on the native `Processor`.
-      * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
+      * Depending on contract code may read state from `StateStorage` or `CrosschainConnector`.
 
     * Adds transaction to pending transaction pool.
     * Prepares a batch of transactions for gossip and signs them as their gateway.
