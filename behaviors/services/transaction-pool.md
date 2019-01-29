@@ -35,7 +35,7 @@ Currently a single instance per virtual chain per node.
 * No need to be persistent, can re-sync from block storage.
 * No limit on max size (depends on expiration window).
 * Interval to clear expired transactions of `config.TRANSACTION_POOL_COMMITTED_POOL_CLEAR_EXPIRED_INTERVAL`.
-  * Transaction is expired if its timestamp is later than `last_committed_block` timestamp plus `config.TRANSACTION_EXPIRATION_WINDOW` (eg. 30 min).
+  * A Transaction is expired if the timestamp of the block it was committed to is later than `last_committed_block` timestamp plus `config.TRANSACTION_EXPIRATION_WINDOW` plus `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT`. The expiration check provides an upper bound, ensuring that a all committed transactions with a timestamp within the expiration window are maintained in the pool to prevent duplicate transactions.
 
 #### Synchronization state
 * `last_committed_block` - The last valid committed block that the transaction pool is synchronized to (persistent if the pools are).
