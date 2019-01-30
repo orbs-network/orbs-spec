@@ -34,9 +34,9 @@ Currently a single instance per virtual chain per node.
 * Needs to support efficient query by `txhash`.
 * No need to be persistent, can re-sync from block storage.
 * No limit on max size (depends on expiration window).
-* Whenever a new block is committed the pool evicts expired transactions:
-  * A transaction's `tx.commit_time` is the block timestamp of the committed block it was included in.
-  * A Transaction is expired if:  `tx.commit_time < latest_block.time - (config.TRANSACTION_EXPIRATION_WINDOW + config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT)`. The expiration check provides an upper bound, ensuring that a all committed transactions with a timestamp within the expiration window are maintained in the pool to prevent duplicate transactions.
+* Transactions must be stroed in the pool until they are expired. 
+  * A transaction is considered expired if its timestamp is before the `last_committed_block` timestamp minus `config.TRANSACTION_EXPIRATION_WINDOW`. 
+    * For simplicity, the timestamp of the block the trasnaction was inceded in plus `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT` may be used as an upper bound for the transaction timestamp.
 
 #### Synchronization state
 * `last_committed_block` - The last valid committed block that the transaction pool is synchronized to (persistent if the pools are).
@@ -140,16 +140,14 @@ Currently a single instance per virtual chain per node.
   * Correct protocol version.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-  * Transaction timestamp, 
-    * accept only transactions that would not be expired by the newly proposed block timestamp
-      * For all transaction assert: `tx.Timestamp >= input.CurrentBlockTimestamp - (config.TRANSACTION_EXPIRATION_WINDOW + config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT)`
-    * Transaction timestamp is not ahead of the proposed block timestamp by more than `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT` 
-      * For all transactions assert: `tx.Timestamp < input.CurrentBlockTimestamp + config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT`
+  * The transaction was not expired.
+    * Transaction is expired if its timestamp is earlier than the proposed block timestamp minus `config.TRANSACTION_EXPIRATION_WINDOW`.
+  * The transaction is'nt in the future (according to the proposed block timestamp).
+    * Transaction timestamp is in future if it is later than the proposed block timestamp plus `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT` clock jitter grace window.
   * Transaction wasn't already committed (exist in the committed pool).
   * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
     * Reference block provided to virtual machine is the current block and its timestamp received as argument.
 * If one of the transactions checks fails, return error (for all transactions).
-
 
 #### Check proposal policy
 * Future: Verify that the proposal matches the selection policy (current policy is first come first serve).
