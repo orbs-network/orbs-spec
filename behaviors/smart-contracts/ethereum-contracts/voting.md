@@ -2,7 +2,7 @@
 > Orbs voting is performed using the Etehreum platform as described in the [voting flow](../../flows/voting.md))
 
 &nbsp;
-### OrbsNodesCandidates
+### OrbsNodeCandidates
 > ownership: yes
 
 #### addNode(address)
@@ -17,18 +17,10 @@
 > Access: public, view
 > Returns the candidate nodes list
 
-#### getNodeIndex(address node) returns int index
+#### isNode(address node) returns bool incldued
 > Access: public, view
-> Returns the index of a candidate node, if the address is not in the list return -1.
+> Returns whether a node is in the list
 
-#### getNodeAddressByIndex(int index) returns address node
-> Access: public, view
-> Returns the adddress of a node by its index.
-* Check valid index
-
-#### GetNodesIndices(address[] nodes) returns (byte[] nodes_mask)
-> Access: public, view
-> Returns a bitmask of the requested addresses, if an address is not in the list ignore the address.
 
 &nbsp;
 ### OrbsVoting
