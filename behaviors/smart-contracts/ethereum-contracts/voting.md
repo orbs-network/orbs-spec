@@ -52,17 +52,16 @@
   * `Vote(address voter, byte[] nodes_list, uint vote_counter)`
     * voter: sender
     * nodes list: concatenated addresses - i.e. length = 20 x voted nodes.
-* Increment the global vote_counter.
+* Record the vote in a map of:
+  * votes[voter]
+    * The nodes may be efficiently stored in a bitmask using OrbsNodesCandidates.GetNodesIndices(nodes)
+  * vote_block_height[voter]
+* Increment the global vote_counter
   * Used as a reference to indicate that all votes were counted.
-
-<!-- Note: used for a better product, showing the vote.
-* Logs the vote and voting block_height for an account. 
-  * For state efficieny can store as a bitmask of candidate list indices (`GetNodesIndices`)
 
 #### getCurrentVote(address account) returns ([]address nodes, uint block_height)
 > Access:public, view
 > returns the current vote of an account alomg with the vote block_height.
--->
 
 #### DelegateVote(address delegatee)
 > Access:public
