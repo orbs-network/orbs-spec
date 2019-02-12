@@ -13,12 +13,6 @@
   * non 0
   * owner
 
-#### RemoveNode(address)
-> Access: public onlyOwner
-> Removes a noe candidate. Valid only until March 27 end of day.
-* Checks:
-  * Address in list
-
 #### getNodeList() returns (address[] nodes)
 > Access: public, view
 > Returns the candidate nodes list
