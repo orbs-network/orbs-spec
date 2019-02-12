@@ -98,8 +98,9 @@ The flow describes the voting for active delegates and nodes in Orbs.
 &nbsp;
 ## Contracts specification
 
-[Ethereum voting contracts](../smart-contracts/etehreum-contracts/voting.md))
-[Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md))
+[Ethereum voting contracts](../smart-contracts/etehreum-contracts/voting.md)
+
+[Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
 
 &nbsp;
 ## Specification
