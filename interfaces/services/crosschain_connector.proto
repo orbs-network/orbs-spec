@@ -10,7 +10,8 @@ option serialize_messages = false;
 service CrosschainConnector {
     // called by VirtualMachine
     rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
-    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput); 
+    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput);
+    rpc EthereumGetBlockHeight (EthereumGetBlockHeightInput) returns (EthereumGetBlockHeightOutput);
 }
 
 message EthereumCallContractInput {
@@ -19,6 +20,7 @@ message EthereumCallContractInput {
     string ethereum_function_name = 3;
     string ethereum_json_abi = 4;
     bytes ethereum_abi_packed_input_arguments = 5;
+    uint64 ethereum_block_height = 6; // Reference block height, 0 indicates using the top block height that meets the finality parameter.
 }
 
 message EthereumCallContractOutput {
@@ -35,4 +37,13 @@ message EthereumGetTransactionLogsInput {
 
 message EthereumGetTransactionLogsOutput {
     bytes ethereum_abi_packed_output = 1;
+    uint64 ethereum_transaction_block_height = 2; // The transaction block height
+}
+
+message EthereumGetBlockHeightInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+}
+
+message EthereumGetBlockHeightOutput {
+    uint64 ethereum_block_height = 1; // The transaction block height
 }
