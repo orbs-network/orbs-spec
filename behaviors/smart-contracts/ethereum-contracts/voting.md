@@ -34,20 +34,22 @@
   * non duplicate
   * non 0
   * That the nodes are within the OrbsNodesCandidates list.
-* Emit event with the vote: 
+* Emit event with the vote:
   * `Vote(address voter, byte[] nodes_list, uint vote_counter)`
     * voter: sender
     * nodes list: concatenated addresses - i.e. length = 20 x voted nodes.
+<!--
 * Record the vote in a map of:
   * votes[voter]
-    * The nodes may be efficiently stored in a bitmask using OrbsNodesCandidates.GetNodesIndices(nodes)
   * vote_block_height[voter]
+-->
 * Increment the global vote_counter
   * Used as a reference to indicate that all votes were counted.
-
+<!--
 #### getCurrentVote(address account) returns ([]address nodes, uint block_height)
 > Access:public, view
 > returns the current vote of an account alomg with the vote block_height.
+-->
 
 #### DelegateVote(address delegatee)
 > Access:public
