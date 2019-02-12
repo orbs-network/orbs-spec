@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Ethereum Voting Contracts
 > Orbs voting is performed using the Etehreum platform as described in the [voting flow](../../flows/voting.md))
 
@@ -142,5 +141,3 @@
     * to: delegatee
 * Increment the global delegate_counter.
   * Used as a reference to indicate that all delegations were counted.
-
->>>>>>> e5d7f79b7e8e3e67980bd6b8c899a0b12aee1105
