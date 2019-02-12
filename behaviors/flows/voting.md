@@ -45,18 +45,24 @@ The flow describes the voting for active delegates and nodes in Orbs.
   * When voting to N<=5(parameter.VOTES_PER_TOKEN) nodes, each node receives the delegates total voting weight.
   * When voting to N>5 nodes, each node receives (5/N) of the weight.
 
-## Election Process
-* Election block (Ethereum)
+## Election Flow
+![alt text][election_flow] <br/><br/>
+
+[election_flow]: ../_img/election_flow.png "election flow"
+
+* Election event
   * Election is performed every X Ethereum blocks, based on the state in block X.
-    * Default: 24h.
+    * Default: ~24 hours (in blocks)
   * Votes and delegations that were done up to the block_height (inclusive) take effect.
 * Votes Recording Period
   * Starts after the election trigger for ~2 hours (600 blocks).
   * During the recording period, the delegations, votes and stake are recorded on Orbs.
 * Votes Proccesing
   * Performed once the recording is complete.
-  * Initiated by a transaction.
-  * Updates the elected nodes list
+  * Initiated by a set of transactions.
+  * Record and stake, process and updates the elected nodes list.
+* Transition period
+* Apply new elected nodes (inauguration).
 
 ## Recording the data on Orbs
 
@@ -66,13 +72,10 @@ The flow describes the voting for active delegates and nodes in Orbs.
     * Sent during the `Votes Recording Period`.
   * Anyone may send the transactions.
   * A transaction is considered final based on the Ethereum connector finality parameter (default 100).
-* Check if the delegator already delegates to another delegatee
-  * If yes, remove teh current mapping from the Delegatee -> Delegator map. 
 * The VoteProcessing contract reads the log and corresponding balance and stores:
+  * Delegators indexed list
   * Delegator -> Delegatee map.
   * Delegatee -> Delegator map.
-  * Delegator -> stake (at election_block_height) map.
-    * Truncate to integer Orbs: (stake / 1E18)
 
 #### Recording voting data on Orbs
 * Done by an off-chain application that monitors Ethereum's blocks.
@@ -80,17 +83,18 @@ The flow describes the voting for active delegates and nodes in Orbs.
     * Sent during the `Votes Recording Period`.
   * Anyone may send the transactions.
   * A transaction is considered final based on the Ethereum connector finality parameter (default 100).
-* The contract verifies that the vote wasnot expired.
 * The VoteProcessing contract reads the log and corresponding balance and stores:
   * Voters list 
-  * Voter-> nodes list map.
-  * Voter -> stake (at election_block_height) map.
-    * Truncate to integer Orbs: (stake / 1E18)
+  * Voter -> nodes map.
 
-## Votes Processing
-* Called upon complition of the votes recording.
+## Processing
+* Initiated be any sender upon complition of the votes recording period.
+  * Span over a set of transactions (where the last one indicates complition)
+* Reads the stake for each delegator and voter at the election block.
+* Eleminates expired votes/
 * Calculates the delegated stake for each voter - the total stake of the delegation tree that points to it.
-  * Note: ocne a voter ash voted it's delegation is ignored. 
+  * Note: once a voter has voted it's delegation is ignored.
+* Record the election results in the nodes NodesRegistery along with the transition time in Orbs (A period of time after the last processing block).
 
 #### Rewards calculation
 > TBD
@@ -98,8 +102,9 @@ The flow describes the voting for active delegates and nodes in Orbs.
 &nbsp;
 ## Contracts specification
 
-[Ethereum voting contracts](../smart-contracts/etehreum-contracts/voting.md))
-[Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md))
+[Ethereum voting contracts](../smart-contracts/etehreum-contracts/voting.md)
+
+[Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
 
 &nbsp;
 ## Specification

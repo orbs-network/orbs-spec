@@ -7,29 +7,27 @@ Ownership: none
 
 #### RecordDelegationData(delegator, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
-> Process an Ethereum delegation transaction and logs it on Orbs along with the delegator stake.
+> Process an Ethereum delegation transaction and logs it on Orbs.
 
 * If `updated_by` = `VOTING_CONTRACT` and `updated_by` = `TRANSFER` fail the transaction.
-* Read the `delegator`'s token balance by calling the ERC20 contract `balanceOf` using `ethereum_block_height` = `election_block_height`.
-  * `delegator_stake` = uint64(balance / 1E18). (1 = 1 Orbs).
 * Check the current account delegation:
-  * if thre current update_index[`delegator`].`block_height`, `tx_index`} is larger than the {`delegation_block_height`,`delegation_tx_index`} fail the transaction.
+  * if thre current delegator_last_update[`delegator`].`block_height`, `tx_index`} is larger than the {`delegation_block_height`,`delegation_tx_index`} fail the transaction.
 * Update delegation map:
-  * update_index[`delegator`] = {`delegation_block_height`, `delegation_tx_index`}
+  * delegator_last_update[`delegator`] = {`delegation_block_height`, `delegation_tx_index`}
   * updated_type[`delegator`] = `updated_by`.
   * If delegatee[`to`] already exist (not empty)  
     * Remove the delegator from delegators[delegatee[`delegator`]].
   * Set delegatee[`delegator`] = `to`.
-  * Add `delegator` to delegators[`to`].
-  * Set stake[`delegator`] = `delegator_stake`.
-
+  
 
 #### RecordDelegation(bytes txid)
 > Access: external
 > Records an Ethereum delegation by vote contract transaction by calling `RecordDelegationData`.
 > RecordDelegation may only be called during the vote receording period.
 
-* Check the `vote_recording_period` = TRUE.
+* Check the that vote recording period did not end
+  * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`.
+    * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
     * If not return an error indicating: Resubmit in the next election vote receording period.
 * Read the transction's `Delegate(delegator, to, delegate_counter)` event emitted by the `OrbsVoring` contract.
   * If no event was found fail the transaction.
@@ -46,7 +44,9 @@ Ownership: none
 > Records an Ethereum delegation by transfer transaction by calling `RecordDelegationData`.
 > RecordDelegation may only be called during the vote receording period.
 
-* Check the `vote_recording_period` = TRUE.
+* Check the that vote recording period did not end
+  * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`.
+    * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
     * If not return an error indicating: Resubmit in the next election vote receording period.
 * Read the transction's `transfer(from, to, tokens` event emitted by the `ERC20` contract.
   * If no event was found fail the transaction.
@@ -61,50 +61,63 @@ Ownership: none
 
 #### RecordVote(byets txid)
 > Access: external
-> Records an Ethereum delegation by transfer transaction by calling `RecordDelegationData`.
+> Records a vote transaction taht was sent on Ethereum
 > RecordDelegation may only be called during the vote receording period.
 
-* Check the `vote_recording_period` = TRUE.
+* Check the that vote recording period did not end
+  * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`.
+    * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
     * If not return an error indicating: Resubmit in the next election vote receording period.
 * Read the transction's `Vote(voter, nodes_list, vote_counter)` event emitted by the `OrbsVoring` contract.
   * If no was found fail the transaction.
     * If below the finality threshold, the event should not be returned by `GetTransactionLog`.
   * Check that the `ethereum_block_height` is less or equal to the `election_block_height`.
     * If above return an error indicating: Resubmit in the next election vote receording period.
-  * Check that the vote has not expired 
-    * if `ethereum_block_height` is below `election_block_height` - `parameter.VOTE_EXPERATION_BLOCKS`, fail the transaction with: expired vote.
-  * Check that the `ethereum_block_height` is less or equal to the `election_block_height`.
   * `vote_block_height` = `ethereum_block_height`.
   * `vote_tx_index` = `ethereum_tx_index`.
-* Read the `voter`'s token balance by calling the ERC20 contract `balanceOf` using `ethereum_block_height` = `election_block_height`.
-  * `voter_stake` = uint64(balance / 1E18). (1 = 1 Orbs).
-* Check the current voter vote:
-  * if thre current update_index[`delegator`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
+* Check the current `voter`'s vote:
+  * if the current voter_last_update[`delegator`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
 * Update `voter`'s list and map:
-  * update_index[`delegator`] = {`delegation_block_height`, `delegation_tx_index`}
+  * voter_last_update[`voter`] = {`delegation_block_height`, `delegation_tx_index`}
   * Set vote[`voter`] = `nodes_list`.
-  * Set stake[`voter`] = `voter_stake`.
 
 
-#### UpdateElectionPhase()
-> Updates the current election phase
+#### ProcessVoting() : bool
+> Access: external
+> Process the election results, updates the nodes registery and the next election data.
 * State:
   * `election_ethereum_block_height` (init: TBD)
-  * `apply_results_block_height` (init: 0)
-  * `vote_recording_period` (init: 0)
+  * `apply_results_timestamp` (init: 0)
+  * `current voter`
 
 * Parameters:
   * `ELECTION_CYCLE_IN_BLOCKS`
   * `VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`
-  * `APPLY_RESULTS_LENGTH_IN_BLOCKS`
+  * `APPLY_RESULTS_LENGTH_IN_SEC`
 
-* Get the current Ethereum block height by calling `Ethereum.BlockHeight()`
-* If `ethereum_block_height` > `election_ethereum_block_height`
-  * Set `vote_recording_period` = `TRUE`.
-  * Set `election_ethereum_block_height` = `election_ethereum_block_height` + `ELECTION_CYCLE_IN_BLOCKS`.
+* Check that the vote recording period has ended
+  * `ethereum_block_height` > `election_block_height` + `parameter.VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`
+    * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
+    * If not return an error indicating: recording period has not ended.
+* Check not `prcoessing_done`.
+  * If `prcoessing_done` return TRUE
+* If not `voters_done`:
+  * Check voter_last_update[`current_voter`] has not expired (< `ethereum_block_height` - `parameter.VOTING_VALIDITY_TIME`)
+  * stake[`current_voter`] = Ethereum.balanceOf(current_voter).
+  * 
+  * current_voter = current_voter.next 
+  * 
+
+* If ..
+  * Call `ProcessVotes()`.
+  * Call `NodesRegistery.UpdateElectionResult`
+  * Set `election_ethereum_block_height` = `election_ethereum_block_height` + `ELECTION_CYCLE_IN_BLOCKS`
+  * 
+
 * If `ethereum_block_height` > `election_ethereum_block_height` + `VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`
-  * Set `vote_recording_period` = `FALSE`.
-  * Call `process_votes()`.
+  * Set `vote_recording_period` = `FALSE`
+  * Call `CalculateVotes()`
+  * Call `CalculateElectedNodes`
   * Set `apply_results_block_height` = current.block_height 
 
 
@@ -141,7 +154,7 @@ Ownership: none
 
 
 &nbsp;
-### NodesRecord
+### NodesRegistery
 > Holds the elected nodes per block height
 
 #### UpdateElectionResult(block_height, nodes_list)
