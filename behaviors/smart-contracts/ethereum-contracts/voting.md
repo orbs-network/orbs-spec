@@ -2,8 +2,12 @@
 > Orbs voting is performed using the Etehreum platform as described in the [voting flow](../../flows/voting.md))
 
 &nbsp;
-### OrbsNodesCandidates
+### OrbsFederation
 > ownership: yes
+
+function isMember(address _member) external view returns (bool);
+
+
 
 #### addNode(address)
 > Access: public onlyOwner
@@ -40,7 +44,7 @@
 ### OrbsVoting
 > ownership: none
 
-#### Vote(address[] nodes)
+#### vote(address[] nodes)
 > Access:public
 > Enable an acount to cast a vote on the approved nodes.
 * Checks:
@@ -64,7 +68,7 @@
 > returns the current vote of an account alomg with the vote block_height.
 -->
 
-#### DelegateVote(address delegatee)
+#### delegate(address delegatee)
 > Access:public
 > Delegates the account stake to another account.
 * Checks: N/A
