@@ -5,7 +5,7 @@
 ### Elections
 Ownership: none
 
-#### RecordDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
+#### mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
 > Process an Ethereum delegation transaction and logs it on Orbs.
 
@@ -18,10 +18,10 @@ Ownership: none
   * Set agent[`stakeholder`] = `to`.
   
 
-#### RecordDelegation(bytes txid)
+#### mirrorDelegation(bytes txid)
 > Access: external
-> Records an Ethereum delegation by vote contract transaction by calling `RecordDelegationData`.
-> RecordDelegation may only be called during the vote receording period.
+> Mirrors an Ethereum delegation by vote contract transaction by calling `mirrorDelegationData`.
+> mirrorDelegation may only be called during the vote receording period.
 
 * Check the that vote mirroring period did not end
   * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_MIRORING_PERIOD_LENGTH_IN_BLOCKS`.
@@ -34,13 +34,13 @@ Ownership: none
     * If above return an error indicating: Resubmit in the next elections.
   * `delegation_block_height` = `ethereum_block_height`.
   * `delegation_tx_index` = `ethereum_tx_index`.
-* Process the delegation by calling `RecordDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
+* Process the delegation by calling `mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
 
 
-#### RecordDelegationByTransfer(bytes txid)
+#### mirrorDelegationByTransfer(bytes txid)
 > Access: external
-> Records an Ethereum delegation by transfer transaction by calling `RecordDelegationData`.
-> RecordDelegation may only be called during the vote mirroring period.
+> Mirrors an Ethereum delegation by transfer transaction by calling `mirrorDelegationData`.
+> mirrorDelegation may only be called during the vote mirroring period.
 
 * Check the that vote mirroring period did not end
   * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_MIRORING_PERIOD_LENGTH_IN_BLOCKS`.
@@ -54,13 +54,13 @@ Ownership: none
     * If above return an error indicating: Resubmit in the next elections.
   * `delegation_block_height` = `ethereum_block_height`.
   * `delegation_tx_index` = `ethereum_tx_index`.
-* Process the delegation by calling `RecordDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, TRANSFER)`
+* Process the delegation by calling `mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, TRANSFER)`
 
 
-#### RecordVote(byets txid)
+#### mirrorVote(byets txid)
 > Access: external
-> Records a vote transaction taht was sent on Ethereum
-> RecordVote may only be called during the vote mirroring period.
+> Mirrors a vote transaction taht was sent on Ethereum
+> mirrorVote may only be called during the vote mirroring period.
 
 * Check the that vote mirroring period did not end
   * `ethereum_block_height` < `election_block_height` + `parameter.VOTE_MIRORING_PERIOD_LENGTH_IN_BLOCKS`.
@@ -91,10 +91,10 @@ Ownership: none
   * `ELECTION_CYCLE_IN_BLOCKS`
   * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`
 
-* Check that the vote recording period has ended
-  * `ethereum_block_height` > `election_block_height` + `parameter.VOTE_RECORDING_PERIOD_LENGTH_IN_BLOCKS`
+* Check that the vote mirroring period has ended
+  * `ethereum_block_height` > `election_block_height` + `parameter.VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`
     * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`
-    * If not return an error indicating: recording period has not ended.
+    * If not return an error indicating: mirroring period has not ended.
 * Check `election_in_process` != `election_ethereum_block_height`
   * `election_in_process` = `election_ethereum_block_height` 
   * `process_activisits` = TRUE
