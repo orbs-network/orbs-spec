@@ -24,6 +24,15 @@ func (s *MockPublicApi) SendTransaction(ctx context.Context, input *SendTransact
 	}
 }
 
+func (s *MockPublicApi) SendTransactionAsync(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*SendTransactionOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockPublicApi) RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {

@@ -14,6 +14,7 @@ import (
 type PublicApi interface {
 	handlers.TransactionResultsHandler
 	SendTransaction(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
+	SendTransactionAsync(ctx context.Context, input *SendTransactionInput) (*SendTransactionOutput, error)
 	RunQuery(ctx context.Context, input *RunQueryInput) (*RunQueryOutput, error)
 	GetTransactionStatus(ctx context.Context, input *GetTransactionStatusInput) (*GetTransactionStatusOutput, error)
 	GetTransactionReceiptProof(ctx context.Context, input *GetTransactionReceiptProofInput) (*GetTransactionReceiptProofOutput, error)
@@ -24,24 +25,18 @@ type PublicApi interface {
 // message SendTransactionInput (non serializable)
 
 type SendTransactionInput struct {
-	ClientRequest     *client.SendTransactionRequest
-	ReturnImmediately uint32
+	ClientRequest *client.SendTransactionRequest
 }
 
 func (x *SendTransactionInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ClientRequest:%s,ReturnImmediately:%s,}", x.StringClientRequest(), x.StringReturnImmediately())
+	return fmt.Sprintf("{ClientRequest:%s,}", x.StringClientRequest())
 }
 
 func (x *SendTransactionInput) StringClientRequest() (res string) {
 	res = x.ClientRequest.String()
-	return
-}
-
-func (x *SendTransactionInput) StringReturnImmediately() (res string) {
-	res = fmt.Sprintf("%x", x.ReturnImmediately)
 	return
 }
 

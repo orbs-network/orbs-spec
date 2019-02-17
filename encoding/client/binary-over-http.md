@@ -25,8 +25,7 @@
 
 * Calls `PublicApi.SendTransaction`.
 * Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).
-* Takes an optional URL parameter `immediate=true` if the client does not want to wait until the transaction is processed.
-* This API is synchronous and can take a long time to process (until a block containing the transaction is closed), unless immediate mode is requested and then it will only wait until the transaction was stored successfully in the transaction pool.
+* This API is synchronous and can take a long time to process (until a block containing the transaction is closed).
 
 &nbsp;
 ### `/api/v1/get-transaction-status`
@@ -39,3 +38,15 @@
 
 * Calls `PublicApi.GetTransactionReceiptProof`.
 * Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).
+
+&nbsp;
+## `/api/v1/get-block`
+
+* Calls `PublicApi.GetBlock`.
+* Request and response encoded as [MemBuffers](../serialization-format.md) serialized [messages](../../interfaces/protocol/client/requests.proto).
+
+&nbsp;
+## `/api/v1/send-transaction-async`
+
+* Similar to `/api/v1/send-transaction` but does not wait until the transaction is fully executed.
+* Only waits until the transaction is stored successfully in the transaction pool.

@@ -14,6 +14,7 @@ service PublicApi {
 
     // called by ClientSdk
     rpc SendTransaction (SendTransactionInput) returns (SendTransactionOutput);
+    rpc SendTransactionAsync (SendTransactionInput) returns (SendTransactionOutput);
     rpc RunQuery (RunQueryInput) returns (RunQueryOutput);
     rpc GetTransactionStatus (GetTransactionStatusInput) returns (GetTransactionStatusOutput);
     rpc GetTransactionReceiptProof (GetTransactionReceiptProofInput) returns (GetTransactionReceiptProofOutput);
@@ -22,7 +23,6 @@ service PublicApi {
 
 message SendTransactionInput {
     client.SendTransactionRequest client_request = 1;
-    uint32 return_immediately = 2;
 }
 
 message SendTransactionOutput {
