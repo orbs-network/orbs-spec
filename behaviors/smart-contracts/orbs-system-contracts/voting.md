@@ -5,11 +5,11 @@
 ### Elections
 Ownership: none
 
-#### RecordDelegationData(delegator, to, delegation_block_height, delegation_tx_index, updated_by)
+#### RecordDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
 > Process an Ethereum delegation transaction and logs it on Orbs.
 
-* If `updated_by` = `VOTING_CONTRACT` and `updated_by` = `TRANSFER` fail the transaction.
+* If updated_type[`stakeholder`] = `VOTING_CONTRACT` and `updated_by` = `TRANSFER` fail the transaction.
 * Check the current account delegation:
   * if the current stakeholder_last_update[`delegator`].`block_height`, `tx_index`} is larger than the {`delegation_block_height`,`delegation_tx_index`} fail the transaction.
 * Update delegation map:
@@ -136,7 +136,7 @@ Ownership: none
 
 * Recursively set the voting_weight of each `activist` or `stakeholder`:
   * If the participant has no `stakeholder`s that delegated to it then voting_weight = stake[participant]
-  * Else voting_weight = sum(`stakeholder`s voting_weight + stake[participant])
+  * Else voting_weight = sum(delegating `stakeholder`s voting_weight) + stake[participant]
 
 * For (every `activist` in activists list):
   * if number of nodes in vote[`activist`] > parameter.VOTES_PER_TOKEN 
