@@ -115,10 +115,13 @@ Currently a single instance per virtual chain per node.
   * Correct protocol version.
   * Valid fields (sender address, contract address).
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
-  * Transaction timestamp, accept only transactions that haven't expired.
-    * Transaction is expired if its timestamp is earlier than current time minus `config.TRANSACTION_EXPIRATION_WINDOW` (eg. 30 min).
-  * Transaction wasn't already committed (exist in the committed pool).
+  * The transaction was not expired.
+    * Transaction is expired if its timestamp is earlier than the proposed block timestamp minus `config.TRANSACTION_EXPIRATION_WINDOW`.
+  * The transaction isn't in the future (according to the proposed block timestamp).
+    * Transaction timestamp is in future if it is later than the proposed block timestamp plus `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT` clock jitter grace window.
+  * Transaction wasn't already committed (exists in the committed pool).
   * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
+    * Reference block provided to virtual machine is the current block and its timestamp received as argument.
 * Transactions that failed the checks, should be excluded from the result and removed from the pending pool.
   * A best effort should be made to return the requested number of transactions, meaning that if transactions were dropped, further transactions are to be requested from the pending pool.
   * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
@@ -142,9 +145,9 @@ Currently a single instance per virtual chain per node.
   * Sender virtual chain matches contract virtual chain and matches the transaction pool's virtual chain.
   * The transaction was not expired.
     * Transaction is expired if its timestamp is earlier than the proposed block timestamp minus `config.TRANSACTION_EXPIRATION_WINDOW`.
-  * The transaction is'nt in the future (according to the proposed block timestamp).
+  * The transaction isn't in the future (according to the proposed block timestamp).
     * Transaction timestamp is in future if it is later than the proposed block timestamp plus `config.TRANSACTION_POOL_FUTURE_TIMESTAMP_GRACE_TIMEOUT` clock jitter grace window.
-  * Transaction wasn't already committed (exist in the committed pool).
+  * Transaction wasn't already committed (exists in the committed pool).
   * Verify pre order checks (like signature and subscription) for all transactions by calling `VirtualMachine.TransactionSetPreOrder`.
     * Reference block provided to virtual machine is the current block and its timestamp received as argument.
 * If one of the transactions checks fails, return error (for all transactions).
