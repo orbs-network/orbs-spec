@@ -37,7 +37,6 @@ message EthereumGetTransactionLogsInput {
 
 message EthereumGetTransactionLogsOutput {
     bytes ethereum_abi_packed_output = 1;
-    uint64 ethereum_transaction_block_height = 2; // The transaction block height
 }
 
 message EthereumGetBlockHeightInput {
@@ -46,4 +45,14 @@ message EthereumGetBlockHeightInput {
 
 message EthereumGetBlockHeightOutput {
     uint64 ethereum_block_height = 1; // The transaction block height
+}
+
+message EthereumGetTransactionDataInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    primitives.uint256 ethereum_txhash = 2;
+}
+
+message EthereumGetTransactionDataOutput {
+    uint64 ethereum_transaction_block_height = 1; // The transaction block height
+    uint64 ethereum_tx_index = 2; // The transaction index
 }

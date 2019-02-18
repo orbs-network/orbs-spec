@@ -149,5 +149,10 @@ Add support for query on a specific (current) block height:
   * The reference block_height to use. If the reference block height is above the finality block height - fail the transaction. 
   * If equal to 0, use the finality block height based on the timestamp.
 
+#### `EthereumGetTransactionData`
+> Returns data associated with a committed transaction
 
-
+* Query the Ethereum node using the given arguments through IPC.
+* Check that the transaction is within the finality parameter (based on the give time_stamp)
+* Returns:
+  * The committed trasnaction block_height and transaction_index.
