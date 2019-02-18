@@ -155,7 +155,7 @@ Ownership: none
 
 
 &nbsp;
-### NodesRegistery
+### OrbsValidatorsConfig
 > Holds the elected nodes per block height
 
 #### UpdateElectionResult(nodes_list)
