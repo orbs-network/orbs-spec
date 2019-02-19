@@ -6,6 +6,9 @@
 Ownership: none
 
 ### Global state
+#### Election data
+* `election_block_height` - The last Ethereum block height for delegation and voting, the reference block_height for the stake read. 
+
 #### Last election data
 * delegation[`stakeholder`]
 * vote[`activist`]
@@ -14,7 +17,25 @@ Ownership: none
 * stake[`participant`]
 
 #### Reward data
-* reward[`address`]
+* reward[`address`] - Cumulative reward data in
+
+#### Parameters
+* `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
+  * Default: 600 (~ 2 hours)
+* `ELECTION_CYCLE_IN_BLOCKS` - The number of Ethereum blocks between elections, determines the next  `election_block_height`.
+  * Default: 20000 (~ 3 days)
+* `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a voting is valid
+  * Default: 50000 (~ 8 days)
+* `VOTES_PER_TOKEN` - When voting to multiple nodes, the number of votes that can be cast per token. When voting to more than `VOTES_PER_TOKEN`, the voting weight is divided among the nodes.
+  * Default: 5
+* `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
+  * Default: 1
+* `ACTIVITY_REWARD_PERCENT` - The % of the rewards that is distributed to activists as a reward for active voting. (100% - `ACTIVITY_REWARD_PERCENT`) determines the % of the reward distributed to the stakeholders.
+  * Default: 0.8 
+* `ELECTION_PARTICIPATION_REWARD` - The total amount of reward distributed in each election for the stakeholders and activists.
+  * Default: 600000
+* `ELECTION_VALIDATOR_REWARD` - The reward paid for each elected validator per election period.
+  * Default: 8244
 
 ### mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
@@ -188,19 +209,18 @@ Ownership: none
 
 #### Calculate the rewards - TODO move rewards storage to rewards contract (owned)
 * For every participant in participants_list
-  * reward[participant] += reward_weight * `parameter.ELECTION_REWARD`
+  * reward[participant] += reward_weight * `parameter.ELECTION_PARTICIPATION_REWARD`
 
-### CalculateElectedValidators() 
-> Determines the elected validators based on the election results
-> Default: top X validators (out of the due-diligence list) are valid.
-
-#### Get the due-diligence list 
+#### Get the due-diligence validators list 
 * Call `Ethereum.OrbsValidators.getValidators()`
   * Alternatively use `Ethereum.OrbsValidators.isValidator(Validator)`
 
-#### Calculate elected nodes
+#### Calculate elected validators
 * Elected validators = X validators with the top voted_stake[`validator`]
 
+#### CalculateElectedValidatorsRewards() 
+* For each elected validator
+  * reward[validator] += `ELECTION_VALIDATOR_REWARD`
 
 ### TODO - Get the election data (for display)
 
