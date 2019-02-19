@@ -3,17 +3,17 @@
 The flow describes the voting for activists and nodes in Orbs.
 
 ## Participants in this flow
-* Node candidates
+* Validators (candidates)
   * A set of nodes that underwent due-diligence.
-* Elected node
+* Elected validators
   * A node candidate that received enough votes.
-* Active voter
+* Activist
   * An account that actively participates in Orbs voting.
   * An account is considered an active voter for a period of ACTIVE_VOTING_PERIOD days after voting.
-  * Option to require active voters to undergo due-diligance.
+  * Option to require active voters to undergo due-diligence.
 * Stakeholder
-  * An Orbs account / stakeholder that selected an active voter or anoher account (delegatee) to act on its behalf.
-* Delegatee
+  * An Orbs account / stakeholder that selected an active voter or another account (delegatee) to act on its behalf.
+* Agent
   * An Orbs account that another account delegated its voting to.
 
 ## Voting and Delegation
@@ -25,22 +25,22 @@ The flow describes the voting for activists and nodes in Orbs.
 #### Delegating votes
 * Every stakeholder (address) may delegate its stake to an agent (address).
   * The agent may be an activist or another stakeholder.
-* Delegation may be perfromed by 2 means:
+* Delegation may be performed by 2 means:
   * Sending 7 Orbs-satoshi (7x10<sup>-18</sup> Orbs) to an address.
     * Generates a `Transfer(from, to, tokens = 7)` event.
-  * Delegating by sending a transaction to Ethereum.OrbsVoring.delegate(address).
+  * Delegating by sending a transaction to Ethereum.OrbsVoting.delegate(address).
     * Generates a `Delegate(from, to)` event.
 * Delegation does not expire and requires delegation to another agent in order to change it.
   * Delegation to address 0 cancels the delegation.
-* Once a delegation was performed by OrbsVoring contract it takes precedence over sending Orbs-stoshi (regardless of which action was performed later).
+* Once a delegation was performed by OrbsVoting contract it takes precedence over sending Orbs-stoshi (regardless of which action was performed later).
 * Note: the stake used for the voting is the stakeholder's stake at the election time. (and not the stake at the time of the delegation).
 
 #### Voting to nodes (by activists)
-* An activist can vote by sending a transaction to Ethereum.OrbsVoring.vote(address[]).
+* An activist can vote by sending a transaction to Ethereum.OrbsVoting.vote(address[]).
   * Optional: require the activist to be part of the verified_activists list.
 * A vote remains valid for 8 days ~ 53169 blocks (parameter.VOTING_VALIDITY_TIME)
 * The voting weight of an activist is proportional to the total stake that was deleted to it. (hierarchical delegation)
-* Each activist can vote to any numebr of nodes.
+* Each activist can vote to any number of nodes.
 * Note: the voting weight is proportional to the number of voted nodes:
   * When voting to N<=5(parameter.VOTES_PER_TOKEN) nodes, each node receives the activist's total voting weight.
   * When voting to N>5 nodes, each node receives (5/N) of the weight.
@@ -57,7 +57,7 @@ The flow describes the voting for activists and nodes in Orbs.
 * Votes Mirroring Period
   * Starts after the election event for ~2 hours (554 blocks).
   * During the mirroring period, the delegations and votes are recorded on Orbs.
-* Votes Proccesing
+* Votes Processing
   * Performed once the mirroring period is complete.
   * Initiated by a set of transactions.
   * Record and stake, process and updates the elected nodes list.
@@ -89,13 +89,13 @@ The flow describes the voting for activists and nodes in Orbs.
   * Voter -> nodes map.
 
 ## Processing()
-* Can be initiated by anyone upon complition of the votes mirroring period.
-  * Span over a set of transactions (where the last one indicates complition)
+* Can be initiated by anyone upon completion of the votes mirroring period.
+  * Span over a set of transactions (where the last one indicates completion)
 * Reads the stake for each stakeholder and activist at the time of the election block.
-* Eleminates expired votes.
+* Eliminates expired votes.
 * Calculates the delegated stake for each activist - the total stake of the delegation tree that points to it.
   * Note: once an activist has voted, it's delegation is ignored.
-* Record the election results in the NodesRegistery along with the transition Orbs block (A period of time after the last processing block).
+* Record the election results in the NodesRegistry along with the transition Orbs block (A period of time after the last processing block).
 
 #### Rewards calculation
 > TBD
@@ -141,7 +141,7 @@ Add support for query on a specific (current) block height:
 ### SDK
 
 #### `GetEthereumBlockHeight`
-* Returns the blockheight of the first block that meets the finality requirements.
+* Returns the block_height of the first block that meets the finality requirements.
 * If the height is not within the finality parameter, return error.
 
 #### `EthereumCallContract`
@@ -155,4 +155,4 @@ Add support for query on a specific (current) block height:
 * Query the Ethereum node using the given arguments through IPC.
 * Check that the transaction is within the finality parameter (based on the give time_stamp)
 * Returns:
-  * The committed trasnaction block_height and transaction_index.
+  * The committed transaction block_height and transaction_index.
