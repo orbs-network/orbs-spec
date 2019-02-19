@@ -6,18 +6,20 @@
 Ownership: none
 
 ### Global state
+#### Delegation and voting
+* agent[`stakeholder`] - the account the stakeholder delegated to.
+* vote[`activist`] - voted in the election
+
 #### Election data
 * `election_block_height` - The last Ethereum block height for delegation and voting, the reference block_height for the stake read. 
 
-#### Last election data
-* delegation[`stakeholder`]
-* vote[`activist`]
-* voted_stake[`validator`]
-* voting_weight[`participant`]
-* stake[`participant`]
-
 #### Reward data
-* reward[`address`] - Cumulative reward data in
+* reward[`address`] - Cumulative reward data
+
+#### Last election data
+* received_votes[`validator`] - the total stake that was voted to the validator.
+* `total_voting_stake` - the total stake that participated in the election.
+* `total_in_circulation` - the total stake in circulation.
 
 #### Parameters
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
@@ -135,6 +137,8 @@ Ownership: none
 #### State
 * `current_activist`
 * `current_stakeholder`
+* `processing_state`
+  * 
 
 #### Check that the vote mirroring period has ended
 * `ethereum_block_height` > `election_block_height` + `parameter.VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`
@@ -185,27 +189,27 @@ Ownership: none
   * `reference_agent` = agent[`activist`]
   * Remove `activist` from stakeholders[`reference_agent`]
 
-#### Calculate the hierarchical voting_weight
-* Recursively set the voting_weight of each `activist` or `stakeholder`, start with the list of `activists`: 
+#### Calculate the hierarchical voting_stake
+* Recursively set the voting_stake of each `activist` or `stakeholder`, start with the list of `activists`: 
   * Add participant to participants_list
-  * `total_stake` += stake[participant]
-  * If the participant has no `stakeholder`s that delegated to it then voting_weight = stake[participant]
-  * Else voting_weight = sum(delegating `stakeholder`s voting_weight) + stake[participant]
+  * `total_voting_stake` += stake[participant]
+  * If the participant has no `stakeholder`s that delegated to it then voting_stake = stake[participant]
+  * Else voting_stake = sum(delegating `stakeholder`s voting_stake) + stake[participant]
 
 #### Calculate the activists votes
 * For (every `activist` in activists list):
   * if number of validators in vote[`activist`] > parameter.VOTES_PER_TOKEN 
-    * weight = voting_weight[`activist`] * parameter.VOTES_PER_TOKEN / (number of validators in vote[`activist`])
+    * weight = voting_stake[`activist`] * parameter.VOTES_PER_TOKEN / (number of validators in vote[`activist`])
   * Else
-    * weight = voting_weight[`activist`]
+    * weight = voting_stake[`activist`]
   * For every validator in vote[`activist`]:
-    * voted_stake[`validator`] += weight
+    * received_votes[`validator`] += weight
 
 #### Calculate the rewards weights
 * For every participant in participants_list
-  * reward_weight[participant] = stake[participant] / `total_stake` * (1 - parameter.ACTIVITY_REWARD_PERCENT) (1 - 0.8 = 0.2)
+  * reward_weight[participant] = stake[participant] / `total_voting_stake` * (1 - parameter.ACTIVITY_REWARD_PERCENT) (1 - 0.8 = 0.2)
 * For every `activist` in activists list:
-  * reward_weight[`activist`] += voting_weight[`activist`] / `total_stake` * parameter.ACTIVITY_REWARD_PERCENT (0.8)
+  * reward_weight[`activist`] += voting_stake[`activist`] / `total_voting_stake` * parameter.ACTIVITY_REWARD_PERCENT (0.8)
 
 #### Calculate the rewards - TODO move rewards storage to rewards contract (owned)
 * For every participant in participants_list
@@ -216,7 +220,7 @@ Ownership: none
   * Alternatively use `Ethereum.OrbsValidators.isValidator(Validator)`
 
 #### Calculate elected validators
-* Elected validators = X validators with the top voted_stake[`validator`]
+* Elected validators = X validators with the top received_votes[`validator`]
 
 #### CalculateElectedValidatorsRewards() 
 * For each elected validator
