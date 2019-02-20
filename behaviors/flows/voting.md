@@ -39,7 +39,7 @@ The flow describes the voting for activists and nodes in Orbs.
 * An activist can vote by sending a transaction to Ethereum.OrbsVoting.vote(address[]).
   * Optional: require the activist to be part of the verified_activists list.
 * A vote remains valid for 8 days ~ 53169 blocks (parameter.VOTING_VALIDITY_TIME)
-* The voting weight of an activist is proportional to the total stake that was deleted to it. (hierarchical delegation)
+* The voting weight of an activist is proportional to the total stake that was delegated to it. (hierarchical delegation)
 * Each activist can vote to any number of nodes.
 * Note: the voting weight is proportional to the number of voted nodes:
   * When voting to N<=5(parameter.VOTES_PER_TOKEN) nodes, each node receives the activist's total voting weight.
