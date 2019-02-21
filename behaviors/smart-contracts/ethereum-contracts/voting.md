@@ -46,8 +46,13 @@
 #### leave() public 
 > Remove the validator from the registry
 
-#### getData(address _validator) public view return (string _name, bytes _ipvAddress, string _website)
+#### getValidatorData(address _validator) public view return (string _name, bytes _ipvAddress, string _website, address _OrbsAddress)
+> Access:public, view
 > Read a validator's data
+
+#### getOrbsAddress(address _validator) public view return (address _orbsAddress)
+> Access:public, view
+> Read a validator's orbs address
 
 
 &nbsp;
@@ -59,22 +64,20 @@
 > Enable an account to cast a vote on the approved nodes.
 * Checks:
   * non empty list.
-  * non duplicate
   * non 0
-  * That the nodes are within the OrbsNodesCandidates list.
 * Emit event with the vote: 
   * `Vote(address voter, byte[] nodes_list, uint vote_counter)`
     * voter: sender
     * nodes list: concatenated addresses - i.e. length = 20 x voted nodes.
 * Increment the global vote_counter.
   * Used as a reference to indicate that all votes were counted.
-* Store the vote for the activist in state along with its block_height
+* Store the vote for the guardian in state along with its block_height
   * Note: for state storage efficiency, the federation contract may allocate unique (never reused) ids per node and use a mapping.
 
 
-#### getCurrentVote(address activist) returns ([]address nodes, uint block_height)
+#### getLastVote(address _guardian) returns ([]address nodes, uint block_height)
 > Access:public, view
-> returns the current vote of an activist along with the last vote block_height.
+> returns the current vote of an _guardian along with the last vote block_height.
 
 
 #### delegate(address delegatee)
@@ -91,39 +94,41 @@
 
 
 &nbsp;
-### OrbsActivistsRegistry
-> ownership: no
-> enables activists to advertise their details
+## OrbsGuardians 
+> ownership: yes
+> upgradeable: yes
+> Manages the list of node candidates that underwent due-diligence
 
-#### Register(string _name, string _website) public 
-> Registers an activist's data or update an existing one.
-* Checks:
-  * _name is not ""
-  * _website is not ""
+#### Public variables / constants
+* VERSION
+* MAX_VALIDATORS
 
-#### Leave() public 
-> Enable a activists to remove itself from the registry
+#### Events
+* event GuardianAdded(address indexed validator);
+* event GuardianLeft(address indexed validator);
 
-#### GetData(address _activist) public view return (string _name, bytes _ipvAddress, string _website)
-> Read a validator's data
+#### Functions
+* addGuardian(address _guardian) public onlyOwner
+* isGuardian(address _guardian) external view returns (bool)
+* getGuardians() external view returns (address[])
+* leave() public
 
 
 &nbsp;
-### OrbsRewardsDistribution
+### OrbsGuardiansRegistry
 > ownership: no
-> enables activists to advertise their details
+> enables guardians to advertise their details
 
 #### Register(string _name, string _website) public 
-> Registers an activist's data or update an existing one.
+> Registers an guardian's data or update an existing one.
 * Checks:
   * _name is not ""
   * _website is not ""
 
 #### Leave() public 
-> Enable a activists to remove itself from the registry
+> Enable a guardian to remove itself from the registry
 
-#### GetData(address _activist) public view return (string _name, bytes _ipvAddress, string _website)
-> Read a validator's data
-
+#### GetGuardianData(address _guardian) public view return (string _name, string _website)
+> Read a guardian's data
 
 
