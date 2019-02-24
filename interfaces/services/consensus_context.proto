@@ -80,5 +80,4 @@ message RequestCommitteeInput {
 message RequestCommitteeOutput {
     repeated primitives.node_address node_addresses = 1;
     repeated primitives.bls1_public_key node_random_seed_public_keys = 2;
-
 }
