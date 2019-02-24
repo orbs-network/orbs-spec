@@ -14,10 +14,11 @@ service CrosschainConnector {
 
 message EthereumCallContractInput {
     primitives.timestamp_nano reference_timestamp = 1;
-    string ethereum_contract_address = 2;
-    string ethereum_function_name = 3;
-    string ethereum_json_abi = 4;
-    bytes ethereum_abi_packed_input_arguments = 5;
+    uint64 ethereum_block_number = 2; // 0 for recent
+    string ethereum_contract_address = 3;
+    string ethereum_function_name = 4;
+    string ethereum_json_abi = 5;
+    bytes ethereum_abi_packed_input_arguments = 6;
 }
 
 message EthereumCallContractOutput {

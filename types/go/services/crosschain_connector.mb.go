@@ -20,6 +20,7 @@ type CrosschainConnector interface {
 
 type EthereumCallContractInput struct {
 	ReferenceTimestamp              primitives.TimestampNano
+	EthereumBlockNumber             uint64
 	EthereumContractAddress         string
 	EthereumFunctionName            string
 	EthereumJsonAbi                 string
@@ -30,11 +31,16 @@ func (x *EthereumCallContractInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumJsonAbi:%s,EthereumAbiPackedInputArguments:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumJsonAbi(), x.StringEthereumAbiPackedInputArguments())
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumBlockNumber:%s,EthereumContractAddress:%s,EthereumFunctionName:%s,EthereumJsonAbi:%s,EthereumAbiPackedInputArguments:%s,}", x.StringReferenceTimestamp(), x.StringEthereumBlockNumber(), x.StringEthereumContractAddress(), x.StringEthereumFunctionName(), x.StringEthereumJsonAbi(), x.StringEthereumAbiPackedInputArguments())
 }
 
 func (x *EthereumCallContractInput) StringReferenceTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+func (x *EthereumCallContractInput) StringEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
 	return
 }
 
