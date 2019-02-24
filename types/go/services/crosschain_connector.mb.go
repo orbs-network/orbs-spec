@@ -13,6 +13,7 @@ import (
 type CrosschainConnector interface {
 	EthereumCallContract(ctx context.Context, input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
 	EthereumGetTransactionLogs(ctx context.Context, input *EthereumGetTransactionLogsInput) (*EthereumGetTransactionLogsOutput, error)
+	EthereumGetBlockNumber(ctx context.Context, input *EthereumGetBlockNumberInput) (*EthereumGetBlockNumberOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -158,5 +159,43 @@ func (x *EthereumGetTransactionLogsOutput) StringEthereumBlockNumber() (res stri
 
 func (x *EthereumGetTransactionLogsOutput) StringEthereumTxindex() (res string) {
 	res = fmt.Sprintf("%x", x.EthereumTxindex)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockNumberInput (non serializable)
+
+type EthereumGetBlockNumberInput struct {
+	ReferenceTimestamp primitives.TimestampNano
+}
+
+func (x *EthereumGetBlockNumberInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,}", x.StringReferenceTimestamp())
+}
+
+func (x *EthereumGetBlockNumberInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockNumberOutput (non serializable)
+
+type EthereumGetBlockNumberOutput struct {
+	EthereumBlockNumber uint64
+}
+
+func (x *EthereumGetBlockNumberOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumBlockNumber:%s,}", x.StringEthereumBlockNumber())
+}
+
+func (x *EthereumGetBlockNumberOutput) StringEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
 	return
 }

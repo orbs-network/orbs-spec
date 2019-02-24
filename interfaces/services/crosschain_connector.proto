@@ -9,7 +9,8 @@ option serialize_messages = false;
 service CrosschainConnector {
     // called by VirtualMachine
     rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
-    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput); 
+    rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput);
+    rpc EthereumGetBlockNumber (EthereumGetBlockNumberInput) returns (EthereumGetBlockNumberOutput);
 }
 
 message EthereumCallContractInput {
@@ -37,4 +38,12 @@ message EthereumGetTransactionLogsOutput {
     repeated bytes ethereum_abi_packed_outputs = 1;
     uint64 ethereum_block_number = 2;
     uint32 ethereum_txindex = 3;
+}
+
+message EthereumGetBlockNumberInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+}
+
+message EthereumGetBlockNumberOutput {
+    uint64 ethereum_block_number = 1;
 }
