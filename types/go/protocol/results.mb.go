@@ -15,6 +15,7 @@ const (
 	EXECUTION_RESULT_ERROR_INPUT                 ExecutionResult = 3
 	EXECUTION_RESULT_ERROR_CONTRACT_NOT_DEPLOYED ExecutionResult = 4
 	EXECUTION_RESULT_ERROR_UNEXPECTED            ExecutionResult = 5
+	EXECUTION_RESULT_NOT_EXECUTED                ExecutionResult = 6
 )
 
 func (n ExecutionResult) String() string {
@@ -31,6 +32,8 @@ func (n ExecutionResult) String() string {
 		return "EXECUTION_RESULT_ERROR_CONTRACT_NOT_DEPLOYED"
 	case EXECUTION_RESULT_ERROR_UNEXPECTED:
 		return "EXECUTION_RESULT_ERROR_UNEXPECTED"
+	case EXECUTION_RESULT_NOT_EXECUTED:
+		return "EXECUTION_RESULT_NOT_EXECUTED"
 	}
 	return "UNKNOWN"
 }
@@ -110,6 +113,7 @@ const (
 	REQUEST_STATUS_CONGESTION   RequestStatus = 4
 	REQUEST_STATUS_SYSTEM_ERROR RequestStatus = 5
 	REQUEST_STATUS_OUT_OF_SYNC  RequestStatus = 6
+	REQUEST_STATUS_NOT_FOUND    RequestStatus = 7
 )
 
 func (n RequestStatus) String() string {
@@ -128,6 +132,8 @@ func (n RequestStatus) String() string {
 		return "REQUEST_STATUS_SYSTEM_ERROR"
 	case REQUEST_STATUS_OUT_OF_SYNC:
 		return "REQUEST_STATUS_OUT_OF_SYNC"
+	case REQUEST_STATUS_NOT_FOUND:
+		return "REQUEST_STATUS_NOT_FOUND"
 	}
 	return "UNKNOWN"
 }
