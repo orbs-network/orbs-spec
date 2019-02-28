@@ -39,15 +39,8 @@ Currently a single instance per virtual chain per node.
 
 > Performed by consensus leader only, upon request from consensus algo to perform the ordering phase of the consensus during a live round.
 
-* Get the block reference timestamp by reading the 64b unix timestamp in nanoseconds.  
-  * If the unix timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
-
 #### Choose pending transactions
 * Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
-  * If there are no pending transactions:
-    * Wait up to `config.TRANSACTION_POOL_TIME_BETWEEN_EMPTY_BLOCKS` (eg. 5 sec).
-    * If any transactions arrive before the wait is over, stop waiting and return them immediately.
-    * If no transactions after the wait, continue with an empty block (number of transactions is 0).
 
 #### Build Transactions block
 * Current protocol version (`0x1`).

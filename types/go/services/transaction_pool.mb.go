@@ -146,7 +146,7 @@ func (x *GetCommittedTransactionReceiptOutput) StringBlockTimestamp() (res strin
 
 type GetTransactionsForOrderingInput struct {
 	CurrentBlockHeight       primitives.BlockHeight
-	CurrentBlockTimestamp    primitives.TimestampNano
+	PrevBlockTimestamp       primitives.TimestampNano
 	MaxTransactionsSetSizeKb uint32
 	MaxNumberOfTransactions  uint32
 }
@@ -155,7 +155,7 @@ func (x *GetTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockTimestamp:%s,MaxTransactionsSetSizeKb:%s,MaxNumberOfTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockTimestamp(), x.StringMaxTransactionsSetSizeKb(), x.StringMaxNumberOfTransactions())
 }
 
 func (x *GetTransactionsForOrderingInput) StringCurrentBlockHeight() (res string) {
@@ -163,8 +163,8 @@ func (x *GetTransactionsForOrderingInput) StringCurrentBlockHeight() (res string
 	return
 }
 
-func (x *GetTransactionsForOrderingInput) StringCurrentBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
+func (x *GetTransactionsForOrderingInput) StringPrevBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
 	return
 }
 
@@ -182,14 +182,15 @@ func (x *GetTransactionsForOrderingInput) StringMaxNumberOfTransactions() (res s
 // message GetTransactionsForOrderingOutput (non serializable)
 
 type GetTransactionsForOrderingOutput struct {
-	SignedTransactions []*protocol.SignedTransaction
+	SignedTransactions     []*protocol.SignedTransaction
+	ProposedBlockTimestamp primitives.TimestampNano
 }
 
 func (x *GetTransactionsForOrderingOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{SignedTransactions:%s,}", x.StringSignedTransactions())
+	return fmt.Sprintf("{SignedTransactions:%s,ProposedBlockTimestamp:%s,}", x.StringSignedTransactions(), x.StringProposedBlockTimestamp())
 }
 
 func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res string) {
@@ -198,6 +199,11 @@ func (x *GetTransactionsForOrderingOutput) StringSignedTransactions() (res strin
 		res += v.String() + ","
 	}
 	res += "]"
+	return
+}
+
+func (x *GetTransactionsForOrderingOutput) StringProposedBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ProposedBlockTimestamp)
 	return
 }
 

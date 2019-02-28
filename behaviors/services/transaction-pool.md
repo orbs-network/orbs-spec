@@ -108,7 +108,14 @@ Currently a single instance per virtual chain per node.
 * If requested block height is in the past, panic.
 
 #### Create proposal
+* Propose new block timestamp using node current time.  
+  * If the timestamp is less or equal then the previous block timestamp, use previous block timestamp + 1 nano.
 * Prepare a transactions list proposal (current policy is first come first serve).
+* If there are no pending transactions:
+  * Wait up to `config.TRANSACTION_POOL_TIME_BETWEEN_EMPTY_BLOCKS` (eg. 5 sec).
+  * If any transactions arrive before the wait is over, stop waiting and return them immediately.
+  * If no transactions after the wait, continue with an empty block (number of transactions is 0).
+  * If ended up waiting, update the proposed block time to reflect the time after the wait.
 
 #### Check transactions validity
 * For each transaction, check:
