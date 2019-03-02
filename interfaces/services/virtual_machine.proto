@@ -18,6 +18,7 @@ service VirtualMachine {
 
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
+    rpc CallSystemContract (CallSystemContractInput) returns (CallSystemContractOutput);
 
     // called by PublicApi
     rpc ProcessQuery (ProcessQueryInput) returns (ProcessQueryOutput);
@@ -59,4 +60,17 @@ message TransactionSetPreOrderInput {
 // returns error string if one of the transactions does not pass pre order checks
 message TransactionSetPreOrderOutput {
     repeated protocol.TransactionStatus pre_order_results = 1;
+}
+
+message CallSystemContractInput {
+    primitives.block_height block_height = 1;
+    primitives.timestamp_nano block_timestamp = 2;
+    primitives.contract_name contract_name = 3;
+    primitives.method_name method_name = 4;
+    protocol.ArgumentArray input_argument_array = 5;
+}
+
+message CallSystemContractOutput {
+    protocol.ArgumentArray output_argument_array = 1;
+    protocol.ExecutionResult call_result = 2;
 }
