@@ -24,24 +24,30 @@
 * isValidator(address _validator) external view returns (bool)
 * getValidators() external view returns (address[])
 * leave() public
+* setValidatorDeclarationHash external owner
+> ownership: no
+> sets the a Validators Declaration hash to be compared upon registration 
 
+* checkValidatorDeclarationHash external public
 
 &nbsp;
 ## OrbsValidatorsRegistry
 > ownership: no
 > enables nodes to advertise their details and IP addresses
 
-### register(string _name, bytes _ipvAddress, string _website) public 
+### register(string _name, bytes _ipvAddress, string _website, _validatorDeclarationHash) public 
 > Registers a validator's data or update an existing one.
 
 #### Checks:
 * Check that the validator is a valid validator by calling `OrbsValidators.isValidator(sender)`
-* _name is not ""
-* _website is not ""
-* _ipAddress is 4B (IPv4, tbd - IPv6)
+* _name is not "" and unique
+* _website is not "" and unique
+* _ipAddress is 4B (IPv4, tbd - IPv6) and unique
+* _validatorDeclarationHash equals ActiveValidatorDeclarationHash
 
 #### Log the validator data
 * Save in a map
+  * Include also: first registration block_height, last_update_block_height
   
 #### leave() public 
 > Remove the validator from the registry
@@ -53,7 +59,6 @@
 #### getOrbsAddress(address _validator) public view return (address _orbsAddress)
 > Access:public, view
 > Read a validator's orbs address
-
 
 &nbsp;
 ### OrbsVoting
