@@ -28,10 +28,9 @@ message EthereumCallContractOutput {
 
 message EthereumGetTransactionLogsInput {
     primitives.timestamp_nano reference_timestamp = 1;
-    string ethereum_contract_address = 2;
+    string ethereum_txhash = 2;
     string ethereum_event_name = 3;
     string ethereum_json_abi = 4;
-    string ethereum_txhash = 5;
 }
 
 message EthereumGetTransactionLogsOutput {

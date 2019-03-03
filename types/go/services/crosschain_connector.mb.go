@@ -88,18 +88,17 @@ func (x *EthereumCallContractOutput) StringEthereumAbiPackedOutput() (res string
 // message EthereumGetTransactionLogsInput (non serializable)
 
 type EthereumGetTransactionLogsInput struct {
-	ReferenceTimestamp      primitives.TimestampNano
-	EthereumContractAddress string
-	EthereumEventName       string
-	EthereumJsonAbi         string
-	EthereumTxhash          string
+	ReferenceTimestamp primitives.TimestampNano
+	EthereumTxhash     string
+	EthereumEventName  string
+	EthereumJsonAbi    string
 }
 
 func (x *EthereumGetTransactionLogsInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumEventName:%s,EthereumJsonAbi:%s,EthereumTxhash:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumEventName(), x.StringEthereumJsonAbi(), x.StringEthereumTxhash())
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumTxhash:%s,EthereumEventName:%s,EthereumJsonAbi:%s,}", x.StringReferenceTimestamp(), x.StringEthereumTxhash(), x.StringEthereumEventName(), x.StringEthereumJsonAbi())
 }
 
 func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string) {
@@ -107,8 +106,8 @@ func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string
 	return
 }
 
-func (x *EthereumGetTransactionLogsInput) StringEthereumContractAddress() (res string) {
-	res = fmt.Sprintf(x.EthereumContractAddress)
+func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
+	res = fmt.Sprintf(x.EthereumTxhash)
 	return
 }
 
@@ -119,11 +118,6 @@ func (x *EthereumGetTransactionLogsInput) StringEthereumEventName() (res string)
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumJsonAbi() (res string) {
 	res = fmt.Sprintf(x.EthereumJsonAbi)
-	return
-}
-
-func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
-	res = fmt.Sprintf(x.EthereumTxhash)
 	return
 }
 
