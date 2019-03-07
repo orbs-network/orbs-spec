@@ -50,7 +50,10 @@ Ownership: none
 #### Update delegation map:
 * stakeholder_last_update[`stakeholder`] = {`delegation_block_height`, `delegation_tx_index`}
 * updated_type[`stakeholder`] = `updated_by`.
-* Set agent[`stakeholder`] = `to`.
+* if (`to` == 0) or (`to` == `stakeholder`):
+  * Set agent[`stakeholder`] = address(0).
+* Else
+  * Set agent[`stakeholder`] = `to`.
   
 
 ### mirrorDelegation(bytes txid)
@@ -241,7 +244,7 @@ Ownership: none
 * `election_index` += 1
 * Validators[`election_index`] = `elected_validators`
 * ElectionEthereumBlockHeight[`election_index`] = `election_block_height`
-* ValidatorsApplyBlockHeight[`election_index`] = `current block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
+* ValidatorsApplyBlockHeight[`election_index`] = current **Orbs** block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
 
 
 #### GetElectedValidatorsByHeight(block_height) : elected_validators
