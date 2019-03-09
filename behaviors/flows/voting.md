@@ -2,6 +2,22 @@
 
 The flow describes the voting for Guardians and Validators in Orbs.
 
+## High level Election Flow
+* Once registered, a Validator undergoes a one month qualification period. - `TODO`
+* Once qualification is completed, a Validator is added to the candidates list.
+* Guardians vote to disapprove up to 3 validators. 
+  * Guardians vote can be cast at any time and is valid for a week.
+* Elections occur periodically, initially every 3 days.
+* A validator is disapproved if it received 70% or more disapproval votes in the election
+* If there are N=22 approved Validators that were elected for the previous term:
+  * The top 21 approved Validators that were elected for the previous term with the most stake are elected
+  * The 22th Validator is compared with the approved new candidate with the most stake, the one with the higher stake is elected.
+* Else
+  * All the approved Validators that were elected for the previous term are elected.
+  * The approved new candidate with the most stake is elected
+* A validator that is disapproved by the Guardians in all elections during for over 2 weeks is removed from the candidates list. A validator may re-register, requiring it to redo the qualification period.
+  * Initially done by manually (as a proxy for the Guardians)
+
 ## Participants in this flow
 * Validators (candidates)
   * A set of nodes that underwent due-diligence.
@@ -35,7 +51,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Once a delegation was performed by OrbsVoting contract it takes precedence over sending Orbs-stoshi (regardless of which action was performed later).
 * Note: the stake used for the voting is the stakeholder's stake at the election time. (and not the stake at the time of the delegation).
 
-#### Voting to Validators (by Guardians)
+#### Voting to Validators (Disapproval by Guardians)
 * A Guardian can vote by sending a transaction to Ethereum.OrbsVoting.vote(address[]).
   * A Guardian must be registered in order to vote, and must be still registered at the time of the election in order for its vote to be counted.
 * A vote remains valid for 7 days ~ 40320 blocks (parameter.VOTING_VALIDITY_TIME)
@@ -91,7 +107,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Reads the stake for each stakeholder and Guardian at the time of the election block.
 * Eliminates expired votes.
 * Calculates the delegated stake for each Guardian - the total stake of the delegation tree that points to it.
-  * Note: once an Guardian has voted, it's delegation is ignored.
+  * Note: once an Guardian has registered, it's delegation is ignored.
 * Record the election results in the ValidatorsConfig along with the transition Orbs block (A period of time after the last processing block).
 
 #### Rewards calculation
