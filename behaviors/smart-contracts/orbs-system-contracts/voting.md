@@ -30,6 +30,10 @@ Ownership: none
   * Default: 40320 (~ 7 days)
 * `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
   * Default: 0 - the next new committee is applied in the next block.
+* `MAXIMUM_ELECTED_VALIDATORS` - the maximum Validators that can initially be elected
+  * Default: 22
+* `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
+  * Default: 70%
 
 #### Rewards Parameters
 * `STAKEHOLDERS_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders for participation. (Delegators or Guardians)
