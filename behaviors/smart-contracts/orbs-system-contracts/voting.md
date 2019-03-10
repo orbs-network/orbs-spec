@@ -34,6 +34,8 @@ Ownership: none
   * Default: 22
 * `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
   * Default: 70%
+* `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
+  * 7519801 (approximately Apr 10 noon UTC)
 
 #### Rewards Parameters
 * `STAKEHOLDERS_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders for participation. (Delegators or Guardians)
@@ -247,7 +249,7 @@ Ownership: none
 
 #### Calculate the stakeholders reward
 * Calculate the stakeholders reward for the election
-  * `election_stakeholders_max_reward` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` / `ELECTION_CYCLE_IN_BLOCKS`)
+  * `election_stakeholders_max_reward` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
   * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_voting_stake` * `STAKEHOLDERS_MAX_REWARD_PERCENT`)
 * Calculate the stakeholders reward
   * For every participant in participants_list
@@ -258,7 +260,7 @@ Ownership: none
   * `excellence_program_participants` = the top `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` with the most `voting_stake`.
   * `total_excellence_program_stake` = total `voting_stake` of the excellence_program_participants.  
 * Calculate the Guardians Excellence Program reward for the election
-  * `election_stakeholders_max_reward` = (`GUARDIANS_MAX_ANNUAL_REWARD` / `ELECTION_CYCLE_IN_BLOCKS`)
+  * `election_stakeholders_max_reward` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
   * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
 * Calculate the Guardians reward
   * For every `guardian` in excellence_program_participants:
@@ -303,7 +305,7 @@ Ownership: none
 
 
 ## Issues
-* Guardian voting address
-* Qualification period
-* David's proposal
+* Guardian voting address - V2
+* Qualification period - V2
+* David's proposal - 
 * Access to all needed data for the product.

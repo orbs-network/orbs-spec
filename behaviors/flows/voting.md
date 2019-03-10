@@ -2,22 +2,6 @@
 
 The flow describes the voting for Guardians and Validators in Orbs.
 
-## High level Election Flow
-* Once registered, a Validator undergoes a one month qualification period. (initially the qualification period is 0 days)
-* Once qualification is completed, a Validator is added to the candidates list.
-* Guardians vote to disapprove up to 3 validators. 
-  * Guardians vote can be cast at any time and is valid for a week.
-* Elections occur periodically, initially every 3 days.
-* A validator is disapproved if it received 70% or more disapproval votes in the election
-* If there are N=22 approved Validators that were elected for the previous term:
-  * The top 21 approved Validators that were elected for the previous term with the most stake are elected
-  * The 22th Validator is compared with the approved new candidate with the most stake, the one with the higher stake is elected.
-* Else
-  * All the approved Validators that were elected for the previous term are elected.
-  * The approved new candidate with the most stake is elected
-* A validator that is disapproved by the Guardians in all elections during for over a week is removed from the candidates list. A validator may re-register, requiring it to redo the qualification period.
-  * Initially done by manually (as a proxy for the Guardians)
-
 ## Participants in this flow
 * Validators (candidates)
   * A set of nodes that underwent due-diligence.
@@ -32,11 +16,70 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Agent
   * An Orbs account that another account delegated its voting to.
 
-## Voting and Delegation
-
 ![alt text][hierarchical_voting] <br/><br/>
 
 [hierarchical_voting]: ../_img/hierarchical_voting.png "hierarchical voting"
+
+## High level Election Flow
+
+### Registration
+> Performed on Ethereum using the registration smart contracts
+ 
+#### Validators Registration
+* A Validator candidate registers to the Validators Registry contract and added to the candidates list.
+* The Validator is approved and added to the Validators Contract.
+
+#### Guardians Registration
+* A Guardian registers tp the Guardians Registry contract.
+* Once registered a Guardian vote is considered and the Guardian delegation is ignored (implicitly delegates to herself)
+
+### Delegation and Voting 
+> Performed on Ethereum using the voting smart contract
+
+#### Delegation
+* A Delegator (token holder) delegates her voting weight (stake) to a Guardian or another Delegator.
+  * A delegation is valid until changed.
+  * A delegation order is determined by the block_height and block_index the delegation was performed at.
+* A Delegator can not delegate to the its own address (loop)
+  
+#### Voting
+* A Guardian votes out up to 3 validators.
+  * An empty list indicates no validator to vote out.
+* A vote can be cast at any time and is valid for 40320 Ethereum blocks (~ 7 days)
+
+### Delegation and Voting Mirroring
+> Performed on Orbs during until the end of the Vote Mirroring Period: 480 blocks (~ 2 hours) after the election event.
+
+### Elections
+* All election data is calculated at the election event block.
+* The Validator nominees for the election are the registered and approved validators at the time of the election.
+* The amount of votes (vote out) for each Validator nominee are calculated
+* A Validator that receives more than 70% votes is removed from the election nominees.
+* The Validators the remaining validators (approved) are elected for the next voting term.
+
+#### Top 22 Validators with Gradual Changes (Not implemented)
+* If the number of approved validators is less than 22 (maximum number of Validators)
+  * All the approved Validators that were elected for the previous term are elected.
+  * The approved new nominee with the most stake is elected
+* Else 
+  * The top 21 approved Validators that were elected for the previous term with the most stake are elected
+  * The 22th Validator is compared with the approved new nominee with the most stake, the one with the higher stake is elected.
+
+#### Removal of voted out Validators (Not implemented, performed manually)
+* A validator that is voted out by the Guardians in all elections for over a week is removed from the candidates list.
+  * Initially done by manually (as a proxy for the Guardians)
+
+### Elections Schedule
+* Elections occur periodically, initially every 17280 blocks (~ 3 days).
+  * The first election occurs at the `FIRST_ELECTION_BLOCK`.
+* Once the Vote Mirroring Period is complete, the election results can be processed.
+* The results processing consist of:
+  * Reading Ethereum data at the time of the elections (stake, delegation, vote, registered Guardians and Validators)
+  * Calculating the Guardians voting weight
+  * Calculating the elected Validators
+  * Storing the elected Validators
+
+## Ethereum and Orbs interfaces
 
 #### Delegating votes
 * Every stakeholder (address) may delegate its stake to an agent (address).
@@ -45,16 +88,17 @@ The flow describes the voting for Guardians and Validators in Orbs.
   * Sending 7 Orbs-satoshi (7x10<sup>-18</sup> Orbs) to an address.
     * Generates a `Transfer(from, to, tokens = 7)` event.
   * Delegating by sending a transaction to Ethereum.OrbsVoting.delegate(address).
-    * Generates a `Delegate(from, to)` event.
+    * Generates a `Delegate(from, to, delegateCounter)` event.
 * Delegation does not expire and requires delegation to another agent in order to change it.
   * Delegation to address 0 cancels the delegation.
 * Once a delegation was performed by OrbsVoting contract it takes precedence over sending Orbs-stoshi (regardless of which action was performed later).
 * Note: the stake used for the voting is the stakeholder's stake at the election time. (and not the stake at the time of the delegation).
 
-#### Voting to Validators (Disapproval by Guardians)
-* A Guardian can vote by sending a transaction to Ethereum.OrbsVoting.vote(address[]).
-  * A Guardian must be registered in order to vote, and must be still registered at the time of the election in order for its vote to be counted.
-* A vote remains valid for 7 days ~ 40320 blocks (parameter.VOTING_VALIDITY_TIME)
+#### Voting out Validators (by Guardians)
+* A Guardian can vote by sending a transaction to Ethereum.OrbsVoting.voteOut(address[]).
+  * Generates a `VoteOut(voter, validators, voteCounter)` event.
+* A Guardian must be registered at the time of the election in order for its vote to be counted.
+* A vote remains valid for 40320 blocks (~ 7 days)
 * The voting weight of an Guardian is proportional to the total stake that was deleted to it. (hierarchical delegation)
 * A Guardian can vote for the disapproval of up to 3 Validators. (may vote for none)
 
@@ -64,11 +108,10 @@ The flow describes the voting for Guardians and Validators in Orbs.
 [election_flow]: ../_img/election_flow.png "election flow"
 
 * Election event
-  * Election is performed every X Ethereum blocks, based on the state in block X.
-    * Default: ~3 days (17280), to be reduced at a later stage.
+  * Election is performed every 17280 Ethereum blocks
   * Votes and delegations that were done up to the block_height (inclusive) take effect.
 * Votes Mirroring Period
-  * Starts after the election event for ~2 hours (480 blocks).
+  * Starts after the election event for 480 blocks (~2 hours).
   * During the mirroring period, the delegations and votes are recorded on Orbs.
 * Votes Processing
   * Performed once the mirroring period is complete.
@@ -86,10 +129,6 @@ The flow describes the voting for Guardians and Validators in Orbs.
     * Sent before the end of the `Votes Mirroring Period`.
   * Anyone may send the transactions.
   * A transaction is considered final based on the Ethereum connector finality parameter (default 100).
-* The VoteProcessing contract reads the log and stores:
-  * Stakeholders list
-  * Stakeholder -> Agent map.
-  * Agent -> Stakeholders map.
 
 #### Recording voting data on Orbs
 * Done by an off-chain application that monitors Ethereum's blocks.
@@ -97,21 +136,35 @@ The flow describes the voting for Guardians and Validators in Orbs.
     * Sent during the `Votes Recording Period`.
   * Anyone may send the transactions.
   * A transaction is considered final based on the Ethereum connector finality parameter (default 100).
-* The VoteProcessing contract reads the log and corresponding balance and stores:
-  * Voters list 
-  * Voter -> Validators map.
 
-## Processing()
+#### Processing()
 * Can be initiated by anyone upon completion of the votes mirroring period.
   * Span over a set of transactions (where the last one indicates completion)
-* Reads the stake for each stakeholder and Guardian at the time of the election block.
+* Reads the stake for each stakeholder, Guardian and Validator at the time of the election block.
 * Eliminates expired votes.
 * Calculates the delegated stake for each Guardian - the total stake of the delegation tree that points to it.
   * Note: once an Guardian has registered, it's delegation is ignored.
 * Record the election results in the ValidatorsConfig along with the transition Orbs block (A period of time after the last processing block).
 
-#### Rewards calculation
-> See model document
+## Rewards calculation
+
+#### Stakeholders reward (Participation reward)
+* Maximum reward per election:
+  * 60M x 17280 / 2102400 = 493150 ORBS
+* Stakeholders reward for the election
+  * Min(493150, 8% of total voting stake)
+* Divide the Stakeholders reward for the election in proportion to the stakeholder stake.
+
+#### Guardians Excellence Program reward
+* Maximum reward per election:
+  * 40M x 17280 / 2102400 = 328767 ORBS
+* Guardians reward for the election
+  * Min(493150, 10% of voting stake of the top 10 Guardians)
+    * The voting stake is the total delegated stake including the Guardian's 
+* Divide the reward for the election to the top 10 Guardians in proportion to their stake.
+
+#### Validators reward
+* Every elected Validator is awarded with 4% of the Validator stake + 1M ORBS as part of the Validator Introduction Program.
 
 &nbsp;
 ## Contracts specification
@@ -119,25 +172,3 @@ The flow describes the voting for Guardians and Validators in Orbs.
 [Ethereum voting contracts](../smart-contracts/ethereum-contracts/voting.md)
 
 [Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
-
-&nbsp;
-## Specification
-
-### SDK
-
-#### `GetEthereumBlockHeight`
-* Returns the block_height of the first block that meets the finality requirements.
-* If the height is not within the finality parameter, return error.
-
-#### `EthereumCallContract`
-* Add ethereum_block_height to the input
-  * The reference block_height to use. If the reference block height is above the finality block height - fail the transaction. 
-  * If equal to 0, use the finality block height based on the timestamp.
-
-#### `EthereumGetTransactionData`
-> Returns data associated with a committed transaction
-
-* Query the Ethereum node using the given arguments through IPC.
-* Check that the transaction is within the finality parameter (based on the give time_stamp)
-* Returns:
-  * The committed transaction block_height and transaction_index.
