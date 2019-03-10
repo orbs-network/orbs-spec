@@ -12,8 +12,8 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Guardian
   * An account registered to a Guardian 
   * Actively participates in Orbs voting.
-* Stakeholder
-  * An Orbs account / stakeholder that selected an active voter or another account (agent) to act on its behalf.
+* Delegator
+  * An Orbs account that selected an active voter or another account (agent) to act on its behalf.
 * Agent
   * An Orbs account that another account delegated its voting to.
 
@@ -83,8 +83,8 @@ The flow describes the voting for Guardians and Validators in Orbs.
 ## Ethereum and Orbs interfaces
 
 #### Delegating votes
-* Every stakeholder (address) may delegate its stake to an agent (address).
-  * The agent may be an Guardian or another stakeholder.
+* Every Delegator (token holder) may delegate its stake to an agent (address).
+  * The agent may be an Guardian or another Delegator.
 * Delegation may be performed by 2 means:
   * Sending 7 Orbs-satoshi (7x10<sup>-18</sup> Orbs) to an address.
     * Generates a `Transfer(from, to, tokens = 7)` event.
@@ -93,7 +93,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Delegation does not expire and requires delegation to another agent in order to change it.
   * Delegation to address 0 cancels the delegation.
 * Once a delegation was performed by OrbsVoting contract it takes precedence over sending Orbs-stoshi (regardless of which action was performed later).
-* Note: the stake used for the voting is the stakeholder's stake at the election time. (and not the stake at the time of the delegation).
+* Note: the stake used for the voting is the Delegator's stake at the election time. (and not the stake at the time of the delegation).
 
 #### Voting out Validators (by Guardians)
 * A Guardian can vote by sending a transaction to Ethereum.OrbsVoting.voteOut(address[]).
@@ -141,7 +141,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 #### Processing()
 * Can be initiated by anyone upon completion of the votes mirroring period.
   * Span over a set of transactions (where the last one indicates completion)
-* Reads the stake for each stakeholder, Guardian and Validator at the time of the election block.
+* Reads the stake for each Delegator, Guardian and Validator at the time of the election block.
 * Eliminates expired votes.
 * Calculates the delegated stake for each Guardian - the total stake of the delegation tree that points to it.
   * Note: once an Guardian has registered, it's delegation is ignored.
@@ -149,12 +149,12 @@ The flow describes the voting for Guardians and Validators in Orbs.
 
 ## Rewards calculation
 
-#### Stakeholders reward (Participation reward)
+#### Participation reward (Delegators and Guardians)
 * Maximum reward per election:
   * 60M x 17280 / 2102400 = 493150 ORBS
-* Stakeholders reward for the election
+* Participation reward for the election
   * Min(493150, 8% of total voting stake)
-* Divide the Stakeholders reward for the election in proportion to the stakeholder stake.
+* Divide the participation reward for the election in proportion to the Delegator/Guardian stake.
 
 #### Guardians Excellence Program reward
 * Maximum reward per election:
