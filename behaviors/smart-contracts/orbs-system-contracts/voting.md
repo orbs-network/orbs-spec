@@ -53,6 +53,13 @@ Ownership: none
 * `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` - number of Guardians with the top delegated stake that participate in the Guardians Excellence Program.
   * Default: 10
 
+#### General
+* `ETHEREUM_AVG_BLOCK_TIME_SEC` = 15
+* `SEC_IN_A_YEAR` = 31536000
+* `ELECTION_STAKEHOLDERS_MAX_REWARD` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 493150
+* `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 328767
+
+
 ### mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
 > Process an Ethereum delegation transaction and logs it on Orbs.
@@ -249,8 +256,7 @@ Ownership: none
 
 #### Calculate the stakeholders reward
 * Calculate the stakeholders reward for the election
-  * `election_stakeholders_max_reward` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
-  * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_voting_stake` * `STAKEHOLDERS_MAX_REWARD_PERCENT`)
+  * `election_stakeholders_reward` = min(`ELECTION_STAKEHOLDERS_MAX_REWARD`, `total_voting_stake` * `STAKEHOLDERS_MAX_REWARD_PERCENT`)
 * Calculate the stakeholders reward
   * For every participant in participants_list
     * reward[participant] = stake[participant] * `election_stakeholders_reward` / `total_voting_stake`
@@ -260,11 +266,10 @@ Ownership: none
   * `excellence_program_participants` = the top `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` with the most `voting_stake`.
   * `total_excellence_program_stake` = total `voting_stake` of the excellence_program_participants.  
 * Calculate the Guardians Excellence Program reward for the election
-  * `election_stakeholders_max_reward` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
-  * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
+  * `election_guardians_reward` = min(`ELECTION_GUARDIANS_MAX_REWARD`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
 * Calculate the Guardians reward
   * For every `guardian` in excellence_program_participants:
-    * reward[`guardian`] += voting_stake[`guardian`] * `election_stakeholders_reward` / `total_excellence_program_stake` * 
+    * reward[`guardian`] += voting_stake[`guardian`] * `election_guardians_reward` / `total_excellence_program_stake` * 
 
 #### Calculate the Validators reward
 * For every `elected_validator` in `elected_validators`
