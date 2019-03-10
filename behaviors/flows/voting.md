@@ -3,7 +3,7 @@
 The flow describes the voting for Guardians and Validators in Orbs.
 
 ## High level Election Flow
-* Once registered, a Validator undergoes a one month qualification period. - `TODO`
+* Once registered, a Validator undergoes a one month qualification period. (initially the qualification period is 0 days)
 * Once qualification is completed, a Validator is added to the candidates list.
 * Guardians vote to disapprove up to 3 validators. 
   * Guardians vote can be cast at any time and is valid for a week.
@@ -15,7 +15,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Else
   * All the approved Validators that were elected for the previous term are elected.
   * The approved new candidate with the most stake is elected
-* A validator that is disapproved by the Guardians in all elections during for over 2 weeks is removed from the candidates list. A validator may re-register, requiring it to redo the qualification period.
+* A validator that is disapproved by the Guardians in all elections during for over a week is removed from the candidates list. A validator may re-register, requiring it to redo the qualification period.
   * Initially done by manually (as a proxy for the Guardians)
 
 ## Participants in this flow
@@ -111,7 +111,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * Record the election results in the ValidatorsConfig along with the transition Orbs block (A period of time after the last processing block).
 
 #### Rewards calculation
-> TBD
+> See model document
 
 &nbsp;
 ## Contracts specification

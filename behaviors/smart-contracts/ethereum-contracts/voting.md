@@ -1,4 +1,4 @@
-# Ethereum Voting Contracts
+* addValidator(address _validator) public onlyOwner# Ethereum Voting Contracts
 > Orbs voting is performed using the Ethereum platform as described in the [voting flow](../../flows/voting.md))
 
 ![alt text][ethereum_contracts] <br/><br/>
@@ -20,22 +20,31 @@
 * event ValidatorLeft(address indexed validator);
 
 #### Functions
-* addValidator(address _validator) public onlyOwner
-* isValidator(address _validator) external view returns (bool)
+* addValidator(address validator) public onlyOwner
+* removeValidator(address validator) public onlyOwner
+* isValidator(address validator) external view returns (bool)
 * getValidators() external view returns (address[])
 * leave() public
-* setValidatorDeclarationHash external owner
-> ownership: no
-> sets the a Validators Declaration hash to be compared upon registration 
 
-* checkValidatorDeclarationHash external public
 
 &nbsp;
 ## OrbsValidatorsRegistry
 > ownership: no
 > enables nodes to advertise their details and IP addresses
 
-### register(string _name, bytes _ipvAddress, string _website, _validatorDeclarationHash) public 
+#### Events
+* event ValidatorRegistered(address indexed validator);
+* event ValidatorLeft(address indexed validator);
+
+#### Functions
+* register(string name, bytes ipvAddress, string website, bytes20 orbsAddress, bytes32 validatorDeclarationHash) public 
+* getValidatorData(address validator) public view return (string name, bytes ipvAddress, string website, address OrbsAddress, uint registration_block_height, uint last_update_block_height)
+* getOrbsAddress(address _validator) public view return (address _orbsAddress)
+* isValidator(address validator) public view returns (bool)
+* leave() public
+
+
+### register(string name, bytes ipvAddress, string website, bytes20 orbsAddress, bytes32 validatorDeclarationHash) public 
 > Registers a validator's data or update an existing one.
 
 #### Checks:
@@ -43,16 +52,15 @@
 * _name is not "" and unique
 * _website is not "" and unique
 * _ipAddress is 4B (IPv4, tbd - IPv6) and unique
-* _validatorDeclarationHash equals ActiveValidatorDeclarationHash
 
 #### Log the validator data
 * Save in a map
-  * Include also: first registration block_height, last_update_block_height
+  * Include also: first registration_block_height, last_update_block_height
   
 #### leave() public 
 > Remove the validator from the registry
 
-#### getValidatorData(address _validator) public view return (string _name, bytes _ipvAddress, string _website, address _OrbsAddress)
+#### getValidatorData(address validator) public view return (string name, bytes ipvAddress, string website, address OrbsAddress, uint registration_block_height, uint last_update_block_height)
 > Access:public, view
 > Read a validator's data
 
@@ -60,11 +68,19 @@
 > Access:public, view
 > Read a validator's orbs address
 
+
 &nbsp;
 ### OrbsVoting
 > ownership: none
 
-#### vote(address[] nodes)
+#### Events
+* event DisapproveVote(address indexed voter, bytes20[] validators, uint voteCounter);
+
+#### Functions
+* disapprove_vote(address[] validtors) public
+* getLastVote(address guardian) returns ([]address validators, uint block_height)
+
+#### disapprove_vote(address[] validtors)
 > Access:public
 > Enable an account to cast a vote on the approved nodes.
 * Checks:
@@ -80,7 +96,7 @@
   * Note: for state storage efficiency, the federation contract may allocate unique (never reused) ids per node and use a mapping.
 
 
-#### getLastVote(address _guardian) returns ([]address nodes, uint block_height)
+#### getLastVote(address guardian) returns ([]address nodes, uint block_height)
 > Access:public, view
 > returns the current vote of an _guardian along with the last vote block_height.
 
