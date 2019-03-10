@@ -8,36 +8,50 @@ Ownership: none
 ### Global state
 #### Delegation and voting
 * agent[`stakeholder`] - the account the stakeholder delegated to.
-* vote[`activist`] - voted in the election
+* voted_validators[`guardian`] - voted in the election
 
 #### Election data
 * `election_block_height` - The last Ethereum block height for delegation and voting, the reference block_height for the stake read. 
 
 #### Reward data
-* reward[`address`] - Cumulative reward data
+* reward[`address`] - Cumulative rewards awarded to an address (as a Guardian, Stakeholder or Validator)
 
 #### Last election data
 * received_votes[`validator`] - the total stake that was voted to the validator.
 * `total_voting_stake` - the total stake that participated in the election.
 * `total_in_circulation` - the total stake in circulation.
 
-#### Parameters
+#### Elections Parameters
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
-  * Default: 600 (~ 2 hours)
+  * Default: 480 (~ 2 hours)
 * `ELECTION_CYCLE_IN_BLOCKS` - The number of Ethereum blocks between elections, determines the next  `election_block_height`.
-  * Default: 20000 (~ 3 days)
-* `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a voting is valid
-  * Default: 50000 (~ 8 days)
-* `VOTES_PER_TOKEN` - When voting to multiple nodes, the number of votes that can be cast per token. When voting to more than `VOTES_PER_TOKEN`, the voting weight is divided among the nodes.
-  * Default: 5
+  * Default: 17280 (~ 3 days)
+* `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a Guardian's voting is valid
+  * Default: 40320 (~ 7 days)
 * `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
-  * Default: 1
-* `ACTIVITY_REWARD_PERCENT` - The % of the rewards that is distributed to activists as a reward for active voting. (100% - `ACTIVITY_REWARD_PERCENT`) determines the % of the reward distributed to the stakeholders.
-  * Default: 0.8 
-* `ELECTION_PARTICIPATION_REWARD` - The total amount of reward distributed in each election for the stakeholders and activists.
-  * Default: 600000
-* `ELECTION_VALIDATOR_REWARD` - The reward paid for each elected validator per election period.
-  * Default: 8244
+  * Default: 0 - the next new committee is applied in the next block.
+* `MAXIMUM_ELECTED_VALIDATORS` - the maximum Validators that can initially be elected
+  * Default: 22
+* `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
+  * Default: 70%
+* `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
+  * 7519801 (approximately Apr 10 noon UTC)
+
+#### Rewards Parameters
+* `STAKEHOLDERS_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders for participation. (Delegators or Guardians)
+  * Default: 60M (ORBS)
+* `STAKEHOLDERS_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low - < `STAKEHOLDERS_MAX_REWARD`/`STAKEHOLDERS_MAX_REWARD_PERCENT`).
+  * Default: 8%
+* `VALIDATOR_INTRODUCTION_PROGRAM_REWARD` - a fixed reward given to Validators at the initial stage of the network.
+  * Default: 1M (ORBS)
+* `VALIDATORS_STAKE_REWARD_PERCENT` - the Validator reward as a percent of her stake.
+  * Default: 4%
+* `GUARDIANS_MAX_ANNUAL_REWARD` - maximum annual award for the Guardians Excellence Program
+  * Default: 40M (ORBS)
+* `GUARDIANS_MAX_DPOS_REWARD_PERCENT` - The maximum award in each election as a percent of the Guardian delegated stake (including its own). Taken into consideration when the total participating stake in the Excellence Program is low: < `GUARDIANS_MAX_ANNUAL_REWARD`/`GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
+  * Default: 10%
+* `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` - number of Guardians with the top delegated stake that participate in the Guardians Excellence Program.
+  * Default: 10
 
 ### mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
@@ -50,7 +64,10 @@ Ownership: none
 #### Update delegation map:
 * stakeholder_last_update[`stakeholder`] = {`delegation_block_height`, `delegation_tx_index`}
 * updated_type[`stakeholder`] = `updated_by`.
-* Set agent[`stakeholder`] = `to`.
+* if (`to` == 0) or (`to` == `stakeholder`):
+  * Set agent[`stakeholder`] = address(0).
+* Else
+  * Set agent[`stakeholder`] = `to`.
   
 
 ### mirrorDelegation(bytes txid)
@@ -111,7 +128,7 @@ Ownership: none
     * If not return an error indicating: Resubmit in the next election.
 
 #### Read and check the vote event
-* Read the transaction's `vote(activist, validators_list, vote_counter)` event emitted by the `OrbsVoting` contract.
+* Read the transaction's `vote(guardian, validators_list, vote_counter)` event emitted by the `OrbsVoting` contract.
   * If no was found fail the transaction.
     * If below the finality threshold, the event should not be returned by `GetTransactionLog`.
   * Check that the `ethereum_block_height` is less or equal to the `election_block_height`.
@@ -119,36 +136,35 @@ Ownership: none
   * `vote_block_height` = `ethereum_block_height`.
   * `vote_tx_index` = `ethereum_tx_index`.
 
-#### Check the current `activist`'s vote:
-* if the current activist_last_update[`stakeholder`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
+#### Check the current `guardian`'s vote:
+* if the current guardian_last_update[`stakeholder`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
 
-#### Check that the activist is in the due-diligence list 
-* Call the Ethereum activists contract: Ethereum.Activists.isActivist(`activist`).
+#### Check that the guardian is in the due-diligence list 
+* Call the Ethereum guardians contract: Ethereum.Guardians.isGuardian(`guardian`).
 
 #### Update vote map:
-* Update `activist`'s list and map:
-  * voter_last_update[`activist`] = {`vote_block_height`, `vote_tx_index`}
-  * Set vote[`activist`] = `validators_list`.
+* Update `guardian`'s votes map:
+  * guardian_last_update[`guardian`] = {`vote_block_height`, `vote_tx_index`}
+  * Set voted_validators[`guardian`] = `validators_list`.
 
 
 ### ProcessVoting() : bool
 > Access: external
 > Process the election results, updates OrbsValidatorsConfig and the next election data.
 #### State
-* `current_activist`
+* `current_guardian`
 * `current_stakeholder`
 * `processing_state`
-  * 
 
 #### Check that the vote mirroring period has ended
 * `ethereum_block_height` > `election_block_height` + `parameter.VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`
   * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`
   * If not return an error indicating: mirroring period has not ended.
 
-#### If processing did not start initiate activists processing
+#### If processing did not start initiate guardians processing
 * Check `election_in_process` != `election_ethereum_block_height`
   * `election_in_process` = `election_ethereum_block_height` 
-  * `process_activists` = TRUE
+  * `process_guardians` = TRUE
 
 #### Stakeholders processing
 * If `process_stakeholders` 
@@ -159,14 +175,14 @@ Ownership: none
     * Set `calculate_votes`
   * Else `current_stakeholder` = next stakeholder in list. 
 
-#### Activists processing
-* If `process_activists`:
-  * Check activist_last_update[`current_activist`] has not expired (< `election_block_height` - `parameter.VOTING_VALIDITY_TIME`).
-  * stake[`current_activist`] = Ethereum.ERC20.balanceOf(`current_activist`).
-  * If `current_activist` is last:
-    * clear `process_activists`.
+#### Guardians processing
+* If `process_guardians`:
+  * Check guardian_last_update[`current_guardian`] has not expired (< `election_block_height` - `parameter.VOTING_VALIDITY_TIME`).
+  * stake[`current_guardian`] = Ethereum.ERC20.balanceOf(`current_guardian`).
+  * If `current_guardian` is last:
+    * clear `process_guardians`.
     * Set `process_stakeholders`.
-    * Else `current_activist` = next activist in list. 
+    * Else `current_guardian` = next guardian in list. 
 
 #### Calculations
 * If `calculate_votes`
@@ -176,7 +192,7 @@ Ownership: none
   * Clear `calculate_votes`.
 
 #### Return processing status (completed) 
-* If (`process_stakeholders` OR `process_activists` OR `calculate_votes`)
+* If (`process_stakeholders` OR `process_guardians` OR `calculate_votes`)
   * Return FALSE
 * Else 
   * Return TRUE
@@ -184,49 +200,75 @@ Ownership: none
 ### CalculateVotes()
 > Calculates the active validators based on the votes:
 
-#### Remove activists from the stakeholders' list:
-* For every `activist` in activists list:
-  * `reference_agent` = agent[`activist`]
-  * Remove `activist` from stakeholders[`reference_agent`]
+#### Remove the Guardians from the delegation list (implicitly delegate to themselves)
+* Get the `guardians_list` from Ethereum 
+  * Call `Ethereum.OrbsGuardians.getGuardians()`
+* For every `guardian` in guardians list:
+  * `reference_agent` = agent[`guardian`]
+  * Remove `guardian` from stakeholders[`reference_agent`]
 
 #### Calculate the hierarchical voting_stake
-* Recursively set the voting_stake of each `activist` or `stakeholder`, start with the list of `activists`: 
+* Recursively set the voting_stake of each `guardian` or `stakeholder`, start with the `guardians_list`: 
   * Add participant to participants_list
   * `total_voting_stake` += stake[participant]
   * If the participant has no `stakeholder`s that delegated to it then voting_stake = stake[participant]
   * Else voting_stake = sum(delegating `stakeholder`s voting_stake) + stake[participant]
 
-#### Calculate the activists votes
-* For (every `activist` in activists list):
-  * if number of validators in vote[`activist`] > parameter.VOTES_PER_TOKEN 
-    * weight = voting_stake[`activist`] * parameter.VOTES_PER_TOKEN / (number of validators in vote[`activist`])
+#### Calculate the elected validators
+* Get the validators_list
+  * Call `Ethereum.OrbsValidators.getValidators()`
+  * Alternatively use `Ethereum.OrbsValidators.isValidator(Validator)` based on the voted addresses.
+
+* For (every `guardian` in guardians list):
+  * For every validator in voted_validators[`guardian`]:
+    * received_votes[`validator`] += voting_stake[`guardian`].
+
+* Calculate `disapproval_threshold` = `total_voting_stake` * `DISAPPROVAL_THRESHOLD_PERCENT`
+
+* Generate `currently_elected_approved_list`
+  * `currently_elected_approved_list` = validators in `validators_list` with:
+    * received_votes[`validator`] < `disapproval_threshold`.
+    * in `currently_elected_validators`.
+
+* Find the top `top_candidate`
+  * `top_candidate` is the validator in `validators_list` with the most stake[`validator`] that meets:
+    * received_votes[`validator`] < `disapproval_threshold`.
+    * not in `currently_elected_validators`.
+
+* If `currently_elected_approved_list` < `MAXIMUM_ELECTED_VALIDATORS`
+  * elected_validators.add(`currently_elected_approved_list`)
+  * elected_validators.add(`top_candidate`)
+* Else
+  * Sort the `currently_elected_approved_list` by their stake
+  * elected_validators = `MAXIMUM_ELECTED_VALIDATORS` - 1 validators
+  * `bottom_validator` = the bottom validator in `currently_elected_approved_list`.
+  * If stake[`bottom_validator`] > stake[`top_candidate`]
+    * elected_validators.add(`bottom_validator`)
   * Else
-    * weight = voting_stake[`activist`]
-  * For every validator in vote[`activist`]:
-    * received_votes[`validator`] += weight
+    * elected_validators.add(`top_candidate`)
 
-#### Calculate the rewards weights
-* For every participant in participants_list
-  * reward_weight[participant] = stake[participant] / `total_voting_stake` * (1 - parameter.ACTIVITY_REWARD_PERCENT) (1 - 0.8 = 0.2)
-* For every `activist` in activists list:
-  * reward_weight[`activist`] += voting_stake[`activist`] / `total_voting_stake` * parameter.ACTIVITY_REWARD_PERCENT (0.8)
+#### Calculate the stakeholders reward
+* Calculate the stakeholders reward for the election
+  * `election_stakeholders_max_reward` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
+  * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_voting_stake` * `STAKEHOLDERS_MAX_REWARD_PERCENT`)
+* Calculate the stakeholders reward
+  * For every participant in participants_list
+    * reward[participant] = stake[participant] * `election_stakeholders_reward` / `total_voting_stake`
 
-#### Calculate the rewards - TODO move rewards storage to rewards contract (owned)
-* For every participant in participants_list
-  * reward[participant] += reward_weight * `parameter.ELECTION_PARTICIPATION_REWARD`
+#### Calculate the Guardians Excellence Program reward
+* Calculate the participants in the Guardians Excellence Program for the election
+  * `excellence_program_participants` = the top `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` with the most `voting_stake`.
+  * `total_excellence_program_stake` = total `voting_stake` of the excellence_program_participants.  
+* Calculate the Guardians Excellence Program reward for the election
+  * `election_stakeholders_max_reward` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` / `BLOCKS_IN_A_YEAR`)
+  * `election_stakeholders_reward` = min(`election_stakeholders_max_reward`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
+* Calculate the Guardians reward
+  * For every `guardian` in excellence_program_participants:
+    * reward[`guardian`] += voting_stake[`guardian`] * `election_stakeholders_reward` / `total_excellence_program_stake` * 
 
-#### Get the due-diligence validators list 
-* Call `Ethereum.OrbsValidators.getValidators()`
-  * Alternatively use `Ethereum.OrbsValidators.isValidator(Validator)`
-
-#### Calculate elected validators
-* Elected validators = X validators with the top received_votes[`validator`]
-
-#### CalculateElectedValidatorsRewards() 
-* For each elected validator
-  * reward[validator] += `ELECTION_VALIDATOR_REWARD`
-
-### TODO - Get the election data (for display)
+#### Calculate the Validators reward
+* For every `elected_validator` in `elected_validators`
+  * reward[`elected_validator`] += stake[`elected_validator`] * VALIDATORS_STAKE_REWARD_PERCENT + VALIDATOR_INTRODUCTION_PROGRAM_REWARD
 
 
 &nbsp;
@@ -241,7 +283,7 @@ Ownership: none
 * `election_index` += 1
 * Validators[`election_index`] = `elected_validators`
 * ElectionEthereumBlockHeight[`election_index`] = `election_block_height`
-* ValidatorsApplyBlockHeight[`election_index`] = `current block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
+* ValidatorsApplyBlockHeight[`election_index`] = current **Orbs** block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
 
 
 #### GetElectedValidatorsByHeight(block_height) : elected_validators
@@ -258,4 +300,12 @@ Ownership: none
 
 &nbsp;
 ### OrbsRewards
-> Holds the activists and stakeholders rewards
+> Holds the guardians and stakeholders rewards
+
+
+
+## Issues
+* Guardian voting address - V2
+* Qualification period - V2
+* David's proposal - 
+* Access to all needed data for the product.
