@@ -3,16 +3,17 @@
 The flow describes the voting for Guardians and Validators in Orbs.
 
 ## Participants in this flow
-* Validators (candidates)
-  * A set of nodes that underwent due-diligence.
+* Validator Candidate
+  * A node that registered
+* Validator Nominee
+  * A Validator Candidate that was approved and participates in the election.
 * Elected Validators
-  * A Validator candidate that received enough votes.
+  * Validators elected for next election term.
 * Guardian
-  * An account that actively participates in Orbs voting.
-  * An account is considered an active voter for a period of ACTIVE_VOTING_PERIOD days after voting.
-  * Option to require active voters to undergo due-diligence.
+  * An account registered to a Guardian 
+  * Actively participates in Orbs voting.
 * Stakeholder
-  * An Orbs account / stakeholder that selected an active voter or another account (delegatee) to act on its behalf.
+  * An Orbs account / stakeholder that selected an active voter or another account (agent) to act on its behalf.
 * Agent
   * An Orbs account that another account delegated its voting to.
 
