@@ -7,14 +7,14 @@ Ownership: none
 
 ### Global state
 #### Delegation and voting
-* agent[`stakeholder`] - the account the stakeholder delegated to.
+* agent[`delegator`] - the account the delegator delegated to.
 * voted_validators[`guardian`] - voted in the election
 
 #### Election data
 * `election_block_height` - The last Ethereum block height for delegation and voting, the reference block_height for the stake read. 
 
 #### Reward data
-* reward[`address`] - Cumulative rewards awarded to an address (as a Guardian, Stakeholder or Validator)
+* reward[`address`] - Cumulative rewards awarded to an address (as a Guardian, Delegator or Validator)
 
 #### Last election data
 * received_votes[`validator`] - the total stake that was voted to the validator.
@@ -38,9 +38,9 @@ Ownership: none
   * 7519801 (approximately Apr 10 noon UTC)
 
 #### Rewards Parameters
-* `STAKEHOLDERS_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders for participation. (Delegators or Guardians)
+* `PARTICIPATION_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders (Delegators or Guardians) for participation. (Delegators or Guardians)
   * Default: 60M (ORBS)
-* `STAKEHOLDERS_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low - < `STAKEHOLDERS_MAX_REWARD`/`STAKEHOLDERS_MAX_REWARD_PERCENT`).
+* `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low - < `PARTICIPATION_MAX_REWARD`/`PARTICIPATION_MAX_REWARD_PERCENT`).
   * Default: 8%
 * `VALIDATOR_INTRODUCTION_PROGRAM_REWARD` - a fixed reward given to Validators at the initial stage of the network.
   * Default: 1M (ORBS)
@@ -56,25 +56,25 @@ Ownership: none
 #### General
 * `ETHEREUM_AVG_BLOCK_TIME_SEC` = 15
 * `SEC_IN_A_YEAR` = 31536000
-* `ELECTION_STAKEHOLDERS_MAX_REWARD` = (`STAKEHOLDERS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 493150
+* `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 493150
 * `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 328767
 
 
-### mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_tx_index, updated_by)
+### mirrorDelegationData(delegator, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
 > Process an Ethereum delegation transaction and logs it on Orbs.
 
 #### Check the current account delegation:
-* if the current stakeholder_last_update[`stakeholder`].`block_height`, `tx_index`} is larger than the {`delegation_block_height`,`delegation_tx_index`} fail the transaction.
-* If updated_type[`stakeholder`] = `VOTING_CONTRACT` and `updated_by` = `TRANSFER` fail the transaction.
+* if the current delegator_last_update[`delegator`].`block_height`, `tx_index`} is larger than the {`delegation_block_height`,`delegation_tx_index`} fail the transaction.
+* If updated_type[`delegator`] = `VOTING_CONTRACT` and `updated_by` = `TRANSFER` fail the transaction.
 
 #### Update delegation map:
-* stakeholder_last_update[`stakeholder`] = {`delegation_block_height`, `delegation_tx_index`}
-* updated_type[`stakeholder`] = `updated_by`.
-* if (`to` == 0) or (`to` == `stakeholder`):
-  * Set agent[`stakeholder`] = address(0).
+* delegator_last_update[`delegator`] = {`delegation_block_height`, `delegation_tx_index`}
+* updated_type[`delegator`] = `updated_by`.
+* if (`to` == 0) or (`to` == `delegator`):
+  * Set agent[`delegator`] = address(0).
 * Else
-  * Set agent[`stakeholder`] = `to`.
+  * Set agent[`delegator`] = `to`.
   
 
 ### mirrorDelegation(bytes txid)
@@ -88,7 +88,7 @@ Ownership: none
   * If not return an error indicating: Resubmit in the next elections.
 
 #### Read and check the Delegate event
-* Read the transaction's `Delegate(stakeholder, to, delegate_counter)` event emitted by the `OrbsVoting` contract.
+* Read the transaction's `Delegate(delegator, to, delegate_counter)` event emitted by the `OrbsVoting` contract.
   * If no event was found fail the transaction.
     * If below the finality threshold, the event should not be returned by `GetTransactionLog`.
   * Check that the `ethereum_block_height` is less or equal to the `election_block_height`.
@@ -97,7 +97,7 @@ Ownership: none
   * `delegation_tx_index` = `ethereum_tx_index`.
 
 #### Process the delegation
-* Process the delegation by calling `mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
+* Process the delegation by calling `mirrorDelegationData(delegator, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
 
 
 ### mirrorDelegationByTransfer(bytes txid)
@@ -121,7 +121,7 @@ Ownership: none
   * `delegation_tx_index` = `ethereum_tx_index`.
 
 #### Process the delegation
-* Process the delegation by calling `mirrorDelegationData(stakeholder, to, delegation_block_height, delegation_block_index, TRANSFER)`
+* Process the delegation by calling `mirrorDelegationData(delegator, to, delegation_block_height, delegation_block_index, TRANSFER)`
 
 
 ### mirrorVote(bytes txid)
@@ -144,7 +144,7 @@ Ownership: none
   * `vote_tx_index` = `ethereum_tx_index`.
 
 #### Check the current `guardian`'s vote:
-* if the current guardian_last_update[`stakeholder`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
+* if the current guardian_last_update[`delegator`].{`block_height`, `tx_index`} is larger than the {`vote_block_height`,`vote_tx_index`} fail the transaction.
 
 #### Check that the guardian is in the due-diligence list 
 * Call the Ethereum guardians contract: Ethereum.Guardians.isGuardian(`guardian`).
@@ -160,7 +160,7 @@ Ownership: none
 > Process the election results, updates OrbsValidatorsConfig and the next election data.
 #### State
 * `current_guardian`
-* `current_stakeholder`
+* `current_delegator`
 * `processing_state`
 
 #### Check that the vote mirroring period has ended
@@ -173,14 +173,14 @@ Ownership: none
   * `election_in_process` = `election_ethereum_block_height` 
   * `process_guardians` = TRUE
 
-#### Stakeholders processing
-* If `process_stakeholders` 
-  * stake[`current_stakeholder`] = Ethereum.balanceOf(`current_stakeholder`).
-  * stakeholders[agent[`current_stakeholder`]].add(`current_stakeholder`). (generate an reverse table)
-  * If `current_stakeholder` is last:
-    * Clear `process_stakeholders`.
+#### Delegators processing
+* If `process_delegators` 
+  * stake[`current_delegator`] = Ethereum.balanceOf(`current_delegator`).
+  * delegators[agent[`current_delegator`]].add(`current_delegator`). (generate an reverse table)
+  * If `current_delegator` is last:
+    * Clear `process_delegators`.
     * Set `calculate_votes`
-  * Else `current_stakeholder` = next stakeholder in list. 
+  * Else `current_delegator` = next delegator in list. 
 
 #### Guardians processing
 * If `process_guardians`:
@@ -188,7 +188,7 @@ Ownership: none
   * stake[`current_guardian`] = Ethereum.ERC20.balanceOf(`current_guardian`).
   * If `current_guardian` is last:
     * clear `process_guardians`.
-    * Set `process_stakeholders`.
+    * Set `process_delegators`.
     * Else `current_guardian` = next guardian in list. 
 
 #### Calculations
@@ -199,7 +199,7 @@ Ownership: none
   * Clear `calculate_votes`.
 
 #### Return processing status (completed) 
-* If (`process_stakeholders` OR `process_guardians` OR `calculate_votes`)
+* If (`process_delegators` OR `process_guardians` OR `calculate_votes`)
   * Return FALSE
 * Else 
   * Return TRUE
@@ -212,14 +212,14 @@ Ownership: none
   * Call `Ethereum.OrbsGuardians.getGuardians()`
 * For every `guardian` in guardians list:
   * `reference_agent` = agent[`guardian`]
-  * Remove `guardian` from stakeholders[`reference_agent`]
+  * Remove `guardian` from delegators[`reference_agent`]
 
 #### Calculate the hierarchical voting_stake
-* Recursively set the voting_stake of each `guardian` or `stakeholder`, start with the `guardians_list`: 
+* Recursively set the voting_stake of each `guardian` or `delegator`, start with the `guardians_list`: 
   * Add participant to participants_list
   * `total_voting_stake` += stake[participant]
-  * If the participant has no `stakeholder`s that delegated to it then voting_stake = stake[participant]
-  * Else voting_stake = sum(delegating `stakeholder`s voting_stake) + stake[participant]
+  * If the participant has no `delegator`s that delegated to it then voting_stake = stake[participant]
+  * Else voting_stake = sum(delegating `delegator`s voting_stake) + stake[participant]
 
 #### Calculate the elected validators
 * Get the validators_list
@@ -254,12 +254,12 @@ Ownership: none
   * Else
     * elected_validators.add(`top_candidate`)
 
-#### Calculate the stakeholders reward
-* Calculate the stakeholders reward for the election
-  * `election_stakeholders_reward` = min(`ELECTION_STAKEHOLDERS_MAX_REWARD`, `total_voting_stake` * `STAKEHOLDERS_MAX_REWARD_PERCENT`)
-* Calculate the stakeholders reward
+#### Calculate the delegators reward
+* Calculate the delegators reward for the election
+  * `election_participation_reward` = min(`ELECTION_PARTICIPATION_MAX_REWARD`, `total_voting_stake` * `PARTICIPATION_MAX_REWARD_PERCENT`)
+* Calculate the delegators reward
   * For every participant in participants_list
-    * reward[participant] = stake[participant] * `election_stakeholders_reward` / `total_voting_stake`
+    * reward[participant] = stake[participant] * `election_participation_reward` / `total_voting_stake`
 
 #### Calculate the Guardians Excellence Program reward
 * Calculate the participants in the Guardians Excellence Program for the election
@@ -305,7 +305,7 @@ Ownership: none
 
 &nbsp;
 ### OrbsRewards
-> Holds the guardians and stakeholders rewards
+> Holds the guardians, delegators nad validators rewards
 
 
 
