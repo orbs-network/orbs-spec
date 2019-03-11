@@ -232,6 +232,13 @@ Ownership: none
 
 * Calculate `disapproval_threshold` = `total_voting_stake` * `DISAPPROVAL_THRESHOLD_PERCENT`
 
+* elected_validators = validators in `validators_list` with: 
+  * received_votes[`validator`] < `disapproval_threshold`.
+
+
+#### ------------------------------------------------------------------------------
+#### TOP22 Calculation - Not Implemented
+
 * Generate `currently_elected_approved_list`
   * `currently_elected_approved_list` = validators in `validators_list` with:
     * received_votes[`validator`] < `disapproval_threshold`.
@@ -253,6 +260,8 @@ Ownership: none
     * elected_validators.add(`bottom_validator`)
   * Else
     * elected_validators.add(`top_candidate`)
+
+#### ------------------------------------------------------------------------------
 
 #### Calculate the delegators reward
 * Calculate the delegators reward for the election
