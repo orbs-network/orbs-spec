@@ -1,4 +1,4 @@
-* addValidator(address _validator) public onlyOwner# Ethereum Voting Contracts
+* Ethereum Voting Contracts
 > Orbs voting is performed using the Ethereum platform as described in the [voting flow](../../flows/voting.md))
 
 ![alt text][ethereum_contracts] <br/><br/>
@@ -13,7 +13,7 @@
 
 #### Public variables / constants
 * VERSION
-* MAX_VALIDATORS
+* MAX_VALIDATORS 
 
 #### Events
 * event ValidatorAdded(address indexed validator);
@@ -22,10 +22,10 @@
 #### Functions
 * addValidator(address validator) public onlyOwner
 * removeValidator(address validator) public onlyOwner
-* isValidator(address validator) external view returns (bool)
-* getValidators() external view returns (address[])
+* isValidator(address validator) public view returns (bool)
+* getValidators() public view returns (address[])
+* getValidatorLastUpdate(address validator) public view returns (uint block_height)
 * leave() public
-
 
 &nbsp;
 ## OrbsValidatorsRegistry
