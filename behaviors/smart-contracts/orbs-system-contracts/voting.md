@@ -267,8 +267,8 @@ Ownership: none
 * Calculate the delegators reward for the election
   * `election_participation_reward` = min(`ELECTION_PARTICIPATION_MAX_REWARD`, `total_voting_stake` * `PARTICIPATION_MAX_REWARD_PERCENT`)
 * Calculate the delegators reward
-  * For every participant in participants_list
-    * reward[participant] = stake[participant] * `election_participation_reward` / `total_voting_stake`
+  * For every delegator or guardian:
+    * participation_reward[participant] = stake[participant] * `election_participation_reward` / `total_voting_stake`
 
 #### Calculate the Guardians Excellence Program reward
 * Calculate the participants in the Guardians Excellence Program for the election
@@ -278,11 +278,11 @@ Ownership: none
   * `election_guardians_reward` = min(`ELECTION_GUARDIANS_MAX_REWARD`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
 * Calculate the Guardians reward
   * For every `guardian` in excellence_program_participants:
-    * reward[`guardian`] += voting_stake[`guardian`] * `election_guardians_reward` / `total_excellence_program_stake` * 
+    * guardian_excellence_reward[`guardian`] += voting_stake[`guardian`] * `election_guardians_reward` / `total_excellence_program_stake` * 
 
 #### Calculate the Validators reward
 * For every `elected_validator` in `elected_validators`
-  * reward[`elected_validator`] += stake[`elected_validator`] * VALIDATORS_STAKE_REWARD_PERCENT + VALIDATOR_INTRODUCTION_PROGRAM_REWARD
+  * validator_reward[`elected_validator`] += stake[`elected_validator`] * VALIDATORS_STAKE_REWARD_PERCENT + VALIDATOR_INTRODUCTION_PROGRAM_REWARD
 
 
 &nbsp;
@@ -317,9 +317,25 @@ Ownership: none
 > Holds the guardians, delegators nad validators rewards
 
 
+&nbsp;
+## Getters Interface
 
-## Issues
-* Guardian voting address - V2
-* Qualification period - V2
-* David's proposal - 
-* Access to all needed data for the product.
+#### General
+* GetNextElectionBlockNumber() : Ethereum_block
+* GetLastElectionBlockNumber() : Ethereum_block
+* GetElectionPeriod() : Number Of Ethereum_blocks
+
+#### Last Vote Results
+* GetVotingWeight(Guardian) : uint
+* GetStake(Guardian) : uint (Integer ORBS)
+* GetVotes(Validator) : uint
+* GetStake(Validator) : uint (Integer ORBS)
+* GetTotalStake() : uint
+* GetElectedValidators() : list of validators
+* GetExcellenceProgramGuardians() : list of guardians 
+
+#### Rewards
+* GetTotalParticipationReward(delegator) : uint (Integer ORBS)
+* GetTotalValidatorReward(validator) : uint (Integer ORBS)
+* GetTotalGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
+* GetTotalReward(address) : uint (Integer ORBS)uint (Integer ORBS)
