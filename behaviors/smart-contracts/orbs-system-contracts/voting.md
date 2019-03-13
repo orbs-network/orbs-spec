@@ -35,7 +35,7 @@ Ownership: none
 * `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
   * Default: 70%
 * `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
-  * 7519801 (approximately Apr 10 noon UTC)
+  * 7467969 (approximately Apr 1 noon UTC)
 
 #### Rewards Parameters
 * `PARTICIPATION_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders (Delegators or Guardians) for participation. (Delegators or Guardians)
@@ -230,7 +230,7 @@ Ownership: none
 * elected_validators = validators in `validators_list` with: 
   * received_votes[`validator`] < `disapproval_threshold`.
 
-#### Addition - minimum number of Validators protection
+#### Minimal number of Validators protection
 * While number of elected_validators < 7
   * Add validators from `validators_list` that are not elected in order of votes (min to max)
     * On tie, add all tied Validators
@@ -285,11 +285,15 @@ Ownership: none
 
 
 &nbsp;
-### OrbsValidatorsConfig
-> Holds the elected validators per block height
+### Elected Validators Database (part of the voting contract)
+#### Functions:
+* getElectedValidators() : list of Validators - returns the currently elected Validators (Orbs addresses).
+* getElectedValidatorsByBlockHeight(orbs_block_height) : elected_validators (Orbs addresses).
+* getElectedValidatorsByIndex(index) : elected_validators (Orbs addresses).
+* getNumberOfElections()
+* getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
+* getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
 
-#### Global state
-`election_index`
 
 #### UpdateElectionResult(election_ethereum_block_height, elected_validators)
 > Stores the list of elected validators per block height
@@ -299,12 +303,12 @@ Ownership: none
 * ValidatorsApplyBlockHeight[`election_index`] = current **Orbs** block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
 
 
-#### GetElectedValidatorsByHeight(block_height) : elected_validators
+#### GetElectedValidatorsByHeight(orbs_block_height) : elected_validators
 > Return the list of elected validators per requested block_height
 * Find the `reference_election_index` = the largest election_index, such that ValidatorsApplyBlockHeight[election_index] is smaller than the provided block_height.
 * Return Validators[`reference_election_index`]
 
-#### GetNumberOfValidatorUpdates : uint
+#### GetNumberOfElections : uint
 > Returns `election_index`, used for migrations.
 
 #### GetElectedValidatorsByIndex(election_index) : (election_ethereum_block_height, apply_block_height, validators_list)
