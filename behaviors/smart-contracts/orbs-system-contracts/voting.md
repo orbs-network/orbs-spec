@@ -286,14 +286,6 @@ Ownership: none
 
 &nbsp;
 ### Elected Validators Database (part of the voting contract)
-#### Functions:
-* getElectedValidators() : list of Validators - returns the currently elected Validators (Orbs addresses).
-* getElectedValidatorsByBlockHeight(orbs_block_height) : elected_validators (Orbs addresses).
-* getElectedValidatorsByIndex(index) : elected_validators (Orbs addresses).
-* getNumberOfElections()
-* getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
-* getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
-
 
 #### UpdateElectionResult(election_ethereum_block_height, elected_validators)
 > Stores the list of elected validators per block height
@@ -324,21 +316,28 @@ Ownership: none
 ## Getters Interface
 
 #### General
-* GetNextElectionBlockNumber() : Ethereum_block
-* GetLastElectionBlockNumber() : Ethereum_block
-* GetElectionPeriod() : Number Of Ethereum_blocks
+* getNextElectionBlockNumber() : Ethereum_block
+* getLastElectionBlockNumber() : Ethereum_block
+* getElectionPeriod() : Number Of Ethereum_blocks
+* getNumberOfElections()
+* getElectedValidatorsOrbs() : list of Validators (**Orbs addresses**).
+* getElectedValidators() : list of validators (Ethereum Addresses)
 
-#### Last Vote Results
+#### Extended Last Election Results
 * GetVotingWeight(Guardian) : uint
 * GetStake(Guardian) : uint (Integer ORBS)
-* GetVotes(Validator) : uint
-* GetStake(Validator) : uint (Integer ORBS)
+* GetVotes(Validator Ethereum Address) : uint
+* GetStake(Validator Ethereum Address) : uint (Integer ORBS)
 * GetTotalStake() : uint
-* GetElectedValidators() : list of validators
 * GetExcellenceProgramGuardians() : list of guardians 
+
+#### Historical data
+* getElectedValidatorsOrbsByBlockHeight(orbs_block_height) : elected_validators (**Orbs addresses**).
+* getElectedValidatorsByBlockHeight(orbs_block_height) : elected_validators (Ethereum addresses).* getElectedValidatorsByIndex(index) : elected_validators (Ethereum addresses).
+* getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
+* getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
 
 #### Rewards
 * GetTotalParticipationReward(delegator) : uint (Integer ORBS)
-* GetTotalValidatorReward(validator) : uint (Integer ORBS)
+* GetTotalValidatorReward(validator Ethereum Address) : uint (Integer ORBS)
 * GetTotalGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
-* GetTotalReward(address) : uint (Integer ORBS)
