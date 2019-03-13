@@ -40,9 +40,9 @@ Ownership: none
 #### Rewards Parameters
 * `PARTICIPATION_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders (Delegators or Guardians) for participation. (Delegators or Guardians)
   * Default: 60M (ORBS)
-* `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low - < `PARTICIPATION_MAX_REWARD`/`PARTICIPATION_MAX_REWARD_PERCENT`).
+* `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low: less than `PARTICIPATION_MAX_REWARD`/`PARTICIPATION_MAX_REWARD_PERCENT`).
   * Default: 8%
-* `VALIDATOR_INTRODUCTION_PROGRAM_REWARD` - a fixed reward given to Validators at the initial stage of the network.
+* `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` - a fixed reward given to Validators at the initial stage of the network.
   * Default: 1M (ORBS)
 * `VALIDATORS_STAKE_REWARD_PERCENT` - the Validator reward as a percent of her stake.
   * Default: 4%
@@ -58,6 +58,7 @@ Ownership: none
 * `SEC_IN_A_YEAR` = 31536000
 * `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 493150
 * `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 328767
+* `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 8220
 
 
 ### mirrorDelegationData(delegator, to, delegation_block_height, delegation_tx_index, updated_by)
@@ -262,12 +263,12 @@ Ownership: none
 
 #### ------------------------------------------------------------------------------
 
-#### Calculate the delegators reward
-* Calculate the delegators reward for the election
+#### Calculate the participation reward
+* Calculate the participation reward for the election
   * `election_participation_reward` = min(`ELECTION_PARTICIPATION_MAX_REWARD`, `total_voting_stake` * `PARTICIPATION_MAX_REWARD_PERCENT`)
-* Calculate the delegators reward
+* Calculate the participation reward
   * For every delegator or guardian:
-    * participation_reward[participant] = stake[participant] * `election_participation_reward` / `total_voting_stake`
+    * participation_reward[participant] += stake[participant] / `total_voting_stake` * `election_participation_reward`
 
 #### Calculate the Guardians Excellence Program reward
 * Calculate the participants in the Guardians Excellence Program for the election
@@ -277,11 +278,11 @@ Ownership: none
   * `election_guardians_reward` = min(`ELECTION_GUARDIANS_MAX_REWARD`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
 * Calculate the Guardians reward
   * For every `guardian` in excellence_program_participants:
-    * guardian_excellence_reward[`guardian`] += voting_stake[`guardian`] * `election_guardians_reward` / `total_excellence_program_stake` * 
+    * guardian_excellence_reward[`guardian`] += voting_stake[`guardian`] / `total_excellence_program_stake` * `election_guardians_reward`
 
 #### Calculate the Validators reward
 * For every `elected_validator` in `elected_validators`
-  * validator_reward[`elected_validator`] += stake[`elected_validator`] * VALIDATORS_STAKE_REWARD_PERCENT + VALIDATOR_INTRODUCTION_PROGRAM_REWARD
+  * validator_reward[`elected_validator`] += stake[`elected_validator`] * `VALIDATORS_STAKE_REWARD_PERCENT` + `VALIDATOR_INTRODUCTION_PROGRAM_REWARD`
 
 
 &nbsp;
@@ -320,24 +321,25 @@ Ownership: none
 * getLastElectionBlockNumber() : Ethereum_block
 * getElectionPeriod() : Number Of Ethereum_blocks
 * getNumberOfElections()
-* getElectedValidatorsOrbs() : list of Validators (**Orbs addresses**).
-* getElectedValidators() : list of validators (Ethereum Addresses)
-
+* getElectedValidatorsOrbsAddress() : list of Validators
+* getElectedValidatorsEthereumAddress() : list of validators 
+  
 #### Extended Last Election Results
-* GetVotingWeight(Guardian) : uint
-* GetStake(Guardian) : uint (Integer ORBS)
-* GetVotes(Validator Ethereum Address) : uint
-* GetStake(Validator Ethereum Address) : uint (Integer ORBS)
+* GetGuardianVotingWeight(Guardian) : uint
+* GetGuardianStake(Guardian) : uint (Integer ORBS)
+* GetValidatorVotes(ValidatorEthereumAddress) : uint
+* GetValidatorStake(ValidatorEthereumAddress) : uint (Integer ORBS)
 * GetTotalStake() : uint
 * GetExcellenceProgramGuardians() : list of guardians 
 
 #### Historical data
-* getElectedValidatorsOrbsByBlockHeight(orbs_block_height) : elected_validators (**Orbs addresses**).
-* getElectedValidatorsByBlockHeight(orbs_block_height) : elected_validators (Ethereum addresses).* getElectedValidatorsByIndex(index) : elected_validators (Ethereum addresses).
+* getElectedValidatorsOrbsAddressByBlockHeight(orbs_block_height) : elected_validators
+* getElectedValidatorsEthereumAddressByBlockHeight() : elected_validators
+* getElectedValidatorsByIndex(index) : elected_validators (Ethereum addresses).
 * getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
 * getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
 
 #### Rewards
-* GetTotalParticipationReward(delegator) : uint (Integer ORBS)
-* GetTotalValidatorReward(validator Ethereum Address) : uint (Integer ORBS)
-* GetTotalGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
+* GetCumulativeParticipationReward(delegator) : uint (Integer ORBS)
+* GetCumulativeValidatorReward(validatorEthereumAddress) : uint (Integer ORBS)
+* GetCumulativeGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
