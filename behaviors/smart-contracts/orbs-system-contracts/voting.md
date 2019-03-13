@@ -235,6 +235,10 @@ Ownership: none
 * elected_validators = validators in `validators_list` with: 
   * received_votes[`validator`] < `disapproval_threshold`.
 
+#### Addition - minimum number of Validators protection
+* While number of elected_validators < 7
+  * Add validators from `validators_list` that are not elected in order of votes (min to max)
+    * On tie, add all tied Validators
 
 #### ------------------------------------------------------------------------------
 #### TOP22 Calculation - Not Implemented
@@ -338,4 +342,4 @@ Ownership: none
 * GetTotalParticipationReward(delegator) : uint (Integer ORBS)
 * GetTotalValidatorReward(validator) : uint (Integer ORBS)
 * GetTotalGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
-* GetTotalReward(address) : uint (Integer ORBS)uint (Integer ORBS)
+* GetTotalReward(address) : uint (Integer ORBS)
