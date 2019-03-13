@@ -82,10 +82,8 @@ Ownership: none
 > Mirrors an Ethereum delegation by vote contract transaction by calling `mirrorDelegationData`.
 > mirrorDelegation may only be called during the vote mirroring period.
 
-#### Check the that vote mirroring period did not end
-* `ethereum_block_height` < `election_block_height` + `parameter.VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`.
-  * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
-  * If not return an error indicating: Resubmit in the next elections.
+#### Check the that vote processing did not start yet
+* If processing has started return an error indicating: Resubmit in the next elections.
 
 #### Read and check the Delegate event
 * Read the transaction's `Delegate(delegator, to, delegate_counter)` event emitted by the `OrbsVoting` contract.
@@ -99,16 +97,13 @@ Ownership: none
 #### Process the delegation
 * Process the delegation by calling `mirrorDelegationData(delegator, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
 
-
 ### mirrorDelegationByTransfer(bytes txid)
 > Access: external
 > Mirrors an Ethereum delegation by transfer transaction by calling `mirrorDelegationData`.
 > mirrorDelegation may only be called during the vote mirroring period.
 
-#### Check the that vote mirroring period did not end
-* `ethereum_block_height` < `election_block_height` + `parameter.VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS`.
-  * Read the reference final `ethereum_block_height` using `Ethereum.GetBlockHeight`.
-  * If not return an error indicating: Resubmit in the next elections.
+#### Check the that vote processing did not start yet
+* If processing has started return an error indicating: Resubmit in the next elections.
 
 #### Read and check the transfer event
 * Read the transaction's `transfer(from, to, tokens` event emitted by the `ERC20` contract.
