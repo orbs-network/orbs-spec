@@ -36,11 +36,12 @@ Ownership: none
   * Default: 70%
 * `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
   * 7467969 (approximately Apr 1 noon UTC)
+* `MINIMUM_VALIDATORS` - the minimal number of  
 
 #### Rewards Parameters
 * `PARTICIPATION_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders (Delegators or Guardians) for participation. (Delegators or Guardians)
   * Default: 60M (ORBS)
-* `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low: less than `PARTICIPATION_MAX_REWARD`/`PARTICIPATION_MAX_REWARD_PERCENT`).
+* `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` - The maximum award in each election as a percent of the participant stake. (taken into consideration when the total participating stake is low: less than `PARTICIPATION_MAX_REWARD`/`PARTICIPATION_MAX_STAKE_REWARD_PERCENT`).
   * Default: 8%
 * `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` - a fixed reward given to Validators at the initial stage of the network.
   * Default: 1M (ORBS)
@@ -232,9 +233,8 @@ Ownership: none
   * received_votes[`validator`] < `disapproval_threshold`.
 
 #### Minimal number of Validators protection
-* While number of elected_validators < 7
-  * Add validators from `validators_list` that are not elected in order of votes (min to max)
-    * On tie, add all tied Validators
+* If number of elected_validators < `MINIMUM_VALIDATORS`
+  * elected_validators = validators in `validators_list`
 
 #### ------------------------------------------------------------------------------
 #### TOP22 Calculation - Not Implemented
@@ -318,7 +318,7 @@ Ownership: none
 
 #### General
 * getNextElectionBlockNumber() : Ethereum_block
-* getLastElectionBlockNumber() : Ethereum_block
+* getEffectiveElectionBlockNumber() : Ethereum_block
 * getElectionPeriod() : Number Of Ethereum_blocks
 * getNumberOfElections()
 * getElectedValidatorsOrbsAddress() : list of Validators
