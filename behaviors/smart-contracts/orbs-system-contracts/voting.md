@@ -25,7 +25,7 @@ Ownership: none
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
   * Default: 480 (~ 2 hours)
 * `ELECTION_CYCLE_IN_BLOCKS` - The number of Ethereum blocks between elections, determines the next  `election_block_height`.
-  * Default: 17280 (~ 3 days)
+  * Default: 15000 (~ 3 days)
 * `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a Guardian's voting is valid
   * Default: 40320 (~ 7 days)
 * `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
@@ -323,7 +323,10 @@ Ownership: none
 * getNumberOfElections()
 * getElectedValidatorsOrbsAddress() : list of Validators
 * getElectedValidatorsEthereumAddress() : list of validators 
-  
+* getCurrentEthereumBlockNumber()
+* getProcessingStartBlockNumber()
+* getMirroringEndBlockNumber()
+
 #### Extended Last Election Results
 * GetGuardianVotingWeight(Guardian) : uint
 * GetGuardianStake(Guardian) : uint (Integer ORBS)
@@ -344,3 +347,6 @@ Ownership: none
 * GetCumulativeParticipationReward(delegator) : uint (Integer ORBS)
 * GetCumulativeValidatorReward(validatorEthereumAddress) : uint (Integer ORBS)
 * GetCumulativeGuardiansExcellenceReward(guardian) : uint (Integer ORBS)
+
+
+
