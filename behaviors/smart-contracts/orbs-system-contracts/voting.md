@@ -329,9 +329,9 @@ Ownership: none
 
 #### Extended Last Election Results
 * GetGuardianVotingWeight(Guardian) : uint
-* GetGuardianStake(Guardian) : uint (Integer ORBS)
+* GetGuardianStake(Guardian) : uint
 * GetValidatorVotes(ValidatorEthereumAddress) : uint
-* GetValidatorStake(ValidatorEthereumAddress) : uint (Integer ORBS)
+* GetValidatorStake(ValidatorEthereumAddress) : uint
 * GetTotalStake() : uint
 * GetExcellenceProgramGuardians() : list of guardians 
 
@@ -339,9 +339,10 @@ Ownership: none
 * getElectedValidatorsOrbsAddressByBlockHeight(orbs_block_height) : elected_validators
 * getElectedValidatorsEthereumAddressByBlockHeight() : elected_validators
 * getElectedValidatorsOrbsAddressByIndex(index) : elected_validators (Ethereum addresses).
-* getElectedValidatorsOrbsEthereumByIndex(index) : elected_validators (Ethereum addresses).
-* getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
-* getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
+* getElectedValidatorsEthereumAddressByIndex(index) : elected_validators (Ethereum addresses).
+* getElectedValidatorsOrbsAddressByIndex(index) : elected_validators (Ethereum addresses).
+* getElectionEventBlockNumberByIndex(index) : Election event Ethereum block number
+* getElectionResultsBlockHeightByIndex(index) : Apply results orbs_block_height
 
 #### Rewards
 * GetCumulativeParticipationReward(delegator) : uint (Integer ORBS)
