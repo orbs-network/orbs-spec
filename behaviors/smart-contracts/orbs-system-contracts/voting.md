@@ -61,6 +61,29 @@ Ownership: none
 * `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 328767
 * `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 8220
 
+### Elections Terminology:
+* Effective Elections Block Number
+  * The election event block number that the currently elected validators were elected at.
+    * Note: can be read from the elections history table.
+* Current Elections Block Number
+  * The elections that is currently undergoing (either voted for or in processing)
+* Next Elections Block Number
+  * The next elections after the current elections
+
+### Getting the current election block number
+> The current election block number is set as the next election event block number in the global elections schedule.
+* Get the current Ethereum block number using `Ethereum.GetBlockNumber()`
+* If current Ethereum block < `FIRST_ELECTION_BLOCK` 
+  * first election = `FIRST_ELECTION_BLOCK`
+* Else
+  * first election = the first block number in the elections schedule that is above the current Ethereum block.
+<!--
+* Implementation suggestion: first election = Current Ethereum block + `ELECTION_CYCLE_IN_BLOCKS` + (`FIRST_ELECTION_BLOCK` - Current Ethereum block) % `ELECTION_CYCLE_IN_BLOCKS`) 
+-->
+
+### initFirstElection()
+> Called once and init the first election based on the current Ethereum block. Implicitly called by internal reads of the `election_event_block`.
+* If `election_event_block` == 0, set `election_event_block` to the first election. 
 
 ### mirrorDelegationData(delegator, to, delegation_block_height, delegation_tx_index, updated_by)
 > Access: internal
@@ -286,39 +309,12 @@ Ownership: none
 
 
 &nbsp;
-### Elected Validators Database (part of the voting contract)
-
-#### UpdateElectionResult(election_ethereum_block_height, elected_validators)
-> Stores the list of elected validators per block height
-* `election_index` += 1
-* Validators[`election_index`] = `elected_validators`
-* ElectionEthereumBlockHeight[`election_index`] = `election_block_height`
-* ValidatorsApplyBlockHeight[`election_index`] = current **Orbs** block_height` + `parameter.TRANSITION_PERIOD_LENGTH_IN_BLOCKS`
-
-
-#### GetElectedValidatorsByHeight(orbs_block_height) : elected_validators
-> Return the list of elected validators per requested block_height
-* Find the `reference_election_index` = the largest election_index, such that ValidatorsApplyBlockHeight[election_index] is smaller than the provided block_height.
-* Return Validators[`reference_election_index`]
-
-#### GetNumberOfElections : uint
-> Returns `election_index`, used for migrations.
-
-#### GetElectedValidatorsByIndex(election_index) : (election_ethereum_block_height, apply_block_height, validators_list)
-> Returns the list of elected validators and relevant election and apply block_height by election_index, used for migrations.
-
-
-&nbsp;
-### OrbsRewards
-> Holds the guardians, delegators nad validators rewards
-
-
-&nbsp;
 ## Getters Interface
 
 #### General
-* getNextElectionBlockNumber() : Ethereum_block
 * getEffectiveElectionBlockNumber() : Ethereum_block
+* getCurrentElectionBlockNumber() : Ethereum_block
+* getNextElectionBlockNumber() : Ethereum_block
 * getElectionPeriod() : Number Of Ethereum_blocks
 * getNumberOfElections()
 * getElectedValidatorsOrbsAddress() : list of Validators
