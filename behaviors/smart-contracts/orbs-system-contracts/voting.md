@@ -335,7 +335,8 @@ Ownership: none
 #### Historical data
 * getElectedValidatorsOrbsAddressByBlockHeight(orbs_block_height) : elected_validators
 * getElectedValidatorsEthereumAddressByBlockHeight() : elected_validators
-* getElectedValidatorsByIndex(index) : elected_validators (Ethereum addresses).
+* getElectedValidatorsOrbsAddressByIndex(index) : elected_validators (Ethereum addresses).
+* getElectedValidatorsOrbsEthereumByIndex(index) : elected_validators (Ethereum addresses).
 * getElectedValidatorsBlockNumberByIndex(index) : Election event Ethereum block number
 * getElectedValidatorsBlockHeightByIndex(index) : Apply results orbs_block_height
 
