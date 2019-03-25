@@ -23,11 +23,11 @@ Ownership: none
 
 #### Elections Parameters
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
-  * Default: 480 (~ 2 hours)
+  * Default: 550 (~ 2 hours)
 * `ELECTION_CYCLE_IN_BLOCKS` - The number of Ethereum blocks between elections, determines the next  `election_block_height`.
-  * Default: 15000 (~ 3 days)
+  * Default: 20000 (~ 3 days)
 * `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a Guardian's voting is valid
-  * Default: 40320 (~ 7 days)
+  * Default: 45500 (~ 7 days)
 * `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
   * Default: 0 - the next new committee is applied in the next block.
 * `MAXIMUM_ELECTED_VALIDATORS` - the maximum Validators that can initially be elected
@@ -35,8 +35,9 @@ Ownership: none
 * `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
   * Default: 70%
 * `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
-  * 7467969 (approximately Apr 1 noon UTC)
-* `MINIMUM_VALIDATORS` - the minimal number of  
+  * 7502750 (approximately April 4, 2019 noon UTC)
+* `MINIMUM_VALIDATORS` - the minimal number of Validators to be elected
+  * 7
 
 #### Rewards Parameters
 * `PARTICIPATION_MAX_ANNUAL_REWARD` - The maximum annual reward awarded to stakeholders (Delegators or Guardians) for participation. (Delegators or Guardians)
@@ -55,11 +56,11 @@ Ownership: none
   * Default: 10
 
 #### General
-* `ETHEREUM_AVG_BLOCK_TIME_SEC` = 15
+* `ETHEREUM_AVG_BLOCK_TIME_SEC` = 13.28
 * `SEC_IN_A_YEAR` = 31536000
-* `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 493150
-* `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 328767
-* `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 8220
+* `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 505328
+* `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 336885
+* `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 8423
 
 ### Elections Terminology:
 * Effective Elections Block Number
