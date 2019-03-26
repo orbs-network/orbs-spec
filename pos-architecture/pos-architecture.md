@@ -1,4 +1,4 @@
-# Orbs PoS Architecture
+# Orbs PoS Architecture - V1
 > Describes Orbs PoS architecture in its V1 version.
 
 > Discusses the different roles, the election process in which Guardians and Validators are elected and the rewards awarded to the different roles. 
