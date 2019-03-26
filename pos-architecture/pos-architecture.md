@@ -14,6 +14,6 @@ The Orbs Universe is centered around three core roles - Validators, Guardians an
 
 **Delegators** - Delegators are token holders who assign responsibility for their voting weight (stake) to Guardians, empowering them to align the network with the best interests of the ecosystem.
 
-## [Orbs Elections](./elections.md)
+### [Orbs Elections](./elections.md)
 
-## [Rewards](./rewards.md)
+### [Rewards](./rewards.md)
