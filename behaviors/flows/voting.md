@@ -99,7 +99,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * A Guardian can vote by sending a transaction to Ethereum.OrbsVoting.voteOut(address[]).
   * Generates a `VoteOut(voter, validators, voteCounter)` event.
 * A Guardian must be registered at the time of the election in order for its vote to be counted.
-* A vote remains valid for 40320 blocks (~ 7 days)
+* A vote remains valid for 45,500 blocks (~ 7 days)
 * The voting weight of an Guardian is proportional to the total stake that was deleted to it. (hierarchical delegation)
 * A Guardian can vote for the disapproval of up to 3 Validators. (may vote for none)
 
@@ -109,10 +109,10 @@ The flow describes the voting for Guardians and Validators in Orbs.
 [election_flow]: ../_img/election_flow.png "election flow"
 
 * Election event
-  * Election is performed every 17280 Ethereum blocks
+  * Election is performed every 20,000 Ethereum blocks
   * Votes and delegations that were done up to the block_height (inclusive) take effect.
 * Votes Mirroring Period
-  * Starts after the election event for 480 blocks (~2 hours).
+  * Starts after the election event for 545 blocks (~2 hours).
   * During the mirroring period, the delegations and votes are recorded on Orbs.
 * Votes Processing
   * Performed once the mirroring period is complete.
@@ -151,21 +151,24 @@ The flow describes the voting for Guardians and Validators in Orbs.
 
 #### Participation reward (Delegators and Guardians)
 * Maximum reward per election:
-  * 60M x 17280 / 2102400 = 493150 ORBS
+  * 60M x 20000 x 13.28 / 31536000 = 505328 ORBS
 * Participation reward for the election
   * Min(493150, 8% of total voting stake)
 * Divide the participation reward for the election in proportion to the Delegator/Guardian stake.
 
 #### Guardians Excellence Program reward
 * Maximum reward per election:
-  * 40M x 17280 / 2102400 = 328767 ORBS
+  * 40M x 20000 x 13.28 / 31536000 = 336885 ORBS
 * Guardians reward for the election
   * Min(493150, 10% of voting stake of the top 10 Guardians)
     * The voting stake is the total delegated stake including the Guardian's 
 * Divide the reward for the election to the top 10 Guardians in proportion to their stake.
 
 #### Validators reward
-* Every elected Validator is awarded with 4% of the Validator stake + 1M ORBS as part of the Validator Introduction Program.
+* Every elected Validator is awarded with 4% of the Validator stake
+* 1M ORBS as part of the Validator Introduction Program.
+  * Validator Introduction Program reward per election:
+    * 1M x 20000 x 13.28 / 31536000 = 8423 ORBS
 
 &nbsp;
 ## Contracts specification
