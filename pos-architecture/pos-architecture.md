@@ -1,6 +1,7 @@
 # Orbs PoS Architecture
-> This document describes Orbs PoS architecture in its V1 version. It discusses the different roles, the election process in which Guardians and Validators are elected and the rewards awarded to the different roles. 
-> 
+> Describes Orbs PoS architecture in its V1 version.
+> Discusses the different roles, the election process in which Guardians and Validators are elected and the rewards awarded to the different roles. 
+
 > The architecture is likely to be adjusted over time in order to strengthen the long term viability of the network. The primary source of these changes will come from the direct interaction with the initial ecosystem participants to collaborate on the ideal path forward. 
 For more details on Orbs network and in particular participating in Orbs PoS Universe see https://www.orbs.com/orbs-universe/.
 
