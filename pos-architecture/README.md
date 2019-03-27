@@ -33,4 +33,4 @@ The Orbs Universe is centered around three core roles - Validators, Guardians an
 
 #### [Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
 
-#### [Mirroring agent (Good Samaritan)](./processor-agent.md)
+#### [Mirroring agent (Good Samaritan)](./specifications/processor-agent.md)
