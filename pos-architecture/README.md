@@ -8,6 +8,11 @@ For more details on Orbs network and in particular participating in Orbs PoS Uni
 
 &nbsp;
 ## Roles in Orbs Universe
+
+![alt text][orbs_universe_roles] <br/><br/>
+
+[orbs_universe_roles]: ./_img/orbs_universe_roles.png "orbs universe roles"
+
 The Orbs Universe is centered around three core roles - Validators, Guardians and Delegators.
 
 **Validators** - Validators operate the Orbs network. They align with the network interests by ensuring honest operation and maintaining security and availability. Based on the Validators own stake.
@@ -19,3 +24,13 @@ The Orbs Universe is centered around three core roles - Validators, Guardians an
 ### [Orbs Elections](./elections.md)
 
 ### [Rewards](./rewards.md)
+
+### Detailed Specification
+
+#### [Elections, mirroring to Orbs and Voting flow](../smart-contracts/ethereum-contracts/voting.md)
+
+#### [Ethereum voting contracts](../smart-contracts/ethereum-contracts/voting.md)
+
+#### [Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
+
+#### [Mirroring agent (Good Samaritan)](./processor-agent.md)
