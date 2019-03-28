@@ -1,9 +1,13 @@
-* Ethereum Voting Contracts
-> Orbs voting is performed using the Ethereum platform as described in the [voting flow](../../flows/voting.md))
+# Ethereum Voting Contracts
+> Orbs voting is performed using the Ethereum platform as described in the [voting flow](./election-flow.md)
 
+> For more defails on Orbs PoS architecture, see [Orbs PoS architecture](https://github.com/orbs-network/orbs-spec/tree/pos2/pos-architecture)
+
+<!--
 ![alt text][ethereum_contracts] <br/><br/>
 
-[ethereum_contracts]: ../../_img/ethereum_contracts.png "Orbs Ethereum contracts"
+[ethereum_contracts]: ../_img/ethereum_contracts.png "Orbs Ethereum contracts"
+-->
 
 &nbsp;
 ## OrbsValidators 

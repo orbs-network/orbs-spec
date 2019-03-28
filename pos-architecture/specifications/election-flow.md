@@ -169,10 +169,3 @@ The flow describes the voting for Guardians and Validators in Orbs.
 * 1M ORBS as part of the Validator Introduction Program.
   * Validator Introduction Program reward per election:
     * 1M x 20000 x 13.28 / 31536000 = 8423 ORBS
-
-&nbsp;
-## Contracts specification
-
-[Ethereum voting contracts](../smart-contracts/ethereum-contracts/voting.md)
-
-[Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)

@@ -1,5 +1,7 @@
 # Orbs Vote Processing Contracts
-> Orbs voting is performed on the Ethereum platform and processed on Orbs as described in the [voting flow](../../flows/voting.md)).
+> Orbs voting is performed on the Ethereum platform and processed on Orbs as described in the [voting flow](./election-flow.md)
+
+> For more defails on Orbs PoS architecture, see [Orbs PoS architecture](https://github.com/orbs-network/orbs-spec/tree/pos2/pos-architecture)
 
 &nbsp;
 ## OrbsVoting
