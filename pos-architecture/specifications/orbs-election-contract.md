@@ -3,8 +3,6 @@
 
 > For more defails on Orbs PoS architecture, see [Orbs PoS architecture](https://github.com/orbs-network/orbs-spec/tree/pos2/pos-architecture)
 
-in the [voting flow](../../flows/voting.md)).
-
 &nbsp;
 ## OrbsVoting
 Ownership: none
