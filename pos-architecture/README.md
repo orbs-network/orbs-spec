@@ -27,10 +27,10 @@ The Orbs Universe is centered around three core roles - Validators, Guardians an
 
 ### Detailed Specification
 
-#### [Elections, mirroring to Orbs and Voting flow](../smart-contracts/ethereum-contracts/voting.md)
+#### [Elections, mirroring to Orbs and Voting flow](./specifications/election-flow.md)
 
-#### [Ethereum voting contracts](../smart-contracts/ethereum-contracts/voting.md)
+#### [Ethereum voting contracts](./specifications/ethereum-voting-contracts.md)
 
-#### [Orbs voting contracts](../smart-contracts/orbs-system-contracts/voting.md)
+#### [Orbs voting contracts](./specifications/orbs-election-contract.md)
 
-#### [Mirroring agent (Good Samaritan)](./specifications/processor-agent.md)
+#### [Mirroring agent (Good Samaritan)](./specifications/mirroring-agent.md)

@@ -1,5 +1,5 @@
-# Voting Processing Agent 
-> The Voting Processing Agent is responsible for mirroring voting and delegation transactions and to initiate voting processing. Anyone may operate an agent. The network does not trust the agent or assumes honest behaviour and only requires the existence of at least one agent that follows the protocol.
+# Voting Mirroring Agent 
+> The Voting Mirroring Agent is responsible for mirroring voting and delegation transactions and to initiate voting processing. Anyone may operate an agent. The network does not trust the agent or assumes an honest behaviour and only requires the existence of at least one agent that follows the protocol.
 
 ## Parameters
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - the time after an election event when processing can start. Mirroring may continue until the end of the mirroring period.
