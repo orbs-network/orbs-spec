@@ -27,7 +27,7 @@ Ownership: none
 * `VOTE_MIRRORING_PERIOD_LENGTH_IN_BLOCKS` - The number of Ethereum blocks after the `election_block_height` during which mirroring is still allowed for the election.
   * Default: 550 (~ 2 hours)
 * `ELECTION_CYCLE_IN_BLOCKS` - The number of Ethereum blocks between elections, determines the next  `election_block_height`.
-  * Default: 19762 (~ 3 days)
+  * Default: 20000 (~ 3 days)
 * `VOTING_VALIDITY_TIME` - The number of Ethereum blocks during which a Guardian's voting is valid
   * Default: 45500 (~ 7 days)
 * `TRANSITION_PERIOD_LENGTH_IN_BLOCKS` - The number of **Orbs** blocks (of the virtual chains) until an election decision is applied.
