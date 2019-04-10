@@ -46,7 +46,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 #### Voting
 * A Guardian votes out up to 3 validators.
   * An empty list indicates no validator to vote out.
-* A vote can be cast at any time and is valid for 40320 Ethereum blocks (~ 7 days)
+* A vote can be cast at any time and is valid for 45500 Ethereum blocks (~ 7 days)
 
 ### Delegation and Voting Mirroring
 > Performed on Orbs during until the end of the Vote Mirroring Period: 480 blocks (~ 2 hours) after the election event.
