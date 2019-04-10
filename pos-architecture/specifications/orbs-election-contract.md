@@ -37,7 +37,7 @@ Ownership: none
 * `DISAPPROVAL_THRESHOLD_PERCENT` - the percentage of the total participating stake required to disapprove a Validator
   * Default: 70%
 * `FIRST_ELECTION_BLOCK` - the Ethereum block of the first election. 
-  * 7502750 (approximately April 4, 2019 noon UTC)
+  * 7528900 (approximately April 8, 2019 noon UTC)
 * `MINIMUM_VALIDATORS` - the minimal number of Validators to be elected
   * 7
 
@@ -58,11 +58,14 @@ Ownership: none
   * Default: 10
 
 #### General
-* `ETHEREUM_AVG_BLOCK_TIME_SEC` = 13.28
-* `SEC_IN_A_YEAR` = 31536000
-* `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 505328
-* `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 336885
-* `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` * `ELECTION_CYCLE_IN_BLOCKS` * `ETHEREUM_AVG_BLOCK_TIME_SEC` / `SEC_IN_A_YEAR`) = 8423
+* `ETHEREUM_AVG_BLOCK_TIME_SEC` = 13.45
+* `ELECTIONS_PER_YEAR` = 117.23
+* `ELECTION_PARTICIPATION_MAX_REWARD` = (`PARTICIPATION_MAX_ANNUAL_REWARD` / `ELECTIONS_PER_YEAR`) = 60M / 117.23
+* `ELECTION_GUARDIANS_MAX_REWARD` = (`GUARDIANS_MAX_ANNUAL_REWARD` / `ELECTIONS_PER_YEAR`) = 40M / 117.23
+* `ELECTION_VALIDATOR_INTRODUCTION_MAX_REWARD` = `VALIDATOR_INTRODUCTION_PROGRAM_ANNUAL_REWARD` / `ELECTIONS_PER_YEAR`) = 1M / 117.23
+* `ELECTION_PARTICIPATION_MAX_STAKE_REWARD_PERCENT` =  `PARTICIPATION_MAX_STAKE_REWARD_PERCENT` / `ELECTIONS_PER_YEAR`) = 8% / 117.23
+* `ELECTION_GUARDIANS_MAX_DPOS_REWARD_PERCENT` =  `GUARDIANS_MAX_DPOS_REWARD_PERCENT` / `ELECTIONS_PER_YEAR`) = 10% / 117.23
+* `ELECTION_VALIDATORS_STAKE_REWARD_PERCENT` =  `VALIDATORS_STAKE_REWARD_PERCENT` / `ELECTIONS_PER_YEAR`) = 4% / 117.23
 
 ### Elections Terminology:
 * Effective Elections Block Number
@@ -291,7 +294,7 @@ Ownership: none
 
 #### Calculate the participation reward
 * Calculate the participation reward for the election
-  * `election_participation_reward` = min(`ELECTION_PARTICIPATION_MAX_REWARD`, `total_voting_stake` * `PARTICIPATION_MAX_REWARD_PERCENT`)
+  * `election_participation_reward` = min(`ELECTION_PARTICIPATION_MAX_REWARD`, `total_voting_stake` * `ELECTION_PARTICIPATION_MAX_REWARD_PERCENT`)
 * Calculate the participation reward
   * For every delegator or guardian:
     * participation_reward[participant] += stake[participant] / `total_voting_stake` * `election_participation_reward`
@@ -301,14 +304,14 @@ Ownership: none
   * `excellence_program_participants` = the top `EXCELLENCE_PROGRAM_NUMBER_OF_GUARDIANS` with the most `voting_stake`.
   * `total_excellence_program_stake` = total `voting_stake` of the excellence_program_participants.  
 * Calculate the Guardians Excellence Program reward for the election
-  * `election_guardians_reward` = min(`ELECTION_GUARDIANS_MAX_REWARD`, `total_excellence_program_stake` * `GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
+  * `election_guardians_reward` = min(`ELECTION_GUARDIANS_MAX_REWARD`, `total_excellence_program_stake` * `ELECTION_GUARDIANS_MAX_DPOS_REWARD_PERCENT`).
 * Calculate the Guardians reward
   * For every `guardian` in excellence_program_participants:
     * guardian_excellence_reward[`guardian`] += voting_stake[`guardian`] / `total_excellence_program_stake` * `election_guardians_reward`
 
 #### Calculate the Validators reward
 * For every `elected_validator` in `elected_validators`
-  * validator_reward[`elected_validator`] += stake[`elected_validator`] * `VALIDATORS_STAKE_REWARD_PERCENT` + `VALIDATOR_INTRODUCTION_PROGRAM_REWARD`
+  * validator_reward[`elected_validator`] += stake[`elected_validator`] * `ELECTION_VALIDATORS_STAKE_REWARD_PERCENT` + `VALIDATOR_INTRODUCTION_PROGRAM_REWARD`
 
 
 &nbsp;
