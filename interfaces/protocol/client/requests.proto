@@ -81,3 +81,26 @@ message GetBlockResponse {
     repeated protocol.ContractStateDiff contract_state_diffs = 8;
     protocol.ResultsBlockProof results_block_proof = 9;
 }
+
+message GetBlocksByRangeRequest {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+    primitives.block_height from_block_height = 3;
+    primitives.block_height to_block_height = 4; // limited to 100 blocks, up to the latest block
+}
+
+message GetBlocksByRangeResponse {
+    RequestResult request_result = 1;
+    repeated BlockData blocks = 2;
+}
+
+message BlockData {
+    protocol.TransactionsBlockHeader transactions_block_header = 1;
+    protocol.TransactionsBlockMetadata transactions_block_metadata = 2;
+    repeated protocol.SignedTransaction signed_transactions = 3;
+    protocol.TransactionsBlockProof transactions_block_proof = 4;
+    protocol.ResultsBlockHeader results_block_header = 5;
+    repeated protocol.TransactionReceipt transaction_receipts = 6;
+    repeated protocol.ContractStateDiff contract_state_diffs = 7;
+    protocol.ResultsBlockProof results_block_proof = 8;
+}
