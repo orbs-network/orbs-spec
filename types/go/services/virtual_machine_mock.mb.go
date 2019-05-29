@@ -24,6 +24,15 @@ func (s *MockVirtualMachine) ProcessTransactionSet(ctx context.Context, input *P
 	}
 }
 
+func (s *MockVirtualMachine) CallSystemContract(ctx context.Context, input *CallSystemContractInput) (*CallSystemContractOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*CallSystemContractOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockVirtualMachine) ProcessQuery(ctx context.Context, input *ProcessQueryInput) (*ProcessQueryOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {

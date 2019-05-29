@@ -15,6 +15,7 @@ import (
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
 	ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
+	CallSystemContract(ctx context.Context, input *CallSystemContractInput) (*CallSystemContractOutput, error)
 	ProcessQuery(ctx context.Context, input *ProcessQueryInput) (*ProcessQueryOutput, error)
 	TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
@@ -210,6 +211,74 @@ func (x *TransactionSetPreOrderOutput) StringPreOrderResults() (res string) {
 		res += fmt.Sprintf("%x", v) + ","
 	}
 	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message CallSystemContractInput (non serializable)
+
+type CallSystemContractInput struct {
+	BlockHeight        primitives.BlockHeight
+	BlockTimestamp     primitives.TimestampNano
+	ContractName       primitives.ContractName
+	MethodName         primitives.MethodName
+	InputArgumentArray *protocol.ArgumentArray
+}
+
+func (x *CallSystemContractInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray())
+}
+
+func (x *CallSystemContractInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *CallSystemContractInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
+func (x *CallSystemContractInput) StringContractName() (res string) {
+	res = fmt.Sprintf("%s", x.ContractName)
+	return
+}
+
+func (x *CallSystemContractInput) StringMethodName() (res string) {
+	res = fmt.Sprintf("%s", x.MethodName)
+	return
+}
+
+func (x *CallSystemContractInput) StringInputArgumentArray() (res string) {
+	res = x.InputArgumentArray.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message CallSystemContractOutput (non serializable)
+
+type CallSystemContractOutput struct {
+	OutputArgumentArray *protocol.ArgumentArray
+	CallResult          protocol.ExecutionResult
+}
+
+func (x *CallSystemContractOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{OutputArgumentArray:%s,CallResult:%s,}", x.StringOutputArgumentArray(), x.StringCallResult())
+}
+
+func (x *CallSystemContractOutput) StringOutputArgumentArray() (res string) {
+	res = x.OutputArgumentArray.String()
+	return
+}
+
+func (x *CallSystemContractOutput) StringCallResult() (res string) {
+	res = fmt.Sprintf("%x", x.CallResult)
 	return
 }
 
