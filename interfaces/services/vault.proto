@@ -4,8 +4,6 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/crypto.proto";
 
-option serialize_messages = false;
-
 // relies on Processor, CrosschainConnector, StateStorage
 service Vault {
     // called by ConsensusAlgo, BlockStorage, TransactionPool
