@@ -23,7 +23,7 @@ message NodeSignInput {
 }
 
 message NodeSignOutput {
-    primitives.ecdsa_secp256k1_sig signatrue = 1;
+    primitives.ecdsa_secp256k1_sig signature = 1;
 }
 
 // message NodeGetPublicKeyInput {

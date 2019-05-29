@@ -37,17 +37,17 @@ func (x *NodeSignInput) StringData() (res string) {
 // message NodeSignOutput (non serializable)
 
 type NodeSignOutput struct {
-	Signatrue primitives.EcdsaSecp256K1Sig
+	Signature primitives.EcdsaSecp256K1Sig
 }
 
 func (x *NodeSignOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Signatrue:%s,}", x.StringSignatrue())
+	return fmt.Sprintf("{Signature:%s,}", x.StringSignature())
 }
 
-func (x *NodeSignOutput) StringSignatrue() (res string) {
-	res = fmt.Sprintf("%s", x.Signatrue)
+func (x *NodeSignOutput) StringSignature() (res string) {
+	res = fmt.Sprintf("%s", x.Signature)
 	return
 }
