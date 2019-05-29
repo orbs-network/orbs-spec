@@ -1,0 +1,43 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+
+option serialize_messages = false;
+
+// relies on Processor, CrosschainConnector, StateStorage
+service Vault {
+    // called by ConsensusAlgo, BlockStorage, TransactionPool
+    rpc NodeSign (NodeSignInput) returns (NodeSignOutput);
+
+    // 
+//    rpc NodeGetPublicKey (NodeGetPublicKeyInput) returns (NodeGetPublicKeyOutput);
+
+    // May be called only by ValutOwner (Boyar)
+//    rpc NodeGenerateNewKeyPair (NodeGenerateNewKeyPairInput) returns (NodeGenerateNewKeyPairOutput);
+}
+
+message NodeSignInput {
+    bytes data = 1; 
+}
+
+message NodeSignOutput {
+    primitives.ecdsa_secp256k1_sig signatrue = 1;
+}
+
+// message NodeGetPublicKeyInput {
+//     // empty
+// }
+
+// message NodeGetPublicKeyOutput {
+//     primitives.ecdsa_secp256k1_public_key public_key = 1;
+// }
+
+// message NodeGenerateNewKeyPairInput {
+//     // empty
+// }
+
+// message NodeGenerateNewKeyPairOutput {
+//     primitives.ecdsa_secp256k1_public_key public_key = 1;
+// }
