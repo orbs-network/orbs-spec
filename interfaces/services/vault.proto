@@ -1,0 +1,59 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+
+// relies on Processor, CrosschainConnector, StateStorage
+service Vault {
+// called by ConsensusAlgo, BlockStorage, TransactionPool
+rpc NodeSign (NodeSignInput) returns (NodeSignOutput);
+
+// Public function
+rpc NodeGetNodeAddress (NodeGetNodeAddressInput) returns (NodeGetNodeAddressOutput);
+
+// ValutOwner (Boyar) functions
+rpc NodeGenerateNewKeyPair (NodeGenerateNewKeyPairInput) returns (NodeGenerateNewKeyPairOutput);
+rpc RegisterVirtualChain (RegisterVirtualChainInput) returns (RegisterVirtualChainOutput);
+}
+
+message NodeSignInput {
+bytes data_hash = 1;
+primitives.virtual_chain_id virtual_chain_id = 2;
+primitives.ecdsa_secp256k1_sig local_signature = 3;
+}
+
+message NodeSignOutput {
+primitives.ecdsa_secp256k1_sig signature = 1;
+}
+
+message NodeGetNodeAddressInput {
+// empty
+}
+
+message NodeGetNodeAddressOutput {
+primitives.node_address node_address = 1;
+}
+
+message NodeGenerateNewKeyPairInput {
+// empty
+}
+
+message NodeGenerateNewKeyPairOutput {
+primitives.node_address node_address = 1;
+}
+
+message RegisterVirtualChainInput {
+VCRegistrationData data = 1;
+primitives.ecdsa_secp256k1_sig owner_signature = 2;
+}
+
+message RegisterVirtualChainOutput {
+// empty
+}
+
+message VCRegistrationData {
+primitives.virtual_chain_id virtual_chain_id = 1;
+primitives.node_address local_address = 2;
+}
