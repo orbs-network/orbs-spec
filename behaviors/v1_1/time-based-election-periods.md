@@ -33,7 +33,7 @@
   * If current Ethereum block time < `FIRST_TIME_BASED_ELECTION` 
     * next election time = `FIRST_TIME_BASED_ELECTION`
   * Else
-    * next election time = `FIRST_TIME_BASED_ELECTION` + N x `ELECTION_PERIOD` such that next election time is less than the current Ethereum block time.
+    * next election time = `FIRST_TIME_BASED_ELECTION` + N x `ELECTION_PERIOD` such that next election time is after the current Ethereum block time.
   * Note: will be deprecated after the management chain implementation.  
 
 *General*
