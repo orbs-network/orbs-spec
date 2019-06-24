@@ -27,7 +27,14 @@
   * Check validity by time instead of block height.
 * Rewards
   * Replace the factor with 365.24/3
-* APIs
+* Election schedule / first election
+  * The next election is the first election in the election schedule following the first time based election.
+  * Get the current Ethereum block time using `Ethereum.GetBlockTime()`
+  * If current Ethereum block time < `FIRST_TIME_BASED_ELECTION` 
+    * next election time = `FIRST_TIME_BASED_ELECTION`
+  * Else
+    * next election time = `FIRST_TIME_BASED_ELECTION` + N x `ELECTION_PERIOD` such that next election time is less than the current Ethereum block time.
+  * Note: will be deprecated after the management chain implementation.  
 
 *General*
 
@@ -40,7 +47,7 @@
   * getElectedValidatorsEthereumAddress() - as is
   * getCurrentEthereumBlockNumber() - as is
   * *getProcessingStartBlockNumber()* - deprecated, panic("Processing start time: ...")
-  * *getMirroringEndBlockNumber()* - deprecated, panic("MIrroring end time: ...")
+  * *getMirroringEndBlockNumber()* - deprecated, panic("Mirroring end time: ...")
   * *getCurrentElectionTime()* - New function
     * Returns the time of the election in process
   * *getNextElectionTime()* - New function
