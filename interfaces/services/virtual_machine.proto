@@ -22,6 +22,7 @@ service VirtualMachine {
 
     // called by PublicApi
     rpc ProcessQuery (ProcessQueryInput) returns (ProcessQueryOutput);
+    rpc ReadStateRecords (ReadStateRecordsInput) returns (ReadStateRecordsOutput);
 
     // called by TransactionPool
     rpc TransactionSetPreOrder (TransactionSetPreOrderInput) returns (TransactionSetPreOrderOutput); // Transactions Streaming
@@ -73,4 +74,16 @@ message CallSystemContractInput {
 message CallSystemContractOutput {
     protocol.ArgumentArray output_argument_array = 1;
     protocol.ExecutionResult call_result = 2;
+}
+
+message ReadStateRecordsInput {
+    primitives.contract_name contract_name = 1;
+    repeated bytes keys = 2;
+}
+
+message ReadStateRecordsOutput {
+    // TBD - "execution result"
+    repeated protocol.StateRecord state_records = 1;
+    primitives.block_height reference_block_height = 2;
+    primitives.timestamp_nano reference_block_timestamp = 3;
 }

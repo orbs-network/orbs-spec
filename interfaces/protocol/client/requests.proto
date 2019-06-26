@@ -81,3 +81,13 @@ message GetBlockResponse {
     repeated protocol.ContractStateDiff contract_state_diffs = 8;
     protocol.ResultsBlockProof results_block_proof = 9;
 }
+
+message QueryStateRecordsRequest {
+    primitives.contract_name contract_name = 1;
+    repeated bytes keys = 2;
+}
+
+message QueryStateRecordsResponse {
+    RequestResult request_result = 1;
+    repeated protocol.StateRecord state_records = 2;
+}
