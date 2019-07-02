@@ -17,7 +17,7 @@ service Vault {
 }
 
 message NodeSignInput {
-    bytes data_hash = 1;
+    bytes data = 1;
 }
 
 message NodeSignOutput {

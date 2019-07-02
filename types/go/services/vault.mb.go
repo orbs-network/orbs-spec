@@ -22,7 +22,7 @@ type Vault interface {
 // reader
 
 type NodeSignInput struct {
-	// DataHash []byte
+	// Data []byte
 
 	// internal
 	// implements membuffers.Message
@@ -33,7 +33,7 @@ func (x *NodeSignInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{DataHash:%s,}", x.StringDataHash())
+	return fmt.Sprintf("{Data:%s,}", x.StringData())
 }
 
 var _NodeSignInput_Scheme = []membuffers.FieldType{membuffers.TypeBytes}
@@ -63,30 +63,30 @@ func (x *NodeSignInput) Equal(y *NodeSignInput) bool {
 	return bytes.Equal(x.Raw(), y.Raw())
 }
 
-func (x *NodeSignInput) DataHash() []byte {
+func (x *NodeSignInput) Data() []byte {
 	return x._message.GetBytes(0)
 }
 
-func (x *NodeSignInput) RawDataHash() []byte {
+func (x *NodeSignInput) RawData() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
 
-func (x *NodeSignInput) RawDataHashWithHeader() []byte {
+func (x *NodeSignInput) RawDataWithHeader() []byte {
 	return x._message.RawBufferWithHeaderForField(0, 0)
 }
 
-func (x *NodeSignInput) MutateDataHash(v []byte) error {
+func (x *NodeSignInput) MutateData(v []byte) error {
 	return x._message.SetBytes(0, v)
 }
 
-func (x *NodeSignInput) StringDataHash() string {
-	return fmt.Sprintf("%x", x.DataHash())
+func (x *NodeSignInput) StringData() string {
+	return fmt.Sprintf("%x", x.Data())
 }
 
 // builder
 
 type NodeSignInputBuilder struct {
-	DataHash []byte
+	Data []byte
 
 	// internal
 	// implements membuffers.Builder
@@ -109,7 +109,7 @@ func (w *NodeSignInputBuilder) Write(buf []byte) (err error) {
 		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
 	}
 	w._builder.Reset()
-	w._builder.WriteBytes(buf, w.DataHash)
+	w._builder.WriteBytes(buf, w.Data)
 	return nil
 }
 
@@ -123,7 +123,7 @@ func (w *NodeSignInputBuilder) HexDump(prefix string, offsetFromStart membuffers
 		}
 	}()
 	w._builder.Reset()
-	w._builder.HexDumpBytes(prefix, offsetFromStart, "NodeSignInput.DataHash", w.DataHash)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "NodeSignInput.Data", w.Data)
 	return nil
 }
 
