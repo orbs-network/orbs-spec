@@ -100,7 +100,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
   * Generates a `VoteOut(voter, validators, voteCounter)` event.
 * A Guardian must be registered at the time of the election in order for its vote to be counted.
 * A vote remains valid for 45,500 blocks (~ 7 days)
-* The voting weight of an Guardian is proportional to the total stake that was deleted to it. (hierarchical delegation)
+* The voting weight of an Guardian is proportional to the total stake that was delegated to it. (hierarchical delegation)
 * A Guardian can vote for the disapproval of up to 3 Validators. (may vote for none)
 
 ## Election Flow
