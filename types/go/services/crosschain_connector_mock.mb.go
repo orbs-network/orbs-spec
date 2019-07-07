@@ -66,3 +66,12 @@ func (s *MockCrosschainConnector) EthereumGetBlockNumberByTime(ctx context.Conte
 		return nil, ret.Error(1)
 	}
 }
+
+func (s *MockCrosschainConnector) EthereumFilterLogs(ctx context.Context, input *EthereumFilterLogsInput) (*EthereumFilterLogsOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*EthereumFilterLogsOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

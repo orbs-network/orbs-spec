@@ -14,6 +14,7 @@ service CrosschainConnector {
     rpc EthereumGetBlockTime (EthereumGetBlockTimeInput) returns (EthereumGetBlockTimeOutput);
     rpc EthereumGetBlockTimeByNumber (EthereumGetBlockTimeByNumberInput) returns (EthereumGetBlockTimeByNumberOutput);
     rpc EthereumGetBlockNumberByTime (EthereumGetBlockNumberByTimeInput) returns (EthereumGetBlockNumberByTimeOutput);
+    rpc EthereumFilterLogs (EthereumFilterLogsInput) returns (EthereumFilterLogsOutput);
 }
 
 message EthereumCallContractInput {
@@ -75,4 +76,25 @@ message EthereumGetBlockNumberByTimeInput {
 
 message EthereumGetBlockNumberByTimeOutput {
     uint64 ethereum_block_number = 1;
+}
+
+message EthereumFilterLogsInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    string ethereum_contract_address = 2;
+    string ethereum_event_name = 3;
+    string ethereum_json_abi = 4;
+    uint64 from_ethereum_block_number = 5;
+    uint64 to_ethereum_block_number = 6; // 0 for recent
+}
+
+message EthereumFilterLogsOutput {
+    repeated EthereumEventData event = 1; //note: ordered by {block,log_index}
+}
+
+message EthereumEventData {
+    bytes ethereum_abi_packed_outputs = 1;
+    uint64 ethereum_block_number = 2;
+    uint32 ethereum_txindex = 3;
+    uint32 ethereum_logindex = 4;
+    uint32 ethereum_txhash = 5;
 }

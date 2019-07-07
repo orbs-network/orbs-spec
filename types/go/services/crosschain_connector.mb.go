@@ -17,6 +17,7 @@ type CrosschainConnector interface {
 	EthereumGetBlockTime(ctx context.Context, input *EthereumGetBlockTimeInput) (*EthereumGetBlockTimeOutput, error)
 	EthereumGetBlockTimeByNumber(ctx context.Context, input *EthereumGetBlockTimeByNumberInput) (*EthereumGetBlockTimeByNumberOutput, error)
 	EthereumGetBlockNumberByTime(ctx context.Context, input *EthereumGetBlockNumberByTimeInput) (*EthereumGetBlockNumberByTimeOutput, error)
+	EthereumFilterLogs(ctx context.Context, input *EthereumFilterLogsInput) (*EthereumFilterLogsOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -326,5 +327,120 @@ func (x *EthereumGetBlockNumberByTimeOutput) String() string {
 
 func (x *EthereumGetBlockNumberByTimeOutput) StringEthereumBlockNumber() (res string) {
 	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumFilterLogsInput (non serializable)
+
+type EthereumFilterLogsInput struct {
+	ReferenceTimestamp      primitives.TimestampNano
+	EthereumContractAddress string
+	EthereumEventName       string
+	EthereumJsonAbi         string
+	FromEthereumBlockNumber uint64
+	ToEthereumBlockNumber   uint64
+}
+
+func (x *EthereumFilterLogsInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumContractAddress:%s,EthereumEventName:%s,EthereumJsonAbi:%s,FromEthereumBlockNumber:%s,ToEthereumBlockNumber:%s,}", x.StringReferenceTimestamp(), x.StringEthereumContractAddress(), x.StringEthereumEventName(), x.StringEthereumJsonAbi(), x.StringFromEthereumBlockNumber(), x.StringToEthereumBlockNumber())
+}
+
+func (x *EthereumFilterLogsInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+func (x *EthereumFilterLogsInput) StringEthereumContractAddress() (res string) {
+	res = fmt.Sprintf(x.EthereumContractAddress)
+	return
+}
+
+func (x *EthereumFilterLogsInput) StringEthereumEventName() (res string) {
+	res = fmt.Sprintf(x.EthereumEventName)
+	return
+}
+
+func (x *EthereumFilterLogsInput) StringEthereumJsonAbi() (res string) {
+	res = fmt.Sprintf(x.EthereumJsonAbi)
+	return
+}
+
+func (x *EthereumFilterLogsInput) StringFromEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.FromEthereumBlockNumber)
+	return
+}
+
+func (x *EthereumFilterLogsInput) StringToEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.ToEthereumBlockNumber)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumFilterLogsOutput (non serializable)
+
+type EthereumFilterLogsOutput struct {
+	Event []*EthereumEventData
+}
+
+func (x *EthereumFilterLogsOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Event:%s,}", x.StringEvent())
+}
+
+func (x *EthereumFilterLogsOutput) StringEvent() (res string) {
+	res = "["
+	for _, v := range x.Event {
+		res += v.String() + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumEventData (non serializable)
+
+type EthereumEventData struct {
+	EthereumAbiPackedOutputs []byte
+	EthereumBlockNumber      uint64
+	EthereumTxindex          uint32
+	EthereumLogindex         uint32
+	EthereumTxhash           uint32
+}
+
+func (x *EthereumEventData) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumAbiPackedOutputs:%s,EthereumBlockNumber:%s,EthereumTxindex:%s,EthereumLogindex:%s,EthereumTxhash:%s,}", x.StringEthereumAbiPackedOutputs(), x.StringEthereumBlockNumber(), x.StringEthereumTxindex(), x.StringEthereumLogindex(), x.StringEthereumTxhash())
+}
+
+func (x *EthereumEventData) StringEthereumAbiPackedOutputs() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumAbiPackedOutputs)
+	return
+}
+
+func (x *EthereumEventData) StringEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	return
+}
+
+func (x *EthereumEventData) StringEthereumTxindex() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumTxindex)
+	return
+}
+
+func (x *EthereumEventData) StringEthereumLogindex() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumLogindex)
+	return
+}
+
+func (x *EthereumEventData) StringEthereumTxhash() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumTxhash)
 	return
 }

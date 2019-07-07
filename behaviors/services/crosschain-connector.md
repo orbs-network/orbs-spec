@@ -42,3 +42,20 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
   * Emitting contract address
   * Event name
 * Returns a list of events from the desried transaction's receipt that matches the event signature and emitting contract.
+
+&nbsp;
+## `EthereumFilterLogs` (method)
+> Retrieve all events that match a log based on the desired filter.
+
+* Query the Ethereum node using the given arguments through IPC.
+* The ABI needs to be defined for the ethereum connector to be able to make the call
+  * The ABI must contain only one event with the provided event name.
+* Filters:
+  * Emitting contract address
+  * Event name
+  * From Ethereum block number
+    * Must be less than the To Ethereum block number
+  * To Ethereum block number
+    * Must be less than the block for finality. Default: the block number for finality.
+* Returns a list of events that matches the event signature and emitting contract. Each event is provided with metadata such as the block number and tx_index.
+  * The list is ordered according to the logs order ({block_number,log_index})
