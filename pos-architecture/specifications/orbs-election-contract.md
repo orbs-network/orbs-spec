@@ -107,7 +107,6 @@ Ownership: none
 * Else
   * Set agent[`delegator`] = `to`.
   
-
 ### mirrorDelegation(bytes txid)
 > Access: external
 > Mirrors an Ethereum delegation by vote contract transaction by calling `mirrorDelegationData`.
@@ -126,7 +125,7 @@ Ownership: none
   * `delegation_tx_index` = `ethereum_tx_index`.
 
 #### Process the delegation
-* Process the delegation by calling `mirrorDelegationData(delegator, to, delegation_block_height, delegation_block_index, VOTING_CONTRACT)`
+* Process the delegation by calling `mirrorDelegationData(delegator, to, delegation_block_height, delegation_tx_index, VOTING_CONTRACT)`
 
 ### mirrorDelegationByTransfer(bytes txid)
 > Access: external
