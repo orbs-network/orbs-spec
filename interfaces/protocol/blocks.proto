@@ -61,6 +61,8 @@ message ResultsBlockHeader {
     primitives.sha256 pre_execution_state_merkle_root_hash = 9;
     uint32 num_transaction_receipts = 10;
     uint32 num_contract_state_diffs = 11;
+    primitives.node_address block_proposer_address = 12;
+
 }
 
 message TransactionsBlockMetadata {

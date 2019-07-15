@@ -30,7 +30,8 @@ service VirtualMachine {
 message ProcessTransactionSetInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    repeated protocol.SignedTransaction signed_transactions = 3;
+    primitives.node_address block_proposer_address = 3;
+    repeated protocol.SignedTransaction signed_transactions = 4;
 }
 
 message ProcessTransactionSetOutput {
