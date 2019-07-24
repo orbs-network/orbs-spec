@@ -1,0 +1,6 @@
+github.com/google/go-cmp v0.3.0 h1:crn/baboCvb5fXaQ0IJ1SGTsTVrWpDsCWC8EGETZijY=
+github.com/google/go-cmp v0.3.0/go.mod h1:8QqcDgzrUqlUb/G2PQTWiueGozuR1884gddMywk6iLU=
+github.com/orbs-network/go-mock v0.0.0-20180813130752-890a1ee8d0a1 h1:ezKxeCPNvc27Ri1EQkXfJu6N6i4i38kPuL7BkzcFOUU=
+github.com/orbs-network/go-mock v0.0.0-20180813130752-890a1ee8d0a1/go.mod h1:Hfj5NDPp07PIkGv5y8g1C0zsMXbrVTPQVIvSuHSHyvo=
+github.com/orbs-network/membuffers v0.0.0-20190324163848-d8b55355b285 h1:GEvNFE4ze1I0umdfYLWgIaI6nvo+XdOjrhuWXq7qE5E=
+github.com/orbs-network/membuffers v0.0.0-20190324163848-d8b55355b285/go.mod h1:ZsfRFu9R4z2wbLlaDLp6NQ6QeM+2nyraw0QfMmQKUS4=
