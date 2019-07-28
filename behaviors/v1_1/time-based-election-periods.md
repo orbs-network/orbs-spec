@@ -8,9 +8,9 @@
   * 3 days starting from the last election time. 
   * Election block = the first Ethereum block with timestamp > Election time.
 * Delegation validity
-  * Delegations are considered for the election if the Delegation block timestamp < election time.
+  * Delegations are considered for the election if the Delegation block timestamp <= election time.
 * Election block height:
-  * The `election block number` is set to the first Ethereum block with timestamp >= election time.
+  * The `election block number` is set to the first Ethereum block with timestamp > election time.
 * Vote validity:
   * A vote is valid for an election if the vote block timestamp + 7 days <= election time.
 * Rewards:
