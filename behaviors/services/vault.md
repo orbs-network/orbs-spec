@@ -41,9 +41,16 @@ The vault should be as independent as possible in the protocol revision, prevent
 * Verify that the local signature matches local_address(virtual_chain_id)
   * Panic on mismatch or virtual_chain_id not registered.
 
-#### Sign data
-* Signature(data_hash, virtual_chain_id) = Ecdsa_signature(H({data_hash, virtual_chain_id}))
+#### Check protocol revision
+* Check that the protocol revision is supported
+* Set signature scheme based on the protocol revision.
 
+#### Sign data
+* Protocol revision 2
+  * Signature(data_hash, virtual_chain_id) = Ecdsa_signature(SHA256({data_hash, virtual_chain_id}))
+* Protocol revision 1
+  * Signature(data_hash, virtual_chain_id) = Ecdsa_signature(data_hash)
+  
 &nbsp;
 ## `NodeGetNodeAddress`
 > Returns the node public address
