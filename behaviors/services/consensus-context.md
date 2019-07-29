@@ -111,12 +111,12 @@ Currently a single instance per virtual chain per node.
     * method_name = `blockPost`
     * input_argument_array = empty
     * signature = empty
-* If the `triggers` contract is deployed, verify that no trigger transaction is present.
+* If the `triggers` contract is not deployed, verify that no trigger transaction is present.
 
 #### Validate transaction choice
 * Call `TransactionPool.ValidateTransactionsForOrdering` to validate pre order checks, expiration and no duplication.
   * Using the provided header timestamp as a reference timestamp.
-  * Remove trigger transactions if present. 
+  * Remove trigger transaction (if present). 
 
 &nbsp;
 ## `ValidateResultsBlock` (method)
