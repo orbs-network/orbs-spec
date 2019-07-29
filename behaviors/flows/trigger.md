@@ -23,5 +23,5 @@ The trigger transaction calls the trigger contract post message. Each virtual ch
 * If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`, the `ConsensusContext` generates the trigger transaction as part of `RequestNewTransactionsBlock`.
 
 #### Trigger Transaction Validation
-* If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`, the `ConsensusContext` verifies that a trigger transaction present and valid, as part of `ValidateTransactionsBlock`. 
+* If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`, the `ConsensusContext` verifies that a trigger transaction is present and valid, as part of `ValidateTransactionsBlock`. 
 * Otherwise, the `ConsensusContext` verifies that a trigger transaction is NOT present in the block.
