@@ -2,7 +2,8 @@
 
 A trigger is a method call that is triggered by the system without a need for an external call.\
 Triggers are implemented similarly to regular transaction and generate a receipt, however they do not require a signed client transaction.\
-The trigger transaction calls the trigger contract post message. Each virtual chain may define the post message as desired. 
+The trigger transaction calls the trigger contract post message. Each virtual chain may define the post message as desired.\
+The `triggers` contract should fail if the caller signer is not empty.
 
 ## Trigger Transaction
 * protocol_version = protocol version
@@ -24,4 +25,4 @@ The trigger transaction calls the trigger contract post message. Each virtual ch
 
 #### Trigger Transaction Validation
 * If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`, the `ConsensusContext` verifies that a trigger transaction is present and valid, as part of `ValidateTransactionsBlock`. 
-* Otherwise, the `ConsensusContext` verifies that a trigger transaction is NOT present in the block.
+* If the configuration flag `TRIGGERS_ENABLED` is set to `FALSE`, the `ConsensusContext` verifies that a trigger transaction is NOT present in the block.
