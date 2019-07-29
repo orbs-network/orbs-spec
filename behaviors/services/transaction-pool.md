@@ -180,8 +180,6 @@ Currently a single instance per virtual chain per node.
 
 #### Commit receipts
 * For each transaction receipt:
-  * If the transaction is a trigger transaction, ignore the transaction:
-    * Identify trigger transactions by empty signer and signature.
   * Add the receipt, block height and block timestamp to the committed pool.
   * Notify public api about transactions it needs to respond to:
     * If we are marked as the gateway for this transaction in the pending pool, it was originated by the node's public api.
