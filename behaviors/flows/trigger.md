@@ -3,7 +3,7 @@
 A trigger is a method call that is triggered by the system without a need for an external call.\
 Triggers are implemented similarly to regular transaction and generate a receipt, however they do not require a signed client transaction.\
 The trigger transaction calls the trigger contract post message.\
-The `triggers` contract should fail if the caller signer is not empty.
+Note: The trigger transaction uses a "protocol special" empty signature which is reserved for system. The `triggers` contract should fail if the caller signer is not empty.
 
 ## Trigger Transaction
 * protocol_version = protocol version
