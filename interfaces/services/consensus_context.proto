@@ -26,6 +26,7 @@ message RequestNewTransactionsBlockInput {
     uint32 max_number_of_transactions = 3;
     primitives.sha256 prev_block_hash = 4;
     primitives.timestamp_nano prev_block_timestamp = 5;
+    primitives.node_address block_proposer_address = 6;
 }
 
 // returns error code on failure
@@ -52,6 +53,7 @@ message ValidateTransactionsBlockInput {
     protocol.TransactionsBlockContainer transactions_block = 2;
     primitives.sha256 prev_block_hash = 3;
     primitives.timestamp_nano prev_block_timestamp = 4;
+    primitives.node_address block_proposer_address = 5;
 }
 
 // returns error code on failure

@@ -18,19 +18,17 @@ Currently a single instance per virtual chain per node.
 
 &nbsp;
 ## `RequestOrderingCommittee` (method)
-> Returns a sorted list of nodes (public keys) that participate in the approval committee for the ordering of a given block height. Called by consensus algo.
+> Returns a sorted list of nodes (public keys) that participate in the committee for the ordering of a given block height. Called by consensus algo.
 > Note: currently single phase consensus is used where the committee is based on `RequestValidationCommittee`.
 
 
 &nbsp;
 ## `RequestValidationCommittee` (method)
 
-> Returns a sorted list of nodes (public keys) that participate in the approval committee for the execution validation of a given block height. Called by consensus algo.
+> Returns a sorted list of nodes (public keys) that participate in the committee for the execution validation of a given block height. Called by consensus algo.
 
-* The current list of nodes (per [block height](../../terminology.md)) is retrieved by a call to `getElectedValidatorsOrbsAddress` in Election contract.
+* The current ordered list of nodes (per [block height](../../terminology.md)) is retrieved by a call to `getCommittee` in Committee contract.
 * If the size of requested committee is larger than total nodes, select all nodes as the committee.
-* Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
-  * Get the elected validators reputation by a call to `getElectedValidatorsReputation` in Reputation contract (default to 1 for all members if no such contract).
 
 &nbsp;
 ## `RequestNewTransactionsBlock` (method)
@@ -44,6 +42,7 @@ Currently a single instance per virtual chain per node.
 * Current protocol version (`0x1`).
 * Current virtual chain.
 * Block height is given.
+* Block proposer is given.
 * Hash pointer to the previous (latest) Transactions block is given.
 * Block timestamp.
 * The merkle root hash of the transactions in the block.
@@ -71,6 +70,7 @@ Currently a single instance per virtual chain per node.
 * Current protocol version (`0x1`).
 * Current virtual chain.
 * Block height is given.
+* Block proposer is given.
 * Hash pointer to the previous (latest) Results block is given.
 * Block timestamp.
 * The merkle root hash of the transaction receipts in the block.
@@ -78,7 +78,6 @@ Currently a single instance per virtual chain per node.
 * Hash pointer to the Transactions block of the same height.
 * Merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
   * Called with block height equals to the last committed block height (current block height - 1)
-* Block proposer is given.
 
 &nbsp;
 ## `ValidateTransactionsBlock` (method)
@@ -93,6 +92,7 @@ Currently a single instance per virtual chain per node.
 * Check timestamp is within `config.CONSENSUS_CONTEXT_SYSTEM_TIMESTAMP_ALLOWED_JITTER` of current system time, and later than the previous block.
 * Check the transactions merkle root matches the transactions.
 * Check metadata hash.
+* Check that the block proposer in the block header matches the provided one.
 
 #### Validate transaction choice
 * Call `TransactionPool.ValidateTransactionsForOrdering` to validate pre order checks, expiration and no duplication.
@@ -114,7 +114,7 @@ Currently a single instance per virtual chain per node.
 * Check hash pointer to the Transactions block of the same height.
 * Check merkle root of the state prior to the block execution, retrieved by calling `StateStorage.GetStateHash`.
   * Called with block height equals to the last committed block height (current block height - 1)
-* Check that the block proposer in header matches the provided one.
+* Check that the block proposer in the block header matches the provided one.
 
 #### Validate transaction execution
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
