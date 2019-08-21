@@ -61,12 +61,13 @@ Note: Committee members coincide with elected validators (obtained by calling `_
 
 #### Behavior
 * ElectedValidators = Get list of elected validators by calling `_Elections.getElectedValidatorsOrbsAddress()`.
-* Set the rating of each committee member:
-    * Get missedBlocksCounter from state.MembersReputation(map). If no such member, set missedBlocksCounter to zero.
+* Order the nodes based on the weighted random sorting algorithm (reputation is taken into account here).
+* Set each validator reputation :
     * Rate = min(Tolerance - missedBlocksCounter, 0)
     * Rate = max(-ReputationBottomCap, Rate)
-* Sort the ElectedValidators according to Rate: 
+    * Weight = 2^(Rate)
+* Sort the ElectedValidators according to reputation: 
     * Use Sha(ElectedValidatorAddress, BlockHeight)
-    * Multiply by 2^(Rate)
+    * multiply by Weight
     
 Return the sorted validators list.
