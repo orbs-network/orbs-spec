@@ -27,7 +27,7 @@ Currently a single instance per virtual chain per node.
 
 > Returns a sorted list of nodes (public keys) that participate in the committee for the execution validation of a given block height. Called by consensus algo.
 
-* The current ordered list of nodes (per [block height](../../terminology.md)) is retrieved by a call to `getCommittee` in Committee contract.
+* The current ordered list of nodes (per [block height](../../terminology.md)) is retrieved by a call to `getOrderedCommittee` in Committee contract.
 * If the size of requested committee is larger than total nodes, select all nodes as the committee.
 
 &nbsp;
