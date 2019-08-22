@@ -11,6 +11,9 @@ service CrosschainConnector {
     rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
     rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput);
     rpc EthereumGetBlockNumber (EthereumGetBlockNumberInput) returns (EthereumGetBlockNumberOutput);
+    rpc EthereumGetBlockTime (EthereumGetBlockTimeInput) returns (EthereumGetBlockTimeOutput);
+    rpc EthereumGetBlockTimeByNumber (EthereumGetBlockTimeByNumberInput) returns (EthereumGetBlockTimeByNumberOutput);
+    rpc EthereumGetBlockNumberByTime (EthereumGetBlockNumberByTimeInput) returns (EthereumGetBlockNumberByTimeOutput);
 }
 
 message EthereumCallContractInput {
@@ -45,5 +48,31 @@ message EthereumGetBlockNumberInput {
 }
 
 message EthereumGetBlockNumberOutput {
+    uint64 ethereum_block_number = 1;
+}
+
+message EthereumGetBlockTimeByNumberInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    uint64 ethereum_block_number = 2;
+}
+
+message EthereumGetBlockTimeByNumberOutput {
+    primitives.timestamp_nano ethereum_timestamp = 1;
+}
+
+message EthereumGetBlockTimeInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+}
+
+message EthereumGetBlockTimeOutput {
+    primitives.timestamp_nano ethereum_timestamp = 1;
+}
+
+message EthereumGetBlockNumberByTimeInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    primitives.timestamp_nano ethereum_timestamp = 2;
+}
+
+message EthereumGetBlockNumberByTimeOutput {
     uint64 ethereum_block_number = 1;
 }
