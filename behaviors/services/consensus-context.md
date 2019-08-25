@@ -38,6 +38,10 @@ Currently a single instance per virtual chain per node.
 #### Choose pending transactions
 * Get pending transactions by calling `TransactionPool.GetTransactionsForOrdering`.
 
+#### Add trigger transaction
+* If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`:
+  * Generate a trigger transaction and add it as the last transaction.
+
 #### Build Transactions block
 * Current protocol version (`0x1`).
 * Current virtual chain.
@@ -94,9 +98,24 @@ Currently a single instance per virtual chain per node.
 * Check metadata hash.
 * Check that the block proposer in the block header matches the provided one.
 
+#### Validate trigger transaction
+* If the configuration flag `TRIGGERS_ENABLED` is set to `TRUE`:
+  * Validates that a trigger transaction is present as the last transaction.
+  * Validate the trigger transaction content:
+    * protocol_version = protocol version
+    * virtual_chain_id = virtual_chain_id
+    * timestamp = block.timestamp
+    * signer = empty
+    * contract_name = `triggers`
+    * method_name = `blockPost`
+    * input_argument_array = empty
+    * signature = empty
+* If the configuration flag `TRIGGERS_ENABLED` is set to `FALSE`, verify that no trigger transaction is present.
+
 #### Validate transaction choice
 * Call `TransactionPool.ValidateTransactionsForOrdering` to validate pre order checks, expiration and no duplication.
   * Using the provided header timestamp as a reference timestamp.
+  * Remove trigger transaction (if present := if `TRIGGERS_ENABLED` is set to `TRUE`). 
 
 &nbsp;
 ## `ValidateResultsBlock` (method)
