@@ -29,6 +29,7 @@ All unsuccessful block proposers will gain one miss.
 ## SDK update
 #### Block.GetBlockProposer
 * Returns the block proposer address.
+* Note: The Block proposer information is valid and useful in certain flows (e.g. process transactions during block execution); in cases where this information is not meaningful (e.g. pre-order check) it will default to `0` to deter misuse.
 
 ## ConsensusService update
 * Note: Block proposer provided according to block (in leader change the block might not be replaced).
