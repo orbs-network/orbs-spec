@@ -6,7 +6,7 @@ Manage reputation using a smart contract. This state based reputation is consume
 to provide the ConsensusAlgo an ordered committee for consensus round setup at a given height.
 
 Reputation state update is based on [triggers-blockPost](../flows/trigger.md) mechanism. 
-The [Reputation](../smart-contracts/system/_Committee.md) system contract is deployed on each virtual chain.
+The [_Committee](../smart-contracts/system/_Committee.md) system contract is deployed on each virtual chain.
 <!--Note: Audit node - verification different than participant?-->
 TODO: This feature is a breaking change - requires block proposer id in block header and relies on `_Elections.getElectedValidatorsOrbsAddress()` - revise when "revisions" is supported. Currently, the feature supports validating blocks prior to this change, where `_Election` contract and state exists (the reputation is zero by default - as before). Block proposer in header is verified if it exists (differ from zero).
 ## Flow
@@ -23,7 +23,7 @@ The `ConsensusContext` retrieves an ordered validators list from state by callin
 * Default reputation provides a measure for validator activity as a leader.
 * The block proposer (appearing in the block header), if successful will resume the top reputation value.\
 All unsuccessful block proposers will gain one miss.
-* The state is recorded in the [Committee](../smart-contracts/system/_Committee.md) system contract. \
+* The state is recorded in the [_Committee](../smart-contracts/system/_Committee.md) system contract. \
 * The update of reputation is triggered by the `triggers.blockPost` call. 
 
 ## SDK update
