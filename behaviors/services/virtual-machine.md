@@ -8,7 +8,7 @@ Currently a single instance per virtual chain per node.
 
 * `Processor` - Uses it to actually execute the smart contract method calls.
 * `StateStorage` - Reads deployments from state and provides API for contracts to read from state.
-* `CrosschainConnector` - Uses it to perform cross-chain contract calls.
+* `CrossChainConnector` - Uses it to perform cross-chain contract calls.
 
 &nbsp;
 ## `Data Structures`

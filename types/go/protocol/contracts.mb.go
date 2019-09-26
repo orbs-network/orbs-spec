@@ -1160,6 +1160,334 @@ func EventsArrayBuilderFromRaw(raw []byte) *EventsArrayBuilder {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message OffChainRecord
+
+// reader
+
+type OffChainRecord struct {
+	// Key []byte
+	// Value []byte
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *OffChainRecord) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Key:%s,Value:%s,}", x.StringKey(), x.StringValue())
+}
+
+var _OffChainRecord_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeBytes}
+var _OffChainRecord_Unions = [][]membuffers.FieldType{}
+
+func OffChainRecordReader(buf []byte) *OffChainRecord {
+	x := &OffChainRecord{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _OffChainRecord_Scheme, _OffChainRecord_Unions)
+	return x
+}
+
+func (x *OffChainRecord) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *OffChainRecord) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *OffChainRecord) Equal(y *OffChainRecord) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *OffChainRecord) Key() []byte {
+	return x._message.GetBytes(0)
+}
+
+func (x *OffChainRecord) RawKey() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *OffChainRecord) RawKeyWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *OffChainRecord) MutateKey(v []byte) error {
+	return x._message.SetBytes(0, v)
+}
+
+func (x *OffChainRecord) StringKey() string {
+	return fmt.Sprintf("%x", x.Key())
+}
+
+func (x *OffChainRecord) Value() []byte {
+	return x._message.GetBytes(1)
+}
+
+func (x *OffChainRecord) RawValue() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *OffChainRecord) RawValueWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(1, 0)
+}
+
+func (x *OffChainRecord) MutateValue(v []byte) error {
+	return x._message.SetBytes(1, v)
+}
+
+func (x *OffChainRecord) StringValue() string {
+	return fmt.Sprintf("%x", x.Value())
+}
+
+// builder
+
+type OffChainRecordBuilder struct {
+	Key   []byte
+	Value []byte
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *OffChainRecordBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteBytes(buf, w.Key)
+	w._builder.WriteBytes(buf, w.Value)
+	return nil
+}
+
+func (w *OffChainRecordBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "OffChainRecord.Key", w.Key)
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "OffChainRecord.Value", w.Value)
+	return nil
+}
+
+func (w *OffChainRecordBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *OffChainRecordBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *OffChainRecordBuilder) Build() *OffChainRecord {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return OffChainRecordReader(buf)
+}
+
+func OffChainRecordBuilderFromRaw(raw []byte) *OffChainRecordBuilder {
+	return &OffChainRecordBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message OffChainData
+
+// reader
+
+type OffChainData struct {
+	// OffChainRecord []OffChainRecord
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *OffChainData) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{OffChainRecord:%s,}", x.StringOffChainRecord())
+}
+
+var _OffChainData_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray}
+var _OffChainData_Unions = [][]membuffers.FieldType{}
+
+func OffChainDataReader(buf []byte) *OffChainData {
+	x := &OffChainData{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _OffChainData_Scheme, _OffChainData_Unions)
+	return x
+}
+
+func (x *OffChainData) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *OffChainData) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *OffChainData) Equal(y *OffChainData) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *OffChainData) OffChainRecordIterator() *OffChainDataOffChainRecordIterator {
+	return &OffChainDataOffChainRecordIterator{iterator: x._message.GetMessageArrayIterator(0)}
+}
+
+type OffChainDataOffChainRecordIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *OffChainDataOffChainRecordIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *OffChainDataOffChainRecordIterator) NextOffChainRecord() *OffChainRecord {
+	b, s := i.iterator.NextMessage()
+	return OffChainRecordReader(b[:s])
+}
+
+func (x *OffChainData) RawOffChainRecordArray() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *OffChainData) RawOffChainRecordArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *OffChainData) StringOffChainRecord() (res string) {
+	res = "["
+	for i := x.OffChainRecordIterator(); i.HasNext(); {
+		res += i.NextOffChainRecord().String() + ","
+	}
+	res += "]"
+	return
+}
+
+// builder
+
+type OffChainDataBuilder struct {
+	OffChainRecord []*OffChainRecordBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *OffChainDataBuilder) arrayOfOffChainRecord() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.OffChainRecord))
+	for i, v := range w.OffChainRecord {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *OffChainDataBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfOffChainRecord())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *OffChainDataBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "OffChainData.OffChainRecord", w.arrayOfOffChainRecord())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *OffChainDataBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *OffChainDataBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *OffChainDataBuilder) Build() *OffChainData {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return OffChainDataReader(buf)
+}
+
+func OffChainDataBuilderFromRaw(raw []byte) *OffChainDataBuilder {
+	return &OffChainDataBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums
 
 type ExecutionAccessScope uint16
@@ -1202,6 +1530,26 @@ func (n ExecutionPermissionScope) String() string {
 	return "UNKNOWN"
 }
 
+type ExecutionMode uint16
+
+const (
+	EXECUTION_RESERVED ExecutionMode = 0
+	EXECUTION_PROPOSE  ExecutionMode = 1
+	EXECUTION_VERIFY   ExecutionMode = 2
+)
+
+func (n ExecutionMode) String() string {
+	switch n {
+	case EXECUTION_RESERVED:
+		return "EXECUTION_RESERVED"
+	case EXECUTION_PROPOSE:
+		return "EXECUTION_PROPOSE"
+	case EXECUTION_VERIFY:
+		return "EXECUTION_VERIFY"
+	}
+	return "UNKNOWN"
+}
+
 type ProcessorType uint16
 
 const (
@@ -1225,8 +1573,9 @@ func (n ProcessorType) String() string {
 type CrosschainConnectorType uint16
 
 const (
-	CROSSCHAIN_CONNECTOR_TYPE_RESERVED CrosschainConnectorType = 0
-	CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM CrosschainConnectorType = 1
+	CROSSCHAIN_CONNECTOR_TYPE_RESERVED   CrosschainConnectorType = 0
+	CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM   CrosschainConnectorType = 1
+	CROSSCHAIN_CONNECTOR_TYPE_MANAGEMENT CrosschainConnectorType = 2
 )
 
 func (n CrosschainConnectorType) String() string {
@@ -1235,6 +1584,8 @@ func (n CrosschainConnectorType) String() string {
 		return "CROSSCHAIN_CONNECTOR_TYPE_RESERVED"
 	case CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM:
 		return "CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM"
+	case CROSSCHAIN_CONNECTOR_TYPE_MANAGEMENT:
+		return "CROSSCHAIN_CONNECTOR_TYPE_MANAGEMENT"
 	}
 	return "UNKNOWN"
 }

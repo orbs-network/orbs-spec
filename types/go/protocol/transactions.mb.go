@@ -456,6 +456,7 @@ type TransactionReceipt struct {
 	// ExecutionResult ExecutionResult
 	// OutputArgumentArray primitives.PackedArgumentArray
 	// OutputEventsArray primitives.PackedEventsArray
+	// OffchainData primitives.PackedOffchainData
 
 	// internal
 	// implements membuffers.Message
@@ -466,10 +467,10 @@ func (x *TransactionReceipt) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray())
+	return fmt.Sprintf("{Txhash:%s,ExecutionResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,OffchainData:%s,}", x.StringTxhash(), x.StringExecutionResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringOffchainData())
 }
 
-var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes}
+var _TransactionReceipt_Scheme = []membuffers.FieldType{membuffers.TypeBytes, membuffers.TypeUint16, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes}
 var _TransactionReceipt_Unions = [][]membuffers.FieldType{}
 
 func TransactionReceiptReader(buf []byte) *TransactionReceipt {
@@ -572,6 +573,26 @@ func (x *TransactionReceipt) StringOutputEventsArray() string {
 	return fmt.Sprintf("%s", x.OutputEventsArray())
 }
 
+func (x *TransactionReceipt) OffchainData() primitives.PackedOffchainData {
+	return primitives.PackedOffchainData(x._message.GetBytes(4))
+}
+
+func (x *TransactionReceipt) RawOffchainData() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *TransactionReceipt) RawOffchainDataWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(4, 0)
+}
+
+func (x *TransactionReceipt) MutateOffchainData(v primitives.PackedOffchainData) error {
+	return x._message.SetBytes(4, []byte(v))
+}
+
+func (x *TransactionReceipt) StringOffchainData() string {
+	return fmt.Sprintf("%s", x.OffchainData())
+}
+
 // builder
 
 type TransactionReceiptBuilder struct {
@@ -579,6 +600,7 @@ type TransactionReceiptBuilder struct {
 	ExecutionResult     ExecutionResult
 	OutputArgumentArray primitives.PackedArgumentArray
 	OutputEventsArray   primitives.PackedEventsArray
+	OffchainData        primitives.PackedOffchainData
 
 	// internal
 	// implements membuffers.Builder
@@ -605,6 +627,7 @@ func (w *TransactionReceiptBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint16(buf, uint16(w.ExecutionResult))
 	w._builder.WriteBytes(buf, []byte(w.OutputArgumentArray))
 	w._builder.WriteBytes(buf, []byte(w.OutputEventsArray))
+	w._builder.WriteBytes(buf, []byte(w.OffchainData))
 	return nil
 }
 
@@ -622,6 +645,7 @@ func (w *TransactionReceiptBuilder) HexDump(prefix string, offsetFromStart membu
 	w._builder.HexDumpUint16(prefix, offsetFromStart, "TransactionReceipt.ExecutionResult", uint16(w.ExecutionResult))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputArgumentArray", []byte(w.OutputArgumentArray))
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OutputEventsArray", []byte(w.OutputEventsArray))
+	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionReceipt.OffchainData", []byte(w.OffchainData))
 	return nil
 }
 

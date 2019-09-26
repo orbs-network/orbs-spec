@@ -32,6 +32,24 @@ service BlockStorage {
 
     // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
+
+    // called by CrosschainAPI
+    rpc GetCommittedBlockInfoByTime (GetCommittedBlockInfoByTimeInput) returns (BlockInfoOutput);
+    rpc GetCommittedBlockInfoByHeight (GetCommittedBlockInfoByHeightInput) returns (BlockInfoOutput);
+}
+
+
+message GetCommittedBlockInfoByTimeInput {
+    primitives.timestamp_nano ref_time = 1;
+}
+
+message GetCommittedBlockInfoByHeightInput {
+    primitives.block_height block_height = 1;
+}
+
+message BlockInfoOutput {
+    primitives.block_height block_height = 1;
+    primitives.timestamp_nano block_timestamp = 2;
 }
 
 message CommitBlockInput {

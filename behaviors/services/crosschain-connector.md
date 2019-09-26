@@ -1,6 +1,6 @@
-# Cross-chain Connector
+# CrossChain Connector
 
-Runs nodes for other blockchains like Ethereum and provides read access to them.
+Provides read access to other blockchains like Ethereum and ManagementVC.
 
 #### Interacts with services
 
@@ -15,10 +15,17 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
 * Node should be kept synchronized and live.
 * The service connects to the Ethereum node using a configurable endpoint URL.
 
+#### ManagementVC
+* Node runs the ManagementVC instance locally - assumes trusted data.
+* The ManagementVC instance should be synchronized and live.
+* The service connects to the ManagementVC instance using a configurable endpoint URL (intra-node communication).
+* NodeConfig - see relevant configuration in [management-chain-readme](../v1_1/management-chain.md):
+
+
 &nbsp;
 ## `Init` (flow)
 
-* Test connection to the relevant node.
+* Test connection to the relevant nodes (Ethereum or ManagementVC instance).
 
 &nbsp;
 ## `CallEthereumContract` (method)
@@ -42,3 +49,25 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
   * Emitting contract address
   * Event name
 * Returns a list of events from the desried transaction's receipt that matches the event signature and emitting contract.
+
+
+
+&nbsp;
+## `MgmtGetBlockInfoByTime` (method)
+> Query the ManagementVC about its latest committed block prior to a timestamp.
+* Shift the provided time reference to overcome inter-node sync across VCs (increase agreement chance).
+* This "finality reference time" is deterministically deduced from the provided block time (injects the ManagementVC VirtualChainID and ProtocolVersion).
+* NodeConfig: Add time shift constant for ManagementVC.
+* Returns the block-info (BlockHeight, BlockTimestamp) of the latest committed block just before the "finality reference time".
+* Cache the mapping between the provided time reference and block-info, to save on ManagementVC calls.
+* Usage: this method is used as a setup phase, to retrieve ManagementVC state records at a given BlockHeight, under agreement.
+
+
+&nbsp;
+## `MgmtCallContract` (method)
+> Run a read only contract call on the ManagementVC and return its data.
+* Run Call using a state at a given blockHeight.
+* Input: contract_name, method_name, arguments and blockHeight (injects the ManagementVC VirtualChainID and ProtocolVersion).
+* Returns the execution result and output arguments.
+* Usage: retrieve ManagementVC state data at a given BlockHeight under agreement.
+

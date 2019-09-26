@@ -10,6 +10,7 @@ Currently a single instance per virtual chain per node.
 * `TransactionPool` - Provides it with transaction receipts when new blocks are committed (also synchronizes it).
 * `ConsensusAlgo` - Asks it whether untrusted blocks (given by other nodes) are indeed approved and valid.
 * `Gossip` - Uses it to communicate with other nodes.
+* `CrosschainAPI` - Provides it with committed blocks info (height, timestamp).
 
 &nbsp;
 ## `Data Structures`
@@ -144,6 +145,22 @@ Currently a single instance per virtual chain per node.
 > As the source of truth in the node, returns the height of last committed block.
 
 * Return the height of `last_committed_block`.
+
+
+&nbsp;
+## `GetBlockInfoByTime` (method)
+
+> Returns the blockInfo (height, timestamp) of the latest committed block before the given reference time. 
+
+* Search over blocks - timestamps are incremental.
+
+
+
+&nbsp;
+## `GetBlockInfoByHeight` (method)
+
+* Returns the blockInfo (height, timestamp) of the given blockHeight.
+
 
 &nbsp;
 ## `GetTransactionReceipt` (method)

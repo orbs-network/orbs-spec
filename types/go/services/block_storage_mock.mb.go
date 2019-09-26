@@ -88,6 +88,24 @@ func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *Va
 	}
 }
 
+func (s *MockBlockStorage) GetCommittedBlockInfoByTime(ctx context.Context, input *GetCommittedBlockInfoByTimeInput) (*BlockInfoOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*BlockInfoOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockBlockStorage) GetCommittedBlockInfoByHeight(ctx context.Context, input *GetCommittedBlockInfoByHeightInput) (*BlockInfoOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*BlockInfoOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockBlockStorage) RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler) {
 	s.Called(handler)
 }

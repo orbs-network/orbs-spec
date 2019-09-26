@@ -23,7 +23,72 @@ type BlockStorage interface {
 	GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error)
 	GetBlockPair(ctx context.Context, input *GetBlockPairInput) (*GetBlockPairOutput, error)
 	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	GetCommittedBlockInfoByTime(ctx context.Context, input *GetCommittedBlockInfoByTimeInput) (*BlockInfoOutput, error)
+	GetCommittedBlockInfoByHeight(ctx context.Context, input *GetCommittedBlockInfoByHeightInput) (*BlockInfoOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetCommittedBlockInfoByTimeInput (non serializable)
+
+type GetCommittedBlockInfoByTimeInput struct {
+	RefTime primitives.TimestampNano
+}
+
+func (x *GetCommittedBlockInfoByTimeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{RefTime:%s,}", x.StringRefTime())
+}
+
+func (x *GetCommittedBlockInfoByTimeInput) StringRefTime() (res string) {
+	res = fmt.Sprintf("%s", x.RefTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message GetCommittedBlockInfoByHeightInput (non serializable)
+
+type GetCommittedBlockInfoByHeightInput struct {
+	BlockHeight primitives.BlockHeight
+}
+
+func (x *GetCommittedBlockInfoByHeightInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,}", x.StringBlockHeight())
+}
+
+func (x *GetCommittedBlockInfoByHeightInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message BlockInfoOutput (non serializable)
+
+type BlockInfoOutput struct {
+	BlockHeight    primitives.BlockHeight
+	BlockTimestamp primitives.TimestampNano
+}
+
+func (x *BlockInfoOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *BlockInfoOutput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *BlockInfoOutput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////

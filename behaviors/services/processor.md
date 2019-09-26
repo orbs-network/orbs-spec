@@ -75,6 +75,6 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ![alt text][processor_interface] <br/><br/>
 
-[processor_interface]: ../_img/processor_interface.png "VM - Processor Interface"
+[processor_interface]: behaviors/_img/processor_interface.png "VM - Processor Interface"
 
 -->

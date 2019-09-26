@@ -6,7 +6,7 @@
 <!--
 ![alt text][ethereum_contracts] <br/><br/>
 
-[ethereum_contracts]: ../_img/ethereum_contracts.png "Orbs Ethereum contracts"
+[ethereum_contracts]: behaviors/_img/ethereum_contracts.png "Orbs Ethereum contracts"
 -->
 
 &nbsp;

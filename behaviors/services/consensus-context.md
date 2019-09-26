@@ -72,6 +72,9 @@ Currently a single instance per virtual chain per node.
 * Get the block reference timestamp from the `TransactionsBlock` header.
   
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
+  * Using the block reference timestamp.
+  * Using the ExecutionMode set to EXECUTION_PROPOSE.
+
 
 #### Build Results block
 * Current protocol version (`0x1`).
@@ -138,6 +141,7 @@ Currently a single instance per virtual chain per node.
 #### Validate transaction execution
 * Execute the ordered transactions set by calling `VirtualMachine.ProcessTransactionSet` creating receipts and state diff.
   * Using the provided header timestamp as a reference timestamp.
+  * Using the ExecutionMode set to EXECUTION_VERIFY.
 * Compare the receipts merkle root hash to the one in the block.
 * Compare the state diff hash to the one in the block (supports only deterministic execution).
 

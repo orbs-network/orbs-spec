@@ -82,10 +82,10 @@
 
 ![alt text][block_creation_before_commit_leader] <br/><br/>
 
-[block_creation_before_commit_leader]: ../_img/block_creation_before_commit_leader.png "block_creation_before_commit_leader"
+[block_creation_before_commit_leader]: behaviors/_img/block_creation_before_commit_leader.png "block_creation_before_commit_leader"
 
 #### Block Creation Flow Before Commit, Non-leader Node
 
 ![alt text][block_creation_before_commit_non_leader] <br/><br/>
 
-[block_creation_before_commit_non_leader]: ../_img/block_creation_before_commit_non_leader.png "block_creation_before_commit_non_leader"
+[block_creation_before_commit_non_leader]: behaviors/_img/block_creation_before_commit_non_leader.png "block_creation_before_commit_non_leader"

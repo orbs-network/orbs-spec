@@ -229,3 +229,17 @@ func (x PackedArgumentArray) Equal(y PackedArgumentArray) bool {
 func (x PackedArgumentArray) KeyForMap() string {
 	return string(x)
 }
+
+type PackedOffchainData []byte
+
+func (x PackedOffchainData) String() string {
+	return fmt.Sprintf("%x", []byte(x))
+}
+
+func (x PackedOffchainData) Equal(y PackedOffchainData) bool {
+	return bytes.Equal(x, y)
+}
+
+func (x PackedOffchainData) KeyForMap() string {
+	return string(x)
+}

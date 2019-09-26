@@ -113,3 +113,12 @@ message packed_argument_array {
     bytes value = 1;
     // variable size
 }
+
+// opaque field of repeated protocol.OffChainRecord
+// encode in golang: packed := protocol.OffChainData.RawOffChainData()
+// decode in golang: protocol.OffChainDataReader(parent.RawOutputOffChainDataWithHeader())
+message packed_offchain_data {
+    option inline_type = "bytes";
+    bytes value = 1;
+    // variable size
+}

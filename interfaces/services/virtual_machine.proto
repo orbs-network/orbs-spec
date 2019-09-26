@@ -18,7 +18,7 @@ service VirtualMachine {
 
     // called by ConsensusContext
     rpc ProcessTransactionSet (ProcessTransactionSetInput) returns (ProcessTransactionSetOutput); // Transactions Streaming
-    rpc CallSystemContract (CallSystemContractInput) returns (CallSystemContractOutput);
+    rpc CallSystemContract (CallSystemContractInput) returns (CallSystemContractOutput); // also called by CrosschainAPI
 
     // called by PublicApi
     rpc ProcessQuery (ProcessQueryInput) returns (ProcessQueryOutput);
@@ -31,6 +31,7 @@ message ProcessTransactionSetInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
     repeated protocol.SignedTransaction signed_transactions = 3;
+    protocol.ExecutionMode execution_mode = 4;
 }
 
 message ProcessTransactionSetOutput {

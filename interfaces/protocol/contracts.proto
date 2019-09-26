@@ -38,6 +38,17 @@ message EventsArray {
     repeated Event events = 1;
 }
 
+
+message OffChainRecord {
+    bytes key = 1;
+    bytes value = 2;
+}
+
+message OffChainData {
+    repeated OffChainRecord off_chain_record = 1;
+}
+
+
 enum ExecutionAccessScope {
     ACCESS_SCOPE_RESERVED = 0;
     ACCESS_SCOPE_READ_ONLY = 1;
@@ -50,6 +61,12 @@ enum ExecutionPermissionScope {
     PERMISSION_SCOPE_SERVICE = 2;
 }
 
+enum ExecutionMode {
+    EXECUTION_RESERVED = 0;
+    EXECUTION_PROPOSE = 1;
+    EXECUTION_VERIFY = 2;
+}
+
 enum ProcessorType {
     PROCESSOR_TYPE_RESERVED = 0;
     PROCESSOR_TYPE_NATIVE = 1;
@@ -59,4 +76,5 @@ enum ProcessorType {
 enum CrosschainConnectorType {
     CROSSCHAIN_CONNECTOR_TYPE_RESERVED = 0;
     CROSSCHAIN_CONNECTOR_TYPE_ETHEREUM = 1;
+    CROSSCHAIN_CONNECTOR_TYPE_MANAGEMENT = 2;
 }

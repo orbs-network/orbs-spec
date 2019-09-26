@@ -1,0 +1,40 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/protocol.proto";
+import "protocol/results.proto";
+
+option serialize_messages = false;
+
+service CrosschainAPI {
+    // called by a CrosschainConnector of other VC
+    rpc GetBlockInfoByTime(GetBlockInfoByTimeInput) returns (GetBlockInfoByTimeOutput);
+    rpc CallContract (CallContractInput) returns (CallContractOutput);
+}
+
+
+
+
+
+message GetBlockInfoByTimeInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+}
+
+message GetBlockInfoByTimeOutput {
+    primitives.block_height block_height = 1;
+    primitives.timestamp_nano block_timestamp = 2;
+}
+
+
+message CallContractInput {
+    primitives.block_height block_height = 1;
+    primitives.contract_name contract_name = 2;
+    primitives.method_name method_name = 3;
+    primitives.packed_argument_array input_argument_array = 4;
+}
+
+message CallContractOutput {
+    protocol.ExecutionResult execution_result = 1;
+    primitives.packed_argument_array output_argument_array = 2;
+}

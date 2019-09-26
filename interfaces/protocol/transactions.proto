@@ -31,4 +31,5 @@ message TransactionReceipt {
     protocol.ExecutionResult execution_result = 2;
     primitives.packed_argument_array output_argument_array = 3;
     primitives.packed_events_array output_events_array = 4;
+    primitives.packed_offchain_data offchain_data = 5;
 }

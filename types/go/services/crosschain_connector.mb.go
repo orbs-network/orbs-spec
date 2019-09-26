@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"github.com/orbs-network/orbs-spec/types/go/protocol"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -17,6 +18,114 @@ type CrosschainConnector interface {
 	EthereumGetBlockTime(ctx context.Context, input *EthereumGetBlockTimeInput) (*EthereumGetBlockTimeOutput, error)
 	EthereumGetBlockTimeByNumber(ctx context.Context, input *EthereumGetBlockTimeByNumberInput) (*EthereumGetBlockTimeByNumberOutput, error)
 	EthereumGetBlockNumberByTime(ctx context.Context, input *EthereumGetBlockNumberByTimeInput) (*EthereumGetBlockNumberByTimeOutput, error)
+	MgmtGetBlockInfoByTime(ctx context.Context, input *MgmtGetBlockInfoByTimeInput) (*MgmtGetBlockInfoByTimeOutput, error)
+	MgmtCallContract(ctx context.Context, input *MgmtCallContractInput) (*MgmtCallContractOutput, error)
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message MgmtGetBlockInfoByTimeInput (non serializable)
+
+type MgmtGetBlockInfoByTimeInput struct {
+	ReferenceTimestamp primitives.TimestampNano
+}
+
+func (x *MgmtGetBlockInfoByTimeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,}", x.StringReferenceTimestamp())
+}
+
+func (x *MgmtGetBlockInfoByTimeInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message MgmtGetBlockInfoByTimeOutput (non serializable)
+
+type MgmtGetBlockInfoByTimeOutput struct {
+	BlockHeight    primitives.BlockHeight
+	BlockTimestamp primitives.TimestampNano
+}
+
+func (x *MgmtGetBlockInfoByTimeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *MgmtGetBlockInfoByTimeOutput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *MgmtGetBlockInfoByTimeOutput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message MgmtCallContractInput (non serializable)
+
+type MgmtCallContractInput struct {
+	BlockHeight        primitives.BlockHeight
+	ContractName       primitives.ContractName
+	MethodName         primitives.MethodName
+	InputArgumentArray primitives.PackedArgumentArray
+}
+
+func (x *MgmtCallContractInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,}", x.StringBlockHeight(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray())
+}
+
+func (x *MgmtCallContractInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *MgmtCallContractInput) StringContractName() (res string) {
+	res = fmt.Sprintf("%s", x.ContractName)
+	return
+}
+
+func (x *MgmtCallContractInput) StringMethodName() (res string) {
+	res = fmt.Sprintf("%s", x.MethodName)
+	return
+}
+
+func (x *MgmtCallContractInput) StringInputArgumentArray() (res string) {
+	res = fmt.Sprintf("%s", x.InputArgumentArray)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message MgmtCallContractOutput (non serializable)
+
+type MgmtCallContractOutput struct {
+	ExecutionResult     protocol.ExecutionResult
+	OutputArgumentArray primitives.PackedArgumentArray
+}
+
+func (x *MgmtCallContractOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ExecutionResult:%s,OutputArgumentArray:%s,}", x.StringExecutionResult(), x.StringOutputArgumentArray())
+}
+
+func (x *MgmtCallContractOutput) StringExecutionResult() (res string) {
+	res = fmt.Sprintf("%x", x.ExecutionResult)
+	return
+}
+
+func (x *MgmtCallContractOutput) StringOutputArgumentArray() (res string) {
+	res = fmt.Sprintf("%s", x.OutputArgumentArray)
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -328,3 +437,6 @@ func (x *EthereumGetBlockNumberByTimeOutput) StringEthereumBlockNumber() (res st
 	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
 	return
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// enums
