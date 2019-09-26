@@ -247,3 +247,125 @@ VirtualMachine-->-PublicAPI:output
 PublicAPI->ClientSDK:CallMethod response
 
 
+
+
+
+
+#7. ConsumerVC Elected Validators Update
+* https://sequencediagram.org/
+
+title ConsumerVC Update ElectedValidators flow
+
+participant VC-ConsensusCtxt
+participant VC-VM
+participant VC-Crosschain
+participant MGMT-CrosschainAPI
+participant MGMT-BlockStorage
+participant MGMT-VM
+
+note over VC-ConsensusCtxt: BlockProposer \ Validator
+
+VC-ConsensusCtxt -> VC-VM: ProcessTxSet(ProposeMode \ VerifyMode)
+
+
+activate VC-VM
+note over VC-VM: Triggers -> ElectedValidators.Update()
+group SdkMgmtGetElectedValidators() #black[ProposeMode \ VerifyMode]
+VC-VM -> VC-Crosschain: MGMT.GetBlockHeight(refTime)
+activate VC-Crosschain
+VC-Crosschain -> VC-Crosschain: getFinality()
+note over VC-Crosschain#ffffff:intra-node sync cross vcs\n refTime => finalityTime
+VC-Crosschain -> MGMT-CrosschainAPI: GetBlockInfoByTime(finalityTime)
+activate MGMT-CrosschainAPI
+MGMT-CrosschainAPI -> MGMT-BlockStorage: GetCommittedBlockInfoByTime(finalityTime)
+activate MGMT-BlockStorage
+MGMT-CrosschainAPI <-- MGMT-BlockStorage: result
+deactivate MGMT-BlockStorage
+VC-Crosschain <-- MGMT-CrosschainAPI: result
+deactivate MGMT-CrosschainAPI
+VC-VM <-- VC-Crosschain: result
+deactivate VC-Crosschain
+note over VC-VM: MgmtBlockHeight:= result.blockHeight
+
+alt ProposeMode
+note over VC-VM: Log off-chain data (write to receipt)
+	VC-VM -> VC-VM: logProposedMgmtBlockHeight(result)
+else VerifyMode
+note over VC-VM: Verify query result against logged (read from receipt)
+VC-VM ->VC-VM: getProposedMgmtBlockHeight()
+VC-VM -> VC-VM: VerifyMgmtBlockHeight(proposed, result)
+note over VC-VM: <color:#red>Fail ProcessTxSet if not valid </color>
+end
+
+VC-VM -> VC-Crosschain: MgmtCallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
+activate VC-Crosschain
+VC-Crosschain -> MGMT-CrosschainAPI: CallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
+activate MGMT-CrosschainAPI
+MGMT-CrosschainAPI -> MGMT-BlockStorage: GetCommittedBlockInfoByHeight(MgmtBlockHeight)
+activate MGMT-BlockStorage
+MGMT-CrosschainAPI <-- MGMT-BlockStorage: result
+deactivate MGMT-BlockStorage
+note over MGMT-CrosschainAPI: (blockHeight, blockTimestamp) <- result
+MGMT-CrosschainAPI -> MGMT-VM:CallSystemContract(_ElectedValidators,getElectedValidators, blockHeight, blockTimestamp)
+activate MGMT-VM
+MGMT-CrosschainAPI <-- MGMT-VM: result
+deactivate MGMT-VM
+VC-Crosschain <-- MGMT-CrosschainAPI: result
+deactivate MGMT-CrosschainAPI
+VC-VM <-- VC-Crosschain: result
+deactivate VC-Crosschain
+	VC-VM -> VC-VM: logOffchainData(result)
+end
+
+VC-ConsensusCtxt<--VC-VM: ProcessTxSet Result
+#alt ProposeMode \ VerifyMode Success
+#VC-ConsensusCtxt<--VC-VM: Result
+#else VerifyMode Fail
+#VC-ConsensusCtxt<--VC-VM:Fail ProcessTxSet if verification fails
+#end
+deactivate VC-ConsensusCtxt
+deactivate VC-VM
+
+
+#8. ConsumerVC RequestOrderingCommittee Flow
+
+title ConsumerVC RequestOrderingCommittee Flow
+
+participant VC-ConsensusCtxt
+participant VC-VM
+participant VC-Crosschain
+participant MGMT-CrosschainAPI
+
+
+VC-ConsensusCtxt -> VC-VM: CallSystemContract(_Committee, getOrderedCommittee, now, ProposeMode)
+activate VC-VM
+note over VC-VM: Retreive the current elected validators record\n(used for committee ordering)
+VC-VM -> VC-VM: SDK.CallContract(_ElectedValidators, fetchElectedValidators, now)
+
+alt UpToDate
+note over VC-VM: Elected Validators local state record is up to date.
+
+else Expired
+note over VC-VM: Elected Validators record has expired.\nFetch new record from ManagementVC.
+group SdkMgmtGetElectedValidators(now)
+VC-VM -> VC-Crosschain:MGMT.GetBlockHeight(now)
+activate VC-Crosschain
+VC-Crosschain -> MGMT-CrosschainAPI: GetBlockInfoByTime(finalityTime)
+activate MGMT-CrosschainAPI
+VC-Crosschain <-- MGMT-CrosschainAPI: result
+deactivate MGMT-CrosschainAPI
+VC-VM <-- VC-Crosschain:result
+deactivate VC-Crosschain
+VC-VM -> VC-Crosschain: MgmtCallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
+activate VC-Crosschain
+VC-Crosschain -> MGMT-CrosschainAPI: CallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
+activate MGMT-CrosschainAPI
+VC-Crosschain <-- MGMT-CrosschainAPI: result
+deactivate MGMT-CrosschainAPI
+VC-VM <-- VC-Crosschain:result
+deactivate VC-Crosschain
+end
+end
+
+VC-ConsensusCtxt <-- VC-VM: result
+deactivate VC-VM

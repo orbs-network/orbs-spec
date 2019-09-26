@@ -25,7 +25,12 @@
 
 * Audit node:
     * Audit node implementation relies on historical VC state queries (by block height).
+* ConsumerVC node - block sync:
+    * Not affected.
+* ManagementVC protocol upgrade:
+    * Currently, CrossChainAPI should be backward compatible (updating the CrossChainConnector could partially mask this upgrade).
 * Testing environments ..
+
 
 * Notes:
     * VC query by time (used to obtain latest committed block prior to the provided time) is non-deterministic by nature.
@@ -62,9 +67,7 @@
 * `CrosschainAPI` - Expose "queries API" and serve the queries' results as obtained from the VM.
 * `VirtualMachine` - Obtain Elected validators from state by block-height (support historical state query).
 * `BlockStorage` -  Obtain blockInfo (height, timestamp) by time reference or by height.
-    
-
-
+ 
 ### ConsumerVC RequestOrderingCommittee
 * At the beginning of each consensus round (block height), the node queries the `ConsensusContext` for a sorted list of nodes (ordered committee).
 * The `ConsensusContext` retrieves an ordered validators list from state by calling the `_Committee.getOrderedCommittee` (using the `VirtualMachine`).
@@ -90,13 +93,15 @@
 * Same as the update flow specified above.
 
 
-
+### VC system init:
+#### Participant Services
+* `CrossChainConnector` - Init the appropriate connector based on the Node Config - either Ethereum or Management.
 
 ## Node config update
 * MANAGEMENT_FINALITY_TIME_COMPONENT - reduce current block time by this constant (~ 10 seconds).
 * MANAGEMENT_VIRTUAL_CHAIN_ID - the ManagementVC virtual chain id.
 * MANAGEMENT_PROTOCOL_VERSION - //TODO: upgrade
-* MANAGEMENT_ENDPOINT - IP:Port. //TODO: url verify
+* MANAGEMENT_ENDPOINT - IP:Port.
 * MANAGEMENT_MAX_SYNC_REJECT_TIME - allowed time drift of config - continue running with old information (~ 10 minutes).
 * MANAGEMENT_RETRY_INTERVAL - polling param.
 
@@ -125,4 +130,18 @@
 
 
 
+
+
+ ### Update Elected Validators Flow Diagram
  
+ ![alt text][update_elected_validators_flow] <br/><br/>
+ 
+ [update_elected_validators_flow]: ../../behaviors/_img/update_elected_validators_consumer_vc.png "Update Flow"
+
+
+
+ ### Get Committee Flow Diagram
+ 
+ ![alt text][get_committee_flow] <br/><br/>
+ 
+ [get_committee_flow]: ../../behaviors/_img/get_committee_consumer_vc.png "Get Flow"
