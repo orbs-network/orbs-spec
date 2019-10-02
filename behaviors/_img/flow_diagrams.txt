@@ -237,7 +237,7 @@ note over PublicAPI
     Maintains Session Info
 end note
 PublicAPI->+VirtualMachine:RunLocalMethod
-VirtualMachine->+StateStorage:GetStateStorageBlockHeight
+VirtualMachine->+StateStorage:GetLastCommittedBlockInfo
 StateStorage->-VirtualMachine:block height, timestamp
 note over VirtualMachine
   Checks permissions

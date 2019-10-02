@@ -77,11 +77,11 @@ Currently a single instance per virtual chain per node.
 * For any requested key not stored return an empty byte array. (implies null value / integer `0` value)
 
 &nbsp;
-## `GetStateStorageBlockHeight` (method)
+## `GetLastCommittedBlockInfo` (method)
 
-> Returns the last committed height and timestamp, called by the Virtual Machine as part of the RunQuery flow.
+> Returns the last committed block meta info: height, timestamp and block-proposer, called by the Virtual Machine as part of the RunQuery flow.
 
-* Return the height and timestamp of `last_committed_block`.
+* Return the height, timestamp and block-proposer of `last_committed_block`.
 
 &nbsp;
 ## `GetStateHash` (method)

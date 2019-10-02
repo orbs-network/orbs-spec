@@ -50,7 +50,7 @@ Currently a single instance per virtual chain per node.
 > Executes a read only method of a deployed service and returns its result (not under consensus).
 
 #### Prepare for execution
-* Get the block height and timestamp for the local method processing by calling `StateStorage.GetStateStorageBlockHeight`.
+* Get the block height, timestamp and block-proposer for the local method processing by calling `StateStorage.GetLastCommittedBlockInfo`.
   * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind.
   * Note that the reference block height and timestamp are returned to the caller on successful execution and on failure.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).

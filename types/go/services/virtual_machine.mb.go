@@ -27,6 +27,7 @@ type ProcessTransactionSetInput struct {
 	CurrentBlockHeight    primitives.BlockHeight
 	CurrentBlockTimestamp primitives.TimestampNano
 	SignedTransactions    []*protocol.SignedTransaction
+	BlockProposerAddress  primitives.NodeAddress
 	ExecutionMode         protocol.ExecutionMode
 }
 
@@ -34,7 +35,7 @@ func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,ExecutionMode:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions(), x.StringExecutionMode())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,BlockProposerAddress:%s,ExecutionMode:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions(), x.StringBlockProposerAddress(), x.StringExecutionMode())
 }
 
 func (x *ProcessTransactionSetInput) StringCurrentBlockHeight() (res string) {
@@ -53,6 +54,11 @@ func (x *ProcessTransactionSetInput) StringSignedTransactions() (res string) {
 		res += v.String() + ","
 	}
 	res += "]"
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
 	return
 }
 
