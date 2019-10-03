@@ -10,7 +10,6 @@ Currently a single instance per virtual chain per node.
 * `TransactionPool` - Provides it with transaction receipts when new blocks are committed (also synchronizes it).
 * `ConsensusAlgo` - Asks it whether untrusted blocks (given by other nodes) are indeed approved and valid.
 * `Gossip` - Uses it to communicate with other nodes.
-* `CrosschainAPI` - Provides it with committed blocks info (height, timestamp).
 
 &nbsp;
 ## `Data Structures`
