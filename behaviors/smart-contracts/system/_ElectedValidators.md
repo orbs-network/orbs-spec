@@ -32,14 +32,21 @@
 ## `updateElectedValidators` (method)
 > Dependent on `fetchElectedValidators()`.
 > Support calls only from the `_Triggers` system contract.
+> Update the state Validators Record if necessary (try to fetch newer data).
 
 #### Permissions
 * `External` (caller can only be `_Triggers` system.contract call).
 * `ReadWrite` (might change state).
 
 #### Behavior
-* Get the elected validators record by calling `fetchElectedValidators(block.timestamp)`
-* Update the state Validators Record if necessary (fetched a newer data).
+* Check if should update the record:
+    * Get the elected validators record from state by calling `getElectedValidators()`.
+    * Check if this record is expired:
+        * The list of elected validators is nil.
+        * The `block.timestamp` - current time reference is not in dates range (holds_from, holds_until).
+* If should update the record:
+    * fetch a new record by calling `fetchElectedValidators(block.timestamp)`.
+    * Store record in state.
 
 
 ## `getElectedValidators()` (method)
@@ -56,7 +63,7 @@
 
 
 ## `fetchElectedValidators()` (method
-> Returns an up to date elected validators record.
+> Returns an elected validators record from ManagementVC by timestamp.
 > The elected validators record is expired if no such record is yet stored or the dates range (valid from - to) has passed (based on the provided reference timestamp).
 > Dependent on `management.GetElectedValidators()` SDK call.
 #### Permissions
@@ -64,11 +71,7 @@
 * `ReadOnly` (does not change state).
 #### Behavior
 * Input: time reference.
-* Returns an up to date elected validators record := list of Validators, election counter, and the dates range they hold.
+* Elected validators record := list of Validators, election counter, and the dates range they hold.
     * (node_address[], election_number,holds_from, holds_until)
-* Get the elected validators record from state by calling `getElectedValidators()`.
-* Check if this record is expired:
-    * The list of elected validators is nil.
-    * The input time reference is not in dates range (holds_from, holds_until).
-* If the record is expired fetch a new record by calling `management.GetElectedValidators(time_ref)` SDK call.
+* Get the elected validators record by calling `management.GetElectedValidators(time_ref)` SDK call.
 * Return the resulting record.
