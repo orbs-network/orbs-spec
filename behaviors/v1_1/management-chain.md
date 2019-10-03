@@ -4,17 +4,17 @@
 
 ### Design principles
 * Assumptions:
-    * "Trust" holds inside the Node (across its VCs instances)
+    * "Trust" holds inside the Node (across its VCs instances).
 
 * Hierarchical VCs design: ManagementVC and dependent virtual chains (coined "ConsumerVC").
 * ManagementVC
-    * Dedicated VC for cross system source of truth
+    * Dedicated VC for cross system source of truth.
     * Should be "pure": (V1) dedicated for elected validators - system config (future - subscription, and other cross VCs interaction).
     * Holds the last X states close to tip for state queries by block height (facilitates the inner node sync across its VC instances and in turn the underlying agreement).
 
 * ConsumerVC
     * Continuously sync system config.
-    * Close to real-time information retrieval, with small time phase shift (to support agreement - only for small inner node syncing issues (including its other VCs instances))
+    * Close to real-time information retrieval, with small time phase shift (to support agreement - only for small inner node syncing issues - including its other VCs instances).
     * Maintain cache per block.timestamp (reference time -> offChain data). This implies the same context for the entire block of txs.
     * ManagementVC availability:
         * Does not respond - ConsumerVC halts.
@@ -22,11 +22,10 @@
 
 * Cross VCs communication:
     * Direct HTTP Synchronous rpc calls.
-
 * Audit node:
     * Audit node implementation relies on historical VC state queries (by block height).
 * ConsumerVC node - block sync:
-    * Not affected.
+    * Not affected directly.
 * ManagementVC protocol upgrade:
     * Currently, CrossChainAPI should be backward compatible (updating the CrossChainConnector could partially mask this upgrade).
 * Testing environments ..
@@ -44,7 +43,7 @@
 
 #### Update elected validators
 * The elected validators set is recorded in the [_ElectedValidators](../smart-contracts/system/_ElectedValidators.md) system contract.
-* The state is updated using the Triggers mechanism (if cached record has expired), based on information obtained from the MgmtVC.
+* The state is updated using the Triggers mechanism (if cached record has expired), based on information obtained from the ManagementVC.
 * The updated elected validators set information is retrieved using the SDK call `Mgmt.GetElectedValidators()`.
 * Notes:
    * `Mgmt.GetElectedValidators()` acquires the new record using two consecutive queries to the ManagementVC (through the `CrossChainConnector`):
