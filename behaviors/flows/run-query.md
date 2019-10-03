@@ -42,4 +42,4 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 ![alt text][run_local_method_flow] <br/><br/>
 
-[run_local_method_flow]: behaviors/_img/run_local_method_flow.png "Call Method"
+[run_local_method_flow]: ../_img/run_local_method_flow.png "Call Method"

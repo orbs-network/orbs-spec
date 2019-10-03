@@ -64,4 +64,4 @@ Transaction is processed under consensus (this is part of the [continuous block 
 
 ![alt text][send_transaction_flow] <br/><br/>
 
-[send_transaction_flow]: behaviors/_img/send_transaction_flow.png "Send transaction"
+[send_transaction_flow]: ../_img/send_transaction_flow.png "Send transaction"

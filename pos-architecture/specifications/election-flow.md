@@ -19,7 +19,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 
 ![alt text][hierarchical_voting] <br/><br/>
 
-[hierarchical_voting]: behaviors/_img/hierarchical_voting.png "hierarchical voting"
+[hierarchical_voting]: ../../behaviors/_img/hierarchical_voting.png "hierarchical voting"
 
 ## High level Election Flow
 
@@ -106,7 +106,7 @@ The flow describes the voting for Guardians and Validators in Orbs.
 ## Election Flow
 ![alt text][election_flow] <br/><br/>
 
-[election_flow]: behaviors/_img/election_flow.png "election flow"
+[election_flow]: ../../behaviors/_img/election_flow.png "election flow"
 
 * Election event
   * Election is performed every 20,000 Ethereum blocks

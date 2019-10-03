@@ -51,4 +51,4 @@
 
 ![alt text][block_creation_after_commit] <br/><br/>
 
-[block_creation_after_commit]: behaviors/_img/block_creation_after_commit.png "block_creation_after_commit"
+[block_creation_after_commit]: ../_img/block_creation_after_commit.png "block_creation_after_commit"
