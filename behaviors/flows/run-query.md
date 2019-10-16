@@ -1,10 +1,10 @@
 # Run Query Flow
 
-The client performs a read only method call on a service. This returns the result based on a somewhat latest block (might miss by a couple of blocks). Nevertheless, the block this is based upon is returned in the result.
+The client performs a read only method call on a service. The call returns the result based on a somewhat latest block (might miss by a couple of blocks). Nevertheless, the block this is based upon is returned as part of the result.
 
 The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. This read does not require an active subscription on the virtual chain.
 
-This read is not under consensus. Multiple reads can take place at the same time as this is fully parallel.
+This read is not under consensus. Multiple reads can take place at the same time, allowing them to run in parallel.
 
 ## Participants in this flow
 
@@ -21,7 +21,7 @@ This read is not under consensus. Multiple reads can take place at the same time
 
 ## Assumptions for successful flow
 
-* `BlockStorage` is synchronized to latest committed block.
+* `BlockStorage` is synchronized to the latest committed block.
 
 ## Flow
 
@@ -33,7 +33,7 @@ This read is not under consensus. Multiple reads can take place at the same time
   * `VirtualMachine` of gateway node:
     * Gets the block height for the call from `StateStorage`.
     * Executes the smart contract on the relevant `Processor`.
-    * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
+    * Depending on the contract code, the state may be read from either  `StateStorage` or `CrosschainConnector`.
 
   * Responds to the client.
 
