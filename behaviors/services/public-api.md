@@ -1,8 +1,8 @@
-# Public Api
+# Public API
 
-Provides external public gateway interface (like JSON over HTTP) to the network which is normally used by clients. Since responses are synchronous, maintains a list of all active client sessions.
+The Public API provides clients with an external public gateway interface (like JSON over HTTP) to the network. Since responses are synchronous, maintains a list of all active client sessions. Some services use the Public API as well.
 
-Currently a single instance per virtual chain per node.
+Currently, there is a single instance per virtual chain per node.
 
 #### Interacts with services
 
@@ -30,7 +30,7 @@ Currently a single instance per virtual chain per node.
 ## `Init` (flow)
 
 * Initialize the configuration.
-* Register to handle transactions results blocks by calling `TransactionPool.TransactionResultsHandler`.
+* Register to handle transaction's results blocks by calling `TransactionPool.TransactionResultsHandler`.
 
 &nbsp;
 ## `RunQuery` (method)
@@ -63,7 +63,7 @@ Currently a single instance per virtual chain per node.
 #### Forward transaction
 * Calculate the transaction `tx_id` (see transaction format for structure).
 * Send transaction to the network by calling `TransactionPool.AddNewTransaction`.
-  * On failure, send response to client along with the reference block height and timestamp.
+  * On failure, send a response to the client along with the reference block height and timestamp.
 * Block and wait until `HandleTransactionResults` or `HandleTransactionError` are called with the relevant `tx_id`.
 * If `config.PUBLIC_API_SEND_TRANSACTION_TIMEOUT` expires during the wait, fail.
   * Note: Beware of having the forwarded transaction fail somewhere else and swallowed without calling `HandleTransactionResults`, `HandleTransactionError`.
@@ -71,7 +71,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `GetTransactionStatus` (method)
 
-> Public interface: Query the status of previously sent transaction.
+> Public interface: Query the status of a previously sent transaction.
 
 #### Check request validity
 * Correct protocol version.
@@ -87,8 +87,8 @@ Currently a single instance per virtual chain per node.
 * If the return status is `NO_RECORD_FOUND` (not found in transaction pool), it might be an older transaction, widen our search.
 * Query the block storage by calling `BlockStorage.GetTransactionReceipt`.
   * If found return status `COMMITTED` with the receipt, else return status `NO_RECORD_FOUND` along with the reference block height and timestamp.
-* If no receipt found, if the node is potentially out of sync, warn the user and override the request result to status `OUT_OF_SYNC`.
-  * Node is considered out of sync if current time is later than the returned reference block timestamp + `config.PUBLIC_API_NODE_SYNC_WARNING_TIME` (eg. 5 min).
+* If no receipt is found, the node is potentially out of sync. Warn the user and override the request result to status `OUT_OF_SYNC`.
+  * Node is considered out of sync if the current time is later than the returned reference block timestamp + `config.PUBLIC_API_NODE_SYNC_WARNING_TIME` (e.g. 5 min).
 
 &nbsp;
 ## `GetTransactionReceiptProof` (method)
@@ -105,19 +105,19 @@ Currently a single instance per virtual chain per node.
 
 #### Query the transaction status and receipt
 * Query the transaction status by calling `GetTransactionStatus`.
-  * If no receipt was found return the status along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
+  * If no receipt is found, return the status along with the reference block height and timestamp that were returned by `GetTransactionStatus`. 
 
 #### Get a receipt proof
 * Get a receipt proof for the receipt by calling `BlockStorage.GenerateReceiptProof`.
-* Return status `COMMITTED` along with the provided proof, block height and timestamp.
+* Return status `COMMITTED` along with the provided proof, block height, and timestamp.
 
 &nbsp;
 ## TransactionResults Handler
 
-> Handles transaction results enables the public api to respond to the waiting clients, called by `TransactionPool`. 
+> Handles transaction results enable the public API to respond to the waiting clients, called by `TransactionPool`. 
 
 #### `HandleTransactionResults`
-> Returns the results of committed transaction set.
+> Returns the results of a committed transaction set.
 * For every transaction:
   * Locate the relevant blocking `SendTransaction` contexts based on the `tx_id`.
   * Unblock them to respond to the client using the data from the transaction receipt.
