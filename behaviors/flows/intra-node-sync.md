@@ -1,8 +1,8 @@
 # Continuous Intra Node Block Synchronization Flow
 
-The source of truth for block synchronization in the node is `BlockStorage`. Some of the other services in the node need to be synchronized to the latest block as well in order to fulfill their functions.
+The source of truth for block synchronization in the node is `BlockStorage`. Other node services must be synchronized with the latest block as well, to fulfill their functions.
 
-Block synchronization intra node takes place by push from `BlockStorage` to each of the other services. Whenever a new block is validated and committed to `BlockStorage`, it will push the block to the other services. If the services are not in sync, it's the responsibility of `BlockStorage` to push all of the missing blocks to them until they are.
+Block synchronization intra node takes place by push from `BlockStorage` to each of the other services. Whenever a new block is validated and committed to `BlockStorage`, it pushes the block to the other services. If the services are not in sync, it's the responsibility of `BlockStorage` to push all of the missing blocks to them until they are synced.
 
 ## Participants in this flow
 
@@ -13,9 +13,9 @@ Block synchronization intra node takes place by push from `BlockStorage` to each
   * `StateStorage`
   * `TransactionPool`
 
-## Assumptions for successful flow
+## Assumptions for a successful flow
 
-* `BlockStorage` is synchronized to latest block.
+* `BlockStorage` is synchronized to the latest block.
 
 ## Flow
 
