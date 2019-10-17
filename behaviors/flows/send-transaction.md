@@ -1,10 +1,10 @@
 # Send Transaction Flow
 
-The client sends a transaction on a service that requires consensus and may write to state. The transaction is limited in execution to a time window. This is to avoid duplication (will not execute twice) and to kill transactions that are pending execution for too long.
+The client sends a transaction on a service that requires consensus and may write to the state. The transaction is limited in execution to a time window to avoid duplication (so it won't execute twice). Transactions that are pending execution for too long are killed.
 
-The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. Processing requires an active subscription on the virtual chain.
+The response is synchronous, so if the node takes a short while to figure out the response, the client blocks. Processing requires an active subscription to the virtual chain.
 
-Transaction is processed under consensus (this is part of the [continuous block creation flow](block-creation.md) as this flow ends when the transaction has been added to the pending pool and propagated to all nodes). Transactions are performed serially since their side effects can influence one another.
+Transactions are processed under consensus (this is part of the [continuous block creation flow](block-creation.md) as this flow ends when the transaction has been added to the pending pool and propagated to all nodes). Transactions are performed serially since their side effects can influence one another.
 
 ## Participants in this flow
 
