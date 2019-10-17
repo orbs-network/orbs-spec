@@ -70,7 +70,7 @@ Currently, each node has a single instance of a Transaction Pool per virtual cha
 * Transaction (`txhash`) doesn't already exist in the pending pool or committed pool (duplicate).
   * If already exists, return `DUPLICATE_TRANSACTION_ALREADY_PENDING` or `DUPLICATE_TRANSACTION_ALREADY_COMMITTED`.
 * Verify pre order checks (like signature and subscription) by calling `VirtualMachine.TransactionSetPreOrder`.
-  * Reference block provided to virtual machine is projected next block (height last committed + 1 with a timestamp of current time).  
+  * Provide speculative blockHeight and timestamp (last committed blockHeight + 1 and timestamp of current time).  
   * If fails, return the returned status.
 * On any failure, return the relevant error status and an empty receipt.
   * Always (even on errors) include reference block height and block timestamp in the response. 
