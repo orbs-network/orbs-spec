@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.0.32)
 package protocol
 
 import (
@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/orbs-network/membuffers/go"
 	"github.com/orbs-network/orbs-spec/types/go/primitives"
+	"math/big"
 )
 
 /////////////////////////////////////////////////////////////////////////////
@@ -29,7 +30,7 @@ func (x *Argument) String() string {
 }
 
 var _Argument_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
-var _Argument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes, membuffers.TypeBytes20, membuffers.TypeBytes32}}
+var _Argument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes, membuffers.TypeBytes20, membuffers.TypeBytes32, membuffers.TypeUint256, membuffers.TypeBool}}
 
 func ArgumentReader(buf []byte) *Argument {
 	x := &Argument{}
@@ -64,6 +65,8 @@ const (
 	ARGUMENT_TYPE_BYTES_VALUE    ArgumentType = 3
 	ARGUMENT_TYPE_BYTES_20_VALUE ArgumentType = 4
 	ARGUMENT_TYPE_BYTES_32_VALUE ArgumentType = 5
+	ARGUMENT_TYPE_UINT_256_VALUE ArgumentType = 6
+	ARGUMENT_TYPE_BOOL_VALUE     ArgumentType = 7
 )
 
 func (x *Argument) Type() ArgumentType {
@@ -226,6 +229,58 @@ func (x *Argument) MutateBytes32Value(v [32]byte) error {
 	return nil
 }
 
+func (x *Argument) IsTypeUint256Value() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 6)
+	return is
+}
+
+func (x *Argument) Uint256Value() *big.Int {
+	is, off := x._message.IsUnionIndex(0, 0, 6)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetUint256InOffset(off)
+}
+
+func (x *Argument) StringUint256Value() string {
+	return fmt.Sprintf("%x", x.Uint256Value())
+}
+
+func (x *Argument) MutateUint256Value(v *big.Int) error {
+	is, off := x._message.IsUnionIndex(0, 0, 6)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetUint256InOffset(off, v)
+	return nil
+}
+
+func (x *Argument) IsTypeBoolValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 7)
+	return is
+}
+
+func (x *Argument) BoolValue() bool {
+	is, off := x._message.IsUnionIndex(0, 0, 7)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetBoolInOffset(off)
+}
+
+func (x *Argument) StringBoolValue() string {
+	return fmt.Sprintf("%x", x.BoolValue())
+}
+
+func (x *Argument) MutateBoolValue(v bool) error {
+	is, off := x._message.IsUnionIndex(0, 0, 7)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetBoolInOffset(off, v)
+	return nil
+}
+
 func (x *Argument) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
@@ -248,6 +303,10 @@ func (x *Argument) StringType() string {
 		return "(Bytes20Value)" + x.StringBytes20Value()
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		return "(Bytes32Value)" + x.StringBytes32Value()
+	case ARGUMENT_TYPE_UINT_256_VALUE:
+		return "(Uint256Value)" + x.StringUint256Value()
+	case ARGUMENT_TYPE_BOOL_VALUE:
+		return "(BoolValue)" + x.StringBoolValue()
 	}
 	return "(Unknown)"
 }
@@ -262,6 +321,8 @@ type ArgumentBuilder struct {
 	BytesValue   []byte
 	Bytes20Value [20]byte
 	Bytes32Value [32]byte
+	Uint256Value *big.Int
+	BoolValue    bool
 
 	// internal
 	// implements membuffers.Builder
@@ -298,6 +359,10 @@ func (w *ArgumentBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteBytes20(buf, w.Bytes20Value)
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		w._builder.WriteBytes32(buf, w.Bytes32Value)
+	case ARGUMENT_TYPE_UINT_256_VALUE:
+		w._builder.WriteUint256(buf, w.Uint256Value)
+	case ARGUMENT_TYPE_BOOL_VALUE:
+		w._builder.WriteBool(buf, w.BoolValue)
 	}
 	return nil
 }
@@ -326,6 +391,10 @@ func (w *ArgumentBuilder) HexDump(prefix string, offsetFromStart membuffers.Offs
 		w._builder.HexDumpBytes20(prefix, offsetFromStart, "Argument.Bytes20Value", w.Bytes20Value)
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		w._builder.HexDumpBytes32(prefix, offsetFromStart, "Argument.Bytes32Value", w.Bytes32Value)
+	case ARGUMENT_TYPE_UINT_256_VALUE:
+		w._builder.HexDumpUint256(prefix, offsetFromStart, "Argument.Uint256Value", w.Uint256Value)
+	case ARGUMENT_TYPE_BOOL_VALUE:
+		w._builder.HexDumpBool(prefix, offsetFromStart, "Argument.BoolValue", w.BoolValue)
 	}
 	return nil
 }

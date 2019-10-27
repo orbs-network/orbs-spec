@@ -109,6 +109,8 @@ github.com/orbs-network/membuffers v0.0.0-20190324163848-d8b55355b285 h1:GEvNFE4
 github.com/orbs-network/membuffers v0.0.0-20190324163848-d8b55355b285/go.mod h1:ZsfRFu9R4z2wbLlaDLp6NQ6QeM+2nyraw0QfMmQKUS4=
 github.com/orbs-network/membuffers v0.3.1 h1:oetITw7utAsyFZ/K+pVS8yuc/EDZyiTcNHJYAYwBPHQ=
 github.com/orbs-network/membuffers v0.3.1/go.mod h1:Ah/UJHcf1djuXrt8rACXQFIMv8gpE80JO3cphOTQDQA=
+github.com/orbs-network/membuffers v0.3.2 h1:dpUJXBTjvFkNputqIjCfBJnAJszZALtfuWcf9hGvg/4=
+github.com/orbs-network/membuffers v0.3.2/go.mod h1:M5ABv0m0XBGoJbX+7UKVY02hLF4XhS2SlZVEVABMc6M=
 github.com/orbs-network/pbparser v0.2.0 h1:yCyJiHY2Nh1PFpa+7tLSbFvUZ3XScVyjKVZ/bNBsCMg=
 github.com/orbs-network/pbparser v0.2.0/go.mod h1:WSzcxgH5xzywQm0YSASbD7RcdxBXZgqZaDVK8M+8DJ8=
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=

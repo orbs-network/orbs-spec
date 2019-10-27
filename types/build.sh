@@ -8,7 +8,8 @@ cp -r ../interfaces/* ./go
 
 ### OLD: (uses brew) membufc --go --mock `find . -name "*.proto"`
 ### NEW: running membufc directly from source to avoid waiting for brew releases
-go run $(ls -1 ../../membuffers/go/membufc/*.go | grep -v _test.go) --go --mock --go-ctx `find . -name "*.proto"`
+### NEW2: running membufc directly via a small main that calls the api of compile.
+go run compile.go `find . -name "*.proto"`
 rm `find . -name "*.proto"`
 
 echo ""
