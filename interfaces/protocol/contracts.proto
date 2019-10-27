@@ -14,6 +14,8 @@ message Argument {
         bytes bytes_value = 5;
         membuffers.bytes20 bytes20_value = 6;
         membuffers.bytes32 bytes32_value = 7;
+        membuffers.uint256 uint256_value = 8;
+        bool bool_value = 9;
     }
 }
 
