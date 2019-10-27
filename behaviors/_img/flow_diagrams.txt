@@ -327,9 +327,9 @@ deactivate VC-ConsensusCtxt
 deactivate VC-VM
 
 
-#8. ConsumerVC RequestOrderingCommittee Flow
+#8. ConsumerVC get committee flow
 
-title ConsumerVC RequestOrderingCommittee Flow
+title ConsumerVC get committee flow
 
 participant VC-ConsensusCtxt
 participant VC-VM

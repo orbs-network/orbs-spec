@@ -62,7 +62,9 @@
         * Note: Similar to the checks the gateway node did when adding each transaction to the network.
 
       * `VirtualMachine` of non-leader committee member:
-        * Executes the subscription check smart contract on the native `Processor`.
+        * Executes the global pre order checks:
+            * Executes the subscription check smart contract on the native `Processor`.
+            * Execute the elected validators expiration check.
         * Depending on contract code may reads state from `StateStorage` or `CrosschainConnector`.
 
   * Validation phase:

@@ -11,11 +11,10 @@
 > Maintain the current set of elected Orbs validators, election number and dates range where this election holds.
 * State variables:
     * Validators Record:
-        * ValidatorsList:
+        * ValidatorsSet:
             * MemberID (OrbsAddress)
         * ElectionNumber
-        * HoldsFrom (Date)
-        * HoldsUntil (Date)
+        * ValidUntil (Date)
 
 &nbsp;
 ## `_init` (method)
@@ -30,9 +29,10 @@
 
 
 ## `updateElectedValidators` (method)
-> Dependent on `fetchElectedValidators()`.
 > Support calls only from the `_Triggers` system contract.
 > Update the state Validators Record if necessary (try to fetch newer data).
+> The elected validators record is expired if no such record is yet stored or "ValidUntil" has passed (based on the block.timestamp).
+> Dependent on `management.CallContract()` SDK call.
 
 #### Permissions
 * `External` (caller can only be `_Triggers` system.contract call).
@@ -40,38 +40,22 @@
 
 #### Behavior
 * Check if should update the record:
-    * Get the elected validators record from state by calling `getElectedValidators()`.
-    * Check if this record is expired:
+    * Check if the elected validators record from state is expired:
         * The list of elected validators is nil.
-        * The `block.timestamp` - current time reference is not in dates range (holds_from, holds_until).
+        * The `block.timestamp` - current time reference > valid_until.
 * If should update the record:
-    * fetch a new record by calling `fetchElectedValidators(block.timestamp)`.
-    * Store record in state.
+    * Try to retrieve an updated record by calling `management.CallContract('_ElectedValidators', 'getElectedValidators')` SDK call.
+    * If call successfully resulted with a valid record, Store record in state.
 
 
 ## `getElectedValidators()` (method)
-> Returns the elected validators record stored in state.
+> Returns the elected validators record from state.
 #### Permissions
 * `External & Internal` (caller can be anyone).
 * `ReadOnly` (does not change state).
 
 #### Behavior
 * Input: none.
-* Returns from state the elected validators record := list of Validators, election counter, and the dates range they hold.
-    * (node_address[], election_number, holds_from, holds_until)
+* Returns from state the elected validators record := list of Validators, election counter, and date limit - they are still valid.
+    * (node_address[], election_number, valid_until)
     
-
-
-## `fetchElectedValidators()` (method
-> Returns an elected validators record from ManagementVC by timestamp.
-> The elected validators record is expired if no such record is yet stored or the dates range (valid from - to) has passed (based on the provided reference timestamp).
-> Dependent on `management.GetElectedValidators()` SDK call.
-#### Permissions
-* `External & Internal` (caller can be anyone).
-* `ReadOnly` (does not change state).
-#### Behavior
-* Input: time reference.
-* Elected validators record := list of Validators, election counter, and the dates range they hold.
-    * (node_address[], election_number,holds_from, holds_until)
-* Get the elected validators record by calling `management.GetElectedValidators(time_ref)` SDK call.
-* Return the resulting record.

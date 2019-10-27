@@ -5,23 +5,29 @@
 ### Design principles
 * Assumptions:
     * "Trust" holds inside the Node (across its VCs instances)
+    * Reference Validators set holds during VC genesis (even if an election event altered the validators set).
+    * Current Validators set is "honest" (Quorum wise) during the election transition. 
 
 * Hierarchical VCs design: ManagementVC and dependent virtual chains (coined "ConsumerVC").
+
 * ManagementVC
     * Dedicated VC for cross system source of truth
     * Should be "pure": (V1) dedicated for elected validators - system config (future - subscription, and other cross VCs interaction).
     * Holds the last X states close to tip for state queries by block height (facilitates the inner node sync across its VC instances and in turn the underlying agreement).
+    * Holds an Election contract for election information.
 
 * ConsumerVC
     * Continuously sync system config.
+        * Update logic - depends on the record expiration.
+        * Read logic - holds until it is overwritten.
     * Close to real-time information retrieval, with small time phase shift (to support agreement - only for small inner node syncing issues (including its other VCs instances))
     * Maintain cache per block.timestamp (reference time -> offChain data). This implies the same context for the entire block of txs.
-    * ManagementVC availability:
-        * Does not respond - ConsumerVC halts.
-        * Responds but does not progress - ConsumerVC progresses for a bounded allowed time diff (avoid running on stale config for too long).
-
+    * ManagementVC availability failures :
+        * Unavailable  - currently treated as below.
+        * Available outdated information - ConsumerVC "partially halts": application state does not progress, only system state can be updated (elected validators set, reputation..).
+        
 * Cross VCs communication:
-    * Direct HTTP Synchronous rpc calls.
+    * Intra Validator node (across its VC instances ) - Direct HTTP Synchronous rpc calls.
 
 * Audit node:
     * Audit node implementation relies on historical VC state queries (by block height).
@@ -36,100 +42,124 @@
     * VC query by time (used to obtain latest committed block prior to the provided time) is non-deterministic by nature.
     * We address this query as off-chain data, which is not "fully auditable" (intuitively, similar to block time stamp).
     * Query by height is deterministic (reorgs is currently out of scope).
-  
+    * Expired elected validators set - allows partial state progress (only "system state" update: elected set, reputation .. ).
+    * Transitioning to a new configuration is done agreement by writing to state. This configuration holds during the entire consensus round (updating state at round i determines the config of round i+1).
  
 ## VC Interop Flows:
 
-### ConsumerVC Update elected validators
-
-#### Update elected validators
-* The elected validators set is recorded in the [_ElectedValidators](../smart-contracts/system/_ElectedValidators.md) system contract.
-* The state is updated using the Triggers mechanism (if cached record has expired), based on information obtained from the MgmtVC.
-* The updated elected validators set information is retrieved using the SDK call `Mgmt.GetElectedValidators()`.
-* Notes:
-   * `Mgmt.GetElectedValidators()` acquires the new record using two consecutive queries to the ManagementVC (through the `CrossChainConnector`):
-    * Get ManagementVC BlockHeight based on "finality reference time".
-    * Get elected validators using the proposed MgmtVC BlockHeight.
-   * Block Proposer logs the queries results in the transaction receipt.
-   * Validator verifies this logged information against its own queries.
-   * The "finality reference time" is deterministically deduced from the block time, aims to overcome inter-node sync across VCs.
-   * The ManagementVC BlockHeight is non-deterministic (up to 1 block height difference when using the same time reference) - requires a softer verification rule (similar to block time stamp), and leaves some room for manipulation.
-   * Validator first verifies the proposed ManagementVC BlockHeight (in tx receipt) using its own query. Subsequently, it retrieves the elected validators for this height, which is implicitly verified using the block state diffs.
-   * If the proposed ManagementVC BlockHeight is invalid the Validator fails the entire block.
-
-#### Participant Services
-##### ConsumerVC
-* `ConsensusContext` - Flag the VM with the execution mode: either as proposer or validator.
-* `VirtualMachine` - Expose and verify the block proposer's MgmtVC BlockHeight. Fail block validation (ProcessTxSet - return Error) if verification fails.  Write\read offChain data to tx receipt. Provide Mgmt.SDK calls using `CrossChainConnector`. 
-* `CrossChainConnector` - Get MgmtVC BlockHeight under finality time shift. Get elected validators from MgmtVC (based on block height).
-
-##### ManagementVC
-* `CrosschainAPI` - Expose "queries API" and serve the queries' results as obtained from the VM.
-* `VirtualMachine` - Obtain Elected validators from state by block-height (support historical state query).
-* `BlockStorage` -  Obtain blockInfo (height, timestamp) by time reference or by height.
- 
-### ConsumerVC RequestOrderingCommittee
-* At the beginning of each consensus round (block height), the node queries the `ConsensusContext` for a sorted list of nodes (ordered committee).
-* The `ConsensusContext` retrieves an ordered validators list from state by calling the `_Committee.getOrderedCommittee` (using the `VirtualMachine`).
-* The `_Committee.getOrderedCommittee` relies on a call to `_ElectedValidators.fetchElectedValidators(now)`.
-* `_ElectedValidators.fetchElectedValidators` retrieves either the elected validator set from cache or an updated record from ManagementVC.
-* Elected validator set is expired if one of the following holds:
-    * No elected validator set is yet stored.
-    * The stored elected validator set dates range (valid from - to) has passed (based on the provided reference timestamp). 
-* If the record has expired fetch the new record by calling `Mgmt.GetElectedValidators()`.
-* Note: implicit consensus occurs when the cached record has expired (for example on system upload). This could potentially close a new block with some of the nodes holding a "forked view" of validator set.
- "Forked view" is only temporary due to 1 block height potential difference and converges when the agreement over the new block has been reached.
- * TODO: Special care? verify safety. Maximal diff between consecutive elected validators is less than 'f'.
+### ConsumerVC RequestOrderedCommittee flow (Read)
+* At the beginning of each consensus round (block height), the node queries the `ConsensusContext` for a sorted list of nodes (committee).
+* The `ConsensusContext` retrieves the current Elected Validators Set from state by calling `_ElectedValidators.getElectedValidators()` (using the `VM.CallSystemContract`).
+    * Poll until success.
+    * If the Elected Validators Set is empty (state update has yet to occur) retrieves the Reference Set.
+        * If `MANAGEMENT_MODE` is in `local` mode - retrieves from config file.    
+        * If `remote` mode - calls `_ElectedValidators.getReferenceValidatorsSet()`.
+            * Inside service: 
+                <!-- Note: this is dependent on archive mode * Retrieve the Virtual Chain Reference blockHeight (virtual chain's genesis time according to the ManagementVC blockHeight) from the subscription - SDK call `Mgmt.CallContract('_Subscription', 'getSubscriptionDetails')`.
+                * Retrieve the Reference Set from the ManagementVC by calling `Mgmt.CallContractAtBlock('_ElectedValidators', 'getElectedValidators', 'blockHeight')`. -->
+            * Retrieve the Virtual Chain Reference Validators Set (virtual chain's validators at genesis) from the subscription using the SDK call `Mgmt.CallContract('_Subscription', 'getReferenceValidatorsSet')`.
+* The `ConsensusContext` retrieves the ordered committee by calling `_Committee.getOrderedCommitteeForAddresses` with the Elected Validators Set as argument.
+* Note: ManagementVC contract call is detailed in the update flow.
 
 
 #### Participant Services
 ##### ConsumerVC
 * `ConsensusAlgo` - ConsensusAlgo requests committee for new consensus round.
-* `ConsensusContext` - Polls until success from `_Committee` system contract which relies on `_ElectedValidators` contract (pass in reference time := now). Flag the VM with the proposer execution mode on `CallSystemContract`.
-* `VirtualMachine` - Provide the `ConsensusContext` the state queries access.  Note if the cached elected validators set has expired (see below), it uses the `CrossChainConnector` to retrieve the elected validators from ManagementVC.
-* `CrossChainConnector` - Get ManagementVC BlockHeight under finality time shift. Get elected validators from ManagementVC (based on block height).
+* `ConsensusContext` - Retrieves the ordered committee based on state.
+* `VirtualMachine` - Provides the `ConsensusContext` with state queries access.
+* `CrossChainConnector` - Optional - Get Reference elected validators from ManagementVC.
+
+##### ManagementVC - Optional (reference set remote)
+* Detailed in update flow.
+
+
+### ConsumerVC block creation \ validation flow
+* If the elected validators set is outdated the block should be empty - with only a single system transaction (`Trigger tx`).
+    * Enforced using the pre order checks - `_GlobalPreOrder` contract checks the elected validators `ValidUntil` (call `_ElectedValidators.getElectedValidators()`) against the block.timestamp.
+    * See [Block creation flow](../flows/block-creation-before-commit.md) for further details.
+
+
+### ConsumerVC update elected validators flow
+* `ConsensusAlgo` calls the `ConsensusContext` to create \ validate a new block proposal.
+* `ConsensusContext` calls the VM to execute the block transactions using a proposer \ validator consensus role accordingly.
+* The `VirtualMachine` executes the `Trigger transaction` which in turn calls the  [_ElectedValidators](../smart-contracts/system/_ElectedValidators.md) sync method.
+* If the elected validators set should be updated the sync method retrieves an updated record by using the SDK call `Mgmt.CallContract('_ElectedValidators', 'getElectedValidators')`. 
+* `Mgmt.CallContract` acquires the new record using two consecutive queries to the ManagementVC:
+    * Get the ManagementVC BlockHeight - by calling `ManagementConnector.GetBlockInfoByTime` using current block.timestamp.
+        * `ManagementConnector` deduces a "finality reference time" based on provided time reference and config value `MANAGEMENT_FINALITY_TIME_COMPONENT`.
+        * `ManagementConnector` http calls the ManagementVC `CrosschainAPI.GetBlockInfoByTime` using the "finality reference time".
+            * `CrosschainAPI` gets the block info by querying the `BlockStorage`.
+        * BlockProposer logs the query result in the transaction receipt - as key value in the offchain_data section.
+        * Validator verifies this logged information against its own query's result (no extra logging).
+            * If the proposed ManagementVC BlockHeight is invalid the Validator fails the entire block.
+    * Get the ManagementVC elected validators record - by calling `ManagementConnector.CallContract` using the fetched BlockHeight.
+        * `ManagementConnector` http calls the ManagementVC `CrosschainAPI.CallContract`.
+                * `CrosschainAPI` relays the call to the VM.
+        * Both the BlockProposer and Validators log the query result in the transaction receipt.
+* Notes:
+    * The elected validators set is recorded in the VC state inside the [_ElectedValidators](../smart-contracts/system/_ElectedValidators.md) system contract.
+    * The "finality reference time" is deterministically deduced from the block time; Aims to overcome inter-node sync across VCs.
+    * The ManagementVC BlockHeight is non-deterministic (up to 1 block height difference when using the same time reference) - requires a softer verification rule (similar to block time stamp), and leaves some room for manipulation.
+    * The SDK call `Mgmt.CallContract` also returns a call_result indicating valid or invalid completion of the call.
+        * If the call was not completed successfully the record will not be updated. Failure tolerance coincides with the underlying consensus process. 
+    
+#### Participant Services
+##### ConsumerVC
+* `ConsensusContext` - Flags the VM with the node's consensus role: either as leader (proposer) or non-leader (validator).
+* `VirtualMachine` - Exposes and validates the ManagementVC queries' results. Fails the entire block (ProcessTxSet - return Error) when validation fails.  Write\read offChain data to tx receipt. Provide Mgmt.SDK calls using `CrossChainConnector`. 
+* `CrossChainConnector` - Retrieves the ManagementVC BlockHeight. Retrieves the elected validators from ManagementVC.
 
 ##### ManagementVC
-* Same as the update flow specified above.
+* `CrosschainAPI` - Exposes "queries API" and serves the queries' results as obtained from the VM.
+* `VirtualMachine` - Obtains Elected validators from state by block-height (supports historical state query).
+* `BlockStorage` -  Obtains blockInfo (height, timestamp) by time reference or by height.
 
 
-### VC system init:
-#### Participant Services
-* `CrossChainConnector` - Init the appropriate connector based on the Node Config - either Ethereum or Management.
+
+##
 
 ## Node config update
 * MANAGEMENT_FINALITY_TIME_COMPONENT - reduce current block time by this constant (~ 10 seconds).
 * MANAGEMENT_VIRTUAL_CHAIN_ID - the ManagementVC virtual chain id.
-* MANAGEMENT_PROTOCOL_VERSION - //TODO: upgrade
+* MANAGEMENT_PROTOCOL_VERSION. <!-- - //TODO: upgrade -->
 * MANAGEMENT_ENDPOINT - IP:Port.
-* MANAGEMENT_MAX_SYNC_REJECT_TIME - allowed time drift of config - continue running with old information (~ 10 minutes).
+<!-- * MANAGEMENT_MAX_SYNC_REJECT_TIME - allowed time drift of config - continue running with old information (~ 10 minutes) - used for pre order in `_GlobalPreOrder`. -->
 * MANAGEMENT_RETRY_INTERVAL - polling param.
-
-
-
-
-
+* MANAGEMENT_MODE - remote or local. 
 
 
 ## SDK update
-#### Mgmt.GetElectedValidators(time_reference) : (node_address[], election_number, election_start_time, election_end_time)
-* Output: the elected validators set in ManagementVC (at a deduced block height), as a list of Orbs addresses along with the corresponding election information (number, start time, end time).
-* Get the ManagementVC-BlockHeight according to reference timestamp (non-deterministic result)
-    * queried_result := MgmtGetBlockInfoByTime(block.timestamp)
+
+#### Mgmt.CallContract(contract_name, method_name, input_arguments) : call_result, output_arguments
+
+* Output: 
+    * call_result indicating successful call or not. 
+    * output_arguments of a remote contract call on the ManagementVC.
+
+* If `MANAGEMENT_MODE` is local return `CALL_RESULT_FAILURE`, nil.
+* Get the ManagementVC-BlockHeight according to reference timestamp (block.timestamp).
+    * queried_result := ManagementConnector.GetBlockInfoByTime(block.timestamp). 
+    * Note: non-deterministic result.
+
 * BlockProposer logs the non-deterministic data (ManagementVC-BlockHeight) in transaction receipt
-    * If ExecutionMode == EXECUTION_PROPOSE, write queried_result into the transaction receipt.
+    * If ConsensusRole == CONSENSUS_ROLE_PROPOSER, write ManagementVC-BlockHeight into the transaction receipt - inside the offchain_data section.
 * Validator verifies non-deterministic data (ManagementVC-BlockHeight)
-    * If ExecutionMode == EXECUTION_VERIFY, read proposed ManagementVC-BlockHeight from transaction receipt and verify against queried result.
+    * If ConsensusRole == CONSENSUS_ROLE_VALIDATOR, read proposed ManagementVC-BlockHeight from transaction receipt and verify against queried result.
         * Verify proposed == queried_result OR proposed == queried_result - 1.
     * If verification fails, fail the block.
-* Use proposed ManagementVC-BlockHeight to get and return the elected validators
-    * (execution_result, output_arguments) = MgmtCallContract(proposed_blockHeight, "_ElectedValidators", "getElectedValidators" )
-    * output_arguments := node_address[], election_number, election_start_time, election_end_time
-* Usage: mirror current elected validators set from MgmtVC. 
+* Use proposed ManagementVC-BlockHeight to query the ManagementVC state.
+    * (call_result, output_arguments) = ManagementConnector.CallContract(proposed_blockHeight, contract_name, method_name, input_arguments)
+    * Log the call output into the transaction receipt - inside the offchain_data section.
+* Usage: query ManagementVC state.
 
 
-
-
+#### Mgmt.CallContractAtBlock(block_height, contract_name, method_name, input_arguments) : call_result, output_arguments
+* Output: 
+    * call_result indicating successful call or not. 
+    * output_arguments of a remote contract call on the ManagementVC.
+* If `MANAGEMENT_MODE` is local return `CALL_RESULT_FAILURE`, nil.
+* (call_result, output_arguments) = ManagementConnector.CallContract(block_height, contract_name, method_name, input_arguments)
+* Log the call output into the transaction receipt - inside the offchain_data section.
 
 
  ### Update Elected Validators Flow Diagram

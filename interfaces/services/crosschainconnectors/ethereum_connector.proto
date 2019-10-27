@@ -1,14 +1,12 @@
 syntax = "proto3";
 package services;
-option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/crosschainconnectors";
 
-import "primitives/protocol.proto";
-import "protocol/contracts.proto";
-import "protocol/results.proto";
+import "../primitives/protocol.proto";
 
 option serialize_messages = false;
 
-service CrosschainConnector {
+service EthereumConnector {
     // called by VirtualMachine
     rpc EthereumCallContract (EthereumCallContractInput) returns (EthereumCallContractOutput);
     rpc EthereumGetTransactionLogs (EthereumGetTransactionLogsInput) returns (EthereumGetTransactionLogsOutput);
@@ -16,70 +14,7 @@ service CrosschainConnector {
     rpc EthereumGetBlockTime (EthereumGetBlockTimeInput) returns (EthereumGetBlockTimeOutput);
     rpc EthereumGetBlockTimeByNumber (EthereumGetBlockTimeByNumberInput) returns (EthereumGetBlockTimeByNumberOutput);
     rpc EthereumGetBlockNumberByTime (EthereumGetBlockNumberByTimeInput) returns (EthereumGetBlockNumberByTimeOutput);
-
-    // mgmt-chain
-    rpc MgmtGetBlockInfoByTime (MgmtGetBlockInfoByTimeInput) returns (MgmtGetBlockInfoByTimeOutput);
-    rpc MgmtCallContract (MgmtCallContractInput) returns (MgmtCallContractOutput);
-
-
-    // other VCs
-    // rpc CrossChainGetBlockInfoByTime (CrossChainGetBlockInfoByTimeInput) returns (CrossChainGetBlockInfoByTimeOutput);
-    // rpc CrossChainCallContract (CrossChainCallContractInput) returns (CrossChainCallContractOutput);
-
 }
-
-message MgmtGetBlockInfoByTimeInput {
-    primitives.timestamp_nano reference_timestamp = 1;
-}
-
-message MgmtGetBlockInfoByTimeOutput {
-    primitives.block_height block_height = 1;
-    primitives.timestamp_nano block_timestamp = 2;
-}
-
-
-message MgmtCallContractInput {
-    primitives.block_height block_height = 1;
-    primitives.contract_name contract_name = 2;
-    primitives.method_name method_name = 3;
-    primitives.packed_argument_array input_argument_array = 4;
-}
-
-message MgmtCallContractOutput {
-    protocol.ExecutionResult execution_result = 1;
-    primitives.packed_argument_array output_argument_array = 2;
-}
-
-
-// other VCs
-//
-//message CrossChainGetBlockInfoByTimeInput {
-//    primitives.virtual_chain_id virtual_chain_id = 1;
-//    primitives.timestamp_nano reference_timestamp = 1;
-//}
-//
-//message CrossChainGetBlockInfoByTimeOutput {
-//    primitives.block_height block_height = 1;
-//    primitives.timestamp_nano block_timestamp = 2;
-//}
-//
-//message CrossChainCallContractInput {
-//    primitives.virtual_chain_id virtual_chain_id = 1;
-//    primitives.block_height block_height = 2;
-//    primitives.contract_name contract_name = 3;
-//    primitives.method_name method_name = 4;
-//    primitives.packed_argument_array input_argument_array = 5;
-//}
-//
-//message CrossChainCallContractOutput {
-//    protocol.ExecutionResult execution_result = 1;
-//    primitives.packed_argument_array output_argument_array = 2;
-//}
-//
-
-
-
-
 
 message EthereumCallContractInput {
     primitives.timestamp_nano reference_timestamp = 1;

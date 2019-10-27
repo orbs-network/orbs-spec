@@ -1530,22 +1530,22 @@ func (n ExecutionPermissionScope) String() string {
 	return "UNKNOWN"
 }
 
-type ExecutionMode uint16
+type ConsensusRole uint16
 
 const (
-	EXECUTION_RESERVED ExecutionMode = 0
-	EXECUTION_PROPOSE  ExecutionMode = 1
-	EXECUTION_VERIFY   ExecutionMode = 2
+	CONSENSUS_ROLE_RESERVED  ConsensusRole = 0
+	CONSENSUS_ROLE_PROPOSER  ConsensusRole = 1
+	CONSENSUS_ROLE_VALIDATOR ConsensusRole = 2
 )
 
-func (n ExecutionMode) String() string {
+func (n ConsensusRole) String() string {
 	switch n {
-	case EXECUTION_RESERVED:
-		return "EXECUTION_RESERVED"
-	case EXECUTION_PROPOSE:
-		return "EXECUTION_PROPOSE"
-	case EXECUTION_VERIFY:
-		return "EXECUTION_VERIFY"
+	case CONSENSUS_ROLE_RESERVED:
+		return "CONSENSUS_ROLE_RESERVED"
+	case CONSENSUS_ROLE_PROPOSER:
+		return "CONSENSUS_ROLE_PROPOSER"
+	case CONSENSUS_ROLE_VALIDATOR:
+		return "CONSENSUS_ROLE_VALIDATOR"
 	}
 	return "UNKNOWN"
 }

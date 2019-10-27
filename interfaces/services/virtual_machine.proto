@@ -32,7 +32,7 @@ message ProcessTransactionSetInput {
     primitives.timestamp_nano current_block_timestamp = 2;
     repeated protocol.SignedTransaction signed_transactions = 3;
     primitives.node_address block_proposer_address = 4;
-    protocol.ExecutionMode execution_mode = 5;
+    protocol.ConsensusRole consensus_role = 5;
 
 }
 

@@ -61,10 +61,10 @@ enum ExecutionPermissionScope {
     PERMISSION_SCOPE_SERVICE = 2;
 }
 
-enum ExecutionMode {
-    EXECUTION_RESERVED = 0;
-    EXECUTION_PROPOSE = 1;
-    EXECUTION_VERIFY = 2;
+enum ConsensusRole {
+    CONSENSUS_ROLE_RESERVED = 0;
+    CONSENSUS_ROLE_PROPOSER = 1;
+    CONSENSUS_ROLE_VALIDATOR = 2;
 }
 
 enum ProcessorType {

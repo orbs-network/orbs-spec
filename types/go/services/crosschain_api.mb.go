@@ -39,6 +39,7 @@ func (x *GetBlockInfoByTimeInput) StringReferenceTimestamp() (res string) {
 // message GetBlockInfoByTimeOutput (non serializable)
 
 type GetBlockInfoByTimeOutput struct {
+	RequestStatus  protocol.RequestStatus
 	BlockHeight    primitives.BlockHeight
 	BlockTimestamp primitives.TimestampNano
 }
@@ -47,7 +48,12 @@ func (x *GetBlockInfoByTimeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp())
+	return fmt.Sprintf("{RequestStatus:%s,BlockHeight:%s,BlockTimestamp:%s,}", x.StringRequestStatus(), x.StringBlockHeight(), x.StringBlockTimestamp())
+}
+
+func (x *GetBlockInfoByTimeOutput) StringRequestStatus() (res string) {
+	res = fmt.Sprintf("%x", x.RequestStatus)
+	return
 }
 
 func (x *GetBlockInfoByTimeOutput) StringBlockHeight() (res string) {
@@ -101,6 +107,7 @@ func (x *CallContractInput) StringInputArgumentArray() (res string) {
 // message CallContractOutput (non serializable)
 
 type CallContractOutput struct {
+	RequestStatus       protocol.RequestStatus
 	ExecutionResult     protocol.ExecutionResult
 	OutputArgumentArray primitives.PackedArgumentArray
 }
@@ -109,7 +116,12 @@ func (x *CallContractOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ExecutionResult:%s,OutputArgumentArray:%s,}", x.StringExecutionResult(), x.StringOutputArgumentArray())
+	return fmt.Sprintf("{RequestStatus:%s,ExecutionResult:%s,OutputArgumentArray:%s,}", x.StringRequestStatus(), x.StringExecutionResult(), x.StringOutputArgumentArray())
+}
+
+func (x *CallContractOutput) StringRequestStatus() (res string) {
+	res = fmt.Sprintf("%x", x.RequestStatus)
+	return
 }
 
 func (x *CallContractOutput) StringExecutionResult() (res string) {

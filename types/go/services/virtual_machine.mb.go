@@ -28,14 +28,14 @@ type ProcessTransactionSetInput struct {
 	CurrentBlockTimestamp primitives.TimestampNano
 	SignedTransactions    []*protocol.SignedTransaction
 	BlockProposerAddress  primitives.NodeAddress
-	ExecutionMode         protocol.ExecutionMode
+	ConsensusRole         protocol.ConsensusRole
 }
 
 func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,BlockProposerAddress:%s,ExecutionMode:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions(), x.StringBlockProposerAddress(), x.StringExecutionMode())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,BlockProposerAddress:%s,ConsensusRole:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions(), x.StringBlockProposerAddress(), x.StringConsensusRole())
 }
 
 func (x *ProcessTransactionSetInput) StringCurrentBlockHeight() (res string) {
@@ -62,8 +62,8 @@ func (x *ProcessTransactionSetInput) StringBlockProposerAddress() (res string) {
 	return
 }
 
-func (x *ProcessTransactionSetInput) StringExecutionMode() (res string) {
-	res = fmt.Sprintf("%x", x.ExecutionMode)
+func (x *ProcessTransactionSetInput) StringConsensusRole() (res string) {
+	res = fmt.Sprintf("%x", x.ConsensusRole)
 	return
 }
 
