@@ -327,45 +327,56 @@ deactivate VC-ConsensusCtxt
 deactivate VC-VM
 
 
-#8. ConsumerVC get committee flow
+#8. title ConsumerVC RequestOrderedCommittee Flow
 
-title ConsumerVC get committee flow
-
+participant VC-ConsensusAlgo
 participant VC-ConsensusCtxt
 participant VC-VM
 participant VC-Crosschain
 participant MGMT-CrosschainAPI
 
-
-VC-ConsensusCtxt -> VC-VM: CallSystemContract(_Committee, getOrderedCommittee, now, ProposeMode)
+VC-ConsensusAlgo -> VC-ConsensusCtxt: RequestOrderedCommittee(blockHeight)
+activate VC-ConsensusCtxt
+VC-ConsensusCtxt -> VC-VM: CallSystemContract("_Elected", "getElectedValidators")
 activate VC-VM
-note over VC-VM: Retreive the current elected validators record\n(used for committee ordering)
-VC-VM -> VC-VM: SDK.CallContract(_ElectedValidators, fetchElectedValidators, now)
+VC-ConsensusCtxt <-- VC-VM : result
+deactivate VC-VM
 
-alt UpToDate
-note over VC-VM: Elected Validators local state record is up to date.
-
-else Expired
-note over VC-VM: Elected Validators record has expired.\nFetch new record from ManagementVC.
-group SdkMgmtGetElectedValidators(now)
-VC-VM -> VC-Crosschain:MGMT.GetBlockHeight(now)
-activate VC-Crosschain
-VC-Crosschain -> MGMT-CrosschainAPI: GetBlockInfoByTime(finalityTime)
-activate MGMT-CrosschainAPI
-VC-Crosschain <-- MGMT-CrosschainAPI: result
-deactivate MGMT-CrosschainAPI
-VC-VM <-- VC-Crosschain:result
-deactivate VC-Crosschain
-VC-VM -> VC-Crosschain: MgmtCallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
-activate VC-Crosschain
-VC-Crosschain -> MGMT-CrosschainAPI: CallContract(_ElectedValidators, getElectedValidators, MgmtBlockHeight)
-activate MGMT-CrosschainAPI
-VC-Crosschain <-- MGMT-CrosschainAPI: result
-deactivate MGMT-CrosschainAPI
-VC-VM <-- VC-Crosschain:result
-deactivate VC-Crosschain
+opt Empty Set: Poll until success
+alt MgmtMode: Local \ Remote
+    note over VC-ConsensusCtxt: Get Reference Validators Set from config
+    else
+    VC-ConsensusCtxt -> VC-VM: CallSystemContract("_Elected", "getReferenceValidatorsSet")
+    activate VC-VM
+    group SdkMgmtCallContract
+        VC-VM -> VC-Crosschain:MGMT.GetBlockHeight(now)
+        activate VC-Crosschain
+        VC-Crosschain -> MGMT-CrosschainAPI: GetBlockInfoByTime(finalityTime)
+        activate MGMT-CrosschainAPI
+        VC-Crosschain <-- MGMT-CrosschainAPI: result
+        deactivate MGMT-CrosschainAPI
+        VC-VM <-- VC-Crosschain:result
+        deactivate VC-Crosschain
+        VC-VM -> VC-Crosschain: MgmtCallContract(MgmtBlockHeight, "_Subscription", "getReferenceValidatorsSet")
+        activate VC-Crosschain
+        VC-Crosschain -> MGMT-CrosschainAPI:CallContract(MgmtBlockHeight, "_Subscription", "getReferenceValidatorsSet")
+        activate MGMT-CrosschainAPI
+        VC-Crosschain <-- MGMT-CrosschainAPI: result
+        deactivate MGMT-CrosschainAPI
+        VC-VM <-- VC-Crosschain:result
+        deactivate VC-Crosschain
+    end
+    VC-ConsensusCtxt <-- VC-VM: result
+    deactivate VC-VM
 end
 end
+
+note over VC-ConsensusCtxt: Get the ordered committee for blockHeight \nbased on the Elected Validators retrieved above
+VC-ConsensusCtxt -> VC-VM: CallSystemContract("_Committee", "getOrderedCommittee", ElectedValidators)
+activate VC-VM
 
 VC-ConsensusCtxt <-- VC-VM: result
 deactivate VC-VM
+
+VC-ConsensusAlgo <-- VC-ConsensusCtxt: result
+deactivate VC-ConsensusCtxt
