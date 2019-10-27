@@ -56,6 +56,7 @@
         * If `remote` mode - calls `_ElectedValidators.getReferenceValidatorsSet()`.
             * Inside service: 
                 <!-- Note: this is dependent on archive mode * Retrieve the Virtual Chain Reference blockHeight (virtual chain's genesis time according to the ManagementVC blockHeight) from the subscription - SDK call `Mgmt.CallContract('_Subscription', 'getSubscriptionDetails')`.
+                    * If blockHeight  == 0 (reference blockHeight in subscription has not been written to state yet), Fail.
                 * Retrieve the Reference Set from the ManagementVC by calling `Mgmt.CallContractAtBlock('_ElectedValidators', 'getElectedValidators', 'blockHeight')`. -->
             * Retrieve the Virtual Chain Reference Validators Set (virtual chain's validators at genesis) from the subscription using the SDK call `Mgmt.CallContract('_Subscription', 'getReferenceValidatorsSet')`.
 * The `ConsensusContext` retrieves the ordered committee by calling `_Committee.getOrderedCommitteeForAddresses` with the Elected Validators Set as argument.
