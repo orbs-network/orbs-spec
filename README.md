@@ -50,7 +50,7 @@ Overview of the entire system with brief introduction to all services is availab
 &nbsp;
 ## Services
 
-* [Public Api](behaviors/services/public-api.md)
+* [Public API](behaviors/services/public-api.md)
 
   Provides external public gateway interface (like JSON over HTTP) for clients.
 

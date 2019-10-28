@@ -2,8 +2,8 @@ syntax = "proto3";
 package consensus;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/consensus";
 
-import "../primitives/crypto.proto";
-import "../primitives/protocol.proto";
+import "../../primitives/crypto.proto";
+import "../../primitives/protocol.proto";
 
 enum BenchmarkConsensusMessageType {
     BENCHMARK_CONSENSUS_RESERVED = 0;

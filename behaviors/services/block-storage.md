@@ -2,7 +2,7 @@
 
 Holds the long term journal of all confirmed blocks. Provides the source of truth inside the node for the current [block height](../../terminology.md). When the node is synchronized with the rest of the network, newly committed blocks arrive internally from `ConsensusAlgo`. When not, the service manually synchronizes the missing blocks from other nodes.
 
-Currently a single instance per virtual chain per node.
+Currently, a single instance per virtual chain per node.
 
 #### Interacts with services
 
@@ -15,11 +15,11 @@ Currently a single instance per virtual chain per node.
 ## `Data Structures`
 
 #### Block database
-* Holds all blocks with ability to query efficiently by [block height](../../terminology.md).
-* Able to store blocks out of order (when sync is lost but future blocks keep arriving).
+* Holds all blocks with the ability to query efficiently by [block height](../../terminology.md).
+* Able to store blocks out of order (when sync is lost, but future blocks keep arriving).
   * These blocks are not yet marked as committed and cannot be considered valid.
-  * They will be verified and committed after receiving the chain of missing blocks before them.
-* When empty, initialized with the genesis block which is empty for virtual chains.
+  * They are verified and committed after receiving the chain of missing blocks before them.
+* When empty, initialized with the genesis block, which is empty for virtual chains.
 * The database needs to be persistent.
 * Data is not sharded, currently all blocks are stored locally on all machines.
 
@@ -45,18 +45,18 @@ Currently a single instance per virtual chain per node.
 > Continuous flow where block storage (the source of truth for committed blocks) is synchronizing itself from other nodes when it discovers it is out of sync.
 
 #### Trigger
-* Endless loop which is continuously waiting for a trigger marking the node as out of sync.
+* Endless loop, which is continuously waiting for a trigger marking the node as out of sync.
 * The synchronization process is triggered upon:
+  * The Init flow.
   * Too much time has passed without a commit with `CommitBlock`. Based on `config.BLOCK_SYNC_NO_COMMIT_INTERVAL` (eg. 8 sec).
-  * During the Init flow.
-* Make sure no more than one synchronization process is active at any given time.
+ * Make sure no more than one synchronization process is active at any given time.
 
-#### Pre-synchornization
+#### Pre-synchronization
 * When synchronization is triggered, update all registered consensus algos with the latest persistent block by calling their `HandleBlockConsensus` with `HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY`.
   * If `last_committed_block` is empty pass an empty block.
 
 #### Synchronization process
-* Synchronization is made of multiple **batches** each comprised of multiple **chunks**.
+* Synchronization is made of multiple **batches**, each comprised of multiple **chunks**.
 * Identify nodes that have the desired blocks by broadcasting `BLOCK_AVAILABILITY_REQUEST` message with `Gossip.BlockSync.BroadcastBlockAvailabilityRequest`.
   * Request blocks starting from `last_committed_block`.
   * Request `config.BLOCK_SYNC_NUM_BLOCKS_IN_BATCH` **batch** range for this session (total number of blocks the syncing node will give in this session).
@@ -82,7 +82,7 @@ Currently a single instance per virtual chain per node.
 
 * This flow is instantiated twice:
   * One instance for the service `TransactionPool` and one for `StateStorage`.
-* Endless loop which is continuously synchronizing the service with committed blocks based on the service's next desired block height.
+* Endless loop, which is continuously synchronizing the service with committed blocks based on the service's next desired block height.
 * If `last_commited_block` is lower than the service's next desired block height, block and wait (without polling), else:
   * Push the next desired block to the service:
     * To transaction pool by calling `TransactionPool.CommitTransactionsReceipts`.
@@ -94,23 +94,23 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `CommitBlock` (method)
 
-> Commit a new trusted block (pair, Transactions and Results) after it was approved for commit. Used by the critical path in the consensus algo to commit verified blocks.
+> Commit a new trusted block pair (Transactions and Results) after approval for commit. It is used by the critical path in the consensus algo to commit verified blocks.
 
 #### Final checks before adding
-* We assume here that the caller of this method inside the node is trusted and has already done the tests specified by `ValidateBlockForCommit`.
+* We assume here that the caller of this method inside the node is trusted, and has already done the tests specified by `ValidateBlockForCommit`.
 * Correct block protocol version.
 * Silently discard the given block if it already exists in the database (panic if it's different from ours under this block height).
 * If it doesn't exist, panic if the given block height isn't the next of `last_committed_block`.
 
 #### Commit the block
-* Store block in database indexed by block height.
+* Store block in the database indexed by block height.
 * Update `last_committed_block` to match the given block.
 * If any of the intra block syncs (`StateStorage`, `TransactionPool`) is blocking and waiting, wake it up.
 
 &nbsp;
 ## `ValidateBlockForCommit` (method)
 
-> Validates an untrusted block (pair, Transactions and Results) received during inter node sync before it can be committed.
+> Validates an untrusted block pair (Transactions and Results) received during inter node sync before it can be committed.
 
 #### Check the Transactions block (stateless)
 * Correct block protocol version.
@@ -141,7 +141,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `GetLastCommittedBlockHeight` (method)
 
-> As the source of truth in the node, returns the height of last committed block.
+> As the source of truth in the node, returns the height of the last committed block.
 
 * Return the height of `last_committed_block`.
 
@@ -178,23 +178,23 @@ Currently a single instance per virtual chain per node.
 
 > Returns a committed Transactions block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
-* If requested block height is in the future but `last_committed_block` is far, fail.
-* Return the transactions block header, metadata and the transactions block proof.
+* If requested block height is in the future, but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until the requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
+* If requested block height is in the future, but `last_committed_block` is far, fail.
+* Return the transactions block header, metadata, and the transactions block proof.
 
 &nbsp;
 ## `GetResultsBlockHeader` (method)
 
 > Returns a committed Results block header and proof given a block height. Used primarily by the consensus algo when it's missing a block.
 
-* If requested block height is in the future but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
-* If requested block height is in the future but `last_committed_block` is far, fail.
-* Return the results block header, metadata and the results block proof.
+* If requested block height is in the future, but `last_committed_block` is close to it `config.BLOCK_TRACKER_GRACE_DISTANCE` block the call until the requested height is committed. Or fail on `config.BLOCK_TRACKER_GRACE_TIMEOUT`.
+* If requested block height is in the future, but `last_committed_block` is far, fail.
+* Return the results block header, metadata, and the results block proof.
 
 &nbsp;
 ## `GenerateReceiptProof` (method)
 
-> Generates a proof for a receipt inclusion in a block. Returns the transaction receipt for a past transaction based on its id and time stamp, along with the signed block header and receipt merkle proof.
+> Generates a proof for a receipt inclusion in a block. Returns the transaction receipt for a past transaction, based on its id and time stamp, along with the signed block header and receipt merkle proof.
 
 * Get the relevant block and look for the receipt that matches the `txhash`.
   * If no matching receipt was found, return an empty proof. 

@@ -4,6 +4,7 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
 import "primitives/crypto.proto";
 import "primitives/protocol.proto";
+import "membuffers";
 
 message Argument {
     oneof type {
@@ -11,6 +12,10 @@ message Argument {
         uint64 uint64_value = 3;
         string string_value = 4;
         bytes bytes_value = 5;
+        membuffers.bytes20 bytes20_value = 6;
+        membuffers.bytes32 bytes32_value = 7;
+        membuffers.uint256 uint256_value = 8;
+        bool bool_value = 9;
     }
 }
 
