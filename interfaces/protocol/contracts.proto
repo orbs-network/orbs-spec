@@ -6,16 +6,17 @@ import "primitives/crypto.proto";
 import "primitives/protocol.proto";
 import "membuffers";
 
+// Please Note: order of field in the union must be kept. change of order may break backward compatibility
 message Argument {
     oneof type {
         uint32 uint32_value = 2;
         uint64 uint64_value = 3;
         string string_value = 4;
         bytes bytes_value = 5;
-        membuffers.bytes20 bytes20_value = 6;
-        membuffers.bytes32 bytes32_value = 7;
-        membuffers.uint256 uint256_value = 8;
-        bool bool_value = 9;
+        bool bool_value = 6;
+        membuffers.uint256 uint256_value = 7;
+        membuffers.bytes20 bytes20_value = 8;
+        membuffers.bytes32 bytes32_value = 9;
     }
 }
 
