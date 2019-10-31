@@ -14,7 +14,10 @@
         * ValidatorsSet:
             * MemberID (OrbsAddress)
         * ElectionNumber
-        * ValidUntil (Date)
+        * NextSync (Date)
+
+* constants:
+    * ELECTED_VALIDATORS_MAX_NEXT_SYNC : time cap of next sync step - relative to current timestamp. 
 
 &nbsp;
 ## `_init` (method)
@@ -28,24 +31,34 @@
 
 
 
-## `updateElectedValidators` (method)
+## `sync` (method)
 > Support calls only from the `_Triggers` system contract.
 > Update the state Validators Record if necessary (try to fetch newer data).
-> The elected validators record is expired if no such record is yet stored or "ValidUntil" has passed (based on the block.timestamp).
+> The elected validators record is expired if "NextSync" has passed (based on the block.timestamp).
 > Dependent on `management.CallContract()` SDK call.
 
 #### Permissions
 * `External` (caller can only be `_Triggers` system.contract call).
 * `ReadWrite` (might change state).
 
-#### Behavior
+#### Behavior ConsumerVC
 * Check if should update the record:
     * Check if the elected validators record from state is expired:
-        * The list of elected validators is nil.
-        * The `block.timestamp` - current time reference > valid_until.
+        * The `block.timestamp` - current time reference > `NextSync`.
 * If should update the record:
     * Try to retrieve an updated record by calling `management.CallContract('_ElectedValidators', 'getElectedValidators')` SDK call.
-    * If call successfully resulted with a valid record, Store record in state.
+    * If call successfully resulted with a valid record:
+        * If the record holds a newer next_sync timestamp
+            * Cap `NextSync` based on ELECTED_VALIDATORS_MAX_NEXT_SYNC.
+            * Store record in state.
+
+#### Behavior ManagementVC
+> If should update == election event occurred, process new election data.
+> At the end of the processing stores a new elected validators record in state with next_sync := next election time.
+
+#### Behavior PrivateVC
+> Does not update state record.
+
 
 
 ## `getElectedValidators()` (method)
@@ -56,6 +69,16 @@
 
 #### Behavior
 * Input: none.
-* Returns from state the elected validators record := list of Validators, election counter, and date limit - they are still valid.
-    * (node_address[], election_number, valid_until)
+* Returns from state the elected validators record := list of Validators, election counter, and next sync date.
+    * (node_address[], election_number, NextSync)
     
+    
+
+## `getElectedValidatorsNextSync()` (method)
+> Returns the elected validators next sync timestamp from state.
+#### Permissions
+* `External & Internal` (caller can be anyone).
+* `ReadOnly` (does not change state).
+#### Behavior
+* Input: none.
+* Returns `NextSync`

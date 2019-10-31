@@ -9,26 +9,20 @@ Provides read access to other blockchains like Ethereum and ManagementVC.
 &nbsp;
 ## `Supported Cross-chains`
 
-#### Ethereum
+## Ethereum
 * An official Ethereum node connected to main net.
 * Runs node locally to avoid trust in third party.
 * Node should be kept synchronized and live.
 * The service connects to the Ethereum node using a configurable endpoint URL.
 
-#### ManagementVC
-* Node runs the ManagementVC instance locally - assumes trusted data.
-* The ManagementVC instance should be synchronized and live.
-* The service connects to the ManagementVC instance using a configurable endpoint URL (intra-node communication).
-* NodeConfig - see relevant configuration in [management-chain-readme](../v1_1/management-chain.md):
-
 
 &nbsp;
-## `Init` (flow)
+### `Init` (flow)
 
-* Test connection to the relevant nodes (Ethereum or ManagementVC instance).
+* Test connection to the relevant Ethereum node.
 
 &nbsp;
-## `CallEthereumContract` (method)
+### `CallEthereumContract` (method)
 
 > Run a read only contract on Ethereum and return its data.
 
@@ -39,7 +33,7 @@ Provides read access to other blockchains like Ethereum and ManagementVC.
 * Needs to support calling with arguments and receiving any output supported by etheruem (solidity)
 
 &nbsp;
-## `EthereumGetTransactionLogs` (method)
+### `EthereumGetTransactionLogs` (method)
 > Query the log associated with a transaction.
 
 * Query the Ethereum node using the given arguments through IPC.
@@ -52,8 +46,22 @@ Provides read access to other blockchains like Ethereum and ManagementVC.
 
 
 
+
+
+## ManagementVC
+* Node runs the ManagementVC instance locally - assumes trusted data.
+* The ManagementVC instance should be synchronized and live.
+* The service connects to the ManagementVC instance using a configurable endpoint URL (intra-node communication).
+* NodeConfig - see relevant configuration in [management-chain-readme](../v1_1/management-chain.md):
+
+
 &nbsp;
-## `MgmtGetBlockInfoByTime` (method)
+### `Init` (flow)
+* Test connection to the ManagementVC instance.
+
+
+&nbsp;
+### `GetBlockInfoByTime` (method)
 > Query the ManagementVC about its latest committed block prior to a timestamp.
 * Shift the provided time reference to overcome inter-node sync across VCs (increase agreement chance).
 * This "finality reference time" is deterministically deduced from the provided block time (injects the ManagementVC VirtualChainID and ProtocolVersion).
@@ -64,10 +72,9 @@ Provides read access to other blockchains like Ethereum and ManagementVC.
 
 
 &nbsp;
-## `MgmtCallContract` (method)
+### `CallContract` (method)
 > Run a read only contract call on the ManagementVC and return its data.
-* Run Call using a state at a given blockHeight.
+* Run Call on the ManagementVC using a state at a given blockHeight.
 * Input: contract_name, method_name, arguments and blockHeight (injects the ManagementVC VirtualChainID and ProtocolVersion).
 * Returns the execution result and output arguments.
 * Usage: retrieve ManagementVC state data at a given BlockHeight under agreement.
-
