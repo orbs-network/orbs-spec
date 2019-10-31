@@ -53,7 +53,7 @@
             * Store record in state.
 
 #### Behavior ManagementVC
-> If should update == election event occurred, process new election data.
+> If should update (election event occurred), process new election data.
 > At the end of the processing stores a new elected validators record in state with next_sync := next election time.
 
 #### Behavior PrivateVC
