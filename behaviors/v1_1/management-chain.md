@@ -2,7 +2,18 @@
 > Provide a system wide source of truth across virtual chains.
 > Initial feature abstracts the governance process results (occurs on the Ethereum network) on an Orbs Validator Node level - across its virtual chains' instances.
 
-### Design principles
+## Main Participating components
+* New CrossChain-API service.
+* New VirtualChainConnector service.
+* Management chain query SDK.
+* Off-chain data (Non-deterministic) check as part of the block validation. 
+* Updated receipt format to include off-chain data.
+* Elected validators validity check as part of the PreOrder check.
+* Custom system contracts deployment per virtual chain type.
+* Elected Validators contract.
+* Updated RequestOrderedCommittee flow.
+
+## Design principles
 * Assumptions:
     * "Trust" holds inside the Node (across its virtual chains instances)
     * Reference Validators set recorded on the virtual chain (VC) holds during VC genesis and until the state is updated. (Assumes a progress of the VC)
@@ -62,7 +73,7 @@
         * Only "system state" update: elected set, reputation, no application transactions.
     * Transitioning to a new configuration is done agreement by writing to state. The configuration holds during the entire consensus round (updating state at round i determines the config of round i+1).
 
-## VC Flows:
+## Virtual Chain Flows:
 
 ### RequestOrderedCommittee flow (Read)
 * At the beginning of each consensus round (block height), the node queries the `ConsensusContext` for a sorted list of nodes (committee).
