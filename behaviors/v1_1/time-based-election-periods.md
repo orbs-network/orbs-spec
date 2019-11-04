@@ -70,22 +70,22 @@
        
 ##  SDK / Crosschain connector new function
 
-### Ethereum.GetBlockTimeByNumber(uint32 blockNumber) : uint64 (epoch time)
+### Ethereum.GetBlockTimeByNumber(uint32 blockNumber) : uint64
 * Input: blockNumber
   * If blockNumber > block number for finality, fail the call.
-* Output: the epoch time of the block (in seconds), for example GetEthereumBlockTime(7430000) = 1553411888
+* Output: the time of the block (in seconds), for example GetEthereumBlockTime(7430000) = 1553411888
 * Usage: validity of mirrored delegation.
 
-### Ethereum.GetBlockNumberByTime(epoch_time : uint32) : uint32
-* Input: epoch time in sec
-  * If epoch_time < current time + ETHEREUM_FINALITY_TIME_COMPONENT, fail the call.
+### Ethereum.GetBlockNumberByTime(refernce_time : uint32) : uint32
+* Input: refernce_time in sec
+  * If current time < refernce_time + ETHEREUM_FINALITY_TIME_COMPONENT, fail the call.
 * Output: 
-  * Returns the maximum Ethereum block number such that its timestamp < epoch_time.
-  * If result < block number for finality, fail the call.
+  * Returns the maximum Ethereum block number such that its timestamp < refernce_time.
+  * If result > block number for finality, fail the call.
 * Usage: retrieve the election block number.
 
-### Ethereum.GetBlockTime() : uint64 (epoch time)
-* Output: the epoch time of the current Ethereum block (the block for finality)
+### Ethereum.GetBlockTime() : uint64 
+* Output: the time of the current Ethereum block (the block for finality)
 * Usage: processing start (may be replaced by GetBlockNumber + GetBlockTimeByNumber, provided for completeness)
 
 ## Voting UIs
