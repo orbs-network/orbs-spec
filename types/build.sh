@@ -5,6 +5,7 @@ echo ""
 
 rm -rf ./go/*
 cp -r ../interfaces/* ./go
+cp -r ./additional-go/argument_array_builder.go ./go/protocol/.
 
 ### OLD: (uses brew) membufc --go --mock `find . -name "*.proto"`
 ### NEW: running membufc directly from source to avoid waiting for brew releases
