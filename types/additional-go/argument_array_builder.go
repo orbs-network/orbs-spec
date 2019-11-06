@@ -61,6 +61,10 @@ func ArgumentArrayFromNatives(args []interface{}) (*ArgumentArray, error) {
 	return (&ArgumentArrayBuilder{Arguments: builders}).Build(), nil
 }
 
+func ArgumentsArrayEmpty() *ArgumentArray {
+	return (&ArgumentArrayBuilder{}).Build()
+}
+
 // the func input is array of go natives (for contract) and encoded to ArgumentArray packed bytes *without* header (length)
 func PackedInputArgumentsFromNatives(args []interface{}) ([]byte, error) {
 	argArray, err := ArgumentArrayFromNatives(args)
