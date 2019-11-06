@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.32)
+// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
 package primitives
 
 import (
