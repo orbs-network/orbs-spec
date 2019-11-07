@@ -3,6 +3,7 @@ package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
 import "primitives/protocol.proto";
+import "protocol/results.proto";
 
 option serialize_messages = false;
 
@@ -14,7 +15,20 @@ service CrosschainConnector {
     rpc EthereumGetBlockTime (EthereumGetBlockTimeInput) returns (EthereumGetBlockTimeOutput);
     rpc EthereumGetBlockTimeByNumber (EthereumGetBlockTimeByNumberInput) returns (EthereumGetBlockTimeByNumberOutput);
     rpc EthereumGetBlockNumberByTime (EthereumGetBlockNumberByTimeInput) returns (EthereumGetBlockNumberByTimeOutput);
+
+    rpc EthereumGetLatestBlockInfo (EthereumGetLatestBlockInfoInput) returns (EthereumGetLatestBlockInfoOutput);
+    rpc EthereumGetBlockInfoByTime (EthereumGetBlockInfoByTimeInput) returns (EthereumGetBlockInfoByTimeOutput);
+    rpc EthereumGetLogs (EthereumGetLogsInput) returns (EthereumGetLogsOutput);
+
 }
+
+message EthereumEventLog {
+    uint64 ethereum_block_number = 1;
+    uint32 ethereum_txIndex = 2;
+    uint32 ethereum_logIndex = 3;
+    repeated bytes ethereum_abi_packed_outputs = 4;
+}
+
 
 message EthereumCallContractInput {
     primitives.timestamp_nano reference_timestamp = 1;
@@ -75,4 +89,41 @@ message EthereumGetBlockNumberByTimeInput {
 
 message EthereumGetBlockNumberByTimeOutput {
     uint64 ethereum_block_number = 1;
+}
+
+
+message EthereumGetLatestBlockInfoInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+}
+
+message EthereumGetLatestBlockInfoOutput {
+    uint64 ethereum_block_number = 1;
+    uint64 ethereum_block_timestamp = 2;
+}
+
+message EthereumGetBlockInfoByTimeInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    primitives.timestamp_nano ethereum_timestamp = 2;
+}
+
+message EthereumGetBlockInfoByTimeOutput {
+    uint64 ethereum_block_number = 1;
+    uint64 ethereum_block_timestamp = 2;
+}
+
+
+
+message EthereumGetLogsInput {
+    primitives.timestamp_nano reference_timestamp = 1;
+    string ethereum_contract_address = 2;
+    string ethereum_event_name = 3;
+    string ethereum_json_abi = 4;
+    uint64 ethereum_from_block_number = 5;
+    uint64 ethereum_to_block_number = 6;
+}
+
+message EthereumGetLogsOutput {
+    protocol.CrossChainCallResult call_result = 1;
+    uint64 ethereum_final_block_number = 2;
+    repeated EthereumEventLog ethereum_event_logs = 3;
 }

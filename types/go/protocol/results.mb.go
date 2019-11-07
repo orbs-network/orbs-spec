@@ -137,3 +137,23 @@ func (n RequestStatus) String() string {
 	}
 	return "UNKNOWN"
 }
+
+type CrossChainCallResult uint16
+
+const (
+	CALL_RESULT_RESERVED CrossChainCallResult = 0
+	CALL_RESULT_SUCCESS  CrossChainCallResult = 1
+	CALL_RESULT_FAILURE  CrossChainCallResult = 2
+)
+
+func (n CrossChainCallResult) String() string {
+	switch n {
+	case CALL_RESULT_RESERVED:
+		return "CALL_RESULT_RESERVED"
+	case CALL_RESULT_SUCCESS:
+		return "CALL_RESULT_SUCCESS"
+	case CALL_RESULT_FAILURE:
+		return "CALL_RESULT_FAILURE"
+	}
+	return "UNKNOWN"
+}

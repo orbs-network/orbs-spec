@@ -44,3 +44,8 @@ enum RequestStatus {
     REQUEST_STATUS_NOT_FOUND = 7;           // HTTP Status 404
 }
 
+enum CrossChainCallResult {
+    CALL_RESULT_RESERVED = 0;
+    CALL_RESULT_SUCCESS = 1;
+    CALL_RESULT_FAILURE = 2;
+}
