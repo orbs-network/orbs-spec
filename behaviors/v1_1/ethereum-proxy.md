@@ -10,8 +10,9 @@ Its benefits include: the removal of the dependency in an external mirroring age
 * Syncing is based on a "pause \ resume" mechanism - governed by the elections events - Syncing until the Elections closing time. After the Elections results is calculated the next Elections closing time is set and syncing resumes.
 * The PoS proxy state is maintained in the `_ElectionsProxy` system contract, which also controls the syncing process. The `_Elections` system contract deduces the elections results based on the PoS proxy state.
 * The SyncingScheduler component dictates a more flexible and optimized approach to advance each Topic independently and not to query Ethereum node on every Orbs block execution. 
-* "Transactional pattern" - before sync get current state into local variable -> get all data and start updating the local variable - on error break and do nothing -> set state based on the new variable  + update last sync block_number.
-* To avoid failing the triggers transaction entirely, errors are wrapped in the EthereumConnector call_result and handled inside the contract logic (this only applies to EthereumGetLogs call). Thus, skipping the `Processor` default panic interrupt behavior. 
+* The proxy syncing runs in the context of the Triggers transaction.
+   * To avoid failing the triggers transaction entirely, errors are wrapped in the EthereumConnector call_result and handled inside the contract logic (this only applies to EthereumGetLogs call). Thus, skipping the `Processor` default panic interrupt behavior. 
+   * "Transactional pattern" \ "All or nothing" behavior: before sync get current state into local variable -> get all data and start updating the local variable -> process the data retrieved by order. [on error break and do nothing \ on success - set state based on the new variable  + update last sync block_number + emit events].
 * Ethereum PoS contracts upgrade \\ TODO.
 * "Auditability" - Logging the mirrored data (in the Orbs VC blocks) to facilitate verification of the state correctness. \\ TODO.
 * A future optimization would involve caching the data retrieved from calls to avoid multiple calls across topics. 
@@ -87,7 +88,9 @@ See [_ElectionsProxy](../../behaviors/smart-contracts/system/_ElectionsProxy.md)
                 * Update the syncTarget.block_number.
         * until_block := min(lastSynced.block_number + batchSize, currentEthereumBlock.block_number, syncTarget.block_number (if not nil)).
         * from_block := min(lastSynced.block_number + 1, .. as above)
-
+* Notes: 
+    * specific syncing patterns by Topic is not specified. 
+    * As a rule of thumb when a Topic requires multiple syncing sources - the batch size is limited by the "slowest" source
 
 #### State outline
 > Maintain a list of Topics with the relevant data and each Topic's syncing progress.
@@ -161,16 +164,25 @@ See [_ElectionsProxy](../../behaviors/smart-contracts/system/_ElectionsProxy.md)
 * `0` blockNumber in SyncTarget implies the target timestamp is in the future => not synced.
  
 #### Sync()
-* Conditionally sync each Topic based on getTopicToSync().
-* If SyncingScheduler.getTopicToSync() is nil, Return.
-* Get all events logs records for the topic using SDK call `ether.GetPastEvents(contract_address, event_name, from_block, until_block)`
+* Conditionally sync each Topic based on SyncingScheduler.
+    * Get current Topic with its block_number range to sync, by calling SyncingScheduler.getTopicToSync().
+    * If no Topic was returned (nil), Return.
+* Set current_topic_state (local variable) to Topic.state.
+* Init an empty local_event_list (local variable) to hold the local emitted events.
+* Get all events logs records for the topic
+    * Loop over the list of Topic.contract_event_key (pair of (contract_address, event_name)).
+        * Get events using the SDK call `ether.GetPastEvents(contract_address, event_name, from_block, until_block)`
+            * from_block in blocks range received from the SyncingScheduler can be overridden by contract_creation_block_number.
     * event_log_record := (blockNumber, txIndex, logIndex, contract_address, event_name, event_data)
-    * SDK Logs the data into off_chain data section (key, value) of the tx receipt.
 * Sort event records by (blockNumber, txIndex, logIndex)
 * For each event_log_record
-    * Update the state - by processing the event data in accordance to the state transition rules (see Topic specific data processing below). 
-    * Emit event on successful state change.
-* Update the Topic lastSynced (block_number, block_timestamp)
+    * Store a trace of the remote event log record in transaction receipt.off_chain data.
+    * Update current_topic_state by processing the event data in accordance to the state transition rules.
+    * Do not emit an update event. Store it in the local_event_list.
+* On successful processing.
+    * Update the Topic state. Set Topic lastSynced (block_number, block_timestamp).
+    * Loop over the local_event_list and emit all events by order.
+    
 * Notes: 
     * block_number and block_timestamp refer to Ethereum blocks.
     * On error the Ethereum SDK provides an empty result (nil) to avoid failing the entire trigger tx. The error is handled by breaking its code scope flow.
