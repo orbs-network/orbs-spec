@@ -17,6 +17,14 @@ message Argument {
         membuffers.uint256 uint256_value = 7;
         membuffers.bytes20 bytes20_value = 8;
         membuffers.bytes32 bytes32_value = 9;
+        repeated uint32 uint32_array_value = 10;
+        repeated uint64 uint64_array_value = 11;
+        repeated string string_array_value = 12;
+        repeated bytes bytes_array_value = 13;
+        repeated bool bool_array_value = 14;
+        repeated membuffers.uint256 uint256_array_value = 15;
+        repeated membuffers.bytes20 bytes20_array_value = 16;
+        repeated membuffers.bytes32 bytes32_array_value = 17;
     }
 }
 

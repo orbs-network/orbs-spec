@@ -4,5 +4,6 @@ go 1.12
 
 require (
 	github.com/orbs-network/go-mock v0.0.0-20180813130752-890a1ee8d0a1
-	github.com/orbs-network/membuffers v0.3.6
+	github.com/orbs-network/membuffers v0.4.0
+	github.com/orbs-network/pbparser v0.3.0
 )

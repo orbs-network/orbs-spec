@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -169,12 +169,12 @@ func (x *GetTransactionsForOrderingInput) StringPrevBlockTimestamp() (res string
 }
 
 func (x *GetTransactionsForOrderingInput) StringMaxTransactionsSetSizeKb() (res string) {
-	res = fmt.Sprintf("%x", x.MaxTransactionsSetSizeKb)
+	res = fmt.Sprintf("%v", x.MaxTransactionsSetSizeKb)
 	return
 }
 
 func (x *GetTransactionsForOrderingInput) StringMaxNumberOfTransactions() (res string) {
-	res = fmt.Sprintf("%x", x.MaxNumberOfTransactions)
+	res = fmt.Sprintf("%v", x.MaxNumberOfTransactions)
 	return
 }
 

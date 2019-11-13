@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package protocol
 
 import (
@@ -312,7 +312,7 @@ func (x *TransactionsBlockHeader) MutateNumSignedTransactions(v uint32) error {
 }
 
 func (x *TransactionsBlockHeader) StringNumSignedTransactions() string {
-	return fmt.Sprintf("%x", x.NumSignedTransactions())
+	return fmt.Sprintf("%v", x.NumSignedTransactions())
 }
 
 func (x *TransactionsBlockHeader) BlockProposerAddress() primitives.NodeAddress {
@@ -665,7 +665,7 @@ func (x *ResultsBlockHeader) MutateNumTransactionReceipts(v uint32) error {
 }
 
 func (x *ResultsBlockHeader) StringNumTransactionReceipts() string {
-	return fmt.Sprintf("%x", x.NumTransactionReceipts())
+	return fmt.Sprintf("%v", x.NumTransactionReceipts())
 }
 
 func (x *ResultsBlockHeader) NumContractStateDiffs() uint32 {
@@ -681,7 +681,7 @@ func (x *ResultsBlockHeader) MutateNumContractStateDiffs(v uint32) error {
 }
 
 func (x *ResultsBlockHeader) StringNumContractStateDiffs() string {
-	return fmt.Sprintf("%x", x.NumContractStateDiffs())
+	return fmt.Sprintf("%v", x.NumContractStateDiffs())
 }
 
 func (x *ResultsBlockHeader) BlockProposerAddress() primitives.NodeAddress {

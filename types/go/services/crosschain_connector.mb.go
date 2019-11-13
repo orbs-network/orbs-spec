@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -44,22 +44,22 @@ func (x *EthereumCallContractInput) StringReferenceTimestamp() (res string) {
 }
 
 func (x *EthereumCallContractInput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumContractAddress() (res string) {
-	res = fmt.Sprintf(x.EthereumContractAddress)
+	res = fmt.Sprintf("%s", x.EthereumContractAddress)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumFunctionName() (res string) {
-	res = fmt.Sprintf(x.EthereumFunctionName)
+	res = fmt.Sprintf("%s", x.EthereumFunctionName)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumJsonAbi() (res string) {
-	res = fmt.Sprintf(x.EthereumJsonAbi)
+	res = fmt.Sprintf("%s", x.EthereumJsonAbi)
 	return
 }
 
@@ -111,22 +111,22 @@ func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumContractAddress() (res string) {
-	res = fmt.Sprintf(x.EthereumContractAddress)
+	res = fmt.Sprintf("%s", x.EthereumContractAddress)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumEventName() (res string) {
-	res = fmt.Sprintf(x.EthereumEventName)
+	res = fmt.Sprintf("%s", x.EthereumEventName)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumJsonAbi() (res string) {
-	res = fmt.Sprintf(x.EthereumJsonAbi)
+	res = fmt.Sprintf("%s", x.EthereumJsonAbi)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
-	res = fmt.Sprintf(x.EthereumTxhash)
+	res = fmt.Sprintf("%s", x.EthereumTxhash)
 	return
 }
 
@@ -156,12 +156,12 @@ func (x *EthereumGetTransactionLogsOutput) StringEthereumAbiPackedOutputs() (res
 }
 
 func (x *EthereumGetTransactionLogsOutput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
 func (x *EthereumGetTransactionLogsOutput) StringEthereumTxindex() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumTxindex)
+	res = fmt.Sprintf("%v", x.EthereumTxindex)
 	return
 }
 
@@ -199,7 +199,7 @@ func (x *EthereumGetBlockNumberOutput) String() string {
 }
 
 func (x *EthereumGetBlockNumberOutput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
@@ -224,7 +224,7 @@ func (x *EthereumGetBlockTimeByNumberInput) StringReferenceTimestamp() (res stri
 }
 
 func (x *EthereumGetBlockTimeByNumberInput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
@@ -325,6 +325,6 @@ func (x *EthereumGetBlockNumberByTimeOutput) String() string {
 }
 
 func (x *EthereumGetBlockNumberByTimeOutput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }

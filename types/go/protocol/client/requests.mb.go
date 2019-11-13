@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package client
 
 import (
