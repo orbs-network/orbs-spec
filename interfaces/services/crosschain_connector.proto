@@ -16,7 +16,7 @@ service CrosschainConnector {
     rpc EthereumGetBlockTimeByNumber (EthereumGetBlockTimeByNumberInput) returns (EthereumGetBlockTimeByNumberOutput);
     rpc EthereumGetBlockNumberByTime (EthereumGetBlockNumberByTimeInput) returns (EthereumGetBlockNumberByTimeOutput);
 
-    rpc EthereumGetLatestBlockInfo (EthereumGetLatestBlockInfoInput) returns (EthereumGetLatestBlockInfoOutput);
+    rpc EthereumGetBlockInfo (EthereumGetBlockInfoInput) returns (EthereumGetBlockInfoOutput);
     rpc EthereumGetBlockInfoByTime (EthereumGetBlockInfoByTimeInput) returns (EthereumGetBlockInfoByTimeOutput);
     rpc EthereumGetLogs (EthereumGetLogsInput) returns (EthereumGetLogsOutput);
 
@@ -24,9 +24,8 @@ service CrosschainConnector {
 
 message EthereumEventLog {
     uint64 ethereum_block_number = 1;
-    uint32 ethereum_txIndex = 2;
-    uint32 ethereum_logIndex = 3;
-    repeated bytes ethereum_abi_packed_outputs = 4;
+    uint32 ethereum_logIndex = 2;
+    repeated bytes ethereum_abi_packed_outputs = 3;
 }
 
 
@@ -92,11 +91,14 @@ message EthereumGetBlockNumberByTimeOutput {
 }
 
 
-message EthereumGetLatestBlockInfoInput {
+
+
+
+message EthereumGetBlockInfoInput {
     primitives.timestamp_nano reference_timestamp = 1;
 }
 
-message EthereumGetLatestBlockInfoOutput {
+message EthereumGetBlockInfoOutput {
     uint64 ethereum_block_number = 1;
     uint64 ethereum_block_timestamp = 2;
 }
@@ -111,8 +113,6 @@ message EthereumGetBlockInfoByTimeOutput {
     uint64 ethereum_block_timestamp = 2;
 }
 
-
-
 message EthereumGetLogsInput {
     primitives.timestamp_nano reference_timestamp = 1;
     string ethereum_contract_address = 2;
@@ -123,7 +123,6 @@ message EthereumGetLogsInput {
 }
 
 message EthereumGetLogsOutput {
-    protocol.CrossChainCallResult call_result = 1;
-    uint64 ethereum_final_block_number = 2;
-    repeated EthereumEventLog ethereum_event_logs = 3;
+    uint64 ethereum_to_block_number = 1;
+    repeated EthereumEventLog ethereum_event_logs = 2;
 }

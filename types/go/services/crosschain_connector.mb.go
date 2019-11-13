@@ -18,7 +18,7 @@ type CrosschainConnector interface {
 	EthereumGetBlockTime(ctx context.Context, input *EthereumGetBlockTimeInput) (*EthereumGetBlockTimeOutput, error)
 	EthereumGetBlockTimeByNumber(ctx context.Context, input *EthereumGetBlockTimeByNumberInput) (*EthereumGetBlockTimeByNumberOutput, error)
 	EthereumGetBlockNumberByTime(ctx context.Context, input *EthereumGetBlockNumberByTimeInput) (*EthereumGetBlockNumberByTimeOutput, error)
-	EthereumGetLatestBlockInfo(ctx context.Context, input *EthereumGetLatestBlockInfoInput) (*EthereumGetLatestBlockInfoOutput, error)
+	EthereumGetBlockInfo(ctx context.Context, input *EthereumGetBlockInfoInput) (*EthereumGetBlockInfoOutput, error)
 	EthereumGetBlockInfoByTime(ctx context.Context, input *EthereumGetBlockInfoByTimeInput) (*EthereumGetBlockInfoByTimeOutput, error)
 	EthereumGetLogs(ctx context.Context, input *EthereumGetLogsInput) (*EthereumGetLogsOutput, error)
 }
@@ -28,7 +28,6 @@ type CrosschainConnector interface {
 
 type EthereumEventLog struct {
 	EthereumBlockNumber      uint64
-	EthereumTxIndex          uint32
 	EthereumLogIndex         uint32
 	EthereumAbiPackedOutputs [][]byte
 }
@@ -37,16 +36,11 @@ func (x *EthereumEventLog) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{EthereumBlockNumber:%s,EthereumTxIndex:%s,EthereumLogIndex:%s,EthereumAbiPackedOutputs:%s,}", x.StringEthereumBlockNumber(), x.StringEthereumTxIndex(), x.StringEthereumLogIndex(), x.StringEthereumAbiPackedOutputs())
+	return fmt.Sprintf("{EthereumBlockNumber:%s,EthereumLogIndex:%s,EthereumAbiPackedOutputs:%s,}", x.StringEthereumBlockNumber(), x.StringEthereumLogIndex(), x.StringEthereumAbiPackedOutputs())
 }
 
 func (x *EthereumEventLog) StringEthereumBlockNumber() (res string) {
 	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
-	return
-}
-
-func (x *EthereumEventLog) StringEthereumTxIndex() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumTxIndex)
 	return
 }
 
@@ -375,45 +369,45 @@ func (x *EthereumGetBlockNumberByTimeOutput) StringEthereumBlockNumber() (res st
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message EthereumGetLatestBlockInfoInput (non serializable)
+// message EthereumGetBlockInfoInput (non serializable)
 
-type EthereumGetLatestBlockInfoInput struct {
+type EthereumGetBlockInfoInput struct {
 	ReferenceTimestamp primitives.TimestampNano
 }
 
-func (x *EthereumGetLatestBlockInfoInput) String() string {
+func (x *EthereumGetBlockInfoInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{ReferenceTimestamp:%s,}", x.StringReferenceTimestamp())
 }
 
-func (x *EthereumGetLatestBlockInfoInput) StringReferenceTimestamp() (res string) {
+func (x *EthereumGetBlockInfoInput) StringReferenceTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message EthereumGetLatestBlockInfoOutput (non serializable)
+// message EthereumGetBlockInfoOutput (non serializable)
 
-type EthereumGetLatestBlockInfoOutput struct {
+type EthereumGetBlockInfoOutput struct {
 	EthereumBlockNumber    uint64
 	EthereumBlockTimestamp uint64
 }
 
-func (x *EthereumGetLatestBlockInfoOutput) String() string {
+func (x *EthereumGetBlockInfoOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{EthereumBlockNumber:%s,EthereumBlockTimestamp:%s,}", x.StringEthereumBlockNumber(), x.StringEthereumBlockTimestamp())
 }
 
-func (x *EthereumGetLatestBlockInfoOutput) StringEthereumBlockNumber() (res string) {
+func (x *EthereumGetBlockInfoOutput) StringEthereumBlockNumber() (res string) {
 	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
 	return
 }
 
-func (x *EthereumGetLatestBlockInfoOutput) StringEthereumBlockTimestamp() (res string) {
+func (x *EthereumGetBlockInfoOutput) StringEthereumBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%x", x.EthereumBlockTimestamp)
 	return
 }
@@ -521,25 +515,19 @@ func (x *EthereumGetLogsInput) StringEthereumToBlockNumber() (res string) {
 // message EthereumGetLogsOutput (non serializable)
 
 type EthereumGetLogsOutput struct {
-	CallResult               protocol.CrossChainCallResult
-	EthereumFinalBlockNumber uint64
-	EthereumEventLogs        []*EthereumEventLog
+	EthereumToBlockNumber uint64
+	EthereumEventLogs     []*EthereumEventLog
 }
 
 func (x *EthereumGetLogsOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CallResult:%s,EthereumFinalBlockNumber:%s,EthereumEventLogs:%s,}", x.StringCallResult(), x.StringEthereumFinalBlockNumber(), x.StringEthereumEventLogs())
+	return fmt.Sprintf("{EthereumToBlockNumber:%s,EthereumEventLogs:%s,}", x.StringEthereumToBlockNumber(), x.StringEthereumEventLogs())
 }
 
-func (x *EthereumGetLogsOutput) StringCallResult() (res string) {
-	res = fmt.Sprintf("%x", x.CallResult)
-	return
-}
-
-func (x *EthereumGetLogsOutput) StringEthereumFinalBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumFinalBlockNumber)
+func (x *EthereumGetLogsOutput) StringEthereumToBlockNumber() (res string) {
+	res = fmt.Sprintf("%x", x.EthereumToBlockNumber)
 	return
 }
 

@@ -41,48 +41,42 @@ Runs nodes for other blockchains like Ethereum and provides read access to them.
 * Filters:
   * Emitting contract address
   * Event name
-* Returns a list of events from the desried transaction's receipt that matches the event signature and emitting contract.
+* Returns a list of events from the desired transaction's receipt that matches the event signature and emitting contract.
 
 
 
 
 &nbsp;
 ## `EthereumGetBlockInfoByTime` (method)
-> Retrieve info about the latest Ethereum block such that its timestamp < provided ethereum_timestamp.
-
+> Returns the block number and timestamp of the maximal Ethereum block before the reference time.
 * Query the Ethereum node to find the appropriate block using the given arguments.
-* Comply to the finality time shift.
-    * If the provided ethereum_timestamp > current time - ETHEREUM_FINALITY_TIME_COMPONENT, fail the call.
-        * current time is provided as reference_time.
-* Returns the block info (uint64 block_number, uint64 block_timestamp) of the resulting block.
-
-
+* If the provided reference timestamp > current time - ETHEREUM_FINALITY_TIME_COMPONENT, fail the call.
+* Find the maximal Ethereum block number whose matching timestamp < reference time.
+* If resulting block number > finality block number, fail the call.
 
 &nbsp;
-## `EthereumGetLatestBlockInfo` (method)
-> Retrieve info about the latest Ethereum block such that its timestamp < reference_time under finality time shift.
-
+## `EthereumGetBlockInfo` (method)
+> Returns the block number and timestamp of the current Ethereum block.
 * Query the Ethereum node to find the appropriate block using the given arguments.
-* Comply to the finality time shift:
-    * Find the maximal Ethereum block whose timestamp < reference_time - ETHEREUM_FINALITY_TIME_COMPONENT.
-* Returns the block info (uint64 block_number, uint64 block_timestamp) of the resulting block.
-
+* The current Ethereum block returned, complies to the finality rule:
+    * Find the maximal Ethereum block number whose matching timestamp < current time - ETHEREUM_FINALITY_TIME_COMPONENT.
+    * Reduce this block number by ETHEREUM_FINALITY_BLOCKS_COMPONENT
+    * Return the block info of the resulting block number. 
 
 
 &nbsp;
 ## `EthereumGetLogs` (method)
-> Returns all Ethereum logs entries which comply to the given filter params. 
+> Returns all Ethereum logs entries which comply to the given filter params.\
+This method behaves differently on various Ethereum node implementations [Currently supports only 'Go-Ether' and 'Infura'].
 * Query the Ethereum node to find the appropriate logs using the given arguments.
-* Comply to the finality time shift:
-    * Get Latest finalized block by calling EthereumGetLatestBlockInfo
+* Comply to the finality rule:
     * Verify the block range provided is in the finality range.
-        * finalized block number >  until_block_number (provided in arguments).
+        * Get finality block number
+        * If to_block > finality block number, set to_block to the finality block number.
+        * If from_block > finality block number, fail the call.
 * Derive the event signature key from the provided contract ABI using the event_name.
 * The ABI needs to be defined for the ethereum connector to be able to make the call
-  * The ABI must contain only one event with the provided event name.
-* Returns:
-    * call_result - indicates the call success or failure.
-    * block_number - indicates the last filtered block_number.
-    * list of events logs entries of the form (blockNumber, txIndex, logIndex, ethereum_abi_packed = event_data).
-
-
+    * The ABI must contain only one event with the provided event name.
+* In case of an "-32005" error - "query returned more than 10k results" (currently exists only in 'Infura' implementation) :
+    * split the range into smaller batches. Fetch the smaller chunks and aggregate them.
+* On any other error, fail the call. 

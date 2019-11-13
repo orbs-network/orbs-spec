@@ -67,10 +67,10 @@ func (s *MockCrosschainConnector) EthereumGetBlockNumberByTime(ctx context.Conte
 	}
 }
 
-func (s *MockCrosschainConnector) EthereumGetLatestBlockInfo(ctx context.Context, input *EthereumGetLatestBlockInfoInput) (*EthereumGetLatestBlockInfoOutput, error) {
+func (s *MockCrosschainConnector) EthereumGetBlockInfo(ctx context.Context, input *EthereumGetBlockInfoInput) (*EthereumGetBlockInfoOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*EthereumGetLatestBlockInfoOutput), ret.Error(1)
+		return out.(*EthereumGetBlockInfoOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}
