@@ -78,11 +78,12 @@ Its benefits include: the removal of the dependency in an external mirroring age
 * Retrieve the result by calling `EthereumConnector.EthereumGetBlockInfo(block.timestamp)`.
 * On error return `0`.
 
-#### ether.GetPastEvents(contract_address, event_name, contract_ABI, from_block, to_block) : (log_record_list, block_number, call_result)
+#### ether.GetPastEvents(events_filter, from_block, to_block) : (log_record_list, block_number)
 > Returns a list of event-records which comply to the given filter params. 
 * Input: 
-    * contract_address - the Ethereum contract address from which logs should originate.
-    * event_name - the event name is used to retrieve the event id from the contract ABI.
+    * events_filter : list of tuples (contract_address, event_name, event_ABI) 
+        * contract_address - the Ethereum contract address from which logs should originate.
+        * event_name - the event name is used to retrieve the event id from the contract ABI.
     * from_block - Ethereum block number.
     * to_block - Ethereum block number.
 * Retrieve the result by calling `EthereumConnector.EthereumGetLogs(block.timestamp, contract_address, event_name, contract_ABI, from_block, to_block)`.   
@@ -93,7 +94,7 @@ Its benefits include: the removal of the dependency in an external mirroring age
         * log_record := (blockNumber, logIndex, contract_address, event_name, event_data)
         * Note: location of event log in block.
     * to_block - actual range bound - to_block (allow the EthereumConnector some freedom, rather than "success\failure").
-* On error return nil.
+* On error return (nil,`0`).
 
 
 ## ElectionsProxy Contract Outline

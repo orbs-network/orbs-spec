@@ -3,7 +3,8 @@
 The system service charged with maintaining a proxy to the Orbs PoS state, reflected from Ethereum. \
 This service queries the Ethereum node for relevant events and updates its state accordingly. \
 This service is governed by the `_Elections` system contract. \
-Employs a SyncingScheduler to advance the syncing process of the various Topics.
+Granularity of fetching data is by block. All relevant events are fetched from - to block and stored in a queue.
+
 
 #### Permissions
 * This is a system contract that runs under `System` permissions.
@@ -16,26 +17,34 @@ Employs a SyncingScheduler to advance the syncing process of the various Topics.
     * list of contracts info:
         * ETHEREUM_CONTRACT_ADDRESS
         * ETHEREUM_CREATION_BLOCK_NUMBER (the block number with the first actual transaction can be used)
-        * list of pairs (CONTRACT_EVENT, CONTRACT_ABI)
-    * Topic types: 
-        * TokenBalance
-        * Staking
-        * Delegation
-        * Guardians
-        * Validators    
+        * list of pairs (EVENT_NAME, EVENT_ABI)
+    
+    * COLLECTING_BLOCKS_BATCH_SIZE - limit the range of blocks to fetch logs from on a single call.
+    * CACHE_BLOCKS_LIMIT - an approximation limit to the size of the cached events - before starting to process their data.
+    * Events Syncing States: 
+        * IDLE
+        * COLLECTING_DATA
+        * PROCESSING_DATA
         
 * State variables:
-    * SyncTarget := (timestamp, ethereum_block_number)
-    * TopicList := list of Topic
-        * Topic := (list of event_sync_info, Topic state)
-            * events_counter : counter of all Topic events processed.
-            * event_sync_info := (event_key, contract_ABI, last_synced)
-                * event_key := (contract_address, event_name)
-            * last_synced : block_number 
-                * Initially, lastSynced.block_number is set to the contract creation block number - 1 (could alter to the first block number which includes events).
-            * Topic.getLastSynced() := minimal last_synced across the Topic's events
-            * Topic state - for example, TokenBalance.state holds a mapping from address to value.
-
+    * target_timestamp
+    * target_block
+    * last_fetched : ethereum_block_number indicating all relevant events were retrieved until this point.
+    * last_processed 
+    * events_filter : list of event tuple (ethereum_contract_address, event_name, event_ABI)
+    * events_cache_queue : maintain a queue of events cache ( cleared during the processing )
+    * syncing_phase : maintain current phase of the state machine. 
+    * events_counter : counter of all Topic events processed.
+    * [ max_calls_per_block := limit the number of Ethereum queries for Testing.]
+    
+* PoS State:
+    * delegates := mapping(address => delegator_info)
+        * delegator_info := (address, balance, stake, coolDown, delegate_to)
+    * guardians := mapping(address => guardian_info)
+        * guardian_info := (address, vote)
+            * vote := (timestamp, list of addresses (to vote out))
+    * validators := mapping(address => validator_info)
+        * validator_info := (address, orbs_address)    
 
 
 &nbsp;
@@ -47,11 +56,9 @@ Employs a SyncingScheduler to advance the syncing process of the various Topics.
 
 #### Behavior
 * Init the state variables
-    * Set the SyncTarget to `0` (indicating the target was not yet set).
-    * Populate the TopicList:
-        * Init Topic state record.
-        * Set the events_counter to `0`.
-        * Populate the Topic list of events info (event_sync_info).
+    * Populate the events_filter according to the relevant PoS events.
+    * Set the events_counter, target_timestamp, target_block to `0` (target_timestamp == target_block == `0` indicates the target was never set yet).
+    * Init the PoS State.
 
 &nbsp; 
 ## `setSyncTarget` (method)
@@ -62,8 +69,8 @@ Employs a SyncingScheduler to advance the syncing process of the various Topics.
 * `ReadWrite` (might change state).
 
 #### Behavior
-* Set the SyncTarget.timestamp to the given timestamp and the target block_number to `0`.
-* Implicitly resumes the syncing process as the condition in isSynced() checks as false.
+* Set the target_timestamp to the given timestamp and the target_block to `0` (implies future block).
+* Implicitly this will resume the syncing process.
  
 
 &nbsp; 
@@ -74,18 +81,17 @@ Employs a SyncingScheduler to advance the syncing process of the various Topics.
 * `External` (caller can be anyone).
 * `ReadWrite` (does not change state).
 
-
 &nbsp; 
 ## `isSynced` (method)
-> Return true if all Topics are synced
+> Return true if all the proxy is synced with its target.
 
 #### Permissions
 * `External` (caller can be anyone).
 * `ReadWrite` (does not change state).
 
 #### Behavior
-* Check all Topics are synced to the sync target blockNumber.
-* `0` blockNumber in SyncTarget implies the target timestamp is in the future \ not initialized => not synced.
+* Check target_block > 0 and last_processed == target_block ( last_processed <= last_fetched <= target_block always holds).
+* `0` blockNumber in sync_target implies the target timestamp is in the future \ not initialized => not synced.
 
  
 
@@ -98,63 +104,86 @@ Employs a SyncingScheduler to advance the syncing process of the various Topics.
 * `ReadWrite` (might change state).
 
 #### Behavior
-* If already synced (`isSynced()`), Return.
-* If syncTarget.block_number is `0`, try to update it.
-    * Get the Elections closing block info by calling `ether.GetBlockInfoByTime(syncTarget.ethereum_timestamp)`.
-    * Update the syncTarget.block_number (if the resulting block info is valid).
-* Get list of Topics to sync, together with their respective block_number range, by calling SyncingScheduler.getTopicsToSync().
-* Foreach Topic in the returned list (might be empty)
-    * Init a current_topic_state (temporary local variable) to current Topic.state.
-    * Init an empty local_event_list (temporary local variable) to hold the local emitted events.
-    * Get all events logs records for the topic
-        * Loop over the list of Topic.contract_event_key (pair of (contract_address, event_name)).
-            * Get events using the SDK call `ether.GetPastEvents(contract_address, event_name, from_block, to_block)`
-        * event_log_record := (blockNumber, logIndex, contract_address, event_name, event_data)
-    * Sort event records by (blockNumber, logIndex)
-    * For each event_log_record
-        * Update current_topic_state by processing the event data in accordance to the state transition rules.
-        * Do not emit an update event. Store it in the local_event_list.
-    * On successful processing.
-        * Update the Topic state. Set Topic lastSynced (block_number, block_timestamp).
-        * Loop over the local_event_list and emit all events by order.
-        
+* Syncing states logic according to current syncing_phase :    
+    * IDLE
+        * Check whether to continue syncing.
+            * If last_fetched < target_block, or target_timestamp is set but target_block is unknown (future block) 
+                * Transition to COLLECTING_EVENTS 
+                    
+    * COLLECTING_DATA
+        * Check whether to continue collecting more data.
+            * Get the current Ethereum block info by calling `ether.GetBlockInfo()`.
+                * If current Ethereum block number == last_fetched, Return.
+                * If current Ethereum block timestamp >= target_timestamp set the target_block
+                    * Get the relevant Ethereum block info by calling `ether.GetBlockInfoByTime(target_timestamp)`.
+                    * Set the target_block according to the result.
+            * If target_block is set and last_fetched >= target_block, or last_fetched - last_processed >= CACHE_BLOCKS_LIMIT    
+                * Transition to PROCESSING_DATA  
+             
+        * Fetch the next batch of data
+            * from_block := last_fetched + 1
+            * to_block := min(last_fetched + COLLECTING_BLOCKS_BATCH_SIZE, current Ethereum block number, target_block (if already set)).
+            * Get all events logs for the above block range by calling `ether.GetPastEvents(events_filter, from_block, to_block)`   
+                * The SDK returns an ordered list of events logs (by block_number and log_index)
+                * The SDK also returns the actual to_block logs that were able to be fetched without an error - this could be less than to_block.
+                * Each event log record is of the form : (block_number, log_index, contract_address, event_name, event_data)
+            * Store all events (maintain order) in the events_cache_queue.
+            * Set the last_fetched to the returned to_block.
+        * Notes: 
+            * When fetching data we don't want to mix data from the next elections period - we take into account the elections closing time.
+            * If we reached the fetch part it implies last_fetched < current Ethereum block <= target_block.
+            
+    * PROCESSING_DATA
+        * Process data in queue 
+            * While events_cache_queue is not empty ( another limit may apply )  
+                * Pop the next event log 
+                * switch event type
+                    * "Transfer" :
+                    * "Delegate" :
+                    * "Undelegate" :
+                    * "Staked" :
+                    * "Unstaked"
+                    * "Withdrew"
+                    * "Restaked"    
+                * increase the events_counter
+        * Check whether to continue processing data.
+            * If events_cache_queue is empty
+                * Set last_processed to last_fetched.
+                * If last_processed == target_block and target_block > 0 (i.e. synced)
+                    * Transition to IDLE  
+                * Transition to COLLECTING_DATA 
+                    * implies last_processed == last_fetched < target_block
+        * Notes:
+            * The number of events processed in a single call could be limited if necessary.
+                  
 * Notes: 
-    * block_number and block_timestamp refer to Ethereum blocks.
+    * Transitions to a different syncing state sets the syncing_phase; could directly start the next state processing. 
+    * block_number refer to Ethereum blocks.
     * On error the Ethereum SDK provides an empty result (`nil \ 0`) to avoid failing the entire trigger tx. 
-        * The error is handled by breaking its code scope flow.
-        * An error during a Topic update should not continue to the Topic's next batch (the SyncingScheduler might schedule multiple batches for a Topic during the same call). 
-            * On the other hand, it can try to update the next Topic in the Topics list returned from the SyncingScheduler. 
-    * Optimization - not all Topics require processing the events in order (thus, allowing for an inconsistent state until the snapshot).
-    
-
-
-
-
-### SyncingScheduler - private component 
-> Syncing different Topics in an independent and balanced way. \
-The implementation supports a Weighted Round Robin scheduling (for example: ERC20 3 batches, Delegate 1).
-
-* BATCH_SIZE - default range unit.
-
-#### getTopicsToSync() : list of (Topic, batch_interval)
-> Returns an ordered list of Topics to sync with their corresponding ethereum block_number range to retrieve.
+        * The error is handled by breaking its code scope flow.    
 
 
 #### PoS state queries 
-* getTokenBalanceOf(address) : uint64
-* getStakingOf(address) : uint64
-* getDelegateOf(address) : address
+* getDelegatorInfo(address) : delegatorInfo 
+    * delegator_info := (address, balance, stake, cool_down, delegate_to) 
 * getGuardians() : list of addresses
+* getGuardianInfo(address) : guardianInfo
+    * guardian_info := (address, vote)
+        * vote := (timestamp, list of addresses (to vote out))
 * getValidators() : list of addresses
-* getEventsCounterByTopic(Topic type) : uint64
+* getValidatorInfo(address) : validatorInfo
+    * validator_info := (address, vote)
+        
+* getEventsCounter() : uint64 - for audit.
+
+* Notes:
+    * getValidators() and getGuardians() can return both list of tuple (address, info) avoiding multi calls.
 
 #### state update events
-* TokenBalanceUpdate(address, newBalance : uint64)
-* StakingUpdate(address, newStake : uint64)
-* DelegateUpdate(address, newDelegate : address)
+* DelegatorInfoUpdate(address, newBalance, newStake, newCooldDown, newDelegateTO)
 * GuardiansUpdate(newGuardians : list addresses)
 * ValidatorsUpdate(newValidators : list addresses)
-* EthereumEventRecorded(Topic type, newEventsCounter)
+* EthereumEventRecorded(newEventsCounter)
 
 
 <!--#### Topic types in depth
