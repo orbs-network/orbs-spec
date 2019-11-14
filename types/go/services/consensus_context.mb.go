@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -45,12 +45,12 @@ func (x *RequestNewTransactionsBlockInput) StringCurrentBlockHeight() (res strin
 }
 
 func (x *RequestNewTransactionsBlockInput) StringMaxBlockSizeKb() (res string) {
-	res = fmt.Sprintf("%x", x.MaxBlockSizeKb)
+	res = fmt.Sprintf("%v", x.MaxBlockSizeKb)
 	return
 }
 
 func (x *RequestNewTransactionsBlockInput) StringMaxNumberOfTransactions() (res string) {
-	res = fmt.Sprintf("%x", x.MaxNumberOfTransactions)
+	res = fmt.Sprintf("%v", x.MaxNumberOfTransactions)
 	return
 }
 
@@ -290,12 +290,12 @@ func (x *RequestCommitteeInput) StringCurrentBlockHeight() (res string) {
 }
 
 func (x *RequestCommitteeInput) StringRandomSeed() (res string) {
-	res = fmt.Sprintf("%x", x.RandomSeed)
+	res = fmt.Sprintf("%v", x.RandomSeed)
 	return
 }
 
 func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
-	res = fmt.Sprintf("%x", x.MaxCommitteeSize)
+	res = fmt.Sprintf("%v", x.MaxCommitteeSize)
 	return
 }
 

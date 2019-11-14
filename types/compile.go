@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	membuff "github.com/orbs-network/membuffers/go/membufc/api"
 	"os"
 )
@@ -16,5 +17,8 @@ func main() {
 		conf.Files = append(conf.Files, arg)
 	}
 
-	membuff.Compile(conf)
+	err := membuff.Compile(conf)
+	if err != nil {
+		fmt.Printf("error %s\n", err.Error())
+	}
 }

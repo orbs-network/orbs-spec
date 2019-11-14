@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.3.6)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package protocol
 
 import (
@@ -30,7 +30,7 @@ func (x *Argument) String() string {
 }
 
 var _Argument_Scheme = []membuffers.FieldType{membuffers.TypeUnion}
-var _Argument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes, membuffers.TypeBool, membuffers.TypeUint256, membuffers.TypeBytes20, membuffers.TypeBytes32}}
+var _Argument_Unions = [][]membuffers.FieldType{{membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeString, membuffers.TypeBytes, membuffers.TypeBool, membuffers.TypeUint256, membuffers.TypeBytes20, membuffers.TypeBytes32, membuffers.TypeUint32Array, membuffers.TypeUint64Array, membuffers.TypeStringArray, membuffers.TypeBytesArray, membuffers.TypeBoolArray, membuffers.TypeUint256Array, membuffers.TypeBytes20Array, membuffers.TypeBytes32Array}}
 
 func ArgumentReader(buf []byte) *Argument {
 	x := &Argument{}
@@ -59,14 +59,22 @@ func (x *Argument) Equal(y *Argument) bool {
 type ArgumentType uint16
 
 const (
-	ARGUMENT_TYPE_UINT_32_VALUE  ArgumentType = 0
-	ARGUMENT_TYPE_UINT_64_VALUE  ArgumentType = 1
-	ARGUMENT_TYPE_STRING_VALUE   ArgumentType = 2
-	ARGUMENT_TYPE_BYTES_VALUE    ArgumentType = 3
-	ARGUMENT_TYPE_BOOL_VALUE     ArgumentType = 4
-	ARGUMENT_TYPE_UINT_256_VALUE ArgumentType = 5
-	ARGUMENT_TYPE_BYTES_20_VALUE ArgumentType = 6
-	ARGUMENT_TYPE_BYTES_32_VALUE ArgumentType = 7
+	ARGUMENT_TYPE_UINT_32_VALUE        ArgumentType = 0
+	ARGUMENT_TYPE_UINT_64_VALUE        ArgumentType = 1
+	ARGUMENT_TYPE_STRING_VALUE         ArgumentType = 2
+	ARGUMENT_TYPE_BYTES_VALUE          ArgumentType = 3
+	ARGUMENT_TYPE_BOOL_VALUE           ArgumentType = 4
+	ARGUMENT_TYPE_UINT_256_VALUE       ArgumentType = 5
+	ARGUMENT_TYPE_BYTES_20_VALUE       ArgumentType = 6
+	ARGUMENT_TYPE_BYTES_32_VALUE       ArgumentType = 7
+	ARGUMENT_TYPE_UINT_32_ARRAY_VALUE  ArgumentType = 8
+	ARGUMENT_TYPE_UINT_64_ARRAY_VALUE  ArgumentType = 9
+	ARGUMENT_TYPE_STRING_ARRAY_VALUE   ArgumentType = 10
+	ARGUMENT_TYPE_BYTES_ARRAY_VALUE    ArgumentType = 11
+	ARGUMENT_TYPE_BOOL_ARRAY_VALUE     ArgumentType = 12
+	ARGUMENT_TYPE_UINT_256_ARRAY_VALUE ArgumentType = 13
+	ARGUMENT_TYPE_BYTES_20_ARRAY_VALUE ArgumentType = 14
+	ARGUMENT_TYPE_BYTES_32_ARRAY_VALUE ArgumentType = 15
 )
 
 func (x *Argument) Type() ArgumentType {
@@ -87,7 +95,7 @@ func (x *Argument) Uint32Value() uint32 {
 }
 
 func (x *Argument) StringUint32Value() string {
-	return fmt.Sprintf("%x", x.Uint32Value())
+	return fmt.Sprintf("%v", x.Uint32Value())
 }
 
 func (x *Argument) MutateUint32Value(v uint32) error {
@@ -113,7 +121,7 @@ func (x *Argument) Uint64Value() uint64 {
 }
 
 func (x *Argument) StringUint64Value() string {
-	return fmt.Sprintf("%x", x.Uint64Value())
+	return fmt.Sprintf("%v", x.Uint64Value())
 }
 
 func (x *Argument) MutateUint64Value(v uint64) error {
@@ -139,7 +147,7 @@ func (x *Argument) StringValue() string {
 }
 
 func (x *Argument) StringStringValue() string {
-	return fmt.Sprintf(x.StringValue())
+	return fmt.Sprintf("%s", x.StringValue())
 }
 
 func (x *Argument) MutateStringValue(v string) error {
@@ -191,7 +199,7 @@ func (x *Argument) BoolValue() bool {
 }
 
 func (x *Argument) StringBoolValue() string {
-	return fmt.Sprintf("%x", x.BoolValue())
+	return fmt.Sprintf("%v", x.BoolValue())
 }
 
 func (x *Argument) MutateBoolValue(v bool) error {
@@ -217,7 +225,7 @@ func (x *Argument) Uint256Value() *big.Int {
 }
 
 func (x *Argument) StringUint256Value() string {
-	return fmt.Sprintf("%x", x.Uint256Value())
+	return fmt.Sprintf("%v", x.Uint256Value())
 }
 
 func (x *Argument) MutateUint256Value(v *big.Int) error {
@@ -281,6 +289,294 @@ func (x *Argument) MutateBytes32Value(v [32]byte) error {
 	return nil
 }
 
+func (x *Argument) IsTypeUint32ArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 8)
+	return is
+}
+
+func (x *Argument) Uint32ArrayValueCopiedToNative() []uint32 {
+	is, off := x._message.IsUnionIndex(0, 0, 8)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res []uint32
+	itr := x._message.GetUint32ArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextUint32())
+	}
+	return res
+}
+
+func (x *Argument) Uint32ArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 8)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetUint32ArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringUint32ArrayValue() string {
+	res := "["
+	itr := x.Uint32ArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%v", itr.NextUint32()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeUint64ArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 9)
+	return is
+}
+
+func (x *Argument) Uint64ArrayValueCopiedToNative() []uint64 {
+	is, off := x._message.IsUnionIndex(0, 0, 9)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res []uint64
+	itr := x._message.GetUint64ArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextUint64())
+	}
+	return res
+}
+
+func (x *Argument) Uint64ArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 9)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetUint64ArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringUint64ArrayValue() string {
+	res := "["
+	itr := x.Uint64ArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%v", itr.NextUint64()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeStringArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 10)
+	return is
+}
+
+func (x *Argument) StringArrayValueCopiedToNative() []string {
+	is, off := x._message.IsUnionIndex(0, 0, 10)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res []string
+	itr := x._message.GetStringArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextString())
+	}
+	return res
+}
+
+func (x *Argument) StringArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 10)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetStringArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringStringArrayValue() string {
+	res := "["
+	itr := x.StringArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%s", itr.NextString()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeBytesArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 11)
+	return is
+}
+
+func (x *Argument) BytesArrayValueCopiedToNative() [][]byte {
+	is, off := x._message.IsUnionIndex(0, 0, 11)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res [][]byte
+	itr := x._message.GetBytesArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextBytes())
+	}
+	return res
+}
+
+func (x *Argument) BytesArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 11)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetBytesArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringBytesArrayValue() string {
+	res := "["
+	itr := x.BytesArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%x", itr.NextBytes()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeBoolArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 12)
+	return is
+}
+
+func (x *Argument) BoolArrayValueCopiedToNative() []bool {
+	is, off := x._message.IsUnionIndex(0, 0, 12)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res []bool
+	itr := x._message.GetBoolArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextBool())
+	}
+	return res
+}
+
+func (x *Argument) BoolArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 12)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetBoolArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringBoolArrayValue() string {
+	res := "["
+	itr := x.BoolArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%v", itr.NextBool()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeUint256ArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 13)
+	return is
+}
+
+func (x *Argument) Uint256ArrayValueCopiedToNative() []*big.Int {
+	is, off := x._message.IsUnionIndex(0, 0, 13)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res []*big.Int
+	itr := x._message.GetUint256ArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextUint256())
+	}
+	return res
+}
+
+func (x *Argument) Uint256ArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 13)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetUint256ArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringUint256ArrayValue() string {
+	res := "["
+	itr := x.Uint256ArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%v", itr.NextUint256()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeBytes20ArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 14)
+	return is
+}
+
+func (x *Argument) Bytes20ArrayValueCopiedToNative() [][20]byte {
+	is, off := x._message.IsUnionIndex(0, 0, 14)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res [][20]byte
+	itr := x._message.GetBytes20ArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextBytes20())
+	}
+	return res
+}
+
+func (x *Argument) Bytes20ArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 14)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetBytes20ArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringBytes20ArrayValue() string {
+	res := "["
+	itr := x.Bytes20ArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%x", itr.NextBytes20()) + ","
+	}
+	res += "]"
+	return res
+}
+
+func (x *Argument) IsTypeBytes32ArrayValue() bool {
+	is, _ := x._message.IsUnionIndex(0, 0, 15)
+	return is
+}
+
+func (x *Argument) Bytes32ArrayValueCopiedToNative() [][32]byte {
+	is, off := x._message.IsUnionIndex(0, 0, 15)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	var res [][32]byte
+	itr := x._message.GetBytes32ArrayIteratorInOffset(off)
+	for itr.HasNext() {
+		res = append(res, itr.NextBytes32())
+	}
+	return res
+}
+
+func (x *Argument) Bytes32ArrayValueIterator() *membuffers.Iterator {
+	is, off := x._message.IsUnionIndex(0, 0, 15)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return x._message.GetBytes32ArrayIteratorInOffset(off)
+}
+
+func (x *Argument) StringBytes32ArrayValue() string {
+	res := "["
+	itr := x.Bytes32ArrayValueIterator()
+	for itr.HasNext() {
+		res += fmt.Sprintf("%x", itr.NextBytes32()) + ","
+	}
+	res += "]"
+	return res
+}
+
 func (x *Argument) RawType() []byte {
 	return x._message.RawBufferForField(0, 0)
 }
@@ -307,6 +603,22 @@ func (x *Argument) StringType() string {
 		return "(Bytes20Value)" + x.StringBytes20Value()
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		return "(Bytes32Value)" + x.StringBytes32Value()
+	case ARGUMENT_TYPE_UINT_32_ARRAY_VALUE:
+		return "(Uint32ArrayValue)" + x.StringUint32ArrayValue()
+	case ARGUMENT_TYPE_UINT_64_ARRAY_VALUE:
+		return "(Uint64ArrayValue)" + x.StringUint64ArrayValue()
+	case ARGUMENT_TYPE_STRING_ARRAY_VALUE:
+		return "(StringArrayValue)" + x.StringStringArrayValue()
+	case ARGUMENT_TYPE_BYTES_ARRAY_VALUE:
+		return "(BytesArrayValue)" + x.StringBytesArrayValue()
+	case ARGUMENT_TYPE_BOOL_ARRAY_VALUE:
+		return "(BoolArrayValue)" + x.StringBoolArrayValue()
+	case ARGUMENT_TYPE_UINT_256_ARRAY_VALUE:
+		return "(Uint256ArrayValue)" + x.StringUint256ArrayValue()
+	case ARGUMENT_TYPE_BYTES_20_ARRAY_VALUE:
+		return "(Bytes20ArrayValue)" + x.StringBytes20ArrayValue()
+	case ARGUMENT_TYPE_BYTES_32_ARRAY_VALUE:
+		return "(Bytes32ArrayValue)" + x.StringBytes32ArrayValue()
 	}
 	return "(Unknown)"
 }
@@ -314,15 +626,23 @@ func (x *Argument) StringType() string {
 // builder
 
 type ArgumentBuilder struct {
-	Type         ArgumentType
-	Uint32Value  uint32
-	Uint64Value  uint64
-	StringValue  string
-	BytesValue   []byte
-	BoolValue    bool
-	Uint256Value *big.Int
-	Bytes20Value [20]byte
-	Bytes32Value [32]byte
+	Type              ArgumentType
+	Uint32Value       uint32
+	Uint64Value       uint64
+	StringValue       string
+	BytesValue        []byte
+	BoolValue         bool
+	Uint256Value      *big.Int
+	Bytes20Value      [20]byte
+	Bytes32Value      [32]byte
+	Uint32ArrayValue  []uint32
+	Uint64ArrayValue  []uint64
+	StringArrayValue  []string
+	BytesArrayValue   [][]byte
+	BoolArrayValue    []bool
+	Uint256ArrayValue []*big.Int
+	Bytes20ArrayValue [][20]byte
+	Bytes32ArrayValue [][32]byte
 
 	// internal
 	// implements membuffers.Builder
@@ -363,6 +683,22 @@ func (w *ArgumentBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteBytes20(buf, w.Bytes20Value)
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		w._builder.WriteBytes32(buf, w.Bytes32Value)
+	case ARGUMENT_TYPE_UINT_32_ARRAY_VALUE:
+		w._builder.WriteUint32Array(buf, w.Uint32ArrayValue)
+	case ARGUMENT_TYPE_UINT_64_ARRAY_VALUE:
+		w._builder.WriteUint64Array(buf, w.Uint64ArrayValue)
+	case ARGUMENT_TYPE_STRING_ARRAY_VALUE:
+		w._builder.WriteStringArray(buf, w.StringArrayValue)
+	case ARGUMENT_TYPE_BYTES_ARRAY_VALUE:
+		w._builder.WriteBytesArray(buf, w.BytesArrayValue)
+	case ARGUMENT_TYPE_BOOL_ARRAY_VALUE:
+		w._builder.WriteBoolArray(buf, w.BoolArrayValue)
+	case ARGUMENT_TYPE_UINT_256_ARRAY_VALUE:
+		w._builder.WriteUint256Array(buf, w.Uint256ArrayValue)
+	case ARGUMENT_TYPE_BYTES_20_ARRAY_VALUE:
+		w._builder.WriteBytes20Array(buf, w.Bytes20ArrayValue)
+	case ARGUMENT_TYPE_BYTES_32_ARRAY_VALUE:
+		w._builder.WriteBytes32Array(buf, w.Bytes32ArrayValue)
 	}
 	return nil
 }
@@ -395,6 +731,22 @@ func (w *ArgumentBuilder) HexDump(prefix string, offsetFromStart membuffers.Offs
 		w._builder.HexDumpBytes20(prefix, offsetFromStart, "Argument.Bytes20Value", w.Bytes20Value)
 	case ARGUMENT_TYPE_BYTES_32_VALUE:
 		w._builder.HexDumpBytes32(prefix, offsetFromStart, "Argument.Bytes32Value", w.Bytes32Value)
+	case ARGUMENT_TYPE_UINT_32_ARRAY_VALUE:
+		w._builder.HexDumpUint32Array(prefix, offsetFromStart, "Argument.Uint32ArrayValue", w.Uint32ArrayValue)
+	case ARGUMENT_TYPE_UINT_64_ARRAY_VALUE:
+		w._builder.HexDumpUint64Array(prefix, offsetFromStart, "Argument.Uint64ArrayValue", w.Uint64ArrayValue)
+	case ARGUMENT_TYPE_STRING_ARRAY_VALUE:
+		w._builder.HexDumpStringArray(prefix, offsetFromStart, "Argument.StringArrayValue", w.StringArrayValue)
+	case ARGUMENT_TYPE_BYTES_ARRAY_VALUE:
+		w._builder.HexDumpBytesArray(prefix, offsetFromStart, "Argument.BytesArrayValue", w.BytesArrayValue)
+	case ARGUMENT_TYPE_BOOL_ARRAY_VALUE:
+		w._builder.HexDumpBoolArray(prefix, offsetFromStart, "Argument.BoolArrayValue", w.BoolArrayValue)
+	case ARGUMENT_TYPE_UINT_256_ARRAY_VALUE:
+		w._builder.HexDumpUint256Array(prefix, offsetFromStart, "Argument.Uint256ArrayValue", w.Uint256ArrayValue)
+	case ARGUMENT_TYPE_BYTES_20_ARRAY_VALUE:
+		w._builder.HexDumpBytes20Array(prefix, offsetFromStart, "Argument.Bytes20ArrayValue", w.Bytes20ArrayValue)
+	case ARGUMENT_TYPE_BYTES_32_ARRAY_VALUE:
+		w._builder.HexDumpBytes32Array(prefix, offsetFromStart, "Argument.Bytes32ArrayValue", w.Bytes32ArrayValue)
 	}
 	return nil
 }
