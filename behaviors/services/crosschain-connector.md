@@ -77,6 +77,7 @@ This method behaves differently on various Ethereum node implementations [Curren
 * Derive the event signature key from the provided contract ABI using the event_name.
 * The ABI needs to be defined for the ethereum connector to be able to make the call
     * The ABI must contain only one event with the provided event name.
+* Derive the resulting filter by providing a set of contract_addresses and a set of event_signatures.
 * In case of an "-32005" error - "query returned more than 10k results" (currently exists only in 'Infura' implementation) :
     * split the range into smaller batches. Fetch the smaller chunks and aggregate them.
 * On any other error, fail the call. 

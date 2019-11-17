@@ -1,4 +1,4 @@
-# Ethereum proxy
+# Ethereum Elections proxy
 > Mirror the Ethereum PoS voting system onto an Orbs VC. \
 This feature facilitates the calculation of the elections results in the Orbs VC. \
 Its benefits include: the removal of the dependency in an external mirroring agent and the significant reduction of the Ethereum node requirements - (state archive now supports only ~100 past states - for finality purposes - instead of 5000).
@@ -81,18 +81,22 @@ Its benefits include: the removal of the dependency in an external mirroring age
 #### ether.GetPastEvents(events_filter, from_block, to_block) : (log_record_list, block_number)
 > Returns a list of event-records which comply to the given filter params. 
 * Input: 
-    * events_filter : list of tuples (contract_address, event_name, event_ABI) 
+    * events_filter : list of tuples (event_type, ethereum_contract_address, event_name, event_ABI) 
         * contract_address - the Ethereum contract address from which logs should originate.
         * event_name - the event name is used to retrieve the event id from the contract ABI.
     * from_block - Ethereum block number.
     * to_block - Ethereum block number.
-* Retrieve the result by calling `EthereumConnector.EthereumGetLogs(block.timestamp, contract_address, event_name, contract_ABI, from_block, to_block)`.   
+* Retrieve the result by calling `EthereumConnector.EthereumGetLogs(block.timestamp, array of [contract_address, event_name, event_ABI], from_block, to_block)`.   
     * If the provided block number range does not comply with the finality rule, the connector will fail the call.
     * The EthereumConnector may return an actual to_block which differs from the given argument; in cases where the range is not feasible (for example the range is in the future).
+    * Foreach event log - append back the event_type according to the provided events_filter mapping.
+    * Sort the resulting logs by the log's blockNumber and logIndex.
 * Output:
     * log_record_list - list of events' logs.
-        * log_record := (blockNumber, logIndex, contract_address, event_name, event_data)
-        * Note: location of event log in block.
+        * log_record := (event_type, blockNumber, logIndex, contract_address, event_name, event_data)
+        * Notes: 
+            * logIndex is the location of event log in block.
+            * 
     * to_block - actual range bound - to_block (allow the EthereumConnector some freedom, rather than "success\failure").
 * On error return (nil,`0`).
 
