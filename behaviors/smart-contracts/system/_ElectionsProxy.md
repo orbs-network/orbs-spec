@@ -177,7 +177,6 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
                                 * "Withdrew"
                                 * "Restaked"    
                             * increase the events_counter per type
-                            * update last_synced according to event.block_number
                 * Set the last_synced to the returned to_block (from the fetch phase above).
             * Conditionally pause syncing.
                 * syncing_distance := current Ethereum block number - last_synced (has changed after update).
@@ -234,8 +233,7 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 * DelegatorInfoUpdate(address, newBalance, newStake, newCooldDown, newDelegateTO)
 * GuardiansUpdate(newGuardians : list addresses)
 * ValidatorsUpdate(newValidators : list addresses)
-* EthereumEventRecorded(newEventsCounter)
-
+* EthereumEventRecorded(event_type, newEventsCounter)
 
 <!--#### Topic types in depth
 
