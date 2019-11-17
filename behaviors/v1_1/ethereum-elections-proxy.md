@@ -78,7 +78,7 @@ Its benefits include: the removal of the dependency in an external mirroring age
 * Retrieve the result by calling `EthereumConnector.EthereumGetBlockInfo(block.timestamp)`.
 * On error return `0`.
 
-#### ether.GetPastEvents(events_filter, from_block, to_block) : (log_record_list, block_number)
+#### ether.GetLogs(events_filter, from_block, to_block) : (log_record_list, block_number)
 > Returns a list of event-records which comply to the given filter params. 
 * Input: 
     * events_filter : list of tuples (event_type, ethereum_contract_address, event_name, event_ABI) 

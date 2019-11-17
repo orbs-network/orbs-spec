@@ -155,7 +155,7 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
                     * Fetch the next batch of data
                         * from_block := last_synced + 1
                         * to_block := min(last_synced + SYNCING_BATCH_SIZE, current Ethereum block number, target_block (if already set)).
-                        * Get all events logs for the above block range by calling `ether.GetPastEvents(events_filter, from_block, to_block)`   
+                        * Get all events logs for the above block range by calling `ether.GetLogs(events_filter, from_block, to_block)`   
                             * The SDK returns an ordered list of events logs (by block_number and log_index)
                             * The SDK also returns the actual to_block logs that were able to be fetched without an error - this could be less than to_block.
                             * Each event log record is of the form : (block_number, log_index, contract_address, event_name, event_data)
