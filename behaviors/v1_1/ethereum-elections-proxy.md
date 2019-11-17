@@ -18,17 +18,13 @@ Its benefits include: the removal of the dependency in an external mirroring age
     * After the Elections results is calculated the next Elections closing time is set and syncing resumes.
 
 * The proxy syncing runs inside the scope of the Triggers transaction.
-   * To avoid failing the triggers transaction entirely
+    * To avoid failing the triggers transaction entirely
         * errors in calls to `EthereumConnector.EthereumGetLogs` are "wrapped" and handled inside the contract logic (bypassing the `Processor` default panic interrupt behavior). 
-   * "Transactional update": apply updates in an atomic way after successful processing:
-        * Store current state in a temporary place holder
-        * Retrieve all necessary data
-        * Process the data in an ascending order + update temporary state + temporally store emitted events (do not emit yet).
-        * Upon successful termination
-            * Update the state using the temporary state + emit all temporary events.
-            * Update last sync block_number
-        * On error, do not update the state (nor the events section in the transaction receipt).
-     
+    * "Transactional update": apply updates in an atomic fashion after successful processing.
+        * Store last_processed (block_number, log_index) to prevent duplication.
+        * Assumes processing a single event log is atomic.
+        * Future support for triggers isolation will avoid this course and this assumption.      
+       
 * Bootstrap - some of the Topics require syncing across a long duration of time (ERC20 for example, currently spans over a year an half of Ethereum blocks).
     * Supporting fast sync according to the syncing distance is maintained in the `_ElectionsProxy`.
     * Fallback - if this is not feasible, the external mirroring agent will be used (for at least another election processing), to allow for the long syncing period. 
@@ -38,6 +34,7 @@ Its benefits include: the removal of the dependency in an external mirroring age
     * ["TimeBased Elections"](./time-based-election-periods.md).
     * "Low latency": syncing involves multiple calls to the Ethereum node during the block execution.
     * Support for whitelisted Ethereum nodes only ['Go-Ether' and 'Infura']. The behavior of logs query in various Ethereum node implementations might differ in a way that damages the VC's liveness. 
+    * Processing a single event log is atomic.
     
 ## Elections syncing flow
 * During the block execution the `Triggers` mechanism calls the `_ElectionsProxy` system contract `sync()` method.
@@ -101,25 +98,23 @@ Its benefits include: the removal of the dependency in an external mirroring age
 
 
 ## ElectionsProxy Contract Outline
-> The proxy contract continuously syncs the Topics defined below and provides state query access. \
-Controlled by the _Elections system contract.\
-A SyncingScheduler component is used to advance the various Topics syncing process wisely.\
+> The elections proxy contract continuously syncs the PoS state and provides state query access. \
 See [_ElectionsProxy](../../behaviors/smart-contracts/system/_ElectionsProxy.md) for further details.
 
 
 ### Interface
 
 #### setSyncTarget (elections_closing_time)
-* Called after calculating the Elections results setting the next elections time as the sync target.
+* Called after calculating the Elections results setting the next elections closing time as the sync target.
 
 #### getSyncTarget() : (timestamp, block_number)
-* Returns the current sync target.
+* Returns the current sync target. The timestamp indicates the elections closing time. The block_number (if available - not `0`) is the corresponding elections closing block.
 
 #### isSynced() : bool
-* Check all Topics are synced to the sync target blockNumber.
+* If the PoS state has synced the sync target blockNumber.
 
 #### sync()
-* Conditionally sync each Topic based on SyncingScheduler.
+* Conditionally sync each the PoS state.
 
 #### PoS state queries 
 * getDelegatorInfo(address) : delegatorInfo 
@@ -131,8 +126,6 @@ See [_ElectionsProxy](../../behaviors/smart-contracts/system/_ElectionsProxy.md)
 * getValidators() : list of addresses
 * getValidatorInfo(address) : validatorInfo
     * validator_info := (address, vote)
-        
-* getEventsCounterByEventType(event_type) : uint64 - for audit.
 
 * Notes:
     * getValidators() and getGuardians() can return both list of tuple (address, info) avoiding multi calls.
@@ -142,3 +135,8 @@ See [_ElectionsProxy](../../behaviors/smart-contracts/system/_ElectionsProxy.md)
 * GuardiansUpdate(newGuardians : list addresses)
 * ValidatorsUpdate(newValidators : list addresses)
 * EthereumEventRecorded(event_type, newEventsCounter)
+* EthereumLogProcessed(block_number, log_index)
+
+#### Audit support
+* getEventCounter(event_type) : returns the counter of the given event_type.
+* getLastProcessedLogInfo() : (block_number, log_index) returns the last_processed field.

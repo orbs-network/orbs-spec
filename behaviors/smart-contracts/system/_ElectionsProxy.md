@@ -48,7 +48,8 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 * State variables:
     * target_timestamp
     * target_block
-    * last_synced : PoS state was updated until this Ethereum block number (all relevant events were retrieved and processed).
+    * last_synced : PoS state was updated until, and including, this Ethereum block number (all relevant events were retrieved and processed).
+    * last_processed : (block_number, log_index) - indicating the last processed event log, to prevent event processing duplication.
     * is_paused : boolean indicating whether the pausing fields below were set already (added for simplicity ).
     * pause_until : timestamp indicating the end of pausing.
     * events_filter : list of event tuple (event_type, ethereum_contract_address, event_name, event_ABI)
@@ -127,7 +128,7 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 * `ReadWrite` (might change state).
 
 #### Behavior
-* Syncing states logic according to current syncing_state :    
+* Syncing states logic - perform a single step according to current syncing_state :    
     * READY
         * On a single step. 
             * Check whether to start syncing (if target is in the future).
@@ -137,55 +138,66 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
     * SYNCING_DATA
         * On a single step.
             * Conditionally perform multiple syncing iterations, then transition to pause if necessary.
+            * Calculate the effective_last_synced block number based on last_synced and last_processed
+                * If last_processed.block_number > last_synced
+                    * effective_last_synced := last_processed.block_number - 1 (replay block. Duplication is prevented in processing of event log.)
+                * Else,
+                    * effective_last_synced := last_synced
             * Calculate the syncing distance and target_block.
                 * Get the current Ethereum block info by calling `ether.GetBlockInfo()`.
                     * If current Ethereum block timestamp >= target_timestamp, set the target_block
                         * Get the relevant Ethereum block info by calling `ether.GetBlockInfoByTime(target_timestamp)`.
                         * Set the target_block according to the result.
                     * If target_block is set 
-                        * syncing_distance := target_block - last_synced.
+                        * syncing_distance := target_block - effective_last_synced.
                     * Else, 
-                        * syncing_distance :=  current Ethereum block number - last_synced.
+                        * syncing_distance :=  current Ethereum block number - effective_last_synced.
             * Calculate the number of iterations to perform, based on syncing_distance.
                 * If syncing_distance > BOOTSTRAP_DISTANCE
                     * iterations_count := MAX_SYNCING_ITERATIONS_PER_STEP
                 * Else, iterations_count := 1
-            * Loop for iterations_count 
-                * SYNCING_DATA.(FETCHING)     
+            
+            * Loop for iterations_count
+                
+                * SYNCING_DATA.(FETCHING)
+                    * clear events_cache_queue     
                     * Fetch the next batch of data
-                        * from_block := last_synced + 1
-                        * to_block := min(last_synced + SYNCING_BATCH_SIZE, current Ethereum block number, target_block (if already set)).
+                        * from_block := effective_last_synced + 1
+                        * to_block := min(from_block + SYNCING_BATCH_SIZE, current Ethereum block number, target_block (if already set)).
                         * Get all events logs for the above block range by calling `ether.GetLogs(events_filter, from_block, to_block)`   
                             * The SDK returns an ordered list of events logs (by block_number and log_index)
                             * The SDK also returns the actual to_block logs that were able to be fetched without an error - this could be less than to_block.
                             * Each event log record is of the form : (block_number, log_index, contract_address, event_name, event_data)
                         * Store all events (maintain order) in the events_cache_queue.
                     * Notes: 
-                        * When fetching data we don't want to mix data from the next elections period - we take into account the elections closing time.
+                        * When fetching data we don't want to mix data from the next elections period -> we take into account the elections closing time.
                         * If we reached the fetch part it implies last_synced < current Ethereum block <= target_block.
                     
                 * SYNCING_DATA.(PROCESSING_DATA)
                     * Process data in queue 
-                        * While events_cache_queue is not empty ( another limit may apply )  
-                            * Pop the next event log 
-                            * switch event_type
-                                * "Transfer" :
-                                * "Delegate" :
-                                * "Undelegate" :
-                                * "Staked" :
-                                * "Unstaked"
-                                * "Withdrew"
-                                * "Restaked"    
-                            * increase the events_counter per type
+                    * While events_cache_queue is not empty  
+                        * Pop the next event log 
+                        * Conditionally process the event log (if it hasn't been processed yet).
+                            * If log.block_number >= last_processed.block_number and log.log_index > last_processed.log_index
+                                * Atomic process a single event log
+                                * Switch event_type
+                                    * Perform the appropriate state update and emit an update event (detailed below). 
+                                    * Increase the events_counter(event_type) and emit EthereumEventRecorded(event_type, events_counter(event_type)).
+                                    * Update the last_processed to (log.block_number, log.log_index) and emit EthereumLogProcessed(log.block_number, log.log_index).
+                
                 * Set the last_synced to the returned to_block (from the fetch phase above).
-            * Conditionally pause syncing.
-                * syncing_distance := current Ethereum block number - last_synced (has changed after update).
+                    * (Finished processing successfully)
+            
+            * Conditionally pause or end syncing.
+                * syncing_distance := current Ethereum block number - last_synced (changed after successful processing).
                 * If last_synced == target_block (target reached), 
                     * Transition to READY.
                 * If syncing_distance > BOOTSTRAP_DISTANCE, Return (do not pause).
                 * Transition to PAUSED.
                     
             * Notes:
+                * Unhandled error during processing might break the loop mid way. The last_processed field prevents duplicate processing.
+                * Assumes processing a single event log is atomic).
                 * The number of events processed in a single call could be limited if necessary.
     
     * PAUSED
@@ -224,8 +236,6 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 * getValidatorInfo(address) : validatorInfo
     * validator_info := (address, vote)
         
-* getEventsCounterByEventType(event_type) : uint64 - for audit.
-
 * Notes:
     * getValidators() and getGuardians() can return both list of tuple (address, info) avoiding multi calls.
 
@@ -234,7 +244,13 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 * GuardiansUpdate(newGuardians : list addresses)
 * ValidatorsUpdate(newValidators : list addresses)
 * EthereumEventRecorded(event_type, newEventsCounter)
+* EthereumLogProcessed(block_number, log_index)
 
+#### Audit support
+* getEventCounter(event_type) : returns the counter of the given event_type.
+* getLastProcessedLogInfo() : (block_number, log_index) returns the last_processed field.
+
+ 
 <!--#### Topic types in depth
 
 * Topic types: 
@@ -246,6 +262,4 @@ Granularity of syncing data is by block. All relevant events in a blocks range a
 
 -->
 
-
- 
 
