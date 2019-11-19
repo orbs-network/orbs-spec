@@ -2308,4 +2308,465 @@ func GetBlockResponseBuilderFromRaw(raw []byte) *GetBlockResponseBuilder {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// message IndexerRequest
+
+// reader
+
+type IndexerRequest struct {
+	// ProtocolVersion primitives.ProtocolVersion
+	// VirtualChainId primitives.VirtualChainId
+	// ContractName primitives.ContractName
+	// EventName []string
+	// FromBlock primitives.BlockHeight
+	// ToBlock primitives.BlockHeight
+	// FromTime primitives.TimestampNano
+	// ToTime primitives.TimestampNano
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *IndexerRequest) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,ContractName:%s,EventName:%s,FromBlock:%s,ToBlock:%s,FromTime:%s,ToTime:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringContractName(), x.StringEventName(), x.StringFromBlock(), x.StringToBlock(), x.StringFromTime(), x.StringToTime())
+}
+
+var _IndexerRequest_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeString, membuffers.TypeStringArray, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint64}
+var _IndexerRequest_Unions = [][]membuffers.FieldType{}
+
+func IndexerRequestReader(buf []byte) *IndexerRequest {
+	x := &IndexerRequest{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _IndexerRequest_Scheme, _IndexerRequest_Unions)
+	return x
+}
+
+func (x *IndexerRequest) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *IndexerRequest) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *IndexerRequest) Equal(y *IndexerRequest) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *IndexerRequest) ProtocolVersion() primitives.ProtocolVersion {
+	return primitives.ProtocolVersion(x._message.GetUint32(0))
+}
+
+func (x *IndexerRequest) RawProtocolVersion() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *IndexerRequest) MutateProtocolVersion(v primitives.ProtocolVersion) error {
+	return x._message.SetUint32(0, uint32(v))
+}
+
+func (x *IndexerRequest) StringProtocolVersion() string {
+	return fmt.Sprintf("%s", x.ProtocolVersion())
+}
+
+func (x *IndexerRequest) VirtualChainId() primitives.VirtualChainId {
+	return primitives.VirtualChainId(x._message.GetUint32(1))
+}
+
+func (x *IndexerRequest) RawVirtualChainId() []byte {
+	return x._message.RawBufferForField(1, 0)
+}
+
+func (x *IndexerRequest) MutateVirtualChainId(v primitives.VirtualChainId) error {
+	return x._message.SetUint32(1, uint32(v))
+}
+
+func (x *IndexerRequest) StringVirtualChainId() string {
+	return fmt.Sprintf("%s", x.VirtualChainId())
+}
+
+func (x *IndexerRequest) ContractName() primitives.ContractName {
+	return primitives.ContractName(x._message.GetString(2))
+}
+
+func (x *IndexerRequest) RawContractName() []byte {
+	return x._message.RawBufferForField(2, 0)
+}
+
+func (x *IndexerRequest) RawContractNameWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(2, 0)
+}
+
+func (x *IndexerRequest) MutateContractName(v primitives.ContractName) error {
+	return x._message.SetString(2, string(v))
+}
+
+func (x *IndexerRequest) StringContractName() string {
+	return fmt.Sprintf("%s", x.ContractName())
+}
+
+func (x *IndexerRequest) EventNameIterator() *IndexerRequestEventNameIterator {
+	return &IndexerRequestEventNameIterator{iterator: x._message.GetStringArrayIterator(3)}
+}
+
+type IndexerRequestEventNameIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *IndexerRequestEventNameIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *IndexerRequestEventNameIterator) NextEventName() string {
+	return i.iterator.NextString()
+}
+
+func (x *IndexerRequest) RawEventNameArray() []byte {
+	return x._message.RawBufferForField(3, 0)
+}
+
+func (x *IndexerRequest) RawEventNameArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(3, 0)
+}
+
+func (x *IndexerRequest) StringEventName() (res string) {
+	res = "["
+	for i := x.EventNameIterator(); i.HasNext(); {
+		res += fmt.Sprintf(i.NextEventName()) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *IndexerRequest) FromBlock() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(4))
+}
+
+func (x *IndexerRequest) RawFromBlock() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *IndexerRequest) MutateFromBlock(v primitives.BlockHeight) error {
+	return x._message.SetUint64(4, uint64(v))
+}
+
+func (x *IndexerRequest) StringFromBlock() string {
+	return fmt.Sprintf("%s", x.FromBlock())
+}
+
+func (x *IndexerRequest) ToBlock() primitives.BlockHeight {
+	return primitives.BlockHeight(x._message.GetUint64(5))
+}
+
+func (x *IndexerRequest) RawToBlock() []byte {
+	return x._message.RawBufferForField(5, 0)
+}
+
+func (x *IndexerRequest) MutateToBlock(v primitives.BlockHeight) error {
+	return x._message.SetUint64(5, uint64(v))
+}
+
+func (x *IndexerRequest) StringToBlock() string {
+	return fmt.Sprintf("%s", x.ToBlock())
+}
+
+func (x *IndexerRequest) FromTime() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(6))
+}
+
+func (x *IndexerRequest) RawFromTime() []byte {
+	return x._message.RawBufferForField(6, 0)
+}
+
+func (x *IndexerRequest) MutateFromTime(v primitives.TimestampNano) error {
+	return x._message.SetUint64(6, uint64(v))
+}
+
+func (x *IndexerRequest) StringFromTime() string {
+	return fmt.Sprintf("%s", x.FromTime())
+}
+
+func (x *IndexerRequest) ToTime() primitives.TimestampNano {
+	return primitives.TimestampNano(x._message.GetUint64(7))
+}
+
+func (x *IndexerRequest) RawToTime() []byte {
+	return x._message.RawBufferForField(7, 0)
+}
+
+func (x *IndexerRequest) MutateToTime(v primitives.TimestampNano) error {
+	return x._message.SetUint64(7, uint64(v))
+}
+
+func (x *IndexerRequest) StringToTime() string {
+	return fmt.Sprintf("%s", x.ToTime())
+}
+
+// builder
+
+type IndexerRequestBuilder struct {
+	ProtocolVersion primitives.ProtocolVersion
+	VirtualChainId  primitives.VirtualChainId
+	ContractName    primitives.ContractName
+	EventName       []string
+	FromBlock       primitives.BlockHeight
+	ToBlock         primitives.BlockHeight
+	FromTime        primitives.TimestampNano
+	ToTime          primitives.TimestampNano
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *IndexerRequestBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	w._builder.WriteUint32(buf, uint32(w.ProtocolVersion))
+	w._builder.WriteUint32(buf, uint32(w.VirtualChainId))
+	w._builder.WriteString(buf, string(w.ContractName))
+	w._builder.WriteStringArray(buf, w.EventName)
+	w._builder.WriteUint64(buf, uint64(w.FromBlock))
+	w._builder.WriteUint64(buf, uint64(w.ToBlock))
+	w._builder.WriteUint64(buf, uint64(w.FromTime))
+	w._builder.WriteUint64(buf, uint64(w.ToTime))
+	return nil
+}
+
+func (w *IndexerRequestBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "IndexerRequest.ProtocolVersion", uint32(w.ProtocolVersion))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "IndexerRequest.VirtualChainId", uint32(w.VirtualChainId))
+	w._builder.HexDumpString(prefix, offsetFromStart, "IndexerRequest.ContractName", string(w.ContractName))
+	w._builder.HexDumpStringArray(prefix, offsetFromStart, "IndexerRequest.EventName", w.EventName)
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "IndexerRequest.FromBlock", uint64(w.FromBlock))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "IndexerRequest.ToBlock", uint64(w.ToBlock))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "IndexerRequest.FromTime", uint64(w.FromTime))
+	w._builder.HexDumpUint64(prefix, offsetFromStart, "IndexerRequest.ToTime", uint64(w.ToTime))
+	return nil
+}
+
+func (w *IndexerRequestBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *IndexerRequestBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *IndexerRequestBuilder) Build() *IndexerRequest {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return IndexerRequestReader(buf)
+}
+
+func IndexerRequestBuilderFromRaw(raw []byte) *IndexerRequestBuilder {
+	return &IndexerRequestBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message IndexerResponse
+
+// reader
+
+type IndexerResponse struct {
+	// Events []protocol.IndexedEvent
+
+	// internal
+	// implements membuffers.Message
+	_message membuffers.InternalMessage
+}
+
+func (x *IndexerResponse) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{Events:%s,}", x.StringEvents())
+}
+
+var _IndexerResponse_Scheme = []membuffers.FieldType{membuffers.TypeMessageArray}
+var _IndexerResponse_Unions = [][]membuffers.FieldType{}
+
+func IndexerResponseReader(buf []byte) *IndexerResponse {
+	x := &IndexerResponse{}
+	x._message.Init(buf, membuffers.Offset(len(buf)), _IndexerResponse_Scheme, _IndexerResponse_Unions)
+	return x
+}
+
+func (x *IndexerResponse) IsValid() bool {
+	return x._message.IsValid()
+}
+
+func (x *IndexerResponse) Raw() []byte {
+	return x._message.RawBuffer()
+}
+
+func (x *IndexerResponse) Equal(y *IndexerResponse) bool {
+	if x == nil && y == nil {
+		return true
+	}
+	if x == nil || y == nil {
+		return false
+	}
+	return bytes.Equal(x.Raw(), y.Raw())
+}
+
+func (x *IndexerResponse) EventsIterator() *IndexerResponseEventsIterator {
+	return &IndexerResponseEventsIterator{iterator: x._message.GetMessageArrayIterator(0)}
+}
+
+type IndexerResponseEventsIterator struct {
+	iterator *membuffers.Iterator
+}
+
+func (i *IndexerResponseEventsIterator) HasNext() bool {
+	return i.iterator.HasNext()
+}
+
+func (i *IndexerResponseEventsIterator) NextEvents() *protocol.IndexedEvent {
+	b, s := i.iterator.NextMessage()
+	return protocol.IndexedEventReader(b[:s])
+}
+
+func (x *IndexerResponse) RawEventsArray() []byte {
+	return x._message.RawBufferForField(0, 0)
+}
+
+func (x *IndexerResponse) RawEventsArrayWithHeader() []byte {
+	return x._message.RawBufferWithHeaderForField(0, 0)
+}
+
+func (x *IndexerResponse) StringEvents() (res string) {
+	res = "["
+	for i := x.EventsIterator(); i.HasNext(); {
+		res += i.NextEvents().String() + ","
+	}
+	res += "]"
+	return
+}
+
+// builder
+
+type IndexerResponseBuilder struct {
+	Events []*protocol.IndexedEventBuilder
+
+	// internal
+	// implements membuffers.Builder
+	_builder               membuffers.InternalBuilder
+	_overrideWithRawBuffer []byte
+}
+
+func (w *IndexerResponseBuilder) arrayOfEvents() []membuffers.MessageWriter {
+	res := make([]membuffers.MessageWriter, len(w.Events))
+	for i, v := range w.Events {
+		res[i] = v
+	}
+	return res
+}
+
+func (w *IndexerResponseBuilder) Write(buf []byte) (err error) {
+	if w == nil {
+		return
+	}
+	w._builder.NotifyBuildStart()
+	defer w._builder.NotifyBuildEnd()
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	if w._overrideWithRawBuffer != nil {
+		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
+	}
+	w._builder.Reset()
+	err = w._builder.WriteMessageArray(buf, w.arrayOfEvents())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *IndexerResponseBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
+	if w == nil {
+		return
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = &membuffers.ErrBufferOverrun{}
+		}
+	}()
+	w._builder.Reset()
+	err = w._builder.HexDumpMessageArray(prefix, offsetFromStart, "IndexerResponse.Events", w.arrayOfEvents())
+	if err != nil {
+		return
+	}
+	return nil
+}
+
+func (w *IndexerResponseBuilder) GetSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	return w._builder.GetSize()
+}
+
+func (w *IndexerResponseBuilder) CalcRequiredSize() membuffers.Offset {
+	if w == nil {
+		return 0
+	}
+	w.Write(nil)
+	return w._builder.GetSize()
+}
+
+func (w *IndexerResponseBuilder) Build() *IndexerResponse {
+	buf := make([]byte, w.CalcRequiredSize())
+	if w.Write(buf) != nil {
+		return nil
+	}
+	return IndexerResponseReader(buf)
+}
+
+func IndexerResponseBuilderFromRaw(raw []byte) *IndexerResponseBuilder {
+	return &IndexerResponseBuilder{_overrideWithRawBuffer: raw}
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // enums

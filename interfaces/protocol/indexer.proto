@@ -1,0 +1,22 @@
+syntax = "proto3";
+package protocol;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
+
+import "primitives/crypto.proto";
+import "primitives/protocol.proto";
+import "protocol/results.proto";
+import "protocol/contracts.proto";
+
+message IndexedEvent {
+    primitives.contract_name contract_name = 1;
+    string event_name = 2;
+
+    primitives.block_height block_height = 3;
+    primitives.timestamp_nano timestamp = 4;
+
+    primitives.sha256 txhash = 5;
+    protocol.ExecutionResult execution_result = 6;
+    uint32 index = 7; // suggestion from Noam to preserve order
+
+    primitives.packed_argument_array arguments = 8;
+}

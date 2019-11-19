@@ -10,6 +10,7 @@ import "../protocol/results.proto";
 import "../protocol/contracts.proto";
 import "../protocol/proofs.proto";
 import "../protocol/blocks.proto";
+import "../protocol/indexer.proto";
 
 message RequestResult {
     protocol.RequestStatus request_status = 1;
@@ -80,4 +81,22 @@ message GetBlockResponse {
     repeated protocol.TransactionReceipt transaction_receipts = 7;
     repeated protocol.ContractStateDiff contract_state_diffs = 8;
     protocol.ResultsBlockProof results_block_proof = 9;
+}
+
+message IndexerRequest {
+    primitives.protocol_version protocol_version = 1;
+    primitives.virtual_chain_id virtual_chain_id = 2;
+
+    primitives.contract_name contract_name = 5;
+    repeated string event_name = 6;
+
+    primitives.block_height from_block = 7;
+    primitives.block_height to_block = 8;
+
+    primitives.timestamp_nano from_time = 9;
+    primitives.timestamp_nano to_time = 10;
+}
+
+message IndexerResponse {
+    repeated protocol.IndexedEvent events = 1;
 }

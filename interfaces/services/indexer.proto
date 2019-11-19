@@ -1,0 +1,17 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "protocol/client/requests.proto";
+
+service Indexer {
+    rpc GetEvents (GetEventsInput) returns (GetEventsOutput);
+}
+
+message GetEventsInput {
+    client.IndexerRequest client_request = 1;
+}
+
+message GetEventsOutput {
+    client.IndexerResponse client_response = 1;
+}
