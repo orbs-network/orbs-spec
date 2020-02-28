@@ -12,8 +12,8 @@
       
       "CurrentTopology":
       [
-        { "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Ip": "192.168.199.2", "Port": 4400},
-        { "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Ip": "192.168.199.3", "Port": 4400}
+        { "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Ip": "192.168.199.2", "Port": 4400 },
+        { "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Ip": "192.168.199.3", "Port": 4400 }
       ],
       
       "ElectionEvents":
