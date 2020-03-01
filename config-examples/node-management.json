@@ -45,7 +45,11 @@
           "Logs": 1
         }
       },
-      "Config": {
+      "CommandLineConfig": [
+        "--verbose",
+        "--limit-key-size 64"
+      ],
+      "Config": { // rename to FileConfig
         "active-consensus-algo": 2
       }
     }
@@ -69,7 +73,11 @@
           }
         }
       },
-      "Config": {
+      "CommandLineConfig": [
+        "--verbose",
+        "--limit-key-size 64"
+      ],
+      "Config": { // rename to FileConfig
         "api": "v1"
       }
     }
