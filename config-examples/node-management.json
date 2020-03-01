@@ -1,0 +1,70 @@
+{
+  "network": [
+    {
+      "address":"dfc06c5be24a67adee80b35ab4f147bb1a35c55ff85eda69f40ef827bddec173",
+      "ip":"192.168.1.14"
+    }
+  ],
+  "orchestrator": {
+    "storage-driver": "rexray/ebs",
+    "storage-options": {
+      "maxRetries": "10"
+    },
+    "max-reload-time-delay": "1m"
+  },
+  "chains": [
+    {
+      "Id":         42,
+      "HttpPort":   8080,
+      "GossipPort": 4400,
+      "Disabled": false,
+      "DockerConfig": {
+        "ContainerNamePrefix": "orbs-network",
+        "Image":  "orbsnetwork/node",
+        "Tag":    "v1.1.0",
+        "Pull":   true,
+        "Resources": {
+          "Limits": {
+            "Memory": 1024,
+            "CPUs": 1
+          },
+          "Reservations": {
+            "Memory": 512,
+            "CPUs": 0.5
+          }
+        },
+        "Volumes": {
+          "Blocks": 5,
+          "Logs": 1
+        }
+      },
+      "Config": {
+        "active-consensus-algo": 2
+      }
+    }
+  ],
+  "services": {
+    "signer": {
+      "Port": 7777,
+      "DockerConfig": {
+        "ContainerNamePrefix": "signer",
+        "Image":  "orbsnetwork/orbs-network-signer",
+        "Tag":    "v1.1.0",
+        "Pull":   true,
+        "Resources": {
+          "Limits": {
+            "Memory": 1024,
+            "CPUs": 1
+          },
+          "Reservations": {
+            "Memory": 512,
+            "CPUs": 0.5
+          }
+        }
+      },
+      "Config": {
+        "api": "v1"
+      }
+    }
+  }
+}
