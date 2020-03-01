@@ -56,7 +56,7 @@
   ],
   "services": { // rename to NodeServices
     "signer": {
-      "Port": 7777,
+      "Port": 7777, // rename to InternalPort
       "DockerConfig": {
         "ContainerNamePrefix": "signer",
         "Image":  "orbsnetwork/orbs-network-signer",
