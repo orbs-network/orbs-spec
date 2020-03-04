@@ -1,29 +1,20 @@
 {
-  "network": [ // want to remove this, can this only be in vc-management.json?
-    {
-      "address":"dfc06c5be24a67adee80b35ab4f147bb1a35c55ff85eda69f40ef827bddec173",
-      "ip":"192.168.1.14"
-    }
-  ],
   "orchestrator": { // rename to Orchestration
     "DynamicManagementConfig": {
       "Url": "http://1.1.1.1/reader/node-management",
-      "ReadInterval": 60,
-      "ResetTimeout": 1800
+      "ReadInterval": "1m",
+      "ResetTimeout": "30m"
     },
-    "storage-driver": "rexray/ebs",
-    "storage-options": {
+    "storage-driver": "nfs", // rename to StorageDriver
+    "storage-options": { // rename to StorageOptions
       "maxRetries": "10"
-    },
-    "max-reload-time-delay": "1m"
+    }
   },
   "chains": [ // rename to VirtualChains
     {
       "Id":         42,
       "HttpPort":   8080,
       "GossipPort": 4400,
-      "ManagementConfigUrl": "http://1.1.1.1/reader/vc-management",
-      "SignerUrl": "http://1.1.1.1/signer",
       "Disabled": false,
       "DockerConfig": {
         "ContainerNamePrefix": "orbs-network",
@@ -39,24 +30,18 @@
             "Memory": 512,
             "CPUs": 0.5
           }
-        },
-        "Volumes": {
-          "Blocks": 5,
-          "Logs": 1
         }
       },
-      "CommandLineConfig": [
-        "--verbose",
-        "--limit-key-size 64"
-      ],
-      "Config": { // rename to FileConfig
-        "active-consensus-algo": 2
+      "Config": {
+        "ManagementConfigUrl": "http://1.1.1.1/vchains/42/management",
+        "SignerUrl": "http://1.1.1.1/signer"           
       }
     }
   ],
   "services": { // rename to NodeServices
     "signer": {
       "Port": 7777, // rename to InternalPort
+      "ExternalPort": 7778,
       "DockerConfig": {
         "ContainerNamePrefix": "signer",
         "Image":  "orbsnetwork/orbs-network-signer",
@@ -73,11 +58,7 @@
           }
         }
       },
-      "CommandLineConfig": [
-        "--verbose",
-        "--limit-key-size 64"
-      ],
-      "Config": { // rename to FileConfig
+      "Config": {
         "api": "v1"
       }
     }
