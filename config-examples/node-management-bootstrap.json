@@ -1,1 +1,24 @@
-
+{
+  "orchestrator": { // rename to Orchestration
+    "DynamicManagementConfig": {
+      "Url": "http://1.1.1.1/reader/node-management",
+      "ReadInterval": "1m",
+      "ResetTimeout": "30m"
+    }
+  },
+  "services": { // rename to NodeServices
+    "management-reader": {
+      "Port": 7776, // rename to InternalPort
+      "DockerConfig": {
+        "ContainerNamePrefix": "reader",
+        "Image":  "orbsnetwork/orbs-management-reader",
+        "Tag":    "bootstrap",
+        "Pull":   true,
+      },
+      "Config": {
+        "EthereumNetwork": "mainnet",
+        "EthereumGenesisContract": "2384723487623784638272348"
+      }
+    }
+  }
+}
