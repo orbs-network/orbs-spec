@@ -46,20 +46,23 @@
         "ContainerNamePrefix": "signer",
         "Image":  "orbsnetwork/orbs-network-signer",
         "Tag":    "v1.1.0",
-        "Pull":   true,
-        "Resources": {
-          "Limits": {
-            "Memory": 1024,
-            "CPUs": 1
-          },
-          "Reservations": {
-            "Memory": 512,
-            "CPUs": 0.5
-          }
-        }
+        "Pull":   true
       },
       "Config": {
         "api": "v1"
+      }
+    },
+    "management-reader": {
+      "Port": 7776, // rename to InternalPort
+      "DockerConfig": {
+        "ContainerNamePrefix": "reader",
+        "Image":  "orbsnetwork/orbs-management-reader",
+        "Tag":    "v1.1.0",
+        "Pull":   true,
+      },
+      "Config": {
+        "EthereumNetwork": "mainnet",
+        "EthereumGenesisContract": "2384723487623784638272348"
       }
     }
   }
