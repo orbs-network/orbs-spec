@@ -64,8 +64,8 @@
         "EthereumNetwork": "mainnet",
         "EthereumGenesisContract": "0x2384723487623784638272348",
         "EthereumEndpoint": "2.2.2.2:30245",
-        "DockerImageRegistry": "registry.hub.docker.com",
-        "DockerImageNamespace": "orbsnetwork"
+        "DockerRegistry": "registry.hub.docker.com",
+        "DockerNamespace": "orbsnetwork"
       }
     }
   }
