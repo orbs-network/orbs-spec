@@ -16,7 +16,7 @@
         { "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Ip": "192.168.199.3", "Port": 4400 }
       ],
       
-      "ElectionEvents":
+      "CommitteeEvents":
       [
         {
           "RefTime": 1582616000,
