@@ -56,7 +56,7 @@
       "Port": 7776, // rename to InternalPort
       "DockerConfig": {
         "ContainerNamePrefix": "reader",
-        "Image":  "orbsnetwork/orbs-management-reader",
+        "Image":  "orbsnetwork/network-state-reader",
         "Tag":    "v1.1.0",
         "Pull":   true,
       },
