@@ -1,7 +1,7 @@
 {
   "orchestrator": { // rename to Orchestration
     "DynamicManagementConfig": {
-      "Url": "http://1.1.1.1/reader/node-management",
+      "Url": "http:/localhost:7666/node/management",
       "ReadInterval": "1m",
       "ResetTimeout": "30m"
     },
@@ -53,7 +53,7 @@
     },
     "management": {
       "Port": 8080, // rename to InternalPort, source is Amir
-      "ExternalPort": 7778, // source is admin (must be unique)
+      "ExternalPort": 7666, // source is admin (must be unique)
       "DockerConfig": {
         "Image":  "orbsnetwork/management",
         "Tag":    "v1.1.0",
