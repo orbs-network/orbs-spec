@@ -51,11 +51,11 @@
         "api": "v1"
       }
     },
-    "management": {
+    "management-service": {
       "Port": 8080, // rename to InternalPort, source is Amir
       "ExternalPort": 7666, // source is admin (must be unique)
       "DockerConfig": {
-        "Image":  "orbsnetwork/management",
+        "Image":  "orbsnetwork/management-service",
         "Tag":    "v1.1.0",
         "Pull":   true,
       },
