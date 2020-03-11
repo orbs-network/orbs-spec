@@ -7,11 +7,11 @@
     }
   },
   "services": { // rename to NodeServices
-    "management": {
+    "management-service": {
       "Port": 8080, // rename to InternalPort
       "ExternalPort": 7666,
       "DockerConfig": {
-        "Image":  "orbsnetwork/management",
+        "Image":  "orbsnetwork/management-service",
         "Tag":    "v1.0.0",
         "Pull":   true,
       },
