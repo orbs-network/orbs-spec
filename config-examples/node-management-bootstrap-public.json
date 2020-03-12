@@ -6,9 +6,9 @@
       "ResetTimeout": "30m"
     }
   },
-  "services": { // rename to NodeServices
+  "services": { // rename to NodeServices    
     "management-service": {
-      "Port": 8080, // rename to InternalPort
+      "InternalPort": 8080, // rename to InternalPort
       "ExternalPort": 7666,
       "DockerConfig": {
         "Image":  "orbsnetwork/management-service",
