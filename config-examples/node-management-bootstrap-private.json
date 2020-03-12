@@ -1,5 +1,5 @@
 {
-  "orchestrator": { // rename to Orchestration
+  "orchestrator": { // eventually rename to Orchestration
     "DynamicManagementConfig": {
       "Url": "https://s3.amazonaws.com/orbs-bootstrap-prod/boyar/config.json",
       "ReadInterval": "1m",
