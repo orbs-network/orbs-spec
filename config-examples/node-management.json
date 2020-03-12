@@ -13,9 +13,9 @@
   "chains": [ // rename to VirtualChains
     {
       "Id":         42,
-      "InternalHttpPort":   8080, // source is Noam (identical for all vchains)
+      // add: "InternalHttpPort":   8080, // source is Noam (identical for all vchains)
       "HttpPort":   8001, // rename to ExternalHttpPort, source is admin (different for all vchains)
-      "InternalGossipPort": 4040, // source is Noam (identical for all vchains)
+      // add: "InternalGossipPort": 4040, // source is Noam (identical for all vchains)
       "GossipPort": 4001, // rename to ExternalHttpPort, source is admin (different for all vchains)
       "Disabled": false,
       "DockerConfig": {
