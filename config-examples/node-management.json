@@ -1,12 +1,13 @@
 {
-  "orchestrator": { // rename to Orchestration
+  "network": [], // eventually remove
+  "orchestrator": { // eventually rename to Orchestration
     "DynamicManagementConfig": {
       "Url": "http:/localhost:7666/node/management",
       "ReadInterval": "1m",
       "ResetTimeout": "30m"
     },
-    "storage-driver": "nfs", // rename to StorageDriver
-    "storage-options": { // rename to StorageOptions
+    "storage-driver": "nfs", // eventually rename to StorageDriver
+    "storage-options": { // eventually rename to StorageOptions
       "maxRetries": "10"
     }
   },
@@ -19,7 +20,7 @@
       "Disabled": false,
       "DockerConfig": {
         "Image": "orbsnetwork/node",
-        "Tag": "v1.1.0",
+        "Tag": "G-0-N",
         "Pull": true,
         "Resources": {
           "Limits": {
@@ -34,17 +35,18 @@
       },
       "Config": {
         "ManagementConfigUrl": "http://1.1.1.1/vchains/42/management",
-        "SignerUrl": "http://1.1.1.1/signer"           
+        "SignerUrl": "http://1.1.1.1/signer",
+        "ethereum-endpoint": "http://localhost:8545" // eventually rename to EthereumEndpoint
       }
     }
   ],
-  "services": { // rename to NodeServices
+  "services": { // eventually rename to NodeServices
     "signer": {
       "InternalPort": 7777,
       "DockerConfig": {
         "Image": "orbsnetwork/signer",
-        "Tag": "v1.1.0",
-        "Pull": true
+        "Tag": "G-0-N",
+        "Pull": false
       },
       "Config": {
         "api": "v1"
@@ -55,12 +57,14 @@
       "ExternalPort": 7666,
       "DockerConfig": {
         "Image": "orbsnetwork/management-service",
-        "Tag": "v1.1.0",
-        "Pull": true,
+        "Tag": "G-0-N",
+        "Pull": false,
       },
       "Config": {
         "EthereumGenesisContract": "0x2384723487623784638272348",
-        "EthereumEndpoint": "http://eth.orbs.com"
+        "EthereumEndpoint": "http://eth.orbs.com",
+        "boyarLegacyBootstrap": "https://s3.eu-central-1.amazonaws.com/orbs-tech-engagement-temp/legacy.json", // eventually remove
+        "node-address": "a328846cd5b4979d68a8c58a9bdfeee657b34de7" // eventually remove
       }
     }
   }
