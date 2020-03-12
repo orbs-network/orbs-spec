@@ -18,9 +18,9 @@
       "InternalHttpPort": 8080, // identical for all vchains
       "Disabled": false,
       "DockerConfig": {
-        "Image":  "orbsnetwork/node",
-        "Tag":    "v1.1.0",
-        "Pull":   true,
+        "Image": "orbsnetwork/node",
+        "Tag": "v1.1.0",
+        "Pull": true,
         "Resources": {
           "Limits": {
             "Memory": 1024,
@@ -42,9 +42,9 @@
     "signer": {
       "InternalPort": 7777,
       "DockerConfig": {
-        "Image":  "orbsnetwork/orbs-network-signer",
-        "Tag":    "v1.1.0",
-        "Pull":   true
+        "Image": "orbsnetwork/orbs-network-signer",
+        "Tag": "v1.1.0",
+        "Pull": true
       },
       "Config": {
         "api": "v1"
@@ -54,9 +54,9 @@
       "InternalPort": 8080,
       "ExternalPort": 7666,
       "DockerConfig": {
-        "Image":  "orbsnetwork/management-service",
-        "Tag":    "v1.1.0",
-        "Pull":   true,
+        "Image": "orbsnetwork/management-service",
+        "Tag": "v1.1.0",
+        "Pull": true,
       },
       "Config": {
         "EthereumGenesisContract": "0x2384723487623784638272348",
