@@ -12,9 +12,10 @@
   },
   "chains": [ // rename to VirtualChains
     {
-      "Id":         42,
-      "InternalPort":   4400, // gossip port, source is Noam (identical for all vchains)
-      "ExternalPort": 8800, // gossip port, source is Noam (different for all vchains)
+      "Id": 42,
+      "InternalPort": 4400, // for gossip, identical for all vchains
+      "ExternalPort": 4001, // for gossip, different for all vchains
+      "InternalHttpPort": 8080, // identical for all vchains
       "Disabled": false,
       "DockerConfig": {
         "Image":  "orbsnetwork/node",
@@ -50,8 +51,8 @@
       }
     },
     "management-service": {
-      "InternalPort": 8080, // source is Amir
-      "ExternalPort": 7666, // source is Amir (must be unique)
+      "InternalPort": 8080,
+      "ExternalPort": 7666,
       "DockerConfig": {
         "Image":  "orbsnetwork/management-service",
         "Tag":    "v1.1.0",
