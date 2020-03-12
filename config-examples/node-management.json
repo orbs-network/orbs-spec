@@ -42,7 +42,7 @@
     "signer": {
       "InternalPort": 7777,
       "DockerConfig": {
-        "Image": "orbsnetwork/orbs-network-signer",
+        "Image": "orbsnetwork/signer",
         "Tag": "v1.1.0",
         "Pull": true
       },
