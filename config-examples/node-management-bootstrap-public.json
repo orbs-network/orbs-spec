@@ -1,23 +1,24 @@
 {
-  "orchestrator": { // rename to Orchestration
+  "orchestrator": { // eventually rename to Orchestration
     "DynamicManagementConfig": {
       "Url": "http://localhost:7666/node/management",
       "ReadInterval": "1m",
       "ResetTimeout": "30m"
     }
   },
-  "services": { // rename to NodeServices    
+  "services": { // eventually rename to NodeServices    
     "management-service": {
-      "InternalPort": 8080, // rename to InternalPort
+      "InternalPort": 8080,
       "ExternalPort": 7666,
       "DockerConfig": {
         "Image":  "orbsnetwork/management-service",
-        "Tag":    "v1.0.0",
+        "Tag":    "G-0-N",
         "Pull":   true,
       },
       "Config": {
         "EthereumGenesisContract": "0x2384723487623784638272348",
-        "EthereumEndpoint": "http://eth.orbs.com"
+        "EthereumEndpoint": "http://eth.orbs.com",
+        "boyarLegacyBootstrap": "https://s3.eu-central-1.amazonaws.com/orbs-tech-engagement-temp/legacy.json", // eventually remove
       }
     }
   }
