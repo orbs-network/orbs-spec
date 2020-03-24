@@ -93,16 +93,17 @@ func (x *GetLastCommittedBlockInfoInput) String() string {
 // message GetLastCommittedBlockInfoOutput (non serializable)
 
 type GetLastCommittedBlockInfoOutput struct {
-	LastCommittedBlockHeight    primitives.BlockHeight
-	LastCommittedBlockTimestamp primitives.TimestampNano
-	BlockProposerAddress        primitives.NodeAddress
+	LastCommittedBlockHeight        primitives.BlockHeight
+	LastCommittedBlockTimestamp     primitives.TimestampNano
+	BlockProposerAddress            primitives.NodeAddress
+	LastCommittedBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *GetLastCommittedBlockInfoOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,BlockProposerAddress:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp(), x.StringBlockProposerAddress())
+	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,BlockProposerAddress:%s,LastCommittedBlockReferenceTime:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp(), x.StringBlockProposerAddress(), x.StringLastCommittedBlockReferenceTime())
 }
 
 func (x *GetLastCommittedBlockInfoOutput) StringLastCommittedBlockHeight() (res string) {
@@ -117,6 +118,11 @@ func (x *GetLastCommittedBlockInfoOutput) StringLastCommittedBlockTimestamp() (r
 
 func (x *GetLastCommittedBlockInfoOutput) StringBlockProposerAddress() (res string) {
 	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *GetLastCommittedBlockInfoOutput) StringLastCommittedBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.LastCommittedBlockReferenceTime)
 	return
 }
 

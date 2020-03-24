@@ -135,6 +135,7 @@ type TransactionsBlockHeader struct {
 	// MetadataHash primitives.Sha256
 	// NumSignedTransactions uint32
 	// BlockProposerAddress primitives.NodeAddress
+	// ReferenceTime primitives.TimestampSeconds
 
 	// internal
 	// implements membuffers.Message
@@ -145,10 +146,10 @@ func (x *TransactionsBlockHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsMerkleRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,BlockProposerAddress:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsMerkleRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions(), x.StringBlockProposerAddress())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,TransactionsMerkleRootHash:%s,MetadataHash:%s,NumSignedTransactions:%s,BlockProposerAddress:%s,ReferenceTime:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringTransactionsMerkleRootHash(), x.StringMetadataHash(), x.StringNumSignedTransactions(), x.StringBlockProposerAddress(), x.StringReferenceTime())
 }
 
-var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeBytes}
+var _TransactionsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeBytes, membuffers.TypeUint32}
 var _TransactionsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func TransactionsBlockHeaderReader(buf []byte) *TransactionsBlockHeader {
@@ -335,6 +336,22 @@ func (x *TransactionsBlockHeader) StringBlockProposerAddress() string {
 	return fmt.Sprintf("%s", x.BlockProposerAddress())
 }
 
+func (x *TransactionsBlockHeader) ReferenceTime() primitives.TimestampSeconds {
+	return primitives.TimestampSeconds(x._message.GetUint32(9))
+}
+
+func (x *TransactionsBlockHeader) RawReferenceTime() []byte {
+	return x._message.RawBufferForField(9, 0)
+}
+
+func (x *TransactionsBlockHeader) MutateReferenceTime(v primitives.TimestampSeconds) error {
+	return x._message.SetUint32(9, uint32(v))
+}
+
+func (x *TransactionsBlockHeader) StringReferenceTime() string {
+	return fmt.Sprintf("%s", x.ReferenceTime())
+}
+
 // builder
 
 type TransactionsBlockHeaderBuilder struct {
@@ -347,6 +364,7 @@ type TransactionsBlockHeaderBuilder struct {
 	MetadataHash               primitives.Sha256
 	NumSignedTransactions      uint32
 	BlockProposerAddress       primitives.NodeAddress
+	ReferenceTime              primitives.TimestampSeconds
 
 	// internal
 	// implements membuffers.Builder
@@ -378,6 +396,7 @@ func (w *TransactionsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteBytes(buf, []byte(w.MetadataHash))
 	w._builder.WriteUint32(buf, w.NumSignedTransactions)
 	w._builder.WriteBytes(buf, []byte(w.BlockProposerAddress))
+	w._builder.WriteUint32(buf, uint32(w.ReferenceTime))
 	return nil
 }
 
@@ -400,6 +419,7 @@ func (w *TransactionsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart 
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.MetadataHash", []byte(w.MetadataHash))
 	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.NumSignedTransactions", w.NumSignedTransactions)
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "TransactionsBlockHeader.BlockProposerAddress", []byte(w.BlockProposerAddress))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "TransactionsBlockHeader.ReferenceTime", uint32(w.ReferenceTime))
 	return nil
 }
 
@@ -448,6 +468,7 @@ type ResultsBlockHeader struct {
 	// NumTransactionReceipts uint32
 	// NumContractStateDiffs uint32
 	// BlockProposerAddress primitives.NodeAddress
+	// ReferenceTime primitives.TimestampSeconds
 
 	// internal
 	// implements membuffers.Message
@@ -458,10 +479,10 @@ func (x *ResultsBlockHeader) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsMerkleRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateMerkleRootHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,BlockProposerAddress:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsMerkleRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateMerkleRootHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs(), x.StringBlockProposerAddress())
+	return fmt.Sprintf("{ProtocolVersion:%s,VirtualChainId:%s,BlockHeight:%s,PrevBlockHashPtr:%s,Timestamp:%s,ReceiptsMerkleRootHash:%s,StateDiffHash:%s,TransactionsBlockHashPtr:%s,PreExecutionStateMerkleRootHash:%s,NumTransactionReceipts:%s,NumContractStateDiffs:%s,BlockProposerAddress:%s,ReferenceTime:%s,}", x.StringProtocolVersion(), x.StringVirtualChainId(), x.StringBlockHeight(), x.StringPrevBlockHashPtr(), x.StringTimestamp(), x.StringReceiptsMerkleRootHash(), x.StringStateDiffHash(), x.StringTransactionsBlockHashPtr(), x.StringPreExecutionStateMerkleRootHash(), x.StringNumTransactionReceipts(), x.StringNumContractStateDiffs(), x.StringBlockProposerAddress(), x.StringReferenceTime())
 }
 
-var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeBytes}
+var _ResultsBlockHeader_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeUint64, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeBytes, membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeBytes, membuffers.TypeUint32}
 var _ResultsBlockHeader_Unions = [][]membuffers.FieldType{}
 
 func ResultsBlockHeaderReader(buf []byte) *ResultsBlockHeader {
@@ -704,6 +725,22 @@ func (x *ResultsBlockHeader) StringBlockProposerAddress() string {
 	return fmt.Sprintf("%s", x.BlockProposerAddress())
 }
 
+func (x *ResultsBlockHeader) ReferenceTime() primitives.TimestampSeconds {
+	return primitives.TimestampSeconds(x._message.GetUint32(12))
+}
+
+func (x *ResultsBlockHeader) RawReferenceTime() []byte {
+	return x._message.RawBufferForField(12, 0)
+}
+
+func (x *ResultsBlockHeader) MutateReferenceTime(v primitives.TimestampSeconds) error {
+	return x._message.SetUint32(12, uint32(v))
+}
+
+func (x *ResultsBlockHeader) StringReferenceTime() string {
+	return fmt.Sprintf("%s", x.ReferenceTime())
+}
+
 // builder
 
 type ResultsBlockHeaderBuilder struct {
@@ -719,6 +756,7 @@ type ResultsBlockHeaderBuilder struct {
 	NumTransactionReceipts          uint32
 	NumContractStateDiffs           uint32
 	BlockProposerAddress            primitives.NodeAddress
+	ReferenceTime                   primitives.TimestampSeconds
 
 	// internal
 	// implements membuffers.Builder
@@ -753,6 +791,7 @@ func (w *ResultsBlockHeaderBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint32(buf, w.NumTransactionReceipts)
 	w._builder.WriteUint32(buf, w.NumContractStateDiffs)
 	w._builder.WriteBytes(buf, []byte(w.BlockProposerAddress))
+	w._builder.WriteUint32(buf, uint32(w.ReferenceTime))
 	return nil
 }
 
@@ -778,6 +817,7 @@ func (w *ResultsBlockHeaderBuilder) HexDump(prefix string, offsetFromStart membu
 	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumTransactionReceipts", w.NumTransactionReceipts)
 	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.NumContractStateDiffs", w.NumContractStateDiffs)
 	w._builder.HexDumpBytes(prefix, offsetFromStart, "ResultsBlockHeader.BlockProposerAddress", []byte(w.BlockProposerAddress))
+	w._builder.HexDumpUint32(prefix, offsetFromStart, "ResultsBlockHeader.ReferenceTime", uint32(w.ReferenceTime))
 	return nil
 }
 

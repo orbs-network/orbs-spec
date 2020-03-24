@@ -30,9 +30,9 @@ service VirtualMachine {
 message ProcessTransactionSetInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    repeated protocol.SignedTransaction signed_transactions = 3;
-    primitives.node_address block_proposer_address = 4;
-
+    primitives.node_address block_proposer_address = 3;
+    primitives.timestamp_seconds block_reference_time = 4;
+    repeated protocol.SignedTransaction signed_transactions = 5;
 }
 
 message ProcessTransactionSetOutput {
@@ -50,13 +50,14 @@ message ProcessQueryOutput {
     primitives.packed_argument_array output_argument_array = 2;
     primitives.packed_events_array output_events_array = 3;
     primitives.block_height reference_block_height = 4;
-    primitives.timestamp_nano reference_block_timestamp = 5;
+    primitives.timestamp_seconds block_reference_time = 5;
 }
 
 message TransactionSetPreOrderInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    repeated protocol.SignedTransaction signed_transactions = 3;
+    primitives.timestamp_seconds current_block_reference_time = 3;
+    repeated protocol.SignedTransaction signed_transactions = 4;
 }
 
 // returns error string if one of the transactions does not pass pre order checks
@@ -67,9 +68,11 @@ message TransactionSetPreOrderOutput {
 message CallSystemContractInput {
     primitives.block_height block_height = 1;
     primitives.timestamp_nano block_timestamp = 2;
-    primitives.contract_name contract_name = 3;
-    primitives.method_name method_name = 4;
-    protocol.ArgumentArray input_argument_array = 5;
+    primitives.timestamp_seconds block_reference_time = 3;
+    primitives.timestamp_seconds block_reference_time = 3;
+    primitives.contract_name contract_name = 4;
+    primitives.method_name method_name = 5;
+    protocol.ArgumentArray input_argument_array = 6;
 }
 
 message CallSystemContractOutput {

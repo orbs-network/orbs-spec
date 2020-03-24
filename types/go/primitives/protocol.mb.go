@@ -62,6 +62,20 @@ func (x TimestampNano) KeyForMap() uint64 {
 	return uint64(x)
 }
 
+type TimestampSeconds uint32
+
+func (x TimestampSeconds) String() string {
+	return fmt.Sprintf("%x", uint32(x))
+}
+
+func (x TimestampSeconds) Equal(y TimestampSeconds) bool {
+	return x == y
+}
+
+func (x TimestampSeconds) KeyForMap() uint32 {
+	return uint32(x)
+}
+
 type NodeAddress []byte
 
 func (x NodeAddress) String() string {
