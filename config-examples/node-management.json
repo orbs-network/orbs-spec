@@ -20,7 +20,7 @@
       "Disabled": false,
       "DockerConfig": {
         "Image": "orbsnetwork/node",
-        "Tag": "G-0-N",
+        "Tag": "v1.2.3-canary",
         "Pull": true,
         "Resources": {
           "Limits": {
@@ -34,9 +34,9 @@
         }
       },
       "Config": {
-        "ManagementConfigUrl": "http://1.1.1.1/vchains/42/management",
-        "SignerUrl": "http://1.1.1.1/signer",
-        "ethereum-endpoint": "http://localhost:8545" // eventually rename to EthereumEndpoint
+        "ManagementConfigUrl": "http://management-service:8080/vchains/42/management",
+        "SignerUrl": "http://signer:7777",
+        "ethereum-endpoint": "http://eth.orbs.com" // eventually rename to EthereumEndpoint
       }
     }
   ],
@@ -45,7 +45,7 @@
       "InternalPort": 7777,
       "DockerConfig": {
         "Image": "orbsnetwork/signer",
-        "Tag": "G-0-N",
+        "Tag": "v2.0.3",
         "Pull": false
       },
       "Config": {
@@ -57,7 +57,7 @@
       "ExternalPort": 7666,
       "DockerConfig": {
         "Image": "orbsnetwork/management-service",
-        "Tag": "G-0-N",
+        "Tag": "v1.0.1",
         "Pull": false,
       },
       "Config": {
