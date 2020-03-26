@@ -82,6 +82,7 @@ message RequestCommitteeInput {
     primitives.block_height current_block_height = 1;
     uint64 random_seed = 2;
     uint32 max_committee_size = 3;
+    primitives.timestamp_seconds prev_block_reference_time = 4;
 }
 
 // returns error code on failure

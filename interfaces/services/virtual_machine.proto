@@ -31,8 +31,9 @@ message ProcessTransactionSetInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
     primitives.node_address block_proposer_address = 3;
-    primitives.timestamp_seconds block_reference_time = 4;
-    repeated protocol.SignedTransaction signed_transactions = 5;
+    primitives.timestamp_seconds prev_block_reference_time = 4;
+    primitives.timestamp_seconds current_block_reference_time = 5;
+    repeated protocol.SignedTransaction signed_transactions = 6;
 }
 
 message ProcessTransactionSetOutput {
@@ -50,13 +51,13 @@ message ProcessQueryOutput {
     primitives.packed_argument_array output_argument_array = 2;
     primitives.packed_events_array output_events_array = 3;
     primitives.block_height reference_block_height = 4;
-    primitives.timestamp_seconds block_reference_time = 5;
+    primitives.timestamp_seconds block_reference_time = 5; // TODO reference_time for getCommittee SDK
 }
 
 message TransactionSetPreOrderInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    primitives.timestamp_seconds current_block_reference_time = 3;
+    primitives.timestamp_seconds current_block_reference_time = 3; // TODO reference_time for getCommittee SDK
     repeated protocol.SignedTransaction signed_transactions = 4;
 }
 
@@ -68,11 +69,11 @@ message TransactionSetPreOrderOutput {
 message CallSystemContractInput {
     primitives.block_height block_height = 1;
     primitives.timestamp_nano block_timestamp = 2;
-    primitives.timestamp_seconds block_reference_time = 3;
-    primitives.timestamp_seconds block_reference_time = 3;
-    primitives.contract_name contract_name = 4;
-    primitives.method_name method_name = 5;
-    protocol.ArgumentArray input_argument_array = 6;
+    primitives.timestamp_seconds prev_block_reference_time = 4;
+    primitives.timestamp_seconds current_block_reference_time = 5;
+    primitives.contract_name contract_name = 6;
+    primitives.method_name method_name = 7;
+    protocol.ArgumentArray input_argument_array = 8;
 }
 
 message CallSystemContractOutput {

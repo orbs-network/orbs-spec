@@ -296,16 +296,17 @@ func (x *ValidateResultsBlockOutput) String() string {
 // message RequestCommitteeInput (non serializable)
 
 type RequestCommitteeInput struct {
-	CurrentBlockHeight primitives.BlockHeight
-	RandomSeed         uint64
-	MaxCommitteeSize   uint32
+	CurrentBlockHeight     primitives.BlockHeight
+	RandomSeed             uint64
+	MaxCommitteeSize       uint32
+	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *RequestCommitteeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,}", x.StringCurrentBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *RequestCommitteeInput) StringCurrentBlockHeight() (res string) {
@@ -320,6 +321,11 @@ func (x *RequestCommitteeInput) StringRandomSeed() (res string) {
 
 func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
 	res = fmt.Sprintf("%v", x.MaxCommitteeSize)
+	return
+}
+
+func (x *RequestCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
