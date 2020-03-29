@@ -10,6 +10,8 @@
     {
       "VirtualChainId": 123,
       
+      "GenesisRefTime": 1582615603,
+      
       "CurrentTopology":
       [
         { "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Ip": "192.168.199.2", "Port": 4400 },
