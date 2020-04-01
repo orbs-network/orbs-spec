@@ -8,8 +8,9 @@
 * `TransactionPool` - Proposes and checks current refrence time on new block
 * `VirtualMachine` - Executes PerOrder checks, checks subscription validaity as a function of the Reference Time
                      Gets the block committee as a function of the Reference Time
+<!-- 
 * `StateStorage` - stores the last block data for RunQuery use including Reference Time
-
+-->
 
 The refrence time (or management reference time) indicates the update time of which the virtual chain management data reffers to. The management data includes: the valdiators commiteee, virual chain subscription and properties and protocol version.
 
@@ -31,9 +32,11 @@ Each validator node holds a local reference time and a consensus refernce time t
 * `ValidateBlock`: 
   * Reference Time for Committee: `prev_block_reference_time`
   * Block Reference Time: `block.reference_time` (Validated comapred to `ManagementService.GetReferenceTime`)
+<!-- 
 * `RunQuery`: 
   * Reference Time for Committee: N/A (`StateStorage.GetLastCommittedBlockInfo`)
   * Block Reference Time: `StateStorage.GetLastCommittedBlockInfo`
+-->
 * `AddNewTransaction`: 
   * Reference Time for Committee: N/A
   * Block Reference Time: `ManagementService.GetReferenceTime` 
@@ -43,7 +46,7 @@ Each validator node holds a local reference time and a consensus refernce time t
 * Each virtual chain is created with a refrence time to be used for its first block. As the commitee must be determined in consensos the genesis reference time is determined in advance, alowing the validators to set up the resources and agree on the first block
 * `RequestOrderingCommitee` for Block #1 
   * Reference Time for Committee: `ManagementService.GetGenesisReferenceTime`
-  * Check `ManagementService.GetReferenceTime` is larger or equal to `ManagementService.GetGenesisReferenceTime` is larger or equal to `ManagementService.GetReferenceTime`, otherwise fail the request 
+  * Check `ManagementService.GetReferenceTime` is larger or equal to `ManagementService.GetGenesisReferenceTime` otherwise fail the request 
 * `RequestNewBlock` / `ValidateBlock`
   * Reference Time for Committee: `ManagementService.GetGenesisReferenceTime`
 
