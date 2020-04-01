@@ -47,8 +47,8 @@ Each validator node holds a local reference time and a consensus refernce time t
 * `RequestOrderingCommitee` for Block #1 
   * Reference Time for Committee: `ManagementService.GetGenesisReferenceTime`
   * Check `ManagementService.GetReferenceTime` is larger or equal to `ManagementService.GetGenesisReferenceTime` otherwise fail the request 
-* `RequestNewBlock` / `ValidateBlock`
-  * Reference Time for Committee: `ManagementService.GetGenesisReferenceTime`
+* `RequestNewBlock` / `ValidateBlock` 
+  * Reference Time for Committee (used for reputation): `ManagementService.GetGenesisReferenceTime`
 
 ## Reference Time Proposal and Consensus
 
@@ -86,7 +86,7 @@ Each validator node holds a local reference time and a consensus refernce time t
 [reference_time_committee]: ../_img/reference_time_committee.png "reference_time_request_committee"
 
 
-## `RequestNewOrderingBlock` / `ValidateOrderingBlock` Flow
+## `RequestNewOrderingBlock` Flow
 
 #### Particiapnts
   * `ConsensusAlgo`
@@ -104,7 +104,7 @@ Each validator node holds a local reference time and a consensus refernce time t
     * Requests transactions from the `TransactionPool`
 
     * `TransactionPool`
-      * Calcualtes (leader) / validates (Validator) a Reference Tine Proposal
+      * Gets a Reference Tine proposal by calling `ManagementService`
       * Calls PreOrder checks in the `VirtualMachine` with the Reference Time Proposal
 
       * `VirtualMachine` executes PreOrder checks. Checks susbcription status by querying the `ManagementService` and checks Reference Time liveness
@@ -112,11 +112,40 @@ Each validator node holds a local reference time and a consensus refernce time t
   * `ConsensusContext`
     * Calcualtes / validates the protocol version based on Reference Time proposal calling the `ManagementService`
 
-#### `RequestNewOrderingBlock` / `ValidateOrderingBlock` Flow
+#### `RequestNewOrderingBlock` Flow
 
 ![alt text][reference_time_ordering_block] <br/><br/>
 
 [reference_time_ordering_block]: ../_img/reference_time_ordering_block.png "reference_time_ordering_block"
+
+
+## `ValidateOrderingBlock` Flow
+
+#### Particiapnts
+  * `ConsensusAlgo`
+  * `ConsensusContext`
+  * `TransactionPool`
+  * `VirtualMachine`
+  * `ManagementService`
+
+#### Flow
+
+* `ConsensusAlgo` 
+  * Request new block validation the previous block Reference Time 
+
+  * `ConsensusContext`
+    * Checks the block Reference Time (with grace)
+      * Gets a local Reference Tine proposal by calling `ManagementService`
+    * Requests the `TransactionPool` to validate the transactions for ordering.
+
+    * `TransactionPool`
+      * Calcualtes (leader) / validates (Validator) a Reference Tine Proposal (including grace)
+      * Calls PreOrder checks in the `VirtualMachine` with the Reference Time Proposal
+
+      * `VirtualMachine` executes PreOrder checks. Checks susbcription status by querying the `ManagementService` and checks Reference Time liveness
+  
+  * `ConsensusContext`
+    * Calcualtes / validates the protocol version based on Reference Time proposal calling the `ManagementService`
 
 
 ## `RequestNewResultsBlock` / `ValidateResultsBlock` Flow
