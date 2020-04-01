@@ -60,6 +60,7 @@ Each validator node holds a local reference time and a consensus refernce time t
 ## Reference Time Liveness
 * The network reference time livness determines the maximum time of which the netwerk can operate without an updaetd management data. 
 * Check Block Reference_time > Block timestamp - `REFERENCE_TIME_LIVENESS_GRACE` (default 12 hours)
+  * For private chains `REFERENCE_TIME_LIVENESS_GRACE` should be set to an infinite (high) value.
 * Upon experiation, no user trasnactions are executed (PreOrder fails) 
 
 
@@ -74,6 +75,12 @@ Each validator node holds a local reference time and a consensus refernce time t
 * `ConsensusAlgo` request for new committee providing the previous block Reference Time
   * `ConsensusContext` - calls the Committee system contarct, providing the previous block Reference Time to the `Virtual Machine`
     * `VirtualMachine` - executes the smart contract, exposing an SDK for `GetCommittee` that queries the `ManagementService`. Committee system contarct calculates the committee order.
+
+#### `RequestNewCommittee` Flow
+
+![alt text][reference_time_committee] <br/><br/>
+
+[reference_time_committee]: ../_img/reference_time_committee.png "reference_time_request_committee"
 
 
 ## `RequestNewOrderingBlock` / `ValidateOrderingBlock` Flow
@@ -102,6 +109,13 @@ Each validator node holds a local reference time and a consensus refernce time t
   * `ConsensusContext`
     * Calcualtes / validates the protocol version based on Reference Time proposal calling the `ManagementService`
 
+#### `RequestNewOrderingBlock` / `ValidateOrderingBlock` Flow
+
+![alt text][reference_time_ordering_block] <br/><br/>
+
+[reference_time_ordering_block]: ../_img/reference_time_ordering_block.png "reference_time_ordering_block"
+
+
 ## `RequestNewResultsBlock` / `ValidateResultsBlock` Flow
 
 #### Particiapnts
@@ -116,6 +130,7 @@ Each validator node holds a local reference time and a consensus refernce time t
   * Requests new block providing the previous block Reference Time, current Refrece Time and protocol version.
   
   * `ConsensusContext`
+    * Set the Reference Time and Protocol Version based on the transaction block
     * Add a trigger transaction to update the reputation.
     * Send the transactions to the `VirtualMachine` for execution.
 
