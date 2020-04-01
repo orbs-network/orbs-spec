@@ -22,23 +22,23 @@ participant TransactionPool
 participant VirtualMachine
 participant ManagementService
 
-ConsensusAlgo->+ConsensusContext:RequestOrderingBlock(prev_refrence_time)
+ConsensusAlgo->+ConsensusContext:RequestOrderingBlock(prev_rt)
 
-ConsensusContext->+TransactionPool:GetTransactions(prev_refrence_time)
+ConsensusContext->+TransactionPool:GetTransactions(prev_rt)
 
 TransactionPool->+ManagementService:GetRefferenceTime()
 ManagementService-->-TransactionPool:local_refernce_time
 note over TransactionPool
-  leader: current_refernce_time = local_refernce_time
-  validator: validate current_refernce_time based on local_refernce_time
+  leader: refernce_time = max(local_refernce_time, prev_rt)
+  validator: validate refernce_time based on local_refernce_time
 end note
 
-TransactionPool->+VirtualMachine:PreOrder(prev_refrence_time, current_refernce_time)
-VirtualMachine->+ManagementService:Subscription(current_refernce_time)
+TransactionPool->+VirtualMachine:PreOrder(prev_rt, referece_time)
+VirtualMachine->+ManagementService:Subscription(referece_time)
 ManagementService-->-VirtualMachine:subscription status
 VirtualMachine-->-TransactionPool:ok
 TransactionPool-->-ConsensusContext:transactions, refernce_time
 
-ConsensusContext->+ManagementService:GetProtocolVersion(current_refernce_time)
+ConsensusContext->+ManagementService:GetProtocolVersion(referece_time)
 ManagementService-->-ConsensusContext:protocol_version
 
