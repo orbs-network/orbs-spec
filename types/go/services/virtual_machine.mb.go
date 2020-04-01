@@ -135,18 +135,18 @@ func (x *ProcessQueryInput) StringSignedQuery() (res string) {
 // message ProcessQueryOutput (non serializable)
 
 type ProcessQueryOutput struct {
-	CallResult           protocol.ExecutionResult
-	OutputArgumentArray  primitives.PackedArgumentArray
-	OutputEventsArray    primitives.PackedEventsArray
-	ReferenceBlockHeight primitives.BlockHeight
-	BlockReferenceTime   primitives.TimestampSeconds
+	CallResult              protocol.ExecutionResult
+	OutputArgumentArray     primitives.PackedArgumentArray
+	OutputEventsArray       primitives.PackedEventsArray
+	ReferenceBlockHeight    primitives.BlockHeight
+	ReferenceBlockTimestamp primitives.TimestampNano
 }
 
 func (x *ProcessQueryOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CallResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,ReferenceBlockHeight:%s,BlockReferenceTime:%s,}", x.StringCallResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringReferenceBlockHeight(), x.StringBlockReferenceTime())
+	return fmt.Sprintf("{CallResult:%s,OutputArgumentArray:%s,OutputEventsArray:%s,ReferenceBlockHeight:%s,ReferenceBlockTimestamp:%s,}", x.StringCallResult(), x.StringOutputArgumentArray(), x.StringOutputEventsArray(), x.StringReferenceBlockHeight(), x.StringReferenceBlockTimestamp())
 }
 
 func (x *ProcessQueryOutput) StringCallResult() (res string) {
@@ -169,8 +169,8 @@ func (x *ProcessQueryOutput) StringReferenceBlockHeight() (res string) {
 	return
 }
 
-func (x *ProcessQueryOutput) StringBlockReferenceTime() (res string) {
-	res = fmt.Sprintf("%s", x.BlockReferenceTime)
+func (x *ProcessQueryOutput) StringReferenceBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceBlockTimestamp)
 	return
 }
 

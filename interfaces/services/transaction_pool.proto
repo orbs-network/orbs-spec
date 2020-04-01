@@ -72,8 +72,8 @@ message GetTransactionsForOrderingOutput {
 message ValidateTransactionsForOrderingInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    primitives.timestamp_seconds prev_block_reference_time = 3;
-    primitives.timestamp_seconds proposed_block_reference_time = 4;    
+    primitives.timestamp_seconds current_block_reference_time = 3;
+    primitives.timestamp_seconds prev_block_reference_time = 4; // TODO REF do i need this ?
     repeated protocol.SignedTransaction signed_transactions = 5;
 }
 

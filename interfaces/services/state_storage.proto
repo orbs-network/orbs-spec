@@ -40,7 +40,6 @@ message GetLastCommittedBlockInfoOutput {
     primitives.block_height last_committed_block_height = 1;
     primitives.timestamp_nano last_committed_block_timestamp = 2;
     primitives.node_address block_proposer_address = 3;
-    primitives.timestamp_seconds last_committed_block_reference_time = 4;
 }
 
 message CommitStateDiffInput {

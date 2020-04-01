@@ -51,13 +51,13 @@ message ProcessQueryOutput {
     primitives.packed_argument_array output_argument_array = 2;
     primitives.packed_events_array output_events_array = 3;
     primitives.block_height reference_block_height = 4;
-    primitives.timestamp_seconds block_reference_time = 5; // TODO reference_time for getCommittee SDK
+    primitives.timestamp_nano reference_block_timestamp = 5;
 }
 
 message TransactionSetPreOrderInput {
     primitives.block_height current_block_height = 1;
     primitives.timestamp_nano current_block_timestamp = 2;
-    primitives.timestamp_seconds current_block_reference_time = 3; // TODO reference_time for getCommittee SDK
+    primitives.timestamp_seconds current_block_reference_time = 3;
     repeated protocol.SignedTransaction signed_transactions = 4;
 }
 

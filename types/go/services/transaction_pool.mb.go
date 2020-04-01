@@ -223,18 +223,18 @@ func (x *GetTransactionsForOrderingOutput) StringProposedBlockReferenceTime() (r
 // message ValidateTransactionsForOrderingInput (non serializable)
 
 type ValidateTransactionsForOrderingInput struct {
-	CurrentBlockHeight         primitives.BlockHeight
-	CurrentBlockTimestamp      primitives.TimestampNano
-	PrevBlockReferenceTime     primitives.TimestampSeconds
-	ProposedBlockReferenceTime primitives.TimestampSeconds
-	SignedTransactions         []*protocol.SignedTransaction
+	CurrentBlockHeight        primitives.BlockHeight
+	CurrentBlockTimestamp     primitives.TimestampNano
+	CurrentBlockReferenceTime primitives.TimestampSeconds
+	PrevBlockReferenceTime    primitives.TimestampSeconds
+	SignedTransactions        []*protocol.SignedTransaction
 }
 
 func (x *ValidateTransactionsForOrderingInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,PrevBlockReferenceTime:%s,ProposedBlockReferenceTime:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringPrevBlockReferenceTime(), x.StringProposedBlockReferenceTime(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,CurrentBlockReferenceTime:%s,PrevBlockReferenceTime:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringCurrentBlockReferenceTime(), x.StringPrevBlockReferenceTime(), x.StringSignedTransactions())
 }
 
 func (x *ValidateTransactionsForOrderingInput) StringCurrentBlockHeight() (res string) {
@@ -247,13 +247,13 @@ func (x *ValidateTransactionsForOrderingInput) StringCurrentBlockTimestamp() (re
 	return
 }
 
-func (x *ValidateTransactionsForOrderingInput) StringPrevBlockReferenceTime() (res string) {
-	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+func (x *ValidateTransactionsForOrderingInput) StringCurrentBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockReferenceTime)
 	return
 }
 
-func (x *ValidateTransactionsForOrderingInput) StringProposedBlockReferenceTime() (res string) {
-	res = fmt.Sprintf("%s", x.ProposedBlockReferenceTime)
+func (x *ValidateTransactionsForOrderingInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
