@@ -10,7 +10,7 @@ ConsensusAlgo->+ConsensusContext:RequestCommittee(prev_refrence_time)
 ConsensusContext->+VirtualMachine: CallSystemContract.GetCommittee
 VirtualMachine->+ManagementService:GetCommitee(prev_refrence_time)
 ManagementService-->-VirtualMachine:committee
-VirtualMachine-->-ConsensusContext:committee
+VirtualMachine-->-ConsensusContext:cordered ommittee
 ConsensusContext->-ConsensusAlgo:ordered committee
 
 
