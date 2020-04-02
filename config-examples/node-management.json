@@ -11,7 +11,7 @@
       "maxRetries": "10"
     }
   },
-  "chains": [ // rename to VirtualChains
+  "chains": [ // eventually rename to VirtualChains
     {
       "Id": 42,
       "InternalPort": 4400, // for gossip, identical for all vchains
