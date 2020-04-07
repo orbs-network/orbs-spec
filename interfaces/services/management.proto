@@ -53,5 +53,5 @@ message GetCommitteeInput {
 }
 
 message GetCommitteeOutput {
-    repeated primitives.node_address committee = 1;
+    repeated primitives.node_address members = 1;
 }

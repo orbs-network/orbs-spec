@@ -187,19 +187,19 @@ func (x *GetCommitteeInput) StringReference() (res string) {
 // message GetCommitteeOutput (non serializable)
 
 type GetCommitteeOutput struct {
-	Committee []primitives.NodeAddress
+	Members []primitives.NodeAddress
 }
 
 func (x *GetCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Committee:%s,}", x.StringCommittee())
+	return fmt.Sprintf("{Members:%s,}", x.StringMembers())
 }
 
-func (x *GetCommitteeOutput) StringCommittee() (res string) {
+func (x *GetCommitteeOutput) StringMembers() (res string) {
 	res = "["
-	for _, v := range x.Committee {
+	for _, v := range x.Members {
 		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"
