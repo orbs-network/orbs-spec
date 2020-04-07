@@ -30,6 +30,13 @@ message timestamp_nano {
     // size 8 bytes
 }
 
+// timestamp is Unix timestamp in seconds (number of seconds elapsed since Jan 1, 1970 UTC)
+message timestamp_seconds {
+    option inline_type = "uint32";
+    uint32 value = 1;
+    // size 4 bytes
+}
+
 // equal to a 20 byte ethereum address
 // encode in golang: CalcKeccak256(ecdsa_secp256k1_public_key)[12:]
 message node_address {

@@ -48,6 +48,7 @@ message TransactionsBlockHeader {
     primitives.sha256 metadata_hash = 7;
     uint32 num_signed_transactions = 8;
     primitives.node_address block_proposer_address = 9;
+    primitives.timestamp_seconds reference_time = 10;
 }
 
 message ResultsBlockHeader {
@@ -63,6 +64,7 @@ message ResultsBlockHeader {
     uint32 num_transaction_receipts = 10;
     uint32 num_contract_state_diffs = 11;
     primitives.node_address block_proposer_address = 12;
+    primitives.timestamp_seconds reference_time = 13;
 }
 
 message TransactionsBlockMetadata {
