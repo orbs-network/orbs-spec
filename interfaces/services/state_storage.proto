@@ -47,7 +47,6 @@ message GetLastCommittedBlockInfoOutput {
 message CommitStateDiffInput {
     protocol.ResultsBlockHeader results_block_header = 1;
     repeated protocol.ContractStateDiff contract_state_diffs = 2;
-    // primitives.block_height last_committed_block_height = 3;
 }
 
 message CommitStateDiffOutput {
