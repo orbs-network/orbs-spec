@@ -13,6 +13,7 @@ service Gossip {
     // registration methods for external handlers that wish to receive callbacks
     option implement_handler = "gossiptopics.TransactionRelay";
     option implement_handler = "gossiptopics.BlockSync";
+    option implement_handler = "gossiptopics.HeaderSync";
     option implement_handler = "gossiptopics.LeanHelix";
     option implement_handler = "gossiptopics.BenchmarkConsensus";
 }
