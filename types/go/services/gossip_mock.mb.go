@@ -13,6 +13,7 @@ type MockGossip struct {
 	mock.Mock
 	gossiptopics.MockTransactionRelay
 	gossiptopics.MockBlockSync
+	gossiptopics.MockHeaderSync
 	gossiptopics.MockLeanHelix
 	gossiptopics.MockBenchmarkConsensus
 }

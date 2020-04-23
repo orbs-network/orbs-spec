@@ -11,6 +11,7 @@ import (
 type Gossip interface {
 	gossiptopics.TransactionRelay
 	gossiptopics.BlockSync
+	gossiptopics.HeaderSync
 	gossiptopics.LeanHelix
 	gossiptopics.BenchmarkConsensus
 }
