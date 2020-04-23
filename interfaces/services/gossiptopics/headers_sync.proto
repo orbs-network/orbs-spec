@@ -1,0 +1,46 @@
+syntax = "proto3";
+package gossiptopics;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services/gossiptopics";
+
+import "../primitives/protocol.proto";
+import "../protocol/gossipmessages/header_sync.proto";
+import "../services/gossiptopics/all.proto";
+
+option serialize_messages = false;
+
+service HeaderSync {
+    // registration methods for external handlers that wish to receive callbacks
+    option register_handler = "HeaderSyncHandler";
+
+    // called by anyone looking to send gossip messages
+    rpc BroadcastHeaderAvailabilityRequest (HeaderAvailabilityRequestInput) returns (gossiptopics.EmptyOutput);
+    rpc SendHeaderAvailabilityResponse (HeaderAvailabilityResponseInput) returns (gossiptopics.EmptyOutput);
+    rpc SendHeaderSyncRequest (HeaderSyncRequestInput) returns (gossiptopics.EmptyOutput);
+    rpc SendHeaderSyncResponse (HeaderSyncResponseInput) returns (gossiptopics.EmptyOutput);
+}
+
+service HeaderSyncHandler {
+    rpc HandleHeaderAvailabilityRequest (HeaderAvailabilityRequestInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleHeaderAvailabilityResponse (HeaderAvailabilityResponseInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleHeaderSyncRequest (HeaderSyncRequestInput) returns (gossiptopics.EmptyOutput);
+    rpc HandleHeaderSyncResponse (HeaderSyncResponseInput) returns (gossiptopics.EmptyOutput);
+}
+
+message HeaderAvailabilityRequestInput {
+    gossipmessages.HeaderAvailabilityRequestMessage message = 1;
+}
+
+message HeaderAvailabilityResponseInput {
+    primitives.node_address recipient_node_address = 1;
+    gossipmessages.HeaderAvailabilityResponseMessage message = 2;
+}
+
+message HeaderSyncRequestInput {
+    primitives.node_address recipient_node_address = 1;
+    gossipmessages.HeaderSyncRequestMessage message = 2;
+}
+
+message HeaderSyncResponseInput {
+    primitives.node_address recipient_node_address = 1;
+    gossipmessages.HeaderSyncResponseMessage message = 2;
+}

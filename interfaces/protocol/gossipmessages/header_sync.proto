@@ -1,0 +1,63 @@
+syntax = "proto3";
+package gossipmessages;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol/gossipmessages";
+
+import "../primitives/crypto.proto";
+import "../primitives/protocol.proto";
+import "../protocol/gossipmessages/all.proto";
+import "../protocol/blocks.proto";
+
+enum HeaderSyncMessageType {
+    HEADER_SYNC_RESERVED = 0;
+    HEADER_SYNC_AVAILABILITY_REQUEST = 1;
+    HEADER_SYNC_AVAILABILITY_RESPONSE = 2;
+    HEADER_SYNC_REQUEST = 3;
+    HEADER_SYNC_RESPONSE = 4;
+}
+
+// message format
+
+message HeaderAvailabilityRequestMessage {
+    option serialize_message = false;
+    HeaderSyncRange signed_batch_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_batch_range
+}
+
+message HeaderAvailabilityResponseMessage {
+    option serialize_message = false;
+    HeaderSyncRange signed_batch_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_batch_range
+}
+
+message HeaderSyncRequestMessage {
+    option serialize_message = false;
+    HeaderSyncRange signed_chunk_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_chunk_range
+}
+
+message HeaderSyncResponseMessage {
+    option serialize_message = false;
+    HeaderSyncRange signed_chunk_range = 1;
+    gossipmessages.SenderSignature sender = 2; // signs on signed_chunk_range
+    repeated ResultsBlockHeaderWithProof header_with_proof = 3;
+}
+
+// message payloads (serializable)
+
+message HeaderSyncRange {
+    HeaderType header_type = 1;
+    primitives.block_height first_block_height = 2;
+    primitives.block_height last_block_height = 3;
+    primitives.block_height last_committed_block_height = 4;    
+}
+
+enum HeaderType {
+    HEADER_TYPE_RESERVED = 0;
+    HEADER_TYPE_RESULTS_BLOCK_HEADER_WITH_PROOF = 1;
+}
+
+
+message ResultsBlockHeaderWithProof {
+    protocol.ResultsBlockHeader header = 1;
+    protocol.ResultsBlockProof block_proof = 2;
+}
