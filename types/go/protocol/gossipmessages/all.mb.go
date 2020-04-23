@@ -34,7 +34,7 @@ func (x *Header) String() string {
 }
 
 var _Header_Scheme = []membuffers.FieldType{membuffers.TypeUint32, membuffers.TypeUint32, membuffers.TypeBytesArray, membuffers.TypeUint16, membuffers.TypeUnion}
-var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16}}
+var _Header_Unions = [][]membuffers.FieldType{{membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16, membuffers.TypeUint16}}
 
 func HeaderReader(buf []byte) *Header {
 	x := &Header{}
@@ -148,6 +148,7 @@ const (
 	HEADER_TOPIC_BLOCK_SYNC          HeaderTopic = 1
 	HEADER_TOPIC_LEAN_HELIX          HeaderTopic = 2
 	HEADER_TOPIC_BENCHMARK_CONSENSUS HeaderTopic = 3
+	HEADER_TOPIC_HEADER_SYNC         HeaderTopic = 4
 )
 
 func (x *Header) Topic() HeaderTopic {
@@ -258,6 +259,32 @@ func (x *Header) MutateBenchmarkConsensus(v consensus.BenchmarkConsensusMessageT
 	return nil
 }
 
+func (x *Header) IsTopicHeaderSync() bool {
+	is, _ := x._message.IsUnionIndex(4, 0, 4)
+	return is
+}
+
+func (x *Header) HeaderSync() HeaderSyncMessageType {
+	is, off := x._message.IsUnionIndex(4, 0, 4)
+	if !is {
+		panic("Accessed union field of incorrect type, did you check which union type it is first?")
+	}
+	return HeaderSyncMessageType(x._message.GetUint16InOffset(off))
+}
+
+func (x *Header) StringHeaderSync() string {
+	return x.HeaderSync().String()
+}
+
+func (x *Header) MutateHeaderSync(v HeaderSyncMessageType) error {
+	is, off := x._message.IsUnionIndex(4, 0, 4)
+	if !is {
+		return &membuffers.ErrInvalidField{}
+	}
+	x._message.SetUint16InOffset(off, uint16(v))
+	return nil
+}
+
 func (x *Header) RawTopic() []byte {
 	return x._message.RawBufferForField(4, 0)
 }
@@ -276,6 +303,8 @@ func (x *Header) StringTopic() string {
 		return "(LeanHelix)" + x.StringLeanHelix()
 	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
 		return "(BenchmarkConsensus)" + x.StringBenchmarkConsensus()
+	case HEADER_TOPIC_HEADER_SYNC:
+		return "(HeaderSync)" + x.StringHeaderSync()
 	}
 	return "(Unknown)"
 }
@@ -292,6 +321,7 @@ type HeaderBuilder struct {
 	BlockSync              BlockSyncMessageType
 	LeanHelix              consensus.LeanHelixMessageType
 	BenchmarkConsensus     consensus.BenchmarkConsensusMessageType
+	HeaderSync             HeaderSyncMessageType
 
 	// internal
 	// implements membuffers.Builder
@@ -336,6 +366,8 @@ func (w *HeaderBuilder) Write(buf []byte) (err error) {
 		w._builder.WriteUint16(buf, uint16(w.LeanHelix))
 	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
 		w._builder.WriteUint16(buf, uint16(w.BenchmarkConsensus))
+	case HEADER_TOPIC_HEADER_SYNC:
+		w._builder.WriteUint16(buf, uint16(w.HeaderSync))
 	}
 	return nil
 }
@@ -364,6 +396,8 @@ func (w *HeaderBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset
 		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.LeanHelix", uint16(w.LeanHelix))
 	case HEADER_TOPIC_BENCHMARK_CONSENSUS:
 		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.BenchmarkConsensus", uint16(w.BenchmarkConsensus))
+	case HEADER_TOPIC_HEADER_SYNC:
+		w._builder.HexDumpUint16(prefix, offsetFromStart, "Header.HeaderSync", uint16(w.HeaderSync))
 	}
 	return nil
 }

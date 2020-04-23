@@ -6,6 +6,7 @@ import "../primitives/crypto.proto";
 import "../primitives/protocol.proto";
 import "../protocol/gossipmessages/transaction_relay.proto";
 import "../protocol/gossipmessages/block_sync.proto";
+import "../protocol/gossipmessages/header_sync.proto";
 import "../protocol/consensus/lean_helix.proto";
 import "../protocol/consensus/benchmark_consensus.proto";
 
@@ -19,6 +20,7 @@ message Header {
         gossipmessages.BlockSyncMessageType block_sync = 6;
         consensus.LeanHelixMessageType lean_helix = 7;
         consensus.BenchmarkConsensusMessageType benchmark_consensus = 8;
+        gossipmessages.HeaderSyncMessageType header_sync = 9;
     }
 }
 
