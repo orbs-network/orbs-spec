@@ -58,6 +58,8 @@ enum HeaderType {
 
 
 message ResultsBlockHeaderWithProof {
+    option serialize_message = false;
+
     protocol.ResultsBlockHeader header = 1;
     protocol.ResultsBlockProof block_proof = 2;
 }

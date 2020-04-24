@@ -314,17 +314,11 @@ func HeaderSyncRangeBuilderFromRaw(raw []byte) *HeaderSyncRangeBuilder {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message ResultsBlockHeaderWithProof
-
-// reader
+// message ResultsBlockHeaderWithProof (non serializable)
 
 type ResultsBlockHeaderWithProof struct {
-	// Header protocol.ResultsBlockHeader
-	// BlockProof protocol.ResultsBlockProof
-
-	// internal
-	// implements membuffers.Message
-	_message membuffers.InternalMessage
+	Header     *protocol.ResultsBlockHeader
+	BlockProof *protocol.ResultsBlockProof
 }
 
 func (x *ResultsBlockHeaderWithProof) String() string {
@@ -334,151 +328,14 @@ func (x *ResultsBlockHeaderWithProof) String() string {
 	return fmt.Sprintf("{Header:%s,BlockProof:%s,}", x.StringHeader(), x.StringBlockProof())
 }
 
-var _ResultsBlockHeaderWithProof_Scheme = []membuffers.FieldType{membuffers.TypeMessage, membuffers.TypeMessage}
-var _ResultsBlockHeaderWithProof_Unions = [][]membuffers.FieldType{}
-
-func ResultsBlockHeaderWithProofReader(buf []byte) *ResultsBlockHeaderWithProof {
-	x := &ResultsBlockHeaderWithProof{}
-	x._message.Init(buf, membuffers.Offset(len(buf)), _ResultsBlockHeaderWithProof_Scheme, _ResultsBlockHeaderWithProof_Unions)
-	return x
+func (x *ResultsBlockHeaderWithProof) StringHeader() (res string) {
+	res = x.Header.String()
+	return
 }
 
-func (x *ResultsBlockHeaderWithProof) IsValid() bool {
-	return x._message.IsValid()
-}
-
-func (x *ResultsBlockHeaderWithProof) Raw() []byte {
-	return x._message.RawBuffer()
-}
-
-func (x *ResultsBlockHeaderWithProof) Equal(y *ResultsBlockHeaderWithProof) bool {
-	if x == nil && y == nil {
-		return true
-	}
-	if x == nil || y == nil {
-		return false
-	}
-	return bytes.Equal(x.Raw(), y.Raw())
-}
-
-func (x *ResultsBlockHeaderWithProof) Header() *protocol.ResultsBlockHeader {
-	b, s := x._message.GetMessage(0)
-	return protocol.ResultsBlockHeaderReader(b[:s])
-}
-
-func (x *ResultsBlockHeaderWithProof) RawHeader() []byte {
-	return x._message.RawBufferForField(0, 0)
-}
-
-func (x *ResultsBlockHeaderWithProof) RawHeaderWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(0, 0)
-}
-
-func (x *ResultsBlockHeaderWithProof) StringHeader() string {
-	return x.Header().String()
-}
-
-func (x *ResultsBlockHeaderWithProof) BlockProof() *protocol.ResultsBlockProof {
-	b, s := x._message.GetMessage(1)
-	return protocol.ResultsBlockProofReader(b[:s])
-}
-
-func (x *ResultsBlockHeaderWithProof) RawBlockProof() []byte {
-	return x._message.RawBufferForField(1, 0)
-}
-
-func (x *ResultsBlockHeaderWithProof) RawBlockProofWithHeader() []byte {
-	return x._message.RawBufferWithHeaderForField(1, 0)
-}
-
-func (x *ResultsBlockHeaderWithProof) StringBlockProof() string {
-	return x.BlockProof().String()
-}
-
-// builder
-
-type ResultsBlockHeaderWithProofBuilder struct {
-	Header     *protocol.ResultsBlockHeaderBuilder
-	BlockProof *protocol.ResultsBlockProofBuilder
-
-	// internal
-	// implements membuffers.Builder
-	_builder               membuffers.InternalBuilder
-	_overrideWithRawBuffer []byte
-}
-
-func (w *ResultsBlockHeaderWithProofBuilder) Write(buf []byte) (err error) {
-	if w == nil {
-		return
-	}
-	w._builder.NotifyBuildStart()
-	defer w._builder.NotifyBuildEnd()
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	if w._overrideWithRawBuffer != nil {
-		return w._builder.WriteOverrideWithRawBuffer(buf, w._overrideWithRawBuffer)
-	}
-	w._builder.Reset()
-	err = w._builder.WriteMessage(buf, w.Header)
-	if err != nil {
-		return
-	}
-	err = w._builder.WriteMessage(buf, w.BlockProof)
-	if err != nil {
-		return
-	}
-	return nil
-}
-
-func (w *ResultsBlockHeaderWithProofBuilder) HexDump(prefix string, offsetFromStart membuffers.Offset) (err error) {
-	if w == nil {
-		return
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = &membuffers.ErrBufferOverrun{}
-		}
-	}()
-	w._builder.Reset()
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockHeaderWithProof.Header", w.Header)
-	if err != nil {
-		return
-	}
-	err = w._builder.HexDumpMessage(prefix, offsetFromStart, "ResultsBlockHeaderWithProof.BlockProof", w.BlockProof)
-	if err != nil {
-		return
-	}
-	return nil
-}
-
-func (w *ResultsBlockHeaderWithProofBuilder) GetSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	return w._builder.GetSize()
-}
-
-func (w *ResultsBlockHeaderWithProofBuilder) CalcRequiredSize() membuffers.Offset {
-	if w == nil {
-		return 0
-	}
-	w.Write(nil)
-	return w._builder.GetSize()
-}
-
-func (w *ResultsBlockHeaderWithProofBuilder) Build() *ResultsBlockHeaderWithProof {
-	buf := make([]byte, w.CalcRequiredSize())
-	if w.Write(buf) != nil {
-		return nil
-	}
-	return ResultsBlockHeaderWithProofReader(buf)
-}
-
-func ResultsBlockHeaderWithProofBuilderFromRaw(raw []byte) *ResultsBlockHeaderWithProofBuilder {
-	return &ResultsBlockHeaderWithProofBuilder{_overrideWithRawBuffer: raw}
+func (x *ResultsBlockHeaderWithProof) StringBlockProof() (res string) {
+	res = x.BlockProof.String()
+	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
