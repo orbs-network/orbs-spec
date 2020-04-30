@@ -1,0 +1,44 @@
+#1 Request Committee
+
+participant ConsensusAlgo
+participant ConsensusContext
+participant VirtualMachine
+participant ManagementService
+
+
+ConsensusAlgo->+ConsensusContext:RequestCommittee(prev_refrence_time)
+ConsensusContext->+VirtualMachine: CallSystemContract.GetCommittee
+VirtualMachine->+ManagementService:GetCommitee(prev_refrence_time)
+ManagementService-->-VirtualMachine:committee
+VirtualMachine-->-ConsensusContext:cordered ommittee
+ConsensusContext->-ConsensusAlgo:ordered committee
+
+
+#2 OrderingBlock
+
+participant ConsensusAlgo
+participant ConsensusContext
+participant TransactionPool
+participant VirtualMachine
+participant ManagementService
+
+ConsensusAlgo->+ConsensusContext:RequestOrderingBlock(prev_rt)
+
+ConsensusContext->+TransactionPool:GetTransactions(prev_rt)
+
+TransactionPool->+ManagementService:GetRefferenceTime()
+ManagementService-->-TransactionPool:local_refernce_time
+note over TransactionPool
+  leader: refernce_time = max(local_refernce_time, prev_rt)
+  validator: validate refernce_time based on local_refernce_time
+end note
+
+TransactionPool->+VirtualMachine:PreOrder(prev_rt, referece_time)
+VirtualMachine->+ManagementService:Subscription(referece_time)
+ManagementService-->-VirtualMachine:subscription status
+VirtualMachine-->-TransactionPool:ok
+TransactionPool-->-ConsensusContext:transactions, refernce_time
+
+ConsensusContext->+ManagementService:GetProtocolVersion(referece_time)
+ManagementService-->-ConsensusContext:protocol_version
+
