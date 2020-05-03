@@ -2,6 +2,7 @@ syntax = "proto3";
 package services;
 option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
 
+import "primitives/protocol.proto";
 import "services/gossiptopics/transaction_relay.proto";
 import "services/gossiptopics/block_sync.proto";
 import "services/gossiptopics/lean_helix.proto";
@@ -15,4 +16,19 @@ service Gossip {
     option implement_handler = "gossiptopics.BlockSync";
     option implement_handler = "gossiptopics.LeanHelix";
     option implement_handler = "gossiptopics.BenchmarkConsensus";
+    rpc UpdateTopology (UpdateTopologyInput) returns (UpdateTopologyOutput);
 }
+
+message UpdateTopologyInput {
+    repeated GossipPeer peers = 1;
+}
+
+message UpdateTopologyOutput {
+}
+
+message GossipPeer {
+    primitives.node_address address = 1;
+    string endpoint = 2;
+    uint32 port = 3;
+}
+
