@@ -81,6 +81,7 @@ message GetLastCommittedBlockHeightOutput {
 
 message ValidateBlockForCommitInput {
     protocol.BlockPairContainer block_pair = 1;
+    protocol.BlockPairContainer prev_block_pair = 2;
 }
 
 // returns error code ERROR_CODE_INVALID if not valid
