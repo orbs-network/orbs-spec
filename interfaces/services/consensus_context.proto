@@ -17,6 +17,7 @@ service ConsensusContext {
     rpc ValidateTransactionsBlock (ValidateTransactionsBlockInput) returns (ValidateTransactionsBlockOutput);
     rpc ValidateResultsBlock (ValidateResultsBlockInput) returns (ValidateResultsBlockOutput);
     rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+    rpc RequestBlockProofOrderingCommittee (RequestBlockProofCommitteeInput) returns (RequestBlockProofCommitteeOutput);
     rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
 }
 
@@ -89,4 +90,14 @@ message RequestCommitteeInput {
 message RequestCommitteeOutput {
     repeated primitives.node_address node_addresses = 1;
     repeated primitives.bls1_public_key node_random_seed_public_keys = 2;
+}
+
+message RequestBlockProofCommitteeInput {
+    primitives.timestamp_seconds prev_block_reference_time = 1;
+    uint32 max_committee_size = 2;
+}
+
+// returns error code on failure
+message RequestBlockProofCommitteeOutput {
+    repeated primitives.node_address node_addresses = 1;
 }
