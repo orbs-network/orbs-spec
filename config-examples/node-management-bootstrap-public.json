@@ -13,7 +13,7 @@
       "DockerConfig": {
         "Image":  "orbsnetwork/management-service",
         "Tag":    "v1.0.0",
-        "Pull":   true,
+        "Pull":   true
       },
       "Config": {
         "EthereumGenesisContract": "0x2384723487623784638272348",
