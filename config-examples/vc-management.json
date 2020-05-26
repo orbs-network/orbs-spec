@@ -42,7 +42,7 @@
       [
         {
           "RefTime": 1582615003,
-          "Data": { "Status": "active", "Tier": "B0", "RolloutGroup": "ga", "IdentityType": 0, "Params": {} }
+          "Data": { "Status": "expired", "Tier": "B0", "RolloutGroup": "ga", "IdentityType": 0, "Params": {} }
         },
         {
           "RefTime": 1582613011,
