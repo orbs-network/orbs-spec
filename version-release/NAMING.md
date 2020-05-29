@@ -35,7 +35,7 @@ v{PROTOCOL}.{MINOR}.{PATCH}[-canary][+hotfix]
  
 * `{PATCH}` indicates changes in implementation according to semver semantics. It must increase monotonically within the same protocol. It can be any non-negative integer (0 and above).
  
-* `-canary` is an optional segment that indicates the canary rollout group. If given, this is not a **GA** version but rather a **canary** version that should only be rolled out to canary virtual chains.
+* `-canary` is an optional segment that indicates the canary rollout group. If given, this is not a **main** version but rather a **canary** version that should only be rolled out to canary virtual chains.
  
 * `+hotfix` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**, versions marked as hotflix roll out over **1h**.
 
