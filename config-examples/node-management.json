@@ -32,8 +32,8 @@
         }
       },
       "Config": {
-        "ManagementConfigUrl": "http://management-service:8080/vchains/42/management",
-        "SignerUrl": "http://signer:7777",
+        "management-file-path": "http://management-service:8080/vchains/42/management",
+        "signer-endpoint": "http://signer:7777",
         "ethereum-endpoint": "http://eth.orbs.com" // eventually rename to EthereumEndpoint
       }
     }
