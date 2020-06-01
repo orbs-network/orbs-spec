@@ -2,7 +2,7 @@
   "network": [], // eventually remove
   "orchestrator": { // eventually rename to Orchestration
     "DynamicManagementConfig": {
-      "Url": "http:/localhost:7666/node/management",
+      "Url": "http://localhost:7666/node/management",
       "ReadInterval": "30s",
       "ResetTimeout": "30m"
     },
