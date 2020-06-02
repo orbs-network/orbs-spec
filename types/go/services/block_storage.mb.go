@@ -250,18 +250,24 @@ func (x *GetLastCommittedBlockHeightOutput) StringLastCommittedBlockTimestamp() 
 // message ValidateBlockForCommitInput (non serializable)
 
 type ValidateBlockForCommitInput struct {
-	BlockPair *protocol.BlockPairContainer
+	BlockPair     *protocol.BlockPairContainer
+	PrevBlockPair *protocol.BlockPairContainer
 }
 
 func (x *ValidateBlockForCommitInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockPair:%s,}", x.StringBlockPair())
+	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,}", x.StringBlockPair(), x.StringPrevBlockPair())
 }
 
 func (x *ValidateBlockForCommitInput) StringBlockPair() (res string) {
 	res = x.BlockPair.String()
+	return
+}
+
+func (x *ValidateBlockForCommitInput) StringPrevBlockPair() (res string) {
+	res = x.PrevBlockPair.String()
 	return
 }
 
