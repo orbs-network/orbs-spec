@@ -94,7 +94,6 @@ message RequestCommitteeOutput {
 
 message RequestBlockProofCommitteeInput {
     primitives.timestamp_seconds prev_block_reference_time = 1;
-    uint32 max_committee_size = 2;
 }
 
 // returns error code on failure

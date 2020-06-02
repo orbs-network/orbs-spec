@@ -368,23 +368,17 @@ func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 
 type RequestBlockProofCommitteeInput struct {
 	PrevBlockReferenceTime primitives.TimestampSeconds
-	MaxCommitteeSize       uint32
 }
 
 func (x *RequestBlockProofCommitteeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{PrevBlockReferenceTime:%s,MaxCommitteeSize:%s,}", x.StringPrevBlockReferenceTime(), x.StringMaxCommitteeSize())
+	return fmt.Sprintf("{PrevBlockReferenceTime:%s,}", x.StringPrevBlockReferenceTime())
 }
 
 func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
-	return
-}
-
-func (x *RequestBlockProofCommitteeInput) StringMaxCommitteeSize() (res string) {
-	res = fmt.Sprintf("%v", x.MaxCommitteeSize)
 	return
 }
 
