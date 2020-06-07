@@ -86,7 +86,7 @@ Boyar supports configuring the services it launches as docker instances via a st
         {
             "Error": "Human readable explanation of current error, field exists only if the status is erroneous.",
             "Status": "Human readable explanation of current status, field exists even if everything is ok.",
-            "Timestamp: "2020-03-19T11:50:21.0846185Z",
+            "Timestamp": "2020-03-19T11:50:21.0846185Z",
             "Payload": {
                 "CustomFieldsGoHere": 17
             }
