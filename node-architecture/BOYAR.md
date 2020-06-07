@@ -80,6 +80,21 @@ Boyar supports configuring the services it launches as docker instances via a st
         /opt/orbs/status/status.json
         ```
 
+        The format of the JSON is:
+
+        ```json
+        {
+            "Error": "Human readable explanation of current error, field exists only if the status is erroneous.",
+            "Status": "Human readable explanation of current status, field exists even if everything is ok.",
+            "Timestamp: "2020-03-19T11:50:21.0846185Z",
+            "Payload": {
+                "CustomFieldsGoHere": 17
+            }
+        }
+        ```
+
+        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly.
+
     * The health check JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
         ```
