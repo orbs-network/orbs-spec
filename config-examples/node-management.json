@@ -2,14 +2,12 @@
   "network": [], // eventually remove
   "orchestrator": { // eventually rename to Orchestration
     "DynamicManagementConfig": {
-      "Url": "http:/localhost:7666/node/management",
-      "ReadInterval": "1m",
+      "Url": "http://localhost:7666/node/management",
+      "ReadInterval": "30s",
       "ResetTimeout": "30m"
     },
-    "storage-driver": "nfs", // eventually rename to StorageDriver
-    "storage-options": { // eventually rename to StorageOptions
-      "maxRetries": "10"
-    }
+    "storage-driver": "local", // eventually rename to StorageDriver
+    "storage-mount-type": "bind", // eventually rename to StorageMountType
   },
   "chains": [ // eventually rename to VirtualChains
     {
@@ -34,8 +32,8 @@
         }
       },
       "Config": {
-        "ManagementConfigUrl": "http://management-service:8080/vchains/42/management",
-        "SignerUrl": "http://signer:7777",
+        "management-file-path": "http://management-service:8080/vchains/42/management",
+        "signer-endpoint": "http://signer:7777",
         "ethereum-endpoint": "http://eth.orbs.com" // eventually rename to EthereumEndpoint
       }
     }

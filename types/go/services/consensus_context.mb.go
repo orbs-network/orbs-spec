@@ -17,6 +17,7 @@ type ConsensusContext interface {
 	ValidateTransactionsBlock(ctx context.Context, input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error)
 	ValidateResultsBlock(ctx context.Context, input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error)
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
 }
 
@@ -356,6 +357,48 @@ func (x *RequestCommitteeOutput) StringNodeAddresses() (res string) {
 func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	res = "["
 	for _, v := range x.NodeRandomSeedPublicKeys {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeInput (non serializable)
+
+type RequestBlockProofCommitteeInput struct {
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *RequestBlockProofCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{PrevBlockReferenceTime:%s,}", x.StringPrevBlockReferenceTime())
+}
+
+func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeOutput (non serializable)
+
+type RequestBlockProofCommitteeOutput struct {
+	NodeAddresses []primitives.NodeAddress
+}
+
+func (x *RequestBlockProofCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{NodeAddresses:%s,}", x.StringNodeAddresses())
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringNodeAddresses() (res string) {
+	res = "["
+	for _, v := range x.NodeAddresses {
 		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"

@@ -106,11 +106,11 @@ When a new virtual chain is created, its subscription indicates the genesis ref 
 
 * `ExternalPort` per virtual chain is defined as such:
 
-    `vc_index = VirtualChainId - 1000000` (0 <= `vc_index` < 16K)
+    `vc_index = VirtualChainId - 1000000`
 
     `ExternalGossipPort = vc_index + GOSSIP_PORT_BASE`
 
-    `GOSSIP_PORT_BASE = 32768` (2^16)
+    `GOSSIP_PORT_BASE = 10000`
 
 * `NodeServices` dictionary keys (names of the services) are defined under [Image naming and tagging](../version-release/NAMING.md).
 

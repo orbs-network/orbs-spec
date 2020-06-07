@@ -21,19 +21,19 @@
       "CommitteeEvents":
       [
         {
-          "RefTime": 1582616000,
-          "Committee":
-          [
-            { "EthAddress": "034320222c534e8be4cd3bf8d70cb66ddda59e32", "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "EffectiveStake": 16578435, "IdentityType": 0 },
-            { "EthAddress": "e79489c84518abe2f9b91607734e81fa13c28826", "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "EffectiveStake": 828363, "IdentityType": 1 }
-          ]
-        },
-        {
           "RefTime": 1582614000,
           "Committee":
           [
-            { "EthAddress": "034320222c534e8be4cd3bf8d70cb66ddda59e32", "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "EffectiveStake": 16578000, "IdentityType": 0 },
-            { "EthAddress": "e79489c84518abe2f9b91607734e81fa13c28826", "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "EffectiveStake": 828363, "IdentityType": 1 }
+            { "EthAddress": "034320222c534e8be4cd3bf8d70cb66ddda59e32", "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Weight": 16578000, "IdentityType": 0 },
+            { "EthAddress": "e79489c84518abe2f9b91607734e81fa13c28826", "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Weight": 828363, "IdentityType": 1 }
+          ]
+        },
+        {
+          "RefTime": 1582616000,
+          "Committee":
+          [
+            { "EthAddress": "034320222c534e8be4cd3bf8d70cb66ddda59e32", "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Weight": 16578435, "IdentityType": 0 },
+            { "EthAddress": "e79489c84518abe2f9b91607734e81fa13c28826", "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Weight": 828363, "IdentityType": 1 }
           ]
         }
       ],
@@ -41,24 +41,24 @@
       "SubscriptionEvents":
       [
         {
-          "RefTime": 1582615003,
-          "Data": { "Status": "expired", "Tier": "B0", "RolloutGroup": "main", "IdentityType": 0, "Params": {} }
-        },
-        {
           "RefTime": 1582613011,
           "Data": { "Status": "active", "Tier": "B0", "RolloutGroup": "canary", "IdentityType": 1, "Params": {} }
+        },
+        {
+          "RefTime": 1582615077,
+          "Data": { "Status": "expired", "Tier": "B0", "RolloutGroup": "main", "IdentityType": 0, "Params": {} }
         }
       ],
       
       "ProtocolVersionEvents":
       [
         {
-          "RefTime": 1582615000,
-          "Data": { "RolloutGroup": "main", "Version": 8 }
-        },
-        {
           "RefTime": 1582612050,
           "Data": { "RolloutGroup": "canary", "Version": 9 }
+        },
+        {
+          "RefTime": 1582615000,
+          "Data": { "RolloutGroup": "main", "Version": 8 }
         }
       ]
       
