@@ -85,7 +85,7 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```json
         {
             "Error": "Human readable explanation of current error, field exists only if the status is erroneous.",
-            "Status": "Human readable explanation of current status, field exists even if everything is ok.",
+            "Status": "Human readable explanation of current status, field always exists.",
             "Timestamp": "2020-03-19T11:50:21.0846185Z",
             "Payload": {
                 "CustomFieldsGoHere": 17
@@ -93,7 +93,7 @@ Boyar supports configuring the services it launches as docker instances via a st
         }
         ```
 
-        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly.
+        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
 
     * The health check JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
