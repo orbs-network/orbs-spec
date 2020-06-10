@@ -14,6 +14,8 @@ When the node boots, Boyar uses a lean subset of this configuration to set up th
 
 After the node management service starts, it accesses the various external sources of truth (eg. Ethereum, docker registry) and generates the fuller dynamic version of this configuration for Boyar to poll.
 
+&nbsp;
+
 ## Configuration Format
 
 * [Detailed example](../config-examples/node-management.json)
