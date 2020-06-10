@@ -18,9 +18,13 @@ Ref time is measured in seconds and reflects the external clock of the source of
 
 The configuration may reflect current data or a snapshot of historic data. This normally depends on which option was requested by its consumer. Historic data is normally used by nodes when they are required to audit past events.
 
+&nbsp;
+
 ## Configuration Format
 
 * [Example](../config-examples/vc-management.json)
+
+&nbsp;
 
 Global fields:
 
