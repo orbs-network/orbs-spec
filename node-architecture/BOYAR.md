@@ -14,6 +14,8 @@ Boyar is a stateless service that receives all operation instructions as an exte
 
     Format: [NODE-MGMT-CONFIG.md](NODE-MGMT-CONFIG.md)
 
+&nbsp;
+
 ## Lifecycle
 
 On machine boot, when Boyar is started, it retrieves the bootstrap config JSON which contains  the static configuration. In a public Orbs node for example, Boyar uses this bootstrap configuration to launch the initial management service.
@@ -23,6 +25,8 @@ As long as the management service is alive and serving valid dynamic configurati
 If the management service fails to provide valid dynamic configuration for a timeout period, Boyar falls back to the bootstrap flow and restarts it according to the bootstrap config JSON. This fallback flow does not disrupt currently running virtual chains (ONGs) - this is implemented via a partial JSON configuration update.
 
 If Boyar itself crashes and terminates, it is restarted automatically by the operating system and starts its bootstrap flow.
+
+&nbsp;
 
 ## Docker Orchestration
 
@@ -121,11 +125,15 @@ Boyar supports configuring the services it launches as docker instances via a st
 
     For example: `http://vchain-42:8080`
 
+&nbsp;
+
 ## Private Networks
 
 The Orbs architecture is primarily designed to accommodate the public Orbs network where Ethereum mainnet is the source of truth for network state. Nevertheless, the Orbs codebase supports running an isolated collection of nodes in a private network mode.
 
 When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--management-config` command-line argument.
+
+&nbsp;
 
 ## Partial Updates
 
