@@ -36,11 +36,15 @@ Since the management service configures all other services in the system and pro
 
 The tagging convention for the docker registry images is described in [NAMING.md](../version-release/NAMING.md).
 
+&nbsp;
+
 ## Private Networks
 
 The Orbs architecture is primarily designed to accommodate the public Orbs network where Ethereum mainnet is the source of truth for network state. Nevertheless, the Orbs codebase supports running an isolated collection of nodes in a private network mode.
 
 When running in a private network mode, Ethereum mainnet is no longer relevant as the source of truth. In this scenario, the management service is replaced by static JSON files managed directly by the private network administrator.
+
+&nbsp;
 
 ## Output Endpoints
 
@@ -74,6 +78,8 @@ Historic state endpoint: `/vchains/123/management/1582619954`
 
 The last parameter is the requested historic ref time (as a Unix timestamp, without any rounding or paging constraints, this ref time is rounded internally by the reader service to the relevant snapshot page which is then returned in full).
 
+&nbsp;
+
 ## Multiple Protocol Versions
 
 The official version of the Orbs protocol for the public network at any given time appears on Ethereum in a dedicated contract. When the protocol version changes, an Ethereum event is reported. This means the network protocol version at any point in history is tied to the ref time (Ethereum block time) at that point.
@@ -82,6 +88,8 @@ The management service naturally behaves in accordance with the Orbs protocol sp
 
 When the management service handles requests for current ref time, it switches to a new protocol version as soon as it sees the relevant Ethereum block on the Ethereum blockchain (listens to the tip). When historic data is requested at a historic ref time, the response should satisfy the protocol version at that historic ref time. If the protocol version changed in the middle of a historic snapshot, the first half should conform to the first protocol version and the second half to the second protocol version.
 
+&nbsp;
+
 ## Uncoordinated Virtual Chain Restarts
 
 One of the requirements of the consensus algorithm is that the network maintains a running quorum of nodes at any given time. This presents a challenge with software upgrades and node restarts since we don’t want all nodes to go offline at the same time.
@@ -89,6 +97,8 @@ One of the requirements of the consensus algorithm is that the network maintains
 To accommodate this, **any change** the reader service performs to any virtual chain instance or any node service that may cause it to restart and suffer downtime, should follow the gradual [ROLLOUT.md](../version-release/ROLLOUT.md) flow based on randomized timeslots.
 
 When a new virtual chain is created, its subscription indicates the genesis ref time of when its consensus starts. The reader service launches the container in advance to make sure it is running by that time.
+
+&nbsp;
 
 ## Definitions of Specific Fields
 
