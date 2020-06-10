@@ -22,13 +22,15 @@ After the node management service starts, it accesses the various external sourc
 
 * [Private bootstrap example](../config-examples/node-management-bootstrap-private.json)
 
+&nbsp;
+
 Global fields:
 
 | Field Name | Description |
 | ---------- | ----------- |
-| `Orchestration` | General information regarding the orchestration of the node. | 
-| `NodeServices` | Dictionary of all node services (see fields per node service below).<br>The well-known dictionary keys include:<br>&bull;&nbsp;`management-service` - Management service<br>&bull;&nbsp;`signer` - Signer |
-| `VirtualChains` | Array of all virtual chains (see fields per virtual chain below). |
+| `orchestrator` | General information regarding the orchestration of the node. | 
+| `services` | Dictionary of all node services (see fields per node service below).<br>The well-known dictionary keys include:<br>&bull;&nbsp;`management-service` - Management service<br>&bull;&nbsp;`signer` - Signer |
+| `chains` | Array of all virtual chains (see fields per virtual chain below). |
 | `network` | Array of network nodes. |
 
 Fields under the orchestration section:
