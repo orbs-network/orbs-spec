@@ -18,6 +18,7 @@ service Management {
 }
 
 message GetCurrentReferenceInput {
+    primitives.timestamp_seconds system_time = 1;
 }
 
 message GetCurrentReferenceOutput {
@@ -25,6 +26,7 @@ message GetCurrentReferenceOutput {
 }
 
 message GetGenesisReferenceInput {
+    primitives.timestamp_seconds system_time = 1;
 }
 
 message GetGenesisReferenceOutput {
