@@ -104,7 +104,7 @@ When a new virtual chain is created, its subscription indicates the genesis ref 
 
 * `CurrentRefTime` is the latest Ethereum block time under finality and sync state:
 
-    * `CurrentRefTime = timeOfLatestBlockNumber - 100`
+    * `CurrentRefTime = timeOfLatestBlockNumber - 40`
 
     * Note: Grace calculation was moved to ONG. Events are reported only if they were emitted with time (block) <=  `CurrentRefTime`
 
