@@ -56,5 +56,5 @@ message GetCommitteeInput {
 
 message GetCommitteeOutput {
     repeated primitives.node_address members = 1;
-    repeated uint64 weights = 2;
+    repeated primitives.weight weights = 2;
 }
