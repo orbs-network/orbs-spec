@@ -243,3 +243,17 @@ func (x PackedArgumentArray) Equal(y PackedArgumentArray) bool {
 func (x PackedArgumentArray) KeyForMap() string {
 	return string(x)
 }
+
+type Weight uint64
+
+func (x Weight) String() string {
+	return fmt.Sprintf("%x", uint64(x))
+}
+
+func (x Weight) Equal(y Weight) bool {
+	return x == y
+}
+
+func (x Weight) KeyForMap() uint64 {
+	return uint64(x)
+}
