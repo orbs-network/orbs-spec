@@ -15,7 +15,8 @@ It runs as a separate process in a separate container. The idea behind it is sec
 
 #### Signing service
 
-* `NodeSign` - signs sha256 hash.
+* `NodeSign` - transforms byte array payload into SHA256 hash and signs it with EcdsaSecp256K1.
+* `EthSign` - transforms byte array payload into SHA3 hash and signs it with EcdsaSecp256K1.
 
 #### Secure private key generation
 
@@ -81,5 +82,9 @@ The vault should be as independent as possible in the protocol revision, prevent
 > In implementation phase 0, virtual chain ID is not inspected maintaining protocol version 1 signature scheme.
 
 #### Sign data
-* Signature(data_hash) = Ecdsa_signature(data_hash)
+* Signature(sha256_data_hash) = Ecdsa_signature(sha256_data_hash)
 
+## Implementation phase 1 - `EthSign`
+
+#### EthSign data
+* Signature(sha3_data_hash) = Ecdsa_signature(sha3_data_hash)
