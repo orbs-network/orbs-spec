@@ -101,9 +101,7 @@ Boyar supports configuring the services it launches as docker instances via a st
         }
         ```
 
-        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
-
-    * Note: The status page displays the service in red if the `Error` field exists.
+        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and reports that it does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
 
     * The status JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
