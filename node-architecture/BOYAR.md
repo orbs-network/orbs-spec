@@ -75,8 +75,10 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
         /opt/orbs/healthcheck
         ```
+        
+        Note: The executable can also be a script / shell command. A common combination is to have a simple script that queries a status endpoint and triggers restart if it doesn't respond.
 
-    * Returns exit 0 or non-zero (whether stable or needs restart)
+    * Returns exit 0 if the service is stable or non-zero if needs restart.
 
 * Status JSON:
 
@@ -101,7 +103,7 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
 
-    * Note: The status page displays the service in red.
+    * Note: The status page displays the service in red if the `Error` field exists.
 
     * The status JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
