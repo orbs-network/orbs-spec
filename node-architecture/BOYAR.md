@@ -76,15 +76,17 @@ Boyar supports configuring the services it launches as docker instances via a st
         /opt/orbs/healthcheck
         ```
 
-    * Returns exit 0 or 1 (whether stable or needs restart)
+    * Returns exit 0 or non-zero (whether stable or needs restart)
 
-    * Writes JSON output containing non-sensitive public information about the service status to:
+* Status JSON:
+
+    * A service should write JSON output containing non-sensitive public information about the service status to:
 
         ```
         /opt/orbs/status/status.json
         ```
 
-        The format of the JSON is:
+    * The format of the JSON is:
 
         ```json
         {
@@ -99,7 +101,9 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
 
-    * The health check JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
+    * Note: The status page displays the service in red.
+
+    * The status JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
         ```
         /services/{SERVICE-NAME}/status
