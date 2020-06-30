@@ -13,6 +13,7 @@ Binary images for the various node services are published as Docker containers t
 | Virtual chain core<br>ONG (orbs-network-go) | `node` | https://github.com/orbs-network/orbs-network-go |
 | Signer | `signer` | https://github.com/orbs-network/signer-service |
 | Management reader | `management-service` | https://github.com/orbs-network/network-state-reader |
+| Rewards service | `rewards-service` | https://github.com/orbs-network/rewards-distributor-v2 |
 | Ethereum client | `ethereum-client` | *todo* |
 
 Default registry: `registry.hub.docker.com`
