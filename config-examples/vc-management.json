@@ -42,7 +42,7 @@
       [
         {
           "RefTime": 1582613011,
-          "Data": { "Status": "active", "Tier": "B0", "RolloutGroup": "canary", "IdentityType": 1, "Params": [ "Key": "some-key", "Value": "some-value" ] }
+          "Data": { "Status": "active", "Tier": "B0", "RolloutGroup": "canary", "IdentityType": 1, "Params": [ { "Key": "some-key", "Value": "some-value" } ] }
         },
         {
           "RefTime": 1582615077,
