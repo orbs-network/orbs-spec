@@ -200,7 +200,7 @@ func (x *GetCommitteeInput) StringReference() (res string) {
 
 type GetCommitteeOutput struct {
 	Members []primitives.NodeAddress
-	Weights []uint64
+	Weights []primitives.Weight
 }
 
 func (x *GetCommitteeOutput) String() string {
@@ -222,7 +222,7 @@ func (x *GetCommitteeOutput) StringMembers() (res string) {
 func (x *GetCommitteeOutput) StringWeights() (res string) {
 	res = "["
 	for _, v := range x.Weights {
-		res += fmt.Sprintf("%v", v) + ","
+		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"
 	return
