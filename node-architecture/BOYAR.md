@@ -53,6 +53,12 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
 
         No command-line arguments given.
+        
+    * Directory for persistent data:
+    
+        ```
+        /opt/orbs/cache
+        ```
 
 * Config files:
 
