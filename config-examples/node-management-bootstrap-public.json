@@ -17,8 +17,7 @@
       },
       "Config": {
         "EthereumGenesisContract": "0x2384723487623784638272348",
-        "EthereumEndpoint": "http://eth.orbs.com",
-        "boyarLegacyBootstrap": "https://s3.eu-central-1.amazonaws.com/orbs-tech-engagement-temp/legacy.json", // eventually remove
+        "EthereumEndpoint": "http://eth.orbs.com"
       }
     }
   }
