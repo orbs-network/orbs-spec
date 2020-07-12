@@ -70,7 +70,17 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         Note: in some Linux distros the secrets folder is `/var/run/secrets`
 
-    * `network.json`, `keys.json`
+    * `network.json`
+    
+        ```json
+        {
+          "node-address": "a328846cd5b4979d68a8c58a9bdfeee657b34de7"
+        }
+        ```
+    
+        *todo* *- temporary, will eventually be killed*
+    
+    * `keys.json`
     
         *todo* *- temporary, will eventually be killed*
 
