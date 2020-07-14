@@ -123,7 +123,18 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         ```
         /services/{SERVICE-NAME}/status
+        /vchains/{VCHAIN-ID}/status
         ```
+        
+* Logs:
+
+    * Logs are accessible via the following HTTP endpoint on the node gateway (Nginx):
+
+        ```
+        /services/{SERVICE-NAME}/logs
+        /vchains/{VCHAIN-ID}/logs
+        ```
+
 
  ### Internal Network Endpoints
 
