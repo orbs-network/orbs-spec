@@ -16,6 +16,7 @@
         "Pull":   true
       },
       "Config": {
+        "BootstrapMode": true,
         "EthereumGenesisContract": "0x2384723487623784638272348",
         "EthereumEndpoint": "http://eth.orbs.com"
       }
