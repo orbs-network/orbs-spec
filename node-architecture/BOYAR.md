@@ -140,10 +140,10 @@ Boyar supports configuring the services it launches as docker instances via a st
 * Internal network endpoints for virtual chains (Public API) are:
 
     ```
-    http://vchain-{VCHAIN-ID}:{INTERNAL-PORT}
+    http://chain-{VCHAIN-ID}:{INTERNAL-PORT}
     ```
 
-    For example: `http://vchain-42:8080`
+    For example: `http://chain-42:8080`
 
 &nbsp;
 
