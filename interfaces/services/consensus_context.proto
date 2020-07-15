@@ -94,7 +94,8 @@ message RequestCommitteeOutput {
 }
 
 message RequestBlockProofCommitteeInput {
-    primitives.timestamp_seconds prev_block_reference_time = 1;
+    primitives.block_height current_block_height = 1;
+    primitives.timestamp_seconds prev_block_reference_time = 2;
 }
 
 // returns error code on failure

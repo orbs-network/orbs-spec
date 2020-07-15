@@ -377,6 +377,7 @@ func (x *RequestCommitteeOutput) StringWeights() (res string) {
 // message RequestBlockProofCommitteeInput (non serializable)
 
 type RequestBlockProofCommitteeInput struct {
+	CurrentBlockHeight     primitives.BlockHeight
 	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
@@ -384,7 +385,12 @@ func (x *RequestBlockProofCommitteeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{PrevBlockReferenceTime:%s,}", x.StringPrevBlockReferenceTime())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *RequestBlockProofCommitteeInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
+	return
 }
 
 func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
