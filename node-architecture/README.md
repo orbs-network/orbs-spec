@@ -56,7 +56,7 @@ Various daemon services are required for an Orbs node to operate. They usually h
 
 ## Creating a New Node
 
-When running an Orbs node on a cloud service like [AWS](https://aws.amazon.com/), a convenience CLI tool named [Nebula](https://github.com/orbs-network/nebula) can provision all node resources automatically (compute machines, storage, etc). Nebula relies on [Terraform](https://www.terraform.io/) to interact with popular cloud providers. Nebula configures the Boyar daemon and ensures it is launched after boot.
+When running an Orbs node on a cloud service like [AWS](https://aws.amazon.com/), a convenience CLI tool named [Polygon](https://github.com/orbs-network/polygon) can provision all node resources automatically (compute machines, storage, etc). Polygon relies on [Terraform](https://www.terraform.io/) to interact with popular cloud providers. Polygon configures the Boyar daemon and ensures it is launched after boot.
 
 When running an Orbs node on-premise, all resources must be provisioned manually. The Boyar daemon must be configured and launched manually as well.
 
