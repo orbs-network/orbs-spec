@@ -12,7 +12,7 @@
       "ExternalPort": 7666,
       "DockerConfig": {
         "Image":  "orbsnetwork/management-service",
-        "Tag":    "v1.0.0",
+        "Tag":    "bootstrap",
         "Pull":   true
       },
       "Config": {
