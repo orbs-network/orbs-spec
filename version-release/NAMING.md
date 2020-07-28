@@ -15,7 +15,6 @@ Binary images for the various node services are published as Docker containers t
 | Management reader | `management-service` | https://github.com/orbs-network/management-service |
 | Rewards service | `rewards-service` | https://github.com/orbs-network/rewards-distributor-v2 |
 | Ethereum writer | `ethereum-writer` | https://github.com/orbs-network/ethereum-writer |
-
 | Ethereum client | `ethereum-client` | *todo* |
 
 Default registry: `registry.hub.docker.com`
