@@ -24,20 +24,43 @@ while [[ "$#" -gt 0 ]]; do
         -y)                  SKIP_CONFIRM="1" ;;
         *)
           me=`basename "$0"` 
-          echo -e "Unknown parameter passed: $1 \n\
-          \n\
-          Usage: ./$me [OPTIONS] \n\
-          \n\
-          -h, --hotfix     deploy as hotfix (quick deployment), relevant only for "node" repository images \n\
-          -c, --canary     deploy only to canary vchains, relevant only for "node" repository images \n\
-          -t, --tag        the source tag to deploy from \(default: "experimental"\) \n\
-          --target-tag     the target tag to deploy to \(default: [source tag]\) \n\
-          -r, --repo       the source repository to deploy from \(default: "node"\) \n\
-          --target-repo    the target repository to deploy to \(default: [source repository]\) \n\
-          -o, --org        the source organization to deploy from \(default: orbsnetworkstaging\) \n\
-          --target-org     the target organization to deplot to \(default: orbsnetwork\) \n\
-          \n\
-          -y               suppress confirmation \n\
+          echo "Unknown parameter passed: $1
+          
+Deployment tool for Orbs node modules. Supported module types are node services, such as signer, ethereum writer, rewards, and management node services, as well as to VChain modules.
+
+Prerequisites: 
+
+- docker cli installed and logged in with read access to the source image, and write access to the deployment target organization and repository on the default registry
+- A reference to a pre-built source docker image to deploy
+
+The reference to the source image must be of this form: 
+   organization/repository:tag
+
+If the source docker image is not present on the locally it must be available for download at the default registry
+
+VChain modules:
+For VChain modules two options modify their deployment: --hotfix or --canary. 
+
+-h, --hotfix To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules with a gradual rollout window. Orbs supports two mode of rollout: Normal for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec 
+Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. it is only applicable to Virtual Chain modules.
+
+-c, --canary This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules. Using this option will result in a "canary" pre-release indicator appended to the semver tag of the target image.
+
+          Usage: ./$me [OPTIONS] 
+          
+          -h, --hotfix     deploy as hotfix (quick deployment), relevant only for "node" repository images
+          -c, --canary     deploy only to canary vchains, relevant only for "node" repository images
+          -t, --tag        the source tag to deploy from (default: "experimental")
+          --target-tag     the target tag to deploy to (default: [source tag])
+          -r, --repo       the source repository to deploy from (default: "node")
+          --target-repo    the target repository to deploy to (default: [source repository])
+          -o, --org        the source organization to deploy from (default: orbsnetworkstaging)
+          --target-org     the target organization to deplot to (default: orbsnetwork)
+          
+          -y               suppress confirmation
+
+          Use this tool to publish docker images to docker repository.
+          
           "
           exit 1 ;;
     esac
@@ -48,19 +71,23 @@ done
 if [ "$TARGET_TAG" = "" ]; then  TARGET_TAG=$SOURCE_TAG ; fi
 if [ "$TARGET_REPO" = "" ]; then TARGET_REPO=$SOURCE_REPO ; fi
  
+SOURCE_FULL="$SOURCE_ORG/$SOURCE_REPO:$SOURCE_TAG"
+TARGET_FULL="$TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE"
 
-echo "Deploying: $SOURCE_ORG/$SOURCE_REPO:$SOURCE_TAG --> $TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE"
+echo "Deploying: $SOURCE_FULL --> $TARGET_FULL"
 echo "Rollout as $ROLLOUT"
 echo
 
 if [ "$SKIP_CONFIRM" != "1" ]
 then
-   read -p "Are you sure?" -n 1 -r
+   echo 
+   REPLY=""
+   read -p "Proceed with building the target image ($TARGET_FULL)? " -n 1 -r
    echo    # (optional) move to a new line 
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]
    then
-      echo "cancelling..."
+      echo "aborting..."
       exit 1
    fi
 fi
@@ -71,6 +98,21 @@ DOCKERFILE="FROM $SOURCE_ORG/$SOURCE_REPO:$SOURCE_TAG"
 
 # create and tag the new docker image for deployment
 echo $DOCKERFILE | docker build --pull --label $VER_L --label $ROL_L --tag $TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE -
+
+
+if [ "$SKIP_CONFIRM" != "1" ]
+then
+   echo
+   REPLY=""
+   read -p "Proceed with pushing the target image ($TARGET_FULL)? " -n 1 -r
+   echo    # (optional) move to a new line
+
+   if [[ ! $REPLY =~ ^[Yy]$ ]]
+   then
+      echo "aborting..."
+      exit 1
+   fi
+fi
 
 # upload the image to target organization, repository and tag
 docker push $TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE
