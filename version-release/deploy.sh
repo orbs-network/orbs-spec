@@ -7,13 +7,13 @@ SOURCE_TAG="experimental"
 TARGET_TAG=""
 SOURCE_REPO="node"
 TARGET_REPO=""
-ROLLOUT="normal"
+ROLLOUT=""
 PRE_RELEASE=""
 
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in               
-        -h|--hotfix)         ROLLOUT="hotfix" ;;
+        -h|--hotfix)         ROLLOUT="-hotfix" ;;
         -c|--canary)         PRE_RELEASE="-canary" ;;
         -t|--tag)            SOURCE_TAG=$2; shift ;;
         --target-tag)        TARGET_TAG=$2; shift ;;
@@ -44,7 +44,7 @@ For VChain modules two options modify their deployment: --hotfix or --canary.
 -h, --hotfix To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules with a gradual rollout window. Orbs supports two mode of rollout: Normal for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec 
 Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. it is only applicable to Virtual Chain modules.
 
--c, --canary This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules. Using this option will result in a "canary" pre-release indicator appended to the semver tag of the target image.
+-c, --canary This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
 
           Usage: ./$me [OPTIONS] 
           
@@ -57,9 +57,8 @@ Using --hotfix indicates to the Orbs node Management Service that this upgrade s
           -o, --org        the source organization to deploy from (default: orbsnetworkstaging)
           --target-org     the target organization to deplot to (default: orbsnetwork)
           
-          -y               suppress confirmation
+          -y               suppress confirmations
 
-          Use this tool to publish docker images to docker repository.
           
           "
           exit 1 ;;
@@ -70,19 +69,20 @@ done
 # target tag defaults to source tag, target repository defaults to source repository
 if [ "$TARGET_TAG" = "" ]; then  TARGET_TAG=$SOURCE_TAG ; fi
 if [ "$TARGET_REPO" = "" ]; then TARGET_REPO=$SOURCE_REPO ; fi
- 
+              
 SOURCE_FULL="$SOURCE_ORG/$SOURCE_REPO:$SOURCE_TAG"
-TARGET_FULL="$TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE"
+TARGET_FULL="$TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE$ROLLOUT"
 
 echo "Deploying: $SOURCE_FULL --> $TARGET_FULL"
-echo "Rollout as $ROLLOUT"
+[ "$PRE_RELEASE" != "" ] && echo "Selected deployment group $PRE_RELEASE"
+[ "$ROLLOUT"     != "" ] && echo "Selected rollout window indicator $ROLLOUT"
 echo
 
 if [ "$SKIP_CONFIRM" != "1" ]
 then
    echo 
    REPLY=""
-   read -p "Proceed with building the target image ($TARGET_FULL)? " -n 1 -r
+   read -p "Proceed deployment of target image ($TARGET_FULL)? " -n 1 -r
    echo    # (optional) move to a new line 
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]
@@ -92,28 +92,9 @@ then
    fi
 fi
 
-VER_L="network.orbs.deploy-tool-version=1.0"
-ROL_L="network.orbs.rollout-mode=$ROLLOUT"
-DOCKERFILE="FROM $SOURCE_ORG/$SOURCE_REPO:$SOURCE_TAG"
+docker pull $SOURCE_FULL
+docker tag $SOURCE_FULL $TARGET_FULL
+docker push $TARGET_FULL
 
-# create and tag the new docker image for deployment
-echo $DOCKERFILE | docker build --pull --label $VER_L --label $ROL_L --tag $TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE -
-
-
-if [ "$SKIP_CONFIRM" != "1" ]
-then
-   echo
-   REPLY=""
-   read -p "Proceed with pushing the target image ($TARGET_FULL)? " -n 1 -r
-   echo    # (optional) move to a new line
-
-   if [[ ! $REPLY =~ ^[Yy]$ ]]
-   then
-      echo "aborting..."
-      exit 1
-   fi
-fi
-
-# upload the image to target organization, repository and tag
-docker push $TARGET_ORG/$TARGET_REPO:$TARGET_TAG$PRE_RELEASE
-
+echo
+echo "Successfully deployed $TARGET_FULL"
