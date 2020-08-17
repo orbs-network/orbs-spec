@@ -39,13 +39,13 @@ v{PROTOCOL}.{MINOR}.{PATCH}[-canary][+hotfix]
  
 * `-canary` is an optional segment that indicates the canary rollout group. If given, this is not a **main** version but rather a **canary** version that should only be rolled out to canary virtual chains.
  
-* `+hotfix` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**, versions marked as hotflix roll out over **1h**.
+* `-hotfix` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**, versions marked as hotflix roll out over **1h**.
 
 The latest available version according to semver semantics will be deployed.
  
 Examples of valid versions:
 * `v1.2.3`
-* `v1.2.3+hotfix`
+* `v1.2.3-hotfix`
 * `v1.2.3-canary`
 * `v1.2.3-canary+hotfix`
  
@@ -54,7 +54,7 @@ Notes:
 * The `v` prefix is mandatory and has to be lower case.
 * An ecmascript regex definition is below, it can also be found [here](https://regex101.com/r/Ly7O1x/310):
     ```
-    /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(\+hotfix)?$ /gm
+    /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(-hotfix)?$ /gm
     ```
 
 ### Version Tagging Workflow
