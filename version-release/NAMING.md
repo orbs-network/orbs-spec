@@ -28,7 +28,7 @@ Combined example - ONG image name: `orbsnetwork/node`
 The node’s auto-deploy mechanism requires docker repositories to mark images with tag names that **match** a version according to the following versioning scheme:
 
 ```
-v{PROTOCOL}.{MINOR}.{PATCH}[-canary][+hotfix]
+v{PROTOCOL}.{MINOR}.{PATCH}[-canary][-hotfix]
 ```
 
 * `{PROTOCOL}` indicates the latest supported protocol version. Can be any non-negative integer (0 and above). Note that when a new protocol version is released, not all services are necessarily released so some services might remain with latest versions tagged with a previous protocol version.
@@ -47,7 +47,7 @@ Examples of valid versions:
 * `v1.2.3`
 * `v1.2.3-hotfix`
 * `v1.2.3-canary`
-* `v1.2.3-canary+hotfix`
+* `v1.2.3-canary-hotfix`
  
 Notes:
 
