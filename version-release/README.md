@@ -43,7 +43,7 @@ However using `deploy.sh` script simplifies the process of tagging an image for 
 4. **Gradual rollout to canary virtual chains** - Canary environment is the production network running on the actual validator nodes. If possible, new versions should be deployed first to canary virtual chains by publishing them to the canary distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all canaries. 
     
    Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on canary Virtual Chains
-   ```
+   ```shell script
    # in the normal rollout timeframe:
    ./deploy.sh --tag v2.0.3 --canary
 
@@ -57,7 +57,7 @@ However using `deploy.sh` script simplifies the process of tagging an image for 
 5. **Gradual rollout to stable virtual chains** - Final rollout to production takes place by publishing the version to the stable distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all non-canaries. Rollout to the production network is always gradual to prevent network downtime from all validator nodes going down at once.
 
    Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on stable Virtual Chains
-   ```
+   ```shell script
    # in the normal rollout timeframe:
    ./deploy.sh --tag v2.0.3
 
@@ -106,3 +106,43 @@ Using `--hotfix` indicates to the Orbs node Management Service that this upgrade
           --target-org     the target organization to deplot to (default: orbsnetwork)
           
           -y               suppress confirmations
+
+### deploy.sh examples - Staging env
+
+```shell script
+
+# deploy current experimental versions to staging
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r node
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r signer
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r management-service
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r ethereum-writer
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r rewards-service
+
+# reset the bootstrap image to the current experimental version management-service
+./deploy.sh --target-tag bootstrap --target-org orbsnetworkstaging --repo management-service
+
+```
+### deploy.sh examples - Production env
+
+```shell script
+
+# deploy node (orbs core) tagged version v2.0.4 as a canary hotfix with no confirmation prompt
+./deploy.sh -t v2.0.4 --canary --hotfix -y
+
+# deploy ethereum writer version v1.2.0
+./deploy.sh -t v1.2.0 -r ethereum-writer
+
+```
+
+### deploy.sh examples - Advanced Production use cases
+
+```shell script
+
+# upgrade the bootstrap management-service image to v1.1.2 
+./deploy.sh --tag v1.1.2 --target-tag bootstrap -r management-service
+
+# override rewards-service version based on a later patch by commit hash v1.1.1-2cff1b0e
+# Caution - such override may not apply on previously created nodes, and may have some unexpected results
+ 
+./deploy.sh -t v1.1.1-2cff1b0e --target-tag v1.1.1 -r rewards-service
+```
