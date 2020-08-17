@@ -1,7 +1,5 @@
 # Image Naming and Tagging
 
-> V2 release
-
 ## Docker Registry
 
 Binary images for the various node services are published as Docker containers to a docker registry. These images are upgraded automatically by Boyar based on management configuration given by the management reader service.
@@ -57,15 +55,12 @@ Notes:
     /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(-hotfix)?$ /gm
     ```
 
-### Version Tagging Workflow
+### Automatic Version Tagging 
 
 This is the recommended CI flow for a core node service.
 
 * On push to branch/master
     * Publish as `${last git tag}-${commit hash}` to [`orbsnetworkstaging`](https://hub.docker.com/orgs/orbsnetworkstaging)
-
-* On every merge to master 
-    * Publish as `experimental` to [`orbsnetwork`](https://hub.docker.com/orgs/orbsnetwork)
 
 * On every manual semver tag in git
     * If given manual approval in CI to publish to production:
