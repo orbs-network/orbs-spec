@@ -72,9 +72,9 @@ However using `deploy.sh` script simplifies the process of tagging an image for 
 
     See [NAMING.md](NAMING.md)
 
-## deploy.sh tool
+## Deploy tool
 
-Deployment tool for Orbs node modules. Supported module types are node services, such as signer, ethereum writer, rewards, and management node services, as well as to VChain modules.
+Deployment tool ([deploy.sh](deploy.sh)) for Orbs node modules. Supported module types are node services, such as signer, ethereum writer, rewards, and management node services, as well as to VChain modules.
 
 Prerequisites: 
 
