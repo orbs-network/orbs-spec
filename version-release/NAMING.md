@@ -1,7 +1,5 @@
 # Image Naming and Tagging
 
-> V2 release
-
 ## Docker Registry
 
 Binary images for the various node services are published as Docker containers to a docker registry. These images are upgraded automatically by Boyar based on management configuration given by the management reader service.
@@ -41,7 +39,7 @@ v{PROTOCOL}.{MINOR}.{PATCH}[-canary][-hotfix]
  
 * `-hotfix` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**, versions marked as hotflix roll out over **1h**.
 
-The latest available version according to semver semantics will be deployed.
+The latest available version according to semver semantics (ignoring `-canary` and `-hotfix` segments which are **not** interpreted as semver pre-release indicators) will be deployed.
  
 Examples of valid versions:
 * `v1.2.3`
@@ -57,15 +55,12 @@ Notes:
     /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(-hotfix)?$ /gm
     ```
 
-### Version Tagging Workflow
+### Automatic Version Tagging 
 
 This is the recommended CI flow for a core node service.
 
 * On push to branch/master
     * Publish as `${last git tag}-${commit hash}` to [`orbsnetworkstaging`](https://hub.docker.com/orgs/orbsnetworkstaging)
-
-* On every merge to master 
-    * Publish as `experimental` to [`orbsnetwork`](https://hub.docker.com/orgs/orbsnetwork)
 
 * On every manual semver tag in git
     * If given manual approval in CI to publish to production:
