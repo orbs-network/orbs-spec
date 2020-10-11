@@ -250,15 +250,16 @@ func (x *GetLastCommittedBlockHeightOutput) StringLastCommittedBlockTimestamp() 
 // message ValidateBlockForCommitInput (non serializable)
 
 type ValidateBlockForCommitInput struct {
-	BlockPair     *protocol.BlockPairContainer
-	PrevBlockPair *protocol.BlockPairContainer
+	BlockPair                 *protocol.BlockPairContainer
+	PrevBlockPair             *protocol.BlockPairContainer
+	SoftConsensusVerification bool
 }
 
 func (x *ValidateBlockForCommitInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,}", x.StringBlockPair(), x.StringPrevBlockPair())
+	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,SoftConsensusVerification:%s,}", x.StringBlockPair(), x.StringPrevBlockPair(), x.StringSoftConsensusVerification())
 }
 
 func (x *ValidateBlockForCommitInput) StringBlockPair() (res string) {
@@ -268,6 +269,11 @@ func (x *ValidateBlockForCommitInput) StringBlockPair() (res string) {
 
 func (x *ValidateBlockForCommitInput) StringPrevBlockPair() (res string) {
 	res = x.PrevBlockPair.String()
+	return
+}
+
+func (x *ValidateBlockForCommitInput) StringSoftConsensusVerification() (res string) {
+	res = fmt.Sprintf("%v", x.SoftConsensusVerification)
 	return
 }
 

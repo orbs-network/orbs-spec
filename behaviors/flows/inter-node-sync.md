@@ -2,7 +2,8 @@
 
 `BlockStorage` must be synchronized to the latest block in the virtual chain (latest committed block height). As long as it's synchronized, the node can participate in consensus, and the `ConsensusAlgo` keeps committing blocks to it.
 
-`BlockStorage` can identify when it is potentially out of sync if no new blocks are committed successfully for some time. When this happens, it attempts to synchronize from other `BlockStorage` instances of other nodes. Note that these instances aren't necessarily trusted, so full block validations need to happen on every block they provide.
+`BlockStorage` can identify when it is potentially out of sync if no new blocks are committed successfully for some time. When this happens, it attempts to synchronize from other `BlockStorage` instances of other nodes.
+ Note under Orbs PoS v2 model it is assumed the participants are honest for 12hrs after initiating an exit flow. that these instances aren't necessarily trusted, so full block validations need to happen on every block they provide.
 
 ## Participants in this flow
 
