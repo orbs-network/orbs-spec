@@ -19,6 +19,7 @@ type ConsensusContext interface {
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
 	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	ValidateBlockCommittee(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -429,6 +430,44 @@ func (x *RequestBlockProofCommitteeOutput) StringWeights() (res string) {
 	}
 	res += "]"
 	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeInput (non serializable)
+
+type ValidateBlockCommitteeInput struct {
+	BlockHeight            primitives.BlockHeight
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *ValidateBlockCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *ValidateBlockCommitteeInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *ValidateBlockCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeOutput (non serializable)
+
+type ValidateBlockCommitteeOutput struct {
+}
+
+func (x *ValidateBlockCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////

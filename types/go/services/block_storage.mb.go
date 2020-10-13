@@ -23,6 +23,7 @@ type BlockStorage interface {
 	GenerateReceiptProof(ctx context.Context, input *GenerateReceiptProofInput) (*GenerateReceiptProofOutput, error)
 	GetBlockPair(ctx context.Context, input *GetBlockPairInput) (*GetBlockPairOutput, error)
 	ValidateBlockForCommit(ctx context.Context, input *ValidateBlockForCommitInput) (*ValidateBlockForCommitOutput, error)
+	ValidateChainTip(ctx context.Context, input *ValidateChainTipInput) (*ValidateChainTipOutput, error)
 	RegisterConsensusBlocksHandler(handler handlers.ConsensusBlocksHandler)
 }
 
@@ -250,16 +251,15 @@ func (x *GetLastCommittedBlockHeightOutput) StringLastCommittedBlockTimestamp() 
 // message ValidateBlockForCommitInput (non serializable)
 
 type ValidateBlockForCommitInput struct {
-	BlockPair                 *protocol.BlockPairContainer
-	PrevBlockPair             *protocol.BlockPairContainer
-	SoftConsensusVerification bool
+	BlockPair     *protocol.BlockPairContainer
+	PrevBlockPair *protocol.BlockPairContainer
 }
 
 func (x *ValidateBlockForCommitInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,SoftConsensusVerification:%s,}", x.StringBlockPair(), x.StringPrevBlockPair(), x.StringSoftConsensusVerification())
+	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,}", x.StringBlockPair(), x.StringPrevBlockPair())
 }
 
 func (x *ValidateBlockForCommitInput) StringBlockPair() (res string) {
@@ -272,11 +272,6 @@ func (x *ValidateBlockForCommitInput) StringPrevBlockPair() (res string) {
 	return
 }
 
-func (x *ValidateBlockForCommitInput) StringSoftConsensusVerification() (res string) {
-	res = fmt.Sprintf("%v", x.SoftConsensusVerification)
-	return
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateBlockForCommitOutput (non serializable)
 
@@ -284,6 +279,44 @@ type ValidateBlockForCommitOutput struct {
 }
 
 func (x *ValidateBlockForCommitOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{}")
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateChainTipInput (non serializable)
+
+type ValidateChainTipInput struct {
+	BlockPair     *protocol.BlockPairContainer
+	PrevBlockPair *protocol.BlockPairContainer
+}
+
+func (x *ValidateChainTipInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockPair:%s,PrevBlockPair:%s,}", x.StringBlockPair(), x.StringPrevBlockPair())
+}
+
+func (x *ValidateChainTipInput) StringBlockPair() (res string) {
+	res = x.BlockPair.String()
+	return
+}
+
+func (x *ValidateChainTipInput) StringPrevBlockPair() (res string) {
+	res = x.PrevBlockPair.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateChainTipOutput (non serializable)
+
+type ValidateChainTipOutput struct {
+}
+
+func (x *ValidateChainTipOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
