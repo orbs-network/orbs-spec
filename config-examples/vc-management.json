@@ -42,11 +42,11 @@
       [
         {
           "RefTime": 1582613011,
-          "Data": { "Status": "active", "Tier": "B0", "RolloutGroup": "canary", "IdentityType": 1, "Params": [ { "Key": "some-key", "Value": "some-value" } ] }
+          "Data": { "Status": "active", "Tier": "B0", "MaxStateMem": 303030, "RolloutGroup": "canary", "IdentityType": 1, "Params": [ { "Key": "some-key", "Value": "some-value" } ] }
         },
         {
           "RefTime": 1582615077,
-          "Data": { "Status": "expired", "Tier": "B0", "RolloutGroup": "main", "IdentityType": 0, "Params": [] }
+          "Data": { "Status": "expired", "Tier": "B0", "MaxStateMem": 303030, "RolloutGroup": "main", "IdentityType": 0, "Params": [] }
         }
       ],
       
