@@ -130,11 +130,23 @@ Boyar supports configuring the services it launches as docker instances via a st
 
     * Logs are accessible via the following HTTP endpoint on the node gateway (Nginx):
 
-        ```
+        ```        
         /services/{SERVICE-NAME}/logs
         /vchains/{VCHAIN-ID}/logs
         ```
 
+
+* Volumes:
+    * Logs are located at:
+
+        ```
+        /opt/orbs/logs
+        ```
+    * Cache is located at:
+
+        ```
+        /opt/orbs/cache
+        ```
 
  ### Internal Network Endpoints
 
