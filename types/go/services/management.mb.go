@@ -200,18 +200,28 @@ func (x *GetCommitteeInput) StringReference() (res string) {
 
 type GetCommitteeOutput struct {
 	Members []primitives.NodeAddress
+	Weights []primitives.Weight
 }
 
 func (x *GetCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Members:%s,}", x.StringMembers())
+	return fmt.Sprintf("{Members:%s,Weights:%s,}", x.StringMembers(), x.StringWeights())
 }
 
 func (x *GetCommitteeOutput) StringMembers() (res string) {
 	res = "["
 	for _, v := range x.Members {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *GetCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
 		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"

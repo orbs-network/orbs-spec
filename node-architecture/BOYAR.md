@@ -53,6 +53,12 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
 
         No command-line arguments given.
+        
+    * Directory for persistent data:
+    
+        ```
+        /opt/orbs/cache
+        ```
 
 * Config files:
 
@@ -64,7 +70,17 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         Note: in some Linux distros the secrets folder is `/var/run/secrets`
 
-    * `network.json`, `keys.json`
+    * `network.json`
+    
+        ```json
+        {
+          "node-address": "a328846cd5b4979d68a8c58a9bdfeee657b34de7"
+        }
+        ```
+    
+        *todo* *- temporary, will eventually be killed*
+    
+    * `keys.json`
     
         *todo* *- temporary, will eventually be killed*
 
@@ -75,16 +91,20 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
         /opt/orbs/healthcheck
         ```
+        
+        Note: The executable can also be a script / shell command. A common combination is to have a simple script that queries a status endpoint and triggers restart if it doesn't respond.
 
-    * Returns exit 0 or 1 (whether stable or needs restart)
+    * Returns exit 0 if the service is stable or non-zero if needs restart.
 
-    * Writes JSON output containing non-sensitive public information about the service status to:
+* Status JSON:
+
+    * A service should write JSON output containing non-sensitive public information about the service status to:
 
         ```
         /opt/orbs/status/status.json
         ```
 
-        The format of the JSON is:
+    * The format of the JSON is:
 
         ```json
         {
@@ -97,13 +117,25 @@ Boyar supports configuring the services it launches as docker instances via a st
         }
         ```
 
-        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
+        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and reports that it does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
 
-    * The health check JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
+    * The status JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
         ```
         /services/{SERVICE-NAME}/status
+        /vchains/{VCHAIN-ID}/status
         ```
+        
+* Logs:
+
+    * Logs are accessible via the following HTTP endpoint on the node gateway (Nginx):
+
+        ```        
+        /services/{SERVICE-NAME}/logs
+        /vchains/{VCHAIN-ID}/logs
+        ```
+
+
 * Volumes:
     * Logs are located at:
 
@@ -131,10 +163,10 @@ Boyar supports configuring the services it launches as docker instances via a st
 * Internal network endpoints for virtual chains (Public API) are:
 
     ```
-    http://vchain-{VCHAIN-ID}:{INTERNAL-PORT}
+    http://chain-{VCHAIN-ID}:{INTERNAL-PORT}
     ```
 
-    For example: `http://vchain-42:8080`
+    For example: `http://chain-42:8080`
 
 &nbsp;
 

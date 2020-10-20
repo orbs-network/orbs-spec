@@ -336,13 +336,14 @@ func (x *RequestCommitteeInput) StringPrevBlockReferenceTime() (res string) {
 type RequestCommitteeOutput struct {
 	NodeAddresses            []primitives.NodeAddress
 	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
+	Weights                  []primitives.Weight
 }
 
 func (x *RequestCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys())
+	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys(), x.StringWeights())
 }
 
 func (x *RequestCommitteeOutput) StringNodeAddresses() (res string) {
@@ -363,10 +364,20 @@ func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	return
 }
 
+func (x *RequestCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message RequestBlockProofCommitteeInput (non serializable)
 
 type RequestBlockProofCommitteeInput struct {
+	CurrentBlockHeight     primitives.BlockHeight
 	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
@@ -374,7 +385,12 @@ func (x *RequestBlockProofCommitteeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{PrevBlockReferenceTime:%s,}", x.StringPrevBlockReferenceTime())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *RequestBlockProofCommitteeInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
+	return
 }
 
 func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
@@ -387,18 +403,28 @@ func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res st
 
 type RequestBlockProofCommitteeOutput struct {
 	NodeAddresses []primitives.NodeAddress
+	Weights       []primitives.Weight
 }
 
 func (x *RequestBlockProofCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NodeAddresses:%s,}", x.StringNodeAddresses())
+	return fmt.Sprintf("{NodeAddresses:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringWeights())
 }
 
 func (x *RequestBlockProofCommitteeOutput) StringNodeAddresses() (res string) {
 	res = "["
 	for _, v := range x.NodeAddresses {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
 		res += fmt.Sprintf("%s", v) + ","
 	}
 	res += "]"

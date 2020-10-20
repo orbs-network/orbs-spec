@@ -21,3 +21,12 @@ func (s *MockVault) NodeSign(ctx context.Context, input *NodeSignInput) (*NodeSi
 		return nil, ret.Error(1)
 	}
 }
+
+func (s *MockVault) EthSign(ctx context.Context, input *NodeSignInput) (*NodeSignOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*NodeSignOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}

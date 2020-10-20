@@ -1,6 +1,24 @@
 # Version Release Flow
 
-> V2 release
+This document describes the release workflow for docker images participating in the Orbs node deployment.     
+
+Orbs software modules are delivered in several modes:
+
+- npm packages (e.g. [Polygon](https://www.npmjs.com/package/@orbs-network/polygon))
+- Compiled Binaries published on S3 (e.g. [Boyar](http://github.com/orbs-network/boyarin))
+- Docker images on a public docker registry (e.g orbs-network core node, management service, rewards service, etc)
+
+While Polygon and Boyar are released rarely and require manual intervention to release and to deploy, docker images are automatically deployed by the Management Service running on each Orbs Node. 
+
+The process involves 3 steps:
+1. CI automatically builds docker images for each code commit or tag in Github and publishes them to a staging repository in a public docker registry.
+1. An existing image is marked for deployment to the production network by tagging adding it the the production deployment repository  
+1. Management service notices the requested deployment and schedules an upgrade to be carried out by the node manager agent (Boyar)
+
+Marking an image for deployment by the nodes management services can be done manually by re-tagging an image under the appropriate repository.
+For details on how to manually deploy an image see [naming conventions](NAMING.md)
+
+However using `deploy.sh` script simplifies the process of tagging an image for deployment. 
 
 ## Concepts
 
@@ -22,16 +40,109 @@
 
     See [STAGING.md](STAGING.md)
 
-4. **Gradual rollout to canary** - Canary environment is the production network running on the actual validator nodes. If possible, new versions should be deployed first to canary virtual chains by publishing them to the canary distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all canaries. 
+4. **Gradual rollout to canary virtual chains** - Canary environment is the production network running on the actual validator nodes. If possible, new versions should be deployed first to canary virtual chains by publishing them to the canary distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all canaries. 
+    
+   Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on canary Virtual Chains
+   ```shell script
+   # in the normal rollout timeframe:
+   ./deploy.sh --tag v2.0.3 --canary
 
-    See [CANARY-RELEASE.md](CANARY-RELEASE.md)
+   # in the "hotfix"* rollout timeframe:
+   ./deploy.sh --tag v2.0.3 --canary --hotfix
+   ```
+    `*` `--hotfix` deployments are available only for virtual chain modules, not for node services as they are deployed immediately
 
-5. **Gradual rollout to stable** - Final rollout to production takes place by publishing the version to the stable distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all non-canaries. Rollout to the production network is always gradual to prevent network downtime from all validator nodes going down at once.
+    `**` `--canary` deployments are available only for virtual chain modules, not for node services as there is only one instance of each node.
 
-    See [STABLE-RELEASE.md](STABLE-RELEASE.md)
+5. **Gradual rollout to stable virtual chains** - Final rollout to production takes place by publishing the version to the stable distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all non-canaries. Rollout to the production network is always gradual to prevent network downtime from all validator nodes going down at once.
 
+   Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on stable Virtual Chains
+   ```shell script
+   # in the normal rollout timeframe:
+   ./deploy.sh --tag v2.0.3
+
+   # in the "hotfix"* rollout timeframe:
+   ./deploy.sh --tag v2.0.3 --hotfix
+   ```
+    `*` `--hotfix` deployments are available only for virtual chain modules, not for node services as they are deployed immediately
+    
 ## Conventions
 
 * **Image naming and tagging** - How new versions of binary images for the various services of the node should be labeled when published to a docker registry.
 
     See [NAMING.md](NAMING.md)
+
+## Deploy tool
+
+Deployment tool ([deploy.sh](deploy.sh)) for Orbs node modules. Supported module types are node services, such as signer, ethereum writer, rewards, and management node services, as well as to VChain modules.
+
+Prerequisites: 
+
+- docker CLI installed and logged in with read access to the source image, and write access to the deployment target organization and repository on the default registry
+- A reference to a pre-built source docker image to deploy
+
+The reference to the source image must be of this form: 
+   `organization/repository:tag`
+
+If the source docker image is not present on the locally it must be available for download at the default registry
+
+VChain modules:
+For VChain modules two options modify their deployment: `--hotfix` or `--canary`. 
+
+`-h, --hotfix` To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules with a gradual rollout window. Orbs supports two mode of rollout: Normal for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec 
+Using `--hotfix` indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. it is only applicable to Virtual Chain modules.
+
+`-c, --canary` This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
+
+          Usage: ./deploy.sh [OPTIONS] 
+          
+          -h, --hotfix     deploy as hotfix (quick deployment), relevant only for "node" repository images
+          -c, --canary     deploy only to canary vchains, relevant only for "node" repository images
+          -t, --tag        the source tag to deploy from (default: "experimental")
+          --target-tag     the target tag to deploy to (default: [source tag])
+          -r, --repo       the source repository to deploy from (default: "node")
+          --target-repo    the target repository to deploy to (default: [source repository])
+          -o, --org        the source organization to deploy from (default: orbsnetworkstaging)
+          --target-org     the target organization to deplot to (default: orbsnetwork)
+          
+          -y               suppress confirmations
+
+### deploy.sh examples - Staging env
+
+```shell script
+
+# deploy current experimental versions to staging
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r node
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r signer
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r management-service
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r ethereum-writer
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r rewards-service
+
+# reset the bootstrap image to the current experimental version management-service
+./deploy.sh --target-tag bootstrap --target-org orbsnetworkstaging --repo management-service
+
+```
+### deploy.sh examples - Production env
+
+```shell script
+
+# deploy node (orbs core) tagged version v2.0.4 as a canary hotfix with no confirmation prompt
+./deploy.sh -t v2.0.4 --canary --hotfix -y
+
+# deploy ethereum writer version v1.2.0
+./deploy.sh -t v1.2.0 -r ethereum-writer
+
+```
+
+### deploy.sh examples - Advanced Production use cases
+
+```shell script
+
+# upgrade the bootstrap management-service image to v1.1.2 
+./deploy.sh --tag v1.1.2 --target-tag bootstrap -r management-service
+
+# override rewards-service version based on a later patch by commit hash v1.1.1-2cff1b0e
+# Caution - such override may not apply on previously created nodes, and may have some unexpected results
+ 
+./deploy.sh -t v1.1.1-2cff1b0e --target-tag v1.1.1 -r rewards-service
+```

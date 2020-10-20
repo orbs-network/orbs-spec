@@ -90,13 +90,16 @@ message RequestCommitteeInput {
 message RequestCommitteeOutput {
     repeated primitives.node_address node_addresses = 1;
     repeated primitives.bls1_public_key node_random_seed_public_keys = 2;
+    repeated primitives.weight weights = 3;
 }
 
 message RequestBlockProofCommitteeInput {
-    primitives.timestamp_seconds prev_block_reference_time = 1;
+    primitives.block_height current_block_height = 1;
+    primitives.timestamp_seconds prev_block_reference_time = 2;
 }
 
 // returns error code on failure
 message RequestBlockProofCommitteeOutput {
     repeated primitives.node_address node_addresses = 1;
+    repeated primitives.weight weights = 2;
 }
