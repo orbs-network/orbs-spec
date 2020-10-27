@@ -6,6 +6,10 @@
       "ReadInterval": "30s",
       "ResetTimeout": "30m"
     },
+    "ExecutableImage": {
+      "Url": "https://github.com/orbs-network/boyarin/releases/download/v1.4.0/boyar-v1.4.0.bin",
+      "Sha256": "1998cc1f7721acfe1954ab2878cc0ad8062cd6d919cd61fa22401c6750e195fe"
+    },
     "storage-driver": "local", // eventually rename to StorageDriver
     "storage-mount-type": "bind", // eventually rename to StorageMountType
   },
