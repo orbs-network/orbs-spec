@@ -1,6 +1,6 @@
 {
   "network": [], // eventually remove
-  "orchestrator": { // eventually rename to Orchestration
+  "orchestrator": {
     "DynamicManagementConfig": {
       "Url": "http://localhost:7666/node/management",
       "ReadInterval": "30s",
@@ -9,7 +9,7 @@
     "storage-driver": "local", // eventually rename to StorageDriver
     "storage-mount-type": "bind", // eventually rename to StorageMountType
   },
-  "chains": [ // eventually rename to VirtualChains
+  "chains": [
     {
       "Id": 42,
       "InternalPort": 4400, // for gossip, identical for all vchains
@@ -38,7 +38,7 @@
       }
     }
   ],
-  "services": { // eventually rename to NodeServices
+  "services": {
     "signer": {
       "InternalPort": 7777,
       "DockerConfig": {
