@@ -19,6 +19,7 @@ service ConsensusContext {
     rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
     rpc RequestBlockProofOrderingCommittee (RequestBlockProofCommitteeInput) returns (RequestBlockProofCommitteeOutput);
     rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
+    rpc ValidateBlockReferenceTime (ValidateBlockCommitteeInput) returns (ValidateBlockCommitteeOutput);
 }
 
 message RequestNewTransactionsBlockInput {
@@ -103,3 +104,14 @@ message RequestBlockProofCommitteeOutput {
     repeated primitives.node_address node_addresses = 1;
     repeated primitives.weight weights = 2;
 }
+
+
+message ValidateBlockCommitteeInput {
+    primitives.block_height block_height = 1;
+    primitives.timestamp_seconds prev_block_reference_time = 2;
+}
+
+// returns error code on failure
+message ValidateBlockCommitteeOutput {
+}
+

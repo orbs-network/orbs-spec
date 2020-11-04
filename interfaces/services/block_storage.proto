@@ -32,6 +32,7 @@ service BlockStorage {
 
     // internal calls
     rpc ValidateBlockForCommit (ValidateBlockForCommitInput) returns (ValidateBlockForCommitOutput);
+    rpc ValidateChainTip (ValidateChainTipInput) returns (ValidateChainTipOutput);
 }
 
 message CommitBlockInput {
@@ -86,6 +87,16 @@ message ValidateBlockForCommitInput {
 
 // returns error code ERROR_CODE_INVALID if not valid
 message ValidateBlockForCommitOutput {
+
+}
+
+message ValidateChainTipInput {
+    protocol.BlockPairContainer block_pair = 1;
+    protocol.BlockPairContainer prev_block_pair = 2;
+}
+
+// returns error code ERROR_CODE_INVALID if not valid
+message ValidateChainTipOutput {
 
 }
 
