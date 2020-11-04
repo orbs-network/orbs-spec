@@ -19,7 +19,7 @@ service ConsensusContext {
     rpc RequestOrderingCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
     rpc RequestBlockProofOrderingCommittee (RequestBlockProofCommitteeInput) returns (RequestBlockProofCommitteeOutput);
     rpc RequestValidationCommittee (RequestCommitteeInput) returns (RequestCommitteeOutput);
-    rpc ValidateBlockCommittee (ValidateBlockCommitteeInput) returns (ValidateBlockCommitteeOutput);
+    rpc ValidateBlockReferenceTime (ValidateBlockCommitteeInput) returns (ValidateBlockCommitteeOutput);
 }
 
 message RequestNewTransactionsBlockInput {

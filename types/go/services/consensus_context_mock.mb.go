@@ -76,7 +76,7 @@ func (s *MockConsensusContext) RequestValidationCommittee(ctx context.Context, i
 	}
 }
 
-func (s *MockConsensusContext) ValidateBlockCommittee(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error) {
+func (s *MockConsensusContext) ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateBlockCommitteeOutput), ret.Error(1)

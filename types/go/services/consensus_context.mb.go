@@ -19,7 +19,7 @@ type ConsensusContext interface {
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
 	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
-	ValidateBlockCommittee(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
+	ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
