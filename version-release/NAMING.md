@@ -11,7 +11,6 @@ Binary images for the various node services are published as Docker containers t
 | Virtual chain core<br>ONG (orbs-network-go) | `node` | https://github.com/orbs-network/orbs-network-go |
 | Signer | `signer` | https://github.com/orbs-network/signer-service |
 | Management reader | `management-service` | https://github.com/orbs-network/management-service |
-| Rewards service | `rewards-service` | https://github.com/orbs-network/rewards-distributor-v2 |
 | Ethereum writer | `ethereum-writer` | https://github.com/orbs-network/ethereum-writer |
 | Ethereum client | `ethereum-client` | *todo* |
 
@@ -26,7 +25,7 @@ Combined example - ONG image name: `orbsnetwork/node`
 The node’s auto-deploy mechanism requires docker repositories to mark images with tag names that **match** a version according to the following versioning scheme:
 
 ```
-v{PROTOCOL}.{MINOR}.{PATCH}[-canary][-hotfix]
+v{PROTOCOL}.{MINOR}.{PATCH}[-canary][-hotfix|-immediate]
 ```
 
 * `{PROTOCOL}` indicates the latest supported protocol version. Can be any non-negative integer (0 and above). Note that when a new protocol version is released, not all services are necessarily released so some services might remain with latest versions tagged with a previous protocol version.
@@ -35,24 +34,25 @@ v{PROTOCOL}.{MINOR}.{PATCH}[-canary][-hotfix]
  
 * `{PATCH}` indicates changes in implementation according to semver semantics. It must increase monotonically within the same protocol. It can be any non-negative integer (0 and above).
  
-* `-canary` is an optional segment that indicates the canary rollout group. If given, this is not a **main** version but rather a **canary** version that should only be rolled out to canary virtual chains.
+* `-canary` is an optional segment that indicates the canary rollout group. If given, this is not a **main** version but rather a **canary** version that should only be rolled out to canary virtual chains. The canary modifier is applicable only to Virtual Chain modules (`node`)
  
-* `-hotfix` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**, versions marked as hotflix roll out over **1h**.
+* `-hotfix` or `immediate` is an optional segment that indicates that this version should be applied faster than normal. Normal gradual rollout takes place over **24h**. Versions marked as hotfix roll out over **1h**. Versions marked as immediate rollout immediately without any randomized delay.
 
-The latest available version according to semver semantics (ignoring `-canary` and `-hotfix` segments which are **not** interpreted as semver pre-release indicators) will be deployed.
+The latest available version according to semver semantics (ignoring `-canary`, `-hotfix` or `-immediate` segments which are **not** interpreted as semver pre-release indicators) will be deployed.
  
 Examples of valid versions:
 * `v1.2.3`
 * `v1.2.3-hotfix`
+* `v1.2.3-immediate`
 * `v1.2.3-canary`
 * `v1.2.3-canary-hotfix`
  
 Notes:
 
 * The `v` prefix is mandatory and has to be lower case.
-* An ecmascript regex definition is below, it can also be found [here](https://regex101.com/r/Ly7O1x/310):
+* An ecmascript regex definition is below, it is derived from the official semver definition which can be found [here](https://regex101.com/r/Ly7O1x/310). Note the multiple use of `-` which diverges from the official Semver syntax:
     ```
-    /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(-hotfix)?$ /gm
+    /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-canary)?(-hotfix|-immediate)?$ /gm
     ```
 
 ### Automatic Version Tagging 
