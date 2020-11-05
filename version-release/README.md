@@ -98,17 +98,17 @@ Deployment modifiers: --standard, --immediate, --hotfix and --canary.
 `-h, --hotfix` To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules ("node" repo) with a gradual rollout window. Orbs supports two mode of rollout: Standard for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec
 Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window.
 
-`-c, --canary` This option indicates deployment only to \"Canary\" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
+`-c, --canary` This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
 
           Usage: ./$me [OPTIONS]
 
           -s, --standard   rolling deployment (24 hour deployment window)
           -h, --hotfix     deploy as hotfix (1 hour rolling deployment window)
           -i, --immediate  deploy immediately (no rolling deployment)
-          -c, --canary     deploy only to canary vchains, relevant only for \"node\" repository images
-          -t, --tag        the source tag to deploy from (default: \"experimental\")
+          -c, --canary     deploy only to canary vchains, relevant only for "node" repository images
+          -t, --tag        the source tag to deploy from (default: "experimental")
           --target-tag     the target tag to deploy to (default: [source tag])
-          -r, --repo       the source repository to deploy from (default: \"node\")
+          -r, --repo       the source repository to deploy from (default: "node")
           --target-repo    the target repository to deploy to (default: [source repository])
           -o, --org        the source organization to deploy from (default: orbsnetworkstaging)
           --target-org     the target organization to deplot to (default: orbsnetwork)
