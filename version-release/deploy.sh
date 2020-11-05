@@ -98,14 +98,11 @@ then
 
    if [[ $REPLY =~ ^[iI]$ ]]
    then 
-      echo "Immediate deployment selected"
       ROLLOUT="-immediate"
    elif [[ $REPLY =~ ^[hH]$ ]]
    then
-      echo "Hotfix deployment selected"
       ROLLOUT="-hotfix"
    else 
-      echo "Standard deployment selected"
       ROLLOUT=""
    fi
 fi
