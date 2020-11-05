@@ -7,13 +7,15 @@ SOURCE_TAG="experimental"
 TARGET_TAG=""
 SOURCE_REPO="node"
 TARGET_REPO=""
-ROLLOUT=""
+ROLLOUT="unspecified"
 PRE_RELEASE=""
 
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
+        -s|--standard)       ROLLOUT="" ;;
         -h|--hotfix)         ROLLOUT="-hotfix" ;;
+        -i|--immediate)      ROLLOUT="-immediate" ;;
         -c|--canary)         PRE_RELEASE="-canary" ;;
         -t|--tag)            SOURCE_TAG=$2; shift ;;
         --target-tag)        TARGET_TAG=$2; shift ;;
@@ -38,17 +40,21 @@ The reference to the source image must be of this form:
 
 If the source docker image is not present on the locally it must be available for download at the default registry
 
-VChain modules:
-For VChain modules two options modify their deployment: --hotfix and --canary.
+Deployment modifiers: --standard, --immediate, --hotfix and --canary.
 
--h, --hotfix To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules with a gradual rollout window. Orbs supports two mode of rollout: Normal for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec
-Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. it is only applicable to Virtual Chain modules.
+-s, --standard Deploy randomly within a 24 hours window. This is the safest deployment mode with the highest guarantee against downtime or outages. Using --standard indicates to the Orbs node Management Service that this upgrade should be deployed in the Normal rollout window.
+
+-i, --immediate Immediate deployment across the network. This deployment mode is unsafe for \"management-service\" and \"node\" repos. Use with caution. For VChain modules (\"node\" repo) or management-service this option is especially risky. Using --immediate indicates to the Orbs node Management Service that this upgrade should be deployed without any rollout window. Use with caution!
+
+-h, --hotfix Deploy randomly within a 1 hour window. This compromises safety for speed of deployment and should be used only for urgent hotfixes. Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. 
 
 -c, --canary This option indicates deployment only to \"Canary\" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
 
           Usage: ./$me [OPTIONS]
 
-          -h, --hotfix     deploy as hotfix (quick deployment), relevant only for \"node\" repository images
+          -s, --standard   rolling deployment (24 hour deployment window)
+          -h, --hotfix     deploy as hotfix (1 hour rolling deployment window)
+          -i, --immediate  deploy immediately (no rolling deployment)
           -c, --canary     deploy only to canary vchains, relevant only for \"node\" repository images
           -t, --tag        the source tag to deploy from (default: \"experimental\")
           --target-tag     the target tag to deploy to (default: [source tag])
@@ -65,6 +71,47 @@ Using --hotfix indicates to the Orbs node Management Service that this upgrade s
     esac
     shift
 done
+
+# ensure rolling strategy is specified when confirmation is suppressed
+if [[ "$SKIP_CONFIRM" == "1" && "$ROLLOUT" == "unspecified" ]]
+then
+	echo "when confirmation is suppressed a deployment strategy must be specified, aborting"
+	exit 2
+fi
+
+# prompt for rolling deployment policy
+if [[ "$ROLLOUT" == "unspecified" ]]
+then
+   echo     # spacer
+   echo "deployment policy unspecified. please specify a deployment policy:"
+   echo     # spacer
+   echo "  'i'     - immediate: no rolling deployment. CAUTION!!
+            Never use this policy for VChain modules (\"node\" repo), or for Management Service (\"management-service\" repo) 
+            if it includes a boyar binary version upgrade or a VChain configuration change. 
+            In case of doubt its recommended to avoid this policy"
+   echo
+   echo "  'h'     - hotfix:    1 hour depoyment window"
+   echo "  's'     - standard:  24 hour deployment window"
+   echo    # spacer
+
+   while [[ "$ROLLOUT" == "unspecified" ]]
+   do
+      read -p "Enter your selection in a single character: " -n 1 -r
+      echo    # spacer
+
+      if [[ $REPLY =~ ^[iI]$ ]]
+      then 
+         ROLLOUT="-immediate"
+      elif [[ $REPLY =~ ^[hH]$ ]]
+      then
+         ROLLOUT="-hotfix"
+      elif [[ $REPLY =~ ^[sS]$ ]]
+      then 
+         ROLLOUT=""
+      fi
+   done
+   echo    # spacer
+fi
 
 # target tag defaults to source tag, target repository defaults to source repository
 if [ "$TARGET_TAG" = "" ]; then  TARGET_TAG=$SOURCE_TAG ; fi

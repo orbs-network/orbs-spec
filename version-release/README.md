@@ -44,27 +44,30 @@ However using `deploy.sh` script simplifies the process of tagging an image for 
     
    Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on canary Virtual Chains
    ```shell script
-   # in the normal rollout timeframe:
-   ./deploy.sh --tag v2.0.3 --canary
+   # in the standard rollout timeframe:
+   ./deploy.sh --tag v2.0.3 --canary --standard
 
    # in the "hotfix"* rollout timeframe:
    ./deploy.sh --tag v2.0.3 --canary --hotfix
    ```
-    `*` `--hotfix` deployments are available only for virtual chain modules, not for node services as they are deployed immediately
-
-    `**` `--canary` deployments are available only for virtual chain modules, not for node services as there is only one instance of each node.
+    `*` `--canary` deployments are available only for virtual chain modules, not for node services as there is only one instance of each node.
 
 5. **Gradual rollout to stable virtual chains** - Final rollout to production takes place by publishing the version to the stable distribution channel. If the version relies on a protocol change, community governance decision must be made on Ethereum to transition to the new protocol version on all non-canaries. Rollout to the production network is always gradual to prevent network downtime from all validator nodes going down at once.
 
    Example for marking an `orbs-network-go` image tagged as `v2.0.3` in github for deployment on stable Virtual Chains
    ```shell script
-   # in the normal rollout timeframe:
-   ./deploy.sh --tag v2.0.3
+   # in the standard rollout timeframe:
+   ./deploy.sh --tag v2.0.3 --standard
 
    # in the "hotfix"* rollout timeframe:
    ./deploy.sh --tag v2.0.3 --hotfix
    ```
-    `*` `--hotfix` deployments are available only for virtual chain modules, not for node services as they are deployed immediately
+
+6. **Immediate rollout to a node service** - Node services whith no requirement for gradual rollout can be deployed immediately. Deploying immediately can be dangerous, create network wide downtime, or compromise consensus. Use this deployment mode with caution
+
+   Example for marking an `ethereum-writer` image tagged as `v2.0.3` in github for immediate deployment on all nodes
+   ```shell script
+   ./deploy.sh --tag v2.0.3 --repo "ethereum-writer" --immediate
     
 ## Conventions
 
@@ -86,17 +89,22 @@ The reference to the source image must be of this form:
 
 If the source docker image is not present on the locally it must be available for download at the default registry
 
-VChain modules:
-For VChain modules two options modify their deployment: `--hotfix` or `--canary`. 
+Deployment modifiers: --standard, --immediate, --hotfix and --canary.
 
-`-h, --hotfix` To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules with a gradual rollout window. Orbs supports two mode of rollout: Normal for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec 
-Using `--hotfix` indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window. it is only applicable to Virtual Chain modules.
+`-s, --standard` Deploy randomly within a 24 hours window. This is the safest deployment mode with the highest guarantee against downtime or outages. Using --standard indicates to the Orbs node Management Service that this upgrade should be deployed in the Normal rollout window.
+
+`-i, --immediate` Immediate deployment across the network. This deployment mode is unsafe for "management-service" and "node" repos. Use with caution. For VChain modules ("node" repo) or management-service this option is especially risky. Using --immediate indicates to the Orbs node Management Service that this upgrade should be deployed without any rollout window. Use with caution!
+
+`-h, --hotfix` To ensure constant availability of a quorum of nodes, the Orbs Management Service deploys updates to VChain core modules ("node" repo) with a gradual rollout window. Orbs supports two mode of rollout: Standard for a safer and longer rollout window of 24 hours (by default), and Hotfix rollout window for urgent, expedited, rollouts within 1 hour (by default). for more information see https://github.com/orbs-network/orbs-spec
+Using --hotfix indicates to the Orbs node Management Service that this upgrade should be deployed in the Hotfix rollout window.
 
 `-c, --canary` This option indicates deployment only to "Canary" VChains. For more information on Canary VChains see https://github.com/orbs-network/orbs-spec. This option is applicable only to Virtual Chain modules.
 
-          Usage: ./deploy.sh [OPTIONS] 
-          
-          -h, --hotfix     deploy as hotfix (quick deployment), relevant only for "node" repository images
+          Usage: ./$me [OPTIONS]
+
+          -s, --standard   rolling deployment (24 hour deployment window)
+          -h, --hotfix     deploy as hotfix (1 hour rolling deployment window)
+          -i, --immediate  deploy immediately (no rolling deployment)
           -c, --canary     deploy only to canary vchains, relevant only for "node" repository images
           -t, --tag        the source tag to deploy from (default: "experimental")
           --target-tag     the target tag to deploy to (default: [source tag])
@@ -104,7 +112,7 @@ Using `--hotfix` indicates to the Orbs node Management Service that this upgrade
           --target-repo    the target repository to deploy to (default: [source repository])
           -o, --org        the source organization to deploy from (default: orbsnetworkstaging)
           --target-org     the target organization to deplot to (default: orbsnetwork)
-          
+
           -y               suppress confirmations
 
 ### deploy.sh examples - Staging env
@@ -112,14 +120,14 @@ Using `--hotfix` indicates to the Orbs node Management Service that this upgrade
 ```shell script
 
 # deploy current experimental versions to staging
-./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r node
-./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r signer
-./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r management-service
-./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r ethereum-writer
-./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r rewards-service
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r node -s
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r signer -s
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r management-service -s
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r ethereum-writer -s
+./deploy.sh --target-tag v100.0.0 --target-org orbsnetworkstaging -r rewards-service -s
 
 # reset the bootstrap image to the current experimental version management-service
-./deploy.sh --target-tag bootstrap --target-org orbsnetworkstaging --repo management-service
+./deploy.sh --target-tag bootstrap --target-org orbsnetworkstaging --repo management-service -s
 
 ```
 ### deploy.sh examples - Production env
@@ -130,7 +138,7 @@ Using `--hotfix` indicates to the Orbs node Management Service that this upgrade
 ./deploy.sh -t v2.0.4 --canary --hotfix -y
 
 # deploy ethereum writer version v1.2.0
-./deploy.sh -t v1.2.0 -r ethereum-writer
+./deploy.sh -t v1.2.0 -r ethereum-writer --immediate
 
 ```
 
