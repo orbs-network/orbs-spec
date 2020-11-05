@@ -82,29 +82,35 @@ fi
 # prompt for rolling deployment policy
 if [[ "$ROLLOUT" == "unspecified" ]]
 then
-   echo 
+   echo     # spacer
    echo "deployment policy unspecified. please specify a deployment policy:"
-   echo
+   echo     # spacer
    echo "  'i'     - immediate: no rolling deployment. CAUTION!!
             Never use this policy for VChain modules (\"node\" repo), or for Management Service (\"management-service\" repo) 
             if it includes a boyar binary version upgrade or a VChain configuration change. 
             In case of doubt its recommended to avoid this policy"
    echo
    echo "  'h'     - hotfix:    1 hour depoyment window"
-   echo "  any key - standard:  24 hour deployment window"
-   echo    
-   read -p "Enter your selection in a single character: " -n 1 -r
-   echo    # (optional) move to a new line
+   echo "  's'     - standard:  24 hour deployment window"
+   echo    # spacer
 
-   if [[ $REPLY =~ ^[iI]$ ]]
-   then 
-      ROLLOUT="-immediate"
-   elif [[ $REPLY =~ ^[hH]$ ]]
-   then
-      ROLLOUT="-hotfix"
-   else 
-      ROLLOUT=""
-   fi
+   while [[ "$ROLLOUT" == "unspecified" ]]
+   do
+      read -p "Enter your selection in a single character: " -n 1 -r
+      echo    # spacer
+
+      if [[ $REPLY =~ ^[iI]$ ]]
+      then 
+         ROLLOUT="-immediate"
+      elif [[ $REPLY =~ ^[hH]$ ]]
+      then
+         ROLLOUT="-hotfix"
+      elif [[ $REPLY =~ ^[sS]$ ]]
+      then 
+         ROLLOUT=""
+      fi
+   done
+   echo    # spacer
 fi
 
 # target tag defaults to source tag, target repository defaults to source repository
