@@ -39,7 +39,7 @@ message ResultsBlockContainer {
 // payloads
 
 message TransactionsBlockHeader {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(TransactionBlockHeader)
@@ -52,7 +52,7 @@ message TransactionsBlockHeader {
 }
 
 message ResultsBlockHeader {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(ResultsBlockHeader)

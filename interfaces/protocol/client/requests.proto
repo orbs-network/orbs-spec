@@ -18,7 +18,7 @@ message RequestResult {
 }
 
 message TransactionRef {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // client protocol
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.timestamp_nano transaction_timestamp = 3;
     primitives.sha256 txhash = 4;
@@ -65,7 +65,7 @@ message GetTransactionReceiptProofResponse {
 }
 
 message GetBlockRequest {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // client protocol
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
 }

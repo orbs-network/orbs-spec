@@ -39,7 +39,7 @@ message GetProtocolVersionInput {
 }
 
 message GetProtocolVersionOutput {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
 }
 
 message GetSubscriptionStatusInput {

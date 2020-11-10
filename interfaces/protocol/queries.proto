@@ -9,7 +9,7 @@ import "protocol/contracts.proto";
 import "protocol/results.proto";
 
 message Query {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // client protocol
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.timestamp_nano timestamp = 3;
     protocol.Signer signer = 4;

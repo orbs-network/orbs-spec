@@ -55,7 +55,7 @@ message GetCommittedTransactionReceiptOutput {
 }
 
 message GetTransactionsForOrderingInput {
-    primitives.protocol_version block_protocol_version = 1;
+    primitives.protocol_version block_protocol_version = 1;  //  governance PV
     primitives.block_height current_block_height = 2;
     primitives.timestamp_nano prev_block_timestamp = 3;
     primitives.timestamp_seconds current_block_reference_time = 4;
@@ -70,7 +70,7 @@ message GetTransactionsForOrderingOutput {
 }
 
 message ValidateTransactionsForOrderingInput {
-    primitives.protocol_version block_protocol_version = 1;
+    primitives.protocol_version block_protocol_version = 1; // governance PV
     primitives.block_height current_block_height = 2;
     primitives.timestamp_nano current_block_timestamp = 3;
     primitives.timestamp_seconds current_block_reference_time = 4;
