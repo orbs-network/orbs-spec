@@ -19,7 +19,7 @@ type ConsensusContext interface {
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
 	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
-	ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
+	ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockReferenceTimeInput) (*ValidateBlockReferenceTimeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -433,37 +433,37 @@ func (x *RequestBlockProofCommitteeOutput) StringWeights() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message ValidateBlockCommitteeInput (non serializable)
+// message ValidateBlockReferenceTimeInput (non serializable)
 
-type ValidateBlockCommitteeInput struct {
+type ValidateBlockReferenceTimeInput struct {
 	BlockHeight            primitives.BlockHeight
 	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
-func (x *ValidateBlockCommitteeInput) String() string {
+func (x *ValidateBlockReferenceTimeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
 	return fmt.Sprintf("{BlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringBlockHeight(), x.StringPrevBlockReferenceTime())
 }
 
-func (x *ValidateBlockCommitteeInput) StringBlockHeight() (res string) {
+func (x *ValidateBlockReferenceTimeInput) StringBlockHeight() (res string) {
 	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
-func (x *ValidateBlockCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+func (x *ValidateBlockReferenceTimeInput) StringPrevBlockReferenceTime() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message ValidateBlockCommitteeOutput (non serializable)
+// message ValidateBlockReferenceTimeOutput (non serializable)
 
-type ValidateBlockCommitteeOutput struct {
+type ValidateBlockReferenceTimeOutput struct {
 }
 
-func (x *ValidateBlockCommitteeOutput) String() string {
+func (x *ValidateBlockReferenceTimeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
