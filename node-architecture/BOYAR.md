@@ -14,6 +14,8 @@ Boyar is a stateless service that receives all operation instructions as an exte
 
     Format: [NODE-MGMT-CONFIG.md](NODE-MGMT-CONFIG.md)
 
+&nbsp;
+
 ## Lifecycle
 
 On machine boot, when Boyar is started, it retrieves the bootstrap config JSON which contains  the static configuration. In a public Orbs node for example, Boyar uses this bootstrap configuration to launch the initial management service.
@@ -23,6 +25,8 @@ As long as the management service is alive and serving valid dynamic configurati
 If the management service fails to provide valid dynamic configuration for a timeout period, Boyar falls back to the bootstrap flow and restarts it according to the bootstrap config JSON. This fallback flow does not disrupt currently running virtual chains (ONGs) - this is implemented via a partial JSON configuration update.
 
 If Boyar itself crashes and terminates, it is restarted automatically by the operating system and starts its bootstrap flow.
+
+&nbsp;
 
 ## Docker Orchestration
 
@@ -49,6 +53,12 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
 
         No command-line arguments given.
+        
+    * Directory for persistent data:
+    
+        ```
+        /opt/orbs/cache
+        ```
 
 * Config files:
 
@@ -60,7 +70,17 @@ Boyar supports configuring the services it launches as docker instances via a st
 
         Note: in some Linux distros the secrets folder is `/var/run/secrets`
 
-    * `network.json`, `keys.json`
+    * `network.json`
+    
+        ```json
+        {
+          "node-address": "a328846cd5b4979d68a8c58a9bdfeee657b34de7"
+        }
+        ```
+    
+        *todo* *- temporary, will eventually be killed*
+    
+    * `keys.json`
     
         *todo* *- temporary, will eventually be killed*
 
@@ -71,19 +91,61 @@ Boyar supports configuring the services it launches as docker instances via a st
         ```
         /opt/orbs/healthcheck
         ```
+        
+        Note: The executable can also be a script / shell command. A common combination is to have a simple script that queries a status endpoint and triggers restart if it doesn't respond.
 
-    * Returns exit 0 or 1 (whether stable or needs restart)
+    * Returns exit 0 if the service is stable or non-zero if needs restart.
 
-    * Writes JSON output containing non-sensitive public information about the service status to:
+* Status JSON:
+
+    * A service should write JSON output containing non-sensitive public information about the service status to:
 
         ```
         /opt/orbs/status/status.json
         ```
 
-    * The health check JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
+    * The format of the JSON is:
+
+        ```json
+        {
+            "Error": "Human readable explanation of current error, field exists only if the status is erroneous.",
+            "Status": "Human readable explanation of current status, field always exists.",
+            "Timestamp": "2020-03-19T11:50:21.0846185Z",
+            "Payload": {
+                "CustomFieldsGoHere": 17
+            }
+        }
+        ```
+
+        The timestamp is the last time the status was updated. The error field must appear if and only if the service is currently in an erroneous state and reports that it does not function properly. The status page for example will display the service in red if the error field exists, otherwise in green.
+
+    * The status JSON is accessible via the following HTTP endpoint on the node gateway (Nginx):
 
         ```
         /services/{SERVICE-NAME}/status
+        /vchains/{VCHAIN-ID}/status
+        ```
+        
+* Logs:
+
+    * Logs are accessible via the following HTTP endpoint on the node gateway (Nginx):
+
+        ```        
+        /services/{SERVICE-NAME}/logs
+        /vchains/{VCHAIN-ID}/logs
+        ```
+
+
+* Volumes:
+    * Logs are located at:
+
+        ```
+        /opt/orbs/logs
+        ```
+    * Cache is located at:
+
+        ```
+        /opt/orbs/cache
         ```
 
  ### Internal Network Endpoints
@@ -101,16 +163,20 @@ Boyar supports configuring the services it launches as docker instances via a st
 * Internal network endpoints for virtual chains (Public API) are:
 
     ```
-    http://vchain-{VCHAIN-ID}:{INTERNAL-PORT}
+    http://chain-{VCHAIN-ID}:{INTERNAL-PORT}
     ```
 
-    For example: `http://vchain-42:8080`
+    For example: `http://chain-42:8080`
+
+&nbsp;
 
 ## Private Networks
 
 The Orbs architecture is primarily designed to accommodate the public Orbs network where Ethereum mainnet is the source of truth for network state. Nevertheless, the Orbs codebase supports running an isolated collection of nodes in a private network mode.
 
 When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--management-config` command-line argument.
+
+&nbsp;
 
 ## Partial Updates
 

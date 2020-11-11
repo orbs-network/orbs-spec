@@ -1,8 +1,7 @@
 # Gradual Rollout
 
-> V2 release
-
 One of the requirements of the consensus algorithm is that the network maintains a running quorum of nodes at any given time. This presents a challenge with software upgrades and node restarts since we don’t want all nodes to go offline at the same time. To accommodate this, a gradual rollout scheme is used where every node randomizes their upgrade timeslot (and downtime). For simplicity, the gradual rollout scheme should be applied on releases to all node services and all virtual chains.
+The [deploy](README.md#deploy-tool) script allows selecting the desired rollout plan for each deployment.
 
 ## Normal vs. Hotfix
 

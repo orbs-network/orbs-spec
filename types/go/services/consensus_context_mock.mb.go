@@ -58,10 +58,28 @@ func (s *MockConsensusContext) RequestOrderingCommittee(ctx context.Context, inp
 	}
 }
 
+func (s *MockConsensusContext) RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*RequestBlockProofCommitteeOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
 func (s *MockConsensusContext) RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*RequestCommitteeOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockConsensusContext) ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*ValidateBlockCommitteeOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

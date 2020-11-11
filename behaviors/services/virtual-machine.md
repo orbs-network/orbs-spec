@@ -36,7 +36,8 @@ Currently, a single instance per virtual chain per node.
 * Events logs
   * Logs events emitted by the SDK `Log.EmitEvent` function and are relevant only for `ReadWrite` execution contexts.
   * Each event is associated with the contract that triggered it.
-  * The events functionality is initially reserved for crosschain operations. Only a single event may be emitted per transaction. A second emit fails the transaction execution.
+  * The events functionality is initially reserved for crosschain operations. Only a single event may be emitted per transaction, a second emit fails the transaction execution.
+  * Events are emitted and persisted even in transactions that failed; this feature is important to allow developers to debug production issues in their contracts.
 
 &nbsp;
 ## `Init` (flow)

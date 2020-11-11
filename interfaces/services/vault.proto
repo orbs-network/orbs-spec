@@ -8,6 +8,7 @@ import "primitives/crypto.proto";
 service Vault {
     // called by ConsensusAlgo, BlockStorage, TransactionPool
     rpc NodeSign (NodeSignInput) returns (NodeSignOutput);
+    rpc EthSign (NodeSignInput) returns (NodeSignOutput);
 
     // 
 //    rpc NodeGetPublicKey (NodeGetPublicKeyInput) returns (NodeGetPublicKeyOutput);

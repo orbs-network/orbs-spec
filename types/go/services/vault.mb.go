@@ -14,6 +14,7 @@ import (
 
 type Vault interface {
 	NodeSign(ctx context.Context, input *NodeSignInput) (*NodeSignOutput, error)
+	EthSign(ctx context.Context, input *NodeSignInput) (*NodeSignOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -18,9 +18,13 @@ Ref time is measured in seconds and reflects the external clock of the source of
 
 The configuration may reflect current data or a snapshot of historic data. This normally depends on which option was requested by its consumer. Historic data is normally used by nodes when they are required to audit past events.
 
+&nbsp;
+
 ## Configuration Format
 
 * [Example](../config-examples/vc-management.json)
+
+&nbsp;
 
 Global fields:
 
@@ -39,11 +43,12 @@ Fields per virtual chain:
 | `GenesisRefTime` | The ref time of when this virtual chain was first created. |
 | `CurrentTopology` | Details of the nodes that are part of the topology. Based on the topology change events that are relevant to the virtual chain. This field is not provided in snapshots of historic data. A new committee node must be part of topology a few hours before it enters the committee so it has time to sync. A retired committee node must remain part of topology a few hours after it leaves the committee so others have time to sync from it. |
 | `CommitteeEvents` | A list of changes in the elected committee of nodes authorized to validate blocks. Events are not incremental. Every event contains the entire state and the ref time where it changed. If the virtual chain subscription is limited to a specific `IdentityType`, only nodes of this type will appear in the committee. |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`EffectiveStake` | Combined stake of the validator operating this node and the delegators who have chosen them as guardian. Units are 1K ORBS, notice on the public network that Ethereum events are reported in Orbitons (10^-18 ORBS). |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`EffectiveStake` | Combined stake of the validator operating this node and the delegators who have chosen them as guardian. Units are 1 ORBS, notice on the public network that Ethereum events are reported in Orbitons (10^-18 ORBS). |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Weight` | Normalized weights for consensus, based on the effective stake and size of the committee. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`IdentityType` | See similar field under subscription events. |
 | `SubscriptionEvents` | A list of changes in the virtual chain subscription. Events are not incremental. Every event contains the entire state and the ref time where it changed. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Status` | Subscription status of the virtual chain.<br>Possible values:<br>&bull;&nbsp;`active` - Subscription is active (paid).<br>&bull;&nbsp;`expired` - Subscription is expired (unpaid). |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`RolloutGroup` | When software versions and protocol versions roll out, they roll out first to certain groups for testing purposes.<br>Possible values:<br>&bull;&nbsp;`canary` - Alpha virtual chains (roll out first).<br>&bull;&nbsp;`ga` - Stable virtual chains (roll out second). |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`RolloutGroup` | When software versions and protocol versions roll out, they roll out first to certain groups for testing purposes.<br>Possible values:<br>&bull;&nbsp;`canary` - Alpha virtual chains (roll out first).<br>&bull;&nbsp;`main` - Stable virtual chains (roll out second). |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`IdentityType` | Subscription can be limited to be validated (signed) by nodes that have undergone identity validation.<br>Possible values:<br>&bull;&nbsp;`0` - Not limited (anyone can validate).<br>&bull;&nbsp;`1` - Limited to validators whose identity is verified. |
 | `ProtocolVersionEvents` | A list of changes in the official network protocol version. Events are not incremental. Every event contains the entire state and the ref time where it changed. Since the virtual chain subscription indicates a specific RolloutGroup, only protocol version changes for this group will appear. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`RolloutGroup` | See similar field under subscription events. |

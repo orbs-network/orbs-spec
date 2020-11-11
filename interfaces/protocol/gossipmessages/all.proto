@@ -10,7 +10,7 @@ import "../protocol/consensus/lean_helix.proto";
 import "../protocol/consensus/benchmark_consensus.proto";
 
 message Header {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
     primitives.virtual_chain_id virtual_chain_id = 2;
     repeated primitives.node_address recipient_node_addresses = 3;
     RecipientsListMode recipient_mode = 4;

@@ -17,7 +17,9 @@ type ConsensusContext interface {
 	ValidateTransactionsBlock(ctx context.Context, input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error)
 	ValidateResultsBlock(ctx context.Context, input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error)
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -335,13 +337,14 @@ func (x *RequestCommitteeInput) StringPrevBlockReferenceTime() (res string) {
 type RequestCommitteeOutput struct {
 	NodeAddresses            []primitives.NodeAddress
 	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
+	Weights                  []primitives.Weight
 }
 
 func (x *RequestCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys())
+	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys(), x.StringWeights())
 }
 
 func (x *RequestCommitteeOutput) StringNodeAddresses() (res string) {
@@ -360,6 +363,111 @@ func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	}
 	res += "]"
 	return
+}
+
+func (x *RequestCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeInput (non serializable)
+
+type RequestBlockProofCommitteeInput struct {
+	CurrentBlockHeight     primitives.BlockHeight
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *RequestBlockProofCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *RequestBlockProofCommitteeInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
+	return
+}
+
+func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeOutput (non serializable)
+
+type RequestBlockProofCommitteeOutput struct {
+	NodeAddresses []primitives.NodeAddress
+	Weights       []primitives.Weight
+}
+
+func (x *RequestBlockProofCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{NodeAddresses:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringWeights())
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringNodeAddresses() (res string) {
+	res = "["
+	for _, v := range x.NodeAddresses {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeInput (non serializable)
+
+type ValidateBlockCommitteeInput struct {
+	BlockHeight            primitives.BlockHeight
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *ValidateBlockCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *ValidateBlockCommitteeInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *ValidateBlockCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeOutput (non serializable)
+
+type ValidateBlockCommitteeOutput struct {
+}
+
+func (x *ValidateBlockCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////

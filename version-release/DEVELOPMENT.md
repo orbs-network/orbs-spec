@@ -17,9 +17,9 @@ The protocol backwards compatibility strategy for different areas is:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local persistent data | Full (all previous versions) |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Public API (for clients) | Full (all previous versions) |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Everywhere else | Short (~1 previous version) |
-| Management reader | Everywhere | Full (all previous versions) |
-| Ethereum writer | Everywhere | Short (~1 previous version) |
-| Boyar | Everywhere | N/A (protocol version agnostic) |
+| Management reader | Full (all previous versions) |
+| Ethereum writer | Short (~1 previous version) |
+| Boyar | N/A (protocol version agnostic) |
 
 Code that behaves differently under a new protocol version should be wrapped with a condition checking which protocol version is currently active while old behavior is maintained according to the strategy above.
 

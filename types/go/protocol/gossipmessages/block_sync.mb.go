@@ -129,6 +129,7 @@ type BlockSyncRange struct {
 	// FirstBlockHeight primitives.BlockHeight
 	// LastBlockHeight primitives.BlockHeight
 	// LastCommittedBlockHeight primitives.BlockHeight
+	// BlocksOrder SyncBlocksOrder
 
 	// internal
 	// implements membuffers.Message
@@ -139,10 +140,10 @@ func (x *BlockSyncRange) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight())
+	return fmt.Sprintf("{BlockType:%s,FirstBlockHeight:%s,LastBlockHeight:%s,LastCommittedBlockHeight:%s,BlocksOrder:%s,}", x.StringBlockType(), x.StringFirstBlockHeight(), x.StringLastBlockHeight(), x.StringLastCommittedBlockHeight(), x.StringBlocksOrder())
 }
 
-var _BlockSyncRange_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint64}
+var _BlockSyncRange_Scheme = []membuffers.FieldType{membuffers.TypeUint16, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint64, membuffers.TypeUint16}
 var _BlockSyncRange_Unions = [][]membuffers.FieldType{}
 
 func BlockSyncRangeReader(buf []byte) *BlockSyncRange {
@@ -233,6 +234,22 @@ func (x *BlockSyncRange) StringLastCommittedBlockHeight() string {
 	return fmt.Sprintf("%s", x.LastCommittedBlockHeight())
 }
 
+func (x *BlockSyncRange) BlocksOrder() SyncBlocksOrder {
+	return SyncBlocksOrder(x._message.GetUint16(4))
+}
+
+func (x *BlockSyncRange) RawBlocksOrder() []byte {
+	return x._message.RawBufferForField(4, 0)
+}
+
+func (x *BlockSyncRange) MutateBlocksOrder(v SyncBlocksOrder) error {
+	return x._message.SetUint16(4, uint16(v))
+}
+
+func (x *BlockSyncRange) StringBlocksOrder() string {
+	return x.BlocksOrder().String()
+}
+
 // builder
 
 type BlockSyncRangeBuilder struct {
@@ -240,6 +257,7 @@ type BlockSyncRangeBuilder struct {
 	FirstBlockHeight         primitives.BlockHeight
 	LastBlockHeight          primitives.BlockHeight
 	LastCommittedBlockHeight primitives.BlockHeight
+	BlocksOrder              SyncBlocksOrder
 
 	// internal
 	// implements membuffers.Builder
@@ -266,6 +284,7 @@ func (w *BlockSyncRangeBuilder) Write(buf []byte) (err error) {
 	w._builder.WriteUint64(buf, uint64(w.FirstBlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.LastBlockHeight))
 	w._builder.WriteUint64(buf, uint64(w.LastCommittedBlockHeight))
+	w._builder.WriteUint16(buf, uint16(w.BlocksOrder))
 	return nil
 }
 
@@ -283,6 +302,7 @@ func (w *BlockSyncRangeBuilder) HexDump(prefix string, offsetFromStart membuffer
 	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.FirstBlockHeight", uint64(w.FirstBlockHeight))
 	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastBlockHeight", uint64(w.LastBlockHeight))
 	w._builder.HexDumpUint64(prefix, offsetFromStart, "BlockSyncRange.LastCommittedBlockHeight", uint64(w.LastCommittedBlockHeight))
+	w._builder.HexDumpUint16(prefix, offsetFromStart, "BlockSyncRange.BlocksOrder", uint16(w.BlocksOrder))
 	return nil
 }
 
@@ -361,6 +381,26 @@ func (n BlockType) String() string {
 		return "BLOCK_TYPE_TRANSACTIONS_BLOCK"
 	case BLOCK_TYPE_RESULTS_BLOCK:
 		return "BLOCK_TYPE_RESULTS_BLOCK"
+	}
+	return "UNKNOWN"
+}
+
+type SyncBlocksOrder uint16
+
+const (
+	SYNC_BLOCKS_ORDER_RESERVED   SyncBlocksOrder = 0
+	SYNC_BLOCKS_ORDER_ASCENDING  SyncBlocksOrder = 1
+	SYNC_BLOCKS_ORDER_DESCENDING SyncBlocksOrder = 2
+)
+
+func (n SyncBlocksOrder) String() string {
+	switch n {
+	case SYNC_BLOCKS_ORDER_RESERVED:
+		return "SYNC_BLOCKS_ORDER_RESERVED"
+	case SYNC_BLOCKS_ORDER_ASCENDING:
+		return "SYNC_BLOCKS_ORDER_ASCENDING"
+	case SYNC_BLOCKS_ORDER_DESCENDING:
+		return "SYNC_BLOCKS_ORDER_DESCENDING"
 	}
 	return "UNKNOWN"
 }

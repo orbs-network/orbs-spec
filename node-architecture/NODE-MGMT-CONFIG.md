@@ -14,6 +14,8 @@ When the node boots, Boyar uses a lean subset of this configuration to set up th
 
 After the node management service starts, it accesses the various external sources of truth (eg. Ethereum, docker registry) and generates the fuller dynamic version of this configuration for Boyar to poll.
 
+&nbsp;
+
 ## Configuration Format
 
 * [Detailed example](../config-examples/node-management.json)
@@ -22,13 +24,15 @@ After the node management service starts, it accesses the various external sourc
 
 * [Private bootstrap example](../config-examples/node-management-bootstrap-private.json)
 
+&nbsp;
+
 Global fields:
 
 | Field Name | Description |
 | ---------- | ----------- |
-| `Orchestration` | General information regarding the orchestration of the node. | 
-| `NodeServices` | Dictionary of all node services (see fields per node service below).<br>The well-known dictionary keys include:<br>&bull;&nbsp;`management-service` - Management service<br>&bull;&nbsp;`signer` - Signer |
-| `VirtualChains` | Array of all virtual chains (see fields per virtual chain below). |
+| `orchestrator` | General information regarding the orchestration of the node. | 
+| `services` | Dictionary of all node services (see fields per node service below).<br>The well-known dictionary keys include:<br>&bull;&nbsp;`management-service` - Management service<br>&bull;&nbsp;`signer` - Signer |
+| `chains` | Array of all virtual chains (see fields per virtual chain below). |
 | `network` | Array of network nodes. |
 
 Fields under the orchestration section:
