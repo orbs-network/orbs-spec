@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -15,6 +15,7 @@ import (
 type VirtualMachine interface {
 	handlers.ContractSdkCallHandler
 	ProcessTransactionSet(ctx context.Context, input *ProcessTransactionSetInput) (*ProcessTransactionSetOutput, error)
+	CallSystemContract(ctx context.Context, input *CallSystemContractInput) (*CallSystemContractOutput, error)
 	ProcessQuery(ctx context.Context, input *ProcessQueryInput) (*ProcessQueryOutput, error)
 	TransactionSetPreOrder(ctx context.Context, input *TransactionSetPreOrderInput) (*TransactionSetPreOrderOutput, error)
 }
@@ -23,16 +24,19 @@ type VirtualMachine interface {
 // message ProcessTransactionSetInput (non serializable)
 
 type ProcessTransactionSetInput struct {
-	CurrentBlockHeight    primitives.BlockHeight
-	CurrentBlockTimestamp primitives.TimestampNano
-	SignedTransactions    []*protocol.SignedTransaction
+	CurrentBlockHeight        primitives.BlockHeight
+	CurrentBlockTimestamp     primitives.TimestampNano
+	BlockProposerAddress      primitives.NodeAddress
+	PrevBlockReferenceTime    primitives.TimestampSeconds
+	CurrentBlockReferenceTime primitives.TimestampSeconds
+	SignedTransactions        []*protocol.SignedTransaction
 }
 
 func (x *ProcessTransactionSetInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,BlockProposerAddress:%s,PrevBlockReferenceTime:%s,CurrentBlockReferenceTime:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringBlockProposerAddress(), x.StringPrevBlockReferenceTime(), x.StringCurrentBlockReferenceTime(), x.StringSignedTransactions())
 }
 
 func (x *ProcessTransactionSetInput) StringCurrentBlockHeight() (res string) {
@@ -42,6 +46,21 @@ func (x *ProcessTransactionSetInput) StringCurrentBlockHeight() (res string) {
 
 func (x *ProcessTransactionSetInput) StringCurrentBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+func (x *ProcessTransactionSetInput) StringCurrentBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockReferenceTime)
 	return
 }
 
@@ -159,16 +178,17 @@ func (x *ProcessQueryOutput) StringReferenceBlockTimestamp() (res string) {
 // message TransactionSetPreOrderInput (non serializable)
 
 type TransactionSetPreOrderInput struct {
-	CurrentBlockHeight    primitives.BlockHeight
-	CurrentBlockTimestamp primitives.TimestampNano
-	SignedTransactions    []*protocol.SignedTransaction
+	CurrentBlockHeight        primitives.BlockHeight
+	CurrentBlockTimestamp     primitives.TimestampNano
+	CurrentBlockReferenceTime primitives.TimestampSeconds
+	SignedTransactions        []*protocol.SignedTransaction
 }
 
 func (x *TransactionSetPreOrderInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringSignedTransactions())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,CurrentBlockTimestamp:%s,CurrentBlockReferenceTime:%s,SignedTransactions:%s,}", x.StringCurrentBlockHeight(), x.StringCurrentBlockTimestamp(), x.StringCurrentBlockReferenceTime(), x.StringSignedTransactions())
 }
 
 func (x *TransactionSetPreOrderInput) StringCurrentBlockHeight() (res string) {
@@ -178,6 +198,11 @@ func (x *TransactionSetPreOrderInput) StringCurrentBlockHeight() (res string) {
 
 func (x *TransactionSetPreOrderInput) StringCurrentBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.CurrentBlockTimestamp)
+	return
+}
+
+func (x *TransactionSetPreOrderInput) StringCurrentBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockReferenceTime)
 	return
 }
 
@@ -210,6 +235,86 @@ func (x *TransactionSetPreOrderOutput) StringPreOrderResults() (res string) {
 		res += fmt.Sprintf("%x", v) + ","
 	}
 	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message CallSystemContractInput (non serializable)
+
+type CallSystemContractInput struct {
+	BlockHeight               primitives.BlockHeight
+	BlockTimestamp            primitives.TimestampNano
+	PrevBlockReferenceTime    primitives.TimestampSeconds
+	CurrentBlockReferenceTime primitives.TimestampSeconds
+	ContractName              primitives.ContractName
+	MethodName                primitives.MethodName
+	InputArgumentArray        *protocol.ArgumentArray
+}
+
+func (x *CallSystemContractInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,PrevBlockReferenceTime:%s,CurrentBlockReferenceTime:%s,ContractName:%s,MethodName:%s,InputArgumentArray:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringPrevBlockReferenceTime(), x.StringCurrentBlockReferenceTime(), x.StringContractName(), x.StringMethodName(), x.StringInputArgumentArray())
+}
+
+func (x *CallSystemContractInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *CallSystemContractInput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
+func (x *CallSystemContractInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+func (x *CallSystemContractInput) StringCurrentBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockReferenceTime)
+	return
+}
+
+func (x *CallSystemContractInput) StringContractName() (res string) {
+	res = fmt.Sprintf("%s", x.ContractName)
+	return
+}
+
+func (x *CallSystemContractInput) StringMethodName() (res string) {
+	res = fmt.Sprintf("%s", x.MethodName)
+	return
+}
+
+func (x *CallSystemContractInput) StringInputArgumentArray() (res string) {
+	res = x.InputArgumentArray.String()
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message CallSystemContractOutput (non serializable)
+
+type CallSystemContractOutput struct {
+	OutputArgumentArray *protocol.ArgumentArray
+	CallResult          protocol.ExecutionResult
+}
+
+func (x *CallSystemContractOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{OutputArgumentArray:%s,CallResult:%s,}", x.StringOutputArgumentArray(), x.StringCallResult())
+}
+
+func (x *CallSystemContractOutput) StringOutputArgumentArray() (res string) {
+	res = x.OutputArgumentArray.String()
+	return
+}
+
+func (x *CallSystemContractOutput) StringCallResult() (res string) {
+	res = fmt.Sprintf("%x", x.CallResult)
 	return
 }
 

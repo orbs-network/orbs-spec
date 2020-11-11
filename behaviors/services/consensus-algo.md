@@ -1,17 +1,17 @@
 # Consensus Algo
 
-Implements a raw consensus algorithm. The system supports pluggable consensus, meaning multiple consensus algorithms running side by side on different virtual chains. Abstracts away the details of how the consensus algorithm works and provides the system with a single unified interface.
+Implements a raw consensus algorithm. The system supports pluggable consensus per virtual machine, meaning multiple consensus algorithms running side by side on different virtual chains. Abstracts away the details of how the consensus algorithm works and provides the system with a single unified interface.
 
-Controls and drives the timing of consensus, for example when new blocks are committed or when new blocks need to be proposed and populated with transaction from the pool.
+Controls and drives the timing of consensus, for example, when new blocks are committed or when new blocks need to be proposed and populated with transactions from the pool.
 
-Note: `ConsensusAlgo` is not in charge of block sync (`BlockStorage` is) and it does not deal with block content (`ConsensusContext` does).
+Note: `ConsensusAlgo` is not in charge of block sync ([`BlockStorage`](block-storage.md) is), and it does not deal with block content ([`ConsensusContext`](consensus-context.md) does).
 
-Currently a single instance per virtual chain per node (per supported algorithm).
+Currently, a single instance per virtual chain per node (per supported algorithm).
 
 #### Interacts with services
 
 * `ConsensusContext` - Calls it during consensus when system interface regarding the block content is required.
-* `BlockStorage` - Requests block headers from it in order to be on the consensus frontline and participate.
+* `BlockStorage` - Requests block headers from it to be on the consensus frontline and participate.
 * `Gossip` - Uses it to communicate with other nodes.
 
 &nbsp;
@@ -41,7 +41,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 * Assumes the [block height](../../terminology.md) for the upcoming round is known.
 * Get the previously committed block pair by calling `BlockStorage.GetTransactionsBlockHeader` and `BlockStorage.GetResultsBlockHeader`.
   * Store it in `last_committed_block` for the benefit of the next steps in this round.
-  * It is recommended to cache the committed block from the previous round in order to prevent fetching this data.
+  * It is recommended to cache the committed block from the previous round to prevent fetching this data.
   * If fails or times out, skip this round and don't participate (the node is probably out of sync).
 * Calculate the random seed from the previous block.
 * Get the desired committee size from `config.LEAN_HELIX_CONSENSUS_MINIMUM_COMMITTEE_SIZE`.
@@ -54,7 +54,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 * Get the desired block size from `config.DESIRED_BLOCK_SIZE_IN_BYTES`.
 * Request new Transactions block proposal (ordering phase) by calling `ConsensusContext.RequestNewTransactionsBlock`.
 * Request new Results block proposal (validation phase) by calling `ConsensusContext.RequestNewResultsBlock`.
-* Sign both proposals (according to the algo spec) - on hash of the header.
+* Sign both proposals (according to the algo spec) - on the hash of the header.
 * Send signed proposals to the algo of all committee nodes (according to the algo spec) by calling `Gossip.SendMessage`.
 
 #### If non-leader committee member
@@ -62,12 +62,12 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 #### If not a committee member
 * Note to self that participating in this round as a non-committee member.
-  * Just waiting for the committed block, not actually taking part in the consensus itself.
+  * Just waiting for the committed block, without taking part in the consensus.
 
 &nbsp;
 ## `OnBlockProposalReceived` (method)
 
-> Called internally when during consensus, a non-leader committee member receives a proposal for a new block by the leader.
+> Called internally when, during consensus, a non-leader committee member receives a proposal for a new block by the leader.
 
 #### Participation
 * Wait until decided if participating in this round or not (`OnNewConsensusRound`) as a non-leader committee member.
@@ -80,7 +80,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 * Validate the Results block (validation phase) by calling `ConsensusContext.ValidateResultsBlock`.
 
 #### Reply approval
-* Sign both approvals (according to the algo spec) - on hash of the header.
+* Sign both approvals (according to the algo spec) - on the hash of the header.
 * Send signed approvals to the algo of all committee nodes (according to the algo spec) by calling `Gossip.SendMessage`.
 
 &nbsp;
@@ -97,7 +97,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 &nbsp;
 ## `OnCommitBlockOutsideCommittee` (method)
 
-> Called internally for non-committee members when they receive a new claimed committed block in order to validate that it was committed under consensus.
+> Called internally for non-committee members when they receive a new claimed committed block to validate that it was committed under consensus.
 
 #### Participation
 * Wait until decided if participating in this round or not (`OnNewConsensusRound`) as not a committee member.
@@ -132,7 +132,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 
 &nbsp;
 ## `HandleBlockConsensus` (method)
-> Validates the consensus for an untrusted block header and and updates the algo state based on the requested mode. Called internally and by block storage during block sync or init. 
+> Validates the consensus for an untrusted block header and updates the algo state based on the requested mode. Called internally and by block storage during block sync or init. 
 
 #### Perform checks according to the requested mode
 * If mode = `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE` or `HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY`, perform headers checks by calling `VerifyBlockConsensus`.
@@ -169,7 +169,7 @@ Currently a single instance per virtual chain per node (per supported algorithm)
 &nbsp;
 ## Block Validation Handlers 
 
-> Handles transactions and results blocks validation requests, called by `BlockStorage`. 
+> Handles the transactions and results blocks validation requests, called by `BlockStorage`. 
 
 #### `HandleBlockConsensus`
 * Handle by calling `HandleBlockConsensus`.

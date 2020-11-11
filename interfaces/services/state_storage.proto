@@ -16,7 +16,7 @@ service StateStorage {
 
     // called by VirtualMachine
     rpc ReadKeys (ReadKeysInput) returns (ReadKeysOutput);
-    rpc GetStateStorageBlockHeight (GetStateStorageBlockHeightInput) returns (GetStateStorageBlockHeightOutput);
+    rpc GetLastCommittedBlockInfo (GetLastCommittedBlockInfoInput) returns (GetLastCommittedBlockInfoOutput);
 
     // called by ConsensusContext
     rpc GetStateHash (GetStateHashInput) returns (GetStateHashOutput);
@@ -33,18 +33,20 @@ message ReadKeysOutput {
     repeated protocol.StateRecord state_records = 1; // A state_record with a 0 size array (key not found) implies the varible type default value.
 }
 
-message GetStateStorageBlockHeightInput {
+message GetLastCommittedBlockInfoInput {
 }
 
-message GetStateStorageBlockHeightOutput {
-    primitives.block_height last_committed_block_height = 1;
-    primitives.timestamp_nano last_committed_block_timestamp = 2;
+message GetLastCommittedBlockInfoOutput {
+    primitives.block_height block_height = 1;
+    primitives.timestamp_nano block_timestamp = 2;
+    primitives.node_address block_proposer_address = 3;
+    primitives.timestamp_seconds current_reference_time = 4;
+    primitives.timestamp_seconds prev_reference_time = 5;
 }
 
 message CommitStateDiffInput {
     protocol.ResultsBlockHeader results_block_header = 1;
     repeated protocol.ContractStateDiff contract_state_diffs = 2;
-    // primitives.block_height last_committed_block_height = 3;
 }
 
 message CommitStateDiffOutput {

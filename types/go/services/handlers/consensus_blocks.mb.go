@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package handlers
 
 import (
@@ -18,17 +18,17 @@ type ConsensusBlocksHandler interface {
 // message HandleBlockConsensusInput (non serializable)
 
 type HandleBlockConsensusInput struct {
-	Mode                   HandleBlockConsensusMode
-	BlockType              protocol.BlockType
-	BlockPair              *protocol.BlockPairContainer
-	PrevCommittedBlockPair *protocol.BlockPairContainer
+	Mode          HandleBlockConsensusMode
+	BlockType     protocol.BlockType
+	BlockPair     *protocol.BlockPairContainer
+	PrevBlockPair *protocol.BlockPairContainer
 }
 
 func (x *HandleBlockConsensusInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{Mode:%s,BlockType:%s,BlockPair:%s,PrevCommittedBlockPair:%s,}", x.StringMode(), x.StringBlockType(), x.StringBlockPair(), x.StringPrevCommittedBlockPair())
+	return fmt.Sprintf("{Mode:%s,BlockType:%s,BlockPair:%s,PrevBlockPair:%s,}", x.StringMode(), x.StringBlockType(), x.StringBlockPair(), x.StringPrevBlockPair())
 }
 
 func (x *HandleBlockConsensusInput) StringMode() (res string) {
@@ -46,8 +46,8 @@ func (x *HandleBlockConsensusInput) StringBlockPair() (res string) {
 	return
 }
 
-func (x *HandleBlockConsensusInput) StringPrevCommittedBlockPair() (res string) {
-	res = x.PrevCommittedBlockPair.String()
+func (x *HandleBlockConsensusInput) StringPrevBlockPair() (res string) {
+	res = x.PrevBlockPair.String()
 	return
 }
 
@@ -74,6 +74,7 @@ const (
 	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_AND_UPDATE HandleBlockConsensusMode = 1
 	HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY       HandleBlockConsensusMode = 2
 	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY       HandleBlockConsensusMode = 3
+	HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_CHAIN_TIP  HandleBlockConsensusMode = 4
 )
 
 func (n HandleBlockConsensusMode) String() string {
@@ -86,6 +87,8 @@ func (n HandleBlockConsensusMode) String() string {
 		return "HANDLE_BLOCK_CONSENSUS_MODE_UPDATE_ONLY"
 	case HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY:
 		return "HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_ONLY"
+	case HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_CHAIN_TIP:
+		return "HANDLE_BLOCK_CONSENSUS_MODE_VERIFY_CHAIN_TIP"
 	}
 	return "UNKNOWN"
 }

@@ -1,0 +1,60 @@
+syntax = "proto3";
+package services;
+option go_package = "github.com/orbs-network/orbs-spec/types/go/services";
+
+import "primitives/protocol.proto";
+
+option serialize_messages = false;
+
+service Management {
+    // called by ConsensusContext
+    rpc GetCurrentReference (GetCurrentReferenceInput) returns (GetCurrentReferenceOutput);
+    rpc GetGenesisReference (GetGenesisReferenceInput) returns (GetGenesisReferenceOutput);
+    rpc GetProtocolVersion (GetProtocolVersionInput) returns (GetProtocolVersionOutput);
+
+    // called by VirtualMachine
+    rpc GetSubscriptionStatus (GetSubscriptionStatusInput) returns (GetSubscriptionStatusOutput);
+    rpc GetCommittee (GetCommitteeInput) returns (GetCommitteeOutput);
+}
+
+message GetCurrentReferenceInput {
+    primitives.timestamp_seconds system_time = 1;
+}
+
+message GetCurrentReferenceOutput {
+    primitives.timestamp_seconds current_reference = 1;
+}
+
+message GetGenesisReferenceInput {
+    primitives.timestamp_seconds system_time = 1;
+}
+
+message GetGenesisReferenceOutput {
+    primitives.timestamp_seconds genesis_reference = 1;
+    primitives.timestamp_seconds current_reference = 2;
+}
+
+message GetProtocolVersionInput {
+    primitives.timestamp_seconds reference = 1;
+}
+
+message GetProtocolVersionOutput {
+    primitives.protocol_version protocol_version = 1; // governance PV
+}
+
+message GetSubscriptionStatusInput {
+    primitives.timestamp_seconds reference = 1;
+}
+
+message GetSubscriptionStatusOutput {
+    bool subscription_status_is_active = 1;
+}
+
+message GetCommitteeInput {
+    primitives.timestamp_seconds reference = 1;
+}
+
+message GetCommitteeOutput {
+    repeated primitives.node_address members = 1;
+    repeated primitives.weight weights = 2;
+}

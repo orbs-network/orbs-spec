@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -19,6 +19,15 @@ func (s *MockVirtualMachine) ProcessTransactionSet(ctx context.Context, input *P
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ProcessTransactionSetOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockVirtualMachine) CallSystemContract(ctx context.Context, input *CallSystemContractInput) (*CallSystemContractOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*CallSystemContractOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

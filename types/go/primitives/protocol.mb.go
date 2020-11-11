@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package primitives
 
 import (
@@ -60,6 +60,20 @@ func (x TimestampNano) Equal(y TimestampNano) bool {
 
 func (x TimestampNano) KeyForMap() uint64 {
 	return uint64(x)
+}
+
+type TimestampSeconds uint32
+
+func (x TimestampSeconds) String() string {
+	return fmt.Sprintf("%x", uint32(x))
+}
+
+func (x TimestampSeconds) Equal(y TimestampSeconds) bool {
+	return x == y
+}
+
+func (x TimestampSeconds) KeyForMap() uint32 {
+	return uint32(x)
 }
 
 type NodeAddress []byte
@@ -228,4 +242,18 @@ func (x PackedArgumentArray) Equal(y PackedArgumentArray) bool {
 
 func (x PackedArgumentArray) KeyForMap() string {
 	return string(x)
+}
+
+type Weight uint64
+
+func (x Weight) String() string {
+	return fmt.Sprintf("%x", uint64(x))
+}
+
+func (x Weight) Equal(y Weight) bool {
+	return x == y
+}
+
+func (x Weight) KeyForMap() uint64 {
+	return uint64(x)
 }

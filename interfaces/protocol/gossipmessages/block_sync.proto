@@ -52,7 +52,8 @@ message BlockSyncRange {
     BlockType block_type = 1;
     primitives.block_height first_block_height = 2;
     primitives.block_height last_block_height = 3;
-    primitives.block_height last_committed_block_height = 4;    
+    primitives.block_height last_committed_block_height = 4;
+    SyncBlocksOrder blocks_order = 5;
 }
 
 enum BlockType {
@@ -60,4 +61,10 @@ enum BlockType {
     BLOCK_TYPE_BLOCK_PAIR = 1;
     BLOCK_TYPE_TRANSACTIONS_BLOCK = 2;
     BLOCK_TYPE_RESULTS_BLOCK = 3;
+}
+
+enum SyncBlocksOrder {
+    SYNC_BLOCKS_ORDER_RESERVED = 0;
+    SYNC_BLOCKS_ORDER_ASCENDING = 1;
+    SYNC_BLOCKS_ORDER_DESCENDING = 2;
 }

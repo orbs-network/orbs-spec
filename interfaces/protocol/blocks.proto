@@ -39,7 +39,7 @@ message ResultsBlockContainer {
 // payloads
 
 message TransactionsBlockHeader {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(TransactionBlockHeader)
@@ -47,10 +47,12 @@ message TransactionsBlockHeader {
     primitives.sha256 transactions_merkle_root_hash = 6;
     primitives.sha256 metadata_hash = 7;
     uint32 num_signed_transactions = 8;
+    primitives.node_address block_proposer_address = 9;
+    primitives.timestamp_seconds reference_time = 10;
 }
 
 message ResultsBlockHeader {
-    primitives.protocol_version protocol_version = 1;
+    primitives.protocol_version protocol_version = 1; // governance PV
     primitives.virtual_chain_id virtual_chain_id = 2;
     primitives.block_height block_height = 3;
     primitives.sha256 prev_block_hash_ptr = 4; // primitives.sha256(ResultsBlockHeader)
@@ -61,6 +63,8 @@ message ResultsBlockHeader {
     primitives.sha256 pre_execution_state_merkle_root_hash = 9;
     uint32 num_transaction_receipts = 10;
     uint32 num_contract_state_diffs = 11;
+    primitives.node_address block_proposer_address = 12;
+    primitives.timestamp_seconds reference_time = 13;
 }
 
 message TransactionsBlockMetadata {

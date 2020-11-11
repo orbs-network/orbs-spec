@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -14,6 +14,9 @@ type CrosschainConnector interface {
 	EthereumCallContract(ctx context.Context, input *EthereumCallContractInput) (*EthereumCallContractOutput, error)
 	EthereumGetTransactionLogs(ctx context.Context, input *EthereumGetTransactionLogsInput) (*EthereumGetTransactionLogsOutput, error)
 	EthereumGetBlockNumber(ctx context.Context, input *EthereumGetBlockNumberInput) (*EthereumGetBlockNumberOutput, error)
+	EthereumGetBlockTime(ctx context.Context, input *EthereumGetBlockTimeInput) (*EthereumGetBlockTimeOutput, error)
+	EthereumGetBlockTimeByNumber(ctx context.Context, input *EthereumGetBlockTimeByNumberInput) (*EthereumGetBlockTimeByNumberOutput, error)
+	EthereumGetBlockNumberByTime(ctx context.Context, input *EthereumGetBlockNumberByTimeInput) (*EthereumGetBlockNumberByTimeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,22 +44,22 @@ func (x *EthereumCallContractInput) StringReferenceTimestamp() (res string) {
 }
 
 func (x *EthereumCallContractInput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumContractAddress() (res string) {
-	res = fmt.Sprintf(x.EthereumContractAddress)
+	res = fmt.Sprintf("%s", x.EthereumContractAddress)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumFunctionName() (res string) {
-	res = fmt.Sprintf(x.EthereumFunctionName)
+	res = fmt.Sprintf("%s", x.EthereumFunctionName)
 	return
 }
 
 func (x *EthereumCallContractInput) StringEthereumJsonAbi() (res string) {
-	res = fmt.Sprintf(x.EthereumJsonAbi)
+	res = fmt.Sprintf("%s", x.EthereumJsonAbi)
 	return
 }
 
@@ -108,22 +111,22 @@ func (x *EthereumGetTransactionLogsInput) StringReferenceTimestamp() (res string
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumContractAddress() (res string) {
-	res = fmt.Sprintf(x.EthereumContractAddress)
+	res = fmt.Sprintf("%s", x.EthereumContractAddress)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumEventName() (res string) {
-	res = fmt.Sprintf(x.EthereumEventName)
+	res = fmt.Sprintf("%s", x.EthereumEventName)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumJsonAbi() (res string) {
-	res = fmt.Sprintf(x.EthereumJsonAbi)
+	res = fmt.Sprintf("%s", x.EthereumJsonAbi)
 	return
 }
 
 func (x *EthereumGetTransactionLogsInput) StringEthereumTxhash() (res string) {
-	res = fmt.Sprintf(x.EthereumTxhash)
+	res = fmt.Sprintf("%s", x.EthereumTxhash)
 	return
 }
 
@@ -153,12 +156,12 @@ func (x *EthereumGetTransactionLogsOutput) StringEthereumAbiPackedOutputs() (res
 }
 
 func (x *EthereumGetTransactionLogsOutput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }
 
 func (x *EthereumGetTransactionLogsOutput) StringEthereumTxindex() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumTxindex)
+	res = fmt.Sprintf("%v", x.EthereumTxindex)
 	return
 }
 
@@ -196,6 +199,132 @@ func (x *EthereumGetBlockNumberOutput) String() string {
 }
 
 func (x *EthereumGetBlockNumberOutput) StringEthereumBlockNumber() (res string) {
-	res = fmt.Sprintf("%x", x.EthereumBlockNumber)
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockTimeByNumberInput (non serializable)
+
+type EthereumGetBlockTimeByNumberInput struct {
+	ReferenceTimestamp  primitives.TimestampNano
+	EthereumBlockNumber uint64
+}
+
+func (x *EthereumGetBlockTimeByNumberInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumBlockNumber:%s,}", x.StringReferenceTimestamp(), x.StringEthereumBlockNumber())
+}
+
+func (x *EthereumGetBlockTimeByNumberInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+func (x *EthereumGetBlockTimeByNumberInput) StringEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockTimeByNumberOutput (non serializable)
+
+type EthereumGetBlockTimeByNumberOutput struct {
+	EthereumTimestamp primitives.TimestampNano
+}
+
+func (x *EthereumGetBlockTimeByNumberOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumTimestamp:%s,}", x.StringEthereumTimestamp())
+}
+
+func (x *EthereumGetBlockTimeByNumberOutput) StringEthereumTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.EthereumTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockTimeInput (non serializable)
+
+type EthereumGetBlockTimeInput struct {
+	ReferenceTimestamp primitives.TimestampNano
+}
+
+func (x *EthereumGetBlockTimeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,}", x.StringReferenceTimestamp())
+}
+
+func (x *EthereumGetBlockTimeInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockTimeOutput (non serializable)
+
+type EthereumGetBlockTimeOutput struct {
+	EthereumTimestamp primitives.TimestampNano
+}
+
+func (x *EthereumGetBlockTimeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumTimestamp:%s,}", x.StringEthereumTimestamp())
+}
+
+func (x *EthereumGetBlockTimeOutput) StringEthereumTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.EthereumTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockNumberByTimeInput (non serializable)
+
+type EthereumGetBlockNumberByTimeInput struct {
+	ReferenceTimestamp primitives.TimestampNano
+	EthereumTimestamp  primitives.TimestampNano
+}
+
+func (x *EthereumGetBlockNumberByTimeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{ReferenceTimestamp:%s,EthereumTimestamp:%s,}", x.StringReferenceTimestamp(), x.StringEthereumTimestamp())
+}
+
+func (x *EthereumGetBlockNumberByTimeInput) StringReferenceTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.ReferenceTimestamp)
+	return
+}
+
+func (x *EthereumGetBlockNumberByTimeInput) StringEthereumTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.EthereumTimestamp)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message EthereumGetBlockNumberByTimeOutput (non serializable)
+
+type EthereumGetBlockNumberByTimeOutput struct {
+	EthereumBlockNumber uint64
+}
+
+func (x *EthereumGetBlockNumberByTimeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{EthereumBlockNumber:%s,}", x.StringEthereumBlockNumber())
+}
+
+func (x *EthereumGetBlockNumberByTimeOutput) StringEthereumBlockNumber() (res string) {
+	res = fmt.Sprintf("%v", x.EthereumBlockNumber)
 	return
 }

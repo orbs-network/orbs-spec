@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -17,7 +17,9 @@ type ConsensusContext interface {
 	ValidateTransactionsBlock(ctx context.Context, input *ValidateTransactionsBlockInput) (*ValidateTransactionsBlockOutput, error)
 	ValidateResultsBlock(ctx context.Context, input *ValidateResultsBlockInput) (*ValidateResultsBlockOutput, error)
 	RequestOrderingCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	RequestBlockProofOrderingCommittee(ctx context.Context, input *RequestBlockProofCommitteeInput) (*RequestBlockProofCommitteeOutput, error)
 	RequestValidationCommittee(ctx context.Context, input *RequestCommitteeInput) (*RequestCommitteeOutput, error)
+	ValidateBlockReferenceTime(ctx context.Context, input *ValidateBlockCommitteeInput) (*ValidateBlockCommitteeOutput, error)
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -29,13 +31,15 @@ type RequestNewTransactionsBlockInput struct {
 	MaxNumberOfTransactions uint32
 	PrevBlockHash           primitives.Sha256
 	PrevBlockTimestamp      primitives.TimestampNano
+	BlockProposerAddress    primitives.NodeAddress
+	PrevBlockReferenceTime  primitives.TimestampSeconds
 }
 
 func (x *RequestNewTransactionsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,}", x.StringCurrentBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,MaxBlockSizeKb:%s,MaxNumberOfTransactions:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,BlockProposerAddress:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringMaxBlockSizeKb(), x.StringMaxNumberOfTransactions(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp(), x.StringBlockProposerAddress(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *RequestNewTransactionsBlockInput) StringCurrentBlockHeight() (res string) {
@@ -44,12 +48,12 @@ func (x *RequestNewTransactionsBlockInput) StringCurrentBlockHeight() (res strin
 }
 
 func (x *RequestNewTransactionsBlockInput) StringMaxBlockSizeKb() (res string) {
-	res = fmt.Sprintf("%x", x.MaxBlockSizeKb)
+	res = fmt.Sprintf("%v", x.MaxBlockSizeKb)
 	return
 }
 
 func (x *RequestNewTransactionsBlockInput) StringMaxNumberOfTransactions() (res string) {
-	res = fmt.Sprintf("%x", x.MaxNumberOfTransactions)
+	res = fmt.Sprintf("%v", x.MaxNumberOfTransactions)
 	return
 }
 
@@ -60,6 +64,16 @@ func (x *RequestNewTransactionsBlockInput) StringPrevBlockHash() (res string) {
 
 func (x *RequestNewTransactionsBlockInput) StringPrevBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *RequestNewTransactionsBlockInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
@@ -86,17 +100,19 @@ func (x *RequestNewTransactionsBlockOutput) StringTransactionsBlock() (res strin
 // message RequestNewResultsBlockInput (non serializable)
 
 type RequestNewResultsBlockInput struct {
-	CurrentBlockHeight primitives.BlockHeight
-	PrevBlockHash      primitives.Sha256
-	TransactionsBlock  *protocol.TransactionsBlockContainer
-	PrevBlockTimestamp primitives.TimestampNano
+	CurrentBlockHeight     primitives.BlockHeight
+	PrevBlockHash          primitives.Sha256
+	TransactionsBlock      *protocol.TransactionsBlockContainer
+	PrevBlockTimestamp     primitives.TimestampNano
+	BlockProposerAddress   primitives.NodeAddress
+	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *RequestNewResultsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,BlockProposerAddress:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp(), x.StringBlockProposerAddress(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *RequestNewResultsBlockInput) StringCurrentBlockHeight() (res string) {
@@ -116,6 +132,16 @@ func (x *RequestNewResultsBlockInput) StringTransactionsBlock() (res string) {
 
 func (x *RequestNewResultsBlockInput) StringPrevBlockTimestamp() (res string) {
 	res = fmt.Sprintf("%s", x.PrevBlockTimestamp)
+	return
+}
+
+func (x *RequestNewResultsBlockInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *RequestNewResultsBlockInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
@@ -142,17 +168,19 @@ func (x *RequestNewResultsBlockOutput) StringResultsBlock() (res string) {
 // message ValidateTransactionsBlockInput (non serializable)
 
 type ValidateTransactionsBlockInput struct {
-	CurrentBlockHeight primitives.BlockHeight
-	TransactionsBlock  *protocol.TransactionsBlockContainer
-	PrevBlockHash      primitives.Sha256
-	PrevBlockTimestamp primitives.TimestampNano
+	CurrentBlockHeight     primitives.BlockHeight
+	TransactionsBlock      *protocol.TransactionsBlockContainer
+	PrevBlockHash          primitives.Sha256
+	PrevBlockTimestamp     primitives.TimestampNano
+	BlockProposerAddress   primitives.NodeAddress
+	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *ValidateTransactionsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,TransactionsBlock:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,}", x.StringCurrentBlockHeight(), x.StringTransactionsBlock(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,TransactionsBlock:%s,PrevBlockHash:%s,PrevBlockTimestamp:%s,BlockProposerAddress:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringTransactionsBlock(), x.StringPrevBlockHash(), x.StringPrevBlockTimestamp(), x.StringBlockProposerAddress(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *ValidateTransactionsBlockInput) StringCurrentBlockHeight() (res string) {
@@ -175,6 +203,16 @@ func (x *ValidateTransactionsBlockInput) StringPrevBlockTimestamp() (res string)
 	return
 }
 
+func (x *ValidateTransactionsBlockInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *ValidateTransactionsBlockInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateTransactionsBlockOutput (non serializable)
 
@@ -192,18 +230,20 @@ func (x *ValidateTransactionsBlockOutput) String() string {
 // message ValidateResultsBlockInput (non serializable)
 
 type ValidateResultsBlockInput struct {
-	CurrentBlockHeight primitives.BlockHeight
-	ResultsBlock       *protocol.ResultsBlockContainer
-	PrevBlockHash      primitives.Sha256
-	TransactionsBlock  *protocol.TransactionsBlockContainer
-	PrevBlockTimestamp primitives.TimestampNano
+	CurrentBlockHeight     primitives.BlockHeight
+	ResultsBlock           *protocol.ResultsBlockContainer
+	PrevBlockHash          primitives.Sha256
+	TransactionsBlock      *protocol.TransactionsBlockContainer
+	PrevBlockTimestamp     primitives.TimestampNano
+	BlockProposerAddress   primitives.NodeAddress
+	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *ValidateResultsBlockInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,}", x.StringCurrentBlockHeight(), x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,ResultsBlock:%s,PrevBlockHash:%s,TransactionsBlock:%s,PrevBlockTimestamp:%s,BlockProposerAddress:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringResultsBlock(), x.StringPrevBlockHash(), x.StringTransactionsBlock(), x.StringPrevBlockTimestamp(), x.StringBlockProposerAddress(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *ValidateResultsBlockInput) StringCurrentBlockHeight() (res string) {
@@ -231,6 +271,16 @@ func (x *ValidateResultsBlockInput) StringPrevBlockTimestamp() (res string) {
 	return
 }
 
+func (x *ValidateResultsBlockInput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *ValidateResultsBlockInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // message ValidateResultsBlockOutput (non serializable)
 
@@ -248,16 +298,17 @@ func (x *ValidateResultsBlockOutput) String() string {
 // message RequestCommitteeInput (non serializable)
 
 type RequestCommitteeInput struct {
-	CurrentBlockHeight primitives.BlockHeight
-	RandomSeed         uint64
-	MaxCommitteeSize   uint32
+	CurrentBlockHeight     primitives.BlockHeight
+	RandomSeed             uint64
+	MaxCommitteeSize       uint32
+	PrevBlockReferenceTime primitives.TimestampSeconds
 }
 
 func (x *RequestCommitteeInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{CurrentBlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,}", x.StringCurrentBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize())
+	return fmt.Sprintf("{CurrentBlockHeight:%s,RandomSeed:%s,MaxCommitteeSize:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringRandomSeed(), x.StringMaxCommitteeSize(), x.StringPrevBlockReferenceTime())
 }
 
 func (x *RequestCommitteeInput) StringCurrentBlockHeight() (res string) {
@@ -266,12 +317,17 @@ func (x *RequestCommitteeInput) StringCurrentBlockHeight() (res string) {
 }
 
 func (x *RequestCommitteeInput) StringRandomSeed() (res string) {
-	res = fmt.Sprintf("%x", x.RandomSeed)
+	res = fmt.Sprintf("%v", x.RandomSeed)
 	return
 }
 
 func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
-	res = fmt.Sprintf("%x", x.MaxCommitteeSize)
+	res = fmt.Sprintf("%v", x.MaxCommitteeSize)
+	return
+}
+
+func (x *RequestCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
 	return
 }
 
@@ -281,13 +337,14 @@ func (x *RequestCommitteeInput) StringMaxCommitteeSize() (res string) {
 type RequestCommitteeOutput struct {
 	NodeAddresses            []primitives.NodeAddress
 	NodeRandomSeedPublicKeys []primitives.Bls1PublicKey
+	Weights                  []primitives.Weight
 }
 
 func (x *RequestCommitteeOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys())
+	return fmt.Sprintf("{NodeAddresses:%s,NodeRandomSeedPublicKeys:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringNodeRandomSeedPublicKeys(), x.StringWeights())
 }
 
 func (x *RequestCommitteeOutput) StringNodeAddresses() (res string) {
@@ -306,6 +363,111 @@ func (x *RequestCommitteeOutput) StringNodeRandomSeedPublicKeys() (res string) {
 	}
 	res += "]"
 	return
+}
+
+func (x *RequestCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeInput (non serializable)
+
+type RequestBlockProofCommitteeInput struct {
+	CurrentBlockHeight     primitives.BlockHeight
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *RequestBlockProofCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{CurrentBlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringCurrentBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *RequestBlockProofCommitteeInput) StringCurrentBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentBlockHeight)
+	return
+}
+
+func (x *RequestBlockProofCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message RequestBlockProofCommitteeOutput (non serializable)
+
+type RequestBlockProofCommitteeOutput struct {
+	NodeAddresses []primitives.NodeAddress
+	Weights       []primitives.Weight
+}
+
+func (x *RequestBlockProofCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{NodeAddresses:%s,Weights:%s,}", x.StringNodeAddresses(), x.StringWeights())
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringNodeAddresses() (res string) {
+	res = "["
+	for _, v := range x.NodeAddresses {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+func (x *RequestBlockProofCommitteeOutput) StringWeights() (res string) {
+	res = "["
+	for _, v := range x.Weights {
+		res += fmt.Sprintf("%s", v) + ","
+	}
+	res += "]"
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeInput (non serializable)
+
+type ValidateBlockCommitteeInput struct {
+	BlockHeight            primitives.BlockHeight
+	PrevBlockReferenceTime primitives.TimestampSeconds
+}
+
+func (x *ValidateBlockCommitteeInput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{BlockHeight:%s,PrevBlockReferenceTime:%s,}", x.StringBlockHeight(), x.StringPrevBlockReferenceTime())
+}
+
+func (x *ValidateBlockCommitteeInput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
+	return
+}
+
+func (x *ValidateBlockCommitteeInput) StringPrevBlockReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevBlockReferenceTime)
+	return
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// message ValidateBlockCommitteeOutput (non serializable)
+
+type ValidateBlockCommitteeOutput struct {
+}
+
+func (x *ValidateBlockCommitteeOutput) String() string {
+	if x == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("{}")
 }
 
 /////////////////////////////////////////////////////////////////////////////

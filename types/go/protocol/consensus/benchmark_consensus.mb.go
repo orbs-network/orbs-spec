@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package consensus
 
 import (
@@ -482,7 +482,7 @@ func (x *BenchmarkConsensusBlockRef) MutatePlaceholderView(v uint64) error {
 }
 
 func (x *BenchmarkConsensusBlockRef) StringPlaceholderView() string {
-	return fmt.Sprintf("%x", x.PlaceholderView())
+	return fmt.Sprintf("%v", x.PlaceholderView())
 }
 
 func (x *BenchmarkConsensusBlockRef) BlockHash() primitives.Sha256 {

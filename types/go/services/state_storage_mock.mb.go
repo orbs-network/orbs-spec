@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -31,10 +31,10 @@ func (s *MockStateStorage) ReadKeys(ctx context.Context, input *ReadKeysInput) (
 	}
 }
 
-func (s *MockStateStorage) GetStateStorageBlockHeight(ctx context.Context, input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error) {
+func (s *MockStateStorage) GetLastCommittedBlockInfo(ctx context.Context, input *GetLastCommittedBlockInfoInput) (*GetLastCommittedBlockInfoOutput, error) {
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
-		return out.(*GetStateStorageBlockHeightOutput), ret.Error(1)
+		return out.(*GetLastCommittedBlockInfoOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

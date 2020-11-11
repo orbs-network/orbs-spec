@@ -1,13 +1,13 @@
 # Virtual Machine
 
-Executes [deployed service](../../terminology.md) methods (smart contracts) using various processors (languages) and produces state difference as a result.
+Executes [deployed service](../../terminology.md) methods (smart contracts) using various processors (programming languages) and produces state difference as a result.
 
-Currently a single instance per virtual chain per node.
+Currently, a single instance per virtual chain per node.
 
 #### Interacts with services
 
-* `Processor` - Uses it to actually execute the smart contract method calls.
-* `StateStorage` - Reads deployments from state and provides API for contracts to read from state.
+* `Processor` - Uses it to execute the smart contract method calls.
+* `StateStorage` - Reads deployments from state and provides API for contracts to read from the state.
 * `CrosschainConnector` - Uses it to perform cross-chain contract calls.
 
 &nbsp;
@@ -28,7 +28,7 @@ Currently a single instance per virtual chain per node.
   * Top of the stack indicates the current service address space for the context.
   * When we nest service calls, the address space changes.
 * Transaction transient state.
-  * Every transaction must maintain its own temporary transient state since it can fail (and then rollback its writes).
+  * Every transaction must maintain its own temporary and transient state since it can fail (and then rollback its writes).
   * Relevant for `ReadWrite` execution contexts only.
 * Batch transient state pointer (points to the batch transient state which is defined outside the execution context).
   * The combined transient state of the entire batch (normally an entire block of transactions).
@@ -51,31 +51,31 @@ Currently a single instance per virtual chain per node.
 > Executes a read only method of a deployed service and returns its result (not under consensus).
 
 #### Prepare for execution
-* Get the block height and timestamp for the local method processing by calling `StateStorage.GetStateStorageBlockHeight`.
-  * Note that method calls are asynchronous to block creation so execution may end up a few blocks behind.
-  * Note that the reference block height and timestamp are returned to the caller on successful execution and on failure.
+* Get the block height, timestamp and block-proposer for the local method processing by calling `StateStorage.GetLastCommittedBlockInfo`.
+  * Note that method calls are asynchronous to block creation, so execution may end up a few blocks behind.
+  * Note that the reference block height and timestamp are returned to the caller on both a successful execution and a failed one.
 * If signed, validate the call signature according to the signature scheme (see transaction format for structure).
-  * Currently `PublicApi.RunQuery` calls are not required to be signed and therefore not checked for signature.
+  * Currently `PublicApi.RunQuery` calls are not required to be signed and aren't checked for signature.
 * Retrieve the service processor by calling system contract `_Deployments.getInfo` and fail if not deployed.
   * See `_Deployments` contract [specification](../smart-contracts/system/_Deployments.md).
 * Allocate an execution context:
   * `ReadOnly` (cannot update state since not under consensus).
-  * No transient state (no transaction transient state and no batch transient state).
+  * No transient state (no transaction transient state and no batch transient state).<!--unclear - please elaborate-->
 
 #### Execute method call
 * Push service to the execution context's service stack.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
-  * Note: Execution permissions are checked by the processor.
+  * Note: The processor checks execution permissions.
 * Pop service from the execution context's service stack.
 * Return result along with the reference block height and timestamp.
 
 &nbsp;
 ## `ProcessTransactionSet` (method)
 
-> Processes a batch of transactions on deployed services together. The transactions may update state so returns the combined state diff.
+> Processes a batch of transactions on deployed services together. The transactions may update the state, so returns the combined state diff.
 
 ### Prepare for the batch
-* Allocate a batch transient state that will hold updated state (across all transactions in the batch).
+* Allocate a batch transient state that will hold the updated state (across all transactions in the batch).
 
 ### Execute all transactions
 * Go over all transactions in the set (in order) and for each one:  
@@ -93,10 +93,10 @@ Currently a single instance per virtual chain per node.
 #### Execute method call (each transaction)
 * Push service to the execution context's service stack.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
-  * Note: Execution permissions are checked by the processor.
+  * Note: The processor checks execution permissions.
 * Pop service from the execution context's service stack.
 * If the transaction was successful:
-  * Apply the transaction transient state to the batch transient state.
+  * Apply the transaction's transient state to the batch transient state.
   * Add the event logs to the transaction receipt.
 * Remember the result of the method call and generate a transaction receipt.
 
@@ -107,7 +107,7 @@ Currently a single instance per virtual chain per node.
 &nbsp;
 ## `TransactionSetPreOrder` (method)
 
-> Approves transactions before allowing them to go through ordering (the virtual chain subscription is checked here for example).
+> Approves transactions before allowing them to go through ordering. For example, the virtual chain subscription is checked here.
 
 #### Check transaction signatures
 * Check the transaction signatures according to the supported signature schemes (see transaction format for list).
@@ -124,7 +124,7 @@ Currently a single instance per virtual chain per node.
   * Approval on the smart contract level (level 3/3) not supported yet.
   
 #### Transaction set status
-* If one of the trasnactions in the set fails its pre-order check, return error
+* If one of the transactions in the set fails its pre-order check, return an error.
 
 &nbsp;
 ## `SdkCall` (method)
@@ -137,7 +137,7 @@ Currently a single instance per virtual chain per node.
 
 * Push service to the execution context's service stack.
 * Execute the service method on the correct processor by calling `Processor.ProcessCall`.
-  * Note: Execution permissions are checked by the processor.
+  * Note: The processor checks execution permissions.
 * Pop service from the execution context's service stack.
 * Return result.
 
@@ -153,7 +153,7 @@ Currently a single instance per virtual chain per node.
 
 #### `State.Write`
 
-> Writes a variable to (transient) state of the service.
+> Writes a variable to (a transient) state of the service.
 
 * Make sure the execution context is `ReadWrite` and we have a transient state.
   * Otherwise, terminate the execution and return ERROR_STATE_WRITE_IN_READONLY_CALL

@@ -1,8 +1,8 @@
-# Continuous Block Creation Flow
+# Continuous Block Creation Flow - after commit
 
 > Second half: after commit (steps 4-5 out of 5)
 
-*Since the flow is long, this is the second half of the flow: from when the block is committed.*
+**Since the flow is long, this is the second half of the flow: from when the block is committed.**
 
 ## Flow
 
@@ -27,6 +27,7 @@
 #### Step 5: non committee members commit the block
 
 *Note: This step only takes place if we have more nodes in the network than the committee size.*
+
 *Note: The logic in this step is very similar to validating untrusted blocks in inter-node sync.*
 
 * `ConsensusAlgo` of non committee member:

@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -83,6 +83,15 @@ func (s *MockBlockStorage) ValidateBlockForCommit(ctx context.Context, input *Va
 	ret := s.Called(ctx, input)
 	if out := ret.Get(0); out != nil {
 		return out.(*ValidateBlockForCommitOutput), ret.Error(1)
+	} else {
+		return nil, ret.Error(1)
+	}
+}
+
+func (s *MockBlockStorage) ValidateChainTip(ctx context.Context, input *ValidateChainTipInput) (*ValidateChainTipOutput, error) {
+	ret := s.Called(ctx, input)
+	if out := ret.Get(0); out != nil {
+		return out.(*ValidateChainTipOutput), ret.Error(1)
 	} else {
 		return nil, ret.Error(1)
 	}

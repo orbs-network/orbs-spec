@@ -55,10 +55,12 @@ message GetCommittedTransactionReceiptOutput {
 }
 
 message GetTransactionsForOrderingInput {
-    primitives.block_height current_block_height = 1;
-    primitives.timestamp_nano prev_block_timestamp = 2;
-    uint32 max_transactions_set_size_kb = 3;
-    uint32 max_number_of_transactions = 4;
+    primitives.protocol_version block_protocol_version = 1;  //  governance PV
+    primitives.block_height current_block_height = 2;
+    primitives.timestamp_nano prev_block_timestamp = 3;
+    primitives.timestamp_seconds current_block_reference_time = 4;
+    uint32 max_transactions_set_size_kb = 5;
+    uint32 max_number_of_transactions = 6;
 }
 
 // returns error code on failure
@@ -68,9 +70,11 @@ message GetTransactionsForOrderingOutput {
 }
 
 message ValidateTransactionsForOrderingInput {
-    primitives.block_height current_block_height = 1;
-    primitives.timestamp_nano current_block_timestamp = 2;
-    repeated protocol.SignedTransaction signed_transactions = 3;
+    primitives.protocol_version block_protocol_version = 1; // governance PV
+    primitives.block_height current_block_height = 2;
+    primitives.timestamp_nano current_block_timestamp = 3;
+    primitives.timestamp_seconds current_block_reference_time = 4;
+    repeated protocol.SignedTransaction signed_transactions = 5;
 }
 
 // returns error code on failure

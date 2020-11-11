@@ -1,4 +1,4 @@
-// AUTO GENERATED FILE (by membufc proto compiler v0.0.21)
+// AUTO GENERATED FILE (by membufc proto compiler v0.4.0)
 package services
 
 import (
@@ -14,7 +14,7 @@ import (
 type StateStorage interface {
 	CommitStateDiff(ctx context.Context, input *CommitStateDiffInput) (*CommitStateDiffOutput, error)
 	ReadKeys(ctx context.Context, input *ReadKeysInput) (*ReadKeysOutput, error)
-	GetStateStorageBlockHeight(ctx context.Context, input *GetStateStorageBlockHeightInput) (*GetStateStorageBlockHeightOutput, error)
+	GetLastCommittedBlockInfo(ctx context.Context, input *GetLastCommittedBlockInfoInput) (*GetLastCommittedBlockInfoOutput, error)
 	GetStateHash(ctx context.Context, input *GetStateHashInput) (*GetStateHashOutput, error)
 }
 
@@ -77,12 +77,12 @@ func (x *ReadKeysOutput) StringStateRecords() (res string) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetStateStorageBlockHeightInput (non serializable)
+// message GetLastCommittedBlockInfoInput (non serializable)
 
-type GetStateStorageBlockHeightInput struct {
+type GetLastCommittedBlockInfoInput struct {
 }
 
-func (x *GetStateStorageBlockHeightInput) String() string {
+func (x *GetLastCommittedBlockInfoInput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
@@ -90,27 +90,45 @@ func (x *GetStateStorageBlockHeightInput) String() string {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// message GetStateStorageBlockHeightOutput (non serializable)
+// message GetLastCommittedBlockInfoOutput (non serializable)
 
-type GetStateStorageBlockHeightOutput struct {
-	LastCommittedBlockHeight    primitives.BlockHeight
-	LastCommittedBlockTimestamp primitives.TimestampNano
+type GetLastCommittedBlockInfoOutput struct {
+	BlockHeight          primitives.BlockHeight
+	BlockTimestamp       primitives.TimestampNano
+	BlockProposerAddress primitives.NodeAddress
+	CurrentReferenceTime primitives.TimestampSeconds
+	PrevReferenceTime    primitives.TimestampSeconds
 }
 
-func (x *GetStateStorageBlockHeightOutput) String() string {
+func (x *GetLastCommittedBlockInfoOutput) String() string {
 	if x == nil {
 		return "<nil>"
 	}
-	return fmt.Sprintf("{LastCommittedBlockHeight:%s,LastCommittedBlockTimestamp:%s,}", x.StringLastCommittedBlockHeight(), x.StringLastCommittedBlockTimestamp())
+	return fmt.Sprintf("{BlockHeight:%s,BlockTimestamp:%s,BlockProposerAddress:%s,CurrentReferenceTime:%s,PrevReferenceTime:%s,}", x.StringBlockHeight(), x.StringBlockTimestamp(), x.StringBlockProposerAddress(), x.StringCurrentReferenceTime(), x.StringPrevReferenceTime())
 }
 
-func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockHeight() (res string) {
-	res = fmt.Sprintf("%s", x.LastCommittedBlockHeight)
+func (x *GetLastCommittedBlockInfoOutput) StringBlockHeight() (res string) {
+	res = fmt.Sprintf("%s", x.BlockHeight)
 	return
 }
 
-func (x *GetStateStorageBlockHeightOutput) StringLastCommittedBlockTimestamp() (res string) {
-	res = fmt.Sprintf("%s", x.LastCommittedBlockTimestamp)
+func (x *GetLastCommittedBlockInfoOutput) StringBlockTimestamp() (res string) {
+	res = fmt.Sprintf("%s", x.BlockTimestamp)
+	return
+}
+
+func (x *GetLastCommittedBlockInfoOutput) StringBlockProposerAddress() (res string) {
+	res = fmt.Sprintf("%s", x.BlockProposerAddress)
+	return
+}
+
+func (x *GetLastCommittedBlockInfoOutput) StringCurrentReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.CurrentReferenceTime)
+	return
+}
+
+func (x *GetLastCommittedBlockInfoOutput) StringPrevReferenceTime() (res string) {
+	res = fmt.Sprintf("%s", x.PrevReferenceTime)
 	return
 }
 

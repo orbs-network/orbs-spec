@@ -1,0 +1,72 @@
+{
+  "network": [], // eventually remove
+  "orchestrator": {
+    "DynamicManagementConfig": {
+      "Url": "http://localhost:7666/node/management",
+      "ReadInterval": "30s",
+      "ResetTimeout": "30m"
+    },
+    "ExecutableImage": {
+      "Url": "https://github.com/orbs-network/boyarin/releases/download/v1.4.0/boyar-v1.4.0.bin",
+      "Sha256": "1998cc1f7721acfe1954ab2878cc0ad8062cd6d919cd61fa22401c6750e195fe"
+    },
+    "storage-driver": "local", // eventually rename to StorageDriver
+    "storage-mount-type": "bind", // eventually rename to StorageMountType
+  },
+  "chains": [
+    {
+      "Id": 42,
+      "InternalPort": 4400, // for gossip, identical for all vchains
+      "ExternalPort": 4001, // for gossip, different for all vchains
+      "InternalHttpPort": 8080, // identical for all vchains
+      "Disabled": false,
+      "DockerConfig": {
+        "Image": "orbsnetwork/node",
+        "Tag": "v1.2.3-canary",
+        "Pull": true,
+        "Resources": {
+          "Limits": {
+            "Memory": 1024,
+            "CPUs": 1
+          },
+          "Reservations": {
+            "Memory": 512,
+            "CPUs": 0.5
+          }
+        }
+      },
+      "Config": {
+        "management-file-path": "http://management-service:8080/vchains/42/management",
+        "signer-endpoint": "http://signer:7777",
+        "ethereum-endpoint": "http://eth.orbs.com" // eventually rename to EthereumEndpoint
+      }
+    }
+  ],
+  "services": {
+    "signer": {
+      "InternalPort": 7777,
+      "DockerConfig": {
+        "Image": "orbsnetwork/signer",
+        "Tag": "v2.0.3",
+        "Pull": false
+      },
+      "Config": {
+        "api": "v1"
+      }
+    },
+    "management-service": {
+      "InternalPort": 8080,
+      "ExternalPort": 7666,
+      "DockerConfig": {
+        "Image": "orbsnetwork/management-service",
+        "Tag": "v1.0.1",
+        "Pull": false
+      },
+      "Config": {
+        "EthereumGenesisContract": "0x2384723487623784638272348",
+        "EthereumEndpoint": "http://eth.orbs.com",
+        "node-address": "a328846cd5b4979d68a8c58a9bdfeee657b34de7" // eventually remove
+      }
+    }
+  }
+}

@@ -4,13 +4,27 @@ option go_package = "github.com/orbs-network/orbs-spec/types/go/protocol";
 
 import "primitives/crypto.proto";
 import "primitives/protocol.proto";
+import "membuffers";
 
+// Please Note: order of field in the union must be kept. change of order may break backward compatibility
 message Argument {
     oneof type {
         uint32 uint32_value = 2;
         uint64 uint64_value = 3;
         string string_value = 4;
         bytes bytes_value = 5;
+        bool bool_value = 6;
+        membuffers.uint256 uint256_value = 7;
+        membuffers.bytes20 bytes20_value = 8;
+        membuffers.bytes32 bytes32_value = 9;
+        repeated uint32 uint32_array_value = 10;
+        repeated uint64 uint64_array_value = 11;
+        repeated string string_array_value = 12;
+        repeated bytes bytes_array_value = 13;
+        repeated bool bool_array_value = 14;
+        repeated membuffers.uint256 uint256_array_value = 15;
+        repeated membuffers.bytes20 bytes20_array_value = 16;
+        repeated membuffers.bytes32 bytes32_array_value = 17;
     }
 }
 
