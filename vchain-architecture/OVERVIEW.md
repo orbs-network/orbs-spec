@@ -1,10 +1,15 @@
-# System Overview
+# ONG System Overview
+
+ONG is one of the main subsystems of a full [Orbs network node](../node-architecture/README.md).
+
+&nbsp;
+## ONG Block Diagram
 
 ![alt text][system_overview] <br/><br/>
 
-[system_overview]: behaviors/_img/system-overview.png "system_overview"
+[system_overview]: _img/system-overview.png "system_overview"
 
-This diagram shows a network node. The node connects to the outside world through interfaces seen on its four sides:
+This diagram shows a virtual chain node. The node connects to the outside world through interfaces seen on its four sides:
 * End users - Users running a client which queries the network or performs transactions on it.
 * App developers - Developers which deploy decentralized apps made of smart contracts to the network.
 * Other Orbs nodes - Other nodes similar to this one which together create the decentralized Orbs network.
@@ -29,4 +34,4 @@ While `ConsensusAlgo` implements the actual consensus algorithm (like Helix) tha
 
 ![alt text][hexagonal_architecture] <br/><br/>
 
-[hexagonal_architecture]: behaviors/_img/hexagonal-architecture.png "hexagonal_architecture"
+[hexagonal_architecture]: _img/hexagonal-architecture.png "hexagonal_architecture"

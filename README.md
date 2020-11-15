@@ -1,91 +1,25 @@
-# Orbs Core Protocol Specification
+# Orbs Network Protocol Specification
 
-V1 release
+> V2 release
 
-&nbsp;
-## Terminology
+## Table of Contents
 
-Definitions of terms like `node`, `service`, `committee`. Available [here](terminology.md).
+### 1. [Node Architecture](node-architecture/README.md)
 
-&nbsp;
-## System Overview
+Outlines all the various subsystems that make an Orbs network node.
 
-![alt text][system_overview]
+### 2. [Proof-of-Stake Architecture](pos-architecture/README.md)
 
-[system_overview]: behaviors/_img/system-overview.png "system_overview"
+Outlines PoS in the Orbs Universe with incentives, elections and rewards implemented over Ethereum.
 
-Overview of the entire system with brief introduction to all services is available [here](overview.md).
+### 3. [Virtual Chain Architecture](vchain-architecture/README.md)
 
-&nbsp;
-## High level flows
+The heart of an Orbs node is a set of *virtual chains*, standalone blockchain instances executing smart contracts and implementing Helix consensus. The interfaces between the various services of a virtual chain are defined [here](interfaces/README.md).
 
-* [System Init](behaviors/flows/system-init.md)
+### 4. [Version Release](version-release/README.md)
 
-  Node and all services init (fresh start or after a restart).
+Explanation of the flow for a version relase where each of the node subsystems can be upgraded and deployed to validators.
 
-* [Run Query](behaviors/flows/run-query.md)
+### 5. [Encoding](encoding/README.md)
 
-  Client calls a read-only method of a service (not under consensus).
-
-* [Send Transaction](behaviors/flows/send-transaction.md)
-
-  Client sends a transaction that may write to state of a service (under consensus).
-
-* [Get Transaction Status](behaviors/flows/transaction-status.md)
-
-  Client queries regarding the status and receipt of an old transaction.
-
-* [Block Creation](behaviors/flows/block-creation.md)
-
-  The main continuous flow of consensus where blocks are created from pooled transactions.
-
-* [Inter Node Sync](behaviors/flows/inter-node-sync.md)
-
-  Block synchronization between nodes.
-
-* [Intra Node Sync](behaviors/flows/intra-node-sync.md)
-
-  Block synchronization between services inside a node.
-
-&nbsp;
-## Services
-
-* [Public API](behaviors/services/public-api.md)
-
-  Provides external public gateway interface (like JSON over HTTP) for clients.
-
-* [Transaction Pool](behaviors/services/transaction-pool.md)
-
-  Holds pending and committed transactions that are propagated between nodes. Helps avoid transaction duplication.
-
-* [Gossip](behaviors/services/gossip.md)
-
-  Connects different nodes over the network with efficient message broadcast and unicast.
-
-* [Consensus Algo](behaviors/services/consensus-algo.md)
-
-  Pluggable consensus algorithm (multiple algorithms supported side by side).
-
-* [Consensus Context](behaviors/services/consensus-context.md)
-
-  Provides the system context for the consensus algorithm and deals with the actual content of blocks.
-
-* [Virtual Machine](behaviors/services/virtual-machine.md)
-
-  Executes service methods (smart contracts) using various processors and produces state difference as a result.
-
-* [Processor](behaviors/services/processor.md)
-
-  Stateless execution engine for smart contract methods in an isolated environment (multiple languages supported).
-
-* [Block Storage](behaviors/services/block-storage.md)
-
-  Holds the long term journal of all confirmed blocks (the actual chain of blocks), performs block sync between nodes.
-
-* [State Storage](behaviors/services/state-storage.md)
-
-  Holds the latest state under consensus meaning all of the state variables for all deployed services in a virtual chain.
-
-* [Cross-chain Connector](behaviors/services/crosschain-connector.md)
-
-  Runs nodes for other blockchains like Ethereum and provides read access to them.
+Specification for the binary encoding of protocol network messages (both client protocol and gossip protocol).

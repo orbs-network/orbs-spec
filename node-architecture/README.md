@@ -22,6 +22,8 @@ Source code: https://github.com/orbs-network/boyarin
 
 An Orbs node runs multiple virtual chains side by side. Each virtual chain is an isolated blockchain instance that has its own consensus and blocks. Every virtual chain has an owner paying for its subscription and is normally focused around a specific decentralized app running on top of this virtual chain as a set of smart contracts. Every virtual chain instance runs in its own isolated docker container managed by Boyar.
 
+Architecture: [Virtual Chain (ONG) Architecture](../vchain-architecture/README.md)
+
 Source code: https://github.com/orbs-network/orbs-network-go
 
 ### Node Services
