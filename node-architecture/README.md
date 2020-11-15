@@ -30,31 +30,31 @@ Source code: https://github.com/orbs-network/orbs-network-go
 
 Various daemon services are required for an Orbs node to operate. They usually have a single instance that serves the node in its entirety. These services are dockerized and managed by Boyar. These services include:
 
-* HTTP API gateway - HTTP server that provides the external [API endpoint](https://www.nginx.com/blog/building-microservices-using-an-api-gateway/) to end-users for virtual chain Public API (eg. a virtual chain end-user trying to perform a transaction or make a query). Proxies the HTTP request to the relevant ONG instance. This is an off-the-shelf HTTP proxy server (Nginx) configured by Boyar to be aligned with the state of the other node services.
+* **HTTP API gateway** - HTTP server that provides the external [API endpoint](https://www.nginx.com/blog/building-microservices-using-an-api-gateway/) to end-users for virtual chain Public API (eg. a virtual chain end-user trying to perform a transaction or make a query). Proxies the HTTP request to the relevant ONG instance. This is an off-the-shelf HTTP proxy server (Nginx) configured by Boyar to be aligned with the state of the other node services.
 
     Source code: https://github.com/nginx/nginx
 
-* Management Service - Reads ongoing node management configuration from its external source of truth (eg. Ethereum) and serves it to Boyar and ONG instances. Management configuration includes for example: elected committee (which nodes are authorized to validate blocks per VC), subscriptions (which virtual chains should be active), topology (network addresses of all committee and candidate nodes), the list of node services, and their configurations and binary versions.
+* **Management Service** - Reads ongoing node management configuration from its external source of truth (eg. Ethereum) and serves it to Boyar and ONG instances. Management configuration includes for example: elected committee (which nodes are authorized to validate blocks per VC), subscriptions (which virtual chains should be active), topology (network addresses of all committee and candidate nodes), the list of node services, and their configurations and binary versions.
 
     Architecture: [MGMT-SERVICE.md](MGMT-SERVICE.md)
     
     Source code: https://github.com/orbs-network/management-service
 
-* Ethereum Writer - In order for an Orbs node to participate in the Proof-of-Stake process on Ethereum, various Ethereum transactions must be sent routinely. For example, sending an aggregated peer reputation decision to Ethereum to support automatic vote outs.
+* **Ethereum Writer** - In order for an Orbs node to participate in the Proof-of-Stake process on Ethereum, various Ethereum transactions must be sent routinely. For example, sending an aggregated peer reputation decision to Ethereum to support automatic vote outs.
 
     Architecture: [ETH-WRITER.md](ETH-WRITER.md)
 
     Source code: https://github.com/orbs-network/ethereum-writer
 
-* Signer - Manages the node private keys (Orbs and Ethereum) securely and signs transactions on behalf of the node. Used by ONG to sign blocks and protocol messages. Also used by Ethereum Writer to sign Ethereum transactions.
+* **Signer** - Manages the node private keys (Orbs and Ethereum) securely and signs transactions on behalf of the node. Used by ONG to sign blocks and protocol messages. Also used by Ethereum Writer to sign Ethereum transactions.
 
     Source code: https://github.com/orbs-network/signer-service
 
-* Logs Service - Simple HTTP server to explose rotating log files written by the various node services/ONG. All log files are written by the services to persistent disk storage in known locations which this service makes available to query.
+* **Logs Service** - Simple HTTP server to explose rotating log files written by the various node services/ONG. All log files are written by the services to persistent disk storage in known locations which this service makes available to query.
 
     Source code: https://github.com/orbs-network/logs-service
 
-* Ethereum Client - Since a public Orbs node relies on Ethereum as the source of truth for management configuration, such as elected validators (based on Proof-of-Stake taking place on Ethereum), connection to the Ethereum blockchain is crucial for continuous operation. The Ethereum client is an attempt to do so with maximum reliability and minimum resource consumption. Many validators rely on an external Ethereum client using a third-party service such as [Infura](https://infura.io/) or [Alchemy](https://alchemyapi.io/).
+* **Ethereum Client** - Since a public Orbs node relies on Ethereum as the source of truth for management configuration, such as elected validators (based on Proof-of-Stake taking place on Ethereum), connection to the Ethereum blockchain is crucial for continuous operation. Many validators rely on an external Ethereum client using a third-party service such as [Infura](https://infura.io/) or [Alchemy](https://alchemyapi.io/).
 
     Source code: https://github.com/ethereum/go-ethereum
 
