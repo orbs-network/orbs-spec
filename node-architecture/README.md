@@ -82,6 +82,6 @@ Source code: https://github.com/orbs-network/status-page-v2
 
 Most of the Orbs Proof-of-Stake logic (staking, elections, rewards, subscriptions) is implemented over Ethereum as an independent source of truth, using a set of Solidity smart contracts. Orbs nodes communicate with these smart contracts via Management Service and Ethereum Writer service.
 
-Architecture: [Orbs PoS Architecture](../vchain-architecture/)
+Architecture: [Orbs PoS Architecture](../pos-architecture/)
 
 Source code: https://github.com/orbs-network/orbs-ethereum-contracts-v2
