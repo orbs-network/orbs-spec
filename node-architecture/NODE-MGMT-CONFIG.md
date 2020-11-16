@@ -57,6 +57,7 @@ Fields per node service:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tag` | Version of the image in the docker registry. |
 | `Config` | Contents of a JSON config file that is created and given to the instance on launch. |
 | `Disabled` | Optional boolean field describing whether this node service is disabled. When a service is no longer active and should be removed (eg. protocol update), it should remain in the configuration with this value as true to make sure all nodes remove it explicitly. |
+| `PurgeData` | Optional boolean field describing wheter to remove entirely the data related to the service or virtual chain. Removes cache, logs, and block storage in case of the virtual chain. Defaults to `false`. |
 
 Fields per virtual chain:
 
