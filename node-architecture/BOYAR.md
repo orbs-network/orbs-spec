@@ -24,7 +24,7 @@ On machine boot, when Boyar is started, it retrieves from persistent storage the
 
 As long as the management service is alive and serving valid dynamic configuration, Boyar polls this configuration repeatedly every minute and provisions this configuration (makes sure infrastructure like Docker Swarm reflects these requirements).
 
-If the management service fails to provide valid dynamic configuration for a timeout period (1 hour), Boyar falls back to the bootstrap flow and restarts itself according to the bootstrap config JSON. This fallback flow should not disrupt currently running virtual chains (ONGs) - this is implemented via a partial JSON configuration update.
+If the management service fails to provide valid dynamic configuration for a timeout period (30 minutes), Boyar falls back to the bootstrap flow and restarts itself according to the bootstrap config JSON. The boostrap flow does not know anything about previously applied configuration, and as a result virtual chains (ONGs) will be restarted, as well as other services.
 
 If the Boyar process itself crashes and terminates, it is restarted automatically by the operating system and starts its bootstrap flow. This is currently implemented using [supervisord](http://supervisord.org/).
 
@@ -98,9 +98,9 @@ Boyar supports configuring the services it launches as docker instances via a st
 
     * Returns exit 0 if the service is stable or non-zero if needs restart.
 
-        * By default, the healthcheck is polled every 30 seconds by Docker Swarm. The service is restarted by Docker Swarm if healthcheck fails 3 consecutive checks. This can be monitored in a live system using Boyar's status.json.
+        * By default, the healthcheck is polled every 30 seconds by Docker Swarm. The service is restarted by Docker Swarm if healthcheck fails 3 consecutive checks. This can be monitored in a live system using Boyar's `status.json`.
 
-        * To assist with debugging, health check should log important information to stdout. The output is available in a live system using Boyar's status.json.
+        * To assist with debugging, health check should log important information to stdout. The output is available in a live system using Boyar's `status.json`.
 
 * Status JSON:
 
@@ -186,7 +186,7 @@ Boyar supports configuring the services it launches as docker instances via a st
 
 The Orbs architecture is primarily designed to accommodate the public Orbs network where Ethereum mainnet is the source of truth for network state. Nevertheless, the Orbs codebase supports running an isolated collection of nodes in a private network mode.
 
-When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--management-config` command-line argument.
+When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--config-url` command-line argument.
 
 &nbsp;
 
@@ -211,4 +211,4 @@ Validator can opt in to allow Boyar to upgrade on new releases by supplying the 
 }
 ```
 
-If the SHA256 over its own binary is different than specified, Boyar will download the new binary, verify the SHA256 over the binary and if it matches the configuration, will restart itself to the new binary.
+If the SHA256 over its own binary is different than specified, Boyar will download the new binary, verify the SHA256 over the binary and if it matches the configuration, will terminate itself and the process will start again using the new binary (currently implemented with an external process manager, Supervisord).
