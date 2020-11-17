@@ -139,7 +139,7 @@ Conditions to send VoteUnready to ValidatorX:
   * Sender is `VCsInSync AND InCommittee`
     * The validator is in the committee (only committee member votes are counted) and in the validator VCs are in sync.
   * ValidatorX is `InCommittee`
-  * ValidatorX has Invalid Reputation for more than `INVALID_REPUTATION_GRACE` (6 hours) on a virtual chain (any of them).
+  * ValidatorX has Invalid Reputation for more than `INVALID_REPUTATION_GRACE` (30 hours) on a virtual chain (any of them).
     * See below, notice that reputation is measured on Orbs address.
   * No pending voteUnready on the validator was sent:
     * `[VoteUnreadyTime(ValidatorX) < referenceTime - VOTEOUT_VALIDAITY (7 days)] OR [RFCTime(ValidatorX) > VoteUnreadyTime(validatorX)]`
@@ -160,8 +160,8 @@ Notes:
 
 * Validator reputation: obtained from `_Committee.getAllCommitteeReputations()`, returns a list of Orbs addresses, missesReputation.
   * MissesReputation: 0 - perfect reputation, 4 (max) - malfunction validator.
-* Ethereum writer will vote unready a malfunctioning validator in about 7hrs when the VC closes empty blocks and a little over 6 hrs otherwise (calculated for committee size of 22).
-* There is a 0.15% chance of voting unready a malfunctioning validator with an invalid reputation that has since returned to a valid state.
+* Ethereum writer will vote unready a malfunctioning validator in about 31hrs when the VC closes empty blocks and a little over 30 hrs otherwise (calculated for committee size of 22).
+* A malfunctioning validator with an invalid reputation, that has returned to a valid state within 24hrs, will almost surely reset its reputation to perfect and will not be voted unready.
 * The tradeoff between network tolerance and falsely kicking out a validator can be tweaked in the future to fulfill new requirements - by lowering\increasing the `INVALID_REPUTATION_GRACE`.
 
 ## Gas Price On Transaction Send
