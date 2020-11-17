@@ -186,7 +186,7 @@ Boyar supports configuring the services it launches as docker instances via a st
 
 The Orbs architecture is primarily designed to accommodate the public Orbs network where Ethereum mainnet is the source of truth for network state. Nevertheless, the Orbs codebase supports running an isolated collection of nodes in a private network mode.
 
-When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--config-config` command-line argument.
+When running in a private network mode, Boyar does not instantiate the management service. Instead, it receives via static configuration a URL for the dynamic configuration JSON and polls it directly. This is indicated by the bootstrap management config JSON given via the `--config-url` command-line argument.
 
 &nbsp;
 
