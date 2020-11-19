@@ -13,12 +13,10 @@ While Polygon and Boyar are released rarely and normally require manual interven
 The docker process involves 3 steps:
 1. CI automatically builds docker images for each code commit or tag in Github and publishes them to a staging repository in a public docker registry.
 1. An existing staging image is manually marked for deployment to the production network by tagging adding it the the production deployment repository.
-1. Management Service notices the requested deployment and schedules an upgrade (the actual upgrade is technically carried out by Boyar).
+1. Management Service running on a node notices the requested deployment and automatically schedules an upgrade (the actual upgrade is technically carried out by Boyar).
 
 Marking an image for deployment by the nodes management services can be done manually by re-tagging an image under the appropriate repository.
-For details on how to manually deploy an image see [naming conventions](NAMING.md)
-
-However using `deploy.sh` script simplifies the process of tagging an image for deployment. 
+For details on how to manually deploy an image see [naming conventions](NAMING.md). You can also use the `deploy.sh` script to simplify the process of tagging an image for deployment and make sure you follow the correct naming conventions. 
 
 ## Concepts
 
