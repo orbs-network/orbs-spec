@@ -1,19 +1,19 @@
 # Version Release Flow
 
-This document describes the release workflow for docker images participating in the Orbs node deployment.     
+This document describes the release workflow for software versions (docker and binary images) participating in the Orbs node deployment.     
 
 Orbs software modules are delivered in several modes:
 
 - npm packages (e.g. [Polygon](https://www.npmjs.com/package/@orbs-network/polygon))
-- Compiled Binaries published on S3 (e.g. [Boyar](http://github.com/orbs-network/boyarin))
-- Docker images on a public docker registry (e.g orbs-network core node, management service, rewards service, etc)
+- Compiled Binaries published on S3 or any other static hosting solution (e.g. [Boyar](http://github.com/orbs-network/boyarin))
+- Docker images on a public docker registry (e.g orbs-network core node, management service, ethereum writer service, etc.)
 
-While Polygon and Boyar are released rarely and require manual intervention to release and to deploy, docker images are automatically deployed by the Management Service running on each Orbs Node. 
+While Polygon and Boyar are released rarely and normally require manual intervention to release and to deploy, docker images are normally automatically deployed by the [Management Service](../node-architecture/MGMT-SERVICE.md) running on each Orbs Node. 
 
-The process involves 3 steps:
+The docker process involves 3 steps:
 1. CI automatically builds docker images for each code commit or tag in Github and publishes them to a staging repository in a public docker registry.
-1. An existing image is marked for deployment to the production network by tagging adding it the the production deployment repository  
-1. Management service notices the requested deployment and schedules an upgrade to be carried out by the node manager agent (Boyar)
+1. An existing staging image is manually marked for deployment to the production network by tagging adding it the the production deployment repository.
+1. Management Service notices the requested deployment and schedules an upgrade (the actual upgrade is technically carried out by Boyar).
 
 Marking an image for deployment by the nodes management services can be done manually by re-tagging an image under the appropriate repository.
 For details on how to manually deploy an image see [naming conventions](NAMING.md)
