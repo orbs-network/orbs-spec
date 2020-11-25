@@ -1,7 +1,8 @@
 # Main User Flows
 
+
 &nbsp;
-### Stake (Unstake)
+## Stake (Unstake)
 
 Interface: `stakingContract.stake(uint256 _amount)`
 
@@ -9,36 +10,40 @@ Interface: `stakingContract.stake(uint256 _amount)`
 
 * The staking contract forwards the notification to the stakingContractHandler that notifies the delegation contract.
 
+
 &nbsp;
-### Delegate
+## Delegate
 
 Interface: `delegation.delegate(address guardian)`
 
 ![delegate_flow](./_img/delegate.png "Delegation Flow")
 
-&nbsp;
-### Claim Staking Rewards
+
+## Claim Staking Rewards
 
 Interface: `stakingRewards.claimStakingRewards(address addr)`
 
 ![claim_flow](./_img/claimStakingRewards.png "Claim Staking Rewards Flow")
 
+
 &nbsp;
-### ReadyForCommittee
+## ReadyForCommittee
 
 Interface: `elections.readyForCommittee()`
 
 ![readyForCommittee_flow](./_img/claimStakingRewards.png "ReadyForCommittee Flow")
 
+
 &nbsp;
-### Create Virtual Chain
+## Create Virtual Chain
 
 Interface: `subscription_plan.createVC(name, amount, isCertified, deploymentSubset)`
 
 ![create_vc_flow](./_img/createVC.png "Create Virtual Chain Flow")
 
+
 &nbsp;
-### VoteUnready
+## VoteUnready
 
 Interface: `election.voteUnready(address subject)`
 
@@ -48,8 +53,9 @@ Each Virtual chain maintains a reputation value for every committee member. The 
 
 The committee contract updates the reward contracts on the removal of the guardian and the guardian and his delegators stop receiving rewards. A guardian may rejoin the committee by sending readyForCommittee().
 
+
 &nbsp;
-### VoteOut
+## VoteOut
 
 Interface: `election.voteOut(address subject)`
 

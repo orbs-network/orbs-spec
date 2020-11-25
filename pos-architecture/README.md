@@ -13,7 +13,7 @@ Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation,
 
 #### [Contracts Governance Parameters Summary](./parameters.md)
 
-#### [Continues PoS State Update](./continues_state_update.md)
+#### [Continues PoS State Update](./continuous_state_update.md)
 
 #### [Main User Flows](./user_flows.md)
 
