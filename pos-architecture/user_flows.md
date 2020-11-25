@@ -5,7 +5,7 @@
 
 Interface: `stakingContract.stake(uint256 _amount)`
 
-[stake_flow]: ./_img/stake.png "Stake Flow"
+![stake_flow](./_img/stake.png "Stake Flow")
 
 * The staking contract forwards the notification to the stakingContractHandler that notifies the delegation contract.
 
@@ -14,28 +14,28 @@ Interface: `stakingContract.stake(uint256 _amount)`
 
 Interface: `delegation.delegate(address guardian)`
 
-[delegate_flow]: ./_img/delegate.png "Delegation Flow"
+![delegate_flow](./_img/delegate.png "Delegation Flow")
 
 &nbsp;
 ### Claim Staking Rewards
 
 Interface: `stakingRewards.claimStakingRewards(address addr)`
 
-[claim_flow]: ./_img/claimStakingRewards.png "Claim Staking Rewards Flow"
+![claim_flow](./_img/claimStakingRewards.png "Claim Staking Rewards Flow")
 
 &nbsp;
 ### ReadyForCommittee
 
 Interface: `elections.readyForCommittee()`
 
-[readyForCommittee_flow]: ./_img/claimStakingRewards.png "ReadyForCommittee Flow"
+![readyForCommittee_flow](./_img/claimStakingRewards.png "ReadyForCommittee Flow")
 
 &nbsp;
 ### Create Virtual Chain
 
 Interface: `subscription_plan.createVC(name, amount, isCertified, deploymentSubset)`
 
-[create_vc_flow]: ./_img/createVC.png "Create Virtual Chain Flow"
+![create_vc_flow](./_img/createVC.png "Create Virtual Chain Flow")
 
 &nbsp;
 ### VoteUnready
