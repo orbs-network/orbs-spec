@@ -22,6 +22,6 @@ Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation,
 #### [Stake Notation in Orbs PoS Contracts](./stake_notation.md)
 
 
+---
 
-
-* For V1 archietcture see: [V1 tag - PoS Archiectture](https://github.com/orbs-network/orbs-spec/tree/V1/pos-architecture)
+For V1 archietcture see: [V1 tag - PoS Archiectture](https://github.com/orbs-network/orbs-spec/tree/V1/pos-architecture)
