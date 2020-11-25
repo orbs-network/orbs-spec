@@ -1,4 +1,4 @@
-# Continues PoS State Update
+# Continuous PoS State Update
 
 Orbs PoS V2.5 architecture continuously updates the PoS state, there are no timely actions (every day, 3 days, etc) and the committee and rewards are continuously updated based don’t last action performed in the system. For example, when a delegator (delegated to a guardian in the committee) stakes additional tokens, the guardian's effective state, the committee weight and their rewards are immediately updated.
 
