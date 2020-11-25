@@ -7,7 +7,7 @@ Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation,
 
 #### [PoS V2.5 - Age of Gurdians Overview](https://www.orbs.com/orbs-pos-universe/)
 
-#### [Contracts](./contracts.md)
+#### [Contracts Functionality Overview](./contracts.md)
 
 #### [Governance and Management Architecture](./management.md)
 
