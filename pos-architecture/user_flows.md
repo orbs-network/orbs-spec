@@ -1,6 +1,5 @@
 # Main User Flows
 
-
 &nbsp;
 ## Stake (Unstake)
 
@@ -19,6 +18,7 @@ Interface: `delegation.delegate(address guardian)`
 ![delegate_flow](./_img/delegate.png "Delegation Flow")
 
 
+&nbsp;
 ## Claim Staking Rewards
 
 Interface: `stakingRewards.claimStakingRewards(address addr)`
