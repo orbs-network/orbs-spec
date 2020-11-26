@@ -2,6 +2,8 @@
 
 > V2 release
 
+The management service reads ongoing node management configuration from its external source of truth (eg. Ethereum) and serves it to Boyar and ONG instances. Management configuration includes for example: elected committee (which nodes are authorized to validate blocks per VC), subscriptions (which virtual chains should be active), topology (network addresses of all committee and candidate nodes), the list of node services, and their configurations and binary versions.
+
 ## External Sources of Truth
 
 ### Ethereum
