@@ -20,13 +20,13 @@ A new feature or fix may incur changes in the network protocol (how the various 
 
 Protocol versions increment explicitly as an external management action (eg. governance decision on Ethereum). They propagate to every virtual chain or service through [VC-MGMT-CONFIG.md](../node-architecture/VC-MGMT-CONFIG.md).
 
-### Does a change require a protocol change?
+#### Does a change require a protocol change?
 
 To answer whether a code change requires a protocol upgrade ask yourself the following question: if a single node makes the upgrade, could they still participate normally in consensus with all other nodes that have not made the upgrade?
 
 If the answer is positive, a protocol change is probably not required. If the answer is negative, protocol change probably is required.
 
-### Backwards compatibility
+#### Backwards compatibility
 
 The protocol backwards compatibility strategy for different areas is:
 
