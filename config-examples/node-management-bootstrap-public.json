@@ -1,12 +1,12 @@
 {
-  "orchestrator": { // eventually rename to Orchestration
+  "orchestrator": {
     "DynamicManagementConfig": {
       "Url": "http://localhost:7666/node/management",
       "ReadInterval": "1m",
       "ResetTimeout": "30m"
     }
   },
-  "services": { // eventually rename to NodeServices    
+  "services": {
     "management-service": {
       "InternalPort": 8080,
       "ExternalPort": 7666,
