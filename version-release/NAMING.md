@@ -12,7 +12,7 @@ Binary images for the various node services are published as Docker containers t
 | Signer | `signer` | https://github.com/orbs-network/signer-service |
 | Management reader | `management-service` | https://github.com/orbs-network/management-service |
 | Ethereum writer | `ethereum-writer` | https://github.com/orbs-network/ethereum-writer |
-| Ethereum client | `ethereum-client` | *todo* |
+| Logs service | `logs-service` | https://github.com/orbs-network/logs-service |
 
 Default registry: `registry.hub.docker.com`
 
