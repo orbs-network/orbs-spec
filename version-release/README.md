@@ -34,7 +34,7 @@ For details on how to manually deploy an image see [naming conventions](NAMING.m
 
     See [DEVELOPMENT.md](DEVELOPMENT.md)
 
-3. **Rollout to staging** - Staging environment is a personal test network that is owned and operated in full by the developer. It is deployed using standard tooling like Nebula, normally as a private network (since all nodes are named explicitly). New versions must be manually tested on staging using traffic simulations.
+3. **Rollout to staging** - Staging environment is a personal test network that is owned and operated in full by the developer. It is deployed using standard tooling like Polygon, normally as a private network (since all nodes are named explicitly). New versions must be manually tested on staging using traffic simulations.
 
     See [STAGING.md](STAGING.md)
 
@@ -61,7 +61,7 @@ For details on how to manually deploy an image see [naming conventions](NAMING.m
    ./deploy.sh --tag v2.0.3 --hotfix
    ```
 
-6. **Immediate rollout to a node service** - Node services whith no requirement for gradual rollout can be deployed immediately. Deploying immediately can be dangerous, create network wide downtime, or compromise consensus. Use this deployment mode with caution
+6. **Rollout to a node service** - Node services don't have distinction between canary or stable release. Unlike virtual chains that must be rolled out gradually (due to consensus fork risks), node services may be deployed immediately. Deploying immediately can be dangerous, create network wide downtime, or compromise consensus if there's a side effect over virtual chains. Use this deployment mode with caution.
 
    Example for marking an `ethereum-writer` image tagged as `v2.0.3` in github for immediate deployment on all nodes
    ```shell script
@@ -79,7 +79,7 @@ Deployment tool ([deploy.sh](deploy.sh)) for Orbs node modules. Supported module
 
 Prerequisites: 
 
-- docker CLI installed and logged in with read access to the source image, and write access to the deployment target organization and repository on the default registry
+- docker CLI installed and logged in with read access to the source image, and **write** access to the deployment target organization and repository on the default registry
 - A reference to a pre-built source docker image to deploy
 
 The reference to the source image must be of this form: 
