@@ -43,7 +43,7 @@ Fields under the orchestration section:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Url` | URL of where the next dynamic configuration JSON should be polled from. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ReadInterval` | How often in seconds the config should be polled. As duration string (s/m/h). |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ResetTimeout` | How long in seconds should we allow the endpoint to fail providing valid config before resetting into bootstrap mode. As duration string (s/m/h). |
-| `ExecutableImage` | Settings related to the required binary version of Boyar (change cause auto upgrade if such behabior is enabled). |
+| `ExecutableImage` | Optional settings related to the required binary version of Boyar (change cause auto upgrade if such behabior is enabled). |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Url` | HTTP URL for the binary image of Boyar, ie. `https://github.com/orbs-network/boyarin/releases/download/v1.4.0/boyar-v1.4.0.bin` |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Sha256` | SHA-256 hash over the binary image, ie. `1998cc1f7721acfe1954ab2878cc0ad8062cd6d919cd61fa22401c6750e195fe` |
 | `storage-driver` | The storage driver to use for all persistent data. For `nfs` set value to `local`. |
