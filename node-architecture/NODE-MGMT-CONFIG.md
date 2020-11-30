@@ -10,7 +10,7 @@ This JSON config format is used both for the public Orbs network (where Ethereum
 
 ### Bootstrap Config vs. Dynamic Config
 
-When the node boots, Boyar uses a lean subset of this configuration to set up the minimal services required for bootstrap like the node management service. The bootstrap configuration is given to Boyar via command-line (normally by Nebula).
+When the node boots, Boyar uses a lean subset of this configuration to set up the minimal services required for bootstrap like the node management service. The bootstrap configuration is given to Boyar via command-line (normally by Polygon).
 
 After the node management service starts, it accesses the various external sources of truth (eg. Ethereum, docker registry) and generates the fuller dynamic version of this configuration for Boyar to poll.
 
@@ -31,9 +31,9 @@ Global fields:
 | Field Name | Description |
 | ---------- | ----------- |
 | `orchestrator` | General information regarding the orchestration of the node. | 
-| `services` | Dictionary of all node services (see fields per node service below).<br>The well-known dictionary keys include:<br>&bull;&nbsp;`management-service` - Management service<br>&bull;&nbsp;`signer` - Signer |
+| `services` | Dictionary of all node services (see fields per node service below). The well-known dictionary keys are detailed [here](../version-release/NAMING.md). |
 | `chains` | Array of all virtual chains (see fields per virtual chain below). |
-| `network` | Array of network nodes. |
+| `network` | Array of network nodes. Note that this field is deprecated from V1 and no longer used. |
 
 Fields under the orchestration section:
 
@@ -43,8 +43,11 @@ Fields under the orchestration section:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Url` | URL of where the next dynamic configuration JSON should be polled from. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ReadInterval` | How often in seconds the config should be polled. As duration string (s/m/h). |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`ResetTimeout` | How long in seconds should we allow the endpoint to fail providing valid config before resetting into bootstrap mode. As duration string (s/m/h). |
-| `StorageDriver` | The storage driver to use for all persistent data.<br>Possible values:<br>&bull;`nfs` - Network File System. |
-| `StorageOptions` | Storage driver-specific configurations. |
+| `ExecutableImage` | Settings related to the required binary version of Boyar (change cause auto upgrade if such behabior is enabled). |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Url` | HTTP URL for the binary image of Boyar, ie. `https://github.com/orbs-network/boyarin/releases/download/v1.4.0/boyar-v1.4.0.bin` |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Sha256` | SHA-256 hash over the binary image, ie. `1998cc1f7721acfe1954ab2878cc0ad8062cd6d919cd61fa22401c6750e195fe` |
+| `storage-driver` | The storage driver to use for all persistent data. For `nfs` set value to `local`. |
+| `storage-mount-type` | Storage driver-specific configurations. For `nfs` set value to `bind`. |
 
 Fields per node service:
 
@@ -55,7 +58,7 @@ Fields per node service:
 | `DockerConfig` | Settings specifying which docker image to run. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Image` | Image name in the docker registry. |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Tag` | Version of the image in the docker registry. |
-| `Config` | Contents of a JSON config file that is created and given to the instance on launch. |
+| `Config` | Contents of a JSON config file that is created and given to the instance on launch. Note that the service is immediately restarted by Boyar if any of the subkeys change. |
 | `Disabled` | Optional boolean field describing whether this node service is disabled. When a service is no longer active and should be removed (eg. protocol update), it should remain in the configuration with this value as true to make sure all nodes remove it explicitly. |
 | `PurgeData` | Optional boolean field describing wheter to remove entirely the data related to the service or virtual chain. Removes cache, logs, and block storage in case of the virtual chain. Defaults to `false`. |
 
