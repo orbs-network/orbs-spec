@@ -49,7 +49,7 @@ In order for an Orbs node to participate in the Proof-of-Stake process on Ethere
 
   * `ORBS_SYNC_TIME_THRESHOLD = 5 min`
 
-  * `ORBS_OUT_OF_SYNC_THRESHOLD = 60 min`
+  * `ORBS_OUT_OF_SYNC_THRESHOLD = 120 min`
 
 * The last committed block time is received in every client request to the VC. It may be taken from runQuery to `_Committee.getAllCommitteeReputations()` that is required for the auto vote-unready.
 
@@ -150,7 +150,7 @@ Conditions to send VoteUnready to ValidatorX:
 
 Guardian VC reputation:
   
-  * If `last committed_block.timestamp` on the `ORBS_OUT_OF_SYNC_THRESHOLD` (1 hour) then reputation = 0 (perfect reputation). Note: if it simplifies the implementation may use VCInSync.
+  * If `last committed_block.timestamp` on the `ORBS_OUT_OF_SYNC_THRESHOLD` (2 hour) then reputation = 0 (perfect reputation). Note: if it simplifies the implementation may use VCInSync.
 
 Invalid reputation: 
 
@@ -183,7 +183,7 @@ One-shot discount algorithm:
 
 Indicates that all the nodes’s VCs are ready to participate in a committee.
 
-* VCStuck - the last time (local time) a block was committed - note that this is the time we last wrote to block storage meaning it will update recently when we recently sync a very old block (from sync or consensus) `> ORBS_STUCK_THRESHOLD`.
+* VCStuck - the last update time (local time) to vc block storage including indexing on vc startup. Note, that this is the time we last wrote any block to block storage (even an old block via sync). Condition: Last update time `> ORBS_STUCK_THRESHOLD` and Validator is in topology for time `> ORBS_STUCK_THRESHOLD`.
 
 * VCInSync:
   * Set: `Last committed block timestamp > now() - ORBS_SYNC_TIME_THRESHOLD`
