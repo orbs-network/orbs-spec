@@ -1,6 +1,6 @@
 # Orbs Network Protocol Specification
 
-> V2 release
+> V2 release (other [versions](VERSIONS.md))
 
 ## Table of Contents
 
