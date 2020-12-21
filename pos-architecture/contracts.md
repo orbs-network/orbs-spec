@@ -1,4 +1,6 @@
-# Contracts Functionality Overview
+# Ethereum Contracts Overview
+
+## Functionality
 
 ### contractsRegistry
 The contractRegistry manages the PoS contracts list and active managers. The contract is the basis of the system and allows any contract or user to retrieve the up-to-date contract lists. The contractRegistry pushes contract address updates to the PoS managed contracts. The contract registry is the core component of the PoS contracts upgrade and allows to transition to a new contract for each contract in the system, as well as the registry itself.
@@ -47,3 +49,15 @@ The subscription plan contract is a stateless contract, responsible for the plan
 
 ### protocol
 The protocol contact is responsible to set and synchronize Orbs platform protocol version upgrades. The protocol contact supports multiple deployment subscets, such as: production and canary, each may operate on the different protocol version. Upon protocol version upgrade a future time is set as the cutoff date for the protocol upgrade.
+
+## Source Code
+
+* [Orbs PoS V2.5 Ethereum Solidity contracts](https://github.com/orbs-network/orbs-ethereum-contracts-v2/)
+
+* [PoS V2.5 Contracts deployment and migration scripts](https://github.com/orbs-network/posv2-contracts-deployment-migration)
+
+* [Orbs staking Ethereum Solidity contract](https://github.com/orbs-network/orbs-staking-contract/)
+
+## Deployed Addresses
+
+[List of deployed Ethereum contract addresses](https://github.com/orbs-network/posv2-contracts-deployment-migration/blob/master/DEPLOYED_CONTRACTS.md)
