@@ -1,4 +1,4 @@
-# Orbs PoS Architecture - V2.5 - The Age of Guaridans
+# Orbs PoS Architecture - V2.5 - The Age of Guardians
 
 Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation, from guardian election to participants rewards. The entire election logic, reward calculation and distribution are performed on Ethereum contracts. 
 
@@ -25,4 +25,4 @@ Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation,
 
 ---
 
-For (the deprecated) V1 archietcture see: [V1 tag - PoS Archiectture](https://github.com/orbs-network/orbs-spec/tree/V1/pos-architecture)
+For (the deprecated) V1 architecture see: [V1 tag - PoS Architecture](https://github.com/orbs-network/orbs-spec/tree/V1/pos-architecture)
