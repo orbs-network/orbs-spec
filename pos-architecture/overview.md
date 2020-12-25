@@ -19,7 +19,7 @@ Delegators are ORBS token holders who assign their voting weight (stake) to Guar
 
 [Tetra - Orbs Staking App](https://staking.orbs.network) | [Tetra Source Code](https://github.com/orbs-network/staking-wallet)
 
-#### Roles and Responsibilities
+#### Responsibilities
 
 * Actively contribute to the network’s success by staking your ORBS tokens. Read [these instructions](https://www.orbs.com/tetra-orbs-staking-wallet-tutorial/) on how to stake using the Orbs Tetra wallet.
 * Select a worthy [Guardian](https://staking.orbs.network/guardians) to delegate your voting power to.
@@ -37,7 +37,7 @@ Orbs Guardians represent the Orbs community; they maintain the security of the n
 
 [Orbs Guardian Instructions](https://github.com/orbs-network/validator-instructions)
 
-#### Roles and Responsibilities
+#### Responsibilities
 
 * Guardians operate the Orbs network nodes and run the virtual chains for the subscribed applications.
 * Guardians are responsible for the [staking rewards distribution](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-rewards-distributions/) to their community of delegators.
