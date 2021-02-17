@@ -7,7 +7,6 @@ The following table explains the meaning of the different values, the table targ
 | Stake Property         | Description |
 | ---------------------- | ----------- |
 | selfStake              | The amount of ORBS tokens locked in the staking contract for an address | 
-| uncappedDelegatedStake <br> (internal data structure) | The amount of ORBS delegated to addresses <br> Note: an address may delegate to itself (default)|
 | delegatedStake | If self-delegating equals to the uncappedDelegatedStake else 0. |
 | totalDelegatedStake | The sum of the delegatedStake of all participants <br> Note: the totalDelegatedStake may differ from the total stake staked in the staking contact, due to delegation to a non self-delegating address. |
 | effictiveStake / committee weight | The weight of a guardian in the committee <br> Min(selfStake / minSelfStake, delegatedStake) <br> default: (8%) - indicates that the guardian as at least 8% of his effectiveStake |
