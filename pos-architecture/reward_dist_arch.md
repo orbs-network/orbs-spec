@@ -30,7 +30,7 @@ The distirubion would then be as follows:
   - dB_1 hold 40% of the total stake delegated to B, so she gets 40% * 528 = 211.2 Orbs.
   - dB_2 hold 60% of the total stake delegated to B, so she gets 60% * 528 = 316.8 Orbs.
   
-(Note - in practice, A and B are also delegators (with a self delegation), and would also be rewarded just as any other delegator, in additoin to their guardian cut)
+Note - in practice, A and B are also delegators (with a self delegation), and would also be rewarded just as any other delegator, in additoin to their guardian cut.
 
 So, how would we implement this distribution logic? A naive approach would be to:
 - Keep track on the PoS state (delegations, weights, etc.)
