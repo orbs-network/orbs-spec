@@ -13,7 +13,7 @@ But before getting into that, let's start with a quick summary of the problem - 
 Example:
 Say we have 2 elected guardians: A (with 20% of the committee weight) and B (80%).
 A has the following delegators: dA_1 (stake 30), dA_2 (stake 70).
-And B: dB_1 (stake 40), dA_2 (stake 60).
+And B: dB_1 (stake 40), dB_2 (stake 60).
 
 Assuming in a given period, the procotol assigned a total reward of 1000 Orbs to all guardians and delegators.
 Also let's assume a 66% guardian cut, instead of 66.67% for simplicity.
