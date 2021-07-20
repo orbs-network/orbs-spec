@@ -1,23 +1,23 @@
 {
   "CurrentRefTime": 1582616070,
-  
+
   "PageStartRefTime": 1582612000,
   "PageEndRefTime": 1582616070,
-  
+
   "VirtualChains":
   {
-    "123": 
+    "123":
     {
       "VirtualChainId": 123,
-      
+
       "GenesisRefTime": 1582615603,
-      
+
       "CurrentTopology":
       [
         { "OrbsAddress": "a328846cd5b4979d68a8c58a9bdfeee657b34de7", "Ip": "192.168.199.2", "Port": 4400 },
         { "OrbsAddress": "d27e2e7398e2582f63d0800330010b3e58952ff6", "Ip": "192.168.199.3", "Port": 4400 }
       ],
-      
+
       "CommitteeEvents":
       [
         {
@@ -42,14 +42,14 @@
       [
         {
           "RefTime": 1582613011,
-          "Data": { "Status": "active", "Tier": "B0", "MaxStateMb": 303030, "RolloutGroup": "canary", "IdentityType": 1, "Params": [ { "Key": "some-key", "Value": "some-value" } ] }
+          "Data": { "Status": "active", "Tier": "B0", "MaxKeys": 1000000, "MaxSizeMB":  1024, "RolloutGroup": "canary", "IdentityType": 1, "Params": [ { "Key": "some-key", "Value": "some-value" } ] }
         },
         {
           "RefTime": 1582615077,
-          "Data": { "Status": "expired", "Tier": "B0", "MaxStateMb": 303030, "RolloutGroup": "main", "IdentityType": 0, "Params": [] }
+          "Data": { "Status": "expired", "Tier": "B0", "MaxKeys": 1000000, "MaxSizeMB":  1024, "RolloutGroup": "main", "IdentityType": 0, "Params": [] }
         }
       ],
-      
+
       "ProtocolVersionEvents":
       [
         {
@@ -61,7 +61,7 @@
           "Data": { "RolloutGroup": "main", "Version": 8 }
         }
       ]
-      
+
     }
   }
 }
