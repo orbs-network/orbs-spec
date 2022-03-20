@@ -24,7 +24,7 @@ The distirubion would then be as follows:
   - The remaining 132 Orbs are distributed to A's delegators.
   - dA_1 hold 30% of the total stake delegated to A, so she gets 30% * 132 = 39.6 Orbs.
   - dA_2 hold 70% of the total stake delegated to A, so she gets 70% * 132 = 92.4 Orbs.
-- B holds 20% of the committee weight, so B and her delegators will all receive a total of 80% * 1000 = 800 Orbs combined.
+- B holds 80% of the committee weight, so B and her delegators will all receive a total of 80% * 1000 = 800 Orbs combined.
   - B takes a guardian cut of 34% * 800 = 272 Orbs
   - The remaining 528 Orbs are distributed to B's delegators.
   - dB_1 hold 40% of the total stake delegated to B, so she gets 40% * 528 = 211.2 Orbs.
