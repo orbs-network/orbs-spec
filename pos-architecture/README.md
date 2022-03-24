@@ -10,6 +10,8 @@ Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation,
 
 #### [Ethereum Contracts Overview](./contracts.md)
 
+#### [Official Deployed Contract Addresses](https://github.com/orbs-network/posv2-contracts-deployment-migration/blob/master/DEPLOYED_CONTRACTS.md)
+
 #### [Governance and Management Architecture](./management.md)
 
 #### [Contracts Governance Parameters Summary](./parameters.md)
