@@ -2,6 +2,9 @@
 
 > V2 release
 
+
+> virtual chain contracts are not deployed or managed on Polygon network.
+
 &nbsp;
 ## Terminology
 

@@ -4,3 +4,7 @@ The certified committee is a subset of the Orbs committee that includes only Gua
 When a new virtual chain is created, the creator may choose to operate the virtual chain on the general committee or the certified committee. The fees for the virtual chain are paid only for the committee operating the virtual chian. As a reason two instances of the fees contract are deployed, one for each committee.
 
 In order to incentivise guardians to identify, thus increasing the stake of the certified committee, a bootstrap fund of 3000 DAI annually is awarded to each member of the certified committee for the period they participated in the committee.
+
+> Certification is done only on ETH network and disabled for Polygon.
+
+> virtual chain contracts are not deployed or managed on Polygon network.

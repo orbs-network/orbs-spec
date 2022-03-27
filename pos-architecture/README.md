@@ -1,6 +1,24 @@
 # Orbs PoS Architecture - V2.5 - The Age of Guardians
 
-Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation, from guardian election to participants rewards. The entire election logic, reward calculation and distribution are performed on Ethereum contracts. 
+Orbs V2.5 PoS architecture is responsible for the Proof-of-Stake implementation, from guardian election to participants rewards. The entire election logic, reward calculation and distribution are performed on Ethereum contracts.
+
+<img src="_img/polygon-black.webp" alt="polygon network" width="200"/>
+
+## Polygon network support
+As of march 29 2022, Orbs network supports both ETH and Polygon networks.
+
+Staking and reward claiming is now cheaper and faster using the L2 Polygon netwrok.
+
+The contratcs deployed on both networks are identical.
+
+staking tool, analytics and orbs status page are all supporting polygon.
+
+### Polygon rewards auto compunding
+In Polygon, Stakers and Delegators benifit from autocompounding.
+Once a week their rewards will be auto claimed so their staking principal increases.
+No action taken from guardians nor delegators.
+
+
 
 ![pos_v2_5_contarcts](./_img/pos_v2_5_contracts.png "PoS V2.5 contracts")
 

@@ -1,5 +1,6 @@
 # Main User Flows
 
+> All flow charts apply to the contract deployed on ETH and Polygon networks exactly the same 
 &nbsp;
 ## Stake (Unstake)
 
