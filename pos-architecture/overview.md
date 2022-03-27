@@ -6,6 +6,7 @@ The second generation of the Orbs PoS Universe V2.5: The Age of Guardians, furth
 
 > Note: This page may also be available on the [Orbs website](https://www.orbs.com/orbs-pos-universe/).
 
+> As of march 29 2022, Orbs network supports both ETH and Polygon networks. Everything which is described in this document applies to both.
 ## Roles
 
 The Orbs PoS Universe has two main roles:
@@ -41,7 +42,7 @@ Orbs Guardians represent the Orbs community; they maintain the security of the n
 
 * Guardians operate the Orbs network nodes and run the virtual chains for the subscribed applications.
 * Guardians are responsible for the [staking rewards distribution](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-rewards-distributions/) to their community of delegators.
-* Orbs is a [hybrid blockchain](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-pos-on-ethereum/), utilizing Ethereum for added security and transparency of the Orbs PoS ecosystem. Thus, Orbs Guardians are required to run an Ethereum node.
+* Orbs is a [hybrid blockchain](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-pos-on-ethereum/), utilizing Ethereum and Polygon for added security and transparency of the Orbs PoS ecosystem. Thus, Orbs Guardians are required to run an Ethereum node.
 * Guardians have an option to be part of the [Certified Committee](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-election-committees/) and operate virtual chains that require certified Guardians. Certified Committee members are eligible for added incentives.
 Guardians are expected to be committed to their communities and their Delegators’ staked tokens. Therefore, Guardians are required to have a [self-stake](https://www.orbs.com/white-papers/orbs-pos-v2-the-age-of-guardians-section-minimum-self-delegation/) of at least 8% of their total delegated stake.
 
